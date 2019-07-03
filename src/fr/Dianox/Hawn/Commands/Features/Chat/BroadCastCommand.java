@@ -17,6 +17,9 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 public class BroadCastCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.broadcast";
+	String[] parts;
+	int partlenght = 0;
+	Boolean partsenabled = false;
 	
 	public BroadCastCommand(String name) {
 		super(name);
@@ -49,9 +52,29 @@ public class BroadCastCommand extends BukkitCommand {
                     }
                 }
 				
-				for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", args[0] + " " + msgbc)));
-					MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", args[0] + " " + msgbc));
+				msgbc = args[0] + " " + msgbc;
+				
+				if (msgbc.contains("//n")) {
+					parts = msgbc.split("//n");
+					partsenabled = true;
+					partlenght = parts.length;
+				}
+				
+				if (partsenabled) {
+					int check = 0;
+					while (check < partlenght) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
+							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", parts[check])));
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", parts[check]));
+						}
+						
+						check++;
+					}
+				} else {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
+						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", msgbc)));
+						MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", msgbc));
+					}
 				}
 				
 				if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {
@@ -110,10 +133,30 @@ public class BroadCastCommand extends BukkitCommand {
                         	}
                         }
                     }
+										
+					msgbc = args[0] + " " + msgbc;
 					
-					for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
-						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", args[0] + " " + msgbc)));
-						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", args[0] + " " + msgbc), p);
+					if (msgbc.contains("//n")) {
+						parts = msgbc.split("//n");
+						partsenabled = true;
+						partlenght = parts.length;
+					}
+					
+					if (partsenabled) {
+						int check = 0;
+						while (check < partlenght) {
+							for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
+								Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", parts[check])));
+								MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", parts[check]), p);
+							}
+							
+							check++;
+						}
+					} else {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
+							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", msgbc)));
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", msgbc), p);
+						}
 					}
 					
 					if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {
