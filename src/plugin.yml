@@ -1,0 +1,15 @@
+name: Hawn
+version: 0.6.1-Alpha
+author: Dianox
+main: fr.Dianox.Hawn.Main
+api-version: 1.13
+LOAD: POSTWORLD
+softdepend: [PlaceholderAPI]
+commands:
+  hawn:
+    description: Main menu for admins.
+    usage: /<command> help
+  paneladmin:
+    description: Manage the server for admins.
+    usage: /<command>
+    aliases: [pa, adminpanel, ap]
