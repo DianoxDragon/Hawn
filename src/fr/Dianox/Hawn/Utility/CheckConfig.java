@@ -50,6 +50,12 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+	
+		if (!ConfigGCos.getConfig().isSet("Cosmetics.Firework.Options.First-Join-Only")) {
+			ConfigGCos.getConfig().set("Cosmetics.Firework.Options.First-Join-Only", Boolean.valueOf(false));
+			
+			ConfigGCos.saveConfigFile();
+		}
 		
 		if (!BetweenServersConfig.getConfig().isSet("Keep.PlayerVisibility-OnJoin.Enable")) {
 			BetweenServersConfig.getConfig().set("Keep.PlayerVisibility-OnJoin.Enable", Boolean.valueOf(false));
