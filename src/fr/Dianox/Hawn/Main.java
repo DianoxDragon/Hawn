@@ -69,6 +69,7 @@ import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
@@ -209,6 +210,7 @@ public class Main extends JavaPlugin implements Listener {
 		PlayerConfig.loadConfig((Plugin) this);
 		AutoBroadcastConfig.loadConfig((Plugin) this);
 		BetweenServersConfig.loadConfig((Plugin) this);
+		CommandAliasesConfig.loadConfig((Plugin) this);
 		
 		OtherFeaturesConfig.loadConfig((Plugin) this);
 		WorldEventConfig.loadConfig((Plugin) this);
@@ -307,15 +309,21 @@ public class Main extends JavaPlugin implements Listener {
 			 * ------------------ */
 			// >> BroadCast
 			if (!BroadCastCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("bc", new BroadCastCommand("bc"));
 				commandMap.register("broadcast", new BroadCastCommand("broadcast"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Broadcast.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Broadcast.Aliases")) {
+						commandMap.register(s, new BroadCastCommand(s));
+					}
+				}
 			}
 			// >> Title broadcast
 			if (!TitleAnnouncerConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("ta", new TitleAnnouncerCommand("ta"));
 				commandMap.register("titleannouncer", new TitleAnnouncerCommand("titleannouncer"));
-				commandMap.register("titlea", new TitleAnnouncerCommand("titlea"));
-				commandMap.register("btcast", new TitleAnnouncerCommand("btcast"));
+				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
+						commandMap.register(s, new TitleAnnouncerCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -324,16 +332,29 @@ public class Main extends JavaPlugin implements Listener {
 			// >> ClearChat
 			if (!ClearChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("cc", new ClearChatCommand("cc"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ClearChat.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearChat.Aliases")) {
+						commandMap.register(s, new ClearChatCommand(s));
+					}
+				}
 			}
 			// >> DelayChat
 			if (!DelayChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("dchat", new DelaychatCommand("dchat"));
 				commandMap.register("delaychat", new DelaychatCommand("delaychat"));
+				if (CommandAliasesConfig.getConfig().getBoolean("DelayChat.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("DelayChat.Aliases")) {
+						commandMap.register(s, new DelaychatCommand(s));
+					}
+				}
 			}
 			// >> Global mute
 			if (!MuteChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gmute", new MuteChatCommand("gmute"));
 				commandMap.register("globalmute", new MuteChatCommand("globalmute"));
+				if (CommandAliasesConfig.getConfig().getBoolean("MuteChat.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("MuteChat.Aliases")) {
+						commandMap.register(s, new MuteChatCommand(s));
+					}
+				}
 			}
 			
 			/* ------------------------ *
@@ -342,7 +363,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Clear inventory
 			if (!ClearInvCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("clearinventory", new ClearInvCommand("clearinventory"));
-				commandMap.register("clearinv", new ClearInvCommand("clearinv"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ClearInv.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearInv.Aliases")) {
+						commandMap.register(s, new ClearInvCommand(s));
+					}
+				}
 			}
 			
 			/* --------------- *
@@ -351,6 +376,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Emojis
 			if (!EmojiCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("emoji", new EmojiesCommand("emoji"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Emojis.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Emojis.Aliases")) {
+						commandMap.register(s, new EmojiesCommand(s));
+					}
+				}
 			}
 			
 			/* ------------ *
@@ -359,6 +389,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Fly
 			if (!FlyCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("fly", new FlyCommand("fly"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Fly.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Fly.Aliases")) {
+						commandMap.register(s, new FlyCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -367,6 +402,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Heal
 			if (!HealCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("heal", new HealCommand("heal"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Heal.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Heal.Aliases")) {
+						commandMap.register(s, new HealCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -375,7 +415,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Help
 			if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("help", new fr.Dianox.Hawn.Commands.Features.HelpCommand("help"));
-				commandMap.register("?", new fr.Dianox.Hawn.Commands.Features.HelpCommand("?"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Help.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Help.Aliases")) {
+						commandMap.register(s, new fr.Dianox.Hawn.Commands.Features.HelpCommand(s));
+					}
+				}
 			}
 			
 			/* ----------------- *
@@ -384,23 +428,47 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Classic command
 			if (!GamemodeCommandConfig.getConfig().getBoolean("Gamemode.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gamemode", new ClassicGMCommand("gamemode"));
-				commandMap.register("gm", new ClassicGMCommand("gm"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gamemode-Classic.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gamemode-Classic.Aliases")) {
+						commandMap.register(s, new ClassicGMCommand(s));
+					}
+				}
 			}
 			// >> Gamemode survival
 			if (!GamemodeCommandConfig.getConfig().getBoolean("gms.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gms", new gmsCommand("gms"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gms.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gms.Aliases")) {
+						commandMap.register(s, new gmsCommand(s));
+					}
+				}
 			}
 			// >> Gamemode creative
 			if (!GamemodeCommandConfig.getConfig().getBoolean("gmc.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gmc", new gmcCommand("gmc"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gmc.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gmc.Aliases")) {
+						commandMap.register(s, new gmcCommand(s));
+					}
+				}
 			}
 			// >> Gamemode adventure
 			if (!GamemodeCommandConfig.getConfig().getBoolean("gma.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gma", new gmaCommand("gma"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gma.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gma.Aliases")) {
+						commandMap.register(s, new gmaCommand(s));
+					}
+				}
 			}
 			// >> Gamemode spectator
 			if (!GamemodeCommandConfig.getConfig().getBoolean("gmsp.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gmsp", new gmspCommand("gmsp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gmsp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gmsp.Aliases")) {
+						commandMap.register(s, new gmspCommand(s));
+					}
+				}
 			}
 			
 			/* ------------------- *
@@ -409,6 +477,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Scoreboard
 			if (!ScoreboardCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("scoreboard", new ScoreboardCommand("scoreboard"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Scoreboard.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Scoreboard.Aliases")) {
+						commandMap.register(s, new ScoreboardCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -417,6 +490,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Ping
 			if (!PingCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("ping", new PingCommand("ping"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Ping.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Ping.Aliases")) {
+						commandMap.register(s, new PingCommand(s));
+					}
+				}
 			}
 			
 			/* ---------------------- *
@@ -425,6 +503,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Main command
 			if (!OptionPlayerConfigCommand.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("option", new MainCommandOptionPlayer("option"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Player-Option.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Player-Option.Aliases")) {
+						commandMap.register(s, new MainCommandOptionPlayer(s));
+					}
+				}
 			}
 			
 			/* -------------- *
@@ -433,8 +516,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Spawn
 			if (!SpawnCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("spawn", new SpawnCommand("spawn"));
-				commandMap.register("hub", new SpawnCommand("hub"));
-				commandMap.register("lobby", new SpawnCommand("lobby"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Spawn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Spawn.Aliases")) {
+						commandMap.register(s, new SpawnCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -443,10 +529,20 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Day
 			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("day", new DayCommand("day"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Day.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Day.Aliases")) {
+						commandMap.register(s, new DayCommand(s));
+					}
+				}
 			}
 			// >> Night
 			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("night", new NightCommand("night"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Night.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Night.Aliases")) {
+						commandMap.register(s, new NightCommand(s));
+					}
+				}
 			}
 			
 			/* --------------- *
@@ -455,7 +551,11 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Vanish
 			if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("vanish", new VanishCommand("vanish"));
-				commandMap.register("v", new VanishCommand("v"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Vanish.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Vanish.Aliases")) {
+						commandMap.register(s, new VanishCommand(s));
+					}
+				}
 			}
 			
 			/* ------------- *
@@ -464,18 +564,38 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Warp
 			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("warp", new WarpCommand("warp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Warp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Warp.Aliases")) {
+						commandMap.register(s, new WarpCommand(s));
+					}
+				}
 			}
 			// >> Set Warp
 			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("SetWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("setwarp", new SetWarpCommand("setwarp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Set-Warp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Set-Warp.Aliases")) {
+						commandMap.register(s, new SetWarpCommand(s));
+					}
+				}
 			}
 			// >> Del warp
 			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("DelWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("delwarp", new DelWarpCommand("delwarp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Del-Warp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Del-Warp.Aliases")) {
+						commandMap.register(s, new DelWarpCommand(s));
+					}
+				}
 			}
 			// >> Warp list
 			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("WarpList.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("warplist", new WarpListCommand("warplist"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Warp-list.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Warp-list.Aliases")) {
+						commandMap.register(s, new DelWarpCommand(s));
+					}
+				}
 			}
 			
 			/* ---------------- *
@@ -484,15 +604,29 @@ public class Main extends JavaPlugin implements Listener {
 			// >> Rain
 			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("rain", new RainCommand("rain"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Rain.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Rain.Aliases")) {
+						commandMap.register(s, new RainCommand(s));
+					}
+				}
 			}
 			// >> Sun
 			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("clearw", new SunCommand("clearw"));
 				commandMap.register("sun", new SunCommand("sun"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Sun.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Sun.Aliases")) {
+						commandMap.register(s, new SunCommand(s));
+					}
+				}
 			}
 			// >> Thunder
 			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("thunder", new ThunderCommand("thunder"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Thunder.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Thunder.Aliases")) {
+						commandMap.register(s, new ThunderCommand(s));
+					}
+				}
 			}
 			
 			
