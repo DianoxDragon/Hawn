@@ -1245,7 +1245,7 @@ public class OnJoin implements Listener {
                                 PlayerConfig.saveConfigFile();
                             }
 
-                            if (Main.useyamllistplayer) {
+                            if (Main.useyamllistplayer || !BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable")) {
                                 speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
 
                                 if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
