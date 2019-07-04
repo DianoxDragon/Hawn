@@ -50,6 +50,19 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+	
+		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Enable", Boolean.valueOf(true));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
+		
+			ConfigMPlayerOption.saveConfigFile();
+		}
+		
+		if (!ConfigGCos.getConfig().isSet("Cosmetics.Firework.Options.First-Join-Only")) {
+			ConfigGCos.getConfig().set("Cosmetics.Firework.Options.First-Join-Only", Boolean.valueOf(false));
+			
+			ConfigGCos.saveConfigFile();
+		}
 		
 		if (!BetweenServersConfig.getConfig().isSet("Keep.PlayerVisibility-OnJoin.Enable")) {
 			BetweenServersConfig.getConfig().set("Keep.PlayerVisibility-OnJoin.Enable", Boolean.valueOf(false));

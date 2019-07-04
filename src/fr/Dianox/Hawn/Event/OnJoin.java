@@ -249,19 +249,43 @@ public class OnJoin implements Listener {
                 if (CosmeticsPW.getWFirework().contains(p.getWorld().getName())) {
                     if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
                         if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
-                            Fireworkmethod(p);
+                        	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
+                        		if (!p.hasPlayedBefore()) {
+                        			Fireworkmethod(p);
+                        		}
+                        	} else {
+                        		Fireworkmethod(p);
+                        	}
                         }
                     } else {
-                        Fireworkmethod(p);
+                    	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
+                    		if (!p.hasPlayedBefore()) {
+                    			Fireworkmethod(p);
+                    		}
+                    	} else {
+                    		Fireworkmethod(p);
+                    	}
                     }
                 }
             } else {
                 if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
                     if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
-                        Fireworkmethod(p);
+                    	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
+                    		if (!p.hasPlayedBefore()) {
+                    			Fireworkmethod(p);
+                    		}
+                    	} else {
+                    		Fireworkmethod(p);
+                    	}
                     }
                 } else {
-                    Fireworkmethod(p);
+                	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
+                		if (!p.hasPlayedBefore()) {
+                			Fireworkmethod(p);
+                		}
+                	} else {
+                		Fireworkmethod(p);
+                	}
                 }
             }
         }
@@ -1221,7 +1245,7 @@ public class OnJoin implements Listener {
                                 PlayerConfig.saveConfigFile();
                             }
 
-                            if (Main.useyamllistplayer) {
+                            if (Main.useyamllistplayer || !BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable")) {
                                 speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
 
                                 if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {

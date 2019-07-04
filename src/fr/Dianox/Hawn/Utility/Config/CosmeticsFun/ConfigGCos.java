@@ -55,6 +55,7 @@ public class ConfigGCos {
 
             Config.set("Cosmetics.Firework.Enable", Boolean.valueOf(true));
             Config.set("Cosmetics.Firework.Bypass", Boolean.valueOf(false));
+            Config.set("Cosmetics.Firework.Options.First-Join-Only", Boolean.valueOf(false));
             Config.set("Cosmetics.Firework.Options.Amount", Integer.valueOf(2));
             Config.set("Cosmetics.Firework.Options.Height", Integer.valueOf(3));
             Config.set("Cosmetics.Firework.Options.Flicker", Boolean.valueOf(false));
