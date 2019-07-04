@@ -15,6 +15,7 @@ import fr.Dianox.Hawn.Utility.Bungee;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.TitleUtils;
+import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HelpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -136,6 +137,9 @@ public class OnCommandEvent implements Listener {
 										msg = msg.replaceAll("&", "§");
 										
 										ActionBar.sendActionBar(p, msg);
+									} else if (msg.startsWith("[sounds]: ")) {
+										msg = msg.replace("[sounds]: ", "");
+										p.playSound(p.getLocation(), XSound.matchXSound(msg).parseSound(), 1, 1);
 									} else {
 										MessageUtils.ReplaceCharMessagePlayer(msg, p);
 									}
@@ -169,6 +173,49 @@ public class OnCommandEvent implements Listener {
 									for (String msg1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
 		            					MessageUtils.ReplaceCharMessagePlayer(msg1, p);
 		            				}
+								} else if (msg.startsWith("[spawn]: ")) {
+									msg = msg.replace("[spawn]: ", "");
+									SpawnUtils.teleportToSpawn(p, msg);
+								} else if (msg.startsWith("[warp]: ")) {
+									msg = msg.replace("[warp]: ", "");
+									WarpCommand.onTp(p, msg);
+								} else if (msg.startsWith("[bungee]: ")) {
+									msg = msg.replace("[bungee]: ", "");
+									Bungee.changeServer(p, msg);
+								} else if (msg.startsWith("[send-title]: ")) {
+									msg = msg.replace("[send-title]: ", "");
+									msg = msg.replaceAll("&", "§");
+									
+									Boolean activate = false;
+									
+									String title = "";
+									String subtitle = "";
+																			
+									if (msg.contains("//n")) {
+										String[] parts = msg.split("//n");
+										title = parts[0];
+										subtitle = parts[1];
+										
+										title = title.replaceAll("//n", "");
+										subtitle = subtitle.replaceAll("//n", "");
+										
+										activate = true;
+									}
+									
+									if (activate == false) {
+										TitleUtils.sendTitle(p, 20, 150, 75, msg);
+									} else {
+										TitleUtils.sendTitle(p, 20, 150, 75, title);
+										TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+									}
+								} else if (msg.startsWith("[send-actionbar]: ")) {
+									msg = msg.replace("[send-actionbar]: ", "");
+									msg = msg.replaceAll("&", "§");
+									
+									ActionBar.sendActionBar(p, msg);
+								} else if (msg.startsWith("[sounds]: ")) {
+									msg = msg.replace("[sounds]: ", "");
+									p.playSound(p.getLocation(), XSound.matchXSound(msg).parseSound(), 1, 1);
 								} else {
 									MessageUtils.ReplaceCharMessagePlayer(msg, p);
 								}
