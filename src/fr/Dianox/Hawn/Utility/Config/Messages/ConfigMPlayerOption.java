@@ -96,8 +96,9 @@ public class ConfigMPlayerOption {
             Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cYou disabled this option, so, you can't manage all the option"}));
             //Config.set("PlayerOption.Error.Option-Already-Set.Enable", Boolean.valueOf(true));
             //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cThis option is already set or is the same"}));
-            /*Config.set("PlayerOption.Error.Player-Visibility.Time", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
-            Config.set("PlayerOption.Error.Player-Visibility.Time-Command", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcommands% &c&lseconds!"}));
+            Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", Boolean.valueOf(true));
+            Config.set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
+            /*Config.set("PlayerOption.Error.Player-Visibility.Time-Command", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcommands% &c&lseconds!"}));
             Config.set("PlayerOption.Config_version_NEVER_TOUCH_HERE", Integer.valueOf(1));*/
             
             saveConfigFile();
