@@ -1,6 +1,7 @@
 package fr.Dianox.Hawn.Commands;
 
 import java.io.File;
+import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,8 +18,10 @@ import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
+import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
@@ -408,6 +411,24 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: ConfigMOStuff.getConfig().getStringList("TPS.Normal")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
+				} else if (args[0].equalsIgnoreCase("debug")) {
+					if (args.length == 2) {
+						if (args[1].equalsIgnoreCase("emoji") || args[1].equalsIgnoreCase("emojis")) {
+							Iterator < ? > iterator = OnChatConfig.getConfig().getConfigurationSection("Chat-Emoji-Player.Emojis-list").getKeys(false).iterator();
+							
+							while (iterator.hasNext()) {
+			                    String string = (String) iterator.next();
+			                    
+			                    if (!string.equalsIgnoreCase("Option")) {
+				                    try {
+				                    	p.sendMessage(String.valueOf("§b"+string +"§7: §e"+XMaterial.matchXMaterial(OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list." + string + ".Gui.Material")).parseMaterial()));
+				                    } catch (Exception e) {
+										p.sendMessage("§b"+string +"§7: §cnull");
+									}
+			                    }
+							}
+						}
+					}
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
 						MessageUtils.ReplaceMessageForConsole(msg, sender);
@@ -562,6 +583,7 @@ public class HawnCommand implements CommandExecutor {
 		OtherAMConfig.reloadConfig();
 		SpawnMConfig.reloadConfig();
 		TablistConfig.reloadConfig();
+		CommandAliasesConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
