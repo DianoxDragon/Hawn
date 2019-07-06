@@ -26,11 +26,36 @@ public class ClearInvCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg, sender);
-				}
+			if (args.length == 1) {
+					Player target = Bukkit.getServer().getPlayer(args[0]);
+					
+					if (target == null) {
+						if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+							for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+	            		return true;
+					}
+						
+					target.getInventory().clear();
+					target.getInventory().setArmorContents(new ItemStack[4]);
+					
+					if (ConfigMCommands.getConfig().getBoolean("ClearInv.Other-Sender.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("ClearInv.Other-Sender.Messages")) {
+							msg = msg.replaceAll("%player%", "console").replaceAll("%target%", target.getName());
+		            		MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+						
+					if (ConfigMCommands.getConfig().getBoolean("ClearInv.Other-Target.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("ClearInv.Other-Target.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+						}
+					}
+					
+			} else {
+				Bukkit.getConsoleSender().sendMessage("§c/clearinv <player>");
 			}
 			return true;
 		}
