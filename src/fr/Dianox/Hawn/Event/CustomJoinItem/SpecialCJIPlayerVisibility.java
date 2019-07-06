@@ -52,9 +52,11 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				if ((p.getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) || (p.getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
-					e.setCancelled(true);
-				}
+				try {
+					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+						e.setCancelled(true);
+					}
+				} catch (Exception e1) {}
 			}
 		}
 	}
@@ -65,9 +67,11 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				if ((p.getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) || (p.getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
-					e.setCancelled(true);
-				}
+				try {
+					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+						e.setCancelled(true);
+					}
+				} catch (Exception e1) {}
 			}
 		}
 	}
@@ -76,9 +80,11 @@ public class SpecialCJIPlayerVisibility implements Listener {
 	public void onDropWithItemVisibility(PlayerDropItemEvent e) {		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				if ((e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) || (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
-					e.setCancelled(true);
-				}
+				try {
+					if (e.getItemDrop() != null && (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+						e.setCancelled(true);
+					}
+				} catch (Exception e1) {}
 			}
 		}
 	}

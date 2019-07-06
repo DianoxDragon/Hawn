@@ -60,7 +60,12 @@ public class OtherAMConfig {
             		"&aReloaded configuration"
             		}));
             
-            
+            Config.set("Command.Build-Bypass.On", java.util.Arrays.asList(new String[] {
+            		"&bYou can now bypass all the build restriction"
+            		}));
+            Config.set("Command.Build-Bypass.Off", java.util.Arrays.asList(new String[] {
+            		"&cYou can no longer bypass all the build restriction"
+            		}));
             
             saveConfigFile();
 

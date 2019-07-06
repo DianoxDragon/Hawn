@@ -1,7 +1,6 @@
 package fr.Dianox.Hawn.Event;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -27,6 +26,7 @@ import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.VanishCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
+import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
@@ -510,364 +510,25 @@ public class OnJoin implements Listener {
             }
         }
 
-        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Enable")) {
-            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Silent-Staff-Join")) {
-                if (p.hasPermission("hawn.event.silentjoin")) {
-                    e.setJoinMessage("");
-                } else {
-                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Disable-Default-Message")) {
-                        e.setJoinMessage("");
-                    }
-                    if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.World.All_World")) {
-                        if (OnJoinPW.getJM().contains(p.getWorld().getName())) {
-
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Enable")) {
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join")) {
-                                    e.setJoinMessage("");
-
-                                    Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                                    while (iterator.hasNext()) {
-                                        String string = (String) iterator.next();
-
-                                        if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                    MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                                }
-                                            } else {
-                                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                    MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                                }
-                                            }
-
-                                            break;
-                                        }
-
-                                    }
-
-                                } else {
-                                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                            MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                        }
-                                    } else {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                            MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                    }
-                                } else {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                    }
-                                }
-                            }
-
-
-                        }
-                    } else {
-                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Enable")) {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join")) {
-                                e.setJoinMessage("");
-
-                                Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                                while (iterator.hasNext()) {
-                                    String string = (String) iterator.next();
-
-                                    if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                            }
-                                        } else {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                            }
-                                        }
-
-                                        break;
-                                    }
-
-                                }
-
-                            } else {
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                    }
-                                } else {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                    }
-                                }
-                            }
-                        } else {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                }
-                            } else {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Disable-Default-Message")) {
-                    e.setJoinMessage("");
-                }
-                if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.World.All_World")) {
-                    if (OnJoinPW.getJM().contains(p.getWorld().getName())) {
-                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Enable")) {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join")) {
-                                e.setJoinMessage("");
-
-                                Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                                while (iterator.hasNext()) {
-                                    String string = (String) iterator.next();
-
-                                    if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                            }
-                                        } else {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                            }
-                                        }
-
-                                        break;
-                                    }
-
-                                }
-
-                            } else {
-                                Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                                while (iterator.hasNext()) {
-                                    String string = (String) iterator.next();
-
-                                    if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                            }
-                                        } else {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                                MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                            }
-                                        }
-
-                                        break;
-                                    }
-
-                                }
-
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                    }
-                                } else {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                    }
-                                }
-                            }
-                        } else {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                }
-                            } else {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Enable")) {
-                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join")) {
-                            e.setJoinMessage("");
-
-                            Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                            while (iterator.hasNext()) {
-                                String string = (String) iterator.next();
-
-                                if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                            MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                        }
-                                    } else {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                            MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                        }
-                                    }
-
-                                    break;
-                                }
-
-                            }
-
-                        } else {
-                            Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-Group.Groups").getKeys(false).iterator();
-
-                            while (iterator.hasNext()) {
-                                String string = (String) iterator.next();
-
-                                if (p.hasPermission("hawn.on-join.custommessage." + string)) {
-                                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                            MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                        }
-                                    } else {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-                                            MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                        }
-                                    }
-
-                                    break;
-                                }
-
-                            }
-
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                }
-                            } else {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                }
-                            }
-                        }
-                    } else {
-                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                            }
-                        } else {
-                            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // MOTD
-            onMOTD(p);
-
-        } else {
-            // Join Message
-            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Enable")) {
-                if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Disable-For-New-Players")) {
-                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Silent-Staff-Join")) {
-                        if (p.hasPermission("hawn.event.silentjoin")) {
-                            e.setJoinMessage("");
-                        } else {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Disable-Default-Message")) {
-                                e.setJoinMessage("");
-                            }
-
-
-                            if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.World.All_World")) {
-                                if (OnJoinPW.getJM().contains(p.getWorld().getName())) {
-                                    if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                            MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                        }
-                                    } else {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                            MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                    }
-                                } else {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Disable-Default-Message")) {
-                            e.setJoinMessage("");
-                        }
-
-
-                        if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.World.All_World")) {
-                            if (OnJoinPW.getJM().contains(p.getWorld().getName())) {
-                                if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                    }
-                                } else {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                    }
-                                }
-                            }
-                        } else {
-                            if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                                }
-                            } else {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-                                    MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Broadcast
-            if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Enable")) {
-                if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console")) {
-                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {
-                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
-                    }
-                } else {
-                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {
-                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
-                    }
-                }
-            }
-
-            // MOTD
-            if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Motd.Enable")) {
-                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Motd.Messages")) {
-                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
-                }
-                if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Motd.Both-Motd")) {
-                    onMOTD(p);
-                }
-            } else {
-                onMOTD(p);
-            }
-        }
-
+        /*
+         * 
+         * This line of code is the category : On-Join.Join-Message 
+         * Of the file Hawn/Messages/Classic/General.yml (messages)
+         * 
+         */
+        OJMessages.OnMessage(p, e);
+        
+        /*
+         * The motd on join
+         */
+        OJMessages.onMOTD(p);
+        
+        /*
+         * Broadcast on first join
+         */
+        OJMessages.onBroadcastFJ(p);
+        
+        
         if (OnJoinConfig.getConfig().getBoolean("Action-Bar.Enable")) {
             if (OnJoinConfig.getConfig().getBoolean("Action-Bar.First-Join.Enable")) {
                 if (p.hasPlayedBefore()) {
@@ -1204,7 +865,7 @@ public class OnJoin implements Listener {
 	        }
         }
         
-        
+        Main.buildbypasscommand.remove(p);
     }
 
     private void Speed(Player p) {
@@ -1493,23 +1154,8 @@ public class OnJoin implements Listener {
         }
 		
 	}
-
-	private void onMOTD(Player p) {
-        if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.Enable")) {
-            if (!ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.World.All_World")) {
-                if (OnJoinPW.getWD().contains(p.getWorld().getName())) {
-                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.Messages")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
-                    }
-                }
-            } else {
-                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.Messages")) {
-                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
-                }
-            }
-        }
-    }
-
+    
+    
     @SuppressWarnings("deprecation")
     public void Titlemethod(Player p) {
         if (OnJoinConfig.getConfig().getBoolean("Title.Join.Enable")) {

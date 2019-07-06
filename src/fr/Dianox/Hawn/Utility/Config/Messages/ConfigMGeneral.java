@@ -54,17 +54,26 @@ public class ConfigMGeneral {
             } catch (IOException e) {}
 
             Config.set("General.On-join.Join-Message.Enable", Boolean.valueOf(true));
+            Config.set("General.On-join.Join-Message.Just-Simply-Disable-All-Join-Messages", Boolean.valueOf(false));
             Config.set("General.On-join.Join-Message.Disable-Default-Message", Boolean.valueOf(true));
             Config.set("General.On-join.Join-Message.Silent-Staff-Join", Boolean.valueOf(true));
             Config.set("General.On-join.Join-Message.Disable-For-New-Players", Boolean.valueOf(false));
             Config.set("General.On-join.Join-Message.Broadcast-To-Console", Boolean.valueOf(true));
             
             Config.set("General.On-join.Join-Message.Per-Group.Options.Enable", Boolean.valueOf(true));
-            Config.set("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join", Boolean.valueOf(true));
+            Config.set("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join", Boolean.valueOf(false));
             Config.set("General.On-join.Join-Message.Per-Group.Groups.Owner", java.util.Arrays.asList(new String[] {
                     "&cPLEASE WELCOME a owner"}));
             Config.set("General.On-join.Join-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
                     "unlimited groups of course"}));
+            
+            Config.set("General.On-join.Join-Message.Per-World.Options.Enable", Boolean.valueOf(false));
+            Config.set("General.On-join.Join-Message.Per-World.Options.Disable-Any-Other-Messages-On-Join", Boolean.valueOf(false));
+            Config.set("General.On-join.Join-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World", Boolean.valueOf(false));
+            Config.set("General.On-join.Join-Message.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+                    "&ctest1"}));
+            Config.set("General.On-join.Join-Message.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+                    "test2"}));
             
             Config.set("General.On-join.Join-Message.Messages", java.util.Arrays.asList(new String[] {"&7[&a+&7] %player%"}));
             Config.set("General.On-join.Join-Message.World.All_World", Boolean.valueOf(true));
@@ -73,6 +82,7 @@ public class ConfigMGeneral {
                     "world_nether"}));
             
             Config.set("General.On-Quit.Quit-Message.Enable", Boolean.valueOf(true));
+            Config.set("General.On-Quit.Quit-Message.Just-Simply-Disable-All-Quit-Messages", Boolean.valueOf(false));
             Config.set("General.On-Quit.Quit-Message.Disable-Default-Message", Boolean.valueOf(true));
             Config.set("General.On-Quit.Quit-Message.Silent-Staff-Quit", Boolean.valueOf(true));
             Config.set("General.On-Quit.Quit-Message.Broadcast-To-Console", Boolean.valueOf(true));
@@ -83,6 +93,14 @@ public class ConfigMGeneral {
             		"&cPLEASE SAY GOODBYE a owner"}));
             Config.set("General.On-Quit.Quit-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
             		"unlimited groups of course"}));
+            
+            Config.set("General.On-Quit.Quit-Message.Per-World.Options.Enable", Boolean.valueOf(false));
+            Config.set("General.On-Quit.Quit-Message.Per-World.Options.Disable-Any-Other-Messages-On-Quit", Boolean.valueOf(false));
+            Config.set("General.On-Quit.Quit-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World", Boolean.valueOf(false));
+            Config.set("General.On-Quit.Quit-Message.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+                    "&ctest1"}));
+            Config.set("General.On-Quit.Quit-Message.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+                    "test2"}));
             
             Config.set("General.On-Quit.Quit-Message.Messages", java.util.Arrays.asList(new String[] {"&7[&c-&7] %player%"}));
             Config.set("General.On-Quit.Quit-Message.World.All_World", Boolean.valueOf(true));
@@ -100,6 +118,13 @@ public class ConfigMGeneral {
             Config.set("Spawn.On-join.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"}));
+            
+            Config.set("Spawn.On-join.Per-World.Options.Enable", Boolean.valueOf(false));
+            Config.set("Spawn.On-join.Per-World.Options.Disable-All-The-Others-Motd", Boolean.valueOf(false));
+            Config.set("Spawn.On-join.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+				"&ctest1 - motd"}));
+            Config.set("Spawn.On-join.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+				"test2 - motd"}));
             
             Config.set("Spawn.On-join.First-Join.Broadcast.Enable", Boolean.valueOf(true));
             Config.set("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", Boolean.valueOf(true));

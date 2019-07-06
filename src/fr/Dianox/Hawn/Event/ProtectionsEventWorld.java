@@ -12,6 +12,7 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
@@ -24,6 +25,10 @@ public class ProtectionsEventWorld implements Listener {
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
+        if (Main.buildbypasscommand.contains(p) ) {
+        	return;
+        }
+        
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Enable")) {
         	if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.World.All_World")) {
         		if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
@@ -73,6 +78,10 @@ public class ProtectionsEventWorld implements Listener {
     public void onPlace2(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Material m = p.getItemInHand().getType();
+        
+        if (Main.buildbypasscommand.contains(p) ) {
+        	return;
+        }
         
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Enable")) {
         	if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.World.All_World")) {
@@ -141,6 +150,10 @@ public class ProtectionsEventWorld implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
 
+        if (Main.buildbypasscommand.contains(p) ) {
+        	return;
+        }
+        
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Enable")) {
         	if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.World.All_World")) {
         		if (ProtectionPW.getWPCB().contains(p.getWorld().getName())) {
@@ -184,8 +197,13 @@ public class ProtectionsEventWorld implements Listener {
         }
     }
     
-    @EventHandler
+    @SuppressWarnings("unlikely-arg-type")
+	@EventHandler
     public void onHanging(HangingBreakByEntityEvent e) {
+    	if (Main.buildbypasscommand.contains(e.getEntity()) ) {
+        	return;
+        }
+    	
     	if (ConfigGProtection.getConfig().getBoolean("Protection.HagingBreakByEntity.Enable")) {
     		if (!ConfigGProtection.getConfig().getBoolean("Protection.HagingBreakByEntity.World.All_World")) {
     			if (ProtectionPW.getWHBBE().contains(e.getEntity().getWorld().getName())) {
@@ -212,6 +230,11 @@ public class ProtectionsEventWorld implements Listener {
     @EventHandler
     public void onplayerinteract(PlayerInteractEntityEvent e) {
     	Player p = e.getPlayer();
+    	
+    	if (Main.buildbypasscommand.contains(p) ) {
+        	return;
+        }
+    	
     	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteractEntity-ItemFrame.Enable")) {
     		if (!ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteractEntity-ItemFrame.World.All_World")) {
     			if (ProtectionPW.getWPIEIF().contains(p.getWorld().getName())) {

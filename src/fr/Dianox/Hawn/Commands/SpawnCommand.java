@@ -42,7 +42,7 @@ public class SpawnCommand extends BukkitCommand {
 						if (target == null) {
 							if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
 								for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
-									MessageUtils.ReplaceMessageForConsole(msg, sender);
+									MessageUtils.ReplaceMessageForConsole(msg);
 								}
 							}
 		            		return true;
@@ -55,21 +55,21 @@ public class SpawnCommand extends BukkitCommand {
 									String Fileerror = "Events/OnJoin.yml";
 									if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
 										for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-											MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), sender);
+											MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror));
 										}
 									}
 								} else {
 									if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
 										if (ConfigMOStuff.getConfig().getBoolean("Error.No-Spawn.Enable")) {
 											for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Spawn.Messages")) {
-												MessageUtils.ReplaceMessageForConsole(msg, sender);
+												MessageUtils.ReplaceMessageForConsole(msg);
 											}
 										}
 										return true;
 									}
 									SpawnUtils.teleportToSpawn(target, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-										MessageUtils.ReplaceMessageForConsole(msg, sender);
+										MessageUtils.ReplaceMessageForConsole(msg);
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -83,21 +83,21 @@ public class SpawnCommand extends BukkitCommand {
 									String Fileerror = "Events/OnJoin.yml";
 									if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
 										for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-											MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), sender);
+											MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror));
 										}
 									}
 								} else {
 									if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
 										if (ConfigMOStuff.getConfig().getBoolean("Error.No-Spawn.Enable")) {
 											for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Spawn.Messages")) {
-												MessageUtils.ReplaceMessageForConsole(msg, sender);
+												MessageUtils.ReplaceMessageForConsole(msg);
 											}
 										}
 										return true;
 									}
 									SpawnUtils.teleportToSpawn(target, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-										MessageUtils.ReplaceMessageForConsole(msg, sender);
+										MessageUtils.ReplaceMessageForConsole(msg);
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -110,14 +110,14 @@ public class SpawnCommand extends BukkitCommand {
 							if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[2])) {
 								if (ConfigMOStuff.getConfig().getBoolean("Error.No-Spawn.Enable")) {
 									for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Spawn.Messages")) {
-										MessageUtils.ReplaceMessageForConsole(msg, sender);
+										MessageUtils.ReplaceMessageForConsole(msg);
 									}
 								}
 								return true;
 							}
 							SpawnUtils.teleportToSpawn(target, args[2]);
 							for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 							if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 								for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {

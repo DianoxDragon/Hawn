@@ -110,13 +110,13 @@ public class HawnCommand implements CommandExecutor {
 					if (args.length == 1) {
 						// If no argument has been put in the command
 						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
-							MessageUtils.ReplaceMessageForConsole(msg, sender);
+							MessageUtils.ReplaceMessageForConsole(msg);
 						}
 					} else if (args.length == 2) {
 						// If the warp does not exist
 						if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[1]+".World")) {
 							for (String msg: ErrorConfigAM.getConfig().getStringList("Error.No-Spawn")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 								
 							return true;
@@ -135,73 +135,73 @@ public class HawnCommand implements CommandExecutor {
 						ConfigSpawn.saveConfigFile();
 						
 						for (String msg: ErrorConfigAM.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%spawn%", args[1]), sender);
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%spawn%", args[1]));
 						}
 						
 					} else {
 						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Delspawn")) {
-							MessageUtils.ReplaceMessageForConsole(msg, sender);
+							MessageUtils.ReplaceMessageForConsole(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("setspawn")) {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Console.Not-A-Player")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 				} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
 					reloadconfig();
 						
 					for (String msg: OtherAMConfig.getConfig().getStringList("Command.Reload")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 					// Versions
 				} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v") || args[0].equalsIgnoreCase("ver")) {
 					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 					// Server info
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("memory")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Memory")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("cpu") || args[1].equalsIgnoreCase("processor")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.CPU")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("disk") || args[1].equalsIgnoreCase("HDD") || args[1].equalsIgnoreCase("SDD")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Disk")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("tps")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("server")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Server")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("version") || args[1].equalsIgnoreCase("v") || args[1].equalsIgnoreCase("ver")) {
 							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						} 
 					} else {
 						for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-							MessageUtils.ReplaceMessageForConsole(msg, sender);
+							MessageUtils.ReplaceMessageForConsole(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("tps")) {
 					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 				}
 			}
@@ -411,6 +411,26 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: ConfigMOStuff.getConfig().getStringList("TPS.Normal")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
+				} else if (args[0].equalsIgnoreCase("build")) {
+					if (!p.hasPermission("hawn.admin.command.bypassbuild") || !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.bypassbuild");
+						
+						return true;
+					}
+					
+					if (Main.buildbypasscommand.contains(p)) {
+						Main.buildbypasscommand.remove(p);
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					} else {
+						Main.buildbypasscommand.add(p);
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
 				} else if (args[0].equalsIgnoreCase("debug")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("emoji") || args[1].equalsIgnoreCase("emojis")) {
@@ -427,11 +447,13 @@ public class HawnCommand implements CommandExecutor {
 									}
 			                    }
 							}
+						} else if (args[1].equalsIgnoreCase("t")) {
+							p.sendMessage(String.valueOf(p.getLocation().getWorld().getPlayerCount()));
 						}
 					}
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 				}
 			} else {

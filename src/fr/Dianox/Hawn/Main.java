@@ -145,17 +145,17 @@ public class Main extends JavaPlugin implements Listener {
 	
 	private static Main instance;
 	
-	static String versions = "0.6.2-Alpha";
+	static String versions = "0.6.3-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
 	
 	static Connection connection;
-    private String host, database, username, password;
-    private int port;
-    static Statement statement;
+	private String host, database, username, password;
+	private int port;
+	static Statement statement;
 	public static boolean useyamllistplayer = false;
-    
+	
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
     public static Integer autobroadcast_total = 0;
     public static int interval, curMsg = 0;
@@ -179,6 +179,8 @@ public class Main extends JavaPlugin implements Listener {
     private static Class<?> PacketPlayOutPlayerListHeaderFooter;
     private static Class<?> ChatComponentText;
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
+    
+    public static List<Player> buildbypasscommand = new ArrayList<Player>();
     
 	@SuppressWarnings("static-access")
 	@Override
@@ -880,6 +882,8 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}.runTaskTimer(this, 20L, 20);
 	    }
+	    
+	    buildbypasscommand.clear();
 	    
 	    // Variable set
 	    

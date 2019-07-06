@@ -31,11 +31,69 @@ public class VanishCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg, sender);
+			if (args.length == 1 && !args[0].equalsIgnoreCase("list")) {
+				Player target = Bukkit.getServer().getPlayer(args[0]);
+				
+				if (target == null) {
+					if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+	        		return true;
 				}
+				
+				if (player_list_vanish.contains(target)) {
+					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+							all.showPlayer(Main.getInstance(), target);
+						} else {
+							all.showPlayer(target);
+						}
+					}
+					player_list_vanish.remove(target);
+					
+					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender-Disabled.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender-Disabled.Messages")) {
+							msg = msg.replaceAll("%player%", "console").replaceAll("%target%", target.getName());
+		            		MessageUtils.ReplaceMessageForConsole(msg);
+		            	}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Target-Disabled.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Target-Disabled.Messages")) {
+		            		MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+		            	}
+					}
+				} else {
+					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+							all.hidePlayer(Main.getInstance(), target);
+						} else {
+							all.hidePlayer(target);
+						}
+					}
+					player_list_vanish.add(target);
+					
+					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender.Messages")) {
+							msg = msg.replaceAll("%player%", "console").replaceAll("%target%", target.getName());
+		            		MessageUtils.ReplaceMessageForConsole(msg);
+		            	}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Target.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Target.Messages")) {
+		            		MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+		            	}
+					}
+				}
+			} else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
+				Bukkit.getConsoleSender().sendMessage(player_list_vanish.toString());
+			} else {
+				Bukkit.getConsoleSender().sendMessage("§c/v <player> or /v list");
 			}
+			
 			return true;
 		}
 		

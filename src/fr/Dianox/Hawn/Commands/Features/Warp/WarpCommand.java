@@ -36,7 +36,7 @@ public class WarpCommand extends BukkitCommand {
 		if (! (sender instanceof Player)) {
 			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
 				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg, sender);
+					MessageUtils.ReplaceMessageForConsole(msg);
 				}
 			}
 			return true;
