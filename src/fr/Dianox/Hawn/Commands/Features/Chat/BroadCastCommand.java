@@ -34,7 +34,7 @@ public class BroadCastCommand extends BukkitCommand {
 		if (!(sender instanceof Player)) {
 				if (args.length == 0) {
 					for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
-						MessageUtils.ReplaceMessageForConsole(msg, sender);
+						MessageUtils.ReplaceMessageForConsole(msg);
 	            	}
                     return true;
 				}
