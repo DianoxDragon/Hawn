@@ -26,13 +26,37 @@ public class HealCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if (!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg, sender);
+			
+			if (args.length == 1) {
+				Player target = Bukkit.getServer().getPlayer(args[0]);
+				
+				if (target == null) {
+					if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+            		return true;
 				}
+				
+				Double health = Double.valueOf(target.getMaxHealth());
+				target.setHealth(health);
+				
+				if (ConfigMCommands.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other-Sender.Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+					}
+				}
+				if (ConfigMCommands.getConfig().getBoolean("Heal.Other.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+					}
+				}
+			} else {
+				Bukkit.getConsoleSender().sendMessage("§c/heal <player>");
 			}
+			
 		    return true;
-		    
 		}
 		
 		// >>> Executed by the player
