@@ -25,6 +25,10 @@ public class PlayerEvents implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
 
+        if (Main.buildbypasscommand.contains(p)) {
+        	return;
+        }
+        
     	if (PlayerEventsConfig.getConfig().getBoolean("Items.Drop.Disable")) {
     		if (!PlayerEventsConfig.getConfig().getBoolean("Items.Drop.World.All_World")) {
     			if (PlayerEventsPW.getWItemDrop().contains(p.getWorld().getName())) {
@@ -51,6 +55,10 @@ public class PlayerEvents implements Listener {
 	@EventHandler
     public void onPickUp(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
+        
+        if (Main.buildbypasscommand.contains(p)) {
+        	return;
+        }
         
         if (PlayerEventsConfig.getConfig().getBoolean("Items.PickUp.Disable")) {
     		if (!PlayerEventsConfig.getConfig().getBoolean("Items.PickUp.World.All_World")) {
@@ -79,6 +87,10 @@ public class PlayerEvents implements Listener {
     public void onMove(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         
+        if (Main.buildbypasscommand.contains(p)) {
+        	return;
+        }
+        
         if (PlayerEventsConfig.getConfig().getBoolean("Items.Move.Disable")) {
     		if (!PlayerEventsConfig.getConfig().getBoolean("Items.Move.World.All_World")) {
     			if (PlayerEventsPW.getWMoveItem().contains(p.getWorld().getName())) {
@@ -105,6 +117,10 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onDamageItem(PlayerItemDamageEvent e) {
         Player p = e.getPlayer();
+        
+        if (Main.buildbypasscommand.contains(p)) {
+        	return;
+        }
         
         if (PlayerEventsConfig.getConfig().getBoolean("Items.Damage-Item.Disable")) {
     		if (!PlayerEventsConfig.getConfig().getBoolean("Items.Damage-Item.World.All_World")) {
