@@ -26,6 +26,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.TitleAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
@@ -36,6 +37,7 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 
 public class CheckConfig {
 	
@@ -50,7 +52,45 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!ConfigMGeneral.getConfig().isSet("General.On-join.Join-Message.Just-Simply-Disable-All-Join-Messages")) {
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Just-Simply-Disable-All-Join-Messages", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Just-Simply-Disable-All-Quit-Messages", Boolean.valueOf(false));
+			
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Per-World.Options.Enable", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Per-World.Options.Disable-Any-Other-Messages-On-Join", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+				"&ctest1"}));
+			ConfigMGeneral.getConfig().set("General.On-join.Join-Message.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+				"test2"}));
+			
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Per-World.Options.Enable", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Per-World.Options.Disable-Any-Other-Messages-On-Quit", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+                    "&ctest1"}));
+			ConfigMGeneral.getConfig().set("General.On-Quit.Quit-Message.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+                    "test2"}));
+			
+			ConfigMGeneral.getConfig().set("Spawn.On-join.Per-World.Options.Enable", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("Spawn.On-join.Per-World.Options.Disable-All-The-Others-Motd", Boolean.valueOf(false));
+			ConfigMGeneral.getConfig().set("Spawn.On-join.Per-World.Worlds.world", java.util.Arrays.asList(new String[] {
+				"&ctest1 - motd"}));
+			ConfigMGeneral.getConfig().set("Spawn.On-join.Per-World.Worlds.world_the_end", java.util.Arrays.asList(new String[] {
+				"test2 - motd"}));
 	
+			OtherAMConfig.getConfig().set("Command.Build-Bypass.On", java.util.Arrays.asList(new String[] {
+	            		"&bYou can now bypass all the build restriction"
+	            		}));
+			OtherAMConfig.getConfig().set("Command.Build-Bypass.Off", java.util.Arrays.asList(new String[] {
+	            		"&cYou can no longer bypass all the build restriction"
+	            		}));
+			
+			OtherAMConfig.saveConfigFile();
+			ConfigMGeneral.saveConfigFile();
+		}
+		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.Error.Player-Visibility.Time.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Enable", Boolean.valueOf(true));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
