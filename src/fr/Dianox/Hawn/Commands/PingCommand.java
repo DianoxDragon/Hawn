@@ -34,7 +34,7 @@ public class PingCommand extends BukkitCommand {
 					if (target == null) {
 						if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
 							for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
-								MessageUtils.ReplaceMessageForConsole(msg, sender);
+								MessageUtils.ReplaceMessageForConsole(msg);
 							}
 						}
 	            		return true;
