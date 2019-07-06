@@ -36,7 +36,7 @@ public class DelaychatCommand extends BukkitCommand {
 				} else {
 					if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
 						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
-							MessageUtils.ReplaceMessageForConsole(msg, sender);
+							MessageUtils.ReplaceMessageForConsole(msg);
 						}
 					}
 				}
