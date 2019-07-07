@@ -44,10 +44,79 @@ public class ClassicGMCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg);
+			if (args.length == 2) {
+				Player target = Bukkit.getServer().getPlayer(args[1]);
+
+				if (target == null) {
+					if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+					return true;
 				}
+				
+				if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("0")) {
+					target.setGameMode(GameMode.SURVIVAL);
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_survival+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_survival+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+						}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_survival_sender+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_survival_sender+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						}
+					}
+					
+				} else if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("cretatif") || args[0].equalsIgnoreCase("1")) {
+					target.setGameMode(GameMode.CREATIVE);
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_creative+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_creative+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+						}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_creative_sender+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_creative_sender+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						}
+					}
+				} else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("aventure") || args[0].equalsIgnoreCase("2")) {
+					target.setGameMode(GameMode.ADVENTURE);
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_adventure+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+						}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure_sender+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_adventure_sender+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						}
+					}
+				} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
+					target.setGameMode(GameMode.SPECTATOR);
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_spectator+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_spectator+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+						}
+					}
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_other_spectator_sender+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_spectator_sender+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						}
+					}
+				}
+				
+			} else {
+				sender.sendMessage("§c/gamemode or /gm <player>");
 			}
 			return true;
 		}
