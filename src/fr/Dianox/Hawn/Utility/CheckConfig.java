@@ -53,6 +53,14 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OnJoinConfig.getConfig().isSet("Action-Bar.First-Join.Time-Stay")) {
+			OnJoinConfig.getConfig().set("Action-Bar.First-Join.Time-Stay", Integer.valueOf(150)); 
+			OnJoinConfig.getConfig().set("Action-Bar.Join.Time-Stay", Integer.valueOf(150)); 
+			
+			OnJoinConfig.saveConfigFile();
+		}
+		
+		
 		if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help.1")) {
 			OtherAMConfig.getConfig().set("Command.Hawn-Main-help.1", java.util.Arrays.asList(new String[] {"§8>> §7/hawn setspawn [name] - §eSet the spawn", 
 		            "§8>> §7/hawn reload §eor §7rl - §eReload some config files",
