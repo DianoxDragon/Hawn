@@ -328,7 +328,7 @@ public class MessageUtils {
 		}
 	}
 	
-	public static void ReplaceMessageForConsole(String str, CommandSender sender) {
+	public static void ReplaceMessageForConsole(String str) {
 		if (str.startsWith("json:")) {
 			str = str.replace("json:", "");
 			str = ReplaceMainplaceholderC(str);
