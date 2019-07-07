@@ -34,10 +34,51 @@ public class WarpCommand extends BukkitCommand {
 
 		// >>> Executed by the console
 		if (! (sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg);
+			if (args.length == 2) {
+
+				Player target = Bukkit.getServer().getPlayer(args[1]);
+
+				if (target == null) {
+					if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+					return true;
 				}
+				
+				try {
+					org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + args[0] + ".World"));
+					double x = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".X");
+					double y = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Y");
+					double z = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Z");
+					float yaw = WarpListConfig.getConfig().getInt("Coordinated." + args[0] + ".Yaw");
+					float pitch = WarpListConfig.getConfig().getInt("Coordinated." + args[0] + ".Pitch");
+
+					target.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+
+					if (ConfigMCommands.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%warp%", args[0]).replaceAll("%target%", target.getName()));
+						}
+					}
+
+					if (ConfigMCommands.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Warp.Tp.Other.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%warp%", args[0]).replaceAll("%player%", "console"), target);
+						}
+					}
+
+				} catch(Exception e) {
+					if (ConfigMCommands.getConfig().getBoolean("Warp.No-Warp.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Warp.No-Warp.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+				}
+
+			} else {
+				sender.sendMessage("§c/warp <warp> <player>");
 			}
 			return true;
 		}
