@@ -195,6 +195,7 @@ public class OnJoinConfig {
             
             Config.set("Action-Bar.First-Join.Enable", Boolean.valueOf(true));
             Config.set("Action-Bar.First-Join.Message", "&6Welcome %player%"); 
+            Config.set("Action-Bar.First-Join.Time-Stay", Integer.valueOf(150)); 
             
             Config.set("Action-Bar.First-Join.World.All_World", Boolean.valueOf(false));
             Config.set("Action-Bar.First-Join.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -204,6 +205,7 @@ public class OnJoinConfig {
 
             Config.set("Action-Bar.Join.Enable", Boolean.valueOf(true));
             Config.set("Action-Bar.Join.Message", "&6Welcome %player%"); 
+            Config.set("Action-Bar.Join.Time-Stay", Integer.valueOf(150)); 
             
             Config.set("Action-Bar.Join.World.All_World", Boolean.valueOf(false));
             Config.set("Action-Bar.Join.World.Worlds", java.util.Arrays.asList(new String[] {
