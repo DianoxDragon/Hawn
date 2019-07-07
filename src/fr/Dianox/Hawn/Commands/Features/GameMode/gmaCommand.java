@@ -35,10 +35,34 @@ public class gmaCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg);
+			if (args.length == 1) {
+				Player target = Bukkit.getServer().getPlayer(args[0]);
+
+				if (target == null) {
+					if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+					return true;
 				}
+				
+				target.setGameMode(GameMode.ADVENTURE);
+					
+				if (ConfigMCommands.getConfig().getBoolean(msg_other+"Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList(msg_other+"Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+					}
+				}
+					
+				if (ConfigMCommands.getConfig().getBoolean(msg_other_sender+"Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_sender+"Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+					}
+				}
+
+			} else {
+				sender.sendMessage("§c/gma <player>");
 			}
 			return true;
 		}
