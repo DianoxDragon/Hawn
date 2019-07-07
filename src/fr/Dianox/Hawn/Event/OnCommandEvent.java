@@ -132,11 +132,44 @@ public class OnCommandEvent implements Listener {
 											TitleUtils.sendTitle(p, 20, 150, 75, title);
 											TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
 										}
+									} else if (msg.startsWith("[send-title[")) {
+										msg = msg.replace("[send-title[", "");
+										
+										String[] parts = msg.split("]]: ");
+										
+										Boolean activate = false;
+										
+										String title = "";
+										String subtitle = "";
+																				
+										if (msg.contains("//n")) {
+											String[] part = parts[1].split("//n");
+											title = part[0];
+											subtitle = part[1];
+											
+											title = title.replaceAll("//n", "");
+											subtitle = subtitle.replaceAll("//n", "");
+											
+											activate = true;
+										}
+										
+										if (activate == false) {
+											TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+										} else {
+											TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+											TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+										}
 									} else if (msg.startsWith("[send-actionbar]: ")) {
 										msg = msg.replace("[send-actionbar]: ", "");
 										msg = msg.replaceAll("&", "§");
 										
 										ActionBar.sendActionBar(p, msg);
+									} else if (msg.startsWith("[send-actionbar[")) {
+										msg = msg.replace("[send-actionbar[", "");
+										
+										String[] parts = msg.split("]]: ");
+										
+										ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
 									} else if (msg.startsWith("[sounds]: ")) {
 										msg = msg.replace("[sounds]: ", "");
 										p.playSound(p.getLocation(), XSound.matchXSound(msg).parseSound(), 1, 1);
@@ -208,11 +241,44 @@ public class OnCommandEvent implements Listener {
 										TitleUtils.sendTitle(p, 20, 150, 75, title);
 										TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
 									}
+								} else if (msg.startsWith("[send-title[")) {
+									msg = msg.replace("[send-title[", "");
+									
+									String[] parts = msg.split("]]: ");
+									
+									Boolean activate = false;
+									
+									String title = "";
+									String subtitle = "";
+																			
+									if (msg.contains("//n")) {
+										String[] part = parts[1].split("//n");
+										title = part[0];
+										subtitle = part[1];
+										
+										title = title.replaceAll("//n", "");
+										subtitle = subtitle.replaceAll("//n", "");
+										
+										activate = true;
+									}
+									
+									if (activate == false) {
+										TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+									} else {
+										TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+										TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+									}
 								} else if (msg.startsWith("[send-actionbar]: ")) {
 									msg = msg.replace("[send-actionbar]: ", "");
 									msg = msg.replaceAll("&", "§");
 									
 									ActionBar.sendActionBar(p, msg);
+								} else if (msg.startsWith("[send-actionbar[")) {
+									msg = msg.replace("[send-actionbar[", "");
+									
+									String[] parts = msg.split("]]: ");
+									
+									ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
 								} else if (msg.startsWith("[sounds]: ")) {
 									msg = msg.replace("[sounds]: ", "");
 									p.playSound(p.getLocation(), XSound.matchXSound(msg).parseSound(), 1, 1);
