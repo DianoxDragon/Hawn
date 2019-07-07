@@ -30,11 +30,40 @@ public class WarpListCommand extends BukkitCommand{
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg);
+			try {
+				if (WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false) != null) {
+					
+					Iterator<?> iterator = WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false).iterator();
+					
+					String warplist = "";
+					Boolean firstword = true;
+					
+					while (iterator.hasNext()) {
+						String string = (String)iterator.next();
+						
+						if (firstword == true) {
+							warplist = String.valueOf(string);
+							firstword = false;
+						} else {
+							warplist = String.valueOf(warplist + ", " +string);
+						}
+					}
+										
+					if (ConfigMCommands.getConfig().getBoolean(msg_listwarp_list+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_listwarp_list+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%warplist%", warplist));
+						}
+					}
+					
+				}
+			} catch (NullPointerException e) {
+				if (ConfigMCommands.getConfig().getBoolean(msg_nowarp+"Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList(msg_nowarp+"Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg);
+					}
 				}
 			}
+			 
 			return true;
 		}
 		
