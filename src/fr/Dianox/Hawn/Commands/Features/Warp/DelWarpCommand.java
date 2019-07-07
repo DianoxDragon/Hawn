@@ -1,5 +1,6 @@
 package fr.Dianox.Hawn.Commands.Features.Warp;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -28,11 +29,47 @@ public class DelWarpCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					MessageUtils.ReplaceMessageForConsole(msg);
+			if (args.length == 0) {
+				// If no argument has been put in the command
+				if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+					for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg);
+					}
 				}
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warplist");
+			} else if (args.length == 1) {
+				// If the warp does not exist
+				if (!WarpListConfig.getConfig().isSet("Coordinated."+args[0]+".World")) {
+					if (ConfigMCommands.getConfig().getBoolean(msg_warp_dosent_exist+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_warp_dosent_exist+"Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+						
+					return true;
+				}
+					
+				// Execute the command
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".World", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".X", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".Y", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".Z", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".Yaw", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".Pitch", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0]+".Info", null);
+				WarpListConfig.getConfig().set("Coordinated."+args[0], null);
+	                
+				WarpListConfig.saveConfigFile();
+	                
+				if (ConfigMCommands.getConfig().getBoolean(msg_warp_delete+"Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList(msg_warp_delete+"Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%warp%", args[0]));
+					}
+				}
+			} else {
+				sender.sendMessage("§c/delwarp <warp>");
 			}
+			
 			return true;
 		}
 		

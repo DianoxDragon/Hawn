@@ -545,7 +545,7 @@ public class OnJoin implements Listener {
                                     .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
                                     .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
 
-                                ActionBar.sendActionBar(p, actionbarjoin);
+                                ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                             }
                         } else {
                             String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
@@ -558,7 +558,7 @@ public class OnJoin implements Listener {
                                 .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
                                 .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
 
-                            ActionBar.sendActionBar(p, actionbarjoin);
+                            ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                         }
                     }
                 } else {
@@ -574,7 +574,7 @@ public class OnJoin implements Listener {
                                 .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
                                 .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
 
-                            ActionBar.sendActionBar(p, actionbarFirstjoin);
+                            ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                         }
                     } else {
                         String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
@@ -587,7 +587,7 @@ public class OnJoin implements Listener {
                             .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
                             .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
 
-                        ActionBar.sendActionBar(p, actionbarFirstjoin);
+                        ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                     }
                 }
             } else {

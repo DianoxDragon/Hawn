@@ -94,17 +94,53 @@ public class HawnCommand implements CommandExecutor {
 			if (label.equalsIgnoreCase("hawn")) {
 				if ((args.length == 0) || (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?")))) {
 					if (!(args.length == 2)) {
-						onHelp(sender, 1);
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 					} else if (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?"))) {
-						if (args[1].equalsIgnoreCase("1")) {
-							onHelp(sender, 1);
-						} else if (args[1].equalsIgnoreCase("2")) {
-							onHelp(sender, 2);
-						} else {
-							onHelp(sender, 1);
+						try {
+							int i = Integer.parseInt(args[1]);
+							
+							if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+								sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
+								sender.sendMessage("");
+								sender.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
+								sender.sendMessage("");
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+									MessageUtils.ReplaceMessageForConsole(msg);
+								}
+								
+								if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									sender.sendMessage("");
+									sender.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+									sender.sendMessage("");
+									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									sender.sendMessage("");
+									sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
+									sender.sendMessage("");
+									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									sender.sendMessage("");
+									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else {
+									sender.sendMessage("");
+									sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1)+" §7// §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+									sender.sendMessage("");
+									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								}
+							} else {
+								sender.sendMessage("§cerror");
+							}
+							
+						} catch (NumberFormatException e) {
+							if (ConfigMOStuff.getConfig().getBoolean("Error.Use-Number.Enable")) {
+								for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Use-Number.Messages")) {
+									MessageUtils.ReplaceMessageForConsole(msg);
+								}
+							}
 						}
 					} else {
-						onHelp(sender, 1);
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
@@ -209,9 +245,9 @@ public class HawnCommand implements CommandExecutor {
 			return true;
 		}
 
-		// ////////////
-		// SEPARATOR //
-		// ////////////
+		/*
+		 * Executed by the player
+		 */
 		
 		Player p = (Player) sender;
 		
@@ -219,17 +255,49 @@ public class HawnCommand implements CommandExecutor {
 			if (p.hasPermission("hawn.admin") || p.hasPermission("hawn.admin.*")) {
 				if ((args.length == 0) || (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?")))) {
 					if (!(args.length == 2)) {
-						onHelp(p, 1);
+						p.performCommand("hawn help 1");
 					} else if (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?"))) {
-						if (args[1].equalsIgnoreCase("1")) {
-							onHelp(p, 1);
-						} else if (args[1].equalsIgnoreCase("2")) {
-							onHelp(p, 2);
-						} else {
-							onHelp(p, 1);
+						try {
+							int i = Integer.parseInt(args[1]);
+							
+							if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+								p.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
+								p.sendMessage("");
+								p.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
+								p.sendMessage("");
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+								
+								if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									p.sendMessage("");
+									p.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+									p.sendMessage("");
+									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									p.sendMessage("");
+									p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
+									p.sendMessage("");
+									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+									p.sendMessage("");
+									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								} else {
+									p.sendMessage("");
+									p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1)+" §7// §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+									p.sendMessage("");
+									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+								}
+							} else {
+								p.sendMessage("§cerror");
+							}
+							
+						} catch (NumberFormatException e) {
+							MessageUtils.UseNumber(p);
 						}
 					} else {
-						onHelp(p, 1);
+						p.performCommand("hawn help 1");
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
@@ -238,7 +306,7 @@ public class HawnCommand implements CommandExecutor {
 							MessageUtils.ReplaceCharMessagePlayer(msg, p);
 						}
 					} else if (args.length == 2) {
-						// If the warp does not exist
+						// If the spawn does not exist
 						if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[1]+".World")) {
 							for (String msg: ErrorConfigAM.getConfig().getStringList("Error.No-Spawn")) {
 								MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -462,93 +530,6 @@ public class HawnCommand implements CommandExecutor {
 		}
 		
 		return true;
-	}
-	
-	public void onHelp(CommandSender sender, Integer n) {
-		if (n == 1) {
-			if(!(sender instanceof Player)) {
-				sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
-				sender.sendMessage("");
-				sender.sendMessage("     §l>> §e§o§lGlobal Help (Page 1)");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §c/spawn [SpawnName] - §eSet the spawn");
-				sender.sendMessage(" §8>> §7/spawn tp <player> [SpawnName] - §eSet the spawn");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/cc - §eShow the help of the clearchat");
-				sender.sendMessage(" §8>> §7/ping [player] - §eShow the help of the clearchat");
-				sender.sendMessage(" §8>> §7/delaychat <number> - §ePut a delay on the chat");
-				sender.sendMessage(" §8>> §7/gmute - §eMute the chat");
-				sender.sendMessage(" §8>> §c/broadcast <message>§7 - §eBroadcast a message");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §c/hawn setspawn [name]§7 - §eSet the spawn");
-				sender.sendMessage("");
-				sender.sendMessage("   §l>> §e§o§lPage 2 >> /hawn help 2");
-				sender.sendMessage("");
-				sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-			} else {
-				sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
-				sender.sendMessage("");
-				sender.sendMessage("     §l>> §e§o§lGlobal Help (Page 1)");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/spawn [SpawnName] - §eSet the spawn");
-				sender.sendMessage(" §8>> §7/spawn tp <player> [SpawnName] - §eSet the spawn");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/cc - §eShow the help of the clearchat");
-				sender.sendMessage(" §8>> §7/ping [player] - §eShow the help of the clearchat");
-				sender.sendMessage(" §8>> §7/delaychat <number> - §ePut a delay on the chat");
-				sender.sendMessage(" §8>> §7/gmute - §eMute the chat");
-				sender.sendMessage(" §8>> §c/broadcast <message>§7 - §eBroadcast a message");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/hawn setspawn [name] - §eSet the spawn");
-				sender.sendMessage(" §8>> §7/hawn reload §eor §7rl - §eReload some config files");
-				sender.sendMessage("");
-				sender.sendMessage("   §l>> §e§o§lPage 2 >> /hawn help 2");
-				sender.sendMessage("");
-				sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-			}
-		} else if (n == 2) {
-			if(!(sender instanceof Player)) {
-				sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
-				sender.sendMessage("");
-				sender.sendMessage("     §l>> §e§o§lGlobal Help (Page 2)");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/hawn reload §eor §7rl - §eReload some config files");
-				sender.sendMessage(" §8>> §7/hawn version §eor §7v  - §eSee the version of the plugin");
-				sender.sendMessage(" §8>> §7/hawn tps - §eSee the TPS of the server");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §c/sun or /clearw - §eClear the weather");
-				sender.sendMessage(" §8>> §c/rain - §eTo make the world raining");
-				sender.sendMessage(" §8>> §c/thunder - §eIf you like a bad weather");
-				sender.sendMessage(" §8>> §c/day - §ePut the day");
-				sender.sendMessage(" §8>> §c/night - §ePut the night");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §c/fly <player> - §eSet the fly mode");
-				sender.sendMessage("");
-				sender.sendMessage("   §l>> §e§o§l/hawn help 1 << Page 1");
-				sender.sendMessage("");
-				sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-			} else {
-				sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
-				sender.sendMessage("");
-				sender.sendMessage("     §l>> §e§o§lGlobal Help (Page 2)");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/hawn reload §eor §7rl - §eReload some config files");
-				sender.sendMessage(" §8>> §7/hawn version §eor §7v  - §eSee the version of the plugin");
-				sender.sendMessage(" §8>> §7/hawn tps - §eSee the TPS of the server");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/sun or /clearw - §eClear the weather");
-				sender.sendMessage(" §8>> §7/rain - §eTo make the world raining");
-				sender.sendMessage(" §8>> §7/thunder - §eIf you like a bad weather");
-				sender.sendMessage(" §8>> §7/day - §ePut the day");
-				sender.sendMessage(" §8>> §7/night - §ePut the night");
-				sender.sendMessage("");
-				sender.sendMessage(" §8>> §7/fly [player] - §eSet the fly mode");
-				sender.sendMessage("");
-				sender.sendMessage("   §l>> §e§o§l/hawn help 1 << Page 1");
-				sender.sendMessage("");
-				sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-			}
-		}
 	}
 	
 	public static void configlist() {

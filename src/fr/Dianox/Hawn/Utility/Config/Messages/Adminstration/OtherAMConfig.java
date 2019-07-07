@@ -67,6 +67,53 @@ public class OtherAMConfig {
             		"&cYou can no longer bypass all the build restriction"
             		}));
             
+            Config.set("Command.Hawn-Main-help.1", java.util.Arrays.asList(new String[] {"§8>> §7/hawn setspawn [name] - §eSet the spawn", 
+            "§8>> §7/hawn reload §eor §7rl - §eReload some config files",
+            "§8>> §7/hawn version §eor §7v  - §eSee the version of the plugin",
+            "§8>> §7/hawn tps - §eSee the TPS of the server",
+            "§8>> §7/hawn info [all/memory/tps/disk/cpu/server/version] - §eSee the infos of the server",
+            "§8>> §7/hawn debug emoji - §eDebug config files of emoji's items",
+            "§8>> §7/hawn build - §eTo bypass protection temporary",
+            "",
+            "§8>> §7/ap §eor §7pa - §eAccess to the admin panel"}));
+
+        Config.set("Command.Hawn-Main-help.2", java.util.Arrays.asList(new String[] {"", 
+            "§8>> §7/spawn [SpawnName] - §eGo to the spawn",
+            "§8>> §7/spawn tp <player> [SpawnName] - §eTp a player to a spawn",
+            "",
+            "§8>> §7/sun or /clearw - §eClear the weather",
+            "§8>> §7/rain - §eTo make the world raining",
+            "§8>> §7/thunder - §eIf you like a bad weather",
+            "§8>> §7/day - §ePut the day",
+            "§8>> §7/night - §ePut the night",
+            ""}));
+
+            Config.set("Command.Hawn-Main-help.3", java.util.Arrays.asList(new String[] {"§8>> §7/fly [player] - §eSet the fly mode", 
+            "§8>> §7/heal [player] - §eHeal a player",
+            "§8>> §7/clearinv [player] - §eClear inventory a player",
+            "§8>> §7/ping [player] - §eShow the ping of a player",
+            "§8>> §7/v [player] - §eVanish a player",
+            "§8>> §7/gamemode or gm... or gma etc. - §eSet to player a gamemode",
+            "",
+            "§8>> §7/cc - §eShow the help of the clearchat",
+            "§8>> §7/delaychat <number> - §ePut a delay on the chat"}));
+
+            Config.set("Command.Hawn-Main-help.4", java.util.Arrays.asList(new String[] {"§8>> §7/gmute - §eMute the chat", 
+            "",
+            "§8>> §7/broadcast <message>§7 - §eBroadcast a message",
+            "§8>> §7/btcast §eor §7/ta <message>§7 - §eBroadcast a title message",
+            "",
+            "§8>> §7/help <.../...>§7 - §eShow the custom help, if enabled",
+            "",
+            "§8>> §7/emoji§7 - §eSee the gui of emojis",
+            "",
+            "§8>> §7/scoreboard§7 - §eToggle off or on the scoreboard"}));
+
+            Config.set("Command.Hawn-Main-help.5", java.util.Arrays.asList(new String[] {"§8>> §7/scoreboard set <scoreboard's file name>§7 - §eTo change the actual scoreboard", 
+            "§8>> §7/scoreboard keep§7 - §eKeep the scoreboard between servers",
+            "",
+            "§8>> §7/option§7 - §eFor main player's options"}));
+            
             saveConfigFile();
 
         }
