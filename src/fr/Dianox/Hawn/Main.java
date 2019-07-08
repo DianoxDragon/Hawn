@@ -145,7 +145,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	private static Main instance;
 	
-	static String versions = "0.6.4-Alpha";
+	static String versions = "0.6.5-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -1023,7 +1023,7 @@ public class Main extends JavaPlugin implements Listener {
 				String perm = "hawn.scoreboard." + f.getName().replace(".yml", "");
 				String filename = f.getName().replace(".yml", "");
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-				fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo info = new fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo(cfg, perm);
+				ScoreboardInfo info = new ScoreboardInfo(cfg, perm);
 				this.infoname.put(filename, perm);
 				this.infoname2.put(perm, filename);
 				this.info.put(perm, info);
