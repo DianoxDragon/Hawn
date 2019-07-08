@@ -53,19 +53,21 @@ public class ConfigGeneral {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(false));
-            Config.set("Plugin.Use.Keep-The-Option", Boolean.valueOf(false));
-            Config.set("Plugin.Use.MYSQL.Enable", Boolean.valueOf(false));
-            Config.set("Plugin.Use.MYSQL.Host", String.valueOf("localhost"));
-            Config.set("Plugin.Use.MYSQL.Username", String.valueOf("root"));
-            Config.set("Plugin.Use.MYSQL.Password", String.valueOf("123"));
-            Config.set("Plugin.Use.MYSQL.Database", String.valueOf("Hawn"));
-            Config.set("Plugin.Use.MYSQL.Port", Integer.valueOf(3306));
-            Config.set("Plugin.Use.MYSQL.Use-SSL", Boolean.valueOf(false));
-            Config.set("Plugin.Update.Check-Update", Boolean.valueOf(true));
-            Config.set("Plugin.Date-Format", String.valueOf("dd-MM-yyyy"));
-            Config.set("Plugin.12-Hours-Or-24-Hours-Format", Integer.valueOf(24));
-            Config.set("Plugin.Tps.Warn-system", Boolean.valueOf(true));
+            Config.set("Plugin.Use.PlaceholderAPI", false);
+            Config.set("Plugin.Use.Keep-The-Option", false);
+            Config.set("Plugin.Use.WorldGuard.Enable", false);
+            Config.set("Plugin.Use.WorldGuard.Keep-The-Option", false);
+            Config.set("Plugin.Use.MYSQL.Enable", false);
+            Config.set("Plugin.Use.MYSQL.Host", "localhost");
+            Config.set("Plugin.Use.MYSQL.Username", "root");
+            Config.set("Plugin.Use.MYSQL.Password", "123");
+            Config.set("Plugin.Use.MYSQL.Database", "Hawn");
+            Config.set("Plugin.Use.MYSQL.Port", 3306);
+            Config.set("Plugin.Use.MYSQL.Use-SSL", false);
+            Config.set("Plugin.Update.Check-Update", true);
+            Config.set("Plugin.Date-Format", "dd-MM-yyyy");
+            Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
+            Config.set("Plugin.Tps.Warn-system", true);
             
             saveConfigFile();
 
