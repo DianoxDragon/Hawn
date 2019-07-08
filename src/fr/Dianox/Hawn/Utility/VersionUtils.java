@@ -11,9 +11,7 @@ public class VersionUtils {
 		
 		versionsS = Bukkit.getVersion();
 		
-		if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {	
-			
-		} else {
+		if (!Bukkit.getVersion().contains("1.14") || !Bukkit.getVersion().contains("1.13")) {
 			Bukkit.getConsoleSender().sendMessage("| "+ChatColor.YELLOW+"Not developped for theses versions, but it should work");
 			Bukkit.getConsoleSender().sendMessage("| ");
 		}
