@@ -1,6 +1,7 @@
 package fr.Dianox.Hawn.Commands.Features.Warp;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -48,7 +49,7 @@ public class WarpCommand extends BukkitCommand {
 				}
 				
 				try {
-					org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + args[0] + ".World"));
+					World w = Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + args[0] + ".World"));
 					double x = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".X");
 					double y = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Y");
 					double z = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Z");
@@ -290,7 +291,7 @@ public class WarpCommand extends BukkitCommand {
 
 	public static void onTp(Player sender, String tp) {
 		try {
-			org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + tp + ".World"));
+			World w = Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + tp + ".World"));
 			double x = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".X");
 			double y = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Y");
 			double z = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Z");
@@ -316,7 +317,7 @@ public class WarpCommand extends BukkitCommand {
 
 	private void onTpOthers(Player sender, Player other, String tp) {
 		try {
-			org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + tp + ".World"));
+			World w = Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + tp + ".World"));
 			double x = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".X");
 			double y = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Y");
 			double z = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Z");
