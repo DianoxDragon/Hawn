@@ -53,6 +53,13 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.WorldGuard.Enable")) {
+			ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
+			ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Keep-The-Option", false);
+        	
+        		ConfigGeneral.saveConfigFile();
+		}
+		
 		if (!OnJoinConfig.getConfig().isSet("Action-Bar.First-Join.Time-Stay")) {
 			OnJoinConfig.getConfig().set("Action-Bar.First-Join.Time-Stay", Integer.valueOf(150)); 
 			OnJoinConfig.getConfig().set("Action-Bar.Join.Time-Stay", Integer.valueOf(150)); 
