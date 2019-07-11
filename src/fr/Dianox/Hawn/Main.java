@@ -27,6 +27,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
 import fr.Dianox.Hawn.Commands.HawnCommand;
 import fr.Dianox.Hawn.Commands.PanelAdminCommand;
 import fr.Dianox.Hawn.Commands.PingCommand;
@@ -181,6 +183,8 @@ public class Main extends JavaPlugin implements Listener {
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
     
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
+    
+    WorldGuardPlugin worldGuard;
     
 	@SuppressWarnings("static-access")
 	@Override
@@ -677,19 +681,46 @@ public class Main extends JavaPlugin implements Listener {
 			useyamllistplayer = true;
 		}
 		        		
-		// Keep option p
-		if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
-			if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
-				gcs(ChatColor.BLUE+"| ");
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(true));
+		// Keep option placeholderAPI
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					Bukkit.getPluginManager().registerEvents(this, this);
+				}
+			} else {
+				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", true);
 				ConfigGeneral.saveConfigFile();
 				Bukkit.getPluginManager().registerEvents(this, this);
-			} else {
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(false));
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", false);
 				ConfigGeneral.saveConfigFile();
 			}
 		}
+		
+		// Keep option Worldguard
+		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+				}
+			} else {
+				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
+				ConfigGeneral.saveConfigFile();
+				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
+				ConfigGeneral.saveConfigFile();
+			}
+		}
+		
+		gcs(ChatColor.BLUE+"| ");
 		
 		// check
 		UpdateCheck();
@@ -1325,7 +1356,6 @@ public class Main extends JavaPlugin implements Listener {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return rs;
 	}
 
