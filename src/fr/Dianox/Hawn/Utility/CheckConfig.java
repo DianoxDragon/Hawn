@@ -29,6 +29,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
+import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
@@ -52,6 +53,35 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.Construct.Anti-Place.WorldGuard.Enable")) {
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.WorldGuard.Enable", false);
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.WorldGuard.Method", "BLACKLIST");
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.WorldGuard.Enable", false);
+            ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.WorldGuard.Method", "WHITELIST");
+            ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            ConfigGProtection.getConfig().set("Protection.HagingBreakByEntity.WorldGuard.Enable", false);
+            ConfigGProtection.getConfig().set("Protection.HagingBreakByEntity.WorldGuard.Method", "WHITELIST");
+            ConfigGProtection.getConfig().set("Protection.HagingBreakByEntity.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            ConfigGProtection.getConfig().set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Enable", false);
+            ConfigGProtection.getConfig().set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Method", "WHITELIST");
+            ConfigGProtection.getConfig().set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
+            ConfigGProtection.saveConfigFile();
+		}
 		
 		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.WorldGuard.Enable")) {
 			ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
