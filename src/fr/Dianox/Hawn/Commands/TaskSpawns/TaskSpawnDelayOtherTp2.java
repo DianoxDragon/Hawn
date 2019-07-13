@@ -31,8 +31,8 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 			 * Cancel the task and stop the execution of the class
 			 */
             p = null;
-            cancel();
-            return;
+            cancel(); //cancels the function
+            return; //goes back to the start of the function
         }
 		
 		/*
@@ -59,7 +59,7 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 			MessageUtils.ReplaceCharMessagePlayer(msg, p);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) { //outputs the message declared in the config file
 				MessageUtils.ReplaceCharMessagePlayer(msg, other);
 			}
 		}

@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Commands;
+package fr.Dianox.Hawn.Commands; //package name
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -20,8 +20,8 @@ public class PingCommand extends BukkitCommand {
 		 * Main class to register the essential information of the command
 		 */
 		super(name);
-		this.description = "To know the ping";
-        this.usageMessage = "/ping";
+		this.description = "To know the ping"; //description displayed in the /help section
+        this.usageMessage = "/ping"; //the actual command used to trigger the code
 	}
 	
 	@Override
@@ -62,20 +62,20 @@ public class PingCommand extends BukkitCommand {
 		// >> Command
 		// If it's only /ping
             if ((args.length == 0)) {
-            	if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Use_Permission")) {
-            		if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
-            			if (p.hasPermission("hawn.command.ping.self")) {
-            				for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+            	if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Use_Permission")) { //checks if the user (server config) has enabled permissions
+            		if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) { //checks if the user (server config) has enabled this permission
+            			if (p.hasPermission("hawn.command.ping.self")) { //checks if the player has the permissions to use the command
+            				for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Self")) { //outputs the message put in the config
             					MessageUtils.ReplaceCharMessagePlayer(msg, p);
             				}
             			} else {
             				String Permission = "hawn.command.ping.self";
-                			MessageUtils.MessageNoPermission(p, Permission);
+                			MessageUtils.MessageNoPermission(p, Permission); //if the player doesn't have the permission
             			}
             		} else {
-            			if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) {
-            				if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-	                			for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) {
+            			if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) { //checks if the message is disabled in the config
+            				if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) { //checks if it's allowed to output an error
+	                			for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) { //outputs the error message put in the config
 	                        		MessageUtils.ReplaceCharMessagePlayer(msg, p);
 	                        	}
                 			}
@@ -161,9 +161,9 @@ public class PingCommand extends BukkitCommand {
           
           Field ping = EntityPlayer.getClass().getDeclaredField("ping");
           
-          return ping.getInt(EntityPlayer);
+          return ping.getInt(EntityPlayer); //makes sure the getPing integer value is equal to the ping of the player whom casted the command
         } catch (Exception e) {
-          e.printStackTrace();
+          e.printStackTrace(); //prints a helpful error which helps Dianox find where the actual problem occurred
         }
         return 0;
 	}

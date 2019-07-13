@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Commands.TaskSpawns;
+package fr.Dianox.Hawn.Commands.TaskSpawns; //package name
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -33,8 +33,8 @@ public class TaskSpawnDelayOtherTp extends BukkitRunnable {
 			 * Cancel the task and stop the execution of the class
 			 */
             p = null;
-            cancel();
-            return;
+            cancel(); //cancels the function
+            return; //goes back to the start of the function
         }
 		
 		/*
@@ -65,7 +65,7 @@ public class TaskSpawnDelayOtherTp extends BukkitRunnable {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 					MessageUtils.ReplaceCharMessagePlayer(msg, p);
 				}
-				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
+				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) { //if it's enabled in the config
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, other);
 					}
@@ -78,8 +78,8 @@ public class TaskSpawnDelayOtherTp extends BukkitRunnable {
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-					MessageUtils.MessageNoSpawn(p);
-					return;
+					MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
+					return; //goes back to the start of the function
 				}
 				// If player don't have the permission
 				if (!p.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
@@ -95,8 +95,8 @@ public class TaskSpawnDelayOtherTp extends BukkitRunnable {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 					MessageUtils.ReplaceCharMessagePlayer(msg, p);
 				}
-				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) { //if it's enabled in the config
+					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) { //outputs the message declared in the config file
 						MessageUtils.ReplaceCharMessagePlayer(msg, other);
 					}
 				}

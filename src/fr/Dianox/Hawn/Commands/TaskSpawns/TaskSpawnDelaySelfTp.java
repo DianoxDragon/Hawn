@@ -30,8 +30,8 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 			 * Cancel the task and stop the execution of the class
 			 */
             p = null;
-            cancel();
-            return;
+            cancel(); //cancels the function
+            return; //goes back to the start of the function
         }
 		
 		/*

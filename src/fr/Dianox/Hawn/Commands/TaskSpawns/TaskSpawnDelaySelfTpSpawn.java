@@ -31,8 +31,8 @@ public class TaskSpawnDelaySelfTpSpawn extends BukkitRunnable {
 			 * Cancel the task and stop the execution of the class
 			 */
             p = null;
-            cancel();
-            return;
+            cancel(); //cancels the function
+            return; //goes back to the start of the function
         }
 		
 		/*
@@ -43,15 +43,15 @@ public class TaskSpawnDelaySelfTpSpawn extends BukkitRunnable {
 			if (p.hasPermission("hawn.command.spawn")) {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
-					MessageUtils.MessageNoSpawn(p);
-					return;
+					MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
+					return; //goes back to the start of the function
 				}
 				
 				// If player don't have the permission
 				if (!p.hasPermission("hawn.command.spawn."+tp)) {
 					String Permission = "hawn.command.spawn."+tp;
-					MessageUtils.MessageNoPermission(p, Permission);
-					return;
+					MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
+					return; //goes back to the start of the function
 				}
 				
 				// Teleport
@@ -70,15 +70,15 @@ public class TaskSpawnDelaySelfTpSpawn extends BukkitRunnable {
 		} else {
 			// If the spawn is not set
 			if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
-				MessageUtils.MessageNoSpawn(p);
-				return;
+				MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
+				return; //goes back to the start of the function
 			}
 			
 			// If player don't have the permission
 			if (!p.hasPermission("hawn.command.spawn."+tp)) {
 				String Permission = "hawn.command.spawn."+tp;
-				MessageUtils.MessageNoPermission(p, Permission);
-				return;
+				MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
+				return; //goes back to the start of the function
 			}
 			
 			// Teleport
