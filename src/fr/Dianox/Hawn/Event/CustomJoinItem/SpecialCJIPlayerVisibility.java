@@ -197,6 +197,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 					}
 				}
 				
+				try {
 				if (p.getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
 					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 						if (PlayerVisibility.Cooling().contains(name)) {
@@ -272,6 +273,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 						onMysqlYamlCJIChange(p, "FALSE");
 					}
 				}
+				} catch (Exception e1) {}
 			}
 		}
 	}
