@@ -2,7 +2,7 @@ name: Hawn
 version: 0.6.6-Alpha
 author: Dianox
 main: fr.Dianox.Hawn.Main
-api-version: 1.13
+api-version: 1.14
 LOAD: POSTWORLD
 softdepend: [PlaceholderAPI, WorldGuard, WorldEdit, MVdWPlaceholderAPI]
 commands:
