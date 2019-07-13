@@ -404,7 +404,7 @@ public class PlayerBoard {
         if ((!suffix.toString().isEmpty()) && (!suffix.toString().startsWith("§"))) {
             suffix.insert(0, result);
         }
-        return new String[]{prefix.toString().length() > getMaxSize() ? prefix.toString().substring(0, getMaxSize()) : prefix.toString(), suffix.toString().length() > getMaxSize() ? suffix.toString().substring(0, getMaxSize()) : suffix.toString()};
+	return new String[]{prefix.length() > getMaxSize() ? prefix.toString().substring(0, getMaxSize()) : prefix.toString(), suffix.length() > getMaxSize() ? suffix.toString().substring(0, getMaxSize()) : suffix.toString()};
     }
 
     public Scoreboard getBoard() {
