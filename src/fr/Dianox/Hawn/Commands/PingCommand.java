@@ -16,6 +16,9 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 public class PingCommand extends BukkitCommand {
 		
 	public PingCommand(String name) {
+		/*
+		 * Main class to register the essential information of the command
+		 */
 		super(name);
 		this.description = "To know the ping";
         this.usageMessage = "/ping";
@@ -24,13 +27,15 @@ public class PingCommand extends BukkitCommand {
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		
-		// >>> Executed by the console
+		// >>> Executed by the console, in other words, not a player
 		if (!(sender instanceof Player)) {
 
+				// If there are an argument with /ping - /ping <arg 1>
 				if ((args.length == 1)) {
 					
 					Player target = Bukkit.getServer().getPlayer(args[0]);
 					
+					// If player doesn't exist
 					if (target == null) {
 						if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
 							for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
@@ -54,7 +59,8 @@ public class PingCommand extends BukkitCommand {
 		// >>> Executed by the player
 		Player p = (Player) sender;
 		
-		// Command
+		// >> Command
+		// If it's only /ping
             if ((args.length == 0)) {
             	if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Use_Permission")) {
             		if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
@@ -90,6 +96,7 @@ public class PingCommand extends BukkitCommand {
 	                    }
 	                }
             	}
+            	// If there are an argument with /ping - /ping <arg 1>
             } else if ((args.length == 1)) {
                 Player other = Bukkit.getPlayer(args[0]);
                 if (PingCommandConfig.getConfig().getBoolean("Ping.Other.Use_Permission")) {
@@ -139,6 +146,9 @@ public class PingCommand extends BukkitCommand {
 		return true;
 	}
 	
+	/*
+	 * Method to get the ping of a player
+	 */
 	public static int getPing(Player p) {
         String bpName = Bukkit.getServer().getClass().getPackage().getName();
         String version = bpName.substring(bpName.lastIndexOf(".") + 1, bpName.length());
