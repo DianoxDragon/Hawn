@@ -57,6 +57,8 @@ public class ConfigGeneral {
             Config.set("Plugin.Use.Keep-The-Option", false);
             Config.set("Plugin.Use.WorldGuard.Enable", false);
             Config.set("Plugin.Use.WorldGuard.Keep-The-Option", false);
+	    Config.set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
+            Config.set("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option", false);
             Config.set("Plugin.Use.MYSQL.Enable", false);
             Config.set("Plugin.Use.MYSQL.Host", "localhost");
             Config.set("Plugin.Use.MYSQL.Username", "root");
