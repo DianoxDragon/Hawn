@@ -11,14 +11,28 @@ public class EmojiesUtility {
 	// Smileys
 	public static String smiley = "☺";
 	public static List<String> smiley_list = new ArrayList<String>();
+	public static String sad = "☹";
+	public static List<String> sad_list = new ArrayList<String>();
 	
 	// Items
 	public static String swords = "⚔";
 	public static List<String> swords_list = new ArrayList<String>();
 	public static String coffee = "☕";
 	public static List<String> coffee_list = new ArrayList<String>();
+	public static String umbrella = "☂";
+	public static List<String> umbrella_list = new ArrayList<String>();
+	public static String anchor = "⚓";
+	public static List<String> anchor_list = new ArrayList<String>();
+	public static String email = "✉";
+	public static List<String> email_list = new ArrayList<String>();
 	
 	// Symbols
+	public static String scales = "⚖";
+	public static List<String> scales_list = new ArrayList<String>();
+	public static String radioactive = "☢";
+	public static List<String> radioactive_list = new ArrayList<String>();
+	public static String king = "♕";
+	public static List<String> king_list = new ArrayList<String>();
 	public static String heart = "❤";
 	public static List<String> heart_list = new ArrayList<String>();
 	public static String notes = "♪";
@@ -31,12 +45,8 @@ public class EmojiesUtility {
 	public static List<String> chess_list = new ArrayList<String>();
 	public static String copyright = "©";
 	public static List<String> copyright_list = new ArrayList<String>();
-	public static String anchor = "⚓";
-	public static List<String> anchor_list = new ArrayList<String>();
 	public static String skull = "☠";
 	public static List<String> skull_list = new ArrayList<String>();
-	public static String umbrella = "☂";
-	public static List<String> umbrella_list = new ArrayList<String>();
 	public static String diamonds = "♦";
 	public static List<String> diamonds_list = new ArrayList<String>();
 	public static String snowflake = "❄";
@@ -66,6 +76,11 @@ public class EmojiesUtility {
 		
 	public static void setaliaseslist() {
 		
+		email_list.clear();
+		sad_list.clear();
+		radioactive_list.clear();
+		king_list.clear();
+		scales_list.clear();
 		smiley_list.clear();
 		swords_list.clear();
 		heart_list.clear();
@@ -97,7 +112,42 @@ public class EmojiesUtility {
 
             if (!string.equalsIgnoreCase("Option")) {
             	
-            	if (string.equalsIgnoreCase("airplane")) {
+            	if (string.equalsIgnoreCase("email")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				email_list.add(aliases);
+            			}
+            		}
+            		email_list.add(":email:");
+            	} else if (string.equalsIgnoreCase("sad")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				sad_list.add(aliases);
+            			}
+            		}
+            		sad_list.add(":sad:");
+            	} else if (string.equalsIgnoreCase("radioactive")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				radioactive_list.add(aliases);
+            			}
+            		}
+            		radioactive_list.add(":radioactive:");
+            	} else if (string.equalsIgnoreCase("scales")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				scales_list.add(aliases);
+            			}
+            		}
+            		scales_list.add(":scales:");
+            	} else if (string.equalsIgnoreCase("king")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				king_list.add(aliases);
+            			}
+            		}
+            		king_list.add(":king:");
+            	} else if (string.equalsIgnoreCase("airplane")) {
             		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
             			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
             				airplane_list.add(aliases);
