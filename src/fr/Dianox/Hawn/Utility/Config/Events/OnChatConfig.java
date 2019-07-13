@@ -349,7 +349,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☹",
-                    "&bUse :fliptable: in the chat",
+                    "&bUse :sad: in the chat",
                     " "
                 }));
             
@@ -360,7 +360,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ⚖",
-                    "&bUse :fliptable: in the chat",
+                    "&bUse :scales: in the chat",
                     " "
                 }));
             
@@ -371,7 +371,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☢",
-                    "&bUse :fliptable: in the chat",
+                    "&bUse :radioactive: in the chat",
                     " "
                 }));
             
@@ -382,7 +382,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.King.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ♕",
-                    "&bUse :fliptable: in the chat",
+                    "&bUse :king: in the chat",
                     " "
                 }));
             
@@ -393,7 +393,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.Email.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ✉",
-                    "&bUse :fliptable: in the chat",
+                    "&bUse :email: in the chat",
                     " "
                 }));
             

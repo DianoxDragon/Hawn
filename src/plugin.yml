@@ -1,10 +1,10 @@
 name: Hawn
-version: 0.6.5-Alpha
+version: 0.6.6-Alpha
 author: Dianox
 main: fr.Dianox.Hawn.Main
-api-version: 1.13
+api-version: 1.14
 LOAD: POSTWORLD
-softdepend: [PlaceholderAPI, WorldGuard, WorldEdit]
+softdepend: [PlaceholderAPI, WorldGuard, WorldEdit, MVdWPlaceholderAPI]
 commands:
   hawn:
     description: Main menu for admins.

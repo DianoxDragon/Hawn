@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
 import fr.Dianox.Hawn.Utility.ActionBar;
@@ -106,6 +108,20 @@ public class OnCommandEvent implements Listener {
 									} else if (msg.startsWith("[bungee]: ")) {
 										msg = msg.replace("[bungee]: ", "");
 										Bungee.changeServer(p, msg);
+									} else if (msg.startsWith("[effect[")) {
+										msg = msg.replace("[effect[", "");
+										
+										String[] parts = msg.split("]]: ");
+										
+										p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+									} else if (msg.startsWith("[effectclear]: ")) {
+										msg = msg.replace("[effectclear]: ", "");
+																			
+										p.removePotionEffect(PotionEffectType.getByName(msg));
+									} else if (msg.startsWith("[effectclearall]")) {
+										for(PotionEffect effect: p.getActivePotionEffects()) {
+							                p.removePotionEffect(effect.getType());
+							            }
 									} else if (msg.startsWith("[send-title]: ")) {
 										msg = msg.replace("[send-title]: ", "");
 										msg = msg.replaceAll("&", "§");
@@ -215,6 +231,20 @@ public class OnCommandEvent implements Listener {
 								} else if (msg.startsWith("[bungee]: ")) {
 									msg = msg.replace("[bungee]: ", "");
 									Bungee.changeServer(p, msg);
+								} else if (msg.startsWith("[effect[")) {
+									msg = msg.replace("[effect[", "");
+									
+									String[] parts = msg.split("]]: ");
+									
+									p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+								} else if (msg.startsWith("[effectclear]: ")) {
+									msg = msg.replace("[effectclear]: ", "");
+																		
+									p.removePotionEffect(PotionEffectType.getByName(msg));
+								} else if (msg.startsWith("[effectclearall]")) {
+									for(PotionEffect effect: p.getActivePotionEffects()) {
+						                p.removePotionEffect(effect.getType());
+						            }
 								} else if (msg.startsWith("[send-title]: ")) {
 									msg = msg.replace("[send-title]: ", "");
 									msg = msg.replaceAll("&", "§");
