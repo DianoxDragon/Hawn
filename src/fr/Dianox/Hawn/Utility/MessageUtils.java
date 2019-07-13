@@ -224,6 +224,9 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
 			
 			BaseComponent[] bc = ComponentSerializer.parse(str);
 			for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
@@ -235,9 +238,13 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
 			str = ReplaceMainplaceholderP(str, player);
 			str = str.replaceAll("&", "§");
-				
+			
 			p.sendMessage(str);
 		}
 	}
@@ -251,6 +258,9 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
 				
 				BaseComponent[] bc = ComponentSerializer.parse(str);
 				for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
@@ -262,6 +272,10 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(player, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, str);
+			}
+			
 			str = ReplaceMainplaceholderP(str, player);
 			str = str.replaceAll("&", "§");
 			
@@ -280,6 +294,9 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
 				
 				BaseComponent[] bc = ComponentSerializer.parse(str);
 				for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
@@ -292,6 +309,10 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
 				str = ReplaceMainplaceholderP(str, p);
 				str = str.replaceAll("&", "§");
 				
@@ -307,6 +328,9 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
 			
 			BaseComponent[] bc = ComponentSerializer.parse(str);
 			Bukkit.spigot().broadcast(bc);
@@ -321,6 +345,10 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
 			str = ReplaceMainplaceholderP(str, p);
 			str = str.replaceAll("&", "§");
 			
@@ -355,6 +383,10 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(target, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, str);
+			}
+			
 			str = ReplaceMainplaceholderP(str, target);
 			str = str.replaceAll("&", "§");
 				
@@ -370,6 +402,10 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(target, str);
 			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, str);
+			}
+			
 			str = ReplaceMainplaceholderP(str, target);
 			str = str.replaceAll("&", "§");
 			
