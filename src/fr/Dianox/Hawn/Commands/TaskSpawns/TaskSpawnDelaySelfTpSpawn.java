@@ -16,50 +16,75 @@ public class TaskSpawnDelaySelfTpSpawn extends BukkitRunnable {
 	String tp;
 	
 	public TaskSpawnDelaySelfTpSpawn(Player p, String tp) {
+		/*
+		 * Main class to catch the variables
+		 */
         this.p = p;
         this.tp = tp;
 	}
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) { //If the player isn't online or doesn't exist, cancel everything
+		if (p == null || !p.isOnline()) {
+			/*
+			 * If the player is null or not online
+			 * Cancel the task and stop the execution of the class
+			 */
             p = null;
             cancel(); //cancels the function
             return; //goes back to the start of the function
         }
 		
-		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.Use-Permission")) { //checks if the user (server config) has enabled permissions
-			if (p.hasPermission("hawn.command.spawn")) { //if the player does have the required permission
+		/*
+		 * Then execute the code
+		 */
+		// Check if hawn.command.spawn is enabled
+		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.Use-Permission")) {
+			if (p.hasPermission("hawn.command.spawn")) {
+				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
 					MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
 					return; //goes back to the start of the function
 				}
-				if (!p.hasPermission("hawn.command.spawn."+tp)) { //if the player doesn't have the required permission
+				
+				// If player don't have the permission
+				if (!p.hasPermission("hawn.command.spawn."+tp)) {
 					String Permission = "hawn.command.spawn."+tp;
 					MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
 					return; //goes back to the start of the function
 				}
+				
+				// Teleport
 				SpawnUtils.teleportToSpawn(p, tp);
+				
+				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
 			} else {
-				String Permission = "hawn.command.spawn";
-				MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
+				// If player don't have the permission
+				MessageUtils.MessageNoPermission(p, "hawn.command.spawn");
 			}
 		} else {
+			// If the spawn is not set
 			if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
 				MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
 				return; //goes back to the start of the function
 			}
-			if (!p.hasPermission("hawn.command.spawn."+tp)) { //if the player doesn't have the required permission
+			
+			// If player don't have the permission
+			if (!p.hasPermission("hawn.command.spawn."+tp)) {
 				String Permission = "hawn.command.spawn."+tp;
 				MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
 				return; //goes back to the start of the function
 			}
+			
+			// Teleport
 			SpawnUtils.teleportToSpawn(p, tp);
+			
+			// Messages
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 					MessageUtils.ReplaceCharMessagePlayer(msg, p);

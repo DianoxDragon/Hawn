@@ -353,7 +353,7 @@ public class PlayerBoard {
     private String[] splitString(String string) {
         StringBuilder prefix = new StringBuilder(string.substring(0, string.length() >= getMaxSize() ? getMaxSize() : string.length()));
         StringBuilder suffix = new StringBuilder(string.length() > getMaxSize() ? string.substring(getMaxSize()) : "");
-        if (prefix.toString().length() > 1 && prefix.charAt(prefix.length() - 1) == '§') {
+        if (prefix.length() > 1 && prefix.charAt(prefix.length() - 1) == '§') {
             prefix.deleteCharAt(prefix.length() - 1);
             suffix.insert(0, '§');
         }
@@ -404,7 +404,7 @@ public class PlayerBoard {
         if ((!suffix.toString().isEmpty()) && (!suffix.toString().startsWith("§"))) {
             suffix.insert(0, result);
         }
-        return new String[]{prefix.length() > getMaxSize() ? prefix.toString().substring(0, getMaxSize()) : prefix.toString(), suffix.length() > getMaxSize() ? suffix.toString().substring(0, getMaxSize()) : suffix.toString()};
+	return new String[]{prefix.length() > getMaxSize() ? prefix.toString().substring(0, getMaxSize()) : prefix.toString(), suffix.length() > getMaxSize() ? suffix.toString().substring(0, getMaxSize()) : suffix.toString()};
     }
 
     public Scoreboard getBoard() {

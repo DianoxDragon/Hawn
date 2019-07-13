@@ -53,34 +53,58 @@ public class ConfigGProtection {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Protection.Construct.Anti-Place.Enable", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Place.Bypass", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Place.Message", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Place.World.All_World", Boolean.valueOf(false));
+            Config.set("Protection.Construct.Anti-Place.Enable", true);
+            Config.set("Protection.Construct.Anti-Place.Bypass", true);
+            Config.set("Protection.Construct.Anti-Place.Message", true);
+            Config.set("Protection.Construct.Anti-Place.WorldGuard.Enable", false);
+            Config.set("Protection.Construct.Anti-Place.WorldGuard.Method", "BLACKLIST");
+            Config.set("Protection.Construct.Anti-Place.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            Config.set("Protection.Construct.Anti-Place.World.All_World", false);
             Config.set("Protection.Construct.Anti-Place.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
             
-            Config.set("Protection.Construct.Anti-Break.Enable", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Break.Bypass", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Break.Message", Boolean.valueOf(true));
-            Config.set("Protection.Construct.Anti-Break.World.All_World", Boolean.valueOf(false));
+            Config.set("Protection.Construct.Anti-Break.Enable", true);
+            Config.set("Protection.Construct.Anti-Break.Bypass", true);
+            Config.set("Protection.Construct.Anti-Break.Message", true);
+            Config.set("Protection.Construct.Anti-Break.WorldGuard.Enable", false);
+            Config.set("Protection.Construct.Anti-Break.WorldGuard.Method", "WHITELIST");
+            Config.set("Protection.Construct.Anti-Break.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            Config.set("Protection.Construct.Anti-Break.World.All_World", false);
             Config.set("Protection.Construct.Anti-Break.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
             }));
             
-            Config.set("Protection.HagingBreakByEntity.Enable", Boolean.valueOf(true));
-            Config.set("Protection.HagingBreakByEntity.Bypass", Boolean.valueOf(true));
-            Config.set("Protection.HagingBreakByEntity.World.All_World", Boolean.valueOf(false));
+            Config.set("Protection.HagingBreakByEntity.Enable", true);
+            Config.set("Protection.HagingBreakByEntity.Bypass", true);
+            Config.set("Protection.HagingBreakByEntity.WorldGuard.Enable", false);
+            Config.set("Protection.HagingBreakByEntity.WorldGuard.Method", "WHITELIST");
+            Config.set("Protection.HagingBreakByEntity.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            Config.set("Protection.HagingBreakByEntity.World.All_World", false);
             Config.set("Protection.HagingBreakByEntity.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
-            Config.set("Protection.PlayerInteractEntity-ItemFrame.Enable", Boolean.valueOf(true));
-            Config.set("Protection.PlayerInteractEntity-ItemFrame.Bypass", Boolean.valueOf(true));
-            Config.set("Protection.PlayerInteractEntity-ItemFrame.World.All_World", Boolean.valueOf(false));
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.Enable", true);
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.Bypass", true);
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Enable", false);
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Method", "WHITELIST");
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            Config.set("Protection.PlayerInteractEntity-ItemFrame.World.All_World", false);
             Config.set("Protection.PlayerInteractEntity-ItemFrame.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"

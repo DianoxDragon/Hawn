@@ -102,7 +102,41 @@ public class OnChatEvent implements Listener {
 					}
 				}
 				
+				for (String i : EmojiesUtility.sad_list) {
+					String emoji = "Sad";
+					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Use_Permission")) {
+							if (p.hasPermission("hawn.useemoji."+emoji)) {
+								if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+									original = original.replaceAll(i, EmojiesUtility.sad);
+								}
+			    			}
+			    		} else {
+			    			if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+		    					original = original.replaceAll(i, EmojiesUtility.sad);
+							}
+		    			}
+		    		}
+				}
+				
 				// ITEMS
+				for (String i : EmojiesUtility.email_list) {
+					String emoji = "Email";
+					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Use_Permission")) {
+							if (p.hasPermission("hawn.useemoji."+emoji)) {
+								if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+									original = original.replaceAll(i, EmojiesUtility.email);
+								}
+			    			}
+			    		} else {
+			    			if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+		    					original = original.replaceAll(i, EmojiesUtility.email);
+							}
+		    			}
+		    		}
+				}
+				
 				for (String i : EmojiesUtility.swords_list) {
 					String emoji = "Swords";
 					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
@@ -150,6 +184,57 @@ public class OnChatEvent implements Listener {
 						} else {
 							if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
 								original = original.replaceAll(i, EmojiesUtility.airplane);
+							}
+						}
+					}
+				}
+				
+				for (String i : EmojiesUtility.radioactive_list) {
+					String emoji = "Radioactive";
+					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Use_Permission")) {
+							if (p.hasPermission("hawn.useemoji."+emoji)) {
+								if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+									original = original.replaceAll(i, EmojiesUtility.radioactive);
+								}
+							}
+						} else {
+							if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+								original = original.replaceAll(i, EmojiesUtility.radioactive);
+							}
+						}
+					}
+				}
+				
+				for (String i : EmojiesUtility.king_list) {
+					String emoji = "King";
+					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Use_Permission")) {
+							if (p.hasPermission("hawn.useemoji."+emoji)) {
+								if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+									original = original.replaceAll(i, EmojiesUtility.king);
+								}
+							}
+						} else {
+							if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+								original = original.replaceAll(i, EmojiesUtility.king);
+							}
+						}
+					}
+				}
+				
+				for (String i : EmojiesUtility.scales_list) {
+					String emoji = "Scales";
+					if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list."+emoji+".Use_Permission")) {
+							if (p.hasPermission("hawn.useemoji."+emoji)) {
+								if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+									original = original.replaceAll(i, EmojiesUtility.scales);
+								}
+							}
+						} else {
+							if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
+								original = original.replaceAll(i, EmojiesUtility.scales);
 							}
 						}
 					}

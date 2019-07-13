@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,6 +27,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import fr.Dianox.Hawn.Commands.HawnCommand;
 import fr.Dianox.Hawn.Commands.PanelAdminCommand;
@@ -142,54 +145,57 @@ import fr.Dianox.Hawn.Utility.World.WorldPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Main extends JavaPlugin implements Listener {
-	
+
 	private static Main instance;
-	
-	static String versions = "0.6.4-Alpha";
+
+	static String versions = "0.6.5-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
-	
+
 	static Connection connection;
 	private String host, database, username, password;
 	private int port;
 	static Statement statement;
 	public static boolean useyamllistplayer = false;
-	
+
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
     public static Integer autobroadcast_total = 0;
     public static int interval, curMsg = 0;
 	public Scoreboard board;
-	
+
 	public static HashMap<Player, PlayerBoard> boards = new HashMap<Player, PlayerBoard>();
 	public static List<PlayerBoard> allboards = new ArrayList<PlayerBoard>();
 	public HashMap<String, ScoreboardInfo> info = new HashMap<String, ScoreboardInfo>();
 	public HashMap<String, String> infoname = new HashMap<String, String>();
 	public HashMap<String, String> infoname2 = new HashMap<String, String>();
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
-	public static List<Player> nosb = new ArrayList<Player>(); 
-	
+	public static List<Player> nosb = new ArrayList<Player>();
+
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
-	public static List<Player> inwarpd = new ArrayList<Player>(); 
-	public static List<Player> inspawnd = new ArrayList<Player>(); 
-	
+	public static List<Player> inwarpd = new ArrayList<Player>();
+	public static List<Player> inspawnd = new ArrayList<Player>();
+
 	public String hea = "";
 	public String foo = "";
-	
+
     private static Class<?> PacketPlayOutPlayerListHeaderFooter;
     private static Class<?> ChatComponentText;
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
-    
+
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
+
+    WorldGuardPlugin worldGuard;
+    public Boolean worldGuard_recent_version = false;
     
-	@SuppressWarnings("static-access")
+    @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		
+
 		gcs(ChatColor.BLUE+"| ------------------------------------");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.AQUA+" _   _       ___   _          __  __   _  ");
 		gcs(ChatColor.BLUE+"| "+ChatColor.AQUA+"| | | |     /   | | |        / / |  \\ | |");
 		gcs(ChatColor.BLUE+"| "+ChatColor.AQUA+"| |_| |    / /| | | |  __   / /  |   \\| | ");
@@ -197,14 +203,14 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| "+ChatColor.AQUA+"| | | |  / /  | | | |/   |/ /    | | \\  | ");
 		gcs(ChatColor.BLUE+"| "+ChatColor.AQUA+"|_| |_| /_/   |_| |___/|___/     |_|  \\_| ");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Version "+versions+" - Created by Dianox");
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"May the "+ChatColor.RED+"Phoenix"+ChatColor.YELLOW+" fly with you!");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
-		
+
 		// Load config
 		ConfigSpawn.loadConfig((Plugin) this);
 		ConfigGeneral.loadConfig((Plugin) this);
@@ -213,12 +219,12 @@ public class Main extends JavaPlugin implements Listener {
 		AutoBroadcastConfig.loadConfig((Plugin) this);
 		BetweenServersConfig.loadConfig((Plugin) this);
 		CommandAliasesConfig.loadConfig((Plugin) this);
-		
+
 		OtherFeaturesConfig.loadConfig((Plugin) this);
 		WorldEventConfig.loadConfig((Plugin) this);
-		
+
 		ConfigGProtection.loadConfig((Plugin) this);
-		
+
 		VoidTPConfig.loadConfig((Plugin) this);
 		ProtectionPlayerConfig.loadConfig((Plugin) this);
 		PlayerEventsConfig.loadConfig((Plugin) this);
@@ -229,14 +235,14 @@ public class Main extends JavaPlugin implements Listener {
 		FlyCommandConfig.loadConfig((Plugin) this);
 		OnChatConfig.loadConfig((Plugin) this);
 		PlayerWorldChangeConfigE.loadConfig((Plugin) this);
-		
+
 		ConfigMGeneral.loadConfig((Plugin) this);
 		ConfigMEvents.loadConfig((Plugin) this);
 		ConfigMProtection.loadConfig((Plugin) this);
 		ConfigMOStuff.loadConfig((Plugin) this);
 		ConfigMCommands.loadConfig((Plugin) this);
 		ConfigMPlayerOption.loadConfig((Plugin) this);
-		
+
 		HelpCommandConfig.loadConfig((Plugin) this);
 		ClearChatCommandConfig.loadConfig((Plugin) this);
 		SpawnCommandConfig.loadConfig((Plugin) this);
@@ -255,57 +261,57 @@ public class Main extends JavaPlugin implements Listener {
 		ScoreboardCommandConfig.loadConfig((Plugin) this);
 		GamemodeCommandConfig.loadConfig((Plugin) this);
 		OptionPlayerConfigCommand.loadConfig((Plugin) this);
-		
+
 		ConfigGCos.loadConfig((Plugin) this);
 		ConfigGLP.loadConfig((Plugin) this);
 		ConfigFDoubleJump.loadConfig((Plugin) this);
-		
+
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
-		
+
 		CustomCommandConfig.loadConfig((Plugin) this);
-		
+
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
-		
+
 		if (!ScoreboardMainConfig.getConfig().isSet("DefaultConfigGenerated")) {
 			defaultscoreboardconfig.loadConfig((Plugin) this);
 			worldnetherdsc.loadConfig((Plugin) this);
-			
+
 			ScoreboardMainConfig.getConfig().set("DefaultConfigGenerated", Boolean.valueOf(true));
 			ScoreboardMainConfig.saveConfigFile();
 		}
-		
+
 		InfoServerOverviewC.loadConfig((Plugin) this);
 		ErrorConfigAM.loadConfig((Plugin) this);
 		OtherAMConfig.loadConfig((Plugin) this);
 		SpawnMConfig.loadConfig((Plugin) this);
-		
+
 		instance = this;
-		
+
 		GetSetWorld();
-		
+
 		CheckConfig.Check();
-				
+
 		HawnCommand.configlist();
-		
+
 		TXTmsg.onCreateInfoMsgAdmin();
 		TXTmsg.onWrite();
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		// Commands
 		getCommand("hawn").setExecutor(new HawnCommand());
 		getCommand("paneladmin").setExecutor(new PanelAdminCommand());
-		
+
 		Field bukkitCommandMap;
-		
+
 		try {
 			bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-			
+
 			bukkitCommandMap.setAccessible(true);
 			CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
-			
+
 			/* ------------------ *
 			 * BROADCAST COMMANDS *
 			 * ------------------ */
@@ -327,7 +333,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * CHAT COMMANDS *
 			 * ------------- */
@@ -358,7 +364,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------------------ *
 			 * CLEAR INVENTORY COMMANDS *
 			 * ------------------------ */
@@ -371,7 +377,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* --------------- *
 			 * EMOJIS COMMANDS *
 			 * --------------- */
@@ -384,7 +390,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------ *
 			 * FLY COMMANDS *
 			 * ------------ */
@@ -397,7 +403,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * HEAL COMMANDS *
 			 * ------------- */
@@ -410,7 +416,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * HELP COMMANDS *
 			 * ------------- */
@@ -423,7 +429,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ----------------- *
 			 * GAMEMODE COMMANDS *
 			 * ----------------- */
@@ -472,7 +478,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------------- *
 			 * SCOREBOARD COMMANDS *
 			 * ------------------- */
@@ -485,7 +491,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * PING COMMANDS *
 			 * ------------- */
@@ -498,7 +504,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ---------------------- *
 			 * PLAYER OPTION COMMANDS *
 			 * ---------------------- */
@@ -511,7 +517,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* -------------- *
 			 * SPAWN COMMANDS *
 			 * -------------- */
@@ -524,7 +530,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * TIME COMMANDS *
 			 * ------------- */
@@ -546,7 +552,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* --------------- *
 			 * VANISH COMMANDS *
 			 * --------------- */
@@ -559,7 +565,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ------------- *
 			 * WARP COMMANDS *
 			 * ------------- */
@@ -599,7 +605,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
+
 			/* ---------------- *
 			 * WEATHER COMMANDS *
 			 * ---------------- */
@@ -630,31 +636,31 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			
-			
+
+
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Commands loaded");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		new Manager(this).registerEvents();
-		
+
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		// MYSQL
-		
+
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {
 			host = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Host");
 	        port = ConfigGeneral.getConfig().getInt("Plugin.Use.MYSQL.Port");
 	        database = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Database");
 	        username = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Username");
 	        password = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Password");
-				        
+
 	        BukkitRunnable r = new BukkitRunnable() {
 	            @Override
 	            public void run() {
@@ -671,54 +677,103 @@ public class Main extends JavaPlugin implements Listener {
 	                }
 	            }
 	        };
-	        
+
 	        r.runTaskAsynchronously(this);
 		} else {
 			useyamllistplayer = true;
 		}
-		        		
-		// Keep option p
-		if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
-			if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
-				gcs(ChatColor.BLUE+"| ");
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(true));
+
+		// Keep option placeholderAPI
+
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					Bukkit.getPluginManager().registerEvents(this, this);
+				}
+			} else {
+				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", true);
 				ConfigGeneral.saveConfigFile();
 				Bukkit.getPluginManager().registerEvents(this, this);
-			} else {
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(false));
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", false);
 				ConfigGeneral.saveConfigFile();
 			}
 		}
-		
+
+		// Keep option Worldguard
+		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+					
+					try {
+						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
+						Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
+						getInstanceMethod.invoke(null);
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
+						worldGuard_recent_version = true;
+					} catch (Exception e) {
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
+						worldGuard_recent_version = false;
+					}
+				}
+			} else {
+				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
+				ConfigGeneral.saveConfigFile();
+				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+				
+				try {
+					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
+					Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
+					getInstanceMethod.invoke(null);
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
+					worldGuard_recent_version = true;
+				} catch (Exception e) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
+					worldGuard_recent_version = false;
+				}
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
+				ConfigGeneral.saveConfigFile();
+			}
+		}
+
+		gcs(ChatColor.BLUE+"| ");
+
 		// check
 		UpdateCheck();
 		VersionUtils.onGetServerVersiononLoad();
-						
+
 		OnJoin.player_list.clear();
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
 			OnJoin.player_list.add(p);
 		}
 		FlyCommand.player_list_flyc.clear();
 		FunFeatures.player_list_dbenable.clear();
-		
+
 		// Materials
 		if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
 			MaterialMethod = "true";
 		} else {
 			MaterialMethod = "false";
 		}
-				
+
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
-		
+
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Tps.Warn-system")) {
 			WarnTPS.runWarnSystemTask(this);
 		}
-		
+
 		/*if (NameTagConfig.getConfig().getBoolean("nametag-general.enable")) {
 			Tablist.ScoreboardManager();
 		}*/
-		
+
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
 			if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
 				if (FlyCommand.player_list_flyc.contains(p)) {
@@ -728,45 +783,45 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 		}
-		
+
 		EmojiesUtility.setaliaseslist();
-		
+
 		nmsver = Bukkit.getServer().getClass().getPackage().getName();
 	    nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
-	    
+
 	    if (nmsver.equalsIgnoreCase("v1_8_R1")) {
 	      useOldMethods = true;
 	    }
-	    
+
 	    player_spawnwarpdelay.clear();
-	    
+
 	    // Auto broadcast
 	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Enable")) {
-	    	
+
 	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Interval");
-	    	
+
 		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("messages").getKeys(false).iterator();
-		    
+
 		    Integer abnumberput = 0;
-		    
+
 		    while (iterator2.hasNext()) {
 				String string = (String)iterator2.next();
 				autobroadcast.put(abnumberput, string);
 				abnumberput++;
 				autobroadcast_total++;
 		    }
-		    
+
 		    autobroadcast_total--;
-		    
+
 		    @SuppressWarnings("unused")
 			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Interval") * 20);
 	    }
-	    
-		
+
+
 	    // Scoreboard
 	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
-		    
+
 		    /*File[] listOfFiles = folder.listFiles();
 
 		    for (int i = 0; i < listOfFiles.length; i++) {
@@ -776,30 +831,30 @@ public class Main extends JavaPlugin implements Listener {
 		    		System.out.println("Directory " + listOfFiles[i].getName());
 		    	}
 		    }*/
-		    
+
 		    loadScoreboards(folder);
-		    
+
 		    for (Player p : Bukkit.getOnlinePlayers()) {
 	            playerWorldTimer.put(p, System.currentTimeMillis() + 5000);
 		    }
-		    
+
 		    new BukkitRunnable() {
 	            @Override
 	            public void run() {
 	                for (Player player : playerWorldTimer.keySet()) {
 	                	if (!nosb.contains(player)) {
 		                    long time = playerWorldTimer.get(player);
-	
+
 		                    if (time < System.currentTimeMillis())
 		                        continue;
-	
+
 		                    createDefaultScoreboard(player);
 	                	}
 	                }
 	            }
 		    }.runTaskTimer(this, 0, 20);
 	    }
-	    
+
 	    // Tablist
 	    if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
 		    this.PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
@@ -809,52 +864,52 @@ public class Main extends JavaPlugin implements Listener {
 				e1.printStackTrace();
 			}
 		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
-		    
+
 		    if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
 		    	hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
-		    	
+
 		    	hea = hea.substring(1, hea.length() - 1).replaceAll(", ", "\n");
 		    	hea = hea.replaceAll("&", "§");
 		    }
-		    
+
 		    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
 		    	foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
-		    	
+
 		    	foo = foo.substring(1, foo.length() - 1).replaceAll(", ", "\n");
 		    	foo = foo.replaceAll("&", "§");
 		    }
 
 		    new BukkitRunnable() {
-				
+
 				@Override
 				public void run() {
-					
+
 					try {
 						for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-							
+
 							String hea2 = "";
 							String foo2 = "";
 							Object packet = null;
-							
+
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								hea2 = PlaceholderAPI.setPlaceholders(p, hea);
 								foo2 = PlaceholderAPI.setPlaceholders(p, foo);
 							}
 							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
 							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
-							
+
 							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
 							Object header = constructor.newInstance(hea2);
 							Object footer = constructor.newInstance(foo2);
-							
+
 							try {
 								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("a");
 								a.setAccessible(true);
 								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("b");
 								b.setAccessible(true);
-								
+
 								packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
-								
+
 								a.set(packet, header);
 								b.set(packet, footer);
 							} catch (Exception e) {
@@ -862,38 +917,38 @@ public class Main extends JavaPlugin implements Listener {
 								a.setAccessible(true);
 								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("footer");
 								b.setAccessible(true);
-								
+
 								try {
 									packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
 								} catch (InstantiationException | InvocationTargetException e1) {
 									e1.printStackTrace();
 								}
-								
+
 								a.set(packet, header);
 								b.set(packet, footer);
 							}
-							
+
 							TitleUtils.sendPacket(p, packet);
 						}
-					} catch (IllegalAccessException | NoSuchFieldException | SecurityException | 
+					} catch (IllegalAccessException | NoSuchFieldException | SecurityException |
 							IllegalArgumentException | InstantiationException | InvocationTargetException e) {
 						e.printStackTrace();
 					}
 				}
 			}.runTaskTimer(this, 20L, 20);
 	    }
-	    
+
 	    buildbypasscommand.clear();
-	    
+
 	    // Variable set
-	    
+
 	    OtherUtils.totalMemory();
 	    OtherUtils.totalDisk();
 	    OtherUtils.getOperatingSystem();
 	    OtherUtils.javaver = String.valueOf(OtherUtils.getJavaVersion());
-	    
+
 	    new BukkitRunnable() {
-	    	
+
 	    	@Override
 			public void run() {
 	    		OtherUtils.getMemoryUsageBar();
@@ -904,23 +959,23 @@ public class Main extends JavaPlugin implements Listener {
 	    		OtherUtils.freeDisk();
 	    		OtherUtils.usableDisk();
 	    	}
-	    	
+
 	    }.runTaskTimer(this, 0, 60);
-	    
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		// Check version
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on "+VersionUtils.getVersionS());
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		// Warning
 		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly, or make a double jump");
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
 			gcs(ChatColor.YELLOW+"| ");
 		}
-		
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.DARK_RED+"License:"+ChatColor.RESET);
 		gcs(ChatColor.BLUE+"| ");
 		gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"YOU CAN:");
@@ -932,47 +987,47 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Claim the plugin \"hawn\" as your property");
 		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Use it for commercial purposes");
 		gcs(ChatColor.BLUE+"| ");
-		
+
 		gcs(ChatColor.BLUE+"| ------------------------------------");
 		gcs(ChatColor.BLUE+"| ");
 		gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Hawn ready !");
 		gcs(ChatColor.BLUE+"| ");
 	}
-	
+
 	@Override
 	public void onDisable() {
 		super.onDisable();
-		
+
 		// Tablist.disable();
-		
+
 		fileconfiglist.clear();
-		
+
 		for (Player p : Bukkit.getOnlinePlayers()) {
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
-		
+
 		gcs(ChatColor.RED+"Hawn - Good bye");
 	}
-	
+
 	public static Main getInstance() {
 		return instance;
 	}
-	
+
 	public static String getVersion() {
 		return versions;
 	}
-	
+
 	private static void gcs(String str) {
 		Bukkit.getConsoleSender().sendMessage(str);
 	}
-	
+
 	public static String getVersionUpdate() {
-		
+
 		UpdateCheckReload();
-		
+
 		return UpToDate;
 	}
-	
+
 	public static void UpdateCheck() {
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
 			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
@@ -992,7 +1047,7 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 	}
-	
+
 	public static void UpdateCheckReload() {
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
 			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
@@ -1008,34 +1063,34 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 	}
-	
+
 	public void loadScoreboards(File fo) {
 		if (fo.listFiles() == null) {
 			return;
 		}
-		
+
 		if (fo.listFiles().length <= 0) {
 	    	return;
 		}
-		
+
 		for (File f : fo.listFiles()) {
 			if (f.getName().endsWith(".yml")) {
 				String perm = "hawn.scoreboard." + f.getName().replace(".yml", "");
 				String filename = f.getName().replace(".yml", "");
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-				fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo info = new fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo(cfg, perm);
+				ScoreboardInfo info = new ScoreboardInfo(cfg, perm);
 				this.infoname.put(filename, perm);
 				this.infoname2.put(perm, filename);
 				this.info.put(perm, info);
 				gcs(ChatColor.BLUE+"| "+ChatColor.GRAY+"Loaded the scoreboard : " + ChatColor.GREEN + f.getName() + ChatColor.GRAY +" with the permission : " + ChatColor.GREEN + perm);
 			} else {
 				gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"The file : "+ f.getName() + "is not accepted. Accepted only '.yml' files (YAML)");
-			} 
-		} 
+			}
+		}
 	}
-	
+
 	public void createDefaultScoreboard(Player player) {
-		
+
 		if (nosb.contains(player)) {
 			return;
 		}
@@ -1073,32 +1128,32 @@ public class Main extends JavaPlugin implements Listener {
 	        }
 		}
 	}
-	
+
 	public static String getYmlaMysqlsb(Player p, String option) {
 		String value = "";
-		
+
 		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
 		PlayerConfig.saveConfigFile();
-		
+
 		if (Main.useyamllistplayer) {
 			if (option.equalsIgnoreCase("scoreboard")) {
 				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-					
+
 		            PlayerConfig.saveConfigFile();
 		        }
-				
+
 				value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
 			} else if (option.equalsIgnoreCase("keepsb")) {
-				
+
 				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-					
+
 		            PlayerConfig.saveConfigFile();
 				}
-				
+
 				if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
 					value = "TRUE";
 				} else {
@@ -1109,62 +1164,62 @@ public class Main extends JavaPlugin implements Listener {
 			if (!SQL.tableExists("player_option_keep_sb")) {
 				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
 			}
-			
+
 			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
 				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
 					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-					
+
 		            PlayerConfig.saveConfigFile();
 				}
-				
+
 				if (option.equalsIgnoreCase("scoreboard")) {
 					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Scoreboard", "" + p.getUniqueId() + ""));
 				} else if (option.equalsIgnoreCase("keepsb")) {
 					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Activate", "" + p.getUniqueId() + ""));
 				}
-				SQL.set("player_option_pv", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+				SQL.set("player_option_keep_sb", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
 			} else {
 				if (option.equalsIgnoreCase("scoreboard")) {
 					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
 						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
 						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-						
+
 			            PlayerConfig.saveConfigFile();
 					}
-					
-					if (PlayerConfig.getConfig().getBoolean("player_option_pv."+p.getUniqueId()+".Activate"))  {
+
+					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+PlayerConfig.getConfig().getString("player_option_pv."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_pv");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
 					} else {
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+PlayerConfig.getConfig().getString("player_option_pv."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_pv");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
 					}
-					value = PlayerConfig.getConfig().getString("player_option_pv."+p.getUniqueId()+".Scoreboard");
+					value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
 				} else if (option.equalsIgnoreCase("keepsb")) {
 					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
 						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
 						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-						
+
 			            PlayerConfig.saveConfigFile();
 					}
-					
-					if (PlayerConfig.getConfig().getBoolean("player_option_pv."+p.getUniqueId()+".Activate"))  {
+
+					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
 						value = "TRUE";
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_pv."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_pv");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
 					} else {
 						value = "FALSE";
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_pv."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_pv");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
 					}
 				}
 			}
 		}
-		
+
 		return value;
 	}
-	
+
 	public void saveSBmysqlyaml(Player p, String sb, String boolea) {
 		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
 		if (boolea.equalsIgnoreCase("FALSE")) {
@@ -1173,14 +1228,14 @@ public class Main extends JavaPlugin implements Listener {
 			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
 		}
 		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(sb));
-		
+
 		PlayerConfig.saveConfigFile();
-		
+
 		if (!Main.useyamllistplayer) {
 			if (!SQL.tableExists("player_option_keep_sb")) {
 				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
 			}
-			
+
 			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
 				SQL.set("player_option_keep_sb", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
 				SQL.set("player_option_keep_sb", "Scoreboard", ""+sb+"", "player_UUID", "" + p.getUniqueId() + "");
@@ -1191,21 +1246,21 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("static-access")
 	public HashMap<Player, PlayerBoard> getBoards() {
 		return this.boards;
 	}
-	  
+
 	@SuppressWarnings("static-access")
 	public List<PlayerBoard> getAllboards() {
 		return this.allboards;
 	}
-	  
+
 	public HashMap<String, ScoreboardInfo> getInfo() {
-		return this.info; 
+		return this.info;
 	}
-	  
+
 	@SuppressWarnings("static-access")
 	public HashMap<Player, Long> getPlayerWorldTimer() {
 		return this.playerWorldTimer;
@@ -1270,18 +1325,18 @@ public class Main extends JavaPlugin implements Listener {
 		ChangeWorldPW.setWGetWorldGamemodeChangeWorld();
 		CjiPW.setItemPlayerVisibility();
 	}
-	
-	
+
+
 	// MYSQL
 	public void openConnection() throws SQLException, ClassNotFoundException {
 	    if (connection != null && !connection.isClosed()) {
 	        return;
 	    }
-	 
+
 	    if (host == null || username == null || password == null || database == null) {
 	        return;
 	    }
-	    
+
 	    synchronized (this) {
 	        if (connection != null && !connection.isClosed()) {
 	            return;
@@ -1300,32 +1355,31 @@ public class Main extends JavaPlugin implements Listener {
 			}
 	    }
 	}
-	
+
 	public static void updateSQL(String command) {
 		if (command == null) {
 			return;
 		}
-		
+
 		try {
 			statement.executeUpdate(command);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static ResultSet querySQL(String command) {
 		if (command == null) {
 			return null;
 		}
-		
+
 		ResultSet rs = null;
-		
+
 		try {
 			rs = statement.executeQuery(command);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return rs;
 	}
 

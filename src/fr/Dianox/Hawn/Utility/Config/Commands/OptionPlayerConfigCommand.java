@@ -53,9 +53,10 @@ public class OptionPlayerConfigCommand {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("PlayerOption.Enable", Boolean.valueOf(true));
-            Config.set("PlayerOption.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("PlayerOption.Enable", true);
+            Config.set("PlayerOption.Disable-Message", true);
+            Config.set("PlayerOption.Option.Jumpboost.Value", 2);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

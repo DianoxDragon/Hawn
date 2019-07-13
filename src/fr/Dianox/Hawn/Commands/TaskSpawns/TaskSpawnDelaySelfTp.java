@@ -16,54 +16,80 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 	private Player p;
 	
 	public TaskSpawnDelaySelfTp(Player p) {
+		/*
+		 * Main class to catch the variables
+		 */
         this.p = p;
 	}
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) { //If the player isn't online or doesn't exist, cancel everything
+		if (p == null || !p.isOnline()) {
+			/*
+			 * If the player is null or not online
+			 * Cancel the task and stop the execution of the class
+			 */
             p = null;
             cancel(); //cancels the function
             return; //goes back to the start of the function
         }
 		
-		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.CustomSpawn.Enable")) { //if the custom spawn is enabled in the config
-			if (SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn").contentEquals("CHANGE ME")) { //checks if it contains the default value
-				p.sendMessage("You have to change the spawn on Commands.CustomSpawn.Spawn on Events/OnJoin.yml"); //tells you to change the value in the config
+		/*
+		 * Then execute the code
+		 */
+		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.CustomSpawn.Enable")) {
+			// If the value of the config is CHANGE ME by default
+			if (SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
+				p.sendMessage("You have to change the spawn on Commands.CustomSpawn.Spawn on Events/OnJoin.yml");
 			} else {
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) { //if it doesn't match with the spawn
-					String Permission = "hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"); //this is the message it outputs on the next line
-					MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
-					return; //goes back to the start of the function
+				// If the spawn is not set
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
+					String Permission = "hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn");
+					MessageUtils.MessageNoPermission(p, Permission);
+					return;
 				}
-				if (!p.hasPermission("hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) { //if the player doesn't have the required permission
-					String Permission = "hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"); //this is the message it outputs on the next line
-					MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
-					return; //goes back to the start of the function
+				
+				// If player don't have the permission
+				if (!p.hasPermission("hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
+					String Permission = "hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn");
+					MessageUtils.MessageNoPermission(p, Permission);
+					return;
 				}
+				
+				// Teleport
 				SpawnUtils.teleportToSpawn(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
-				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) { //if the custom spawn is enabled in the config
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) { //outputs the message declared in the config file
+				
+				// Messages
+				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
+					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
 			}
 		} else {
-			if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) { //checks if it contains the default value
-				p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml"); //tells you to change the value in the config
+			if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+				// If the value of the config is CHANGE ME by default
+				p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
 			} else {
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) { //if it doesn't match with the spawn
-					MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
-					return; //goes back to the start of the function
+				// If the spawn is not set
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+					MessageUtils.MessageNoSpawn(p);
+					return;
 				}
-				if (!p.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) { //if the player doesn't have the required permission
-					String Permission = "hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"); //this is the message it outputs on the next line
-					MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
-					return; //goes back to the start of the function
+				
+				// If player don't have the permission
+				if (!p.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+					String Permission = "hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+					MessageUtils.MessageNoPermission(p, Permission);
+					return;
 				}
+				
+				// Teleport
 				SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
-				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) { //if it's enabled in the config
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) { //outputs the message declared in the config file
+				
+				// Messages
+				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
+					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}

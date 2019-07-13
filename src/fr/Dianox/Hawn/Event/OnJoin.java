@@ -30,6 +30,7 @@ import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.TitleUtils;
@@ -38,6 +39,7 @@ import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
@@ -488,11 +490,25 @@ public class OnJoin implements Listener {
 		                    int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
 		                    int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
 		                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+		                    if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
+			                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+									public void run() {
+										p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+									}
+								}, duration);
+		                    }
                 		}
                 	} else {
                 		int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
 	                    int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
 	                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+	                    if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
+		                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+								public void run() {
+									p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+								}
+							}, duration);
+	                    }
                 	}
                 }
             } else {
@@ -501,11 +517,25 @@ public class OnJoin implements Listener {
 	                    int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
 	                    int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
 	                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+	                    if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
+		                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+								public void run() {
+									p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+								}
+							}, duration);
+	                    }
             		}
             	} else {
             		int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
                     int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
                     p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+                    if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
+	                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+							public void run() {
+								p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+							}
+						}, duration);
+                    }
             	}
             }
         }

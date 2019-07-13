@@ -15,30 +15,47 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 	String tp;
 	
 	public TaskSpawnDelayOtherTp2(Player p, String tp, Player other) {
-        this.p = p; //I mean, this is pretty much self-explanatory
-        this.tp = tp; //I mean, this is pretty much self-explanatory
-        this.other = other; //I mean, this is pretty much self-explanatory
+		/*
+		 * Main class to catch the variables
+		 */
+        this.p = p;
+        this.tp = tp;
+        this.other = other;
 	}
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) {  //If the player isn't online or doesn't exist, cancel everything
+		if (p == null || !p.isOnline()) {
+			/*
+			 * If the player is null or not online
+			 * Cancel the task and stop the execution of the class
+			 */
             p = null;
             cancel(); //cancels the function
             return; //goes back to the start of the function
         }
 		
-		if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) { //if it doesn't match with the spawn
-			MessageUtils.MessageNoSpawn(p); //tells the player there is no spawn
-			return; //goes back to the start of the function
+		/*
+		 * Then execute the code
+		 */
+		// If the spawn is not set
+		if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
+			MessageUtils.MessageNoSpawn(p);
+			return;
 		}
-		if (!p.hasPermission("hawn.command.spawn."+tp)) { //if the player doesn't have the required permission
-			String Permission = "hawn.command.spawn."+tp; //this is the message it outputs on the next line
-			MessageUtils.MessageNoPermission(p, Permission); //tells the player it doesn't have the required permission
-			return; //goes back to the start of the function
+		
+		// If player don't have the permission
+		if (!p.hasPermission("hawn.command.spawn."+tp)) {
+			String Permission = "hawn.command.spawn."+tp;
+			MessageUtils.MessageNoPermission(p, Permission);
+			return;
 		}
+		
+		// Teleport
 		SpawnUtils.teleportToSpawn(other, tp);
-		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) { //outputs the message declared in the config file
+		
+		// Messages
+		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 			MessageUtils.ReplaceCharMessagePlayer(msg, p);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
