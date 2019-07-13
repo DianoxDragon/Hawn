@@ -15,6 +15,9 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 	String tp;
 	
 	public TaskSpawnDelayOtherTp2(Player p, String tp, Player other) {
+		/*
+		 * Main class to catch the variables
+		 */
         this.p = p;
         this.tp = tp;
         this.other = other;
@@ -23,21 +26,35 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 	@Override
 	public void run() {
 		if (p == null || !p.isOnline()) {
+			/*
+			 * If the player is null or not online
+			 * Cancel the task and stop the execution of the class
+			 */
             p = null;
             cancel();
             return;
         }
 		
+		/*
+		 * Then execute the code
+		 */
+		// If the spawn is not set
 		if (!ConfigSpawn.getConfig().isSet("Coordinated."+tp)) {
 			MessageUtils.MessageNoSpawn(p);
 			return;
 		}
+		
+		// If player don't have the permission
 		if (!p.hasPermission("hawn.command.spawn."+tp)) {
 			String Permission = "hawn.command.spawn."+tp;
 			MessageUtils.MessageNoPermission(p, Permission);
 			return;
 		}
+		
+		// Teleport
 		SpawnUtils.teleportToSpawn(other, tp);
+		
+		// Messages
 		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 			MessageUtils.ReplaceCharMessagePlayer(msg, p);
 		}
