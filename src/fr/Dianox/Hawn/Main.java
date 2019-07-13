@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -185,8 +186,9 @@ public class Main extends JavaPlugin implements Listener {
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
 
     WorldGuardPlugin worldGuard;
-
-	@SuppressWarnings("static-access")
+    public Boolean worldGuard_recent_version = false;
+    
+    @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
 		super.onEnable();
@@ -707,11 +709,33 @@ public class Main extends JavaPlugin implements Listener {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
 					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+					
+					try {
+						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
+						Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
+						getInstanceMethod.invoke(null);
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
+						worldGuard_recent_version = true;
+					} catch (Exception e) {
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
+						worldGuard_recent_version = false;
+					}
 				}
 			} else {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
 				ConfigGeneral.saveConfigFile();
 				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+				
+				try {
+					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
+					Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
+					getInstanceMethod.invoke(null);
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
+					worldGuard_recent_version = true;
+				} catch (Exception e) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
+					worldGuard_recent_version = false;
+				}
 			}
 		} else {
 			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
