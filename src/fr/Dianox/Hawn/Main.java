@@ -148,7 +148,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.5-Alpha";
+	static String versions = "0.6.6-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -702,6 +702,28 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.saveConfigFile();
 			}
 		}
+		
+		// Keep option MVdWPlaceholderAPI
+
+				if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
+					gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
+					gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
+					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
+						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+							Bukkit.getPluginManager().registerEvents(this, this);
+						}
+					} else {
+						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", true);
+						ConfigGeneral.saveConfigFile();
+						Bukkit.getPluginManager().registerEvents(this, this);
+					}
+				} else {
+					if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
+						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
+						ConfigGeneral.saveConfigFile();
+					}
+				}
 
 		// Keep option Worldguard
 		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
