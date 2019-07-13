@@ -54,6 +54,66 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OnChatConfig.getConfig().isSet("PlayerOption.JumpBoost.Enable.Enable")) {
+			
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Use_Permission", true);
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Title", String.valueOf("&cSad"));
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Material", String.valueOf("PAPER"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Lore", java.util.Arrays.asList(new String[] {
+	                    " ",
+	                    "&bTo use this emoji : ☹",
+	                    "&bUse :fliptable: in the chat",
+	                    " "
+	                }));
+	            
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Enable", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Use_Permission", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Title", String.valueOf("&cScales"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Material", String.valueOf("OAK_PRESSURE_PLATE"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Lore", java.util.Arrays.asList(new String[] {
+	                    " ",
+	                    "&bTo use this emoji : ⚖",
+	                    "&bUse :fliptable: in the chat",
+	                    " "
+	                }));
+	            
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Enable", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Use_Permission", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Title", String.valueOf("&cRadioactive"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Material", String.valueOf("REDSTONE_TORCH"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Lore", java.util.Arrays.asList(new String[] {
+	                    " ",
+	                    "&bTo use this emoji : ☢",
+	                    "&bUse :fliptable: in the chat",
+	                    " "
+	                }));
+	            
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Enable", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Use_Permission", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Title", String.valueOf("&cKing"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Material", String.valueOf("GOLD_INGOT"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Lore", java.util.Arrays.asList(new String[] {
+	                    " ",
+	                    "&bTo use this emoji : ♕",
+	                    "&bUse :fliptable: in the chat",
+	                    " "
+	                }));
+	            
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Enable", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Use_Permission", true);
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Title", String.valueOf("&cEmail"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Material", String.valueOf("PAPER"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Lore", java.util.Arrays.asList(new String[] {
+	                    " ",
+	                    "&bTo use this emoji : ✉",
+	                    "&bUse :fliptable: in the chat",
+	                    " "
+	                }));
+			
+			OnChatConfig.saveConfigFile();
+		}
+		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.JumpBoost.Enable.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Enable", true);
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"&aYour jumpboost has been activated"}));
