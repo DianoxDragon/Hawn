@@ -54,6 +54,13 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+			ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
+			ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option", false);
+            
+			ConfigGeneral.saveConfigFile();
+		}
+		
 		if (!OnChatConfig.getConfig().isSet("PlayerOption.JumpBoost.Enable.Enable")) {
 			
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Enable", true);
