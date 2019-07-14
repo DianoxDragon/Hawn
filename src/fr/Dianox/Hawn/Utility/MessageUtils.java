@@ -11,7 +11,6 @@ import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
-import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -21,10 +20,6 @@ import net.md_5.bungee.chat.ComponentSerializer;
 public class MessageUtils {
 	
 	public static String ReplaceMainplaceholderP(String str, Player p) {
-		
-		if (str.contains("%prefix%")) {
-			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
-		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", p.getName());
@@ -122,10 +117,6 @@ public class MessageUtils {
 	}
 	
 	public static String ReplaceMainplaceholderC(String str) {
-		
-		if (str.contains("%prefix%")) {
-			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
-		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", "player name");
