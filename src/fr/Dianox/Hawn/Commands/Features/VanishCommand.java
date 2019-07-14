@@ -86,9 +86,11 @@ public class VanishCommand extends BukkitCommand {
 						Main.TaskVanishAB.remove(target);
 					}
 					
-					if (target.hasPermission("hawn.command.vanish.actionbar")) {
-						BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 100, 0);
-						Main.TaskVanishAB.put(target, task.getTaskId());
+					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
+						if (target.hasPermission("hawn.command.vanish.actionbar")) {
+							BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+							Main.TaskVanishAB.put(target, task.getTaskId());
+						}
 					}
 					
 					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
@@ -171,9 +173,11 @@ public class VanishCommand extends BukkitCommand {
 								Main.TaskVanishAB.remove(p);
 							}
 							
-							if (p.hasPermission("hawn.command.vanish.actionbar")) {
-								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 100, 0);
-								Main.TaskVanishAB.put(p, task.getTaskId());
+							if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
+								if (p.hasPermission("hawn.command.vanish.actionbar")) {
+									BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+									Main.TaskVanishAB.put(p, task.getTaskId());
+								}
 							}
 							
 							if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
@@ -234,9 +238,11 @@ public class VanishCommand extends BukkitCommand {
 									Main.TaskVanishAB.remove(target);
 								}
 								
-								if (target.hasPermission("hawn.command.vanish.actionbar")) {
-									BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 100, 0);
-									Main.TaskVanishAB.put(target, task.getTaskId());
+								if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+									if (target.hasPermission("hawn.command.vanish.actionbar")) {
+										BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+										Main.TaskVanishAB.put(target, task.getTaskId());
+									}
 								}
 								
 								if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
