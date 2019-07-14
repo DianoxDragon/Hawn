@@ -148,7 +148,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.6-Alpha";
+	static String versions = "0.6.7-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -171,7 +171,8 @@ public class Main extends JavaPlugin implements Listener {
 	public HashMap<String, String> infoname2 = new HashMap<String, String>();
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
 	public static List<Player> nosb = new ArrayList<Player>();
-
+	public static boolean newmethodver = false;
+	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
 	public static List<Player> inwarpd = new ArrayList<Player>();
 	public static List<Player> inspawnd = new ArrayList<Player>();
@@ -842,6 +843,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	    // Scoreboard
 	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
+	    	
+	    	if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")) {
+	        	newmethodver = true;
+	        }
+	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
 
 		    /*File[] listOfFiles = folder.listFiles();
