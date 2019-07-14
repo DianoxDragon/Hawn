@@ -54,6 +54,14 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar-If-Vanished")) {
+			VanishCommandConfig.getConfig().set("Vanish.Action-Bar-If-Vanished", true);
+			ConfigMCommands.getConfig().set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aYou are vanished"}));
+			
+			VanishCommandConfig.saveConfigFile();
+			ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!ConfigMGeneral.getConfig().isSet("General.Prefix")) {
 			ConfigMGeneral.getConfig().set("General.Prefix", " &3Hawn &7|");
 			
