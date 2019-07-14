@@ -189,6 +189,8 @@ public class Main extends JavaPlugin implements Listener {
 
     public static HashMap<Player, Long> hiderCooldowns = new HashMap<Player, Long>();
     
+    public static HashMap<Player, Integer> TaskVanishAB = new HashMap<Player, Integer>();
+    
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
@@ -778,8 +780,11 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.saveConfigFile();
 			}
 		}
-
-		gcs(ChatColor.BLUE+"| ");
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||
+				ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			gcs(ChatColor.BLUE+"| ");
+		}
 
 		// check
 		UpdateCheck();
