@@ -68,6 +68,7 @@ import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.OtherUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
@@ -1127,10 +1128,10 @@ public class Main extends JavaPlugin implements Listener {
 		if (nosb.contains(player)) {
 			return;
 		}
-		String bool = getYmlaMysqlsb(player, "keepsb");
+		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(player, "keepsb");
 
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
-			String sb = getYmlaMysqlsb(player, "scoreboard");
+			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player)) {
 				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
 				((PlayerBoard)boards.get(player)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
@@ -1145,138 +1146,20 @@ public class Main extends JavaPlugin implements Listener {
 	                    if (boards.containsKey(player)) {
 	                        if (boards.get(player).getList().equals(in.getText())) {
 	                            player.setScoreboard(boards.get(player).getBoard());
-	                            saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
 	                        boards.get(player).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
-	                        saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player, info.get(s));
-	                        saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
-	                    saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    return;
 	                }
 	            }
 	        }
-		}
-	}
-
-	public static String getYmlaMysqlsb(Player p, String option) {
-		String value = "";
-
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-
-		if (Main.useyamllistplayer) {
-			if (option.equalsIgnoreCase("scoreboard")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-		        }
-
-				value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
-			} else if (option.equalsIgnoreCase("keepsb")) {
-
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-				}
-
-				if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-					value = "TRUE";
-				} else {
-					value = "FALSE";
-				}
-			}
-		} else {
-			if (!SQL.tableExists("player_option_keep_sb")) {
-				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
-			}
-
-			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-				}
-
-				if (option.equalsIgnoreCase("scoreboard")) {
-					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Scoreboard", "" + p.getUniqueId() + ""));
-				} else if (option.equalsIgnoreCase("keepsb")) {
-					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Activate", "" + p.getUniqueId() + ""));
-				}
-				SQL.set("player_option_keep_sb", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-			} else {
-				if (option.equalsIgnoreCase("scoreboard")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					} else {
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					}
-					value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
-				} else if (option.equalsIgnoreCase("keepsb")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-						value = "TRUE";
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					} else {
-						value = "FALSE";
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					}
-				}
-			}
-		}
-
-		return value;
-	}
-
-	public void saveSBmysqlyaml(Player p, String sb, String boolea) {
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		if (boolea.equalsIgnoreCase("FALSE")) {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-		} else {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-		}
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(sb));
-
-		PlayerConfig.saveConfigFile();
-
-		if (!Main.useyamllistplayer) {
-			if (!SQL.tableExists("player_option_keep_sb")) {
-				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
-			}
-
-			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
-				SQL.set("player_option_keep_sb", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
-				SQL.set("player_option_keep_sb", "Scoreboard", ""+sb+"", "player_UUID", "" + p.getUniqueId() + "");
-				SQL.set("player_option_keep_sb", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
-			} else {
-				SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "', '"+sb+"' ", "player_option_keep_sb");
-			}
 		}
 	}
 
