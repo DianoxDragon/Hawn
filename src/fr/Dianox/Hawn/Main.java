@@ -687,12 +687,13 @@ public class Main extends JavaPlugin implements Listener {
 		// Keep option placeholderAPI
 
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 					Bukkit.getPluginManager().registerEvents(this, this);
 				}
 			} else {
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", true);
 				ConfigGeneral.saveConfigFile();
 				Bukkit.getPluginManager().registerEvents(this, this);
@@ -707,14 +708,17 @@ public class Main extends JavaPlugin implements Listener {
 		// Keep option MVdWPlaceholderAPI
 
 				if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
-					gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
-					gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
 						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+							gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
+							gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
+							gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 							Bukkit.getPluginManager().registerEvents(this, this);
 						}
 					} else {
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
+						gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
+						gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", true);
 						ConfigGeneral.saveConfigFile();
 						Bukkit.getPluginManager().registerEvents(this, this);
@@ -728,11 +732,10 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Keep option Worldguard
 		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
 					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-					
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 					try {
 						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
 						Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
@@ -748,7 +751,7 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
 				ConfigGeneral.saveConfigFile();
 				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-				
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 				try {
 					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
 					Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
