@@ -45,7 +45,6 @@ public class PlayerBoard {
     private HashMap<String, Integer> chanTextInt = new HashMap<>();
     private HashMap<String, String> scrollerText = new HashMap<>();
     private List<Integer> tasks = new ArrayList<>();
-    private boolean ver13 = false;
 
     private int index = 15;
     private int titleindex = 0;
@@ -92,7 +91,7 @@ public class PlayerBoard {
         if (plugin.getBoards().containsKey(getPlayer())) {
             plugin.getBoards().get(getPlayer()).remove();
         }
-        ver13 = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("13");
+
         colorize();
         titleindex = event.getTitle().size();
         plugin.getBoards().put(getPlayer(), this);
@@ -213,8 +212,9 @@ public class PlayerBoard {
     }
 
     public int getMaxSize() {
-        if (ver13)
-            return 64;
+        if (Main.newmethodver) {
+        	return 64;
+        }
         return 16;
     }
 
@@ -225,13 +225,14 @@ public class PlayerBoard {
         if (titleindex > (title.size() - 1)) {
             titleindex = 0;
         }
-        score.setDisplayName(maxChars(ver13 ? 128 : 32, setHolders(title.get(titleindex))));
+        score.setDisplayName(maxChars(Main.newmethodver ? 128 : 32, setHolders(title.get(titleindex))));
         titleindex++;
     }
 
     public String maxChars(int characters, String string) {
-        if (ChatColor.translateAlternateColorCodes('&', string).length() > characters)
-            return string.substring(0, characters);
+        if (ChatColor.translateAlternateColorCodes('&', string).length() > characters) {
+        	return string.substring(0, characters);
+        }
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
