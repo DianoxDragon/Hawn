@@ -56,7 +56,7 @@ public class VanishCommandConfig {
 
             Config.set("Vanish.Enable", true);
             Config.set("Vanish.Disable-Message", true);
-            Config.set("Action-Bar-If-Vanished", true);
+            Config.set("Vanish.Action-Bar-If-Vanished", true);
             Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
