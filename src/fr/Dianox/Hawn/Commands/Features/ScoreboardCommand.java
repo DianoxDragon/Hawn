@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
@@ -97,9 +98,9 @@ public class ScoreboardCommand extends BukkitCommand {
 					}
 					
 					if (p.hasPermission("hawn.scoreboard-keep-scoreboard-change")) {
-						Main.getInstance().saveSBmysqlyaml(p, args[1], "TRUE");
+						PlayerOptionSQLClass.saveSBmysqlyaml(p, args[1], "TRUE");
 					} else {
-						Main.getInstance().saveSBmysqlyaml(p, args[1], "FALSE");
+						PlayerOptionSQLClass.saveSBmysqlyaml(p, args[1], "FALSE");
 					}
 					
 					Main.playerWorldTimer.remove(p);
@@ -126,12 +127,12 @@ public class ScoreboardCommand extends BukkitCommand {
 			} else if (args[0].equalsIgnoreCase("keep")) {
 				if (p.hasPermission("hawn.scoreboard-keep-scoreboard-change")) {
 					
-					String bool = Main.getYmlaMysqlsb(p, "keepsb");
+					String bool = PlayerOptionSQLClass.getYmlaMysqlsb(p, "keepsb");
 					
 					if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
-						String sb = Main.getYmlaMysqlsb(p, "scoreboard");
+						String sb = PlayerOptionSQLClass.getYmlaMysqlsb(p, "scoreboard");
 						
-						Main.getInstance().saveSBmysqlyaml(p, sb, "FALSE");
+						PlayerOptionSQLClass.saveSBmysqlyaml(p, sb, "FALSE");
 						
 						if (ConfigMCommands.getConfig().getBoolean("Scoreboard.Keep-Off.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Scoreboard.Keep-Off.Messages")) {
@@ -139,9 +140,9 @@ public class ScoreboardCommand extends BukkitCommand {
 							}
 						}
 					} else {
-						String sb = Main.getYmlaMysqlsb(p, "scoreboard");
+						String sb = PlayerOptionSQLClass.getYmlaMysqlsb(p, "scoreboard");
 						
-						Main.getInstance().saveSBmysqlyaml(p, sb, "TRUE");
+						PlayerOptionSQLClass.saveSBmysqlyaml(p, sb, "TRUE");
 						
 						if (ConfigMCommands.getConfig().getBoolean("Scoreboard.Keep-On.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Scoreboard.Keep-On.Messages")) {
