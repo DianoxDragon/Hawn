@@ -908,6 +908,8 @@ public class OnJoin implements Listener {
                 		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
                 			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
                 				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+                			} else {
+                				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
                 			}
                 		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
                 			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
@@ -922,6 +924,8 @@ public class OnJoin implements Listener {
                 			
                 			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
                 				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+                			} else {
+                				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
                 			}
                 		}
                 		
@@ -949,6 +953,8 @@ public class OnJoin implements Listener {
                              p.setWalkSpeed(0.2F);
                          }
                 	} else {
+                		PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+                		
                 		if (speedvaluepo == 1) {
                             p.setWalkSpeed(0.1F);
                         } else if (speedvaluepo == 2) {
@@ -975,10 +981,12 @@ public class OnJoin implements Listener {
                 	}
                 }
             } else {     
-            	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {            		
+            	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
             		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
             			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
             				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+            			} else {
+            				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
             			}
             		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
             			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
@@ -993,6 +1001,8 @@ public class OnJoin implements Listener {
             			
             			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
             				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+            			} else {
+            				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
             			}
             		}
             		
@@ -1020,6 +1030,8 @@ public class OnJoin implements Listener {
                          p.setWalkSpeed(0.2F);
                      }
             	} else {
+            		PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+            		
             		if (speedvaluepo == 1) {
                         p.setWalkSpeed(0.1F);
                     } else if (speedvaluepo == 2) {
