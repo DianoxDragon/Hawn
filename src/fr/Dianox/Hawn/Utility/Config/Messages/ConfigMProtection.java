@@ -53,8 +53,8 @@ public class ConfigMProtection {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"&cSorry, you can't place block here !"}));
-            Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"&cSorry, you can't break block here !"}));
+            Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't place block here!"}));
+            Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't break block here!"}));
             
             saveConfigFile();
 
