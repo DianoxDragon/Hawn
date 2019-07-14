@@ -86,7 +86,7 @@ public class VanishCommand extends BukkitCommand {
 						Main.TaskVanishAB.remove(target);
 					}
 					
-					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
+					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 						if (target.hasPermission("hawn.command.vanish.actionbar")) {
 							BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
 							Main.TaskVanishAB.put(target, task.getTaskId());
@@ -173,7 +173,7 @@ public class VanishCommand extends BukkitCommand {
 								Main.TaskVanishAB.remove(p);
 							}
 							
-							if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
+							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 								if (p.hasPermission("hawn.command.vanish.actionbar")) {
 									BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
 									Main.TaskVanishAB.put(p, task.getTaskId());
