@@ -18,12 +18,14 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
 import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.VanishCommand;
+import fr.Dianox.Hawn.Commands.Features.VanishTaskAB;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
@@ -795,6 +797,18 @@ public class OnJoin implements Listener {
 						}
 	    				VanishCommand.player_list_vanish.add(p);
 						
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+						
+						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+							if (p.hasPermission("hawn.command.vanish.actionbar")) {
+								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+								Main.TaskVanishAB.put(p, task.getTaskId());
+							}
+						}
+	    				
 						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
 			            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -809,6 +823,11 @@ public class OnJoin implements Listener {
 							}
 						}
 	    				VanishCommand.player_list_vanish.remove(p);
+	    				
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
 	    			}
 	        		
 	        		PlayerConfig.saveConfigFile();
@@ -834,6 +853,18 @@ public class OnJoin implements Listener {
 						}
 	    				VanishCommand.player_list_vanish.add(p);
 						
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+						
+						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+							if (p.hasPermission("hawn.command.vanish.actionbar")) {
+								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+								Main.TaskVanishAB.put(p, task.getTaskId());
+							}
+						}
+	    				
 						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
 			            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -847,6 +878,12 @@ public class OnJoin implements Listener {
 								all.showPlayer(p);
 							}
 						}
+	        			
+	        			if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+	        			
 	    				VanishCommand.player_list_vanish.remove(p);
 	        		}
 	        	}
@@ -860,6 +897,11 @@ public class OnJoin implements Listener {
      					} else {
      						p.showPlayer(all);
      					}
+                     	
+                     	if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
                      }
                 }
             }
@@ -875,6 +917,18 @@ public class OnJoin implements Listener {
  					} else {
  						p.hidePlayer(all);
  					}
+                 	
+                 	if (Main.TaskVanishAB.containsKey(p)) {
+						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+						Main.TaskVanishAB.remove(p);
+					}
+					
+					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+						if (p.hasPermission("hawn.command.vanish.actionbar")) {
+							BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+							Main.TaskVanishAB.put(p, task.getTaskId());
+						}
+					}
                  }
              }
 
