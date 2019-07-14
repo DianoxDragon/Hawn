@@ -675,9 +675,13 @@ public class Main extends JavaPlugin implements Listener {
 	                } catch (ClassNotFoundException e) {
 	                    e.printStackTrace();
 	                    useyamllistplayer = true;
+	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (ClassNotFoundException)");
+	        			gcs(ChatColor.BLUE+"| ");
 	                } catch (SQLException e) {
 	                    e.printStackTrace();
 	                    useyamllistplayer = true;
+	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (SQLException)");
+	        			gcs(ChatColor.BLUE+"| ");
 	                }
 	            }
 	        };
@@ -685,6 +689,8 @@ public class Main extends JavaPlugin implements Listener {
 	        r.runTaskAsynchronously(this);
 		} else {
 			useyamllistplayer = true;
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (MySQL not enabled)");
+			gcs(ChatColor.BLUE+"| ");
 		}
 
 		// Keep option placeholderAPI
@@ -1265,6 +1271,8 @@ public class Main extends JavaPlugin implements Listener {
 	        		connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database + "?useSSL=false", this.username, this.password);
 	        	}
 	        	useyamllistplayer = false;
+	        	gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use MySQL as method for information");
+    			gcs(ChatColor.BLUE+"| ");
 	        } catch (Exception e) {
 	        	Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Connect Error: " + e.getMessage());
 	        	useyamllistplayer = true;
