@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
@@ -53,6 +54,11 @@ public class VanishCommand extends BukkitCommand {
 					}
 					player_list_vanish.remove(target);
 					
+					if (Main.TaskVanishAB.containsKey(target)) {
+						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+						Main.TaskVanishAB.remove(target);
+					}
+					
 					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender-Disabled.Enable")) {
 						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender-Disabled.Messages")) {
 							msg = msg.replaceAll("%player%", "console").replaceAll("%target%", target.getName());
@@ -74,6 +80,16 @@ public class VanishCommand extends BukkitCommand {
 						}
 					}
 					player_list_vanish.add(target);
+					
+					if (Main.TaskVanishAB.containsKey(target)) {
+						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+						Main.TaskVanishAB.remove(target);
+					}
+					
+					if (target.hasPermission("hawn.command.vanish.actionbar")) {
+						BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 100, 0);
+						Main.TaskVanishAB.put(target, task.getTaskId());
+					}
 					
 					if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
 						for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender.Messages")) {
@@ -130,6 +146,11 @@ public class VanishCommand extends BukkitCommand {
 							}
 							player_list_vanish.remove(p);
 							
+							if (Main.TaskVanishAB.containsKey(p)) {
+								Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+								Main.TaskVanishAB.remove(p);
+							}
+							
 							if (ConfigMCommands.getConfig().getBoolean("Vanish.Self-Disabled.Enable")) {
 								for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self-Disabled.Messages")) {
 				            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -144,6 +165,16 @@ public class VanishCommand extends BukkitCommand {
 								}
 							}
 							player_list_vanish.add(p);
+							
+							if (Main.TaskVanishAB.containsKey(p)) {
+								Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+								Main.TaskVanishAB.remove(p);
+							}
+							
+							if (p.hasPermission("hawn.command.vanish.actionbar")) {
+								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 100, 0);
+								Main.TaskVanishAB.put(p, task.getTaskId());
+							}
 							
 							if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 								for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
@@ -170,6 +201,11 @@ public class VanishCommand extends BukkitCommand {
 								}
 								player_list_vanish.remove(target);
 								
+								if (Main.TaskVanishAB.containsKey(target)) {
+									Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+									Main.TaskVanishAB.remove(target);
+								}
+								
 								if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender-Disabled.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender-Disabled.Messages")) {
 										msg = msg.replaceAll("%player%", p.getName()).replaceAll("%target%", target.getName());
@@ -192,6 +228,16 @@ public class VanishCommand extends BukkitCommand {
 									}
 								}
 								player_list_vanish.add(target);
+								
+								if (Main.TaskVanishAB.containsKey(target)) {
+									Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+									Main.TaskVanishAB.remove(target);
+								}
+								
+								if (target.hasPermission("hawn.command.vanish.actionbar")) {
+									BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 100, 0);
+									Main.TaskVanishAB.put(target, task.getTaskId());
+								}
 								
 								if (ConfigMCommands.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Other-Sender.Messages")) {
