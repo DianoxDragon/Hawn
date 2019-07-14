@@ -1271,8 +1271,11 @@ public class Main extends JavaPlugin implements Listener {
 	        		connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database + "?useSSL=false", this.username, this.password);
 	        	}
 	        	useyamllistplayer = false;
+	        	gcs(ChatColor.BLUE+"| ------------------------------------");
+	        	gcs(ChatColor.BLUE+"| ");
 	        	gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use MySQL as method for information");
     			gcs(ChatColor.BLUE+"| ");
+    			gcs(ChatColor.BLUE+"| ------------------------------------");
 	        } catch (Exception e) {
 	        	Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Connect Error: " + e.getMessage());
 	        	useyamllistplayer = true;
