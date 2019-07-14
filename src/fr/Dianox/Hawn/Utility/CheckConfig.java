@@ -418,14 +418,14 @@ public class CheckConfig {
 			ConfigMOStuff.getConfig().set("Error.Command-Disable.Enable", true);
 			ConfigMOStuff.getConfig().set("Error.Argument-Missing.Enable", true);
 			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Enable", true);
-			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"&cYou are not a player"}));
+			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are not a player"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}
 		
 		if (!ConfigMOStuff.getConfig().isSet("Error.Change-Me.Enable")) {
 			ConfigMOStuff.getConfig().set("Error.Change-Me.Enable", true);
-			ConfigMOStuff.getConfig().set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"&cYou have to change the spawn/warp/etc on %arg1% on %arg2%"}));
+			ConfigMOStuff.getConfig().set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou have to change the spawn/warp/etc. on &6%arg1%&c on &e%arg2%"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}
@@ -1064,7 +1064,7 @@ public class CheckConfig {
 		
 		if (!ConfigMOStuff.getConfig().isSet("Commands.Spawn.Delay.Self.Enable")) {
 			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Enable", true);
-			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Messages", java.util.Arrays.asList(new String[] {"&bThe spawn &e%spawn%&b has been deleted"}));
+			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The spawn &e%spawn%&7 has been &cdeleted"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}
