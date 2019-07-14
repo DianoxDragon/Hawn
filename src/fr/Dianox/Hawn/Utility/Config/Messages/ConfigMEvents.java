@@ -53,13 +53,13 @@ public class ConfigMEvents {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"&eNooooooooooooooooooooo........."}));
-            Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&e[Anti-Swear] &c%player% &esaid &6%message%"}));
+            Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh no, you tried to reach the void"}));
+            Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7said &e%message%"}));
             
-            Config.set("Cancel-Tp.Warp.Enable", Boolean.valueOf(true));
-            Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
-            Config.set("Cancel-Tp.Spawn.Enable", Boolean.valueOf(true));
-            Config.set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
+            Config.set("Cancel-Tp.Warp.Enable", true);
+            Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
+            Config.set("Cancel-Tp.Spawn.Enable", true);
+            Config.set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
 
             saveConfigFile();
 
