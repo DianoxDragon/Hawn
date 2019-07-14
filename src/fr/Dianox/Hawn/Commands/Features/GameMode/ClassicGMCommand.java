@@ -174,8 +174,8 @@ public class ClassicGMCommand extends BukkitCommand {
 				}
 			} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
 				p.setGameMode(GameMode.SPECTATOR);
-				if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
-					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
+				if (ConfigMCommands.getConfig().getBoolean(msg_self_spectator+"Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_spectator+"Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}

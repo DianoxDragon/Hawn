@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import fr.Dianox.Hawn.Main;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Scoreboard.PlayerBoard;
@@ -77,10 +78,10 @@ public class OnScoreboard implements Listener {
     		return;
     	}
     	
-    	String bool = Main.getYmlaMysqlsb(e.getPlayer(), "keepsb");
+    	String bool = PlayerOptionSQLClass.getYmlaMysqlsb(e.getPlayer(), "keepsb");
     	
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
-			String sb = Main.getYmlaMysqlsb(e.getPlayer(), "scoreboard");
+			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(e.getPlayer(), "scoreboard");
 			if (Main.getInstance().getBoards().containsKey(p)) {
 				ScoreboardInfo in = (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb);
 				((PlayerBoard)Main.getInstance().getBoards().get(p)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());

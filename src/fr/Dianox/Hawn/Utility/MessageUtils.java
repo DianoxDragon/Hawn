@@ -11,6 +11,7 @@ import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -20,6 +21,10 @@ import net.md_5.bungee.chat.ComponentSerializer;
 public class MessageUtils {
 	
 	public static String ReplaceMainplaceholderP(String str, Player p) {
+		
+		if (str.contains("%prefix%")) {
+			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
+		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", p.getName());
@@ -42,7 +47,8 @@ public class MessageUtils {
 		}
 		
 		if (str.contains("%timedelaypvcji%")) {
-			str = str.replaceAll("%timedelaypvcji%", String.valueOf(SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")));
+			long secondsLeft = ((Long)Main.hiderCooldowns.get(p)).longValue() / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+			str = str.replaceAll("%timedelaypvcji%", String.valueOf(secondsLeft));
 		}
 		
 		if (str.contains("%barmemory%")) {
@@ -117,6 +123,10 @@ public class MessageUtils {
 	}
 	
 	public static String ReplaceMainplaceholderC(String str) {
+		
+		if (str.contains("%prefix%")) {
+			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
+		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", "player name");
@@ -213,8 +223,7 @@ public class MessageUtils {
 		return str;
 	}
 	
-	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public static void ReplaceCharMessagePlayer(String str, Player player) {
 		Player p = player;
 		
@@ -233,7 +242,102 @@ public class MessageUtils {
 				p = (Player)localIterator.next();
 				p.spigot().sendMessage(bc);
 			}
+		} else if (str.startsWith("[send-title]: ")) {
+			str = str.replace("[send-title]: ", "");
+			str = str.replaceAll("&", "§");
 			
+			str = ReplaceMainplaceholderP(str, player);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			Boolean activate = false;
+			
+			String title = "";
+			String subtitle = "";
+													
+			if (str.contains("//n")) {
+				String[] parts = str.split("//n");
+				title = parts[0];
+				subtitle = parts[1];
+				
+				title = title.replaceAll("//n", "");
+				subtitle = subtitle.replaceAll("//n", "");
+				
+				activate = true;
+			}
+			
+			if (activate == false) {
+				TitleUtils.sendTitle(p, 20, 150, 75, str);
+			} else {
+				TitleUtils.sendTitle(p, 20, 150, 75, title);
+				TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+			}
+		} else if (str.startsWith("[send-title[")) {
+			str = str.replace("[send-title[", "");
+			
+			str = ReplaceMainplaceholderP(str, player);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			String[] parts = str.split("]]: ");
+			
+			Boolean activate = false;
+			
+			String title = "";
+			String subtitle = "";
+													
+			if (str.contains("//n")) {
+				String[] part = parts[1].split("//n");
+				title = part[0];
+				subtitle = part[1];
+				
+				title = title.replaceAll("//n", "");
+				subtitle = subtitle.replaceAll("//n", "");
+				
+				activate = true;
+			}
+			
+			if (activate == false) {
+				TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+			} else {
+				TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+				TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+			}
+		} else if (str.startsWith("[send-actionbar]: ")) {
+			str = str.replace("[send-actionbar]: ", "");
+			str = str.replaceAll("&", "§");
+			
+			str = ReplaceMainplaceholderP(str, player);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			ActionBar.sendActionBar(p, str);
+		} else if (str.startsWith("[send-actionbar[")) {
+			str = str.replace("[send-actionbar[", "");
+			
+			str = ReplaceMainplaceholderP(str, player);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			String[] parts = str.split("]]: ");
+			
+			ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
 		} else {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
@@ -249,7 +353,7 @@ public class MessageUtils {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public static void ReplaceCharBroadcastPlayer(String str, Player player) {
 		if (str.startsWith("json:")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -268,6 +372,110 @@ public class MessageUtils {
 					p.spigot().sendMessage(bc);
 				}
 			}
+		} else if (str.startsWith("[send-title]: ")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-title]: ", "");
+				str = str.replaceAll("&", "§");
+				
+				str = ReplaceMainplaceholderP(str, player);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				Boolean activate = false;
+				
+				String title = "";
+				String subtitle = "";
+														
+				if (str.contains("//n")) {
+					String[] parts = str.split("//n");
+					title = parts[0];
+					subtitle = parts[1];
+					
+					title = title.replaceAll("//n", "");
+					subtitle = subtitle.replaceAll("//n", "");
+					
+					activate = true;
+				}
+				
+				if (activate == false) {
+					TitleUtils.sendTitle(p, 20, 150, 75, str);
+				} else {
+					TitleUtils.sendTitle(p, 20, 150, 75, title);
+					TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-title[")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-title[", "");
+				
+				str = ReplaceMainplaceholderP(str, player);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				String[] parts = str.split("]]: ");
+				
+				Boolean activate = false;
+				
+				String title = "";
+				String subtitle = "";
+														
+				if (str.contains("//n")) {
+					String[] part = parts[1].split("//n");
+					title = part[0];
+					subtitle = part[1];
+					
+					title = title.replaceAll("//n", "");
+					subtitle = subtitle.replaceAll("//n", "");
+					
+					activate = true;
+				}
+				
+				if (activate == false) {
+					TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+				} else {
+					TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+					TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-actionbar]: ")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-actionbar]: ", "");
+				str = str.replaceAll("&", "§");
+				
+				str = ReplaceMainplaceholderP(str, player);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				ActionBar.sendActionBar(p, str);
+			}
+		} else if (str.startsWith("[send-actionbar[")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-actionbar[", "");
+				
+				str = ReplaceMainplaceholderP(str, player);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				String[] parts = str.split("]]: ");
+				
+				ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+			}
 		} else {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(player, str);
@@ -285,7 +493,7 @@ public class MessageUtils {
 		}
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public static void ReplaceCharBroadcastNoPlayer(String str) {
 		if (str.startsWith("json:")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -304,6 +512,110 @@ public class MessageUtils {
 			      p.spigot().sendMessage(bc);
 			    }
 			}
+		} else if (str.startsWith("[send-title]: ")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-title]: ", "");
+				str = str.replaceAll("&", "§");
+				
+				str = ReplaceMainplaceholderP(str, p);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				Boolean activate = false;
+				
+				String title = "";
+				String subtitle = "";
+														
+				if (str.contains("//n")) {
+					String[] parts = str.split("//n");
+					title = parts[0];
+					subtitle = parts[1];
+					
+					title = title.replaceAll("//n", "");
+					subtitle = subtitle.replaceAll("//n", "");
+					
+					activate = true;
+				}
+				
+				if (activate == false) {
+					TitleUtils.sendTitle(p, 20, 150, 75, str);
+				} else {
+					TitleUtils.sendTitle(p, 20, 150, 75, title);
+					TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-title[")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-title[", "");
+				
+				str = ReplaceMainplaceholderP(str, p);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				String[] parts = str.split("]]: ");
+				
+				Boolean activate = false;
+				
+				String title = "";
+				String subtitle = "";
+														
+				if (str.contains("//n")) {
+					String[] part = parts[1].split("//n");
+					title = part[0];
+					subtitle = part[1];
+					
+					title = title.replaceAll("//n", "");
+					subtitle = subtitle.replaceAll("//n", "");
+					
+					activate = true;
+				}
+				
+				if (activate == false) {
+					TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+				} else {
+					TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+					TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-actionbar]: ")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-actionbar]: ", "");
+				str = str.replaceAll("&", "§");
+				
+				str = ReplaceMainplaceholderP(str, p);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				ActionBar.sendActionBar(p, str);
+			}
+		} else if (str.startsWith("[send-actionbar[")) {
+			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				str = str.replace("[send-actionbar[", "");
+				
+				str = ReplaceMainplaceholderP(str, p);
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					str = PlaceholderAPI.setPlaceholders(p, str);
+				}
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+				}
+				
+				String[] parts = str.split("]]: ");
+				
+				ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+			}
 		} else {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -321,6 +633,7 @@ public class MessageUtils {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void ReplaceCharBroadcastGeneral(String str, Player p) {
 		if (str.startsWith("json:")) {
 			str = str.replace("json:", "");
@@ -341,6 +654,114 @@ public class MessageUtils {
 		    }
 		    
 		    Bukkit.getConsoleSender().sendMessage(sb.toString());
+		} else if (str.startsWith("[send-title]: ")) {
+			str = str.replace("[send-title]: ", "");
+			str = str.replaceAll("&", "§");
+			
+			str = ReplaceMainplaceholderP(str, p);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			Boolean activate = false;
+			
+			String title = "";
+			String subtitle = "";
+													
+			if (str.contains("//n")) {
+				String[] parts = str.split("//n");
+				title = parts[0];
+				subtitle = parts[1];
+				
+				title = title.replaceAll("//n", "");
+				subtitle = subtitle.replaceAll("//n", "");
+				
+				activate = true;
+			}
+			
+			if (activate == false) {
+				for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					TitleUtils.sendTitle(p1, 20, 150, 75, str);
+				}
+			} else {
+				for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					TitleUtils.sendTitle(p1, 20, 150, 75, title);
+					TitleUtils.sendSubtitle(p1, 20, 150, 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-title[")) {
+			str = str.replace("[send-title[", "");
+			
+			str = ReplaceMainplaceholderP(str, p);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			String[] parts = str.split("]]: ");
+			
+			Boolean activate = false;
+			
+			String title = "";
+			String subtitle = "";
+													
+			if (str.contains("//n")) {
+				String[] part = parts[1].split("//n");
+				title = part[0];
+				subtitle = part[1];
+				
+				title = title.replaceAll("//n", "");
+				subtitle = subtitle.replaceAll("//n", "");
+				
+				activate = true;
+			}
+			
+			if (activate == false) {
+				for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					TitleUtils.sendTitle(p1, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+				}
+			} else {
+				for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					TitleUtils.sendTitle(p1, 20, Integer.valueOf(parts[0]), 75, title);
+					TitleUtils.sendSubtitle(p1, 20, Integer.valueOf(parts[0]), 75, subtitle);
+				}
+			}
+		} else if (str.startsWith("[send-actionbar]: ")) {
+			str = str.replace("[send-actionbar]: ", "");
+			str = str.replaceAll("&", "§");
+			
+			str = ReplaceMainplaceholderP(str, p);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+				ActionBar.sendActionBar(p1, str);
+			}
+		} else if (str.startsWith("[send-actionbar[")) {
+			str = str.replace("[send-actionbar[", "");
+			
+			str = ReplaceMainplaceholderP(str, p);
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				str = PlaceholderAPI.setPlaceholders(p, str);
+			}
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
+			}
+			
+			String[] parts = str.split("]]: ");
+			
+			for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+				ActionBar.sendActionBar(p1, parts[1], Integer.valueOf(parts[0]));
+			}
 		} else {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);

@@ -68,6 +68,7 @@ import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.OtherUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
@@ -148,7 +149,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.6-Alpha";
+	static String versions = "0.6.7-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -171,7 +172,8 @@ public class Main extends JavaPlugin implements Listener {
 	public HashMap<String, String> infoname2 = new HashMap<String, String>();
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
 	public static List<Player> nosb = new ArrayList<Player>();
-
+	public static boolean newmethodver = false;
+	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
 	public static List<Player> inwarpd = new ArrayList<Player>();
 	public static List<Player> inspawnd = new ArrayList<Player>();
@@ -185,6 +187,10 @@ public class Main extends JavaPlugin implements Listener {
 
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
 
+    public static HashMap<Player, Long> hiderCooldowns = new HashMap<Player, Long>();
+    
+    public static HashMap<Player, Integer> TaskVanishAB = new HashMap<Player, Integer>();
+    
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
@@ -671,9 +677,13 @@ public class Main extends JavaPlugin implements Listener {
 	                } catch (ClassNotFoundException e) {
 	                    e.printStackTrace();
 	                    useyamllistplayer = true;
+	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (ClassNotFoundException)");
+	        			gcs(ChatColor.BLUE+"| ");
 	                } catch (SQLException e) {
 	                    e.printStackTrace();
 	                    useyamllistplayer = true;
+	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (SQLException)");
+	        			gcs(ChatColor.BLUE+"| ");
 	                }
 	            }
 	        };
@@ -681,17 +691,20 @@ public class Main extends JavaPlugin implements Listener {
 	        r.runTaskAsynchronously(this);
 		} else {
 			useyamllistplayer = true;
+			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (MySQL not enabled)");
+			gcs(ChatColor.BLUE+"| ");
 		}
 
 		// Keep option placeholderAPI
 
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 					Bukkit.getPluginManager().registerEvents(this, this);
 				}
 			} else {
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", true);
 				ConfigGeneral.saveConfigFile();
 				Bukkit.getPluginManager().registerEvents(this, this);
@@ -706,14 +719,17 @@ public class Main extends JavaPlugin implements Listener {
 		// Keep option MVdWPlaceholderAPI
 
 				if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
-					gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
-					gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
 						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+							gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
+							gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
+							gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 							Bukkit.getPluginManager().registerEvents(this, this);
 						}
 					} else {
+						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
+						gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
+						gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", true);
 						ConfigGeneral.saveConfigFile();
 						Bukkit.getPluginManager().registerEvents(this, this);
@@ -727,11 +743,10 @@ public class Main extends JavaPlugin implements Listener {
 
 		// Keep option Worldguard
 		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
 					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-					
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 					try {
 						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
 						Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
@@ -747,7 +762,7 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
 				ConfigGeneral.saveConfigFile();
 				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-				
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 				try {
 					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
 					Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
@@ -765,8 +780,11 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.saveConfigFile();
 			}
 		}
-
-		gcs(ChatColor.BLUE+"| ");
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||
+				ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			gcs(ChatColor.BLUE+"| ");
+		}
 
 		// check
 		UpdateCheck();
@@ -842,6 +860,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	    // Scoreboard
 	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
+	    	
+	    	if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")) {
+	        	newmethodver = true;
+	        }
+	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
 
 		    /*File[] listOfFiles = folder.listFiles();
@@ -1116,10 +1139,10 @@ public class Main extends JavaPlugin implements Listener {
 		if (nosb.contains(player)) {
 			return;
 		}
-		String bool = getYmlaMysqlsb(player, "keepsb");
+		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(player, "keepsb");
 
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
-			String sb = getYmlaMysqlsb(player, "scoreboard");
+			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player)) {
 				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
 				((PlayerBoard)boards.get(player)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
@@ -1134,138 +1157,20 @@ public class Main extends JavaPlugin implements Listener {
 	                    if (boards.containsKey(player)) {
 	                        if (boards.get(player).getList().equals(in.getText())) {
 	                            player.setScoreboard(boards.get(player).getBoard());
-	                            saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
 	                        boards.get(player).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
-	                        saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player, info.get(s));
-	                        saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
-	                    saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    return;
 	                }
 	            }
 	        }
-		}
-	}
-
-	public static String getYmlaMysqlsb(Player p, String option) {
-		String value = "";
-
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-
-		if (Main.useyamllistplayer) {
-			if (option.equalsIgnoreCase("scoreboard")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-		        }
-
-				value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
-			} else if (option.equalsIgnoreCase("keepsb")) {
-
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-				}
-
-				if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-					value = "TRUE";
-				} else {
-					value = "FALSE";
-				}
-			}
-		} else {
-			if (!SQL.tableExists("player_option_keep_sb")) {
-				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
-			}
-
-			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-				}
-
-				if (option.equalsIgnoreCase("scoreboard")) {
-					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Scoreboard", "" + p.getUniqueId() + ""));
-				} else if (option.equalsIgnoreCase("keepsb")) {
-					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Activate", "" + p.getUniqueId() + ""));
-				}
-				SQL.set("player_option_keep_sb", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-			} else {
-				if (option.equalsIgnoreCase("scoreboard")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					} else {
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					}
-					value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
-				} else if (option.equalsIgnoreCase("keepsb")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
-						value = "TRUE";
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					} else {
-						value = "FALSE";
-						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
-					}
-				}
-			}
-		}
-
-		return value;
-	}
-
-	public void saveSBmysqlyaml(Player p, String sb, String boolea) {
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		if (boolea.equalsIgnoreCase("FALSE")) {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-		} else {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-		}
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(sb));
-
-		PlayerConfig.saveConfigFile();
-
-		if (!Main.useyamllistplayer) {
-			if (!SQL.tableExists("player_option_keep_sb")) {
-				SQL.createTable("player_option_keep_sb", "player TEXT, player_UUID TEXT, Activate TEXT, Scoreboard TEXT");
-			}
-
-			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
-				SQL.set("player_option_keep_sb", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
-				SQL.set("player_option_keep_sb", "Scoreboard", ""+sb+"", "player_UUID", "" + p.getUniqueId() + "");
-				SQL.set("player_option_keep_sb", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
-			} else {
-				SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "', '"+sb+"' ", "player_option_keep_sb");
-			}
 		}
 	}
 
@@ -1371,6 +1276,11 @@ public class Main extends JavaPlugin implements Listener {
 	        		connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database + "?useSSL=false", this.username, this.password);
 	        	}
 	        	useyamllistplayer = false;
+	        	gcs(ChatColor.BLUE+"| ------------------------------------");
+	        	gcs(ChatColor.BLUE+"| ");
+	        	gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use MySQL as method for information");
+    			gcs(ChatColor.BLUE+"| ");
+    			gcs(ChatColor.BLUE+"| ------------------------------------");
 	        } catch (Exception e) {
 	        	Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Connect Error: " + e.getMessage());
 	        	useyamllistplayer = true;

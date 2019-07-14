@@ -66,13 +66,11 @@ public class MuteChatCommand extends BukkitCommand {
 		// >> The command
 					if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
 						for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Admin.Off")) {
-							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
 							MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
 						}
 						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(false));
 					} else {
 						for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Admin.On")) {
-							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
 							MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
 						}
 						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(true));

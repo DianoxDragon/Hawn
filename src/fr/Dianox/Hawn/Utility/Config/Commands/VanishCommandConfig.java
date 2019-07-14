@@ -54,9 +54,10 @@ public class VanishCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Vanish.Enable", Boolean.valueOf(true));
-            Config.set("Vanish.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Vanish.Enable", true);
+            Config.set("Vanish.Disable-Message", true);
+            Config.set("Vanish.Action-Bar-If-Vanished", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

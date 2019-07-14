@@ -54,6 +54,20 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar-If-Vanished")) {
+			VanishCommandConfig.getConfig().set("Vanish.Action-Bar-If-Vanished", true);
+			ConfigMCommands.getConfig().set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aYou are vanished"}));
+			
+			VanishCommandConfig.saveConfigFile();
+			ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!ConfigMGeneral.getConfig().isSet("General.Prefix")) {
+			ConfigMGeneral.getConfig().set("General.Prefix", " &3Hawn &7|");
+			
+			ConfigMGeneral.saveConfigFile();
+		}
+		
 		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 			ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
 			ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option", false);
@@ -123,9 +137,9 @@ public class CheckConfig {
 		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.JumpBoost.Enable.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"&aYour jumpboost has been activated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &aactivated"}));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"&cYour jumpboost has been disabled"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &cdisabled"}));
 		
 			OptionPlayerConfigCommand.getConfig().set("PlayerOption.Option.Jumpboost.Value", 2);
 			
@@ -267,7 +281,7 @@ public class CheckConfig {
 		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.Error.Player-Visibility.Time.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaypvcji% &c&lsecond(s)&7!"}));
 		
 			ConfigMPlayerOption.saveConfigFile();
 		}
@@ -288,14 +302,14 @@ public class CheckConfig {
 			ConfigGeneral.getConfig().set("Plugin.12-Hours-Or-24-Hours-Format", 24);
 			
 			ConfigMCommands.getConfig().set("Scoreboard.Changes.Enable", true);
-			ConfigMCommands.getConfig().set("Scoreboard.Changes.Messages", java.util.Arrays.asList(new String[] {"&bYour scoreboard was set to %arg1%"}));
+			ConfigMCommands.getConfig().set("Scoreboard.Changes.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your actual scoreboard has been set to &e%arg1%"}));
             ConfigMCommands.getConfig().set("Scoreboard.Error-Changes.Enable", true);
-            ConfigMCommands.getConfig().set("Scoreboard.Error-Changes.Messages", java.util.Arrays.asList(new String[] {"&cThe scoreboard %arg1% doesn't exist"}));
+            ConfigMCommands.getConfig().set("Scoreboard.Error-Changes.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe scoreboard &6%arg1%&c doesn't exist"}));
 			
             ConfigMCommands.getConfig().set("Scoreboard.Keep-On.Enable", true);
-            ConfigMCommands.getConfig().set("Scoreboard.Keep-On.Messages", java.util.Arrays.asList(new String[] {"&bYou will now keep this scoreboard"}));
+            ConfigMCommands.getConfig().set("Scoreboard.Keep-On.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You will now keep this scoreboard"}));
             ConfigMCommands.getConfig().set("Scoreboard.Keep-Off.Enable", true);
-            ConfigMCommands.getConfig().set("Scoreboard.Keep-Off.Messages", java.util.Arrays.asList(new String[] {"&cYou no longer keep this scoreboard"}));
+            ConfigMCommands.getConfig().set("Scoreboard.Keep-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You will &cno longer&7 keep this scoreboard"}));
             
             ScoreboardCommandConfig.getConfig().set("Scoreboard.Option.Keep-Scoreboard-Change", true);
             
@@ -311,15 +325,15 @@ public class CheckConfig {
 			OnJoinConfig.getConfig().set("Speed.Option.Priority-For-Player-Option", true);
 			
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"&aYour speed has been activated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been &aactivated"}));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"&cYour speed has been disabled"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been &cdisabled"}));
             
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Enable", true);
-            ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Messages", java.util.Arrays.asList(new String[] {"&bSpeed has been set to %arg1%"}));
+            ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been set to &e%arg1%"}));
             
             ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Enable", true);
-            ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cYou disabled this option, so, you can't manage all the option"}));
+            ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou disabled this option, so, you can't manage all the option"}));
             
             ConfigMPlayerOption.saveConfigFile();
 			
@@ -412,14 +426,14 @@ public class CheckConfig {
 			ConfigMOStuff.getConfig().set("Error.Command-Disable.Enable", true);
 			ConfigMOStuff.getConfig().set("Error.Argument-Missing.Enable", true);
 			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Enable", true);
-			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"&cYou are not a player"}));
+			ConfigMOStuff.getConfig().set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are not a player"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}
 		
 		if (!ConfigMOStuff.getConfig().isSet("Error.Change-Me.Enable")) {
 			ConfigMOStuff.getConfig().set("Error.Change-Me.Enable", true);
-			ConfigMOStuff.getConfig().set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"&cYou have to change the spawn/warp/etc on %arg1% on %arg2%"}));
+			ConfigMOStuff.getConfig().set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou have to change the spawn/warp/etc. on &6%arg1%&c on &e%arg2%"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}
@@ -432,14 +446,14 @@ public class CheckConfig {
             SpawnCommandConfig.getConfig().set("Commands.Spawn.Delay.Cancel-Tp-On.On-Damages", true);
             
             ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Enable", true);
-            ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
+            ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
             ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Enable", true);
-            ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
+            ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
             
             ConfigMCommands.getConfig().set("Scoreboard.Toggle.On.Enable", true);
-            ConfigMCommands.getConfig().set("Scoreboard.Toggle.On.Messages", java.util.Arrays.asList(new String[] {"&bScoreboard enabled"}));
+            ConfigMCommands.getConfig().set("Scoreboard.Toggle.On.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The scoreboard has been &aenabled"}));
             ConfigMCommands.getConfig().set("Scoreboard.Toggle.Off.Enable", true);
-            ConfigMCommands.getConfig().set("Scoreboard.Toggle.Off.Messages", java.util.Arrays.asList(new String[] {"&cScoreboard disabled"}));
+            ConfigMCommands.getConfig().set("Scoreboard.Toggle.Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The scoreboard has been &cdisabled"}));
             
             WarpSetWarpCommandConfig.saveConfigFile();
             SpawnCommandConfig.saveConfigFile();
@@ -452,31 +466,31 @@ public class CheckConfig {
 			 * GAMEMODE COMMANDS *
 			 * ----------------- */
 			ConfigMCommands.getConfig().set("Gamemode.Self.Survival.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Self.Survival.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &esurvival&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Self.Creative.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Self.Creative.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &ecreative&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Self.Adventure.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Self.Adventure.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &eadventure&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Self.Spectator.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Self.Spectator.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &espectator&b mode"}));
-        
-			ConfigMCommands.getConfig().set("Gamemode.Other.Survival.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other.Survival.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &esurvival&b mode by %player%"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other.Creative.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other.Creative.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &ecreative&b mode by %player%"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other.Adventure.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other.Adventure.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &eadventure&b mode by %player%"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other.Spectator.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other.Spectator.Messages", java.util.Arrays.asList(new String[] {"&bYour gamemode was set in &espectator&b mode by %player%"}));
-        
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Survival.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Survival.Messages", java.util.Arrays.asList(new String[] {"&b%player%'s gamemode was set in &esurvival&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Creative.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Creative.Messages", java.util.Arrays.asList(new String[] {"&b%player%'s gamemode was set in &ecreative&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Adventure.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Adventure.Messages", java.util.Arrays.asList(new String[] {"&b%player%'s gamemode was set in &eadventure&b mode"}));
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Spectator.Enable", true);
-			ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"&b%player%'s gamemode was set in &espectator&b mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Self.Survival.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &esurvival&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Self.Creative.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Self.Creative.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &ecreative&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Self.Adventure.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Self.Adventure.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &eadventure&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Self.Spectator.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Self.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &espectator&7 mode"}));
+            
+            ConfigMCommands.getConfig().set("Gamemode.Other.Survival.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other.Survival.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &esurvival&7 mode by &b%player%"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other.Creative.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other.Creative.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &ecreative&7 mode by &b%player%"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other.Adventure.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other.Adventure.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &eadventure&7 mode by &b%player%"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other.Spectator.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your gamemode has been set in &espectator&7 mode by &b%player%"}));
+            
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Survival.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Survival.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &esurvival&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Creative.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Creative.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &ecreative&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Adventure.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Adventure.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &eadventure&7 mode"}));
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Spectator.Enable", true);
+            ConfigMCommands.getConfig().set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &espectator&7 mode"}));
 		
 			ConfigMCommands.saveConfigFile();
 		}
@@ -931,39 +945,39 @@ public class CheckConfig {
 		
 		if (!ConfigMCommands.getConfig().isSet("Heal.Self.Enable")) {
 			ConfigMCommands.getConfig().set("Heal.Self.Enable", true);
-			ConfigMCommands.getConfig().set("Heal.Self.Messages", java.util.Arrays.asList(new String[] {"&bYou have been healed"}));
+			ConfigMCommands.getConfig().set("Heal.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been healed"}));
 			ConfigMCommands.getConfig().set("Heal.Other.Enable", true);
-			ConfigMCommands.getConfig().set("Heal.Other.Messages", java.util.Arrays.asList(new String[] {"&bYou have been healed by %player%"}));
+			ConfigMCommands.getConfig().set("Heal.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been healed by &e%player%"}));
 			ConfigMCommands.getConfig().set("Heal.Other-Sender.Enable", true);
-			ConfigMCommands.getConfig().set("Heal.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"&b%target% has been healed"}));
+			ConfigMCommands.getConfig().set("Heal.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%target%&7 has been healed"}));
 			
 			ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Warp.Tp.Self.Enable")) {
 			ConfigMCommands.getConfig().set("Warp.Tp.Self.Enable", true);
-			ConfigMCommands.getConfig().set("Warp.Tp.Self.Messages", java.util.Arrays.asList(new String[] {"&bYou have been teleported to the warp %warp%"}));
+			ConfigMCommands.getConfig().set("Warp.Tp.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the warp &e%warp%"}));
 			ConfigMCommands.getConfig().set("Warp.Tp.Other.Enable", true);
-			ConfigMCommands.getConfig().set("Warp.Tp.Other.Messages", java.util.Arrays.asList(new String[] {"&bYou have been teleported to the warp %warp% by %player%"}));
+			ConfigMCommands.getConfig().set("Warp.Tp.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the warp &e%warp%&7 by &b%player%"}));
 	        ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender.Enable", true);
-	        ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"&bYou have been teleported %target% to the warp %warp%"}));
+	        ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You teleported &b%target%&7 to the warp&e %warp%"}));
 	        ConfigMCommands.getConfig().set("Warp.List.Enable", true);
-	        ConfigMCommands.getConfig().set("Warp.List.Messages", java.util.Arrays.asList(new String[] {"&bWarpList :&e %warplist%"}));
+	        ConfigMCommands.getConfig().set("Warp.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bWarpList :&e %warplist%"}));
 	        ConfigMCommands.getConfig().set("Warp.No-Warp.Enable", true);
-	        ConfigMCommands.getConfig().set("Warp.No-Warp.Messages", java.util.Arrays.asList(new String[] {"&cNo warp set"}));
+	        ConfigMCommands.getConfig().set("Warp.No-Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cI'm sorry, but there are no warp"}));
 	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Set.Enable", true);
-	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Set.Messages", java.util.Arrays.asList(new String[] {"&eWarp set on behalf of %arg%"}));
+	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The warp has been created with the name &e%arg%"}));
 	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Already-Exist.Enable", true);
-	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Already-Exist.Messages", java.util.Arrays.asList(new String[] {"&cThe name already exist"}));
+	        ConfigMCommands.getConfig().set("Warp.Set.Warp-Already-Exist.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe name already exists"}));
 		
 	        ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Vanish.Self.Enable")) {
 			ConfigMCommands.getConfig().set("Vanish.Self.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Self.Messages", java.util.Arrays.asList(new String[] {"&bVanish has been enabled"}));
+			ConfigMCommands.getConfig().set("Vanish.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The vanish has been &aenabled"}));
 			ConfigMCommands.getConfig().set("Vanish.Self-Disabled.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Self-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cVanish has been disabled"}));
+			ConfigMCommands.getConfig().set("Vanish.Self-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The vanish has been &cdisabled"}));
 			/*ConfigMCommands.getConfig().set("Vanish.Self-Still.Enable", true);
 			ConfigMCommands.getConfig().set("Vanish.Self-Still.Messages", java.util.Arrays.asList(new String[] {"&bVanish is still enabled"}));*/
         
@@ -972,63 +986,63 @@ public class CheckConfig {
 		
 		if (!ConfigMCommands.getConfig().isSet("Vanish.Other-Target.Enable")) {
 			ConfigMCommands.getConfig().set("Vanish.Other-Target.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Other-Target.Messages", java.util.Arrays.asList(new String[] {"&bVanish has been enabled by %player%"}));
+			ConfigMCommands.getConfig().set("Vanish.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The vanish has been &aenabled&7 by&e %player%"}));
 			ConfigMCommands.getConfig().set("Vanish.Other-Target-Disabled.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Other-Target-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cVanish has been disabled by %player%"}));
+			ConfigMCommands.getConfig().set("Vanish.Other-Target-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The vanish has been &cdisabled&7 by&e %player%"}));
 			ConfigMCommands.getConfig().set("Vanish.Other-Sender.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"&bVanish has been enabled by %player% for %target%"}));
+			ConfigMCommands.getConfig().set("Vanish.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &b%target%&7's vanish has been &aenabled&7 by&e %player%"}));
 			ConfigMCommands.getConfig().set("Vanish.Other-Sender-Disabled.Enable", true);
-			ConfigMCommands.getConfig().set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cVanish has been disabled by %player% for %target%"}));
+			ConfigMCommands.getConfig().set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &b%target%&7's vanish has been &cdisabled&7 by&e %player%"}));
         
         	ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("ClearInv.Self.Enable")) {
 			ConfigMCommands.getConfig().set("ClearInv.Self.Enable", true);
-			ConfigMCommands.getConfig().set("ClearInv.Self.Messages", java.util.Arrays.asList(new String[] {"&bYour inventory has been cleaned up"}));
+			ConfigMCommands.getConfig().set("ClearInv.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your inventory has been cleaned up"}));
 			ConfigMCommands.getConfig().set("ClearInv.Other-Target.Enable", true);
-			ConfigMCommands.getConfig().set("ClearInv.Other-Target.Messages", java.util.Arrays.asList(new String[] {"&bYour inventory has been cleaned up by %player%"}));
+			ConfigMCommands.getConfig().set("ClearInv.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your inventory has been cleaned up by &e%player%"}));
 			ConfigMCommands.getConfig().set("ClearInv.Other-Sender.Enable", true);
-			ConfigMCommands.getConfig().set("ClearInv.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"&bThe %target% inventory has been cleaned up"}));
+			ConfigMCommands.getConfig().set("ClearInv.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &e%target%&7's inventory has been cleaned up"}));
         
         ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Warp.Tp.Self-Delay.Enable")) {
 			ConfigMCommands.getConfig().set("Warp.Tp.Self-Delay.Enable", true);
-			ConfigMCommands.getConfig().set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"&bWait %second% seconds before be tp."}));
+			ConfigMCommands.getConfig().set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command"}));
             ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender-Delay.Enable", true);
-            ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"&bWait %second% seconds before the player is tp."}));
+            ConfigMCommands.getConfig().set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
            
             ConfigMCommands.saveConfigFile();
 		}
         
 		if (!ConfigMCommands.getConfig().isSet("Spawn.Tp.Self-Delay.Enable")) {
 			ConfigMCommands.getConfig().set("Spawn.Tp.Self-Delay.Enable", true);
-			ConfigMCommands.getConfig().set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"&bWait %second% seconds before be tp."}));
+			ConfigMCommands.getConfig().set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command"}));
             ConfigMCommands.getConfig().set("Spawn.Tp.Other-Sender-Delay.Enable", true);
-            ConfigMCommands.getConfig().set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"&bWait %second% seconds before the player is tp."}));
+            ConfigMCommands.getConfig().set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
            
             ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Warp.Del.Warp-Doesnt-Exist.Enable")) {
 			ConfigMCommands.getConfig().set("Warp.Del.Warp-Doesnt-Exist.Enable", true);
-			ConfigMCommands.getConfig().set("Warp.Del.Warp-Doesnt-Exist.Messages", java.util.Arrays.asList(new String[] {"&cThe warp doesn't exist"}));
+			ConfigMCommands.getConfig().set("Warp.Del.Warp-Doesnt-Exist.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe warp doesn't exist"}));
 			
 			ConfigMCommands.saveConfigFile();
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Warp.Del.Warp-Delete.Enable")) {
 			ConfigMCommands.getConfig().set("Warp.Del.Warp-Delete.Enable", true);
-			ConfigMCommands.getConfig().set("Warp.Del.Warp-Delete.Messages", java.util.Arrays.asList(new String[] {"&bThe warp &e%warp%&b has been deleted"}));
+			ConfigMCommands.getConfig().set("Warp.Del.Warp-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The warp &e%warp%&7 has been &cdeleted"}));
 			
 			ConfigMCommands.saveConfigFile();
 		}
 		// Events messages
 		
 		if (!ConfigMEvents.getConfig().isSet("Anti-Swear.Notify-Staff")) {
-			ConfigMEvents.getConfig().set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&e[Anti-Swear] &c%player% &esaid &6%message%"}));
+			ConfigMEvents.getConfig().set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7said &e%message%"}));
 		
 			ConfigMEvents.saveConfigFile();
 		}
@@ -1058,7 +1072,7 @@ public class CheckConfig {
 		
 		if (!ConfigMOStuff.getConfig().isSet("Commands.Spawn.Delay.Self.Enable")) {
 			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Enable", true);
-			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Messages", java.util.Arrays.asList(new String[] {"&bThe spawn &e%spawn%&b has been deleted"}));
+			ConfigMOStuff.getConfig().set("Spawn.Del.Spawn-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The spawn &e%spawn%&7 has been &cdeleted"}));
 		
 			ConfigMOStuff.saveConfigFile();
 		}

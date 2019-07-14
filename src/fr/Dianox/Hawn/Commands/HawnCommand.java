@@ -235,6 +235,24 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
 						MessageUtils.ReplaceMessageForConsole(msg);
 					}
+				} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
+					sender.sendMessage("");
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			        	  sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
+			          } else {
+			        	  sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
+			          }
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+			        	  sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
+			          } else {
+			        	  sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
+			          }
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			        	  sender.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
+			          } else {
+			        	  sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
+			          }
+			          sender.sendMessage("");
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
 						MessageUtils.ReplaceMessageForConsole(msg);
@@ -416,6 +434,31 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 					// Server info
+				} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
+					if (!p.hasPermission("hawn.admin.command.hooks") || !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
+						
+						return true;
+					}
+					
+					p.sendMessage("");
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			            p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
+			          } else {
+			            p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
+			          }
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+			            p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
+			          } else {
+			            p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
+			          }
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			            p.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
+			          } else {
+			            p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
+			          }
+			          p.sendMessage("");
+					
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
@@ -476,7 +519,7 @@ public class HawnCommand implements CommandExecutor {
 						return true;
 					}
 					
-					for (String msg: ConfigMOStuff.getConfig().getStringList("TPS.Normal")) {
+					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				} else if (args[0].equalsIgnoreCase("build")) {

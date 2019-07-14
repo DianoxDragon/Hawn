@@ -18,12 +18,14 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
 import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.VanishCommand;
+import fr.Dianox.Hawn.Commands.Features.VanishTaskAB;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
@@ -795,6 +797,18 @@ public class OnJoin implements Listener {
 						}
 	    				VanishCommand.player_list_vanish.add(p);
 						
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+						
+						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+							if (p.hasPermission("hawn.command.vanish.actionbar")) {
+								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+								Main.TaskVanishAB.put(p, task.getTaskId());
+							}
+						}
+	    				
 						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
 			            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -809,6 +823,11 @@ public class OnJoin implements Listener {
 							}
 						}
 	    				VanishCommand.player_list_vanish.remove(p);
+	    				
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
 	    			}
 	        		
 	        		PlayerConfig.saveConfigFile();
@@ -834,6 +853,18 @@ public class OnJoin implements Listener {
 						}
 	    				VanishCommand.player_list_vanish.add(p);
 						
+	    				if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+						
+						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+							if (p.hasPermission("hawn.command.vanish.actionbar")) {
+								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+								Main.TaskVanishAB.put(p, task.getTaskId());
+							}
+						}
+	    				
 						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
 			            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -847,6 +878,12 @@ public class OnJoin implements Listener {
 								all.showPlayer(p);
 							}
 						}
+	        			
+	        			if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
+	        			
 	    				VanishCommand.player_list_vanish.remove(p);
 	        		}
 	        	}
@@ -860,6 +897,11 @@ public class OnJoin implements Listener {
      					} else {
      						p.showPlayer(all);
      					}
+                     	
+                     	if (Main.TaskVanishAB.containsKey(p)) {
+							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+							Main.TaskVanishAB.remove(p);
+						}
                      }
                 }
             }
@@ -875,6 +917,18 @@ public class OnJoin implements Listener {
  					} else {
  						p.hidePlayer(all);
  					}
+                 	
+                 	if (Main.TaskVanishAB.containsKey(p)) {
+						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+						Main.TaskVanishAB.remove(p);
+					}
+					
+					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+						if (p.hasPermission("hawn.command.vanish.actionbar")) {
+							BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+							Main.TaskVanishAB.put(p, task.getTaskId());
+						}
+					}
                  }
              }
 
@@ -899,287 +953,163 @@ public class OnJoin implements Listener {
     }
 
     private void Speed(Player p) {
-    	int speedvalue = OnJoinConfig.getConfig().getInt("Speed.Value");
-    	int speedvaluepo = 2;
+    	int speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
     	
         if (OnJoinConfig.getConfig().getBoolean("Speed.Enable")) {
-        	
-        	if (Main.useyamllistplayer) {
-        		if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".value")) {
-		        	if (!PlayerConfig.getConfig().getBoolean("player_speed."+p.getUniqueId()+".Activate")) {
-		        		p.setWalkSpeed(0.2F);
-		        		return;
-		        	}
-        		}
-        	} else {
-        		if (SQL.tableExists("player_speed")) {
-        			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
-		        		String value = SQL.getInfoString("player_speed", "Activate", "" + p.getUniqueId() + "");
-		        		
-		        		if (value.equalsIgnoreCase("false")) {
-		        			p.setWalkSpeed(0.2F);
-		        			return;
-		        		}
-        			}
-        		}
-        	}
-        	
             if (!OnJoinConfig.getConfig().getBoolean("Speed.World.All_World")) {
                 if (OnJoinPW.getSOJ().contains(p.getWorld().getName())) {
-                    if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                        if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                            if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".value")) {
-                                PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", speedvalue);
-                                PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-                                PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-                                
-                                PlayerConfig.saveConfigFile();
-                            }
+                	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+                		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+                			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
+                				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+                			} else {
+                				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+                			}
+                		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+                			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+                			PlayerConfig.saveConfigFile();
+                			
+                			if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".player_name")) {
+                				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
+                				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", OnJoinConfig.getConfig().getInt("Speed.Value"));
 
-                            if (Main.useyamllistplayer || !BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable")) {
-                                speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
-
-                                if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                                    if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                                        speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
-                                    } else {
-                                        speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                    }
-                                } else {
-                                    speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                }
-                            } else {
-                                if (SQL.tableExists("player_speed")) {
-                                    if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
-                                        SQL.set("player_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                                    } else {
-                                    	SQL.insertData("player, player_UUID, value, Activate",
-                                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_speed." + p.getUniqueId() + ".value") + "', 'TRUE' ", "player_speed");
-                                    }
-                                } else {
-                                    SQL.createTable("player_speed", "player TEXT, player_UUID TEXT, value INT, Activate TEXT");
-                                    if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
-                                        SQL.set("player_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                                    } else {
-                                        SQL.insertData("player, player_UUID, value, Activate",
-                                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_speed." + p.getUniqueId() + ".value") + "', 'TRUE' ", "player_speed");
-                                    }
-                                }
-
-                                if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                                    if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                                        speedvaluepo = Integer.valueOf(SQL.getInfoInt("player_speed", "value", "" + p.getUniqueId() + ""));
-                                    } else {
-                                        speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                    }
-                                } else {
-                                    speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                }
-
-                            }
-
-                            if (speedvaluepo == 1) {
-                                p.setWalkSpeed(0.1F);
-                            } else if (speedvaluepo == 2) {
-                                p.setWalkSpeed(0.2F);
-                            } else if (speedvaluepo == 3) {
-                                p.setWalkSpeed(0.3F);
-                            } else if (speedvaluepo == 4) {
-                                p.setWalkSpeed(0.4F);
-                            } else if (speedvaluepo == 5) {
-                                p.setWalkSpeed(0.5F);
-                            } else if (speedvaluepo == 6) {
-                                p.setWalkSpeed(0.6F);
-                            } else if (speedvaluepo == 7) {
-                                p.setWalkSpeed(0.7F);
-                            } else if (speedvaluepo == 8) {
-                                p.setWalkSpeed(0.8F);
-                            } else if (speedvaluepo == 9) {
-                                p.setWalkSpeed(0.9F);
-                            } else if (speedvaluepo == 10) {
-                                p.setWalkSpeed(1.0F);
-                            } else {
-                                p.setWalkSpeed(0.2F);
-                            }
-                        } else {
-                            if (speedvalue == 1) {
-                                p.setWalkSpeed(0.1F);
-                            } else if (speedvalue == 2) {
-                                p.setWalkSpeed(0.2F);
-                            } else if (speedvalue == 3) {
-                                p.setWalkSpeed(0.3F);
-                            } else if (speedvalue == 4) {
-                                p.setWalkSpeed(0.4F);
-                            } else if (speedvalue == 5) {
-                                p.setWalkSpeed(0.5F);
-                            } else if (speedvalue == 6) {
-                                p.setWalkSpeed(0.6F);
-                            } else if (speedvalue == 7) {
-                                p.setWalkSpeed(0.7F);
-                            } else if (speedvalue == 8) {
-                                p.setWalkSpeed(0.8F);
-                            } else if (speedvalue == 9) {
-                                p.setWalkSpeed(0.9F);
-                            } else if (speedvalue == 10) {
-                                p.setWalkSpeed(1.0F);
-                            } else {
-                                p.setWalkSpeed(0.2F);
-                            }
-                        }
-                    } else {
-                        if (speedvalue == 1) {
+                	            PlayerConfig.saveConfigFile();
+                	        }
+                			
+                			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
+                				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+                			} else {
+                				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+                			}
+                		}
+                		
+                		 if (speedvaluepo == 1) {
+                             p.setWalkSpeed(0.1F);
+                         } else if (speedvaluepo == 2) {
+                             p.setWalkSpeed(0.2F);
+                         } else if (speedvaluepo == 3) {
+                             p.setWalkSpeed(0.3F);
+                         } else if (speedvaluepo == 4) {
+                             p.setWalkSpeed(0.4F);
+                         } else if (speedvaluepo == 5) {
+                             p.setWalkSpeed(0.5F);
+                         } else if (speedvaluepo == 6) {
+                             p.setWalkSpeed(0.6F);
+                         } else if (speedvaluepo == 7) {
+                             p.setWalkSpeed(0.7F);
+                         } else if (speedvaluepo == 8) {
+                             p.setWalkSpeed(0.8F);
+                         } else if (speedvaluepo == 9) {
+                             p.setWalkSpeed(0.9F);
+                         } else if (speedvaluepo == 10) {
+                             p.setWalkSpeed(1.0F);
+                         } else {
+                             p.setWalkSpeed(0.2F);
+                         }
+                	} else {
+                		PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+                		
+                		if (speedvaluepo == 1) {
                             p.setWalkSpeed(0.1F);
-                        } else if (speedvalue == 2) {
+                        } else if (speedvaluepo == 2) {
                             p.setWalkSpeed(0.2F);
-                        } else if (speedvalue == 3) {
+                        } else if (speedvaluepo == 3) {
                             p.setWalkSpeed(0.3F);
-                        } else if (speedvalue == 4) {
+                        } else if (speedvaluepo == 4) {
                             p.setWalkSpeed(0.4F);
-                        } else if (speedvalue == 5) {
+                        } else if (speedvaluepo == 5) {
                             p.setWalkSpeed(0.5F);
-                        } else if (speedvalue == 6) {
+                        } else if (speedvaluepo == 6) {
                             p.setWalkSpeed(0.6F);
-                        } else if (speedvalue == 7) {
+                        } else if (speedvaluepo == 7) {
                             p.setWalkSpeed(0.7F);
-                        } else if (speedvalue == 8) {
+                        } else if (speedvaluepo == 8) {
                             p.setWalkSpeed(0.8F);
-                        } else if (speedvalue == 9) {
+                        } else if (speedvaluepo == 9) {
                             p.setWalkSpeed(0.9F);
-                        } else if (speedvalue == 10) {
+                        } else if (speedvaluepo == 10) {
                             p.setWalkSpeed(1.0F);
                         } else {
                             p.setWalkSpeed(0.2F);
                         }
-                    }
+                	}
                 }
-            } else {
+            } else {     
             	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-            		if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-            			if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".value")) {
-            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", speedvalue);
-            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-            				
-            				PlayerConfig.saveConfigFile();
+            		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+            			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
+            				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+            			} else {
+            				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
             			}
+            		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+            			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+            			PlayerConfig.saveConfigFile();
             			
-            			if (Main.useyamllistplayer || !BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable")) {
-                            speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+            			if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".player_name")) {
+            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
+            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", OnJoinConfig.getConfig().getInt("Speed.Value"));
 
-                            if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                                if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                                    speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
-                                } else {
-                                    speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                }
-                            } else {
-                                speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                            }
-                        } else {
-                            if (SQL.tableExists("player_speed")) {
-                                if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
-                                    SQL.set("player_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                                } else {
-                                	SQL.insertData("player, player_UUID, value, Activate",
-                                            " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_speed." + p.getUniqueId() + ".value") + "', 'TRUE' ", "player_speed");
-                                }
-                            } else {
-                                SQL.createTable("player_speed", "player TEXT, player_UUID TEXT, value INT, Activate TEXT");
-                                if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
-                                    SQL.set("player_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                                } else {
-                                    SQL.insertData("player, player_UUID, value, Activate",
-                                            " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_speed." + p.getUniqueId() + ".value") + "', 'TRUE' ", "player_speed");
-                                }
-                            }
-
-                            if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                                if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                                    speedvaluepo = Integer.valueOf(SQL.getInfoInt("player_speed", "value", "" + p.getUniqueId() + ""));
-                                } else {
-                                    speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                                }
-                            } else {
-                                speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
-                            }
-
-                        }
+            	            PlayerConfig.saveConfigFile();
+            	        }
             			
-            			if (speedvaluepo == 1) {
-    	                    p.setWalkSpeed(0.1F);
-    	                } else if (speedvaluepo == 2) {
-    	                    p.setWalkSpeed(0.2F);
-    	                } else if (speedvaluepo == 3) {
-    	                    p.setWalkSpeed(0.3F);
-    	                } else if (speedvaluepo == 4) {
-    	                    p.setWalkSpeed(0.4F);
-    	                } else if (speedvaluepo == 5) {
-    	                    p.setWalkSpeed(0.5F);
-    	                } else if (speedvaluepo == 6) {
-    	                    p.setWalkSpeed(0.6F);
-    	                } else if (speedvaluepo == 7) {
-    	                    p.setWalkSpeed(0.7F);
-    	                } else if (speedvaluepo == 8) {
-    	                    p.setWalkSpeed(0.8F);
-    	                } else if (speedvaluepo == 9) {
-    	                    p.setWalkSpeed(0.9F);
-    	                } else if (speedvaluepo == 10) {
-    	                    p.setWalkSpeed(1.0F);
-    	                } else {
-    	                    p.setWalkSpeed(0.2F);
-    	                }
-            		} else {
-            			if (speedvalue == 1) {
-    	                    p.setWalkSpeed(0.1F);
-    	                } else if (speedvalue == 2) {
-    	                    p.setWalkSpeed(0.2F);
-    	                } else if (speedvalue == 3) {
-    	                    p.setWalkSpeed(0.3F);
-    	                } else if (speedvalue == 4) {
-    	                    p.setWalkSpeed(0.4F);
-    	                } else if (speedvalue == 5) {
-    	                    p.setWalkSpeed(0.5F);
-    	                } else if (speedvalue == 6) {
-    	                    p.setWalkSpeed(0.6F);
-    	                } else if (speedvalue == 7) {
-    	                    p.setWalkSpeed(0.7F);
-    	                } else if (speedvalue == 8) {
-    	                    p.setWalkSpeed(0.8F);
-    	                } else if (speedvalue == 9) {
-    	                    p.setWalkSpeed(0.9F);
-    	                } else if (speedvalue == 10) {
-    	                    p.setWalkSpeed(1.0F);
-    	                } else {
-    	                    p.setWalkSpeed(0.2F);
-    	                }
+            			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
+            				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+            			} else {
+            				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+            			}
             		}
+            		
+            		 if (speedvaluepo == 1) {
+                         p.setWalkSpeed(0.1F);
+                     } else if (speedvaluepo == 2) {
+                         p.setWalkSpeed(0.2F);
+                     } else if (speedvaluepo == 3) {
+                         p.setWalkSpeed(0.3F);
+                     } else if (speedvaluepo == 4) {
+                         p.setWalkSpeed(0.4F);
+                     } else if (speedvaluepo == 5) {
+                         p.setWalkSpeed(0.5F);
+                     } else if (speedvaluepo == 6) {
+                         p.setWalkSpeed(0.6F);
+                     } else if (speedvaluepo == 7) {
+                         p.setWalkSpeed(0.7F);
+                     } else if (speedvaluepo == 8) {
+                         p.setWalkSpeed(0.8F);
+                     } else if (speedvaluepo == 9) {
+                         p.setWalkSpeed(0.9F);
+                     } else if (speedvaluepo == 10) {
+                         p.setWalkSpeed(1.0F);
+                     } else {
+                         p.setWalkSpeed(0.2F);
+                     }
             	} else {
-            		if (speedvalue == 1) {
-	                    p.setWalkSpeed(0.1F);
-	                } else if (speedvalue == 2) {
-	                    p.setWalkSpeed(0.2F);
-	                } else if (speedvalue == 3) {
-	                    p.setWalkSpeed(0.3F);
-	                } else if (speedvalue == 4) {
-	                    p.setWalkSpeed(0.4F);
-	                } else if (speedvalue == 5) {
-	                    p.setWalkSpeed(0.5F);
-	                } else if (speedvalue == 6) {
-	                    p.setWalkSpeed(0.6F);
-	                } else if (speedvalue == 7) {
-	                    p.setWalkSpeed(0.7F);
-	                } else if (speedvalue == 8) {
-	                    p.setWalkSpeed(0.8F);
-	                } else if (speedvalue == 9) {
-	                    p.setWalkSpeed(0.9F);
-	                } else if (speedvalue == 10) {
-	                    p.setWalkSpeed(1.0F);
-	                } else {
-	                    p.setWalkSpeed(0.2F);
-	                }
+            		PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
+            		
+            		if (speedvaluepo == 1) {
+                        p.setWalkSpeed(0.1F);
+                    } else if (speedvaluepo == 2) {
+                        p.setWalkSpeed(0.2F);
+                    } else if (speedvaluepo == 3) {
+                        p.setWalkSpeed(0.3F);
+                    } else if (speedvaluepo == 4) {
+                        p.setWalkSpeed(0.4F);
+                    } else if (speedvaluepo == 5) {
+                        p.setWalkSpeed(0.5F);
+                    } else if (speedvaluepo == 6) {
+                        p.setWalkSpeed(0.6F);
+                    } else if (speedvaluepo == 7) {
+                        p.setWalkSpeed(0.7F);
+                    } else if (speedvaluepo == 8) {
+                        p.setWalkSpeed(0.8F);
+                    } else if (speedvaluepo == 9) {
+                        p.setWalkSpeed(0.9F);
+                    } else if (speedvaluepo == 10) {
+                        p.setWalkSpeed(1.0F);
+                    } else {
+                        p.setWalkSpeed(0.2F);
+                    }
             	}
-              
-                
             }
         }
 		
