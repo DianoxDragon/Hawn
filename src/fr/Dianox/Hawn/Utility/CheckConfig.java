@@ -129,9 +129,9 @@ public class CheckConfig {
 		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.JumpBoost.Enable.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"&aYour jumpboost has been activated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &aactivated"}));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"&cYour jumpboost has been disabled"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &cdisabled"}));
 		
 			OptionPlayerConfigCommand.getConfig().set("PlayerOption.Option.Jumpboost.Value", 2);
 			
@@ -273,7 +273,7 @@ public class CheckConfig {
 		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.Error.Player-Visibility.Time.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaypvcji% &c&lsecond(s)&7!"}));
 		
 			ConfigMPlayerOption.saveConfigFile();
 		}
@@ -317,15 +317,15 @@ public class CheckConfig {
 			OnJoinConfig.getConfig().set("Speed.Option.Priority-For-Player-Option", true);
 			
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"&aYour speed has been activated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been &aactivated"}));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Enable", true);
-			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"&cYour speed has been disabled"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been &cdisabled"}));
             
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Enable", true);
-            ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Messages", java.util.Arrays.asList(new String[] {"&bSpeed has been set to %arg1%"}));
+            ConfigMPlayerOption.getConfig().set("PlayerOption.Speed.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been set to &e%arg1%"}));
             
             ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Enable", true);
-            ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"&cYou disabled this option, so, you can't manage all the option"}));
+            ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou disabled this option, so, you can't manage all the option"}));
             
             ConfigMPlayerOption.saveConfigFile();
 			
@@ -438,9 +438,9 @@ public class CheckConfig {
             SpawnCommandConfig.getConfig().set("Commands.Spawn.Delay.Cancel-Tp-On.On-Damages", true);
             
             ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Enable", true);
-            ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
+            ConfigMEvents.getConfig().set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
             ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Enable", true);
-            ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"&cTp cancelled"}));
+            ConfigMEvents.getConfig().set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &ccancelled"}));
             
             ConfigMCommands.getConfig().set("Scoreboard.Toggle.On.Enable", true);
             ConfigMCommands.getConfig().set("Scoreboard.Toggle.On.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The scoreboard has been &aenabled"}));
@@ -1034,7 +1034,7 @@ public class CheckConfig {
 		// Events messages
 		
 		if (!ConfigMEvents.getConfig().isSet("Anti-Swear.Notify-Staff")) {
-			ConfigMEvents.getConfig().set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&e[Anti-Swear] &c%player% &esaid &6%message%"}));
+			ConfigMEvents.getConfig().set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7said &e%message%"}));
 		
 			ConfigMEvents.saveConfigFile();
 		}
