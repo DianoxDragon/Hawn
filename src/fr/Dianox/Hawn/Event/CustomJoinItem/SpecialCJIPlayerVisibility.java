@@ -130,7 +130,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 							}
 								
 						}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-						
+						Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 					}
 				} else {
 					e.setCancelled(true);
@@ -168,7 +168,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 							}
 								
 						}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-						
+						Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 					}
 				} else {
 					e.setCancelled(true);
@@ -223,7 +223,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 								}
 									
 							}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-							
+							Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 						}
 					} else {
 						e.setCancelled(true);
@@ -260,7 +260,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 								}
 									
 							}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-							
+							Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 						}
 					} else {
 						e.setCancelled(true);
