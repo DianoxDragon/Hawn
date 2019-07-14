@@ -186,6 +186,8 @@ public class Main extends JavaPlugin implements Listener {
 
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
 
+    public static HashMap<Player, Long> hiderCooldowns = new HashMap<Player, Long>();
+    
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
