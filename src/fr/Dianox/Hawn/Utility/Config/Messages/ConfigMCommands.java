@@ -217,7 +217,8 @@ public class ConfigMCommands {
             Config.set("Vanish.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &b%target%&7's vanish has been &aenabled&7 by&e %player%"}));
             Config.set("Vanish.Other-Sender-Disabled.Enable", true);
             Config.set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &b%target%&7's vanish has been &cdisabled&7 by&e %player%"}));
-            
+            Config.set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aYou are vanished"}));
+	
             /*
              * Clear inv stuff
              */
