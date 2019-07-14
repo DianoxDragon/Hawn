@@ -11,6 +11,7 @@ import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -20,6 +21,10 @@ import net.md_5.bungee.chat.ComponentSerializer;
 public class MessageUtils {
 	
 	public static String ReplaceMainplaceholderP(String str, Player p) {
+		
+		if (str.contains("%prefix%")) {
+			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
+		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", p.getName());
@@ -117,6 +122,10 @@ public class MessageUtils {
 	}
 	
 	public static String ReplaceMainplaceholderC(String str) {
+		
+		if (str.contains("%prefix%")) {
+			str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
+		}
 		
 		if (str.contains("%player%")) {
 			str = str.replaceAll("%player%", "player name");
@@ -224,7 +233,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 			}
 			
@@ -238,7 +247,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 			}
 			
@@ -258,7 +267,7 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 				}
 				
@@ -272,7 +281,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(player, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, str);
 			}
 			
@@ -294,7 +303,7 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 				}
 				
@@ -309,7 +318,7 @@ public class MessageUtils {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 					str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 				}
 				
@@ -328,7 +337,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 			}
 			
@@ -345,7 +354,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 			}
 			
@@ -383,7 +392,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(target, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, str);
 			}
 			
@@ -402,7 +411,7 @@ public class MessageUtils {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(target, str);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
 				str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, str);
 			}
 			
