@@ -895,6 +895,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 									}
 
 								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 							}
 						} else {
 							PlayerVisibility.showPlayer(p);
@@ -927,6 +928,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 									}
 
 								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
 							}
 						} else {
 							PlayerVisibility.hidePlayer(p);
