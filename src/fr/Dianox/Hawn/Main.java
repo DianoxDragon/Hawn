@@ -77,7 +77,6 @@ import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
@@ -149,7 +148,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.7-Alpha";
+	static String versions = "0.6.8-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -221,7 +220,6 @@ public class Main extends JavaPlugin implements Listener {
 		ConfigSpawn.loadConfig((Plugin) this);
 		ConfigGeneral.loadConfig((Plugin) this);
 		ServerListConfig.loadConfig((Plugin) this);
-		PlayerConfig.loadConfig((Plugin) this);
 		AutoBroadcastConfig.loadConfig((Plugin) this);
 		BetweenServersConfig.loadConfig((Plugin) this);
 		CommandAliasesConfig.loadConfig((Plugin) this);
