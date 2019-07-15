@@ -368,6 +368,11 @@ public class MessageUtils {
 			str = ReplaceMainplaceholderP(str, player);
 			str = str.replaceAll("&", "§");
 			
+			if (str.contains("<--center-->")) {
+				sendCenteredMessage(p, str);
+				return;
+			}
+			
 			p.sendMessage(str);
 		}
 	}
