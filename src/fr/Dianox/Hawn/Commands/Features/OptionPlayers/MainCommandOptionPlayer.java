@@ -9,10 +9,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
@@ -108,8 +108,8 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 			} else if (args[0].equalsIgnoreCase("speed")) {
 				if (p.hasPermission("hawn.command.optionplayer.speed")) {
 					if (args.length == 2) {
-
-						if (!PlayerConfig.getConfig().getBoolean("player_speed."+p.getUniqueId()+".Activate")) {
+						
+						if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_speed.Activate")) {
 							if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Option-Disabled.Enable")) {
 								for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Option-Disabled.Messages")) {
 									MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -123,8 +123,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							@SuppressWarnings("unused")
 							int i = Integer.parseInt(args[1]);
 
-							PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-							PlayerConfig.saveConfigFile();
+							ConfigPlayerGet.writeBoolean(p.getUniqueId().toString(), "player_speed.Activate", true);
 
 							if (args[1].equalsIgnoreCase("1")) {
 								p.setWalkSpeed(0.1F);
