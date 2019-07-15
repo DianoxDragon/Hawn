@@ -21,12 +21,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -670,24 +670,18 @@ public class SpecialCJIPlayerVisibility implements Listener {
 	
 	public static String getValueMysqlYaml(Player p) {
 		String value = "";
+		String uuid = p.getUniqueId().toString();
 		
-		if (!PlayerConfig.getConfig().isSet("player_option_pv."+p.getUniqueId()+".player_name")) {
+		if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_pv.Activate")) {
 			if (PlayerVisibility.PVPlayer.contains(p)) {
-				PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-				PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", true);
 			} else {
-				PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-				PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", false);
 			}
-			
-            PlayerConfig.saveConfigFile();
-        }
-		
-		PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-		
+		}
+				
 		if (Main.useyamllistplayer) {
-			if (PlayerConfig.getConfig().getBoolean("player_option_pv."+p.getUniqueId()+".Activate"))  {
+			if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
 				value = "TRUE";
 			} else {
 				value = "FALSE";
@@ -701,7 +695,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				value = String.valueOf(SQL.getInfoString("player_option_pv", "Activate", "" + p.getUniqueId() + ""));
 				SQL.set("player_option_pv", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
 			} else {
-				if (PlayerConfig.getConfig().getBoolean("player_option_pv."+p.getUniqueId()+".Activate"))  {
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
 					value = "TRUE";
 					SQL.insertData("player, player_UUID, Activate",
 	                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_pv");
@@ -717,16 +711,14 @@ public class SpecialCJIPlayerVisibility implements Listener {
 	}
 	
 	public static void onMysqlYamlCJIChange(Player p, String boolea) {
+		String uuid = p.getUniqueId().toString();
 		
-		PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
 		if (boolea.equalsIgnoreCase("FALSE")) {
-			PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", false);
 		} else {
-			PlayerConfig.getConfig().set("player_option_pv."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", true);
 		}
-		
-		PlayerConfig.saveConfigFile();
-		
+				
 		if (!Main.useyamllistplayer) {
 			if (!SQL.tableExists("player_option_pv")) {
 				SQL.createTable("player_option_pv", "player TEXT, player_UUID TEXT, Activate TEXT");
