@@ -131,7 +131,7 @@ public class ConfigPlayerGet {
 		return cfg;
 	}
 	
-	public static YamlConfiguration writeBoolean(String file, String link, Integer i) {
+	public static YamlConfiguration writeBoolean(String file, String link, Boolean b) {
         
 		File f = new File(Main.getInstance().getDataFolder(), "StockageInfo/YamlPlayer/" + file + ".yml");
 		
@@ -141,7 +141,7 @@ public class ConfigPlayerGet {
 		
 		cfg = YamlConfiguration.loadConfiguration(f);
 		
-		cfg.set(link, i);
+		cfg.set(link, b);
 		
 		try {
             cfg.save(f);
