@@ -25,7 +25,6 @@ import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
@@ -605,7 +604,6 @@ public class HawnCommand implements CommandExecutor {
 		WeatherTimeCommandConfig.reloadConfig();
 		FlyCommandConfig.reloadConfig();
 		ConfigFDoubleJump.reloadConfig();
-		PlayerConfig.reloadConfig();
 		OnChatConfig.reloadConfig();
 		HealCommandConfig.reloadConfig();
 		//NameTagConfig.reloadConfig();
