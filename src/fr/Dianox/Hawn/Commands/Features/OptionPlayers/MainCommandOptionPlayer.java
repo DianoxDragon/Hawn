@@ -8,16 +8,20 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Main;
+import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
 import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
+import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
 
 public class MainCommandOptionPlayer extends BukkitCommand {
 
@@ -44,7 +48,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 
 		// >>> Executed by the player
 		Player p = (Player) sender;
-
+		
 		if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Enable")) {
 			if (OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Disable-Message")) {
 				if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
@@ -76,6 +80,76 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
+			} else if (args[0].equalsIgnoreCase("doublejump") || args[0].equalsIgnoreCase("dj")) {
+				if (p.hasPermission("hawn.command.optionplayer.doublejump") && p.hasPermission("hawn.fun.doublejump.double")) {
+					if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+						if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+							if (!PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+								if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Not-Good-World.Enable")) {
+									for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+						}
+						
+						if (PlayerOptionSQLClass.GetSQLPOFly(p).equalsIgnoreCase("TRUE") || FlyCommand.player_list_flyc.contains(p)) {
+							PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
+							PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+							p.setAllowFlight(false);
+							p.setFlying(false);
+							FlyCommand.player_list_flyc.remove(p);
+							
+							if (ConfigMCommands.getConfig().getBoolean("Fly.Disable.Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Disable.Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+							
+							p.setAllowFlight(true);
+	    					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+	    					
+	    					if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+								for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else {
+							if (PlayerOptionSQLClass.GetSQLPODoubleJump(p).equalsIgnoreCase("TRUE")) {
+								PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+								p.setAllowFlight(false);
+								p.setFlying(false);
+								
+								if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Disable.Enable")) {
+									for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Disable.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+							} else {
+								p.setAllowFlight(true);
+								PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+								
+								if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+									for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+							}
+						}
+					} else {
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Disabled.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.DoubleJump-Disabled.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+					}
+				} else {
+					MessageUtils.MessageNoPermission(p, "hawn.command.optionplayer.doublejump or hawn.fun.doublejump.double");
+					return true;
+				}
+			} else if (args[0].equalsIgnoreCase("fly")) {
+				p.performCommand("fly");
 			} else if (args[0].equalsIgnoreCase("jumpboost")) {
 				if (p.hasPermission("hawn.command.optionplayer.jumpboost")) {
 					
