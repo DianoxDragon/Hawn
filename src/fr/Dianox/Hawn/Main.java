@@ -43,6 +43,7 @@ import fr.Dianox.Hawn.Commands.Features.Chat.ClearChatCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.EmojiesCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.MuteChatCommand;
+import fr.Dianox.Hawn.Commands.Features.Chat.WarningCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.ClassicGMCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmaCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmcCommand;
@@ -96,6 +97,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.TitleAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.WarningCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -265,7 +267,8 @@ public class Main extends JavaPlugin implements Listener {
 		ScoreboardCommandConfig.loadConfig((Plugin) this);
 		GamemodeCommandConfig.loadConfig((Plugin) this);
 		OptionPlayerConfigCommand.loadConfig((Plugin) this);
-
+		WarningCommandConfig.loadConfig((Plugin) this);
+		
 		ConfigGCos.loadConfig((Plugin) this);
 		ConfigGLP.loadConfig((Plugin) this);
 		ConfigFDoubleJump.loadConfig((Plugin) this);
@@ -303,7 +306,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
-
+		
 		// Commands
 		getCommand("hawn").setExecutor(new HawnCommand());
 		getCommand("paneladmin").setExecutor(new PanelAdminCommand());
@@ -333,6 +336,15 @@ public class Main extends JavaPlugin implements Listener {
 				commandMap.register("titleannouncer", new TitleAnnouncerCommand("titleannouncer"));
 				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
+						commandMap.register(s, new TitleAnnouncerCommand(s));
+					}
+				}
+			}
+			// Warning
+			if (!WarningCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("warning", new WarningCommand("warning"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warning.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warning.Aliases")) {
 						commandMap.register(s, new TitleAnnouncerCommand(s));
 					}
 				}
