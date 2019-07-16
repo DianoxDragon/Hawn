@@ -345,7 +345,7 @@ public class Main extends JavaPlugin implements Listener {
 				commandMap.register("warning", new WarningCommand("warning"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Warning.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Warning.Aliases")) {
-						commandMap.register(s, new TitleAnnouncerCommand(s));
+						commandMap.register(s, new WarningCommand(s));
 					}
 				}
 			}
