@@ -44,6 +44,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.TitleAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.WarningCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -628,6 +629,7 @@ public class HawnCommand implements CommandExecutor {
 		SpawnMConfig.reloadConfig();
 		TablistConfig.reloadConfig();
 		CommandAliasesConfig.reloadConfig();
+		WarningCommandConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
