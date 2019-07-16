@@ -19,7 +19,6 @@ import fr.Dianox.Hawn.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class PlayerBoard {
@@ -87,7 +86,7 @@ public class PlayerBoard {
         }
     }
 
-    public void startSetup(final PlayerReceiveBoardEvent event) {
+    private void startSetup(final PlayerReceiveBoardEvent event) {
         if (plugin.getBoards().containsKey(getPlayer())) {
             plugin.getBoards().get(getPlayer()).remove();
         }
@@ -104,24 +103,19 @@ public class PlayerBoard {
         updater();
     }
 
-    @SuppressWarnings("deprecation")
-	public void buildScoreboard(PlayerReceiveBoardEvent event) {
+    private void buildScoreboard(PlayerReceiveBoardEvent event) {
         board = Bukkit.getScoreboardManager().getNewScoreboard();
-        score = board.registerNewObjective("score", "dummy");
+        score = board.registerNewObjective("score", "dummy", event.getTitle().get(0));
         score.setDisplaySlot(DisplaySlot.SIDEBAR);
         if (event.getTitle().size() == 0)
             event.getTitle().add(" ");
 
-        score.setDisplayName(event.getTitle().get(0));
-
         getPlayer().setScoreboard(board);
     }
 
-    public void setUpText(final List<String> text) {
+    private void setUpText(final List<String> text) {
         int oi = 0;
-        Iterator<String> tex = text.iterator();
-        while (tex.hasNext()) {
-            String s = tex.next();
+        for (String s : text) {
             Team t = board.registerNewTeam("Team:" + index);
             String normal = s;
             String sc = chlist.get(oi);
@@ -141,25 +135,22 @@ public class PlayerBoard {
         }
     }
 
-    public void colorize() {
+    private void colorize() {
         for (ChatColor color : ChatColor.values()) {
             chlist.add(color.toString() + ChatColor.RESET.toString());
         }
     }
 
-    public void updateText() {
+    void updateText() {
         if (ch) {
             return;
         }
 
-        Iterator<Team> teams = this.teams.iterator();
-
-        while (teams.hasNext()) {
-            Team t = teams.next();
+        for (Team t : this.teams) {
             String s = lot.get(t);
             if (info != null) {
                 for (String a : info.getChangeText().keySet()) {
-                    if (s.contains("{CH_" + a + "}")) {
+                	if (s.contains("{CH_" + a + "}")) {
                         s = s.replace("{CH_" + a + "}", "");
                         s = s + chanText.get(a);
                     }
@@ -181,7 +172,7 @@ public class PlayerBoard {
         }
     }
 
-    public void setPrefix(Team t, String string) {
+    private void setPrefix(Team t, String string) {
         if (string.length() > getMaxSize()) {
             t.setPrefix(maxChars(getMaxSize(), string));
             return;
@@ -189,7 +180,7 @@ public class PlayerBoard {
         t.setPrefix(string);
     }
 
-    public void setSuffix(Team t, String string) {
+    private void setSuffix(Team t, String string) {
         if (string.length() > getMaxSize()) {
             t.setSuffix(maxChars(getMaxSize(), string));
             return;
@@ -197,7 +188,7 @@ public class PlayerBoard {
         t.setSuffix(string);
     }
 
-    public String setHolders(String s) {
+    private String setHolders(String s) {
         s = s.replace("{PLAYER}", getPlayer().getName()).replace("{ONLINE}", Bukkit.getOnlinePlayers().size() + "")
                 .replace("{TIME}", getPlayer().getWorld().getTime() + "");
         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -211,14 +202,14 @@ public class PlayerBoard {
         return s;
     }
 
-    public int getMaxSize() {
+    private int getMaxSize() {
         if (Main.newmethodver) {
         	return 64;
         }
         return 16;
     }
 
-    public void updateTitle() {
+    void updateTitle() {
         if (ch) {
             return;
         }
@@ -229,7 +220,7 @@ public class PlayerBoard {
         titleindex++;
     }
 
-    public String maxChars(int characters, String string) {
+    private String maxChars(int characters, String string) {
         if (ChatColor.translateAlternateColorCodes('&', string).length() > characters) {
         	return string.substring(0, characters);
         }
@@ -252,17 +243,9 @@ public class PlayerBoard {
     }
 
     public void updater() {
-        titleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-            public void run() {
-                updateTitle();
-            }
-        }, 0, updateTitle);
+    	titleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::updateTitle, 0, updateTitle);
 
-        textTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-            public void run() {
-                updateText();
-            }
-        }, 0, updateText);
+    	textTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::updateText, 0, updateText);
 
         if (info != null) {
             for (final String s : info.getChangeText().keySet()) {
@@ -291,8 +274,9 @@ public class PlayerBoard {
                 BukkitTask task = new BukkitRunnable() {
                     public void run() {
                         Scroller text = info.getScrollerText().get(s);
-                        String txt = text.text;
-                        text.setupText(setHolders(txt), text.width, text.spaceBetween, '&');
+                        text.setupText(
+                        		setHolders(text.text), '&'
+                        		);
                         scrollerText.put(s, text.next());
                         updateText();
                     }
@@ -316,14 +300,15 @@ public class PlayerBoard {
 
         score = board.getObjective("score");
 
-        score.setDisplaySlot(DisplaySlot.SIDEBAR);
+        if (score != null) {
+            score.setDisplaySlot(DisplaySlot.SIDEBAR);
+            score.setDisplayName(this.title.get(0));
+        }
 
         if (this.title.size() <= 0) {
             this.title.add(" ");
         }
-
-        score.setDisplayName(this.title.get(0));
-
+        
         setUpText(text);
 
         ch = false;
@@ -371,7 +356,7 @@ public class PlayerBoard {
                     if (color.equals(ChatColor.RESET)) {
                         break;
                     }
-                    if ((textColor == null) && (color.isFormat())) {
+                    if (color.isFormat()) {
                         if ((color.equals(ChatColor.BOLD)) && (!BOLD)) {
                             BOLD = true;
                         } else if ((color.equals(ChatColor.ITALIC)) && (!ITALIC)) {
@@ -383,7 +368,7 @@ public class PlayerBoard {
                         } else if ((color.equals(ChatColor.UNDERLINE)) && (!UNDERLINE)) {
                             UNDERLINE = true;
                         }
-                    } else if ((textColor == null) && (color.isColor())) {
+                    } else if (color.isColor()) {
                         textColor = color;
                     }
                 }

@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 
 public class PlayerOptionSQLClass {
@@ -14,19 +13,16 @@ public class PlayerOptionSQLClass {
 	 */
 	// > Save YAML/SQL
 	public static void SaveSQLPOSpeed(Player p, String boolea, Integer value) {
+		String uuid = p.getUniqueId().toString();
+		
 		if (boolea.equalsIgnoreCase("TRUE")) {
-			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
-			PlayerConfig.saveConfigFile();
+			ConfigPlayerGet.writeBoolean(uuid, "player_speed.Activate", true);
 		} else {
-			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-			PlayerConfig.saveConfigFile();
+			ConfigPlayerGet.writeBoolean(uuid, "player_speed.Activate", false);
 		}
 		
-		PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", value);
-		PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-			
-		PlayerConfig.saveConfigFile();
-		
+		ConfigPlayerGet.writeInt(uuid, "player_speed.value", value);
+					
 		if (!Main.useyamllistplayer) {
 			if (SQL.tableExists("player_speed")) {
                 if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_speed")) {
@@ -53,22 +49,18 @@ public class PlayerOptionSQLClass {
 	
 	public static String GetSQLPOSpeed(Player p, String method) {
 		String value = "";
+		String uuid = p.getUniqueId().toString();
 		
-		PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-		
-		if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".player_name")) {
-			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", OnJoinConfig.getConfig().getInt("Speed.Value"));
-
-            PlayerConfig.saveConfigFile();
+		if (!ConfigPlayerGet.getFile(uuid).isSet("player_speed.Activate")) {
+			ConfigPlayerGet.writeBoolean(uuid, "player_speed.Activate", false);
+			ConfigPlayerGet.writeInt(uuid, "player_speed.value", OnJoinConfig.getConfig().getInt("Speed.Value"));
         }
 		
 		if (Main.useyamllistplayer) {
 			if (method.equalsIgnoreCase("VALUE")) {
-				value = String.valueOf(PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value"));
+				value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_speed.value"));
 			} else if (method.equalsIgnoreCase("ACTIVATE")) {
-				if (PlayerConfig.getConfig().getBoolean("player_speed."+p.getUniqueId()+".Activate"))  {
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_speed.Activate")) {
 					value = "TRUE";
 				} else {
 					value = "FALSE";
@@ -89,9 +81,9 @@ public class PlayerOptionSQLClass {
 			} else {
 				if (method.equalsIgnoreCase("VALUE")) {
 					String getac = "";
-					Integer getva = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+					Integer getva = ConfigPlayerGet.getFile(uuid).getInt("player_speed.value");
 					
-					if (PlayerConfig.getConfig().getBoolean("player_speed."+p.getUniqueId()+".Activate")) {
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_speed.Activate")) {
 						getac = "TRUE";
 					} else {
 						getac = "FALSE";
@@ -103,9 +95,9 @@ public class PlayerOptionSQLClass {
 					value = String.valueOf(getva);
 				} else if (method.equalsIgnoreCase("ACTIVATE")) {
 					String getac = "";
-					Integer getva = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+					Integer getva = ConfigPlayerGet.getFile(uuid).getInt("player_speed.value");
 					
-					if (PlayerConfig.getConfig().getBoolean("player_speed."+p.getUniqueId()+".Activate")) {
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_speed.Activate")) {
 						getac = "TRUE";
 					} else {
 						getac = "FALSE";
@@ -127,14 +119,13 @@ public class PlayerOptionSQLClass {
 	 */
 	// > Save YAML/SQL
 	public static void SaveSQLPOJumpBoost(Player p, String boolea) {
-		PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+		String uuid = p.getUniqueId().toString();
+		
 		if (boolea.equalsIgnoreCase("FALSE")) {
-			PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".Activate", false);
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_jumpboost.Activate", false);
 		} else {
-			PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".Activate", true);
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_jumpboost.Activate", true);
 		}
-
-		PlayerConfig.saveConfigFile();
 		
 		if (!Main.useyamllistplayer) {
 			if (!SQL.tableExists("player_option_jumpboost")) {
@@ -154,18 +145,14 @@ public class PlayerOptionSQLClass {
 	// > Get the actual value
 	public static String GetSQLPOJumpBoost(Player p) {
 		String value = "";
-
-		PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-
+		String uuid = p.getUniqueId().toString();
+		
 		if (Main.useyamllistplayer) {
-			if (!PlayerConfig.getConfig().isSet("player_option_jumpboost."+p.getUniqueId()+".player_name")) {
-				PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-
-		        PlayerConfig.saveConfigFile();
+			if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_jumpboost.Activate")) {
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_jumpboost.Activate", false);
 			}
 
-			if (PlayerConfig.getConfig().getBoolean("player_option_jumpboost."+p.getUniqueId()+".Activate"))  {
+			if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_jumpboost.Activate"))  {
 				value = "TRUE";
 			} else {
 				value = "FALSE";
@@ -176,22 +163,18 @@ public class PlayerOptionSQLClass {
 			}
 
 			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_jumpboost")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_jumpboost."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-
-		            PlayerConfig.saveConfigFile();
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_jumpboost.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_jumpboost.Activate", false);
 				}
 
 				value = String.valueOf(SQL.getInfoString("player_option_jumpboost", "Activate", "" + p.getUniqueId() + ""));
 				SQL.set("player_option_jumpboost", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
 			} else {
-				if (!PlayerConfig.getConfig().isSet("player_option_jumpboost."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_jumpboost."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-
-			        PlayerConfig.saveConfigFile();
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_jumpboost.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_jumpboost.Activate", false);
 				}
 
-				if (PlayerConfig.getConfig().getBoolean("player_option_jumpboost."+p.getUniqueId()+".Activate"))  {
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_jumpboost.Activate"))  {
 					value = "TRUE";
 					SQL.insertData("player, player_UUID, Activate",
 		                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_jumpboost");
@@ -211,30 +194,24 @@ public class PlayerOptionSQLClass {
 	 */
 	public static String getYmlaMysqlsb(Player p, String option) {
 		String value = "";
-
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-		PlayerConfig.saveConfigFile();
-
+		String uuid = p.getUniqueId().toString();
+		
 		if (Main.useyamllistplayer) {
 			if (option.equalsIgnoreCase("scoreboard")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_keep_sb.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
+					ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", null);
 		        }
 
-				value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
+				value = ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard");
 			} else if (option.equalsIgnoreCase("keepsb")) {
 
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_keep_sb.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
+					ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", null);
+		        }
 
-		            PlayerConfig.saveConfigFile();
-				}
-
-				if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_keep_sb.Activate")) {
 					value = "TRUE";
 				} else {
 					value = "FALSE";
@@ -246,12 +223,10 @@ public class PlayerOptionSQLClass {
 			}
 
 			if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_keep_sb")) {
-				if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-					PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
-
-		            PlayerConfig.saveConfigFile();
-				}
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_keep_sb.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
+					ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", null);
+		        }
 
 				if (option.equalsIgnoreCase("scoreboard")) {
 					value = String.valueOf(SQL.getInfoString("player_option_keep_sb", "Scoreboard", "" + p.getUniqueId() + ""));
@@ -261,37 +236,34 @@ public class PlayerOptionSQLClass {
 				SQL.set("player_option_keep_sb", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
 			} else {
 				if (option.equalsIgnoreCase("scoreboard")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_keep_sb.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
+						ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", null);
+			        }
 
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_keep_sb.Activate")) {
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '"+ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard")+"' ", "player_option_keep_sb");
 					} else {
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '"+ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard")+"' ", "player_option_keep_sb");
 					}
-					value = PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard");
+					
+					value = ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard");
 				} else if (option.equalsIgnoreCase("keepsb")) {
-					if (!PlayerConfig.getConfig().isSet("player_option_keep_sb."+p.getUniqueId()+".player_name")) {
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-						PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(null));
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_keep_sb.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
+						ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", null);
+			        }
 
-			            PlayerConfig.saveConfigFile();
-					}
-
-					if (PlayerConfig.getConfig().getBoolean("player_option_keep_sb."+p.getUniqueId()+".Activate"))  {
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_keep_sb.Activate")) {
 						value = "TRUE";
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard")+"' ", "player_option_keep_sb");
 					} else {
 						value = "FALSE";
 						SQL.insertData("player, player_UUID, Activate, Scoreboard",
-		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+PlayerConfig.getConfig().getString("player_option_keep_sb."+p.getUniqueId()+".Scoreboard")+"' ", "player_option_keep_sb");
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '"+ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard")+"' ", "player_option_keep_sb");
 					}
 				}
 			}
@@ -301,15 +273,15 @@ public class PlayerOptionSQLClass {
 	}
 
 	public static void saveSBmysqlyaml(Player p, String sb, String boolea) {
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
+		String uuid = p.getUniqueId().toString();
+		
 		if (boolea.equalsIgnoreCase("FALSE")) {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", false);
 		} else {
-			PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Activate", Boolean.valueOf(true));
+			ConfigPlayerGet.writeBoolean(uuid, "player_option_keep_sb.Activate", true);
 		}
-		PlayerConfig.getConfig().set("player_option_keep_sb."+p.getUniqueId()+".Scoreboard", String.valueOf(sb));
-
-		PlayerConfig.saveConfigFile();
+		
+		ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", sb);
 
 		if (!Main.useyamllistplayer) {
 			if (!SQL.tableExists("player_option_keep_sb")) {
@@ -326,5 +298,154 @@ public class PlayerOptionSQLClass {
 			}
 		}
 	}
+	
+	/*
+	 * Fly option
+	 */
+	// > Save YAML/SQL
+		public static void SaveSQLPOFly(Player p, String boolea) {
+			String uuid = p.getUniqueId().toString();
+			
+			if (boolea.equalsIgnoreCase("FALSE")) {
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+			} else {
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", true);
+			}
+			
+			if (!Main.useyamllistplayer) {
+				if (!SQL.tableExists("player_option_fly")) {
+					SQL.createTable("player_option_fly", "player TEXT, player_UUID TEXT, Activate TEXT");
+				}
 
+				if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_fly")) {
+					SQL.set("player_option_fly", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+					SQL.set("player_option_fly", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+				} else {
+					SQL.insertData("player, player_UUID, Activate",
+	                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_fly");
+				}
+			}
+		}
+		
+		// > Get the actual value
+		public static String GetSQLPOFly(Player p) {
+			String value = "";
+			String uuid = p.getUniqueId().toString();
+			
+			if (Main.useyamllistplayer) {
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+				}
+
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_fly.Activate"))  {
+					value = "TRUE";
+				} else {
+					value = "FALSE";
+				}
+			} else {
+				if (!SQL.tableExists("player_option_fly")) {
+					SQL.createTable("player_option_fly", "player TEXT, player_UUID TEXT, Activate TEXT");
+				}
+
+				if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_fly")) {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+					}
+
+					value = String.valueOf(SQL.getInfoString("player_option_fly", "Activate", "" + p.getUniqueId() + ""));
+					SQL.set("player_option_fly", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+				} else {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+					}
+
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_fly.Activate"))  {
+						value = "TRUE";
+						SQL.insertData("player, player_UUID, Activate",
+			                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_fly");
+					} else {
+						value = "FALSE";
+						SQL.insertData("player, player_UUID, Activate",
+			                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_fly");
+					}
+				}
+			}
+
+			return value;
+		}
+		
+		/*
+		 * DoubleJump option
+		 */
+		// > Save YAML/SQL
+			public static void SaveSQLPODoubleJump(Player p, String boolea) {
+				String uuid = p.getUniqueId().toString();
+				
+				if (boolea.equalsIgnoreCase("FALSE")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+				} else {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", true);
+				}
+				
+				if (!Main.useyamllistplayer) {
+					if (!SQL.tableExists("player_option_doublejump")) {
+						SQL.createTable("player_option_doublejump", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_doublejump")) {
+						SQL.set("player_option_doublejump", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+						SQL.set("player_option_doublejump", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						SQL.insertData("player, player_UUID, Activate",
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_doublejump");
+					}
+				}
+			}
+			
+			// > Get the actual value
+			public static String GetSQLPODoubleJump(Player p) {
+				String value = "";
+				String uuid = p.getUniqueId().toString();
+				
+				if (Main.useyamllistplayer) {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+					}
+
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_doublejump.Activate"))  {
+						value = "TRUE";
+					} else {
+						value = "FALSE";
+					}
+				} else {
+					if (!SQL.tableExists("player_option_doublejump")) {
+						SQL.createTable("player_option_doublejump", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_doublejump")) {
+						if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+							ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+						}
+
+						value = String.valueOf(SQL.getInfoString("player_option_doublejump", "Activate", "" + p.getUniqueId() + ""));
+						SQL.set("player_option_doublejump", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+							ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+						}
+
+						if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_doublejump.Activate"))  {
+							value = "TRUE";
+							SQL.insertData("player, player_UUID, Activate",
+				                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_doublejump");
+						} else {
+							value = "FALSE";
+							SQL.insertData("player, player_UUID, Activate",
+				                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_doublejump");
+						}
+					}
+				}
+
+				return value;
+			}
 }

@@ -53,18 +53,30 @@ public class CustomCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("commands-general.enable", Boolean.valueOf(true));
-            Config.set("commands.rules.enable", Boolean.valueOf(true));
-            Config.set("commands.rules.command", String.valueOf("/rules"));
-            Config.set("commands.rules.permission.enable", Boolean.valueOf(true));
-            Config.set("commands.rules.permission.message", String.valueOf("hawn.command.rules"));
-            Config.set("commands.rules.no-permission-message-enable", Boolean.valueOf(true));
+            Config.set("commands-general.enable", true);
+            Config.set("commands.rules.enable", true);
+            Config.set("commands.rules.command", "/rules");
+            Config.set("commands.rules.permission.enable", true);
+            Config.set("commands.rules.permission.message", "hawn.command.rules");
+            Config.set("commands.rules.no-permission-message-enable", true);
             Config.set("commands.rules.message", java.util.Arrays.asList(new String[] {
-                    "this is a test message for the command /rules",
-                    "please follow this format for all commands, with all",
-                    "these parameters, of course placeholderapi and json work",
-                    "&eyou can create as much commands as you want !",
-                    "Let people be informed !"
+            		"<--center--> &4&m>-------------<",
+            	    "",
+            	    "<--center--> &c&nPlayers",
+            	    "",
+            	    " &8→ &ePlease be nice",
+            	    " &8→ &eDon't cheat and more",
+            	    "",
+            	    "<perm>hawn.whatyouwant.more</perm> <--center--> &c&nVIP",
+            	    "<perm>hawn.whatyouwant.more</perm> ",
+            	    "<perm>hawn.whatyouwant.more</perm> &bIf you can see the VIP section, It's because you have the permission for it!",
+            	    "<perm>hawn.whatyouwant.more</perm> &bCheck the config file for custom commands to see how it's work!",
+            	    "<perm>hawn.whatyouwant.more</perm> ",
+            	    "<--center--> &4&m>-------------<",
+            	    "<perm>hawn.whatyouwant.more</perm> [send-actionbar[50]]: Actually You can see that if you have ther permission",
+            	    "[send-title[50]]: But that's good //n &6to have a real custom commands",
+            	    "[sounds]: BLOCK_ANVIL_LAND",
+            	    "&eJust check spigot page for more events"
                 }));
             
             saveConfigFile();

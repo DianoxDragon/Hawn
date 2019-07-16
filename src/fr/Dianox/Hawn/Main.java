@@ -43,6 +43,7 @@ import fr.Dianox.Hawn.Commands.Features.Chat.ClearChatCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.EmojiesCommand;
 import fr.Dianox.Hawn.Commands.Features.Chat.MuteChatCommand;
+import fr.Dianox.Hawn.Commands.Features.Chat.WarningCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.ClassicGMCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmaCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmcCommand;
@@ -77,7 +78,6 @@ import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
@@ -97,6 +97,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.TitleAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.WarningCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -149,7 +150,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.7-Alpha";
+	static String versions = "0.6.8-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -194,6 +195,9 @@ public class Main extends JavaPlugin implements Listener {
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
+    // Placeholder
+    public static Boolean battlelevels = false;
+    
     @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
@@ -221,7 +225,6 @@ public class Main extends JavaPlugin implements Listener {
 		ConfigSpawn.loadConfig((Plugin) this);
 		ConfigGeneral.loadConfig((Plugin) this);
 		ServerListConfig.loadConfig((Plugin) this);
-		PlayerConfig.loadConfig((Plugin) this);
 		AutoBroadcastConfig.loadConfig((Plugin) this);
 		BetweenServersConfig.loadConfig((Plugin) this);
 		CommandAliasesConfig.loadConfig((Plugin) this);
@@ -267,7 +270,8 @@ public class Main extends JavaPlugin implements Listener {
 		ScoreboardCommandConfig.loadConfig((Plugin) this);
 		GamemodeCommandConfig.loadConfig((Plugin) this);
 		OptionPlayerConfigCommand.loadConfig((Plugin) this);
-
+		WarningCommandConfig.loadConfig((Plugin) this);
+		
 		ConfigGCos.loadConfig((Plugin) this);
 		ConfigGLP.loadConfig((Plugin) this);
 		ConfigFDoubleJump.loadConfig((Plugin) this);
@@ -303,9 +307,11 @@ public class Main extends JavaPlugin implements Listener {
 		TXTmsg.onCreateInfoMsgAdmin();
 		TXTmsg.onWrite();
 
+		CheckConfig.ConvertOldDataFromNew();
+		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
-
+		
 		// Commands
 		getCommand("hawn").setExecutor(new HawnCommand());
 		getCommand("paneladmin").setExecutor(new PanelAdminCommand());
@@ -336,6 +342,15 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
 						commandMap.register(s, new TitleAnnouncerCommand(s));
+					}
+				}
+			}
+			// Warning
+			if (!WarningCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("warning", new WarningCommand("warning"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warning.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warning.Aliases")) {
+						commandMap.register(s, new WarningCommand(s));
 					}
 				}
 			}
@@ -779,6 +794,10 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
 				ConfigGeneral.saveConfigFile();
 			}
+		}
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("BattleLevels")) {
+			this.battlelevels = true;
 		}
 		
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||

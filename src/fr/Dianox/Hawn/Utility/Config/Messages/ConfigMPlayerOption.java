@@ -62,16 +62,18 @@ public class ConfigMPlayerOption {
             		"",
             		"     &l>> &e&o&lPlayer option Help",
             		"",
-            		//" &8>> &7/option fly - &eSet the fly",
-            		//" &8>> &7/option doublejump - &eEnable or disable the doublejump",
+            		" &8>> &7/option fly - &eSet the fly",
+            		" &8>> &7/option doublejump - &eEnable or disable the doublejump",
             		" &8>> &7/option speed - &eEnable or disable the speed",
             		" &8>> &7/option jumpboost - &eEnable or disable the jumpboost",
             		" &8>> &7/option pv - &eEnable or disable player visibility",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bPlayerOption&3] &8\\\\&7&m---------------&r&8//"}));
             
-            //Config.set("PlayerOption.DoubleJump.Enable", java.util.Arrays.asList(new String[] {"&aYour doublejump has been activated"}));
-            //Config.set("PlayerOption.DoubleJump.Disable", java.util.Arrays.asList(new String[] {"&cYour doublejump has been disabled"}));
+            Config.set("PlayerOption.DoubleJump.Enable.Enable", true);
+            Config.set("PlayerOption.DoubleJump.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your double jump has been &aactivated"}));
+            Config.set("PlayerOption.DoubleJump.Disable.Enable", true);
+            Config.set("PlayerOption.DoubleJump.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your double jump has been &cdisabled"}));
             
             Config.set("PlayerOption.Speed.Enable.Enable", true);
             Config.set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your speed has been &aactivated"}));
@@ -89,11 +91,11 @@ public class ConfigMPlayerOption {
             Config.set("PlayerOption.PlayerVisibility.ON.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Poof! The players are gone"}));
             Config.set("PlayerOption.PlayerVisibility.OFF.Enable", true);
             Config.set("PlayerOption.PlayerVisibility.OFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The players are visible now"}));
-            /*Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", Boolean.valueOf(true));
-            Config.set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcji% &c&lseconds!"}));
-            Config.set("PlayerOption.Error.DoubleJump-Fly", java.util.Arrays.asList(new String[] {"&c&lYou&7 have the fly and doublejump activated, please deactivate one or the other."}));
-            Config.set("PlayerOption.Error.DoubleJump", java.util.Arrays.asList(new String[] {"&c&lYou&7 cannot activate your doublejump because the fly is active!"}));
-            Config.set("PlayerOption.Error.Fly", java.util.Arrays.asList(new String[] {"&c&lYou&7 cannot activate your fly because the doublejump is active!"}));*/
+
+            Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
+            Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is disabled in &6Cosmetics-Fun/DoubleJump.yml"}));
+            Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
+            Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is not enabled in this world"}));
             
             Config.set("PlayerOption.Error.Option-Disabled.Enable", true);
             Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou disabled this option, so, you can't manage all the option"}));

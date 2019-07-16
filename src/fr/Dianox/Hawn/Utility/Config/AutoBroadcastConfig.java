@@ -55,12 +55,12 @@ public class AutoBroadcastConfig {
             
             // Configuration
             
-            Config.set("Config.Enable", Boolean.valueOf(true));
-            Config.set("Config.Random", Boolean.valueOf(false));
-            Config.set("Config.Interval", Integer.valueOf(10));
-            Config.set("Config.Broadcast-To-Console", Boolean.valueOf(true));
-            Config.set("Config.Use-Permission-To-Get-Messages", Boolean.valueOf(false));
-            Config.set("Config.World.All_World", Boolean.valueOf(false));
+            Config.set("Config.Enable", true);
+            Config.set("Config.Random", false);
+            Config.set("Config.Interval", 60);
+            Config.set("Config.Broadcast-To-Console", false);
+            Config.set("Config.Use-Permission-To-Get-Messages", false);
+            Config.set("Config.World.All_World", false);
             Config.set("Config.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
@@ -68,19 +68,21 @@ public class AutoBroadcastConfig {
             
             // Messages
             
-            Config.set("messages.ohwowitsmyfirstmessage.message", java.util.Arrays.asList(new String[] {
-                    "Yes, it's the first message",
-                    "&cIncredible no %player% ?"
+            Config.set("messages.firstmessage.message", java.util.Arrays.asList(new String[] {
+            		"",
+                    "<--center--> &4/&c!&4\\ &6Warning &e- &6Autobroadcast &4/&c!&4\\",
+                    "<--center--> The best way to support me is to put 5 stars on spigot",
+                    ""
             }));
-            Config.set("messages.itsunlimited.message", java.util.Arrays.asList(new String[] {
-                    "Yes, this one works too",
-                    "No limits ! ...",
-                    "Or maybe just some variables in the consoles"
+            Config.set("messages.mymessage.message", java.util.Arrays.asList(new String[] {
+                    "",
+                    "<--center--> &4/&c!&4\\ &6Warning &e- &6Autobroadcast &4/&c!&4\\",
+                    "<--center--> You are free to configure the messages as you want %player%",
+                    ""
             }));
             
             saveConfigFile();
 
         }
     }
-
 }

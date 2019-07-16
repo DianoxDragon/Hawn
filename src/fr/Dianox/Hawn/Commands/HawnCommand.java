@@ -25,7 +25,6 @@ import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
@@ -45,6 +44,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ScoreboardCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.TitleAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.WarningCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -605,7 +605,6 @@ public class HawnCommand implements CommandExecutor {
 		WeatherTimeCommandConfig.reloadConfig();
 		FlyCommandConfig.reloadConfig();
 		ConfigFDoubleJump.reloadConfig();
-		PlayerConfig.reloadConfig();
 		OnChatConfig.reloadConfig();
 		HealCommandConfig.reloadConfig();
 		//NameTagConfig.reloadConfig();
@@ -630,6 +629,7 @@ public class HawnCommand implements CommandExecutor {
 		SpawnMConfig.reloadConfig();
 		TablistConfig.reloadConfig();
 		CommandAliasesConfig.reloadConfig();
+		WarningCommandConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {

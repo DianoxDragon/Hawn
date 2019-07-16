@@ -12,9 +12,9 @@ import fr.Dianox.Hawn.SQL;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.VanishCommand;
 import fr.Dianox.Hawn.Event.OnQuitE.OQMessages;
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
@@ -25,6 +25,7 @@ public class OnQuit implements Listener {
 	public void onQuit(PlayerQuitEvent e) {
 		
 		Player p = e.getPlayer();
+		String uuid = p.getUniqueId().toString();
 		int gm = 0;
 		
 		if (p.getGameMode() == GameMode.SURVIVAL){
@@ -144,32 +145,27 @@ public class OnQuit implements Listener {
 		
 		// YAML
 			// Player last position
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".World", String.valueOf(p.getLocation().getWorld().getName()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".X", Double.valueOf(p.getLocation().getX()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".Y", Double.valueOf(p.getLocation().getY()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".Z", Double.valueOf(p.getLocation().getZ()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".YAW", Float.valueOf(p.getLocation().getYaw()));
-			PlayerConfig.getConfig().set("player_last_position."+p.getUniqueId()+".PITCH", Float.valueOf(p.getLocation().getPitch()));
+			ConfigPlayerGet.writeString(uuid, "player_last_position.World", p.getLocation().getWorld().getName());
+			ConfigPlayerGet.writeDouble(uuid, "player_last_position.X", p.getLocation().getX());
+			ConfigPlayerGet.writeDouble(uuid, "player_last_position.Y", p.getLocation().getY());
+			ConfigPlayerGet.writeDouble(uuid, "player_last_position.Z", p.getLocation().getZ());
+			ConfigPlayerGet.writeFloat(uuid, "player_last_position.YAW", p.getLocation().getYaw());
+			ConfigPlayerGet.writeFloat(uuid, "player_last_position.PITCH", p.getLocation().getPitch());
 			
 			// Player gamemode
-			PlayerConfig.getConfig().set("player_gamemode."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-			PlayerConfig.getConfig().set("player_gamemode."+p.getUniqueId()+".player_gamemode", Integer.valueOf(gm));
+			ConfigPlayerGet.writeInt(uuid, "player_gamemode.player_gamemode", gm);
 			
 			if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				// Player vanish
 				if (p.hasPermission("hawn.betweenservers.keepvanish")) {
-					PlayerConfig.getConfig().set("player_vanish."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
 					if (VanishCommand.player_list_vanish.contains(p)) {
-						PlayerConfig.getConfig().set("player_vanish."+p.getUniqueId()+".vanished", Boolean.valueOf(true));
+						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", true);
 					} else {
-						PlayerConfig.getConfig().set("player_vanish."+p.getUniqueId()+".vanished", Boolean.valueOf(false));
+						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
 					}
 				}
 			}
-			
-			PlayerConfig.saveConfigFile();
-			
+						
 		// Quit message
 		OQMessages.OnMessage(p, e);
 		

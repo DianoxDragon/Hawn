@@ -2,7 +2,9 @@ package fr.Dianox.Hawn.Utility;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,6 +17,7 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.robin.battlelevels.api.BattleLevelsAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
@@ -117,6 +120,67 @@ public class MessageUtils {
 		
 		if (str.contains("%gettime%")) {
 			str = str.replaceAll("%gettime%", OtherUtils.getTime());
+		}
+		
+		/*
+		 * BattleLevels
+		 */
+		if (Main.battlelevels) {
+			if (str.contains("%h_battlelevels_level%")) {
+				str = str.replaceAll("%h_battlelevels_level%", String.valueOf(BattleLevelsAPI.getLevel(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_score%")) {
+				str = str.replaceAll("%h_battlelevels_score%", String.valueOf(BattleLevelsAPI.getScore(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_bar%")) {
+				str = str.replaceAll("%h_battlelevels_bar%", BattleLevelsAPI.getProgressBar(p.getUniqueId()));
+			}
+			
+			if (str.contains("%h_battlelevels_topstreak%")) {
+				str = str.replaceAll("%h_battlelevels_topstreak%", String.valueOf(BattleLevelsAPI.getTopKillstreak(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_killstreak%")) {
+				str = str.replaceAll("%h_battlelevels_killstreak%", String.valueOf(BattleLevelsAPI.getKillstreak(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_kills%")) {
+				str = str.replaceAll("%h_battlelevels_kills%", String.valueOf(BattleLevelsAPI.getKills(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_deaths%")) {
+				str = str.replaceAll("%h_battlelevels_deaths%", String.valueOf(BattleLevelsAPI.getDeaths(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_kdr%")) {
+				str = str.replaceAll("%h_battlelevels_kdr%", String.valueOf(BattleLevelsAPI.getKdr(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_booster%")) {
+				str = str.replaceAll("%h_battlelevels_booster%", String.valueOf(BattleLevelsAPI.getBoosterInMinutes(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_boosterenabled%")) {
+				str = str.replaceAll("%h_battlelevels_boosterenabled%", String.valueOf(BattleLevelsAPI.hasBooster(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_globalbooster%")) {
+				str = str.replaceAll("%h_battlelevels_globalbooster%", String.valueOf(BattleLevelsAPI.getGlobalBoosterInMinutes()));
+			}
+			
+			if (str.contains("%h_battlelevels_globalboosterenabled%")) {
+				str = str.replaceAll("%h_battlelevels_globalboosterenabled%", String.valueOf(BattleLevelsAPI.isGlobalBoosterEnabled()));
+			}
+			
+			if (str.contains("%h_battlelevels_neededfornext%")) {
+				str = str.replaceAll("%h_battlelevels_neededfornext%", String.valueOf(BattleLevelsAPI.getNeededForNext(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_neededfornextremaining%")) {
+				str = str.replaceAll("h_battlelevels_neededfornextremaining", String.valueOf(BattleLevelsAPI.getNeededForNextRemaining(p.getUniqueId())));
+			}
 		}
 		
 		return str;
@@ -227,7 +291,19 @@ public class MessageUtils {
 	public static void ReplaceCharMessagePlayer(String str, Player player) {
 		Player p = player;
 		
+		String perm = "";
+
+        if (str.startsWith("<perm>") && str.contains("</perm>")) {
+        	perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
+        	str = str.replace("<perm>"+perm+"</perm> ", "");
+        	
+        	if (!p.hasPermission(perm)) {
+        		return;
+        	}
+        }
+		
 		if (str.startsWith("json:")) {
+
 			str = str.replace("json:", "");
 			str = ReplaceMainplaceholderP(str, player);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -243,6 +319,7 @@ public class MessageUtils {
 				p.spigot().sendMessage(bc);
 			}
 		} else if (str.startsWith("[send-title]: ")) {
+			
 			str = str.replace("[send-title]: ", "");
 			str = str.replaceAll("&", "§");
 			
@@ -277,6 +354,7 @@ public class MessageUtils {
 				TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
 			}
 		} else if (str.startsWith("[send-title[")) {
+
 			str = str.replace("[send-title[", "");
 			
 			str = ReplaceMainplaceholderP(str, player);
@@ -312,6 +390,7 @@ public class MessageUtils {
 				TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
 			}
 		} else if (str.startsWith("[send-actionbar]: ")) {
+			
 			str = str.replace("[send-actionbar]: ", "");
 			str = str.replaceAll("&", "§");
 			
@@ -325,6 +404,7 @@ public class MessageUtils {
 			
 			ActionBar.sendActionBar(p, str);
 		} else if (str.startsWith("[send-actionbar[")) {
+			
 			str = str.replace("[send-actionbar[", "");
 			
 			str = ReplaceMainplaceholderP(str, player);
@@ -339,6 +419,7 @@ public class MessageUtils {
 			
 			ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
 		} else {
+			
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(p, str);
 			}
@@ -349,14 +430,37 @@ public class MessageUtils {
 			str = ReplaceMainplaceholderP(str, player);
 			str = str.replaceAll("&", "§");
 			
+			if (str.contains("<--center-->")) {
+				sendCenteredMessage(p, str);
+				return;
+			}
+			
 			p.sendMessage(str);
 		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public static void ReplaceCharBroadcastPlayer(String str, Player player) {
+		
+		String perm = "";
+		Boolean yes = false;
+		
+        if (str.startsWith("<perm>") && str.contains("</perm>")) {
+        	perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
+        	str = str.replace("<perm>"+perm+"</perm> ", "");
+        	
+        	yes = true;
+        }
+		
 		if (str.startsWith("json:")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("json:", "");
 				str = ReplaceMainplaceholderP(str, player);
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -374,6 +478,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-title]: ")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-title]: ", "");
 				str = str.replaceAll("&", "§");
 				
@@ -410,6 +521,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-title[")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-title[", "");
 				
 				str = ReplaceMainplaceholderP(str, player);
@@ -447,6 +565,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-actionbar]: ")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-actionbar]: ", "");
 				str = str.replaceAll("&", "§");
 				
@@ -462,6 +587,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-actionbar[")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-actionbar[", "");
 				
 				str = ReplaceMainplaceholderP(str, player);
@@ -477,6 +609,7 @@ public class MessageUtils {
 				ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
 			}
 		} else {
+			
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				str = PlaceholderAPI.setPlaceholders(player, str);
 			}
@@ -487,16 +620,52 @@ public class MessageUtils {
 			str = ReplaceMainplaceholderP(str, player);
 			str = str.replaceAll("&", "§");
 			
+			if (str.contains("<--center-->")) {
+				for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if (yes) {
+						if (!p.hasPermission(perm)) {
+		            		continue;
+		            	}
+					}
+					
+					sendCenteredMessage(p, str);
+				}
+				return;
+			}
+			
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
 				p.sendMessage(str);
 			}
 		}
 	}
 	
-	@SuppressWarnings({ "rawtypes", "deprecation" })
+	@SuppressWarnings("deprecation")
 	public static void ReplaceCharBroadcastNoPlayer(String str) {
+		
+		String perm = "";
+		Boolean yes = false;
+		
+        if (str.startsWith("<perm>") && str.contains("</perm>")) {
+        	perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
+        	str = str.replace("<perm>"+perm+"</perm> ", "");
+        	
+        	yes = true;
+        }
+		
 		if (str.startsWith("json:")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("json:", "");
 				str = ReplaceMainplaceholderP(str, p);
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -507,13 +676,20 @@ public class MessageUtils {
 				}
 				
 				BaseComponent[] bc = ComponentSerializer.parse(str);
-				for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
+				for (Iterator<?> localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
 			      p = (Player)localIterator.next();
 			      p.spigot().sendMessage(bc);
 			    }
 			}
 		} else if (str.startsWith("[send-title]: ")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-title]: ", "");
 				str = str.replaceAll("&", "§");
 				
@@ -550,6 +726,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-title[")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-title[", "");
 				
 				str = ReplaceMainplaceholderP(str, p);
@@ -587,6 +770,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-actionbar]: ")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-actionbar]: ", "");
 				str = str.replaceAll("&", "§");
 				
@@ -602,6 +792,13 @@ public class MessageUtils {
 			}
 		} else if (str.startsWith("[send-actionbar[")) {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				str = str.replace("[send-actionbar[", "");
 				
 				str = ReplaceMainplaceholderP(str, p);
@@ -618,6 +815,13 @@ public class MessageUtils {
 			}
 		} else {
 			for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+				
+				if (yes) {
+					if (!p.hasPermission(perm)) {
+	            		continue;
+	            	}
+				}
+				
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					str = PlaceholderAPI.setPlaceholders(p, str);
 				}
@@ -628,7 +832,11 @@ public class MessageUtils {
 				str = ReplaceMainplaceholderP(str, p);
 				str = str.replaceAll("&", "§");
 				
-				p.sendMessage(str);
+				if (str.contains("<--center-->")) {
+					sendCenteredMessage(p, str);
+				} else {
+					p.sendMessage(str);
+				}
 			}
 		}
 	}
@@ -773,6 +981,15 @@ public class MessageUtils {
 			str = ReplaceMainplaceholderP(str, p);
 			str = str.replaceAll("&", "§");
 			
+			if (str.contains("<--center-->")) {
+				for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					sendCenteredMessage(p1, str);
+				}
+				str = str.replace("<--center-->", "");
+				Bukkit.getConsoleSender().sendMessage(str);
+				return;
+			}
+			
 			Bukkit.broadcastMessage(str);
 		}
 	}
@@ -781,7 +998,8 @@ public class MessageUtils {
 		if (str.startsWith("json:")) {
 			str = str.replace("json:", "");
 			str = ReplaceMainplaceholderC(str);
-				
+			str = str.replaceAll("&", "§");
+			
 			BaseComponent[] bc = ComponentSerializer.parse(str);
 				
 			StringBuilder sb = new StringBuilder();
@@ -833,6 +1051,50 @@ public class MessageUtils {
 			Bukkit.getConsoleSender().sendMessage(str);
 		}
 	}
+	
+	/*
+	 * Special features
+	 */
+	private final static int CENTER_PX = 154;
+	 
+	public static void sendCenteredMessage(Player player, String message){
+	        if(message == null || message.equals("")) player.sendMessage("");
+	                message = ChatColor.translateAlternateColorCodes('&', message);
+	               
+	                message = message.replace("<--center-->", "");
+	                
+	                int messagePxSize = 0;
+	                boolean previousCode = false;
+	                boolean isBold = false;
+	               
+	                for(char c : message.toCharArray()){
+	                        if(c == '§'){
+	                                previousCode = true;
+	                                continue;
+	                        }else if(previousCode == true){
+	                                previousCode = false;
+	                                if(c == 'l' || c == 'L'){
+	                                        isBold = true;
+	                                        continue;
+	                                }else isBold = false;
+	                        }else{
+	                                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+	                                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+	                                messagePxSize++;
+	                        }
+	                }
+	               
+	                int halvedMessageSize = messagePxSize / 2;
+	                int toCompensate = CENTER_PX - halvedMessageSize;
+	                int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+	                int compensated = 0;
+	                StringBuilder sb = new StringBuilder();
+	                while(compensated < toCompensate){
+	                        sb.append(" ");
+	                        compensated += spaceLength;
+	                }
+	                player.sendMessage(sb.toString() + message);
+	        }
 	
 	// Just for some messages
 	

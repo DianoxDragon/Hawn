@@ -30,6 +30,7 @@ import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Utility.ActionBar;
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
@@ -40,7 +41,6 @@ import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
-import fr.Dianox.Hawn.Utility.Config.PlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -49,6 +49,7 @@ import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
@@ -68,14 +69,28 @@ public class OnJoin implements Listener {
         Player p = e.getPlayer();
         PlayerInventory inv = p.getInventory();
         int lines = OnJoinConfig.getConfig().getInt("Chat.Clear.Lines-To-Clear");
-
+        String uuid = p.getUniqueId().toString();
+        
         String date = String.valueOf(OtherUtils.getDate() + ", " + OtherUtils.getTime());
 
+        // Yaml
+        // Player info
+        if (!ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
+        	ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
+        	ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
+        	ConfigPlayerGet.writeString(uuid, "player_info.first_join", String.valueOf(date));
+        	ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+        } else {
+        	ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
+            ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
+            ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+        }
+        
         // MYSQL
         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {
             // Player info
             if (!Main.useyamllistplayer) {
-                if (!PlayerConfig.getConfig().isSet("player_info." + p.getUniqueId() + ".player_name")) {
+                if (!ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
                     if (SQL.tableExists("player_info")) {
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
                             SQL.set("player_info", "join_date", "" + date + "", "player_UUID", "" + p.getUniqueId() + "");
@@ -104,7 +119,7 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + PlayerConfig.getConfig().getString("player_info." + p.getUniqueId() + ".first_join") + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + p.getAddress().getHostString() + "' ", "player_info");
                         }
                     } else {
                         SQL.createTable("player_info", "player TEXT, player_UUID TEXT, join_date TEXT, first_join TEXT, player_ip TEXT");
@@ -114,30 +129,13 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + PlayerConfig.getConfig().getString("player_info." + p.getUniqueId() + ".first_join") + "', '" + p.getAddress().getHostString() + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + p.getAddress().getHostString() + "', '" + p.getAddress().getHostString() + "' ", "player_info");
                         }
                     }
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("§cRemember, the database MYSQL is not working, or the connection is not possible at the moment. Save on MYSQL is not possible");
             }
-        }
-
-        // Yaml
-        // Player info
-        if (!PlayerConfig.getConfig().isSet("player_info." + p.getUniqueId() + ".player_name")) {
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".player_name", String.valueOf(p.getName()));
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".join_date", String.valueOf(date));
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".first_join", String.valueOf(date));
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".player_ip", String.valueOf(p.getAddress().getHostString()));
-
-            PlayerConfig.saveConfigFile();
-        } else {
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".player_name", String.valueOf(p.getName()));
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".join_date", String.valueOf(date));
-            PlayerConfig.getConfig().set("player_info." + p.getUniqueId() + ".player_ip", String.valueOf(p.getAddress().getHostString()));
-
-            PlayerConfig.saveConfigFile();
         }
 
         // ON  JOIN VRAI
@@ -210,15 +208,16 @@ public class OnJoin implements Listener {
 
 
         // JOIN TP SPAWN
-        if (p.hasPlayedBefore() && BetweenServersConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (PlayerConfig.getConfig().isSet("player_last_position." + p.getUniqueId() + ".player_name") || SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
+        if (p.hasPlayedBefore() && BetweenServersConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") || SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
         	if (Main.useyamllistplayer) {
-        		if (PlayerConfig.getConfig().isSet("player_last_position." + p.getUniqueId() + ".player_name")) {
-        			World w = Bukkit.getServer().getWorld(PlayerConfig.getConfig().getString("player_last_position."+p.getUniqueId()+".World"));
-                    double x = PlayerConfig.getConfig().getDouble("player_last_position."+p.getUniqueId()+".X");
-                    double y = PlayerConfig.getConfig().getDouble("player_last_position."+p.getUniqueId()+".Y");
-                    double z = PlayerConfig.getConfig().getDouble("player_last_position."+p.getUniqueId()+".Z");
-                    float yaw = PlayerConfig.getConfig().getInt("player_last_position."+p.getUniqueId()+".YAW");
-                    float pitch = PlayerConfig.getConfig().getInt("player_last_position."+p.getUniqueId()+".PITCH");
+        		if (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World")) {
+        			
+        			World w = Bukkit.getServer().getWorld(ConfigPlayerGet.getFile(uuid).getString("player_last_position.World"));
+                    double x = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.X");
+                    double y = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.Y");
+                    double z = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.Z");
+                    float yaw = ConfigPlayerGet.getFile(uuid).getInt("player_last_position.YAW");
+                    float pitch = ConfigPlayerGet.getFile(uuid).getInt("player_last_position.PITCH");
                     
                     p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
                 } else {
@@ -412,45 +411,8 @@ public class OnJoin implements Listener {
             }
         }
 
-        FlyCommand.player_list_flyc.remove(p);
-
-        if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
-            if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
-                if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
-                    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-                        if (p.hasPermission("hawn.fun.doublejump.double")) {
-                            p.setAllowFlight(true);
-                        }
-                    } else {
-                        p.setAllowFlight(true);
-                    }
-                }
-            } else {
-                if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-                    if (p.hasPermission("hawn.fun.doublejump.double")) {
-                        p.setAllowFlight(true);
-                    }
-                } else {
-                    p.setAllowFlight(true);
-                }
-            }
-        }
-
-        // Fly on join
-        if (OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
-            if (p.hasPermission("hawn.onjoin.fly")) {
-                if (!OnJoinConfig.getConfig().getBoolean("Fly.World.All_World")) {
-                    if (OnJoinPW.getWflyoj().contains(p.getWorld().getName())) {
-                        p.setAllowFlight(true);
-                        p.setFlying(true);
-                    }
-                } else {
-                    p.setAllowFlight(true);
-                    p.setFlying(true);
-                }
-            }
-        }
-
+        // Fly double Jump
+        FlyDoubleJump(p);
 
         // Blindness
         if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Enable")) {
@@ -782,12 +744,11 @@ public class OnJoin implements Listener {
         if (BetweenServersConfig.getConfig().getBoolean("Keep.Vanish-On-Join.Enable")) {
         	if (p.hasPermission("hawn.betweenservers.keepvanish")) {
 	        	if (Main.useyamllistplayer) {
-	        		PlayerConfig.getConfig().set("player_vanish."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-	        		if (!PlayerConfig.getConfig().isSet("player_vanish." + p.getUniqueId() + ".player_name")) {
-	        			PlayerConfig.getConfig().set("player_vanish."+p.getUniqueId()+".vanished", Boolean.valueOf(false));
+	        		if (!ConfigPlayerGet.getFile(uuid).isSet("player_vanish.vanished")) {
+	        			ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
 	        		}
 	        		
-	        		if (PlayerConfig.getConfig().getBoolean("player_vanish."+p.getUniqueId()+".vanished")) {
+	        		if (ConfigPlayerGet.getFile(uuid).getBoolean("player_vanish.vanished")) {
 	        			for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 							if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
 								all.hidePlayer(Main.getInstance(), p);
@@ -829,8 +790,6 @@ public class OnJoin implements Listener {
 							Main.TaskVanishAB.remove(p);
 						}
 	    			}
-	        		
-	        		PlayerConfig.saveConfigFile();
 	        	} else {
 	        		if (!SQL.tableExists("player_vanish")) {
 	        			SQL.createTable("player_vanish", "player TEXT, player_UUID TEXT, vanished TEXT");
@@ -952,8 +911,123 @@ public class OnJoin implements Listener {
         Main.buildbypasscommand.remove(p);
     }
 
-    private void Speed(Player p) {
+    private void FlyDoubleJump(Player p) {
+    	
+    	if (BetweenServersConfig.getConfig().getBoolean("Keep.DoubleJump-Fly-OnJoin.Enable")) {
+    		if (PlayerOptionSQLClass.GetSQLPOFly(p).equalsIgnoreCase("TRUE")) {
+    			p.setAllowFlight(true);
+				p.setFlying(true);
+				FlyCommand.player_list_flyc.add(p);
+				PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+				PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Enable.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				}
+    		} else if (PlayerOptionSQLClass.GetSQLPODoubleJump(p).equalsIgnoreCase("TRUE")) {
+    			
+    			if (!p.hasPermission("hawn.fun.doublejump.double")) {
+    				return;
+    			}
+    			
+    			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+    				return;
+    			}
+    			
+    			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+					if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+						p.setAllowFlight(true);
+						PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+						
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+					} else {
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Not-Good-World.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+						return;
+					}
+				} else {
+					p.setAllowFlight(true);
+					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+					
+					if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+						for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+				}
+    		} else {
+    			PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
+    			PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+    			FlyCommand.player_list_flyc.remove(p);
+    			p.setAllowFlight(false);
+				p.setFlying(false);
+    		}
+    	} else {
+    		FlyCommand.player_list_flyc.remove(p);
+            PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
+
+            if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+                if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+                    if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+                        if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+                            if (p.hasPermission("hawn.fun.doublejump.double")) {
+                                p.setAllowFlight(true);
+                                PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                            } else {
+                            	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                            }
+                        } else {
+                            p.setAllowFlight(true);
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                        }
+                    }
+                } else {
+                    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+                        if (p.hasPermission("hawn.fun.doublejump.double")) {
+                            p.setAllowFlight(true);
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                        } else {
+                        	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                        }
+                    } else {
+                        p.setAllowFlight(true);
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                    }
+                }
+            }
+
+            // Fly on join
+            if (OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
+                if (p.hasPermission("hawn.onjoin.fly")) {
+                    if (!OnJoinConfig.getConfig().getBoolean("Fly.World.All_World")) {
+                        if (OnJoinPW.getWflyoj().contains(p.getWorld().getName())) {
+                            p.setAllowFlight(true);
+                            p.setFlying(true);
+                            PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                        }
+                    } else {
+                        p.setAllowFlight(true);
+                        p.setFlying(true);
+                        PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                    }
+                }
+            }
+    	}
+	}
+
+	private void Speed(Player p) {
     	int speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
+    	String uuid = p.getUniqueId().toString();
     	
         if (OnJoinConfig.getConfig().getBoolean("Speed.Enable")) {
             if (!OnJoinConfig.getConfig().getBoolean("Speed.World.All_World")) {
@@ -965,19 +1039,14 @@ public class OnJoin implements Listener {
                 			} else {
                 				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
                 			}
-                		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-                			PlayerConfig.saveConfigFile();
-                			
-                			if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".player_name")) {
-                				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-                				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", OnJoinConfig.getConfig().getInt("Speed.Value"));
-
-                	            PlayerConfig.saveConfigFile();
+                		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {                			
+                			if (!ConfigPlayerGet.getFile(uuid).isSet("player_speed.value")) {
+                				ConfigPlayerGet.writeBoolean(uuid, "player_speed.Activate", false);
+                				ConfigPlayerGet.writeInt(uuid, "player_speed.value", OnJoinConfig.getConfig().getInt("Speed.Value"));
                 	        }
                 			
                 			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+                				speedvaluepo = ConfigPlayerGet.getFile(uuid).getInt("player_speed.value");
                 			} else {
                 				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
                 			}
@@ -1042,19 +1111,14 @@ public class OnJoin implements Listener {
             			} else {
             				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
             			}
-            		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-            			PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".player_name", String.valueOf(p.getName()));
-            			PlayerConfig.saveConfigFile();
-            			
-            			if (!PlayerConfig.getConfig().isSet("player_speed."+p.getUniqueId()+".player_name")) {
-            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".Activate", Boolean.valueOf(false));
-            				PlayerConfig.getConfig().set("player_speed."+p.getUniqueId()+".value", OnJoinConfig.getConfig().getInt("Speed.Value"));
-
-            	            PlayerConfig.saveConfigFile();
+            		} else if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {            			
+            			if (!ConfigPlayerGet.getFile(uuid).isSet("player_speed.value")) {
+            				ConfigPlayerGet.writeBoolean(uuid, "player_speed.Activate", false);
+            				ConfigPlayerGet.writeInt(uuid, "player_speed.value", OnJoinConfig.getConfig().getInt("Speed.Value"));
             	        }
             			
             			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-            				speedvaluepo = PlayerConfig.getConfig().getInt("player_speed."+p.getUniqueId()+".value");
+            				speedvaluepo = ConfigPlayerGet.getFile(uuid).getInt("player_speed.value");
             			} else {
             				PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
             			}
@@ -1193,21 +1257,20 @@ public class OnJoin implements Listener {
     }
 
     public void onGamemode(Player p) {
+    	String uuid = p.getUniqueId().toString();
+    	
         if (BetweenServersConfig.getConfig().getBoolean("Keep.Gamemode-On-Join.Enable") && p.hasPlayedBefore()) {
             if (p.hasPermission("Hawn.onjoin.keepgamemode")) {
 
                 int gmstock = 0;
                 if (Main.useyamllistplayer) {
                     // yaml
-                    if (!PlayerConfig.getConfig().isSet("player_gamemode." + p.getUniqueId() + ".player_name")) {
-                        PlayerConfig.getConfig().set("player_gamemode." + p.getUniqueId() + ".player_name", String.valueOf(p.getName()));
-                        PlayerConfig.getConfig().set("player_gamemode." + p.getUniqueId() + ".player_gamemode", Integer.valueOf(0));
-
-                        PlayerConfig.saveConfigFile();
-
-                        gmstock = PlayerConfig.getConfig().getInt("player_gamemode." + p.getUniqueId() + ".player_gamemode");
+                    if (!ConfigPlayerGet.getFile(uuid).isSet("player_gamemode.player_gamemode")) {
+                        ConfigPlayerGet.writeInt(uuid, "player_gamemode.player_gamemode", 0);
+                        
+                        gmstock = ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.player_gamemode");
                     } else {
-                        gmstock = PlayerConfig.getConfig().getInt("player_gamemode." + p.getUniqueId() + ".player_gamemode");
+                    	gmstock = ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.player_gamemode");
                     }
 
                     if (gmstock == 0) {
@@ -1221,7 +1284,7 @@ public class OnJoin implements Listener {
                     }
                 } else {
                     // mysql
-                    if (!PlayerConfig.getConfig().isSet("player_gamemode." + p.getUniqueId() + ".player_name")) {
+                	if (!ConfigPlayerGet.getFile(uuid).isSet("player_gamemode.player_gamemode")) {
                         if (SQL.tableExists("player_gamemode")) {
                             if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_gamemode")) {
                                 SQL.set("player_gamemode", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
@@ -1253,7 +1316,7 @@ public class OnJoin implements Listener {
                                 gmstock = Integer.valueOf(SQL.getInfoInt("player_gamemode", "gamemode_state", "" + p.getUniqueId() + ""));
                             } else {
                                 SQL.insertData("player, player_UUID, gamemode_state",
-                                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_gamemode." + p.getUniqueId() + ".player_gamemode") + "' ", "player_gamemode");
+                                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.player_gamemode") + "' ", "player_gamemode");
 
                                 gmstock = Integer.valueOf(SQL.getInfoInt("player_gamemode", "gamemode_state", "" + p.getUniqueId() + ""));
                             }
@@ -1265,7 +1328,7 @@ public class OnJoin implements Listener {
                                 gmstock = Integer.valueOf(SQL.getInfoInt("player_gamemode", "gamemode_state", "" + p.getUniqueId() + ""));
                             } else {
                                 SQL.insertData("player, player_UUID, gamemode_state",
-                                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + PlayerConfig.getConfig().getInt("player_gamemode." + p.getUniqueId() + ".player_gamemode") + "' ", "player_gamemode");
+                                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.player_gamemode") + "' ", "player_gamemode");
                                 gmstock = Integer.valueOf(SQL.getInfoInt("player_gamemode", "gamemode_state", "" + p.getUniqueId() + ""));
                             }
                         }

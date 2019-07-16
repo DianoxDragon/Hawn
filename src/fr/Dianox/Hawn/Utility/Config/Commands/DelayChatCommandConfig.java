@@ -53,12 +53,14 @@ public class DelayChatCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("DelayChat.Enable", Boolean.valueOf(true));
-            Config.set("DelayChat.Delay.Enable", Boolean.valueOf(true));
-            Config.set("DelayChat.Delay.Delay_By_Default", Integer.valueOf(3));
-            Config.set("DelayChat.Delay.Bypass", Boolean.valueOf(true));
-            Config.set("DelayChat.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("DelayChat.Enable", true);
+            
+            Config.set("DelayChat.Delay.Enable", true);
+            Config.set("DelayChat.Delay.Delay_By_Default", 3);
+            Config.set("DelayChat.Delay.Bypass", true);
+
+            Config.set("DelayChat.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

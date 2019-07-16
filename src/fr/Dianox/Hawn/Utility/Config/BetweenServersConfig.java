@@ -54,13 +54,13 @@ public class BetweenServersConfig {
             } catch (IOException e) {}
             
             // Keep states
-            Config.set("Keep.Gamemode-On-Join.Enable", Boolean.valueOf(false));
-            Config.set("Keep.Vanish-On-Join.Enable", Boolean.valueOf(false));
-            Config.set("Keep.PlayerVisibility-OnJoin.Enable", Boolean.valueOf(false));
-            Config.set("Keep.Speed-OnJoin.Enable", Boolean.valueOf(false));
-            /*Config.set("Keep.JumpBoost-OnJoin.Enable", Boolean.valueOf(false));
-            Config.set("Keep.Fly-Double-Jump-OnJoin.Enable", Boolean.valueOf(false));*/
-            Config.set("TP.Last-Position-On-Join.Enable", Boolean.valueOf(false));
+            Config.set("Keep.Gamemode-On-Join.Enable", false);
+            Config.set("Keep.Vanish-On-Join.Enable", false);
+            Config.set("Keep.PlayerVisibility-OnJoin.Enable", false);
+            Config.set("Keep.Speed-OnJoin.Enable", false);
+            Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
+            /*Config.set("Keep.JumpBoost-OnJoin.Enable", Boolean.valueOf(false));*/
+            Config.set("TP.Last-Position-On-Join.Enable", false);
             
             saveConfigFile();
 
