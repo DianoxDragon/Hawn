@@ -307,6 +307,8 @@ public class Main extends JavaPlugin implements Listener {
 		TXTmsg.onCreateInfoMsgAdmin();
 		TXTmsg.onWrite();
 
+		CheckConfig.ConvertOldDataFromNew();
+		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
 		
