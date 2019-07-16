@@ -17,6 +17,7 @@ import org.bukkit.util.Vector;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
@@ -105,6 +106,13 @@ public class FunFeatures implements Listener {
 			}
 			
 			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+				if (ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_fly.Activate") || !ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_doublejump.Activate")) {
+					if (player_list_dbenable.contains(p)) {
+						player_list_dbenable.remove(p);
+					}
+					return;
+				}
+				
 				if (p.hasPermission("hawn.fun.doublejump.double")) {		
 					if (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
 						player_list_dbenable.remove(p);
@@ -128,6 +136,10 @@ public class FunFeatures implements Listener {
 			}
 			
 			if (player_list_dbenable.contains(p)) {
+				return;
+			}
+			
+			if (ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_fly.Activate") || !ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_doublejump.Activate")) {
 				return;
 			}
 			
