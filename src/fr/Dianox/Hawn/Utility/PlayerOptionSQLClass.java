@@ -298,4 +298,154 @@ public class PlayerOptionSQLClass {
 			}
 		}
 	}
+	
+	/*
+	 * Fly option
+	 */
+	// > Save YAML/SQL
+		public static void SaveSQLPOFly(Player p, String boolea) {
+			String uuid = p.getUniqueId().toString();
+			
+			if (boolea.equalsIgnoreCase("FALSE")) {
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+			} else {
+				ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", true);
+			}
+			
+			if (!Main.useyamllistplayer) {
+				if (!SQL.tableExists("player_option_fly")) {
+					SQL.createTable("player_option_fly", "player TEXT, player_UUID TEXT, Activate TEXT");
+				}
+
+				if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_fly")) {
+					SQL.set("player_option_fly", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+					SQL.set("player_option_fly", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+				} else {
+					SQL.insertData("player, player_UUID, Activate",
+	                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_fly");
+				}
+			}
+		}
+		
+		// > Get the actual value
+		public static String GetSQLPOFly(Player p) {
+			String value = "";
+			String uuid = p.getUniqueId().toString();
+			
+			if (Main.useyamllistplayer) {
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+				}
+
+				if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_fly.Activate"))  {
+					value = "TRUE";
+				} else {
+					value = "FALSE";
+				}
+			} else {
+				if (!SQL.tableExists("player_option_fly")) {
+					SQL.createTable("player_option_fly", "player TEXT, player_UUID TEXT, Activate TEXT");
+				}
+
+				if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_fly")) {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+					}
+
+					value = String.valueOf(SQL.getInfoString("player_option_fly", "Activate", "" + p.getUniqueId() + ""));
+					SQL.set("player_option_fly", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+				} else {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_fly.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_fly.Activate", false);
+					}
+
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_fly.Activate"))  {
+						value = "TRUE";
+						SQL.insertData("player, player_UUID, Activate",
+			                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_fly");
+					} else {
+						value = "FALSE";
+						SQL.insertData("player, player_UUID, Activate",
+			                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_fly");
+					}
+				}
+			}
+
+			return value;
+		}
+		
+		/*
+		 * DoubleJump option
+		 */
+		// > Save YAML/SQL
+			public static void SaveSQLPODoubleJump(Player p, String boolea) {
+				String uuid = p.getUniqueId().toString();
+				
+				if (boolea.equalsIgnoreCase("FALSE")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+				} else {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", true);
+				}
+				
+				if (!Main.useyamllistplayer) {
+					if (!SQL.tableExists("player_option_doublejump")) {
+						SQL.createTable("player_option_doublejump", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_doublejump")) {
+						SQL.set("player_option_doublejump", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+						SQL.set("player_option_doublejump", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						SQL.insertData("player, player_UUID, Activate",
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_doublejump");
+					}
+				}
+			}
+			
+			// > Get the actual value
+			public static String GetSQLPODoubleJump(Player p) {
+				String value = "";
+				String uuid = p.getUniqueId().toString();
+				
+				if (Main.useyamllistplayer) {
+					if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+					}
+
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_doublejump.Activate"))  {
+						value = "TRUE";
+					} else {
+						value = "FALSE";
+					}
+				} else {
+					if (!SQL.tableExists("player_option_doublejump")) {
+						SQL.createTable("player_option_doublejump", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_doublejump")) {
+						if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+							ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+						}
+
+						value = String.valueOf(SQL.getInfoString("player_option_doublejump", "Activate", "" + p.getUniqueId() + ""));
+						SQL.set("player_option_doublejump", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_doublejump.Activate")) {
+							ConfigPlayerGet.writeBoolean(uuid, "player_option_doublejump.Activate", false);
+						}
+
+						if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_doublejump.Activate"))  {
+							value = "TRUE";
+							SQL.insertData("player, player_UUID, Activate",
+				                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_doublejump");
+						} else {
+							value = "FALSE";
+							SQL.insertData("player, player_UUID, Activate",
+				                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_doublejump");
+						}
+					}
+				}
+
+				return value;
+			}
 }
