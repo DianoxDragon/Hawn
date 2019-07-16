@@ -53,13 +53,13 @@ public class BroadCastCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Broadcast.Enable", Boolean.valueOf(true));
-            Config.set("Broadcast.Disable-Message", Boolean.valueOf(true));
-            Config.set("Broadcast.Sounds.Enabled", Boolean.valueOf(true));
+            Config.set("Broadcast.Enable", true);
+            Config.set("Broadcast.Disable-Message", true);
+            Config.set("Broadcast.Sounds.Enabled", true);
             Config.set("Broadcast.Sounds.Sound", "NOTE_PIANO");
-            Config.set("Broadcast.Sounds.Volume", Integer.valueOf(10));
-            Config.set("Broadcast.Sounds.Pitch", Integer.valueOf(1));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Broadcast.Sounds.Volume", 10);
+            Config.set("Broadcast.Sounds.Pitch", 1);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 
