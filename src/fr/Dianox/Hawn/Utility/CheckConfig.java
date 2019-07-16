@@ -54,6 +54,17 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMCommands.getConfig().isSet("Warning")) {
+			ConfigMCommands.getConfig().set("Warning", java.util.Arrays.asList(new String[] {
+            		"<--center--> &4&m>-----------------------<", 
+            		"", 
+            		"%broadcast%",
+            		"",
+            		"<--center--> &4&m>-----------------------<"}));
+			
+			ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!CommandAliasesConfig.getConfig().isSet("Warning.Enable")) {
 			CommandAliasesConfig.getConfig().set("Warning.Enable", true);
 			CommandAliasesConfig.getConfig().set("Warning.Cannot-Be-changed.Main-Command-Is", "warning");
