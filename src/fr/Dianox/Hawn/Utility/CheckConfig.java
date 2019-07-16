@@ -64,8 +64,11 @@ public class CheckConfig {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is disabled in &6Cosmetics-Fun/DoubleJump.yml"}));
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is not enabled in this world"}));
-	            
-	       		ConfigMPlayerOption.saveConfigFile();   
+	        
+			BetweenServersConfig.getConfig().set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
+			
+			BetweenServersConfig.saveConfigFile();
+	        ConfigMPlayerOption.saveConfigFile();   
 		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Warning")) {
