@@ -49,6 +49,7 @@ import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
@@ -410,58 +411,8 @@ public class OnJoin implements Listener {
             }
         }
 
-        FlyCommand.player_list_flyc.remove(p);
-        PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
-
-        if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
-            if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
-                if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
-                    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-                        if (p.hasPermission("hawn.fun.doublejump.double")) {
-                            p.setAllowFlight(true);
-                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
-                        } else {
-                        	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
-                        }
-                    } else {
-                        p.setAllowFlight(true);
-                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
-                    }
-                }
-            } else {
-                if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-                    if (p.hasPermission("hawn.fun.doublejump.double")) {
-                        p.setAllowFlight(true);
-                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
-                    } else {
-                    	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
-                    }
-                } else {
-                    p.setAllowFlight(true);
-                    PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
-                }
-            }
-        }
-
-        // Fly on join
-        if (OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
-            if (p.hasPermission("hawn.onjoin.fly")) {
-                if (!OnJoinConfig.getConfig().getBoolean("Fly.World.All_World")) {
-                    if (OnJoinPW.getWflyoj().contains(p.getWorld().getName())) {
-                        p.setAllowFlight(true);
-                        p.setFlying(true);
-                        PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
-                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
-                    }
-                } else {
-                    p.setAllowFlight(true);
-                    p.setFlying(true);
-		    PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
-                    PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
-                }
-            }
-        }
-
+        // Fly double Jump
+        FlyDoubleJump(p);
 
         // Blindness
         if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Enable")) {
@@ -960,7 +911,121 @@ public class OnJoin implements Listener {
         Main.buildbypasscommand.remove(p);
     }
 
-    private void Speed(Player p) {
+    private void FlyDoubleJump(Player p) {
+    	
+    	if (BetweenServersConfig.getConfig().getBoolean("Keep.DoubleJump-Fly-OnJoin.Enable")) {
+    		if (PlayerOptionSQLClass.GetSQLPOFly(p).equalsIgnoreCase("TRUE")) {
+    			p.setAllowFlight(true);
+				p.setFlying(true);
+				FlyCommand.player_list_flyc.add(p);
+				PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+				PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Enable.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				}
+    		} else if (PlayerOptionSQLClass.GetSQLPODoubleJump(p).equalsIgnoreCase("TRUE")) {
+    			
+    			if (!p.hasPermission("hawn.fun.doublejump.double")) {
+    				return;
+    			}
+    			
+    			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+    				return;
+    			}
+    			
+    			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+					if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+						p.setAllowFlight(true);
+						PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+						
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+					} else {
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Not-Good-World.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+						return;
+					}
+				} else {
+					p.setAllowFlight(true);
+					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+					
+					if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
+						for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+				}
+    		} else {
+    			PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
+    			PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+    			FlyCommand.player_list_flyc.remove(p);
+    			p.setAllowFlight(false);
+				p.setFlying(false);
+    		}
+    	} else {
+    		FlyCommand.player_list_flyc.remove(p);
+            PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
+
+            if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+                if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+                    if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+                        if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+                            if (p.hasPermission("hawn.fun.doublejump.double")) {
+                                p.setAllowFlight(true);
+                                PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                            } else {
+                            	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                            }
+                        } else {
+                            p.setAllowFlight(true);
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                        }
+                    }
+                } else {
+                    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+                        if (p.hasPermission("hawn.fun.doublejump.double")) {
+                            p.setAllowFlight(true);
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                        } else {
+                        	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                        }
+                    } else {
+                        p.setAllowFlight(true);
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                    }
+                }
+            }
+
+            // Fly on join
+            if (OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
+                if (p.hasPermission("hawn.onjoin.fly")) {
+                    if (!OnJoinConfig.getConfig().getBoolean("Fly.World.All_World")) {
+                        if (OnJoinPW.getWflyoj().contains(p.getWorld().getName())) {
+                            p.setAllowFlight(true);
+                            p.setFlying(true);
+                            PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                        }
+                    } else {
+                        p.setAllowFlight(true);
+                        p.setFlying(true);
+                        PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
+                    }
+                }
+            }
+    	}
+	}
+
+	private void Speed(Player p) {
     	int speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
     	String uuid = p.getUniqueId().toString();
     	
