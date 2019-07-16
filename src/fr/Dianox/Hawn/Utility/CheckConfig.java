@@ -1,11 +1,16 @@
 package fr.Dianox.Hawn.Utility;
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
@@ -41,6 +46,75 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 
 public class CheckConfig {
+	
+	public static void ConvertOldDataFromNew() {
+		File f = new File(Main.getInstance().getDataFolder(), "StockageInfo/PlayerConfig.yml");
+		
+		if (f.exists()) {
+			YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
+			
+			Bukkit.getConsoleSender().sendMessage("PLEASE WAIT DURING THE UPDATE");
+			
+			// Create new player info
+			Iterator < ? > iteratorpi = cfg.getConfigurationSection("player_info").getKeys(false).iterator();
+			
+			while (iteratorpi.hasNext()) {
+                String string = (String) iteratorpi.next();
+                ConfigPlayerGet.writeString(string, "player_info.player_name", cfg.getString("player_info."+string+".player_name"));
+            	ConfigPlayerGet.writeString(string, "player_info.join_date", cfg.getString("player_info."+string+".join_date"));
+            	ConfigPlayerGet.writeString(string, "player_info.first_join", cfg.getString("player_info."+string+".first_join"));
+            	ConfigPlayerGet.writeString(string, "player_info.player_ip", cfg.getString("player_info."+string+".player_ip"));
+			}
+			
+			// Create player option pv
+			Iterator < ? > iteratorpv = cfg.getConfigurationSection("player_option_pv").getKeys(false).iterator();
+			
+			while (iteratorpv.hasNext()) {
+                String string = (String) iteratorpv.next();
+                ConfigPlayerGet.writeBoolean(string, "player_option_pv.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
+			}
+			
+			// Create player keep sb
+			Iterator < ? > iteratorksb = cfg.getConfigurationSection("player_option_keep_sb").getKeys(false).iterator();
+						
+			while (iteratorksb.hasNext()) {
+				String string = (String) iteratorksb.next();
+				ConfigPlayerGet.writeBoolean(string, "player_option_keep_sb.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
+				ConfigPlayerGet.writeString(string, "player_option_keep_sb.Scoreboard", cfg.getString("player_option_keep_sb."+string+".Scoreboard"));
+			}
+			
+			// Create player keep sb
+			Iterator < ? > iteratorlp = cfg.getConfigurationSection("player_last_position").getKeys(false).iterator();
+									
+			while (iteratorlp.hasNext()) {
+				String string = (String) iteratorlp.next();
+				ConfigPlayerGet.writeString(string, "player_last_position.World", cfg.getString("player_last_position."+string+".World"));
+				ConfigPlayerGet.writeDouble(string, "player_last_position.X", cfg.getDouble("player_last_position."+string+".X"));
+				ConfigPlayerGet.writeDouble(string, "player_last_position.Y", cfg.getDouble("player_last_position."+string+".Y"));
+				ConfigPlayerGet.writeDouble(string, "player_last_position.Z", cfg.getDouble("player_last_position."+string+".Z"));
+				ConfigPlayerGet.writeFloat(string, "player_last_position.YAW", Float.valueOf(cfg.getString("player_last_position."+string+".YAW")));
+				ConfigPlayerGet.writeFloat(string, "player_last_position.PITCH", Float.valueOf(cfg.getString("player_last_position."+string+".PITCH")));
+			}
+			
+			// Create player option pg
+			Iterator < ? > iteratorpg = cfg.getConfigurationSection("player_gamemode").getKeys(false).iterator();
+						
+			while (iteratorpg.hasNext()) {
+				String string = (String) iteratorpg.next();
+				ConfigPlayerGet.writeInt(string, "player_gamemode.player_gamemode", cfg.getInt("player_gamemode."+string+".player_gamemode"));
+			}
+			
+			// Create player option v
+			Iterator < ? > iteratorv = cfg.getConfigurationSection("player_vanish").getKeys(false).iterator();
+									
+			while (iteratorv.hasNext()) {
+				String string = (String) iteratorv.next();
+				ConfigPlayerGet.writeBoolean(string, "player_vanish.vanished", cfg.getBoolean("player_vanish."+string+".vanished"));
+			}
+			
+			f.delete();
+		}
+	}
 	
 	public static void warnhawnreload() {
 		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Enable")) {
