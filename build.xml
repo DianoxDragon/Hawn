@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="HawnProject">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="HawnProject.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="D:/Minecraft (Jeux)/1.14/plugins/MVdWPlaceholderAPI.jar"/>
+        <pathelement location="D:/Minecraft (Jeux)/1.14/Paper-1.14.2-b68.jar"/>
+        <pathelement location="D:/Minecraft (Jeux)/Nouveau dossier/plugins/PlaceholderAPI-2.10.2.jar"/>
+        <pathelement location="../../Downloads/worldguard-6.1.jar"/>
+        <pathelement location="D:/Minecraft (Jeux)/1.14/plugins/worldguard-bukkit-7.0.0.jar"/>
+        <pathelement location="D:/Minecraft (Jeux)/1.14/plugins/worldedit-bukkit-7.0.0.jar"/>
+        <pathelement location="D:/Minecraft (Jeux)/1.14/BattleLevels(1).jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="HawnProject.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+</project>
