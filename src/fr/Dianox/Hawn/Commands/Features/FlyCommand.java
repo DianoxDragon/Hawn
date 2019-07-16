@@ -8,7 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
@@ -43,6 +45,7 @@ public class FlyCommand extends BukkitCommand {
 		
 		// >>> Executed by the player
 		Player p = (Player) sender;
+		String uuid = p.getUniqueId().toString();
 		
 		if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
 			if (FlyCommandConfig.getConfig().getBoolean("Fly.Disable-Message")) {
@@ -63,10 +66,11 @@ public class FlyCommand extends BukkitCommand {
 		
 		// The command
 					if (args.length == 0) {
-						if (p.getAllowFlight() && player_list_flyc.contains(p)) {
+						if (p.getAllowFlight() && (player_list_flyc.contains(p) || ConfigPlayerGet.getFile(uuid).getBoolean("player_option_fly.Activate"))) {
 							p.setAllowFlight(false);
 							p.setFlying(false);
 							player_list_flyc.remove(p);
+							PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
 							
 							if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
 					        	if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
@@ -74,18 +78,26 @@ public class FlyCommand extends BukkitCommand {
 					        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 					        				if (p.hasPermission("hawn.fun.doublejump.double")) {
 					        					p.setAllowFlight(true);
+					        					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+					        				} else {
+					        					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
 					        				}
 					        			} else {
 					        				p.setAllowFlight(true);
+					        				PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 					        			}
 					        		}
 					        	} else {
 					        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 					    				if (p.hasPermission("hawn.fun.doublejump.double")) {
 					    					p.setAllowFlight(true);
+					    					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+					    				} else {
+					    					PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
 					    				}
 					    			} else {
 					    				p.setAllowFlight(true);
+					    				PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 					    			}
 					        	} 	
 					        }
@@ -99,6 +111,8 @@ public class FlyCommand extends BukkitCommand {
 							p.setAllowFlight(true);
 							p.setFlying(true);
 							player_list_flyc.add(p);
+							PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+							PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
 							if (ConfigMCommands.getConfig().getBoolean("Fly.Enable.Enable")) {
 								for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable.Messages")) {
 									MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -114,29 +128,37 @@ public class FlyCommand extends BukkitCommand {
 			            		return true;
 							}
 							
-							if (target.getAllowFlight() && player_list_flyc.contains(p)) {
+							if (target.getAllowFlight() && (player_list_flyc.contains(target) || ConfigPlayerGet.getFile(target.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
 								target.setAllowFlight(false);
 								target.setFlying(false);
 								player_list_flyc.remove(target);
-								
+								PlayerOptionSQLClass.SaveSQLPOFly(target, "FALSE");
 								if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
 						        	if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
 						        		if (PlayerEventsPW.getWFDoubleJump().contains(target.getWorld().getName())) {
 						        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 						        				if (target.hasPermission("hawn.fun.doublejump.double")) {
 						        					target.setAllowFlight(true);
+						        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+						        				} else {
+						        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 						        				}
 						        			} else {
 						        				target.setAllowFlight(true);
+						        				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						        			}
 						        		}
 						        	} else {
 						        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 						    				if (target.hasPermission("hawn.fun.doublejump.double")) {
 						    					target.setAllowFlight(true);
+						    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+						    				} else {
+						    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 						    				}
 						    			} else {
 						    				target.setAllowFlight(true);
+						    				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						    			}
 						        	} 	
 						        }
@@ -155,6 +177,8 @@ public class FlyCommand extends BukkitCommand {
 								target.setAllowFlight(true);
 								target.setFlying(true);
 								player_list_flyc.add(target);
+								PlayerOptionSQLClass.SaveSQLPOFly(target, "TRUE");
+								PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 								if (ConfigMCommands.getConfig().getBoolean("Fly.Enable-Other.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable-Other.Messages")) {
 										MessageUtils.ReplaceCharMessagePlayer(msg, target);
