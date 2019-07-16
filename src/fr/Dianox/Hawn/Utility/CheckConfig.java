@@ -54,6 +54,20 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.DoubleJump.Enable.Enable")) {
+			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Enable.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your double jump has been &aactivated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Disable.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your double jump has been &cdisabled"}));
+	            
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is disabled in &6Cosmetics-Fun/DoubleJump.yml"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is not enabled in this world"}));
+	            
+	       		ConfigMPlayerOption.saveConfigFile();   
+		}
+		
 		if (!ConfigMCommands.getConfig().isSet("Warning")) {
 			ConfigMCommands.getConfig().set("Warning", java.util.Arrays.asList(new String[] {
             		"<--center--> &4&m>-----------------------<", 
