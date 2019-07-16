@@ -411,6 +411,7 @@ public class OnJoin implements Listener {
         }
 
         FlyCommand.player_list_flyc.remove(p);
+        PlayerOptionSQLClass.SaveSQLPOFly(p, "FALSE");
 
         if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
             if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
@@ -418,18 +419,26 @@ public class OnJoin implements Listener {
                     if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
                         if (p.hasPermission("hawn.fun.doublejump.double")) {
                             p.setAllowFlight(true);
+                            PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                        } else {
+                        	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                         }
                     } else {
                         p.setAllowFlight(true);
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
                     }
                 }
             } else {
                 if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
                     if (p.hasPermission("hawn.fun.doublejump.double")) {
                         p.setAllowFlight(true);
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
+                    } else {
+                    	PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                     }
                 } else {
                     p.setAllowFlight(true);
+                    PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
                 }
             }
         }
@@ -441,10 +450,14 @@ public class OnJoin implements Listener {
                     if (OnJoinPW.getWflyoj().contains(p.getWorld().getName())) {
                         p.setAllowFlight(true);
                         p.setFlying(true);
+                        PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                        PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                     }
                 } else {
                     p.setAllowFlight(true);
                     p.setFlying(true);
+		    PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
+                    PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                 }
             }
         }
