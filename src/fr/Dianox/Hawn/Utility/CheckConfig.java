@@ -54,6 +54,14 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!CommandAliasesConfig.getConfig().isSet("Warning.Enable")) {
+			CommandAliasesConfig.getConfig().set("Warning.Enable", true);
+			CommandAliasesConfig.getConfig().set("Warning.Cannot-Be-changed.Main-Command-Is", "warning");
+			CommandAliasesConfig.getConfig().set("Warning.Aliases", java.util.Arrays.asList(new String[] {"warn"}));
+			
+			CommandAliasesConfig.saveConfigFile();
+		}
+		
 		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar-If-Vanished")) {
 			VanishCommandConfig.getConfig().set("Vanish.Action-Bar-If-Vanished", true);
 			ConfigMCommands.getConfig().set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aYou are vanished"}));
