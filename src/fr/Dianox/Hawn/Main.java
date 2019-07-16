@@ -195,6 +195,9 @@ public class Main extends JavaPlugin implements Listener {
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
+    // Placeholder
+    public static Boolean battlelevels = false;
+    
     @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
@@ -789,6 +792,10 @@ public class Main extends JavaPlugin implements Listener {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
 				ConfigGeneral.saveConfigFile();
 			}
+		}
+		
+		if (Bukkit.getPluginManager().isPluginEnabled("BattleLevels")) {
+			this.battlelevels = true;
 		}
 		
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||
