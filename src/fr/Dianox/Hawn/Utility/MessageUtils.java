@@ -17,6 +17,7 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.robin.battlelevels.api.BattleLevelsAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
@@ -119,6 +120,67 @@ public class MessageUtils {
 		
 		if (str.contains("%gettime%")) {
 			str = str.replaceAll("%gettime%", OtherUtils.getTime());
+		}
+		
+		/*
+		 * BattleLevels
+		 */
+		if (Main.battlelevels) {
+			if (str.contains("%h_battlelevels_level%")) {
+				str = str.replaceAll("%h_battlelevels_level%", String.valueOf(BattleLevelsAPI.getLevel(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_score%")) {
+				str = str.replaceAll("%h_battlelevels_score%", String.valueOf(BattleLevelsAPI.getScore(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_bar%")) {
+				str = str.replaceAll("%h_battlelevels_bar%", BattleLevelsAPI.getProgressBar(p.getUniqueId()));
+			}
+			
+			if (str.contains("%h_battlelevels_topstreak%")) {
+				str = str.replaceAll("%h_battlelevels_topstreak%", String.valueOf(BattleLevelsAPI.getTopKillstreak(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_killstreak%")) {
+				str = str.replaceAll("%h_battlelevels_killstreak%", String.valueOf(BattleLevelsAPI.getKillstreak(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_kills%")) {
+				str = str.replaceAll("%h_battlelevels_kills%", String.valueOf(BattleLevelsAPI.getKills(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_deaths%")) {
+				str = str.replaceAll("%h_battlelevels_deaths%", String.valueOf(BattleLevelsAPI.getDeaths(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_kdr%")) {
+				str = str.replaceAll("%h_battlelevels_kdr%", String.valueOf(BattleLevelsAPI.getKdr(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_booster%")) {
+				str = str.replaceAll("%h_battlelevels_booster%", String.valueOf(BattleLevelsAPI.getBoosterInMinutes(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_boosterenabled%")) {
+				str = str.replaceAll("%h_battlelevels_boosterenabled%", String.valueOf(BattleLevelsAPI.hasBooster(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_globalbooster%")) {
+				str = str.replaceAll("%h_battlelevels_globalbooster%", String.valueOf(BattleLevelsAPI.getGlobalBoosterInMinutes()));
+			}
+			
+			if (str.contains("%h_battlelevels_globalboosterenabled%")) {
+				str = str.replaceAll("%h_battlelevels_globalboosterenabled%", String.valueOf(BattleLevelsAPI.isGlobalBoosterEnabled()));
+			}
+			
+			if (str.contains("%h_battlelevels_neededfornext%")) {
+				str = str.replaceAll("%h_battlelevels_neededfornext%", String.valueOf(BattleLevelsAPI.getNeededForNext(p.getUniqueId())));
+			}
+			
+			if (str.contains("%h_battlelevels_neededfornextremaining%")) {
+				str = str.replaceAll("h_battlelevels_neededfornextremaining", String.valueOf(BattleLevelsAPI.getNeededForNextRemaining(p.getUniqueId())));
+			}
 		}
 		
 		return str;
