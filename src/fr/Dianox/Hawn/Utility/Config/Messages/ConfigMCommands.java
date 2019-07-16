@@ -237,6 +237,16 @@ public class ConfigMCommands {
             Config.set("Spawn.Tp.Other-Sender-Delay.Enable", true);
             Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
             
+	    /*
+             * Warning stuff
+             */
+            Config.set("Warning", java.util.Arrays.asList(new String[] {
+            		"<--center--> &4&m>-----------------------<", 
+            		"", 
+            		"%broadcast%",
+            		"",
+            		"<--center--> &4&m>-----------------------<"}));	
+		
             saveConfigFile();
 
         }
