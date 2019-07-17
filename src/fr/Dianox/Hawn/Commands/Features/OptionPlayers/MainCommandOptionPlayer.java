@@ -447,7 +447,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 
 								SpecialCJIPlayerVisibility.messageitemPVOFF(p);
 
-								SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "FALSE");
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 
@@ -463,7 +463,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							PlayerVisibility.showPlayer(p);
 							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
 							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
-							SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "FALSE");
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 						}
 					} else {
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
@@ -480,7 +480,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 
 								SpecialCJIPlayerVisibility.messageitemPVON(p);
 
-								SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "TRUE");
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 
@@ -496,7 +496,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							PlayerVisibility.hidePlayer(p);
 							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
 							SpecialCJIPlayerVisibility.messageitemPVON(p);
-							SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "TRUE");
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 						}
 					}
 				} else {
