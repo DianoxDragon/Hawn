@@ -1271,6 +1271,7 @@ public class Main extends JavaPlugin implements Listener {
 		ChangeWorldPW.setWKEEPFLY();
 		ChangeWorldPW.setWGetWorldGamemodeChangeWorld();
 		CjiPW.setItemPlayerVisibility();
+		PlayerEventsPW.setPlayerOptionJoin();
 	}
 
 
