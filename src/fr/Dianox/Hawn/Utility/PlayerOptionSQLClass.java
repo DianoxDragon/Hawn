@@ -518,4 +518,79 @@ public class PlayerOptionSQLClass {
 				}
 				
 			}
+			
+			/*
+			 * Vanish option
+			 */
+			// > Save YAML/SQL
+				public static void SaveSQLPOVanish(Player p, String boolea) {
+					String uuid = p.getUniqueId().toString();
+					
+					if (boolea.equalsIgnoreCase("FALSE")) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
+					} else {
+						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", true);
+					}
+					
+					if (!Main.useyamllistplayer) {
+						if (!SQL.tableExists("player_vanish")) {
+							SQL.createTable("player_vanish", "player TEXT, player_UUID TEXT, vanished TEXT");
+						}
+
+						if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_vanish")) {
+							SQL.set("player_vanish", "vanished", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+							SQL.set("player_vanish", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+						} else {
+							SQL.insertData("player, player_UUID, vanished",
+			                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_vanish");
+						}
+					}
+				}
+				
+				// > Get the actual value
+				public static String GetSQLPOVanish(Player p) {
+					String value = "";
+					String uuid = p.getUniqueId().toString();
+					
+					if (Main.useyamllistplayer) {
+						if (!ConfigPlayerGet.getFile(uuid).isSet("player_vanish.vanished")) {
+							ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
+						}
+
+						if (ConfigPlayerGet.getFile(uuid).getBoolean("player_vanish.vanished"))  {
+							value = "TRUE";
+						} else {
+							value = "FALSE";
+						}
+					} else {
+						if (!SQL.tableExists("player_vanish")) {
+							SQL.createTable("player_vanish", "player TEXT, player_UUID TEXT, vanished TEXT");
+						}
+
+						if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_vanish")) {
+							if (!ConfigPlayerGet.getFile(uuid).isSet("player_vanish.vanished")) {
+								ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
+							}
+
+							value = String.valueOf(SQL.getInfoString("player_vanish", "vanished", "" + p.getUniqueId() + ""));
+							SQL.set("player_vanish", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+						} else {
+							if (!ConfigPlayerGet.getFile(uuid).isSet("player_vanish.vanished")) {
+								ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
+							}
+
+							if (ConfigPlayerGet.getFile(uuid).getBoolean("player_vanish.vanished"))  {
+								value = "TRUE";
+								SQL.insertData("player, player_UUID, vanished",
+					                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_vanish");
+							} else {
+								value = "FALSE";
+								SQL.insertData("player, player_UUID, vanished",
+					                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_vanish");
+							}
+						}
+					}
+
+					return value;
+				}
 }
