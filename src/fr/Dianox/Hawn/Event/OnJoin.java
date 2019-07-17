@@ -743,12 +743,7 @@ public class OnJoin implements Listener {
         if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
         if (BetweenServersConfig.getConfig().getBoolean("Keep.Vanish-On-Join.Enable")) {
         	if (p.hasPermission("hawn.betweenservers.keepvanish")) {
-	        	if (Main.useyamllistplayer) {
-	        		if (!ConfigPlayerGet.getFile(uuid).isSet("player_vanish.vanished")) {
-	        			ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
-	        		}
-	        		
-	        		if (ConfigPlayerGet.getFile(uuid).getBoolean("player_vanish.vanished")) {
+	        		if (PlayerOptionSQLClass.GetSQLPOVanish(p).equalsIgnoreCase("TRUE")) {
 	        			for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 							if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
 								all.hidePlayer(Main.getInstance(), p);
@@ -763,12 +758,17 @@ public class OnJoin implements Listener {
 							Main.TaskVanishAB.remove(p);
 						}
 						
-						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
-							if (p.hasPermission("hawn.command.vanish.actionbar")) {
-								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
-								Main.TaskVanishAB.put(p, task.getTaskId());
+	    				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+							public void run() {
+								if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+									if (p.hasPermission("hawn.command.vanish.actionbar")) {
+										BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+										Main.TaskVanishAB.put(p, task.getTaskId());
+									}
+								}
 							}
-						}
+						}, 20*5);
+						
 	    				
 						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
@@ -790,62 +790,6 @@ public class OnJoin implements Listener {
 							Main.TaskVanishAB.remove(p);
 						}
 	    			}
-	        	} else {
-	        		if (!SQL.tableExists("player_vanish")) {
-	        			SQL.createTable("player_vanish", "player TEXT, player_UUID TEXT, vanished TEXT");
-	        		}
-	        		
-	        		if (!SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_vanish")) {
-	        			SQL.insertData("player, player_UUID, vanished", 
-								" '"+ p.getName() +"', '"+ p.getUniqueId() +"', 'false' ", "player_vanish");
-	        		}
-	        		
-	        		String value = SQL.getInfoString("player_vanish", "vanished", "" + p.getUniqueId() + "");
-	        		
-	        		if (value.equalsIgnoreCase("true")) {
-	        			for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-							if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
-								all.hidePlayer(Main.getInstance(), p);
-							} else {
-								all.hidePlayer(p);
-							}
-						}
-	    				VanishCommand.player_list_vanish.add(p);
-						
-	    				if (Main.TaskVanishAB.containsKey(p)) {
-							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
-							Main.TaskVanishAB.remove(p);
-						}
-						
-						if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
-							if (p.hasPermission("hawn.command.vanish.actionbar")) {
-								BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
-								Main.TaskVanishAB.put(p, task.getTaskId());
-							}
-						}
-	    				
-						if (ConfigMCommands.getConfig().getBoolean("Vanish.Self.Enable")) {
-							for (String msg: ConfigMCommands.getConfig().getStringList("Vanish.Self.Messages")) {
-			            		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-			            	}
-						}
-	        		} else {
-	        			for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-							if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
-								all.showPlayer(Main.getInstance(), p);
-							} else {
-								all.showPlayer(p);
-							}
-						}
-	        			
-	        			if (Main.TaskVanishAB.containsKey(p)) {
-							Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
-							Main.TaskVanishAB.remove(p);
-						}
-	        			
-	    				VanishCommand.player_list_vanish.remove(p);
-	        		}
-	        	}
         	}
         	
         	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
@@ -882,12 +826,16 @@ public class OnJoin implements Listener {
 						Main.TaskVanishAB.remove(p);
 					}
 					
-					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
-						if (p.hasPermission("hawn.command.vanish.actionbar")) {
-							BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
-							Main.TaskVanishAB.put(p, task.getTaskId());
+                 	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+						public void run() {
+							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
+								if (p.hasPermission("hawn.command.vanish.actionbar")) {
+									BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+									Main.TaskVanishAB.put(p, task.getTaskId());
+								}
+							}
 						}
-					}
+					}, 20*5);
                  }
              }
 
