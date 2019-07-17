@@ -150,7 +150,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.8-Alpha";
+	static String versions = "0.6.9-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -954,14 +954,15 @@ public class Main extends JavaPlugin implements Listener {
 							String hea2 = "";
 							String foo2 = "";
 							Object packet = null;
-
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								hea2 = PlaceholderAPI.setPlaceholders(p, hea);
-								foo2 = PlaceholderAPI.setPlaceholders(p, foo);
-							}
+							 
 							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
 							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
-
+							
+							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+								foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
+								hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
+							}
+							
 							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
 							Object header = constructor.newInstance(hea2);
 							Object footer = constructor.newInstance(foo2);
