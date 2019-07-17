@@ -448,4 +448,74 @@ public class PlayerOptionSQLClass {
 
 				return value;
 			}
+			
+			/*
+			 * Player visibility
+			 */
+			public static String getValueMysqlYaml(Player p) {
+				String value = "";
+				String uuid = p.getUniqueId().toString();
+				
+				if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_pv.Activate")) {
+					if (PlayerVisibility.PVPlayer.contains(p)) {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", true);
+					} else {
+						ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", false);
+					}
+				}
+						
+				if (Main.useyamllistplayer) {
+					if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
+						value = "TRUE";
+					} else {
+						value = "FALSE";
+					}
+				} else {
+					if (!SQL.tableExists("player_option_pv")) {
+						SQL.createTable("player_option_pv", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+					
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_pv")) {
+						value = String.valueOf(SQL.getInfoString("player_option_pv", "Activate", "" + p.getUniqueId() + ""));
+						SQL.set("player_option_pv", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
+							value = "TRUE";
+							SQL.insertData("player, player_UUID, Activate",
+			                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_pv");
+						} else {
+							value = "FALSE";
+							SQL.insertData("player, player_UUID, Activate",
+			                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_pv");
+						}
+					}
+				}
+				
+				return value;
+			}
+			
+			public static void onMysqlYamlCJIChange(Player p, String boolea) {
+				String uuid = p.getUniqueId().toString();
+				
+				if (boolea.equalsIgnoreCase("FALSE")) {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", false);
+				} else {
+					ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", true);
+				}
+						
+				if (!Main.useyamllistplayer) {
+					if (!SQL.tableExists("player_option_pv")) {
+						SQL.createTable("player_option_pv", "player TEXT, player_UUID TEXT, Activate TEXT");
+					}
+					
+					if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_pv")) {
+						SQL.set("player_option_pv", "Activate", ""+boolea+"", "player_UUID", "" + p.getUniqueId() + "");
+						SQL.set("player_option_pv", "player", ""+p.getName()+"", "player_UUID", "" + p.getUniqueId() + "");
+					} else {
+						SQL.insertData("player, player_UUID, Activate",
+		                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_pv");
+					}
+				}
+				
+			}
 }
