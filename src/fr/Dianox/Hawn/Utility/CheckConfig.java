@@ -128,6 +128,16 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OptionPlayerConfigCommand.getConfig().isSet("PlayerOption.World.All_World")) {
+			OptionPlayerConfigCommand.getConfig().set("PlayerOption.World.All_World", false);
+			OptionPlayerConfigCommand.getConfig().set("PlayerOption.World.Worlds", java.util.Arrays.asList(new String[] {
+                  "world",
+                  "world_nether"
+			}));
+			
+			OptionPlayerConfigCommand.saveConfigFile();
+		}
+		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.DoubleJump.Enable.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Enable.Enable", true);
 			ConfigMPlayerOption.getConfig().set("PlayerOption.DoubleJump.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your double jump has been &aactivated"}));
