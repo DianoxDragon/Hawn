@@ -55,61 +55,80 @@ public class CheckConfig {
 			
 			Bukkit.getConsoleSender().sendMessage("PLEASE WAIT DURING THE UPDATE");
 			
-			// Create new player info
-			Iterator < ? > iteratorpi = cfg.getConfigurationSection("player_info").getKeys(false).iterator();
+			Iterator < ? > iteratorpi = null;
+			Iterator < ? > iteratorpv = null;
+			Iterator < ? > iteratorksb = null;
+			Iterator < ? > iteratorlp = null;
+			Iterator < ? > iteratorpg = null;
+			Iterator < ? > iteratorv = null;
 			
-			while (iteratorpi.hasNext()) {
-                String string = (String) iteratorpi.next();
-                ConfigPlayerGet.writeString(string, "player_info.player_name", cfg.getString("player_info."+string+".player_name"));
-            	ConfigPlayerGet.writeString(string, "player_info.join_date", cfg.getString("player_info."+string+".join_date"));
-            	ConfigPlayerGet.writeString(string, "player_info.first_join", cfg.getString("player_info."+string+".first_join"));
-            	ConfigPlayerGet.writeString(string, "player_info.player_ip", cfg.getString("player_info."+string+".player_ip"));
+			// Create new player info
+			if (cfg.isSet("player_info")) {
+				iteratorpi = cfg.getConfigurationSection("player_info").getKeys(false).iterator();
+			
+				while (iteratorpi.hasNext()) {
+	                String string = (String) iteratorpi.next();
+	                ConfigPlayerGet.writeString(string, "player_info.player_name", cfg.getString("player_info."+string+".player_name"));
+	            	ConfigPlayerGet.writeString(string, "player_info.join_date", cfg.getString("player_info."+string+".join_date"));
+	            	ConfigPlayerGet.writeString(string, "player_info.first_join", cfg.getString("player_info."+string+".first_join"));
+	            	ConfigPlayerGet.writeString(string, "player_info.player_ip", cfg.getString("player_info."+string+".player_ip"));
+				}
 			}
 			
 			// Create player option pv
-			Iterator < ? > iteratorpv = cfg.getConfigurationSection("player_option_pv").getKeys(false).iterator();
-			
-			while (iteratorpv.hasNext()) {
-                String string = (String) iteratorpv.next();
-                ConfigPlayerGet.writeBoolean(string, "player_option_pv.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
+			if (cfg.isSet("player_option_pv")) {
+				iteratorpv = cfg.getConfigurationSection("player_option_pv").getKeys(false).iterator();
+				
+				while (iteratorpv.hasNext()) {
+	                String string = (String) iteratorpv.next();
+	                ConfigPlayerGet.writeBoolean(string, "player_option_pv.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
+				}
 			}
 			
 			// Create player keep sb
-			Iterator < ? > iteratorksb = cfg.getConfigurationSection("player_option_keep_sb").getKeys(false).iterator();
-						
-			while (iteratorksb.hasNext()) {
-				String string = (String) iteratorksb.next();
-				ConfigPlayerGet.writeBoolean(string, "player_option_keep_sb.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
-				ConfigPlayerGet.writeString(string, "player_option_keep_sb.Scoreboard", cfg.getString("player_option_keep_sb."+string+".Scoreboard"));
+			if (cfg.isSet("player_option_keep_sb")) {
+				iteratorksb = cfg.getConfigurationSection("player_option_keep_sb").getKeys(false).iterator();
+							
+				while (iteratorksb.hasNext()) {
+					String string = (String) iteratorksb.next();
+					ConfigPlayerGet.writeBoolean(string, "player_option_keep_sb.Activate", cfg.getBoolean("player_option_pv."+string+".Activate"));
+					ConfigPlayerGet.writeString(string, "player_option_keep_sb.Scoreboard", cfg.getString("player_option_keep_sb."+string+".Scoreboard"));
+				}
 			}
 			
 			// Create player keep sb
-			Iterator < ? > iteratorlp = cfg.getConfigurationSection("player_last_position").getKeys(false).iterator();
-									
-			while (iteratorlp.hasNext()) {
-				String string = (String) iteratorlp.next();
-				ConfigPlayerGet.writeString(string, "player_last_position.World", cfg.getString("player_last_position."+string+".World"));
-				ConfigPlayerGet.writeDouble(string, "player_last_position.X", cfg.getDouble("player_last_position."+string+".X"));
-				ConfigPlayerGet.writeDouble(string, "player_last_position.Y", cfg.getDouble("player_last_position."+string+".Y"));
-				ConfigPlayerGet.writeDouble(string, "player_last_position.Z", cfg.getDouble("player_last_position."+string+".Z"));
-				ConfigPlayerGet.writeFloat(string, "player_last_position.YAW", Float.valueOf(cfg.getString("player_last_position."+string+".YAW")));
-				ConfigPlayerGet.writeFloat(string, "player_last_position.PITCH", Float.valueOf(cfg.getString("player_last_position."+string+".PITCH")));
+			if (cfg.isSet("player_last_position")) {
+				iteratorlp = cfg.getConfigurationSection("player_last_position").getKeys(false).iterator();
+										
+				while (iteratorlp.hasNext()) {
+					String string = (String) iteratorlp.next();
+					ConfigPlayerGet.writeString(string, "player_last_position.World", cfg.getString("player_last_position."+string+".World"));
+					ConfigPlayerGet.writeDouble(string, "player_last_position.X", cfg.getDouble("player_last_position."+string+".X"));
+					ConfigPlayerGet.writeDouble(string, "player_last_position.Y", cfg.getDouble("player_last_position."+string+".Y"));
+					ConfigPlayerGet.writeDouble(string, "player_last_position.Z", cfg.getDouble("player_last_position."+string+".Z"));
+					ConfigPlayerGet.writeFloat(string, "player_last_position.YAW", Float.valueOf(cfg.getString("player_last_position."+string+".YAW")));
+					ConfigPlayerGet.writeFloat(string, "player_last_position.PITCH", Float.valueOf(cfg.getString("player_last_position."+string+".PITCH")));
+				}
 			}
 			
 			// Create player option pg
-			Iterator < ? > iteratorpg = cfg.getConfigurationSection("player_gamemode").getKeys(false).iterator();
-						
-			while (iteratorpg.hasNext()) {
-				String string = (String) iteratorpg.next();
-				ConfigPlayerGet.writeInt(string, "player_gamemode.player_gamemode", cfg.getInt("player_gamemode."+string+".player_gamemode"));
+			if (cfg.isSet("player_gamemode")) {
+				iteratorpg = cfg.getConfigurationSection("player_gamemode").getKeys(false).iterator();
+							
+				while (iteratorpg.hasNext()) {
+					String string = (String) iteratorpg.next();
+					ConfigPlayerGet.writeInt(string, "player_gamemode.player_gamemode", cfg.getInt("player_gamemode."+string+".player_gamemode"));
+				}
 			}
 			
 			// Create player option v
-			Iterator < ? > iteratorv = cfg.getConfigurationSection("player_vanish").getKeys(false).iterator();
-									
-			while (iteratorv.hasNext()) {
-				String string = (String) iteratorv.next();
-				ConfigPlayerGet.writeBoolean(string, "player_vanish.vanished", cfg.getBoolean("player_vanish."+string+".vanished"));
+			if (cfg.isSet("player_vanish")) {
+				iteratorv = cfg.getConfigurationSection("player_vanish").getKeys(false).iterator();
+										
+				while (iteratorv.hasNext()) {
+					String string = (String) iteratorv.next();
+					ConfigPlayerGet.writeBoolean(string, "player_vanish.vanished", cfg.getBoolean("player_vanish."+string+".vanished"));
+				}
 			}
 			
 			f.delete();
@@ -206,8 +225,8 @@ public class CheckConfig {
 			
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Enable", true);
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Use_Permission", true);
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Title", String.valueOf("&cSad"));
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Material", String.valueOf("PAPER"));
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Title", "&cSad");
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Material", "PAPER");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Sad.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ☹",
@@ -217,8 +236,8 @@ public class CheckConfig {
 	            
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Title", String.valueOf("&cScales"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Material", String.valueOf("OAK_PRESSURE_PLATE"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Title", "&cScales");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Material", "OAK_PRESSURE_PLATE");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Scales.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ⚖",
@@ -228,8 +247,8 @@ public class CheckConfig {
 	            
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Title", String.valueOf("&cRadioactive"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Material", String.valueOf("REDSTONE_TORCH"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Title", "&cRadioactive");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Material", "REDSTONE_TORCH");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Radioactive.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ☢",
@@ -239,8 +258,8 @@ public class CheckConfig {
 	            
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Title", String.valueOf("&cKing"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Material", String.valueOf("GOLD_INGOT"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Title", "&cKing");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Material", "GOLD_INGOT");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.King.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ♕",
@@ -250,8 +269,8 @@ public class CheckConfig {
 	            
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Title", String.valueOf("&cEmail"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Material", String.valueOf("PAPER"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Title", "&cEmail");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Material", "PAPER");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Email.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ✉",
@@ -625,8 +644,8 @@ public class CheckConfig {
 		if (!OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list.coffee.Enable")) {
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Enable", true);
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Use_Permission", true);
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Gui.Title", String.valueOf("&cCoffee"));
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Gui.Material", String.valueOf("MILK_BUCKET"));
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Gui.Title", "&cCoffee");
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Gui.Material", "MILK_BUCKET");
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.coffee.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                " ",
 	                "&bTo use this emoji : ☕",
@@ -636,8 +655,8 @@ public class CheckConfig {
 	        
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Enable", true);
 	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Use_Permission", true);
-	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Gui.Title", String.valueOf("&cAirplane"));
-	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Gui.Material", String.valueOf("FEATHER"));
+	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Gui.Title", "&cAirplane");
+	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Gui.Material", "FEATHER");
 	        OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.airplane.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                " ",
 	                "&bTo use this emoji : ✈",
@@ -669,10 +688,10 @@ public class CheckConfig {
 		// General
 		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.MYSQL.Enable")) {
 			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Enable", true);
-			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Host", String.valueOf("localhost"));
-			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Username", String.valueOf("root"));
-			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Password", String.valueOf("123"));
-			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Database", String.valueOf("Hawn"));
+			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Host", "localhost");
+			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Username", "root");
+			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Password", "123");
+			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Database", "Hawn");
 			ConfigGeneral.getConfig().set("Plugin.Use.MYSQL.Port", 3306);
 			
 			ConfigGeneral.saveConfigFile();
@@ -681,8 +700,8 @@ public class CheckConfig {
 		// Server list ping
 		if (!ServerListConfig.getConfig().isSet("Motd.Classic.Enable")) {
 			ServerListConfig.getConfig().set("Motd.Classic.Enable", true);
-			ServerListConfig.getConfig().set("Motd.Classic.Line-1", String.valueOf("&cThis is a test of motd of course"));
-			ServerListConfig.getConfig().set("Motd.Classic.Line-2", String.valueOf("&eThanks to choose &lhawn"));
+			ServerListConfig.getConfig().set("Motd.Classic.Line-1", "&cThis is a test of motd of course");
+			ServerListConfig.getConfig().set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");
             
 			ServerListConfig.saveConfigFile();
 		}
@@ -696,16 +715,16 @@ public class CheckConfig {
 		
 		if (!ServerListConfig.getConfig().isSet("Motd.WhiteList.Enable")) {
 			ServerListConfig.getConfig().set("Motd.WhiteList.Enable", true);
-			ServerListConfig.getConfig().set("Motd.WhiteList.Line-1", String.valueOf("&eServer is on whitelist"));
-			ServerListConfig.getConfig().set("Motd.WhiteList.Line-2", String.valueOf("&bPlease come back later"));
+			ServerListConfig.getConfig().set("Motd.WhiteList.Line-1", "&eServer is on whitelist");
+			ServerListConfig.getConfig().set("Motd.WhiteList.Line-2", "&bPlease come back later");
             
 			ServerListConfig.saveConfigFile();
 		}
 		
 		// Config launch pad
 		if (!ConfigGLP.getConfig().isSet("JumpPads.Options.Block")) {
-			ConfigGLP.getConfig().set("JumpPads.Options.Block", String.valueOf("REDSTONE_BLOCK"));
-			ConfigGLP.getConfig().set("JumpPads.Options.Plate", String.valueOf("GOLD_PLATE"));
+			ConfigGLP.getConfig().set("JumpPads.Options.Block", "REDSTONE_BLOCK");
+			ConfigGLP.getConfig().set("JumpPads.Options.Plate", "GOLD_PLATE");
             
 			ConfigGLP.saveConfigFile();
 		}
@@ -730,8 +749,8 @@ public class CheckConfig {
 		if (!OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Enable")) {
             
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Enable", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title", String.valueOf("&cClose the Gui"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material", String.valueOf("BARRIER"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title", "&cClose the Gui");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material", "BARRIER");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "You can simply delete too",
@@ -742,9 +761,9 @@ public class CheckConfig {
             // Option per emoji
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Title", String.valueOf("&cSmiley"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Material", String.valueOf("SKULL_ITEM"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Skull-Name", String.valueOf("%player%"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Title", "&cSmiley");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Material", "SKULL_ITEM");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Skull-Name", "%player%");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Smiley.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☺",
@@ -755,8 +774,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Gui.Title", String.valueOf("&cSwords"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Gui.Material", String.valueOf("DIAMOND_SWORD"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Gui.Title", "&cSwords");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Gui.Material", "DIAMOND_SWORD");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Swords.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ⚔",
@@ -766,8 +785,8 @@ public class CheckConfig {
             
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Gui.Title", String.valueOf("&cHeart"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Gui.Material", String.valueOf("REDSTONE"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Gui.Title", "&cHeart");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Gui.Material", "REDSTONE");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Heart.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ❤",
@@ -777,8 +796,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Gui.Title", String.valueOf("&cNotes"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Gui.Material", String.valueOf("NOTE_BLOCK"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Gui.Title", "&cNotes");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Gui.Material", "NOTE_BLOCK");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Notes.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ♪",
@@ -788,8 +807,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Gui.Title", String.valueOf("&cStar"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Gui.Material", String.valueOf("NETHER_STAR"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Gui.Title", "&cStar");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Gui.Material", "NETHER_STAR");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Star.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ✰",
@@ -799,8 +818,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Gui.Title", String.valueOf("&cPeace"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Gui.Material", String.valueOf("ORANGE_TULIP"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Gui.Title", "&cPeace");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Gui.Material", "ORANGE_TULIP");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Peace.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☮",
@@ -810,8 +829,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Gui.Title", String.valueOf("&cChess"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Gui.Material", String.valueOf("TORCH"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Gui.Title", "&cChess");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Gui.Material", "TORCH");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Chess.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ♖",
@@ -821,8 +840,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Gui.Title", String.valueOf("&cCopyright"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Gui.Material", String.valueOf("PAINTING"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Gui.Title", "&cCopyright");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Gui.Material", "PAINTING");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Copyright.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ©",
@@ -832,8 +851,8 @@ public class CheckConfig {
 
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Gui.Title", String.valueOf("&cAnchor"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Gui.Material", String.valueOf("IRON_ORE"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Gui.Title", "&cAnchor");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Gui.Material", "IRON_ORE");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Anchor.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ⚓",
@@ -843,8 +862,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Gui.Title", String.valueOf("&cSkull"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Gui.Material", String.valueOf("SKULL_ITEM"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Gui.Title", "&cSkull");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Gui.Material", "SKULL_ITEM");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Skull.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☠",
@@ -854,8 +873,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Gui.Title", String.valueOf("&cUmbrella"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Gui.Material", String.valueOf("GREEN_CARPET"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Gui.Title", "&cUmbrella");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Gui.Material", "GREEN_CARPET");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Umbrella.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☂",
@@ -865,8 +884,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Gui.Title", String.valueOf("&cDiamonds"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Gui.Material", String.valueOf("DIAMOND"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Gui.Title", "&cDiamonds");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Gui.Material", "DIAMOND");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Diamonds.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ♦",
@@ -876,8 +895,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Gui.Title", String.valueOf("&cSnowflake"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Gui.Material", String.valueOf("SNOWBALL"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Gui.Title", "&cSnowflake");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Gui.Material", "SNOWBALL");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowflake.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ❄",
@@ -887,8 +906,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Gui.Title", String.valueOf("&cSnowman"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Gui.Material", String.valueOf("SNOW_BLOCK"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Gui.Title", "&cSnowman");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Gui.Material", "SNOW_BLOCK");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Snowman.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ☃",
@@ -898,8 +917,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Gui.Title", String.valueOf("&cCheckmark"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Gui.Material", String.valueOf("EMERALD_BLOCK"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Gui.Title", "&cCheckmark");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Gui.Material", "EMERALD_BLOCK");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Checkmark.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ✔",
@@ -909,8 +928,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Gui.Title", String.valueOf("&cCrossmark"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Gui.Material", String.valueOf("REDSTONE_BLOCK"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Gui.Title", "&cCrossmark");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Gui.Material", "REDSTONE_BLOCK");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Crossmark.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : ✖",
@@ -920,8 +939,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Enable", true);
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Use_Permission", true);
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Gui.Title", String.valueOf("&cArrow"));
-            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Gui.Material", String.valueOf("ARROW"));
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Gui.Title", "&cArrow");
+            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Gui.Material", "ARROW");
             OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Arrow.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : Σ>―(´･ω･`)→",
@@ -931,8 +950,8 @@ public class CheckConfig {
 
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Title", String.valueOf("&cStrong"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", String.valueOf("SPLASH_POTION"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Title", "&cStrong");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", "SPLASH_POTION");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : (9｀･ω･)9",
@@ -942,8 +961,8 @@ public class CheckConfig {
 	
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Use_Permission", true);
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Gui.Title", String.valueOf("&cPushups"));
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Gui.Material", String.valueOf("SPONGE"));
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Gui.Title", "&cPushups");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Gui.Material", "SPONGE");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Pushups.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : ┌(◣﹏◢)┐",
@@ -958,8 +977,8 @@ public class CheckConfig {
 			
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Enable", true);
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Use_Permission", true);
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Gui.Title", String.valueOf("&cShrug"));
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Gui.Material", String.valueOf("STRING"));
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Gui.Title", "&cShrug");
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Gui.Material", "STRING");
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.shrug.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                " ",
 	                "&bTo use this emoji : ¯\\_(ツ)_/¯",
@@ -969,8 +988,8 @@ public class CheckConfig {
 	        
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Enable", true);
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Use_Permission", true);
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Gui.Title", String.valueOf("&cFliptable"));
-			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Gui.Material", String.valueOf("OAK_WOOD"));
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Gui.Title", "&cFliptable");
+			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Gui.Material", "OAK_WOOD");
 			OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.fliptable.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                " ",
 	                "&bTo use this emoji : (╯°□°）╯︵ ┻━┻",
