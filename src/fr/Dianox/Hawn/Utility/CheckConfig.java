@@ -147,6 +147,13 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.BattleLevels.Enable")) {
+			ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", false);
+			ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Keep-The-Option", false);
+			
+			ConfigGeneral.saveConfigFile();
+		}
+		
 		if (!ConfigMPlayerOption.getConfig().isSet("PlayerOption.Error.Not-Enable-In-A-World.Enable")) {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Not-Enable-In-A-World.Enable", true);
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.Not-Enable-In-A-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cPlayer options are not enabled in this world"}));
