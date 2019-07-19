@@ -437,9 +437,9 @@ public class OnJoin implements Listener {
             	}
             }
         }
+        
+        OjPlayerOption.PO(p);
 
-	   OjPlayerOption.PO(p);
-	    
         /*
          * 
          * This line of code is the category : On-Join.Join-Message 
