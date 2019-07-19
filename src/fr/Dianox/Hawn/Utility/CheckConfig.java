@@ -147,6 +147,18 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!SpawnCommandConfig.getConfig().isSet("SetSpawn.Enable")) {
+			SpawnCommandConfig.getConfig().set("SetSpawn.Enable", true);
+			SpawnCommandConfig.getConfig().set("SetSpawn.Disable-Message", true);
+			SpawnCommandConfig.getConfig().set("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
+            
+			SpawnCommandConfig.getConfig().set("DelSpawn.Enable", true);
+			SpawnCommandConfig.getConfig().set("DelSpawn.Disable-Message", true);
+			SpawnCommandConfig.getConfig().set("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
+            
+            SpawnCommandConfig.saveConfigFile();
+		}
+		
 		if (!ConfigMCommands.getConfig().isSet("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
 			ConfigMCommands.getConfig().set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
 			ConfigMCommands.getConfig().set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou don't have a permission, for any scoreboard"}));
