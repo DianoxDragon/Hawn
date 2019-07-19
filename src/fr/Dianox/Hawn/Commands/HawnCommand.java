@@ -253,6 +253,12 @@ public class HawnCommand implements CommandExecutor {
 			        	  sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			          }
 			          sender.sendMessage("");
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			        	  sender.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
+			          } else {
+			        	  sender.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");
+			          }
+			          sender.sendMessage("");
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
 						MessageUtils.ReplaceMessageForConsole(msg);
@@ -458,7 +464,13 @@ public class HawnCommand implements CommandExecutor {
 			            p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			          }
 			          p.sendMessage("");
-					
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			        	  p.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
+			          } else {
+			        	  p.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");
+			          }
+			          p.sendMessage("");
+			          
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
