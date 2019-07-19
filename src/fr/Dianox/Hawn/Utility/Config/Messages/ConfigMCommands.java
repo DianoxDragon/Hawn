@@ -168,6 +168,9 @@ public class ConfigMCommands {
             Config.set("Scoreboard.Keep-Off.Enable", true);
             Config.set("Scoreboard.Keep-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You will &cno longer&7 keep this scoreboard"}));
             
+		Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
+            Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou don't have a permission, for any scoreboard"}));
+		
             /* ------------- *
 			 * WARP COMMANDS *
 			 * ------------- */
