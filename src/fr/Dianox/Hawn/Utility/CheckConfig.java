@@ -147,6 +147,13 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMCommands.getConfig().isSet("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
+			ConfigMCommands.getConfig().set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
+			ConfigMCommands.getConfig().set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou don't have a permission, for any scoreboard"}));
+		
+        	ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!ConfigGeneral.getConfig().isSet("Plugin.Use.BattleLevels.Enable")) {
 			ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", false);
 			ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Keep-The-Option", false);
