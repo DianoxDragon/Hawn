@@ -78,26 +78,6 @@ public class OnQuit implements Listener {
 															+ " '"+ p.getLocation().getPitch() +"' ", "player_last_position");
 						}
 				}
-				
-				// Player last position
-				if (SQL.tableExists("player_gamemode")) {
-					if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_gamemode")) {
-						SQL.set("player_gamemode", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");	
-						SQL.set("player_gamemode", "gamemode_state", ""+gm+"", "player_UUID", ""+p.getUniqueId()+"");	
-					} else {
-						SQL.insertData("player, player_UUID, gamemode_state", 
-								" '"+ p.getName() +"', '"+ p.getUniqueId() +"', '"+gm+"' ", "player_gamemode");
-					}
-				} else {
-					SQL.createTable("player_gamemode", "player TEXT, player_UUID TEXT, gamemode_state INT");
-					if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_gamemode")) {
-						SQL.set("player_gamemode", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");
-						SQL.set("player_gamemode", "gamemode_state", ""+gm+"", "player_UUID", ""+p.getUniqueId()+"");
-					} else {
-						SQL.insertData("player, player_UUID, gamemode_state", 
-								" '"+ p.getName() +"', '"+ p.getUniqueId() +"', '"+gm+"' ", "player_gamemode");
-					}
-				}
 			} else {
 				Bukkit.getConsoleSender().sendMessage("§cRemember, the database MYSQL is not working, or the connection is not possible at the moment. Save on MYSQL is not possible");
 			}
@@ -112,9 +92,6 @@ public class OnQuit implements Listener {
 			ConfigPlayerGet.writeFloat(uuid, "player_last_position.YAW", p.getLocation().getYaw());
 			ConfigPlayerGet.writeFloat(uuid, "player_last_position.PITCH", p.getLocation().getPitch());
 			
-			// Player gamemode
-			ConfigPlayerGet.writeInt(uuid, "player_gamemode.player_gamemode", gm);
-			
 			if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				// Player vanish
 				if (p.hasPermission("hawn.betweenservers.keepvanish")) {
@@ -125,6 +102,8 @@ public class OnQuit implements Listener {
 					}
 				}
 			}
+			
+			PlayerOptionSQLClass.SaveSQLPOGamemode(p, gm);
 						
 		// Quit message
 		OQMessages.OnMessage(p, e);
