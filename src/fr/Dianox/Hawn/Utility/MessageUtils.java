@@ -122,6 +122,51 @@ public class MessageUtils {
             str = str.replaceAll("%gettime%", OtherUtils.getTime());
         }
 
+        // Total player
+        if (str.contains("%player_x%")) {
+            str = str.replaceAll("%player_x%", String.valueOf((int) p.getLocation().getX()));
+        }
+        
+        if (str.contains("%player_y%")) {
+            str = str.replaceAll("%player_y%", String.valueOf((int) p.getLocation().getY()));
+        }
+        
+        if (str.contains("%player_z%")) {
+            str = str.replaceAll("%player_z%", String.valueOf((int) p.getLocation().getZ()));
+        }
+        
+        if (str.contains("%player_world%")) {
+            str = str.replaceAll("%player_world%", p.getWorld().getName());
+        }
+        
+        if (str.contains("%player_uuid%")) {
+            str = str.replaceAll("%player_uuid%", p.getUniqueId().toString());
+        }
+        
+        if (str.contains("%player_level%")) {
+            str = str.replaceAll("%player_level%", String.valueOf(p.getLevel()));
+        }
+        
+        if (str.contains("%player_exp%")) {
+            str = str.replaceAll("%player_exp%", String.valueOf(p.getExp()));
+        }
+        
+        if (str.contains("%player_exp_to_level%")) {
+            str = str.replaceAll("%player_exp_to_level%", String.valueOf(p.getExpToLevel()));
+        }
+        
+        if (str.contains("%player_food_level%")) {
+            str = str.replaceAll("%player_food_level%", String.valueOf(p.getFoodLevel()));
+        }
+        
+        if (str.contains("%player_health%")) {
+            str = str.replaceAll("%player_health%", String.valueOf(p.getHealth()));
+        }
+        
+        if (str.contains("%player_health_scale%")) {
+            str = str.replaceAll("%player_health_scale%", String.valueOf(p.getHealthScale()));
+        }
+        
         return str;
     }
 
