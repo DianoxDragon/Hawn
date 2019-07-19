@@ -66,6 +66,19 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 			return true;
 		}
 
+		// Worlds
+		
+		if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
+			if (!PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
+				if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Not-Enable-In-A-World.Enable")) {
+        			for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Not-Enable-In-A-World.Messages")) {
+                		MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                	}
+    			}
+				return true;
+			}
+		}
+		
 		// The command
 		if (args.length == 0) {
 			if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Help.Enable")) {
