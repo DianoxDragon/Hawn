@@ -195,9 +195,6 @@ public class Main extends JavaPlugin implements Listener {
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
-    // Placeholder
-    public static Boolean battlelevels = false;
-    
     @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
@@ -796,8 +793,24 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		
+		// BattleLevel
 		if (Bukkit.getPluginManager().isPluginEnabled("BattleLevels")) {
-			this.battlelevels = true;
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
+					Bukkit.getPluginManager().registerEvents(this, this);
+				}
+			} else {
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
+				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", true);
+				ConfigGeneral.saveConfigFile();
+				Bukkit.getPluginManager().registerEvents(this, this);
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", false);
+				ConfigGeneral.saveConfigFile();
+			}
 		}
 		
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||
@@ -961,6 +974,11 @@ public class Main extends JavaPlugin implements Listener {
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
 								hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
+							}
+							
+							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+								foo2 = MessageUtils.BattleLevelPO(foo2, p);
+								hea2 = MessageUtils.BattleLevelPO(hea2, p);
 							}
 							
 							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
