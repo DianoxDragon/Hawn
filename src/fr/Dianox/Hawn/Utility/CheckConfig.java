@@ -156,6 +156,15 @@ public class CheckConfig {
 			SpawnCommandConfig.getConfig().set("DelSpawn.Disable-Message", true);
 			SpawnCommandConfig.getConfig().set("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
             
+			 CommandAliasesConfig.getConfig().set("SetSpawn.Enable", true);
+			 CommandAliasesConfig.getConfig().set("SetSpawn.Cannot-Be-changed.Main-Command-Is", "setspawn");
+			 CommandAliasesConfig.getConfig().set("SetSpawn.Aliases", java.util.Arrays.asList(new String[] {}));
+	            
+			 CommandAliasesConfig.getConfig().set("DelSpawn.Enable", true);
+			 CommandAliasesConfig.getConfig().set("DelSpawn.Cannot-Be-changed.Main-Command-Is", "delspawn");
+			 CommandAliasesConfig.getConfig().set("DelSpawn.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			 CommandAliasesConfig.saveConfigFile();
             SpawnCommandConfig.saveConfigFile();
 		}
 		
