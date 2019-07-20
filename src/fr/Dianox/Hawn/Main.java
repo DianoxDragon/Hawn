@@ -30,9 +30,11 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import fr.Dianox.Hawn.Commands.DelSpawnCommand;
 import fr.Dianox.Hawn.Commands.HawnCommand;
 import fr.Dianox.Hawn.Commands.PanelAdminCommand;
 import fr.Dianox.Hawn.Commands.PingCommand;
+import fr.Dianox.Hawn.Commands.SetSpawnCommand;
 import fr.Dianox.Hawn.Commands.SpawnCommand;
 import fr.Dianox.Hawn.Commands.Features.ClearInvCommand;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
@@ -548,7 +550,25 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-
+			// >> SetSpawn
+			if (!SpawnCommandConfig.getConfig().getBoolean("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("setspawn", new SetSpawnCommand("setspawn"));
+				if (CommandAliasesConfig.getConfig().getBoolean("SetSpawn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("SetSpawn.Aliases")) {
+						commandMap.register(s, new SetSpawnCommand(s));
+					}
+				}
+			}
+			// >> DelSpawn
+			if (!SpawnCommandConfig.getConfig().getBoolean("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("delspawn", new DelSpawnCommand("delspawn"));
+				if (CommandAliasesConfig.getConfig().getBoolean("DelSpawn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("DelSpawn.Aliases")) {
+						commandMap.register(s, new DelSpawnCommand(s));
+					}
+				}
+			}
+			
 			/* ------------- *
 			 * TIME COMMANDS *
 			 * ------------- */
