@@ -57,6 +57,27 @@ public class ScoreboardCommand extends BukkitCommand {
 		}
 		
 		// The command
+		
+		Boolean value = false;
+		
+		for (String s : Main.getInstance().info.keySet()) {
+			if (p.hasPermission(s)) {
+				value = true;
+				break;
+			} else {
+				value = false;
+			}
+		}
+		
+		if (!value) {
+			if (ConfigMCommands.getConfig().getBoolean("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
+				for (String msg: ConfigMCommands.getConfig().getStringList("Scoreboard.Error-No-Perm-For-Any-Score.Messages")) {
+					MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				}
+			}
+			return true;
+		}
+		
 		if (args.length == 0) {
 			if (Main.boards.containsKey(p)) {
 				((PlayerBoard)Main.getInstance().getBoards().get(p)).remove();

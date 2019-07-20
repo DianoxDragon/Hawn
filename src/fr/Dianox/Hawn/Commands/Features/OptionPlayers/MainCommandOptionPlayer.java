@@ -66,6 +66,19 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 			return true;
 		}
 
+		// Worlds
+		
+		if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
+			if (!PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
+				if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Not-Enable-In-A-World.Enable")) {
+        			for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Not-Enable-In-A-World.Messages")) {
+                		MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                	}
+    			}
+				return true;
+			}
+		}
+		
 		// The command
 		if (args.length == 0) {
 			if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Help.Enable")) {
@@ -447,7 +460,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 
 								SpecialCJIPlayerVisibility.messageitemPVOFF(p);
 
-								SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "FALSE");
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 
@@ -463,7 +476,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							PlayerVisibility.showPlayer(p);
 							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
 							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
-							SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "FALSE");
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 						}
 					} else {
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
@@ -480,7 +493,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 
 								SpecialCJIPlayerVisibility.messageitemPVON(p);
 
-								SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "TRUE");
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 
 								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 
@@ -496,7 +509,7 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							PlayerVisibility.hidePlayer(p);
 							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
 							SpecialCJIPlayerVisibility.messageitemPVON(p);
-							SpecialCJIPlayerVisibility.onMysqlYamlCJIChange(p, "TRUE");
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 						}
 					}
 				} else {

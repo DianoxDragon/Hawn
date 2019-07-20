@@ -196,6 +196,10 @@ public class PlayerBoard {
         		s = PlaceholderAPI.setPlaceholders(getPlayer(), s);
         }
         
+        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			s = MessageUtils.BattleLevelPO(s, getPlayer());
+		}
+        
         s = MessageUtils.ReplaceMainplaceholderP(s, getPlayer());
 
         s = ChatColor.translateAlternateColorCodes('&', s);

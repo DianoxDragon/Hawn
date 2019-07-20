@@ -13,6 +13,7 @@ import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.VanishCommand;
 import fr.Dianox.Hawn.Event.OnQuitE.OQMessages;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
@@ -77,67 +78,6 @@ public class OnQuit implements Listener {
 															+ " '"+ p.getLocation().getPitch() +"' ", "player_last_position");
 						}
 				}
-				
-				// Player last position
-				if (SQL.tableExists("player_gamemode")) {
-					if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_gamemode")) {
-						SQL.set("player_gamemode", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");	
-						SQL.set("player_gamemode", "gamemode_state", ""+gm+"", "player_UUID", ""+p.getUniqueId()+"");	
-					} else {
-						SQL.insertData("player, player_UUID, gamemode_state", 
-								" '"+ p.getName() +"', '"+ p.getUniqueId() +"', '"+gm+"' ", "player_gamemode");
-					}
-				} else {
-					SQL.createTable("player_gamemode", "player TEXT, player_UUID TEXT, gamemode_state INT");
-					if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_gamemode")) {
-						SQL.set("player_gamemode", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");
-						SQL.set("player_gamemode", "gamemode_state", ""+gm+"", "player_UUID", ""+p.getUniqueId()+"");
-					} else {
-						SQL.insertData("player, player_UUID, gamemode_state", 
-								" '"+ p.getName() +"', '"+ p.getUniqueId() +"', '"+gm+"' ", "player_gamemode");
-					}
-				}
-				if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				// Player vanish
-				if (p.hasPermission("hawn.betweenservers.keepvanish")) {
-					if (SQL.tableExists("player_vanish")) {
-						if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_vanish")) {
-							SQL.set("player_vanish", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");
-							if (VanishCommand.player_list_vanish.contains(p)) {
-								SQL.set("player_vanish", "vanished", "true", "player_UUID", ""+p.getUniqueId()+"");
-							} else {
-								SQL.set("player_vanish", "vanished", "false", "player_UUID", ""+p.getUniqueId()+"");
-							}
-						} else {
-							if (VanishCommand.player_list_vanish.contains(p)) {
-								SQL.insertData("player, player_UUID, vanished", 
-										" '"+ p.getName() +"', '"+ p.getUniqueId() +"', 'true' ", "player_vanish");
-							} else {
-								SQL.insertData("player, player_UUID, vanished", 
-										" '"+ p.getName() +"', '"+ p.getUniqueId() +"', 'false' ", "player_vanish");
-							}
-						}
-					} else {
-						SQL.createTable("player_vanish", "player TEXT, player_UUID TEXT, vanished TEXT");
-						if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_vanish")) {
-							SQL.set("player_vanish", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");
-							if (VanishCommand.player_list_vanish.contains(p)) {
-								SQL.set("player_vanish", "vanished", "true", "player_UUID", ""+p.getUniqueId()+"");
-							} else {
-								SQL.set("player_vanish", "vanished", "false", "player_UUID", ""+p.getUniqueId()+"");
-							}
-						} else {
-							if (VanishCommand.player_list_vanish.contains(p)) {
-								SQL.insertData("player, player_UUID, vanished", 
-										" '"+ p.getName() +"', '"+ p.getUniqueId() +"', 'true' ", "player_vanish");
-							} else {
-								SQL.insertData("player, player_UUID, vanished", 
-										" '"+ p.getName() +"', '"+ p.getUniqueId() +"', 'false' ", "player_vanish");
-							}
-						}
-					}
-				}
-				}
 			} else {
 				Bukkit.getConsoleSender().sendMessage("§cRemember, the database MYSQL is not working, or the connection is not possible at the moment. Save on MYSQL is not possible");
 			}
@@ -152,19 +92,18 @@ public class OnQuit implements Listener {
 			ConfigPlayerGet.writeFloat(uuid, "player_last_position.YAW", p.getLocation().getYaw());
 			ConfigPlayerGet.writeFloat(uuid, "player_last_position.PITCH", p.getLocation().getPitch());
 			
-			// Player gamemode
-			ConfigPlayerGet.writeInt(uuid, "player_gamemode.player_gamemode", gm);
-			
 			if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				// Player vanish
 				if (p.hasPermission("hawn.betweenservers.keepvanish")) {
 					if (VanishCommand.player_list_vanish.contains(p)) {
-						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", true);
+						PlayerOptionSQLClass.SaveSQLPOVanish(p, "TRUE");
 					} else {
-						ConfigPlayerGet.writeBoolean(uuid, "player_vanish.vanished", false);
+						PlayerOptionSQLClass.SaveSQLPOVanish(p, "FALSE");
 					}
 				}
 			}
+			
+			PlayerOptionSQLClass.SaveSQLPOGamemode(p, gm);
 						
 		// Quit message
 		OQMessages.OnMessage(p, e);

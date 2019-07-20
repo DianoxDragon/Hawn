@@ -30,9 +30,11 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import fr.Dianox.Hawn.Commands.DelSpawnCommand;
 import fr.Dianox.Hawn.Commands.HawnCommand;
 import fr.Dianox.Hawn.Commands.PanelAdminCommand;
 import fr.Dianox.Hawn.Commands.PingCommand;
+import fr.Dianox.Hawn.Commands.SetSpawnCommand;
 import fr.Dianox.Hawn.Commands.SpawnCommand;
 import fr.Dianox.Hawn.Commands.Features.ClearInvCommand;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
@@ -150,7 +152,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.8-Alpha";
+	static String versions = "0.6.9-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -194,9 +196,6 @@ public class Main extends JavaPlugin implements Listener {
     
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
-    
-    // Placeholder
-    public static Boolean battlelevels = false;
     
     @SuppressWarnings("static-access")
 	@Override
@@ -551,7 +550,25 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-
+			// >> SetSpawn
+			if (!SpawnCommandConfig.getConfig().getBoolean("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("setspawn", new SetSpawnCommand("setspawn"));
+				if (CommandAliasesConfig.getConfig().getBoolean("SetSpawn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("SetSpawn.Aliases")) {
+						commandMap.register(s, new SetSpawnCommand(s));
+					}
+				}
+			}
+			// >> DelSpawn
+			if (!SpawnCommandConfig.getConfig().getBoolean("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("delspawn", new DelSpawnCommand("delspawn"));
+				if (CommandAliasesConfig.getConfig().getBoolean("DelSpawn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("DelSpawn.Aliases")) {
+						commandMap.register(s, new DelSpawnCommand(s));
+					}
+				}
+			}
+			
 			/* ------------- *
 			 * TIME COMMANDS *
 			 * ------------- */
@@ -796,8 +813,24 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		
+		// BattleLevel
 		if (Bukkit.getPluginManager().isPluginEnabled("BattleLevels")) {
-			this.battlelevels = true;
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
+					Bukkit.getPluginManager().registerEvents(this, this);
+				}
+			} else {
+				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
+				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", true);
+				ConfigGeneral.saveConfigFile();
+				Bukkit.getPluginManager().registerEvents(this, this);
+			}
+		} else {
+			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
+				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", false);
+				ConfigGeneral.saveConfigFile();
+			}
 		}
 		
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI") || ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable") ||
@@ -954,14 +987,20 @@ public class Main extends JavaPlugin implements Listener {
 							String hea2 = "";
 							String foo2 = "";
 							Object packet = null;
-
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								hea2 = PlaceholderAPI.setPlaceholders(p, hea);
-								foo2 = PlaceholderAPI.setPlaceholders(p, foo);
-							}
+							 
 							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
 							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
-
+							
+							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+								foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
+								hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
+							}
+							
+							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+								foo2 = MessageUtils.BattleLevelPO(foo2, p);
+								hea2 = MessageUtils.BattleLevelPO(hea2, p);
+							}
+							
 							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
 							Object header = constructor.newInstance(hea2);
 							Object footer = constructor.newInstance(foo2);
@@ -1270,6 +1309,7 @@ public class Main extends JavaPlugin implements Listener {
 		ChangeWorldPW.setWKEEPFLY();
 		ChangeWorldPW.setWGetWorldGamemodeChangeWorld();
 		CjiPW.setItemPlayerVisibility();
+		PlayerEventsPW.setPlayerOptionJoin();
 	}
 
 

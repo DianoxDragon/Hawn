@@ -5,11 +5,32 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
+import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 
 public class PlayerEventsPW {
+	
+	public static List<String> worlds_playeroption_join = new ArrayList<String>();
+	
+	public static void setPlayerOptionJoin() {
+		if (OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Enable")) {
+	        if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
+	            for (String world : OptionPlayerConfigCommand.getConfig().getStringList("PlayerOption.World.Worlds")) {
+	            	if (Bukkit.getWorld(world) == null) {
+	            		System.out.println("| Invalid world in PlayerOption.yml, PlayerOption.World: "+world);
+	            	} else {
+	            		worlds_playeroption_join.add(world);
+	            	}
+	            }
+	        }
+        }
+	}
+	
+	public static List<String> getWJoinPlayerOption() {
+		return worlds_playeroption_join;
+	}
 	
 	public static List<String> worlds_item_drop = new ArrayList<String>();
 	public static List<String> worlds_item_pickup = new ArrayList<String>();

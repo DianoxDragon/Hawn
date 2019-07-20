@@ -73,6 +73,10 @@ public class CommandAliasesConfig {
             Config.set("DelayChat.Cannot-Be-changed.Main-Command-Is", "delaychat");
             Config.set("DelayChat.Aliases", java.util.Arrays.asList(new String[] {"dchat"}));
             
+            Config.set("DelSpawn.Enable", true);
+            Config.set("DelSpawn.Cannot-Be-changed.Main-Command-Is", "delspawn");
+            Config.set("DelSpawn.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Emojis.Enable", false);
             Config.set("Emojis.Cannot-Be-changed.Main-Command-Is", "emoji");
             Config.set("Emojis.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -136,6 +140,10 @@ public class CommandAliasesConfig {
             Config.set("Scoreboard.Enable", false);
             Config.set("Scoreboard.Cannot-Be-changed.Main-Command-Is", "scoreboard");
             Config.set("Scoreboard.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("SetSpawn.Enable", true);
+            Config.set("SetSpawn.Cannot-Be-changed.Main-Command-Is", "setspawn");
+            Config.set("SetSpawn.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Spawn.Enable", true);
             Config.set("Spawn.Cannot-Be-changed.Main-Command-Is", "spawn");

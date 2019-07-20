@@ -53,32 +53,32 @@ public class WarpSetWarpCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Warp.Enable", Boolean.valueOf(true));
-            Config.set("Warp.Disable-Message", Boolean.valueOf(true));
+            Config.set("Warp.Enable", true);
+            Config.set("Warp.Disable-Message", true);
             
-            Config.set("Warp.Delay.Self.Enable", Boolean.valueOf(true));
-            Config.set("Warp.Delay.Self.Delay-Seconds", Integer.valueOf(5));
-            Config.set("Warp.Delay.Self.Bypass-Delay", Boolean.valueOf(false));
+            Config.set("Warp.Delay.Self.Enable", true);
+            Config.set("Warp.Delay.Self.Delay-Seconds", 5);
+            Config.set("Warp.Delay.Self.Bypass-Delay", false);
             
-            Config.set("Warp.Delay.Other.Enable", Boolean.valueOf(true));
-            Config.set("Warp.Delay.Other.Delay-Seconds", Integer.valueOf(5));
-            Config.set("Warp.Delay.Other.Bypass-Delay", Boolean.valueOf(false));
+            Config.set("Warp.Delay.Other.Enable", true);
+            Config.set("Warp.Delay.Other.Delay-Seconds", 5);
+            Config.set("Warp.Delay.Other.Bypass-Delay", false);
             
-            Config.set("Warp.Delay.Cancel-Tp-On.Any-movements", Boolean.valueOf(true));
-            Config.set("Warp.Delay.Cancel-Tp-On.On-Damages", Boolean.valueOf(true));
-            Config.set("Warp.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Warp.Delay.Cancel-Tp-On.Any-movements", true);
+            Config.set("Warp.Delay.Cancel-Tp-On.On-Damages", true);
+            Config.set("Warp.DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            Config.set("WarpList.Enable", Boolean.valueOf(true));
-            Config.set("WarpList.Disable-Message", Boolean.valueOf(true));
-            Config.set("WarpList.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("WarpList.Enable", true);
+            Config.set("WarpList.Disable-Message", true);
+            Config.set("WarpList.DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            Config.set("SetWarp.Enable", Boolean.valueOf(true));
-            Config.set("SetWarp.Disable-Message", Boolean.valueOf(true));
-            Config.set("SetWarp.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("SetWarp.Enable", true);
+            Config.set("SetWarp.Disable-Message", true);
+            Config.set("SetWarp.DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            Config.set("DelWarp.Enable", Boolean.valueOf(true));
-            Config.set("DelWarp.Disable-Message", Boolean.valueOf(true));
-            Config.set("DelWarp.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("DelWarp.Enable", true);
+            Config.set("DelWarp.Disable-Message", true);
+            Config.set("DelWarp.DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

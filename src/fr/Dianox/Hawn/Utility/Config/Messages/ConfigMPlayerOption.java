@@ -103,6 +103,9 @@ public class ConfigMPlayerOption {
             //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cThis option is already set or is the same"}));
             Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", true);
             Config.set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaypvcji% &c&lsecond(s)&7!"}));
+           
+            Config.set("PlayerOption.Error.Not-Enable-In-A-World.Enable", true);
+            Config.set("PlayerOption.Error.Not-Enable-In-A-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cPlayer options are not enabled in this world"}));
             /*Config.set("PlayerOption.Error.Player-Visibility.Time-Command", java.util.Arrays.asList(new String[] {"&c&lPlease wait &4%timedelaypvcommands% &c&lseconds!"}));*/            
             saveConfigFile();
 
