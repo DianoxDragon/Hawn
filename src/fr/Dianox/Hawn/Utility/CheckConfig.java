@@ -147,6 +147,40 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Enable")) {
+			OnChatConfig.getConfig().set("Chat-Mention.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Sound", "BLOCK_NOTE_HARP");
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Volume", 1);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Pitch", 1);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Message.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                "%prefix% You have been mentionned by %sender%"
+            }));
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Options.Message", "&bYou have been mentionned by &e&l%sender%");
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay", 150);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeIn", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Stay", 150);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeOut", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Message", "&6✉ &bYou have been &ementionned&6 ✉");
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay", 150);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message", "&bAnswer to &e%sender%");
+        
+        	OnChatConfig.saveConfigFile();
+		}
+		
 		if (!SpawnCommandConfig.getConfig().isSet("SetSpawn.Enable")) {
 			SpawnCommandConfig.getConfig().set("SetSpawn.Enable", true);
 			SpawnCommandConfig.getConfig().set("SetSpawn.Disable-Message", true);
