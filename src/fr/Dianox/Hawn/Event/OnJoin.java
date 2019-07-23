@@ -20,8 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
-import fr.Dianox.Hawn.Commands.PingCommand;
-import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Event.OnJoinE.OjPlayerOption;
 import fr.Dianox.Hawn.Utility.ActionBar;
@@ -38,7 +36,6 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
-import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
 import fr.Dianox.Hawn.Utility.World.CosmeticsPW;
 import fr.Dianox.Hawn.Utility.World.OnJoinPW;
@@ -470,11 +467,8 @@ public class OnJoin implements Listener {
                                 if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
                                     actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                                 }
-                                actionbarjoin = actionbarjoin.replaceAll("&", "§")
-                                    .replaceAll("%player%", p.getName())
-                                    .replaceAll("%ping%", String.valueOf(PingCommand.getPing(p)))
-                                    .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
-                                    .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
+                                
+                                actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
 
                                 ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                             }
@@ -483,11 +477,8 @@ public class OnJoin implements Listener {
                             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
                                 actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                             }
-                            actionbarjoin = actionbarjoin.replaceAll("&", "§")
-                                .replaceAll("%player%", p.getName())
-                                .replaceAll("%ping%", String.valueOf(PingCommand.getPing(p)))
-                                .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
-                                .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
+
+                            actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
 
                             ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                         }
@@ -499,11 +490,8 @@ public class OnJoin implements Listener {
                             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
                                 actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                             }
-                            actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§")
-                                .replaceAll("%player%", p.getName())
-                                .replaceAll("%ping%", String.valueOf(PingCommand.getPing(p)))
-                                .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
-                                .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
+
+                            actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
                             ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                         }
@@ -512,11 +500,8 @@ public class OnJoin implements Listener {
                         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
                             actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                         }
-                        actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§")
-                            .replaceAll("%player%", p.getName())
-                            .replaceAll("%ping%", String.valueOf(PingCommand.getPing(p)))
-                            .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
-                            .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
+
+                        actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
                         ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                     }
@@ -527,13 +512,10 @@ public class OnJoin implements Listener {
                     if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
                         actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                     }
-                    actionbarjoin = actionbarjoin.replaceAll("&", "§")
-                        .replaceAll("%player%", p.getName())
-                        .replaceAll("%ping%", String.valueOf(PingCommand.getPing(p)))
-                        .replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))
-                        .replaceAll("%tps%", String.valueOf(Tps.getTPS()));
 
-                    ActionBar.sendActionBar(p, actionbarjoin);
+                    actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
+
+                    ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                 }
             }
         }
