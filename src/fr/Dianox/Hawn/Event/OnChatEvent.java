@@ -9,21 +9,40 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.Chat.DelaychatCommand;
+import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.TitleUtils;
+import fr.Dianox.Hawn.Utility.XSound;
+import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.Commands.DelayChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.MuteChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
+import me.clip.placeholderapi.PlaceholderAPI;
 
+@SuppressWarnings("deprecation")
 public class OnChatEvent implements Listener {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	List<String> cooling = new ArrayList();
+	
+	@EventHandler
+	public void onTabComplete(PlayerChatTabCompleteEvent e) {
+		if (e.getLastToken().startsWith("@")) {
+			ArrayList<String> a = new ArrayList<String>();
+			for (Player players : Bukkit.getOnlinePlayers()) {
+				a.add(String.valueOf("@") + players.getName());
+			}
+			e.getTabCompletions().clear();
+			e.getTabCompletions().addAll(a);
+		}
+	}
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
@@ -31,6 +50,58 @@ public class OnChatEvent implements Listener {
 		Player p = e.getPlayer();
 		String original = e.getMessage();
 				
+		if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
+			if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Bypass")) {
+				if (!p.hasPermission("hawn.event.chat.bypass.mutechat")) {
+					e.setCancelled(true);
+					for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				}
+			} else {
+				e.setCancelled(true);
+				for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
+					MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				}
+			}
+		}
+		
+		if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Enable")) {
+			if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Bypass")) {
+				if (!p.hasPermission("hawn.event.chat.bypass.chatdelay")) {
+					if (cooling.contains(name)) {
+				    	e.setCancelled(true);
+				    	for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
+				    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				    	}
+					} else {
+				        cooling.add(name);
+				        
+				        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+				          public void run() {
+				            OnChatEvent.this.cooling.remove(name);
+				          }
+				        }, DelaychatCommand.delay * 20);
+				      }
+				}
+			} else {
+				if (cooling.contains(name)) {
+			    	e.setCancelled(true);
+			    	for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
+			    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
+			    	}
+			      } else {
+			        cooling.add(name);
+			        
+			        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+			          public void run() {
+			            OnChatEvent.this.cooling.remove(name);
+			          }
+			        }, DelaychatCommand.delay * 20);
+			      }
+			}
+		}
+		
 		if (OnChatConfig.getConfig().getBoolean("Anti-Swear.Enable")) {
 			if (OnChatConfig.getConfig().getBoolean("Anti-Swear.Bypass")) {
 				if (!p.hasPermission("hawn.bypass.antiswear")) {
@@ -566,60 +637,120 @@ public class OnChatEvent implements Listener {
 			}
 		}
 		
-		e.setMessage(original);
-		
-		if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
-			if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Bypass")) {
-				if (!p.hasPermission("hawn.event.chat.bypass.mutechat")) {
-					e.setCancelled(true);
-					for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+		if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Enable")) {
+			if (p.hasPermission("hawn.chat.can.mention")) {
+				if (original.contains("@")) {
+					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+						if (original.contains("@" + all.getName())) {
+							Mentionned(all, p);
+						}
 					}
 				}
-			} else {
-				e.setCancelled(true);
-				for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-					MessageUtils.ReplaceCharMessagePlayer(msg, p);
-				}
 			}
 		}
 		
-		if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Enable")) {
-			if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Bypass")) {
-				if (!p.hasPermission("hawn.event.chat.bypass.chatdelay")) {
-					if (cooling.contains(name)) {
-				    	e.setCancelled(true);
-				    	for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
-				    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-				    	}
-					} else {
-				        cooling.add(name);
-				        
-				        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-				          public void run() {
-				            OnChatEvent.this.cooling.remove(name);
-				          }
-				        }, DelaychatCommand.delay * 20);
-				      }
+		e.setMessage(original);
+	}
+	
+	public static void Mentionned(Player p, Player sender) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+			
+			@Override
+			public void run() {
+				// send Message
+				
+				if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Message.Enable")) {
+					for (String msg: OnChatConfig.getConfig().getStringList("Chat-Mention.Mentionned.Send-Message.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName()), p);
+					}
 				}
-			} else {
-				if (cooling.contains(name)) {
-			    	e.setCancelled(true);
-			    	for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
-			    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-			    	}
-			      } else {
-			        cooling.add(name);
+				
+				// send Action bar
+				
+				if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-ActionBar.Enable")) {
+					String actionbar = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-ActionBar.Options.Message");
+			        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			            actionbar = PlaceholderAPI.setPlaceholders(p, actionbar);
+			        }
 			        
-			        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-			          public void run() {
-			            OnChatEvent.this.cooling.remove(name);
-			          }
-			        }, DelaychatCommand.delay * 20);
-			      }
+			        actionbar = actionbar.replaceAll("&", "§");
+			        
+			        actionbar = actionbar.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
+			        
+			        actionbar = MessageUtils.ReplaceMainplaceholderP(actionbar, p);
+			        
+			        ActionBar.sendActionBar(p, actionbar, OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay"));
+				}
+				
+				// send title bar
+				
+				if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Enable")) {
+					String title = "";
+					String subtitle = "";
+					
+					if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
+						title = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.Title.Message");
+						
+						 if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+							 title = PlaceholderAPI.setPlaceholders(p, title);
+						 }
+						 
+						 title = title.replaceAll("&", "§");
+						 
+						 title = title.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
+						 
+						 title = MessageUtils.ReplaceMainplaceholderP(title, p);
+					}
+					
+					if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
+						subtitle = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message");
+						
+						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+							subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
+						}
+						 
+						subtitle = subtitle.replaceAll("&", "§");
+						
+						subtitle = subtitle.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
+						 
+						subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+					}
+					
+					if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
+						TitleUtils.sendTitle(p, 
+								OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeIn"), 
+								OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.Stay"), 
+								OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeOut"), 
+								title);
+						if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
+							TitleUtils.sendSubtitle(p, 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn"), 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay"), 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut"), 
+									subtitle);
+						}
+					} else if (!OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
+						if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
+							TitleUtils.sendTitle(p, 50, 50, 50, " ");
+							TitleUtils.sendSubtitle(p, 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn"), 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay"), 
+									OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut"), 
+									subtitle);
+						}
+					}
+				}
+				
+				// sound mention
+				 if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Sound.Enable")) {
+					 String sound = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Sound.Sound");
+		             int volume = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sound.Volume");
+		             int pitch = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sounds.Pitch");
+		             p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+				 }
 			}
-		}
+		}, 10);
 		
 	}
-
+	
 }
