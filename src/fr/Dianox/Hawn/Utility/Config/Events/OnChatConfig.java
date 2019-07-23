@@ -84,6 +84,37 @@ public class OnChatConfig {
                     " "
                 }));
             
+            // Mentions
+            Config.set("Chat-Mention.Enable", true);
+            
+            Config.set("Chat-Mention.Mentionned.Sound.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Sound.Sound", "BLOCK_NOTE_HARP");
+            Config.set("Chat-Mention.Mentionned.Sound.Volume", 1);
+            Config.set("Chat-Mention.Mentionned.Sound.Pitch", 1);
+            
+            Config.set("Chat-Mention.Mentionned.Send-Message.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                    "%prefix% You have been mentionned by %sender%"
+                }));
+            
+            Config.set("Chat-Mention.Mentionned.Send-ActionBar.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Send-ActionBar.Options.Message", "&bYou have been mentionned by &e&l%sender%");
+            Config.set("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay", 150);
+            
+            Config.set("Chat-Mention.Mentionned.Send-Title.Enable", true);
+            
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeIn", 20);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.Title.Stay", 150);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeOut", 20);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.Title.Message", "&6✉ &bYou have been &ementionned&6 ✉");
+            
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn", 20);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay", 150);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut", 20);
+            Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message", "&bAnswer to &e%sender%");
+            
             // Option per emoji
             Config.set("Chat-Emoji-Player.Emojis-list.Smiley.Enable", true);
             Config.set("Chat-Emoji-Player.Emojis-list.Smiley.Use_Permission", true);
