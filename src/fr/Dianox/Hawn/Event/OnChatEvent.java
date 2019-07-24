@@ -2,6 +2,7 @@ package fr.Dianox.Hawn.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -638,14 +639,41 @@ public class OnChatEvent implements Listener {
 		}
 		
 		if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Enable")) {
+			Boolean disable = false;
+			
 			if (p.hasPermission("hawn.chat.can.mention")) {
 				if (original.contains("@")) {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (original.contains("@" + all.getName())) {
+							if (!OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Self-Mention.Enable")) {
+								p.sendMessage(String.format(e.getFormat(), p.getDisplayName(), original));
+								continue;
+							}
+							
 							Mentionned(all, p);
+							if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Chat-Highlight.Enable")) {
+								String msgadd = "";
+								String highlights = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Chat-Highlight.Highlighting");
+								highlights = highlights.replaceAll("&", "§");
+								msgadd = original.replaceAll("@" + all.getName(), highlights + "@" + all.getName() + "§r");
+								p.sendMessage(String.format(e.getFormat(), p.getDisplayName(), msgadd));
+							}
+						} else {
+							if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Chat-Highlight.Enable")) {
+								p.sendMessage(String.format(e.getFormat(), p.getDisplayName(), original));
+							}
 						}
 					}
+					
+					if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Chat-Highlight.Enable")) {
+						Bukkit.getLogger().log(Level.INFO, String.format(e.getFormat(), p.getDisplayName(), e.getMessage()));
+						disable = true;
+					}
 				}
+			}
+			
+			if (disable) {
+				e.setCancelled(true);
 			}
 		}
 		
