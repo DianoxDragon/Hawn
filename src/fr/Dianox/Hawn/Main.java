@@ -152,7 +152,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.6.9-Alpha";
+	static String versions = "0.7.0-Alpha DevBuild 2";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -888,11 +888,11 @@ public class Main extends JavaPlugin implements Listener {
 	    player_spawnwarpdelay.clear();
 
 	    // Auto broadcast
-	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Enable")) {
+	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
 
-	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Interval");
+	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
 
-		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("messages").getKeys(false).iterator();
+		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
 
 		    Integer abnumberput = 0;
 
@@ -906,7 +906,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total--;
 
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Interval") * 20);
+			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
 	    }
 
 
