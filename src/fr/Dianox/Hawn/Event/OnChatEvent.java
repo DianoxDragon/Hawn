@@ -645,7 +645,7 @@ public class OnChatEvent implements Listener {
 				if (original.contains("@")) {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (original.contains("@" + all.getName())) {
-							if (!OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Self-Mention.Enable")) {
+							if (original.contains("@" + p.getName()) && !OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Self-Mention.Enable")) {
 								p.sendMessage(String.format(e.getFormat(), p.getDisplayName(), original));
 								continue;
 							}
