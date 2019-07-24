@@ -69,23 +69,13 @@ public class OnChatConfig {
             
             Config.set("Chat-Emoji-Player.Enable", true);
             
-            // Option Gui
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Enable", true);
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Use_Permission", false);
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Title", String.valueOf("&6Emojis list"));
-            
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Enable", true);
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title", String.valueOf("&cClose the Gui"));
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material", String.valueOf("BARRIER"));
-            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore", java.util.Arrays.asList(new String[] {
-                    " ",
-                    "You can simply delete too",
-                    "If you don't want lore",
-                    " "
-                }));
-            
-            // Mentions
+         // Mentions
             Config.set("Chat-Mention.Enable", true);
+            
+            Config.set("Chat-Mention.Mentionned.Self-Mention.Enable", true);
+            
+            Config.set("Chat-Mention.Mentionned.Chat-Highlight.Enable", true);
+            Config.set("Chat-Mention.Mentionned.Chat-Highlight.Highlighting", "&6&l");
             
             Config.set("Chat-Mention.Mentionned.Sound.Enable", true);
             Config.set("Chat-Mention.Mentionned.Sound.Sound", "BLOCK_NOTE_HARP");
@@ -114,6 +104,21 @@ public class OnChatConfig {
             Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay", 150);
             Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut", 20);
             Config.set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message", "&bAnswer to &e%sender%");
+            
+            // Option Gui
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Enable", true);
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Use_Permission", false);
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Title", String.valueOf("&6Emojis list"));
+            
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Enable", true);
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title", String.valueOf("&cClose the Gui"));
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material", String.valueOf("BARRIER"));
+            Config.set("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore", java.util.Arrays.asList(new String[] {
+                    " ",
+                    "You can simply delete too",
+                    "If you don't want lore",
+                    " "
+                }));
             
             // Option per emoji
             Config.set("Chat-Emoji-Player.Emojis-list.Smiley.Enable", true);
