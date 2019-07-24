@@ -148,6 +148,15 @@ public class CheckConfig {
 	public static void Check() {
 		
 		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Enable")) {
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Self-Mention.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Chat-Highlight.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Chat-Highlight.Highlighting", "&6&l");
+        
+        	OnChatConfig.saveConfigFile();
+		}
+		
+		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Enable")) {
 			OnChatConfig.getConfig().set("Chat-Mention.Enable", true);
         
 			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Enable", true);
