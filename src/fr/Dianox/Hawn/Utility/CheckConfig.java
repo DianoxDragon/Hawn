@@ -147,7 +147,7 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
-		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Enable")) {
+		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Mentionned.Self-Mention.Enable")) {
 			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Self-Mention.Enable", true);
         
 			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Chat-Highlight.Enable", true);
