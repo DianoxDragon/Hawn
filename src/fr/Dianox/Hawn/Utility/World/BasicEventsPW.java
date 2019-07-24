@@ -120,11 +120,11 @@ public class BasicEventsPW {
 		public static List<String> worlds_autobroadcast = new ArrayList<String>();
 		
 		public static void setWGetWorldautobroadcast() {
-			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Enable")) {
-		        if (!AutoBroadcastConfig.getConfig().getBoolean("Config.World.All_World")) {
-		            for (String world : AutoBroadcastConfig.getConfig().getStringList("Config.World.Worlds")) {
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
+		        if (!AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
+		            for (String world : AutoBroadcastConfig.getConfig().getStringList("Config.Messages.World.Worlds")) {
 		            	if (Bukkit.getWorld(world) == null) {
-		            		System.out.println("| Invalid world in AutoBroadcast.yml, Config.World: "+world);
+		            		System.out.println("| Invalid world in AutoBroadcast.yml, Config.Messages.World: "+world);
 		            	} else {
 		            		worlds_autobroadcast.add(world);
 		            	}
@@ -138,3 +138,4 @@ public class BasicEventsPW {
 		}
 
 }
+
