@@ -115,7 +115,7 @@ public class BasicEventsPW {
 			return worlds_kANTIDAMAGE;
 		}
 		
-		// AB
+		// AB - Messages
 		
 		public static List<String> worlds_autobroadcast = new ArrayList<String>();
 		
@@ -136,6 +136,48 @@ public class BasicEventsPW {
 		public static List<String> getAutoBroadcast() {
 			return worlds_autobroadcast;
 		}
+		
+		// AB - Title
 
+				public static List<String> worlds_autobroadcast_title = new ArrayList<String>();
+				
+				public static void setWGetWorldautobroadcast_title() {
+					if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable")) {
+				        if (!AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
+				            for (String world : AutoBroadcastConfig.getConfig().getStringList("Config.Titles.World.Worlds")) {
+				            	if (Bukkit.getWorld(world) == null) {
+				            		System.out.println("| Invalid world in AutoBroadcast.yml, Config.Titles.World: "+world);
+				            	} else {
+				            		worlds_autobroadcast_title.add(world);
+				            	}
+				            }
+				        }
+			        }
+				}
+				
+				public static List<String> getAutoBroadcast_title() {
+					return worlds_autobroadcast_title;
+				}
+		
+		// AB - Action Bar
+
+		public static List<String> worlds_autobroadcast_ab = new ArrayList<String>();
+		
+		public static void setWGetWorldautobroadcast_ab() {
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable")) {
+		        if (!AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+		            for (String world : AutoBroadcastConfig.getConfig().getStringList("Config.Action-Bar.World.Worlds")) {
+		            	if (Bukkit.getWorld(world) == null) {
+		            		System.out.println("| Invalid world in AutoBroadcast.yml, Config.Action-Bar.World: "+world);
+		            	} else {
+		            		worlds_autobroadcast_ab.add(world);
+		            	}
+		            }
+		        }
+	        }
+		}
+		
+		public static List<String> getAutoBroadcast_ab() {
+			return worlds_autobroadcast_ab;
+		}
 }
-
