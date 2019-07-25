@@ -64,6 +64,8 @@ import fr.Dianox.Hawn.Commands.Others.Weather.RainCommand;
 import fr.Dianox.Hawn.Commands.Others.Weather.SunCommand;
 import fr.Dianox.Hawn.Commands.Others.Weather.ThunderCommand;
 import fr.Dianox.Hawn.Event.AutoBroadcast;
+import fr.Dianox.Hawn.Event.AutoBroadcast_AB;
+import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
 import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Utility.CheckConfig;
@@ -152,7 +154,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.0-Alpha DevBuild 2";
+	static String versions = "0.7.0-Alpha DevBuild 3";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -164,8 +166,17 @@ public class Main extends JavaPlugin implements Listener {
 	public static boolean useyamllistplayer = false;
 
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
-    public static Integer autobroadcast_total = 0;
-    public static int interval, curMsg = 0;
+    public static HashMap<Integer, String> autobroadcast_titles = new HashMap<>();
+    public static HashMap<Integer, String> autobroadcast_ab = new HashMap<>();
+    public static Integer autobroadcast_total= 0;
+    public static Integer autobroadcast_total_titles = 0;
+    public static Integer autobroadcast_total_ab = 0;
+    public static int interval = 0;
+    public static int interval_titles = 0;
+    public static int interval_ab = 0;
+    public static int curMsg = 0;
+    public static int curMsg_ab = 0;
+    public static int curMsg_titles = 0;
 	public Scoreboard board;
 
 	public static HashMap<Player, PlayerBoard> boards = new HashMap<Player, PlayerBoard>();
@@ -180,7 +191,7 @@ public class Main extends JavaPlugin implements Listener {
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
 	public static List<Player> inwarpd = new ArrayList<Player>();
 	public static List<Player> inspawnd = new ArrayList<Player>();
-
+	
 	public String hea = "";
 	public String foo = "";
 
@@ -887,7 +898,12 @@ public class Main extends JavaPlugin implements Listener {
 
 	    player_spawnwarpdelay.clear();
 
-	    // Auto broadcast
+	    /*
+	     * -------------------
+	     *   AUTO BROADCAST
+	     * -------------------
+	     */
+	    // >> Messages
 	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
 
 	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
@@ -909,13 +925,61 @@ public class Main extends JavaPlugin implements Listener {
 			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
 	    }
 
+	    // >> Titles
+	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable")) {
 
-	    // Scoreboard
+	    	interval_titles = AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval");
+
+		    Iterator<?> iterator3 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Titles.messages").getKeys(false).iterator();
+
+		    Integer abnumberput = 0;
+
+		    while (iterator3.hasNext()) {
+				String string = (String)iterator3.next();
+				autobroadcast_titles.put(abnumberput, string);
+				abnumberput++;
+				autobroadcast_total_titles++;
+		    }
+
+		    autobroadcast_total_titles--;
+		    
+		    @SuppressWarnings("unused")
+			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval") * 20);
+	    }
+	    
+	    // >> Action-Bar
+	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable")) {
+
+	    	interval_ab = AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval");
+
+		    Iterator<?> iterator4 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Action-Bar.messages").getKeys(false).iterator();
+
+		    Integer abnumberput = 0;
+
+		    while (iterator4.hasNext()) {
+				String string = (String)iterator4.next();
+				autobroadcast_ab.put(abnumberput, string);
+				abnumberput++;
+				autobroadcast_total_ab++;
+		    }
+
+		    autobroadcast_total_ab--;
+		    
+		    @SuppressWarnings("unused")
+			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval") * 20);
+	    }
+	    
+	    /*
+	     * --------------
+	     *   Scoreboard
+	     * --------------
+	     */
 	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
 	    	
 	    	if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")) {
 	        	newmethodver = true;
 	        }
+	    	
 	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
 
@@ -1310,6 +1374,8 @@ public class Main extends JavaPlugin implements Listener {
 		ChangeWorldPW.setWGetWorldGamemodeChangeWorld();
 		CjiPW.setItemPlayerVisibility();
 		PlayerEventsPW.setPlayerOptionJoin();
+		BasicEventsPW.setWGetWorldautobroadcast_ab();
+		BasicEventsPW.setWGetWorldautobroadcast_title();
 	}
 
 
