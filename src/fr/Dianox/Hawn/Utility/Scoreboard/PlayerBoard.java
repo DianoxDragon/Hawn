@@ -103,13 +103,24 @@ public class PlayerBoard {
         updater();
     }
 
-    private void buildScoreboard(PlayerReceiveBoardEvent event) {
+    @SuppressWarnings("deprecation")
+	private void buildScoreboard(PlayerReceiveBoardEvent event) {
         board = Bukkit.getScoreboardManager().getNewScoreboard();
-        score = board.registerNewObjective("score", "dummy", event.getTitle().get(0));
+        
+        if (Main.newmethodver) {
+        	score = board.registerNewObjective("score", "dummy", event.getTitle().get(0));
+        } else {
+        	score = board.registerNewObjective("score", "dummy");
+        }
+        
         score.setDisplaySlot(DisplaySlot.SIDEBAR);
         if (event.getTitle().size() == 0)
             event.getTitle().add(" ");
 
+        if (!Main.newmethodver) {
+        	score.setDisplayName(event.getTitle().get(0));
+        }
+        
         getPlayer().setScoreboard(board);
     }
 
