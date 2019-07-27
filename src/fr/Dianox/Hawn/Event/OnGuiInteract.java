@@ -70,13 +70,13 @@ public class OnGuiInteract implements Listener {
 
             if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
-                    p.performCommand("ap edit folder Commands");
+                    p.performCommand("ap folder Commands");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
-                    p.performCommand("ap edit folder Cosmetics-Fun");
+                    p.performCommand("ap folder Cosmetics-Fun");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
                 	p.sendMessage("§cAvailable soon");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
-                    p.performCommand("ap edit folder Events");
+                    p.performCommand("ap folder Events");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
                 	p.sendMessage("§cAvailable soon");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
@@ -282,11 +282,11 @@ public class OnGuiInteract implements Listener {
             } else {
                 if (inv.contains("CF-")) {
 	            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
-	                    p.performCommand("ap edit folder Cosmetics-Fun");
+	                    p.performCommand("ap folder Cosmetics-Fun");
 	                }
                 } else if (inv.contains("E-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
-                		p.performCommand("ap edit folder Events");
+                		p.performCommand("ap folder Events");
                 	}
                 } else if (inv.contains("G-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
@@ -294,7 +294,7 @@ public class OnGuiInteract implements Listener {
                 	}
                 } else if (inv.contains("C-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
-                		p.performCommand("ap edit folder commands");
+                		p.performCommand("ap folder commands");
                 	}
                 }
             }
