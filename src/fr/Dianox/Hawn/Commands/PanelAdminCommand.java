@@ -7,9 +7,8 @@ import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,10 +21,19 @@ import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 
-public class PanelAdminCommand implements CommandExecutor {
+public class PanelAdminCommand extends BukkitCommand {
         
+	public PanelAdminCommand(String name) {
+		/*
+		 * Main class to register the essential information of the command
+		 */
+		super(name);
+		this.description = "Manage the server for admins.";
+        this.usageMessage = "/<command>";
+	}
+	
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean execute(CommandSender sender, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
         	if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
@@ -39,8 +47,11 @@ public class PanelAdminCommand implements CommandExecutor {
         Player p = (Player) sender;
         int numberitemstoeleimate = 0;
         
-        if (label.equalsIgnoreCase("adminpanel") || label.equalsIgnoreCase("paneladmin") || label.equalsIgnoreCase("pa") || label.equalsIgnoreCase("ap")) {
-            if (p.hasPermission("hawn.adminpanel")) {
+        if (!p.hasPermission("hawn.adminpanel")) {
+			MessageUtils.MessageNoPermission(p, "hawn.adminpanel");
+			return true;
+		}
+        
                 if (args.length == 0) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP");
                     
@@ -479,8 +490,6 @@ public class PanelAdminCommand implements CommandExecutor {
                             }
                         }
                     }
-                }
-            }
 
         return false;
     }
