@@ -154,7 +154,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.0-Alpha DevBuild 4";
+	static String versions = "0.7.0-Alpha DevBuild 5";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -415,7 +415,6 @@ public class Main extends JavaPlugin implements Listener {
 		
 		// Commands
 		getCommand("hawn").setExecutor(new HawnCommand());
-		getCommand("paneladmin").setExecutor(new PanelAdminCommand());
 
 		Field bukkitCommandMap;
 
@@ -425,6 +424,16 @@ public class Main extends JavaPlugin implements Listener {
 			bukkitCommandMap.setAccessible(true);
 			CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
 
+			/*
+			 * 
+			 * ADMINISTRATION
+			 * 
+			 */
+			commandMap.register("paneladmin", new PanelAdminCommand("paneladmin"));
+			commandMap.register("adminpanel", new PanelAdminCommand("adminpanel"));
+			commandMap.register("pa", new PanelAdminCommand("pa"));
+			commandMap.register("ap", new PanelAdminCommand("ap"));
+			
 			/* ------------------ *
 			 * BROADCAST COMMANDS *
 			 * ------------------ */
