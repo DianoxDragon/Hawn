@@ -154,7 +154,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.0-Alpha DevBuild 3";
+	static String versions = "0.7.0-Alpha DevBuild 4";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -205,6 +205,10 @@ public class Main extends JavaPlugin implements Listener {
     
     public static HashMap<Player, Integer> TaskVanishAB = new HashMap<Player, Integer>();
     
+    public static HashMap<String, String> configfile = new HashMap<String, String>();
+    public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
+    public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
+    
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
@@ -231,66 +235,153 @@ public class Main extends JavaPlugin implements Listener {
 		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
 
-		// Load config
-		ConfigSpawn.loadConfig((Plugin) this);
-		ConfigGeneral.loadConfig((Plugin) this);
-		ServerListConfig.loadConfig((Plugin) this);
-		AutoBroadcastConfig.loadConfig((Plugin) this);
-		BetweenServersConfig.loadConfig((Plugin) this);
-		CommandAliasesConfig.loadConfig((Plugin) this);
-
-		OtherFeaturesConfig.loadConfig((Plugin) this);
-		WorldEventConfig.loadConfig((Plugin) this);
-
-		ConfigGProtection.loadConfig((Plugin) this);
-
-		VoidTPConfig.loadConfig((Plugin) this);
-		ProtectionPlayerConfig.loadConfig((Plugin) this);
-		PlayerEventsConfig.loadConfig((Plugin) this);
-		OnJoinConfig.loadConfig((Plugin) this);
-		CommandEventConfig.loadConfig((Plugin) this);
-		ConfigGJoinQuitCommand.loadConfig((Plugin) this);
-		WeatherTimeCommandConfig.loadConfig((Plugin) this);
-		FlyCommandConfig.loadConfig((Plugin) this);
-		OnChatConfig.loadConfig((Plugin) this);
-		PlayerWorldChangeConfigE.loadConfig((Plugin) this);
-
-		ConfigMGeneral.loadConfig((Plugin) this);
-		ConfigMEvents.loadConfig((Plugin) this);
-		ConfigMProtection.loadConfig((Plugin) this);
-		ConfigMOStuff.loadConfig((Plugin) this);
-		ConfigMCommands.loadConfig((Plugin) this);
-		ConfigMPlayerOption.loadConfig((Plugin) this);
-
-		HelpCommandConfig.loadConfig((Plugin) this);
-		ClearChatCommandConfig.loadConfig((Plugin) this);
-		SpawnCommandConfig.loadConfig((Plugin) this);
-		MuteChatCommandConfig.loadConfig((Plugin) this);
-		PingCommandConfig.loadConfig((Plugin) this);
-		DelayChatCommandConfig.loadConfig((Plugin) this);
-		BroadCastCommandConfig.loadConfig((Plugin) this);
-		HealCommandConfig.loadConfig((Plugin) this);
-		WarpSetWarpCommandConfig.loadConfig((Plugin) this);
-		WarpListConfig.loadConfig((Plugin) this);
-		VanishCommandConfig.loadConfig((Plugin) this);
-		TitleAnnouncerConfig.loadConfig((Plugin) this);
-		ClearInvCommandConfig.loadConfig((Plugin) this);
-		EmojiCommandConfig.loadConfig((Plugin) this);
-		ScoreboardMainConfig.loadConfig((Plugin) this);
-		ScoreboardCommandConfig.loadConfig((Plugin) this);
-		GamemodeCommandConfig.loadConfig((Plugin) this);
-		OptionPlayerConfigCommand.loadConfig((Plugin) this);
-		WarningCommandConfig.loadConfig((Plugin) this);
+		 configfile.clear();
+		 configfilereverse.clear();
 		
-		ConfigGCos.loadConfig((Plugin) this);
-		ConfigGLP.loadConfig((Plugin) this);
-		ConfigFDoubleJump.loadConfig((Plugin) this);
+			// Load config
+			ConfigSpawn.loadConfig((Plugin) this);
+			configfile.put("G-spawn", "spawn.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "spawn.yml", "G-spawn");
+			ConfigGeneral.loadConfig((Plugin) this);
+			configfile.put("G-general", "general.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "general.yml", "G-general");
+			ServerListConfig.loadConfig((Plugin) this);
+			configfile.put("G-ServerList", "ServerList.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "ServerList.yml", "G-ServerList");
+			AutoBroadcastConfig.loadConfig((Plugin) this);
+			configfile.put("G-AutoBroadcast", "AutoBroadcast.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "AutoBroadcast.yml", "G-AutoBroadcast");
+			BetweenServersConfig.loadConfig((Plugin) this);
+			configfile.put("G-between-servers", "between-servers.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "between-servers.yml", "G-between-servers");
+			CommandAliasesConfig.loadConfig((Plugin) this);
+			configfile.put("G-command-aliases", "command-aliases.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "command-aliases.yml", "G-command-aliases");
+			WarpListConfig.loadConfig((Plugin) this);
+			configfile.put("G-warplist", "warplist.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "warplist.yml", "G-warplist");
+			ScoreboardMainConfig.loadConfig((Plugin) this);
+			configfile.put("G-Scoreboard-General", "Scoreboard-General.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Scoreboard-General.yml", "G-Scoreboard-General");
+			
+			OtherFeaturesConfig.loadConfig((Plugin) this);
+			configfile.put("E-OtherFeatures", "Events/OtherFeatures.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/OtherFeatures.yml", "E-OtherFeatures");
+			WorldEventConfig.loadConfig((Plugin) this);
+			configfile.put("E-WorldEvent", "Events/WorldEvent.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/WorldEvent.yml", "E-WorldEvent");
+			
+			ConfigGProtection.loadConfig((Plugin) this);
+			configfile.put("E-ProtectionWorld", "Events/ProtectionWorld.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/ProtectionWorld.yml", "E-ProtectionWorld");
+			
+			VoidTPConfig.loadConfig((Plugin) this);
+			configfile.put("E-VoidTP", "Events/VoidTP.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/VoidTP.yml", "E-VoidTP");
+			ProtectionPlayerConfig.loadConfig((Plugin) this);
+			configfile.put("E-ProtectionPlayer", "Events/ProtectionPlayer.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/ProtectionPlayer.yml", "E-ProtectionPlayer");
+			PlayerEventsConfig.loadConfig((Plugin) this);
+			configfile.put("E-PlayerEvents", "Events/PlayerEvents.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/PlayerEvents.yml", "E-PlayerEvents");
+			OnJoinConfig.loadConfig((Plugin) this);
+			configfile.put("E-OnJoin", "Events/OnJoin.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/OnJoin.yml", "E-OnJoin");
+			CommandEventConfig.loadConfig((Plugin) this);
+			configfile.put("E-OnCommands", "Events/OnCommands.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/OnCommands.yml", "E-OnCommands");
+			ConfigGJoinQuitCommand.loadConfig((Plugin) this);
+			configfile.put("E-JoinQuitCommand", "Events/JoinQuitCommand.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/JoinQuitCommand.yml", "E-JoinQuitCommand");
+			OnChatConfig.loadConfig((Plugin) this);
+			configfile.put("E-Chat", "Events/Chat.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/Chat.yml", "E-Chat");
+			PlayerWorldChangeConfigE.loadConfig((Plugin) this);
+			configfile.put("E-PlayerWorldChange", "Events/PlayerWorldChange.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Events/PlayerWorldChange.yml", "E-PlayerWorldChange");
+			
+			ConfigMGeneral.loadConfig((Plugin) this);
+			ConfigMEvents.loadConfig((Plugin) this);
+			ConfigMProtection.loadConfig((Plugin) this);
+			ConfigMOStuff.loadConfig((Plugin) this);
+			ConfigMCommands.loadConfig((Plugin) this);
+			ConfigMPlayerOption.loadConfig((Plugin) this);
 
+			FlyCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Fly", "Commands/Fly.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Fly.yml", "C-Fly");
+			WeatherTimeCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Weather-Time", "Commands/Weather-Time.yml");
+			configfilereverse.put(this.getDataFolder() + "/" +  "Commands/Weather-Time.yml", "C-Weather-Time");
+			HelpCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Help", "Commands/Help.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Help.yml", "C-Help");
+			ClearChatCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-ClearChat", "Commands/ClearChat.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ClearChat.yml", "C-ClearChat");
+			SpawnCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Spawn", "Commands/Spawn.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Spawn.yml", "C-Spawn");
+			MuteChatCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-MuteChat", "Commands/MuteChat.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/MuteChat.yml", "C-MuteChat");
+			PingCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Ping", "Commands/Ping.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ Ping.yml", "C-Ping");
+			DelayChatCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-DelayChat", "Commands/DelayChat.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/DelayChat.yml", "C-DelayChat");
+			BroadCastCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Broadcast", "Commands/Broadcast.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Broadcast.yml", "C-Broadcast");
+			HealCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Heal", "Commands/Heal.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Heal.yml", "C-Heal");
+			WarpSetWarpCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Warp-SetWarp", "Commands/Warp-SetWarp.yml");
+			configfilereverse.put(this.getDataFolder() + "/" +  "Commands/Warp-SetWarp.yml", "C-Warp-SetWarp");
+			VanishCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Vanish", "Commands/Vanish.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Vanish.yml", "C-Vanish");
+			TitleAnnouncerConfig.loadConfig((Plugin) this);
+			configfile.put("C-TitleAnnouncer", "Commands/TitleAnnouncer.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/TitleAnnouncer.yml", "C-TitleAnnouncer");
+			ClearInvCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-ClearInv", "Commands/ClearInv.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ClearInv.yml", "C-ClearInv");
+			EmojiCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Emoji", "Commands/Emoji.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Emoji.yml", "C-Emoji");
+			ScoreboardCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Scoreboard", "Commands/Scoreboard.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Scoreboard.yml", "C-Scoreboard");
+			GamemodeCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Gamemode", "Commands/Gamemode.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Gamemode.yml", "C-Gamemode");
+			OptionPlayerConfigCommand.loadConfig((Plugin) this);
+			configfile.put("C-PlayerOption", "Commands/PlayerOption.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/PlayerOption.yml", "C-PlayerOption");
+			WarningCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Warning", "Commands/Warning.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Warning.yml", "C-Warning");
+			
+			ConfigGCos.loadConfig((Plugin) this);
+			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/OnJoin.yml", "CF-OnJoin");
+			ConfigGLP.loadConfig((Plugin) this);
+			configfile.put("CF-JumpPads", "Cosmetics-Fun/JumpPads.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/JumpPads.yml", "CF-JumpPads");
+			ConfigFDoubleJump.loadConfig((Plugin) this);
+			configfile.put("CF-DoubleJump", "Cosmetics-Fun/DoubleJump.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/DoubleJump.yml", "CF-DoubleJump");
+				
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
 
 		CustomCommandConfig.loadConfig((Plugin) this);
-
+		configfile.put("G-CustomCommand", "CustomCommand.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomCommand.yml", "G-CustomCommand");
+		
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
 
 		if (!ScoreboardMainConfig.getConfig().isSet("DefaultConfigGenerated")) {
@@ -1105,6 +1196,7 @@ public class Main extends JavaPlugin implements Listener {
 			}.runTaskTimer(this, 20L, 20);
 	    }
 
+	    configfileinuse.clear();
 	    buildbypasscommand.clear();
 
 	    // Variable set
