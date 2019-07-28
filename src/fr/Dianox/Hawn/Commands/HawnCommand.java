@@ -68,6 +68,7 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMProtection;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
@@ -642,6 +643,7 @@ public class HawnCommand implements CommandExecutor {
 		TablistConfig.reloadConfig();
 		CommandAliasesConfig.reloadConfig();
 		WarningCommandConfig.reloadConfig();
+		AdminPanelConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
