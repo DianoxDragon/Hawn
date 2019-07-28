@@ -147,6 +147,29 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.Enable")) {
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Keep-Options", true);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Reset-settings-on-world-change", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave", false);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Value", 1);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility", false);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.World.All_World", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+            }));
+			
+			PlayerWorldChangeConfigE.saveConfigFile();
+		}
+		
 		if (!AutoBroadcastConfig.getConfig().isSet("Config.Titles.Enable")) {
 			 /*
              * Auto broadcast
