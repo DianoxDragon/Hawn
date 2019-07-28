@@ -53,28 +53,49 @@ public class PlayerWorldChangeConfigE {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("GM.Enable", Boolean.valueOf(true));
-            Config.set("GM.CustomMode.Enable", Boolean.valueOf(true));
-            Config.set("GM.CustomMode.GameMode", Integer.valueOf(1));
-            Config.set("GM.CustomMode.If-player-have.Survival", Boolean.valueOf(true));
-            Config.set("GM.CustomMode.If-player-have.Creative", Boolean.valueOf(true));
-            Config.set("GM.CustomMode.If-player-have.Adventure", Boolean.valueOf(true));
-            Config.set("GM.CustomMode.If-player-have.Spectator", Boolean.valueOf(true));
-            Config.set("GM.World.All_World", Boolean.valueOf(false));
+            Config.set("GM.Enable", true);
+            Config.set("GM.CustomMode.Enable", true);
+            Config.set("GM.CustomMode.GameMode", 1);
+            Config.set("GM.CustomMode.If-player-have.Survival", true);
+            Config.set("GM.CustomMode.If-player-have.Creative", true);
+            Config.set("GM.CustomMode.If-player-have.Adventure", true);
+            Config.set("GM.CustomMode.If-player-have.Spectator", true);
+            Config.set("GM.World.All_World", false);
             Config.set("GM.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
             
-            Config.set("Fly.Enable.Enable", Boolean.valueOf(true));
-            Config.set("Fly.Enable.SetFlyOnChangeWorld", Boolean.valueOf(true));
-            Config.set("Fly.Cancel-Event-If-Player-Is-In.Gamemode-Creative-Spectator", Boolean.valueOf(true));
-            Config.set("Fly.Enable.DisableFlyIfAWorldIsNotListed", Boolean.valueOf(true));
-            Config.set("Fly.World.All_World", Boolean.valueOf(false));
+            Config.set("Fly.Enable.Enable", true);
+            Config.set("Fly.Enable.SetFlyOnChangeWorld", true);
+            Config.set("Fly.Cancel-Event-If-Player-Is-In.Gamemode-Creative-Spectator", true);
+            Config.set("Fly.Enable.DisableFlyIfAWorldIsNotListed", true);
+            Config.set("Fly.World.All_World", false);
             Config.set("Fly.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
+            
+            
+            Config.set("Player-Options.Enable", true);
+            Config.set("Player-Options.Keep-Options", true);
+            
+            Config.set("Player-Options.If-Not-Keeping.Reset-settings-on-world-change", false);
+            Config.set("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave", false);
+            
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Enable", true);
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Value", 1);
+            
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility", false);
+            
+            Config.set("Player-Options.World.All_World", false);
+            Config.set("Player-Options.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+                }));
+            
             
             saveConfigFile();
 

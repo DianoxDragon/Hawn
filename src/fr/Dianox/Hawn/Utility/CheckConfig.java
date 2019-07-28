@@ -147,6 +147,136 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.Enable")) {
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Keep-Options", true);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Reset-settings-on-world-change", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave", false);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Value", 1);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility", false);
+        
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.World.All_World", false);
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+            }));
+			
+			PlayerWorldChangeConfigE.saveConfigFile();
+		}
+		
+		if (!AutoBroadcastConfig.getConfig().isSet("Config.Titles.Enable")) {
+			 /*
+             * Auto broadcast
+             * Titles
+             */
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Enable", true);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Random", false);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Interval", 60);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Use-Permission-To-Get-Messages", false);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.Title.FadeIn", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.Title.Stay", 30);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.Title.FadeOut", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.SubTitle.FadeIn", 30);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.SubTitle.Stay", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.Options-Default.SubTitle.FadeOut", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.World.All_World", false);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            // Messages
+            
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.default.Title.Message", "Default message one");
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.default.SubTitle.Message", "With default values - Config your autobroadcast");
+            
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.Title.FadeIn", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.Title.Stay", 150);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.Title.FadeOut", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.Title.Message", "This is a full custom title");
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.SubTitle.FadeIn", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.SubTitle.Stay", 150);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.SubTitle.FadeOut", 20);
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.custom.SubTitle.Message", "Without default values - Config your autobroadcast");
+            
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.No-title-omg.SubTitle.Message", "Only subtitles - Config your autobroadcast");
+            
+            AutoBroadcastConfig.getConfig().set("Config.Titles.messages.No-subtitle-omgx2.SubTitle.Message", "Only titles (autobroadcast)");
+            
+            /*
+             * Auto broadcast
+             * Action bar
+             */
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.Enable", true);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.Random", false);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.Interval", 60);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.Use-Permission-To-Get-Messages", false);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.Options-Default.Time-Stay", 120);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.World.All_World", false);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            // Messages
+            
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.messages.default.Message", "&eDefault Action-Bar &7(autobroadcast)");
+            
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.messages.custom.Time-Stay", 60);
+            AutoBroadcastConfig.getConfig().set("Config.Action-Bar.messages.custom.Message", "&6custom Action-Bar &7(autobroadcast)");
+            
+            AutoBroadcastConfig.saveConfigFile();
+		}
+		
+		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Mentionned.Self-Mention.Enable")) {
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Self-Mention.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Chat-Highlight.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Chat-Highlight.Highlighting", "&6&l");
+        
+        	OnChatConfig.saveConfigFile();
+		}
+        
+		if (!OnChatConfig.getConfig().isSet("Chat-Mention.Enable")) {
+			OnChatConfig.getConfig().set("Chat-Mention.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Sound", "BLOCK_NOTE_HARP");
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Volume", 1);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Sound.Pitch", 1);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Message.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                "%prefix% You have been mentionned by %sender%"
+            }));
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Options.Message", "&bYou have been mentionned by &e&l%sender%");
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay", 150);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Enable", true);
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeIn", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Stay", 150);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeOut", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.Title.Message", "&6✉ &bYou have been &ementionned&6 ✉");
+        
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable", true);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay", 150);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut", 20);
+			OnChatConfig.getConfig().set("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message", "&bAnswer to &e%sender%");
+        
+        	OnChatConfig.saveConfigFile();
+		}
+		
 		if (!SpawnCommandConfig.getConfig().isSet("SetSpawn.Enable")) {
 			SpawnCommandConfig.getConfig().set("SetSpawn.Enable", true);
 			SpawnCommandConfig.getConfig().set("SetSpawn.Disable-Message", true);
