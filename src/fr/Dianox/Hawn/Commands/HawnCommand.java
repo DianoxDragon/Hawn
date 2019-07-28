@@ -708,6 +708,7 @@ public class HawnCommand implements CommandExecutor {
 		PlayerEventsPW.worlds_playeroption_join.clear();
 		BasicEventsPW.worlds_autobroadcast_ab.clear();
 		BasicEventsPW.worlds_autobroadcast_title.clear();
+		ChangeWorldPW.worlds_po.clear();
 		Main.GetSetWorld();
 		
 		EmojiesUtility.setaliaseslist();
