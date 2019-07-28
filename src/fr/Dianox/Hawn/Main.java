@@ -126,6 +126,7 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMProtection;
 import fr.Dianox.Hawn.Utility.Config.Messages.TXTmsg;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
@@ -396,7 +397,8 @@ public class Main extends JavaPlugin implements Listener {
 		ErrorConfigAM.loadConfig((Plugin) this);
 		OtherAMConfig.loadConfig((Plugin) this);
 		SpawnMConfig.loadConfig((Plugin) this);
-
+		AdminPanelConfig.loadConfig((Plugin) this);
+		
 		instance = this;
 
 		GetSetWorld();
