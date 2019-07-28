@@ -155,7 +155,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.0-Alpha DevBuild 5";
+	static String versions = "0.7.0-Alpha DevBuild 6";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -1479,6 +1479,7 @@ public class Main extends JavaPlugin implements Listener {
 		PlayerEventsPW.setPlayerOptionJoin();
 		BasicEventsPW.setWGetWorldautobroadcast_ab();
 		BasicEventsPW.setWGetWorldautobroadcast_title();
+		ChangeWorldPW.setWPO();
 	}
 
 
