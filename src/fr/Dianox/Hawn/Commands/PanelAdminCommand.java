@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
 
 public class PanelAdminCommand extends BukkitCommand {
 
@@ -46,7 +48,8 @@ public class PanelAdminCommand extends BukkitCommand {
 
         Player p = (Player) sender;
         int numberitemstoeleimate = 0;
-
+        List<String> lore = new ArrayList<String>();
+        
         if (!p.hasPermission("hawn.adminpanel")) {
             MessageUtils.MessageNoPermission(p, "hawn.adminpanel");
             return true;
@@ -56,23 +59,35 @@ public class PanelAdminCommand extends BukkitCommand {
             Inventory inv = Bukkit.createInventory(null, 54, "§cAP");
 
             // Folders
-            inv.setItem(0, createGuiItem("§cCommands", new ArrayList < String > (Arrays.asList(" ", "§6Click to edit this folder")), XMaterial.CHEST.parseMaterial()));
-            inv.setItem(1, createGuiItem("§cCosmetics-Fun", new ArrayList < String > (Arrays.asList(" ", "§6Click to edit this folder")), XMaterial.CHEST.parseMaterial()));
+            lore.clear();
+        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
+        		msg = msg.replaceAll("&", "§");
+                lore.add(msg);
+            }
+        	
+            inv.setItem(0, createGuiItem("§cCommands", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+            inv.setItem(1, createGuiItem("§cCosmetics-Fun", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(2, createGuiItem("§cCustomJoinItem", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
-            inv.setItem(3, createGuiItem("§cEvents", new ArrayList < String > (Arrays.asList(" ", "§6Click to edit this folder")), XMaterial.CHEST.parseMaterial()));
+            inv.setItem(3, createGuiItem("§cEvents", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(4, createGuiItem("§cMessages", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
-            inv.setItem(5, createGuiItem("§cScoreboard", new ArrayList < String > (Arrays.asList(" ", "§6Click to edit this folder")), XMaterial.CHEST.parseMaterial()));
+            inv.setItem(5, createGuiItem("§cScoreboard", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(6, createGuiItem("§cStockageInfo", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
-            inv.setItem(7, createGuiItem("§cTablist", new ArrayList < String > (Arrays.asList(" ", "§6Click to edit this folder")), XMaterial.CHEST.parseMaterial()));
+            inv.setItem(7, createGuiItem("§cTablist", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
 
             int number_place = 8;
             File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath());
             File[] listOfFiles = folder.listFiles();
 
+            lore.clear();
+        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+        		msg = msg.replaceAll("&", "§");
+                lore.add(msg);
+            }
+            
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
                     String filename = listOfFiles[i].getName().replace(".yml", "");
-                    inv.setItem(number_place, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                    inv.setItem(number_place, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                     number_place++;
                 }
             }
@@ -87,9 +102,9 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(25, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(26, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
-            inv.setItem(27, createGuiItemWL("§cShutdown the server", XMaterial.REDSTONE_BLOCK.parseMaterial()));
-            inv.setItem(28, createGuiItemWL("§eReload The server", XMaterial.NETHER_STAR.parseMaterial()));
-            inv.setItem(29, createGuiItemWL("§aSave players", XMaterial.PLAYER_HEAD.parseMaterial()));
+            inv.setItem(27, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"), XMaterial.REDSTONE_BLOCK.parseMaterial()));
+            inv.setItem(28, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"), XMaterial.NETHER_STAR.parseMaterial()));
+            inv.setItem(29, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"), XMaterial.PLAYER_HEAD.parseMaterial()));
 
             inv.setItem(36, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -100,7 +115,14 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(42, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(43, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(44, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-            inv.setItem(45, createGuiItem("§aNotice", new ArrayList < String > (Arrays.asList(" ", "§eActually, I can't put all the config file here.", "§eIf you want to edit everything that is missing", "§eplease do it manually")), Material.MAP));
+            
+            lore.clear();
+        	for (String msg: AdminPanelConfig.getConfig().getStringList("Special.Item.Notice.Lore")) {
+        		msg = msg.replaceAll("&", "§");
+                lore.add(msg);
+            }
+            
+            inv.setItem(45, createGuiItem(AdminPanelConfig.getConfig().getString("Special.Item.Notice.Name").replaceAll("&", "§"), (ArrayList<String>) lore, Material.MAP));
 
             p.openInventory(inv);
         } else if (args.length >= 2) {
@@ -130,8 +152,9 @@ public class PanelAdminCommand extends BukkitCommand {
                     try {
                     	invname = invname.replaceAll(Main.getInstance().getDataFolder() + "/", "");
                     } catch (Exception e) {
-                    	p.sendMessage("§cThis file... does not seem to be able to be changed..");
-                    	p.sendMessage("§cDo it manually");
+                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Edit-Files")) {
+                            MessageUtils.ReplaceMessageForConsole(msg);
+                        }
                     	
                     	return true;
                     }
@@ -160,10 +183,22 @@ public class PanelAdminCommand extends BukkitCommand {
                     Integer loopaeleminer = 0;
 
                     if (invname.contains("CustomCommand") && pagenumber == 1) {
-                        if (cfg.getBoolean("commands-general.enable")) {
-                            inv.setItem(0, createGuiItemColor("§bcommands-general.enable", new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §cfalse")), "GREEN_WOOL"));
+                        if (cfg.getBoolean("commands-general.enable")) {   	
+                        	lore.clear();
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
+                        		msg = msg.replaceAll("&", "§");
+                                lore.add(msg);
+                            }
+                        	
+                            inv.setItem(0, createGuiItemColor("§bcommands-general.enable", (ArrayList<String>) lore, "GREEN_WOOL"));
                         } else {
-                            inv.setItem(0, createGuiItemColor("§bcommands-general.enable", new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §atrue")), "RED_WOOL"));
+                        	lore.clear();
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
+                        		msg = msg.replaceAll("&", "§");
+                                lore.add(msg);
+                            }
+                        	
+                            inv.setItem(0, createGuiItemColor("§bcommands-general.enable", (ArrayList<String>) lore, "RED_WOOL"));
                         }
 
                         numberitems = 9;
@@ -186,7 +221,9 @@ public class PanelAdminCommand extends BukkitCommand {
                         iterator = cfg.getConfigurationSection("commands").getKeys(false).iterator();
                     } else if (invname.contains("warplist") || invname.contains("spawn")) {
                         if (!cfg.isSet("Coordinated")) {
-                            p.sendMessage("§cThe file is empty");
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Edit-Empty")) {
+                                MessageUtils.ReplaceMessageForConsole(msg);
+                            }
                             return true;
                         }
 
@@ -208,28 +245,29 @@ public class PanelAdminCommand extends BukkitCommand {
                                     String command = cfg.getString("commands." + string + ".command");
 
                                     if (cfg.getBoolean("commands." + string + ".enable")) {
-                                        inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                            " ",
-                                            "§b► Command :§e " + command,
-                                            " ",
-                                            "§n§bPermission :",
-                                            "§b► §e" + getperm,
-                                            "§b► Enable ? §e" + getpermyesorno,
-                                            "§b► No permission message ? §e" + nopermmsg,
-                                            " ",
-                                            "§eClick to §cdisable§e the command"
-                                        )), "GREEN_WOOL"));
+                                    	lore.clear();
+                                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.True")) {
+                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = msg.replaceAll("%ap_getperm%", getperm);
+                                    		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
+                                    		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
+                                    		msg = msg.replaceAll("%ap_command%", command);
+                                            lore.add(msg);
+                                        }
+                                    	
+                                        inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "GREEN_WOOL"));
                                     } else {
-                                        inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                            " ",
-                                            "§b► Command :§e " + command,
-                                            " ",
-                                            "§n§bPermission :",
-                                            "§b► §e" + getperm,
-                                            "§b► Enable ? §e" + getpermyesorno,
-                                            "§b► No permission message ? §e" + nopermmsg,
-                                            " ",
-                                            "§eClick to §aenable§e the command")), "RED_WOOL"));
+                                    	lore.clear();
+                                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.False")) {
+                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = msg.replaceAll("%ap_getperm%", getperm);
+                                    		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
+                                    		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
+                                    		msg = msg.replaceAll("%ap_command%", command);
+                                            lore.add(msg);
+                                        }
+                                    	
+                                        inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "RED_WOOL"));
                                     }
 
                                     number_place++;
@@ -242,15 +280,19 @@ public class PanelAdminCommand extends BukkitCommand {
                                     String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
                                     String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
 
-                                    inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                        " ",
-                                        "§bWorld : §e" + getworld,
-                                        "§bX : §e" + x + "§b, Y : §e" + y + "§b, Z : §e" + z,
-                                        "§bYaw : §e" + yaw,
-                                        "§bPitch : §e" + pitch,
-                                        " ",
-                                        "§6You can't edit warp list here"
-                                    )), "ORANGE_WOOL"));
+                                    lore.clear();
+                                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
+                                		msg = msg.replaceAll("&", "§");
+                                		msg = msg.replaceAll("%ap_x%", x);
+                                		msg = msg.replaceAll("%ap_y%", y);
+                                		msg = msg.replaceAll("%ap_z%", z);
+                                		msg = msg.replaceAll("%ap_getworld%", getworld);
+                                		msg = msg.replaceAll("%ap_yaw%", yaw);
+                                		msg = msg.replaceAll("%ap_pitch%", pitch);
+                                        lore.add(msg);
+                                    }
+                                    
+                                    inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "ORANGE_WOOL"));
 
                                     number_place++;
                                 } else if (invname.contains("G-spawn")) {
@@ -260,26 +302,42 @@ public class PanelAdminCommand extends BukkitCommand {
                                     String z = String.valueOf(cfg.getDouble("Coordinated." + string + ".Z"));
                                     String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
                                     String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
-
-                                    inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                        " ",
-                                        "§bWorld : §e" + getworld,
-                                        "§bX : §e" + x + "§b, Y : §e" + y + "§b, Z : §e" + z,
-                                        "§bYaw : §e" + yaw,
-                                        "§bPitch : §e" + pitch,
-                                        " ",
-                                        "§6You can't edit spawn list here"
-                                    )), "ORANGE_WOOL"));
+                                    
+                                    lore.clear();
+                                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {
+                                		msg = msg.replaceAll("&", "§");
+                                		msg = msg.replaceAll("%ap_x%", x);
+                                		msg = msg.replaceAll("%ap_y%", y);
+                                		msg = msg.replaceAll("%ap_z%", z);
+                                		msg = msg.replaceAll("%ap_getworld%", getworld);
+                                		msg = msg.replaceAll("%ap_yaw%", yaw);
+                                		msg = msg.replaceAll("%ap_pitch%", pitch);
+                                        lore.add(msg);
+                                    }
+                                    
+                                    inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "ORANGE_WOOL"));
 
                                     number_place++;
                                 } else {
                                     if (cfg.isBoolean(string)) {
                                         if (cfg.getBoolean(string)) {
-                                            inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §cfalse")), "GREEN_WOOL"));
+                                        	lore.clear();
+                                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
+                                        		msg = msg.replaceAll("&", "§");
+                                                lore.add(msg);
+                                            }
+                                        	
+                                            inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "GREEN_WOOL"));
                                             number_place++;
                                             numberitems++;
                                         } else {
-                                            inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §atrue")), "RED_WOOL"));
+                                        	lore.clear();
+                                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
+                                        		msg = msg.replaceAll("&", "§");
+                                                lore.add(msg);
+                                            }
+                                        	
+                                            inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "RED_WOOL"));
                                             number_place++;
                                             numberitems++;
                                         }
@@ -302,28 +360,29 @@ public class PanelAdminCommand extends BukkitCommand {
                                         String command = cfg.getString("commands." + string + ".command");
 
                                         if (cfg.getBoolean("commands." + string + ".enable")) {
-                                            inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                                " ",
-                                                "§b► Command :§e " + command,
-                                                " ",
-                                                "§n§bPermission :",
-                                                "§b► §e" + getperm,
-                                                "§b► Enable ? §e" + getpermyesorno,
-                                                "§b► No permission message ? §e" + nopermmsg,
-                                                " ",
-                                                "§eClick to §cdisable§e the command"
-                                            )), "GREEN_WOOL"));
+                                        	lore.clear();
+                                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.True")) {
+                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = msg.replaceAll("%ap_getperm%", getperm);
+                                        		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
+                                        		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
+                                        		msg = msg.replaceAll("%ap_command%", command);
+                                                lore.add(msg);
+                                            }
+                                        	
+                                            inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "GREEN_WOOL"));
                                         } else {
-                                            inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                                " ",
-                                                "§b► Command :§e " + command,
-                                                " ",
-                                                "§n§bPermission :",
-                                                "§b► §e" + getperm,
-                                                "§b► Enable ? §e" + getpermyesorno,
-                                                "§b► No permission message ? §e" + nopermmsg,
-                                                " ",
-                                                "§eClick to §aenable§e the command")), "RED_WOOL"));
+                                        	lore.clear();
+                                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.False")) {
+                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = msg.replaceAll("%ap_getperm%", getperm);
+                                        		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
+                                        		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
+                                        		msg = msg.replaceAll("%ap_command%", command);
+                                                lore.add(msg);
+                                            }
+                                        	
+                                            inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "RED_WOOL"));
                                         }
 
                                         number_place++;
@@ -336,15 +395,19 @@ public class PanelAdminCommand extends BukkitCommand {
                                         String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
                                         String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
 
-                                        inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                            " ",
-                                            "§bWorld : §e" + getworld,
-                                            "§bX : §e" + x + "§b, Y : §e" + y + "§b, Z : §e" + z,
-                                            "§bYaw : §e" + yaw,
-                                            "§bPitch : §e" + pitch,
-                                            " ",
-                                            "§6You can't edit warp list here"
-                                        )), "ORANGE_WOOL"));
+                                        lore.clear();
+                                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
+                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = msg.replaceAll("%ap_x%", x);
+                                    		msg = msg.replaceAll("%ap_y%", y);
+                                    		msg = msg.replaceAll("%ap_z%", z);
+                                    		msg = msg.replaceAll("%ap_getworld%", getworld);
+                                    		msg = msg.replaceAll("%ap_yaw%", yaw);
+                                    		msg = msg.replaceAll("%ap_pitch%", pitch);
+                                            lore.add(msg);
+                                        }
+                                        
+                                        inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "ORANGE_WOOL"));
 
                                         number_place++;
                                     } else if (invname.contains("G-spawn")) {
@@ -355,25 +418,41 @@ public class PanelAdminCommand extends BukkitCommand {
                                         String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
                                         String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
 
-                                        inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(
-                                            " ",
-                                            "§bWorld : §e" + getworld,
-                                            "§bX : §e" + x + "§b, Y : §e" + y + "§b, Z : §e" + z,
-                                            "§bYaw : §e" + yaw,
-                                            "§bPitch : §e" + pitch,
-                                            " ",
-                                            "§6You can't edit spawn list here"
-                                        )), "ORANGE_WOOL"));
+                                        lore.clear();
+                                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {
+                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = msg.replaceAll("%ap_x%", x);
+                                    		msg = msg.replaceAll("%ap_y%", y);
+                                    		msg = msg.replaceAll("%ap_z%", z);
+                                    		msg = msg.replaceAll("%ap_getworld%", getworld);
+                                    		msg = msg.replaceAll("%ap_yaw%", yaw);
+                                    		msg = msg.replaceAll("%ap_pitch%", pitch);
+                                            lore.add(msg);
+                                        }
+                                        
+                                        inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "ORANGE_WOOL"));
 
                                         number_place++;
                                     } else {
                                         if (cfg.isBoolean(string)) {
                                             if (cfg.getBoolean(string)) {
-                                                inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §cfalse")), "GREEN_WOOL"));
+                                            	lore.clear();
+                                            	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
+                                            		msg = msg.replaceAll("&", "§");
+                                                    lore.add(msg);
+                                                }
+                                            	
+                                                inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "GREEN_WOOL"));
                                                 number_place++;
                                                 numberitems++;
                                             } else {
-                                                inv.setItem(number_place, createGuiItemColor("§b" + string, new ArrayList < String > (Arrays.asList(" ", "§eClick to put this line to §atrue")), "RED_WOOL"));
+                                            	lore.clear();
+                                            	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
+                                            		msg = msg.replaceAll("&", "§");
+                                                    lore.add(msg);
+                                                }
+                                            	
+                                                inv.setItem(number_place, createGuiItemColor("§b" + string, (ArrayList<String>) lore, "RED_WOOL"));
                                                 number_place++;
                                                 numberitems++;
                                             }
@@ -383,17 +462,29 @@ public class PanelAdminCommand extends BukkitCommand {
                                     cannextpage = true;
                                 }
 
-                                inv.setItem(45, createGuiItem("§bPREVIOUS", new ArrayList < String > (Arrays.asList(" ", "§ePrevious")), XMaterial.PAPER.parseMaterial()));
+                                lore.clear();
+                            	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
+                            		msg = msg.replaceAll("&", "§");
+                                    lore.add(msg);
+                                }
+                                
+                                inv.setItem(45, createGuiItem(AdminPanelConfig.getConfig().getString("Edit.File.Previous.Name").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                             }
                         }
                     }
 
                     if (cannextpage) {
-                        inv.setItem(47, createGuiItem("§bNEXT", new ArrayList < String > (Arrays.asList(" ", "§eNext")), XMaterial.PAPER.parseMaterial()));
+                    	lore.clear();
+                    	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
+                    		msg = msg.replaceAll("&", "§");
+                            lore.add(msg);
+                        }
+                    	
+                        inv.setItem(47, createGuiItem(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                     }
 
-                    inv.setItem(53, createGuiItemWL("§cBack to the folder menu", XMaterial.BARRIER.parseMaterial()));
-
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+                    
                     p.openInventory(inv);
                 }
             } else if (args[0].equalsIgnoreCase("folder")) {
@@ -403,14 +494,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Commands/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(45, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                 } else if (args[1].equalsIgnoreCase("Cosmetics-Fun")) {
@@ -419,14 +516,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Cosmetics-Fun/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(45, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                 } else if (args[1].equalsIgnoreCase("Events")) {
@@ -435,14 +538,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Events/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(45, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                     p.updateInventory();
@@ -452,14 +561,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(45, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                 } else if (args[1].equalsIgnoreCase("Scoreboard")) {
@@ -468,14 +583,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Scoreboard/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items-Not-Possible.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§6You can't edit the file here")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(45, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                 } else if (args[1].equalsIgnoreCase("Tablist")) {
@@ -484,14 +605,20 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Tablist/");
                     File[] listOfFiles = folder.listFiles();
 
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
                     for (int i = 0; i < listOfFiles.length; i++) {
                         if (listOfFiles[i].isFile()) {
                             String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, new ArrayList < String > (Arrays.asList(" ", "§eClick to edit this file")), XMaterial.PAPER.parseMaterial()));
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
 
-                    inv.setItem(54, createGuiItemWL("§cBack to the menu", XMaterial.BARRIER.parseMaterial()));
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
                 }
