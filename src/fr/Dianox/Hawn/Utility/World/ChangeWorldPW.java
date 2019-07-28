@@ -50,5 +50,26 @@ public class ChangeWorldPW {
 		public static List<String> getWGamemodeOnChangeWorld() {
 			return worlds_GM_OnChangeWorld;
 		}
+		
+		// PO
+				public static List<String> worlds_po = new ArrayList<String>();
+				
+				public static void setWPO() {
+					if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.Enable")) {
+				        if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.World.All_World")) {
+				            for (String world : PlayerWorldChangeConfigE.getConfig().getStringList("Player-Options.World.Worlds")) {
+				            	if (Bukkit.getWorld(world) == null) {
+				            		System.out.println("| Invalid world in Events/PlayerWorldChange.yml, Player-Options.World: "+world);
+				            	} else {
+				            		worlds_po.add(world);
+				            	}
+				            }
+				        }
+			        }
+				}
+				
+				public static List<String> getWPO() {
+					return worlds_po;
+				}
 
 }
