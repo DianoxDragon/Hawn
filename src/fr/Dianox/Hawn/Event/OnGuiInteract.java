@@ -18,6 +18,7 @@ import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
 import fr.Dianox.Hawn.Utility.Tasks.TaskReloadServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskSavePlayerServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskShutdownServer;
@@ -111,15 +112,15 @@ public class OnGuiInteract implements Listener {
                     p.performCommand("ap edit file G-" + nameinv);
                 }
             } else if (e.getCurrentItem().getType() == XMaterial.REDSTONE_BLOCK.parseMaterial()) {
-            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cShutdown the server")) {
+            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"))) {
             		BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), 5);
             	}
             } else if (e.getCurrentItem().getType() == XMaterial.NETHER_STAR.parseMaterial()) {
-            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§eReload The server")) {
+            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"))) {
             		BukkitTask task = new TaskReloadServer().runTaskLater(Main.getInstance(), 5);
             	}
             } else if (e.getCurrentItem().getType() == XMaterial.PLAYER_HEAD.parseMaterial()) {
-            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§aSave players")) {
+            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"))) {
             		BukkitTask task = new TaskSavePlayerServer().runTaskLater(Main.getInstance(), 5);
             	}
             }
@@ -147,7 +148,7 @@ public class OnGuiInteract implements Listener {
                 }
 
             } else if (e.getCurrentItem().getType() == XMaterial.BARRIER.parseMaterial()) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the menu")) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"))) {
                     p.performCommand("ap");
                 }
             }
@@ -155,7 +156,7 @@ public class OnGuiInteract implements Listener {
             e.setCancelled(true);
         } else if (inv.equals("§cAP - Folder Scoreboard")) {
             if (e.getCurrentItem().getType() == XMaterial.BARRIER.parseMaterial()) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the menu")) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"))) {
                     p.performCommand("ap");
                 }
             }
@@ -216,11 +217,11 @@ public class OnGuiInteract implements Listener {
                     } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
-                    	if (nameitem.contains("NEXT")) {
+                    	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal++;
                     		p.performCommand("ap edit file " + cfinuse + " " + numberfinal);
-                    	} else if (nameitem.contains("PREVIOUS")) {
+                    	} else if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Previous.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal--;
                     		p.performCommand("ap edit file " + cfinuse + " " + numberfinal);
@@ -268,11 +269,11 @@ public class OnGuiInteract implements Listener {
                     } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
-                    	if (nameitem.contains("NEXT")) {
+                    	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal++;
                     		p.performCommand("ap edit file " + cfinuse + " " + numberfinal);
-                    	} else if (nameitem.contains("PREVIOUS")) {
+                    	} else if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Previous.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal--;
                     		p.performCommand("ap edit file " + cfinuse + " " + numberfinal);
@@ -281,19 +282,19 @@ public class OnGuiInteract implements Listener {
             	}
             } else {
                 if (inv.contains("CF-")) {
-	            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
+	            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
 	                    p.performCommand("ap folder Cosmetics-Fun");
 	                }
                 } else if (inv.contains("E-")) {
-                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder Events");
                 	}
                 } else if (inv.contains("G-")) {
-                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap");
                 	}
                 } else if (inv.contains("C-")) {
-                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cBack to the folder menu")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder commands");
                 	}
                 }
