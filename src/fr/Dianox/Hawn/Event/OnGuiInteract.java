@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
+import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
@@ -113,15 +114,30 @@ public class OnGuiInteract implements Listener {
                 }
             } else if (e.getCurrentItem().getType() == XMaterial.REDSTONE_BLOCK.parseMaterial()) {
             	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"))) {
+            		
+            		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Shutdown.Messages")) {
+            			MessageUtils.ReplaceCharMessagePlayer(msg, p);
+            		}
+            		
             		BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), 5);
             	}
             } else if (e.getCurrentItem().getType() == XMaterial.NETHER_STAR.parseMaterial()) {
             	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"))) {
-            		BukkitTask task = new TaskReloadServer().runTaskLater(Main.getInstance(), 5);
+            		
+            		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Reload.Messages")) {
+            			MessageUtils.ReplaceCharMessagePlayer(msg, p);
+            		}
+            		
+            		BukkitTask task = new TaskReloadServer(p).runTaskLater(Main.getInstance(), 5);
             	}
             } else if (e.getCurrentItem().getType() == XMaterial.PLAYER_HEAD.parseMaterial()) {
             	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"))) {
-            		BukkitTask task = new TaskSavePlayerServer().runTaskLater(Main.getInstance(), 5);
+            		
+            		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Save-Players.Messages")) {
+            			MessageUtils.ReplaceCharMessagePlayer(msg, p);
+            		}
+            		
+            		BukkitTask task = new TaskSavePlayerServer(p).runTaskLater(Main.getInstance(), 5);
             	}
             }
 
