@@ -49,5 +49,25 @@ public class CosmeticsPW {
 	public static List<String> getWJumpPads() {
 		return worlds_jumppads;
 	}
+	
+	public static List<String> worlds_ls = new ArrayList<String>();
+	
+	public static void setWGetWorldls() {
+		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Enable")) {
+	        if (!ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.World.All_World")) {
+	            for (String world : ConfigGCos.getConfig().getStringList("Cosmetics.Lightning-Strike.World.Worlds")) {
+	            	if (Bukkit.getWorld(world) == null) {
+	            		System.out.println("| Invalid world in Cosmetics-Fun/OnJoin.yml, Cosmetics.Lightning-Strike.World: "+world);
+	            	} else {
+	            		worlds_ls.add(world);
+	            	}
+	            }
+	        }
+        }
+	}
+	
+	public static List<String> getWLightningStrike() {
+		return worlds_ls;
+	}
 
 }
