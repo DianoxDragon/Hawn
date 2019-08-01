@@ -53,16 +53,16 @@ public class ConfigGCos {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Cosmetics.Firework.Enable", Boolean.valueOf(true));
-            Config.set("Cosmetics.Firework.Bypass", Boolean.valueOf(false));
-            Config.set("Cosmetics.Firework.Options.First-Join-Only", Boolean.valueOf(false));
-            Config.set("Cosmetics.Firework.Options.Amount", Integer.valueOf(2));
-            Config.set("Cosmetics.Firework.Options.Height", Integer.valueOf(3));
-            Config.set("Cosmetics.Firework.Options.Flicker", Boolean.valueOf(false));
-            Config.set("Cosmetics.Firework.Options.Trail", Boolean.valueOf(false));
+            Config.set("Cosmetics.Firework.Enable", true);
+            Config.set("Cosmetics.Firework.Bypass", false);
+            Config.set("Cosmetics.Firework.Options.First-Join-Only", false);
+            Config.set("Cosmetics.Firework.Options.Amount", 2);
+            Config.set("Cosmetics.Firework.Options.Height", 3);
+            Config.set("Cosmetics.Firework.Options.Flicker", false);
+            Config.set("Cosmetics.Firework.Options.Trail", false);
             Config.set("Cosmetics.Firework.Options.Type", "BALL");
-            Config.set("Cosmetics.Firework.Options.Instant-explode", Boolean.valueOf(false));
-            Config.set("Cosmetics.Firework.Options.Power", Integer.valueOf(3));
+            Config.set("Cosmetics.Firework.Options.Instant-explode", false);
+            Config.set("Cosmetics.Firework.Options.Power", 3);
             Config.set("Cosmetics.Firework.Options.Colors", java.util.Arrays.asList(new String[] {
                     "YELLOW",
                     "RED"
@@ -71,8 +71,19 @@ public class ConfigGCos {
                     "BLUE",
                     "WHITE"
                 }));
-            Config.set("Cosmetics.Firework.World.All_World", Boolean.valueOf(false));
+            Config.set("Cosmetics.Firework.World.All_World", false);
             Config.set("Cosmetics.Firework.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+                }));
+            
+            Config.set("Cosmetics.Lightning-Strike.Enable", true);
+            Config.set("Cosmetics.Lightning-Strike.Bypass", false);
+            Config.set("Cosmetics.Lightning-Strike.Options.First-Join-Only", false);
+            Config.set("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes", 3);
+
+            Config.set("Cosmetics.Lightning-Strike.World.All_World", false);
+            Config.set("Cosmetics.Lightning-Strike.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
