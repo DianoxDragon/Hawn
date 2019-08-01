@@ -147,6 +147,21 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!AutoBroadcastConfig.getConfig().isSet("Config.Messages.Custom-Header-Footer.Header.Enable")) {
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.Enable", false);
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.messages", java.util.Arrays.asList(new String[] {
+                "<--center--> &8<===========================>",
+                ""
+			}));
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Footer.Enable", false);
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Footer.messages", java.util.Arrays.asList(new String[] {
+        		"",
+                "<--center--> &8<===========================>"
+			}));
+        
+        	AutoBroadcastConfig.saveConfigFile();
+		}
+		
 		if (!ConfigGCos.getConfig().isSet("Cosmetics.Lightning-Strike.Enable")) {
 			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Enable", true);
 			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Bypass", false);
