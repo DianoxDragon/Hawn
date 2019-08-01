@@ -147,6 +147,21 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGCos.getConfig().isSet("Cosmetics.Lightning-Strike.Enable")) {
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Enable", true);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Bypass", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Options.First-Join-Only", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes", 3);
+
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.World.All_World", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.World.Worlds", java.util.Arrays.asList(new String[] {
+	                "world",
+	                "world_nether"
+	            }));
+	        
+	        ConfigGCos.saveConfigFile();
+		}
+		
 		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.Enable")) {
 			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Enable", true);
 			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Keep-Options", true);
