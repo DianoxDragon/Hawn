@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.World;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
+import fr.Dianox.Hawn.Event.OnJoinE.OjCosmetics;
 import fr.Dianox.Hawn.Event.OnJoinE.OjPlayerOption;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
@@ -37,7 +34,6 @@ import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
-import fr.Dianox.Hawn.Utility.World.CosmeticsPW;
 import fr.Dianox.Hawn.Utility.World.OnJoinPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -202,55 +198,9 @@ public class OnJoin implements Listener {
         } else {
         	TPSPAWNnormalevent(p);
         }
-
-        // Firework
-
-        if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Enable")) {
-            if (!ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.World.All_World")) {
-                if (CosmeticsPW.getWFirework().contains(p.getWorld().getName())) {
-                    if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
-                        if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
-                        	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                        		if (!p.hasPlayedBefore()) {
-                        			Fireworkmethod(p);
-                        		}
-                        	} else {
-                        		Fireworkmethod(p);
-                        	}
-                        }
-                    } else {
-                    	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                    		if (!p.hasPlayedBefore()) {
-                    			Fireworkmethod(p);
-                    		}
-                    	} else {
-                    		Fireworkmethod(p);
-                    	}
-                    }
-                }
-            } else {
-                if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
-                    if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
-                    	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                    		if (!p.hasPlayedBefore()) {
-                    			Fireworkmethod(p);
-                    		}
-                    	} else {
-                    		Fireworkmethod(p);
-                    	}
-                    }
-                } else {
-                	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                		if (!p.hasPlayedBefore()) {
-                			Fireworkmethod(p);
-                		}
-                	} else {
-                		Fireworkmethod(p);
-                	}
-                }
-            }
-        }
-
+        
+        OjCosmetics.MainMethod(p);
+        
         // Reset XP
         String XPValueEXP = String.valueOf(OnJoinConfig.getConfig().getDouble("XP.Options.Exp.Value"));
         String XPValueLvl = String.valueOf(OnJoinConfig.getConfig().getInt("XP.Options.Level.Value"));
@@ -275,9 +225,6 @@ public class OnJoin implements Listener {
                 }
             }
         }
-
-        // NEW JOIN BROADCAST
-
 
         // Restore Health and food
         String FoodValue = String.valueOf(OnJoinConfig.getConfig().getInt("Restore.Food.Value"));
@@ -683,41 +630,7 @@ public class OnJoin implements Listener {
             }
         }
     }
-
-    public void Fireworkmethod(Player p) {
-        for (int i = 1; i < ConfigGCos.getConfig().getInt("Cosmetics.Firework.Options.Amount"); i++) {
-            ArrayList < Color > colors = new ArrayList < Color > ();
-            ArrayList < Color > fade = new ArrayList < Color > ();
-            List < String > lore = ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Colors");
-            List < String > lore2 = ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Fade");
-            for (String l1: lore) {
-                colors.add(OtherUtils.getColor(l1));
-            }
-            for (String l2: lore2) {
-                fade.add(OtherUtils.getColor(l2));
-            }
-            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, ConfigGCos.getConfig().getInt("Cosmetics.Firework.Options.Height"), 0.5D), Firework.class);
-
-            FireworkMeta fm = f.getFireworkMeta();
-            fm.addEffect(FireworkEffect.builder().flicker(ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.Flicker"))
-                .trail(ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.Trail"))
-                .with(FireworkEffect.Type.valueOf(ConfigGCos.getConfig().getString("Cosmetics.Firework.Options.Type"))).withColor(colors).withFade(fade)
-                .build());
-
-            if (!ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.Instant-explode")) {
-                fm.setPower(ConfigGCos.getConfig().getInt("Cosmetics.Firework.Options.Power"));
-            }
-            f.setFireworkMeta(fm);
-            if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.Instant-explode")) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                    public void run() {
-                        f.detonate();
-                    }
-                }, 5L);
-            }
-        }
-    }
-
+    
     public void SoundMethodOnJoin(Player p) {
         if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Sounds.Enable")) {
             if (!ConfigGCos.getConfig().getBoolean("Event.OnJoin.Sounds.World.All_World")) {
