@@ -155,7 +155,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.1-Alpha DevBuild 2";
+	static String versions = "0.7.1-Alpha DevBuild 3";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -209,7 +209,7 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<String, String> configfile = new HashMap<String, String>();
     public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
     public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
-    	
+    
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
@@ -1243,6 +1243,12 @@ public class Main extends JavaPlugin implements Listener {
 		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly, or make a double jump");
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
+			gcs(ChatColor.YELLOW+"| ");
+		}
+		
+		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Enable") && WorldEventConfig.getConfig().getBoolean("World.Weather.Disable.LightningStrike.Disable")) {
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You enabled the lightning strike on join, but, the anti lightning strike is enabled too");
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Lightning strikes on join will not work");
 			gcs(ChatColor.YELLOW+"| ");
 		}
 
