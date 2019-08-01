@@ -155,7 +155,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.1-Alpha DevBuild 1";
+	static String versions = "0.7.1-Alpha DevBuild 2";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -210,6 +210,8 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
     public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
     
+    public static List<Player> antilbypass = new ArrayList<Player>();
+	
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
