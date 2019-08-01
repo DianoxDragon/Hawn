@@ -160,7 +160,6 @@ public class OnJoin implements Listener {
             }
         }
 
-
         // JOIN TP SPAWN
         if (p.hasPlayedBefore() && BetweenServersConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") || SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
         	if (Main.useyamllistplayer) {
@@ -417,6 +416,8 @@ public class OnJoin implements Listener {
                                 
                                 actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
 
+                                actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                                
                                 ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                             }
                         } else {
@@ -427,6 +428,8 @@ public class OnJoin implements Listener {
 
                             actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
 
+                            actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                            
                             ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                         }
                     }
@@ -440,6 +443,8 @@ public class OnJoin implements Listener {
 
                             actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
+                            actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
+                            
                             ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                         }
                     } else {
@@ -450,6 +455,8 @@ public class OnJoin implements Listener {
 
                         actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
+                        actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
+                        
                         ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                     }
                 }
@@ -462,6 +469,8 @@ public class OnJoin implements Listener {
 
                     actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
 
+                    actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                    
                     ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                 }
             }
