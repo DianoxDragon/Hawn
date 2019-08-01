@@ -209,9 +209,7 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<String, String> configfile = new HashMap<String, String>();
     public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
     public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
-    
-    public static List<Player> antilbypass = new ArrayList<Player>();
-	
+    	
     WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
