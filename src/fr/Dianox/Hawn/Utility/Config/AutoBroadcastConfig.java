@@ -64,6 +64,18 @@ public class AutoBroadcastConfig {
             Config.set("Config.Messages.Interval", 60);
             Config.set("Config.Messages.Broadcast-To-Console", false);
             Config.set("Config.Messages.Use-Permission-To-Get-Messages", false);
+		
+	    Config.set("Config.Messages.Custom-Header-Footer.Header.Enable", false);
+            Config.set("Config.Messages.Custom-Header-Footer.Header.messages", java.util.Arrays.asList(new String[] {
+                    "<--center--> &8<===========================>",
+                    ""
+            }));
+            Config.set("Config.Messages.Custom-Header-Footer.Footer.Enable", false);
+            Config.set("Config.Messages.Custom-Header-Footer.Footer.messages", java.util.Arrays.asList(new String[] {
+            		"",
+                    "<--center--> &8<===========================>"
+            }));
+		
             Config.set("Config.Messages.World.All_World", false);
             Config.set("Config.Messages.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",

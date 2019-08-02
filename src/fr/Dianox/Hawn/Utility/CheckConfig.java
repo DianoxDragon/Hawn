@@ -147,6 +147,59 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar.Message-blinking")) {
+			VanishCommandConfig.getConfig().set("Vanish.Action-Bar.Message-blinking", true);
+			
+			VanishCommandConfig.saveConfigFile();
+		}
+		
+		if (!OtherAMConfig.getConfig().isSet("Vanish.Vanish-On")) {
+			OtherAMConfig.getConfig().set("Vanish.Vanish-On", java.util.Arrays.asList(new String[] {
+                "&7[ %player% is now vanished ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-Off", java.util.Arrays.asList(new String[] {
+                "&7[ %player% is now no longer vanished ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-On-Others", java.util.Arrays.asList(new String[] {
+                "&7[ %target% is now vanished by %player% ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-Off-Others", java.util.Arrays.asList(new String[] {
+                "&7[ %target% is now no longer vanished by %player% ]"
+        		}));
+        
+			OtherAMConfig.saveConfigFile();
+		}
+		
+		if (!AutoBroadcastConfig.getConfig().isSet("Config.Messages.Custom-Header-Footer.Header.Enable")) {
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.Enable", false);
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.messages", java.util.Arrays.asList(new String[] {
+                "<--center--> &8<===========================>",
+                ""
+			}));
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Footer.Enable", false);
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Footer.messages", java.util.Arrays.asList(new String[] {
+        		"",
+                "<--center--> &8<===========================>"
+			}));
+        
+        	AutoBroadcastConfig.saveConfigFile();
+		}
+		
+		if (!ConfigGCos.getConfig().isSet("Cosmetics.Lightning-Strike.Enable")) {
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Enable", true);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Bypass", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Options.First-Join-Only", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes", 3);
+
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.World.All_World", false);
+			ConfigGCos.getConfig().set("Cosmetics.Lightning-Strike.World.Worlds", java.util.Arrays.asList(new String[] {
+	                "world",
+	                "world_nether"
+	            }));
+	        
+	        ConfigGCos.saveConfigFile();
+		}
+		
 		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.Enable")) {
 			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Enable", true);
 			PlayerWorldChangeConfigE.getConfig().set("Player-Options.Keep-Options", true);

@@ -155,7 +155,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.0-Alpha DevBuild 6";
+	static String versions = "0.7.1-Alpha";
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -1245,6 +1245,12 @@ public class Main extends JavaPlugin implements Listener {
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
 			gcs(ChatColor.YELLOW+"| ");
 		}
+		
+		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Enable") && WorldEventConfig.getConfig().getBoolean("World.Weather.Disable.LightningStrike.Disable")) {
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You enabled the lightning strike on join, but, the anti lightning strike is enabled too");
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Lightning strikes on join will not work");
+			gcs(ChatColor.YELLOW+"| ");
+		}
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.DARK_RED+"License:"+ChatColor.RESET);
 		gcs(ChatColor.BLUE+"| ");
@@ -1480,6 +1486,7 @@ public class Main extends JavaPlugin implements Listener {
 		BasicEventsPW.setWGetWorldautobroadcast_ab();
 		BasicEventsPW.setWGetWorldautobroadcast_title();
 		ChangeWorldPW.setWPO();
+		CosmeticsPW.setWGetWorldls();
 	}
 
 
