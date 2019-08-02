@@ -13,6 +13,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 
 public class VanishCommand extends BukkitCommand {
@@ -55,7 +56,9 @@ public class VanishCommand extends BukkitCommand {
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {
-							all.sendMessage("§7[ "+ target.getName() +" is no longer vanished by the console ]");
+							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On-Others")) {
+								MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", "console"), all);
+							}
 						}
 					}
 					
@@ -89,7 +92,9 @@ public class VanishCommand extends BukkitCommand {
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {
-							all.sendMessage("§7[ "+ target.getName() +" is now vanished by the console ]");
+							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
+								MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", "console"), all);
+							}
 						}
 					}
 					
@@ -169,7 +174,9 @@ public class VanishCommand extends BukkitCommand {
 							
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 								if (all.hasPermission("hawn.staff.seevanished")) {
-									all.sendMessage("§7[ "+ p.getName() +" is no longer vanished ]");
+									for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-Off")) {
+										MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), all);
+									}
 								}
 							}
 							
@@ -190,7 +197,9 @@ public class VanishCommand extends BukkitCommand {
 							
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 								if (all.hasPermission("hawn.staff.seevanished")) {
-									all.sendMessage("§7[ "+ p.getName() +" is now vanished ]");
+									for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+										MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), all);
+									}
 								}
 							}
 							
@@ -233,7 +242,9 @@ public class VanishCommand extends BukkitCommand {
 								
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (all.hasPermission("hawn.staff.seevanished")) {
-										all.sendMessage("§7[ "+ target.getName() +" is no longer vanished by "+ p.getName() +" ]");
+										for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
+											MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", p.getName()), all);
+										}
 									}
 								}
 								
@@ -267,7 +278,9 @@ public class VanishCommand extends BukkitCommand {
 								
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (all.hasPermission("hawn.staff.seevanished")) {
-										all.sendMessage("§7[ "+ target.getName() +" is now vanished by "+ p.getName() +" ]");
+										for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On-Others")) {
+											MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", p.getName()), all);
+										}
 									}
 								}
 								
