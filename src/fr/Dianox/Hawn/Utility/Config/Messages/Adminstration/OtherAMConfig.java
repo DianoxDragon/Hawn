@@ -114,6 +114,22 @@ public class OtherAMConfig {
             "",
             "§8>> §7/option§7 - §eFor main player's options"}));
             
+            /*
+             * Vanish
+             */
+            Config.set("Vanish.Vanish-On", java.util.Arrays.asList(new String[] {
+                    "&7[ %player% is now vanished ]"
+            		}));
+            Config.set("Vanish.Vanish-Off", java.util.Arrays.asList(new String[] {
+                    "&7[ %player% is now no longer vanished ]"
+            		}));
+            Config.set("Vanish.Vanish-On-Others", java.util.Arrays.asList(new String[] {
+                    "&7[ %target% is now vanished by %player% ]"
+            		}));
+            Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList(new String[] {
+                    "&7[ %target% is now no longer vanished by %player% ]"
+            		}));
+		
             saveConfigFile();
 
         }
