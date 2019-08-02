@@ -107,7 +107,12 @@ public class VanishCommand extends BukkitCommand {
 					
 					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 						if (target.hasPermission("hawn.command.vanish.actionbar")) {
-							BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+							BukkitTask task = null;
+							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
+								task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+							} else {
+								task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 20);
+							}
 							Main.TaskVanishAB.put(target, task.getTaskId());
 						}
 					}
@@ -210,7 +215,12 @@ public class VanishCommand extends BukkitCommand {
 							
 							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 								if (p.hasPermission("hawn.command.vanish.actionbar")) {
-									BukkitTask task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+									BukkitTask task = null;
+									if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
+										task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+									} else {
+										task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 20);
+									}
 									Main.TaskVanishAB.put(p, task.getTaskId());
 								}
 							}
@@ -291,7 +301,12 @@ public class VanishCommand extends BukkitCommand {
 								
 								if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 									if (target.hasPermission("hawn.command.vanish.actionbar")) {
-										BukkitTask task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+										BukkitTask task = null;
+										if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
+											task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+										} else {
+											task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 20);
+										}
 										Main.TaskVanishAB.put(target, task.getTaskId());
 									}
 								}
