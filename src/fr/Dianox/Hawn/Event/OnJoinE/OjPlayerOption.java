@@ -23,6 +23,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
+import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.OnJoinPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
@@ -466,6 +467,14 @@ public class OjPlayerOption {
 						p.hidePlayer(all);
 					}
 	            	
+	            	for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+						if (p1.hasPermission("hawn.staff.seevanished")) {
+							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+								MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), p1);
+							}
+						}
+					}
+	            	
 	            	if (Main.TaskVanishAB.containsKey(p)) {
 						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
 						Main.TaskVanishAB.remove(p);
@@ -493,6 +502,14 @@ public class OjPlayerOption {
        			} else {
        				all.hidePlayer(p);
        			}
+           		
+           		for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+					if (p1.hasPermission("hawn.staff.seevanished")) {
+						for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+							MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), p1);
+						}
+					}
+				}
        		}
            }
        }
@@ -511,6 +528,15 @@ public class OjPlayerOption {
     								all.hidePlayer(p);
     							}
     						}
+    	        			
+    	        			for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+								if (p1.hasPermission("hawn.staff.seevanished")) {
+									for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+										MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), p1);
+									}
+								}
+							}
+    	        			
     	    				VanishCommand.player_list_vanish.add(p);
     						
     	    				if (Main.TaskVanishAB.containsKey(p)) {
@@ -581,6 +607,14 @@ public class OjPlayerOption {
      						p.hidePlayer(all);
      					}
                      	
+                     	for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+							if (p1.hasPermission("hawn.staff.seevanished")) {
+								for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+									MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), p1);
+								}
+							}
+						}
+                     	
                      	if (Main.TaskVanishAB.containsKey(p)) {
     						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
     						Main.TaskVanishAB.remove(p);
@@ -609,6 +643,14 @@ public class OjPlayerOption {
     	        			} else {
     	        				all.hidePlayer(p);
     	        			}
+    	            		
+    	            		for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
+								if (p1.hasPermission("hawn.staff.seevanished")) {
+									for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On")) {
+										MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%player%", p.getName()), p1);
+									}
+								}
+							}
     	        		}
     	            }
     	        }
