@@ -147,6 +147,12 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar.Message-blinking")) {
+			VanishCommandConfig.getConfig().set("Vanish.Action-Bar.Message-blinking", true);
+			
+			VanishCommandConfig.saveConfigFile();
+		}
+		
 		if (!OtherAMConfig.getConfig().isSet("Vanish.Vanish-On")) {
 			OtherAMConfig.getConfig().set("Vanish.Vanish-On", java.util.Arrays.asList(new String[] {
                 "&7[ %player% is now vanished ]"
