@@ -147,6 +147,23 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OtherAMConfig.getConfig().isSet("Vanish.Vanish-On")) {
+			OtherAMConfig.getConfig().set("Vanish.Vanish-On", java.util.Arrays.asList(new String[] {
+                "&7[ %player% is now vanished ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-Off", java.util.Arrays.asList(new String[] {
+                "&7[ %player% is now no longer vanished ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-On-Others", java.util.Arrays.asList(new String[] {
+                "&7[ %target% is now vanished by %player% ]"
+        		}));
+			OtherAMConfig.getConfig().set("Vanish.Vanish-Off-Others", java.util.Arrays.asList(new String[] {
+                "&7[ %target% is now no longer vanished by %player% ]"
+        		}));
+        
+			OtherAMConfig.saveConfigFile();
+		}
+		
 		if (!AutoBroadcastConfig.getConfig().isSet("Config.Messages.Custom-Header-Footer.Header.Enable")) {
 			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.Enable", false);
 			AutoBroadcastConfig.getConfig().set("Config.Messages.Custom-Header-Footer.Header.messages", java.util.Arrays.asList(new String[] {
