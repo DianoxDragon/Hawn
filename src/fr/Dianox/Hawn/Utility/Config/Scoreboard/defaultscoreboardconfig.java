@@ -54,75 +54,75 @@ public class defaultscoreboardconfig {
             } catch (IOException e) {}
             
             Config.set("title", java.util.Arrays.asList(new String[] {
-            		"&f&l> &c&lHawn&f&l <",
-            		"&f&l> &c&lHaw&f&l <",
-            		"&f&l> &c&lHa&f&l <",
-            		"&f&l> &c&lH&f&l <",
+            		"&f&l> &3&lHawn&f&l <",
+            		"&f&l> &3&lHaw&f&l <",
+            		"&f&l> &3&lHa&f&l <",
+            		"&f&l> &3&lH&f&l <",
             		"&f&l> &f&l <",
             		"&f&l< &f&l >",
-            		"&f&l< &c&lH&f&l >",
-            		"&f&l< &c&lHa&f&l >",
-            		"&f&l< &c&lHaw&f&l >",
-            		"&f&l< &c&lHawn&f&l >",
-            		"&c&lHawn",
-            		"&6&lHawn",
-            		"&e&lHawn",
-            		"&a&lHawn",
-            		"&7&lHawn",
-            		"&d&lHawn",
+            		"&f&l< &3&lH&f&l >",
+            		"&f&l< &3&lHa&f&l >",
+            		"&f&l< &3&lHaw&f&l >",
+            		"&f&l< &3&lHawn&f&l >",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
             		"&b&lHawn",
-            		"&c&lHawn",
-            		"&c&lHawn",
-            		"&6&lHawn",
-            		"&e&lHawn",
-            		"&a&lHawn",
-            		"&7&lHawn",
-            		"&d&lHawn",
             		"&b&lHawn",
-            		"&c&lHawn"
+            		"&b&lHawn",
+            		"&b&lHawn",
+            		"&b&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn",
+            		"&3&lHawn"
             }));
             
             Config.set("text", java.util.Arrays.asList(new String[] {
             		" ",
-            		"&aWelcome &e{PLAYER}",
+            		"&7Welcome &e{PLAYER}",
             		" ",
             		"{CH_infoloc}",
             		"{CH_infoloc2}",
             		" ",
-            		"&aYour latency",
-            		"&7%player_ping% ms",
+            		"&7Your latency",
+            		"&e%ping% ms",
             		" ",
             		"{SC_info}",
             		" ",
-            		"&aA kind thanks to use &6&lHawn"
+            		"&7A kind thanks to use &e&lHawn"
             }));
             
-            Config.set("updater.title", Integer.valueOf(5));
-            Config.set("updater.text", Integer.valueOf(5));
+            Config.set("updater.title", 5);
+            Config.set("updater.text", 5);
             
-            Config.set("World.All_World", Boolean.valueOf(false));
+            Config.set("World.All_World", false);
             Config.set("World.Worlds", java.util.Arrays.asList(new String[] {
                     "world"
             }));
             
             Config.set("changeableText.infoloc.text", java.util.Arrays.asList(new String[] {
             		"&e%player_x% %player_y% %player_z%",
-            		"&aJoined &e%player_first_join_date%",
-            		"&aCan fly : &e%player_allow_flight%"
+            		"&7Exp: &e%player_level% &7(&e%player_exp%&7/&6%player_exp_to_level%&7)",
+            		"&7Time: &e%gettime%"
             }));
-            Config.set("changeableText.infoloc.interval", Integer.valueOf(6));
+            Config.set("changeableText.infoloc.interval", 120);
             
             Config.set("changeableText.infoloc2.text", java.util.Arrays.asList(new String[] {
-            		"&aHealth: &c%player_health% &lHP",
-            		"&aInstall PlaceHolderAPI - Player",
-            		"&aTo see these variables work"
+            		"&7Health: &e%player_health% &6&lHP",
+            		"&7Food: &e%player_food_level%",
+            		"&7World: &e%player_world%"
             }));
-            Config.set("changeableText.infoloc2.interval", Integer.valueOf(60));
+            Config.set("changeableText.infoloc2.interval", 120);
             
-            Config.set("scroller.info.text", String.valueOf("&7Welcome on this server! This server is running on &e&lHawn"));
-            Config.set("scroller.info.width", Integer.valueOf(26));
-            Config.set("scroller.info.spaceBetween", Integer.valueOf(6));
-            Config.set("scroller.info.update", Integer.valueOf(3));
+            Config.set("scroller.info.text", String.valueOf("&7Welcome on this server! This server is running on &eHawn&r  -"));
+            Config.set("scroller.info.width", 27);
+            Config.set("scroller.info.spaceBetween", 2);
+            Config.set("scroller.info.update", 3);
             
             saveConfigFile();
 
