@@ -59,7 +59,7 @@ public class TitleAnnouncerConfig {
             Config.set("Title-Announcer.Title.FadeOut", 20);
             Config.set("Title-Announcer.Disable-Message", true);
             
-            Config.set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", true);
+            Config.set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
             
             Config.set("Title-Announcer.Options.Firework.Enable", true);
             Config.set("Title-Announcer.Options.Firework.Amount", 2);
