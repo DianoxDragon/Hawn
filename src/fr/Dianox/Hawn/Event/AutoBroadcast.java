@@ -28,6 +28,7 @@ public class AutoBroadcast extends BukkitRunnable {
     List < String > newmessage = new ArrayList < String > ();
 
     public void run() {
+        newmessage.clear();
         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Random")) {
             Random rand = new Random();
 
