@@ -184,6 +184,12 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Console.Not-A-Player")) {
 						MessageUtils.ReplaceMessageForConsole(msg);
 					}
+				} else if (args[0].equalsIgnoreCase("about")) {
+					sender.sendMessage("§8§l§m-----------------------------");
+					sender.sendMessage("§7Plugin name:§c Hawn");
+					sender.sendMessage("§7Plugin version:§c " + Main.getVersion());
+					sender.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
+					sender.sendMessage("§8§l§m-----------------------------");
 				} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
 					reloadconfig();
 						
@@ -525,6 +531,12 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
+				} else if (args[0].equalsIgnoreCase("about")) {
+					p.sendMessage("§8§l§m-----------------------------");
+					p.sendMessage("§7Plugin name:§c Hawn");
+					p.sendMessage("§7Plugin version:§c " + Main.getVersion());
+					p.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
+					p.sendMessage("§8§l§m-----------------------------");
 				} else if (args[0].equalsIgnoreCase("tps")) {
 					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
@@ -724,7 +736,7 @@ public class HawnCommand implements CommandExecutor {
 				ConfigGeneral.saveConfigFile();
 			}
 		}
-		
+				
 		OnJoin.player_list.clear();
 		
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
