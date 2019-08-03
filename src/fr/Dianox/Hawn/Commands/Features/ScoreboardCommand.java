@@ -103,6 +103,11 @@ public class ScoreboardCommand extends BukkitCommand {
 		} else if (args.length >= 1) {
 			if (args[0].equalsIgnoreCase("set")) {
 				if (p.hasPermission("hawn.scoreboard.command.set")) {
+					
+					if (args.length == 1) {
+						return true;
+					}
+					
 					if (Main.nosb.contains(p)) {
 			    		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			    		return true;
@@ -125,7 +130,9 @@ public class ScoreboardCommand extends BukkitCommand {
 					}
 					
 					Main.playerWorldTimer.remove(p);
-					((PlayerBoard)Main.getInstance().getBoards().get(p)).remove();
+					try {
+						((PlayerBoard)Main.getInstance().getBoards().get(p)).remove();
+					} catch (Exception e) {}
 					Main.nosb.add(p);
 						
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
