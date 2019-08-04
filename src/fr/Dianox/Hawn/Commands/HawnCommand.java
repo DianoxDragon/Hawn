@@ -187,6 +187,7 @@ public class HawnCommand implements CommandExecutor {
 				} else if (args[0].equalsIgnoreCase("about")) {
 					sender.sendMessage("§8§l§m-----------------------------");
 					sender.sendMessage("§7Plugin name:§c Hawn");
+					sender.sendMessage("§7Author:§c Dianox");
 					sender.sendMessage("§7Plugin version:§c " + Main.getVersion());
 					sender.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
 					sender.sendMessage("§8§l§m-----------------------------");
@@ -534,6 +535,7 @@ public class HawnCommand implements CommandExecutor {
 				} else if (args[0].equalsIgnoreCase("about")) {
 					p.sendMessage("§8§l§m-----------------------------");
 					p.sendMessage("§7Plugin name:§c Hawn");
+					p.sendMessage("§7Author:§c Dianox");
 					p.sendMessage("§7Plugin version:§c " + Main.getVersion());
 					p.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
 					p.sendMessage("§8§l§m-----------------------------");
