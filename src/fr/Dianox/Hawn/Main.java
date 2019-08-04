@@ -155,7 +155,10 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.2-Alpha";
+	static String versions = "0.7.3-Alpha";
+	public static Boolean devbuild = true;
+	public static Integer devbuild_number = 1;
+	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -218,6 +221,10 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {
 		super.onEnable();
 
+		if (devbuild) {
+			versions = versions + " " + "DevBuild" + " " + devbuild_number;
+		}
+		
 		gcs(ChatColor.BLUE+"| ------------------------------------");
 		gcs(ChatColor.BLUE+"| ");
 
@@ -1007,7 +1014,7 @@ public class Main extends JavaPlugin implements Listener {
 	     */
 	    // >> Messages
 	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
-
+	    	
 	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
 
 		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
@@ -1305,38 +1312,50 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void UpdateCheck() {
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-			try {
-				if (updater.checkForUpdates()) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
-					gcs(ChatColor.BLUE+"| ");
-					UpToDate = "§cOld Version detected";
-				} else {
-					gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
-					gcs(ChatColor.BLUE+"| ");
-					UpToDate = "§aPlugin up to date";
+		if (!devbuild) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+				try {
+					if (updater.checkForUpdates()) {
+						gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
+						gcs(ChatColor.BLUE+"| ");
+						UpToDate = "§cOld Version detected";
+					} else {
+						gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
+						gcs(ChatColor.BLUE+"| ");
+						UpToDate = "§aPlugin up to date";
+					}
+				} catch (Exception e) {
+					System.out.println("Could not check for updates! Stacktrace:");
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				System.out.println("Could not check for updates! Stacktrace:");
-				e.printStackTrace();
 			}
+		} else {
+			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
+			gcs(ChatColor.BLUE+"| ");
+			UpToDate = "§eDevelopment build";
 		}
 	}
 
 	public static void UpdateCheckReload() {
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-			try {
-				if (updater.checkForUpdates()) {
-					UpToDate = "§cOld Version detected";
-				} else {
-					UpToDate = "§aPlugin up to date";
+		if (!devbuild) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+				try {
+					if (updater.checkForUpdates()) {
+						UpToDate = "§cOld Version detected";
+					} else {
+						UpToDate = "§aPlugin up to date";
+					}
+				} catch (Exception e) {
+					System.out.println("Could not check for updates! Stacktrace:");
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				System.out.println("Could not check for updates! Stacktrace:");
-				e.printStackTrace();
 			}
+		} else {
+			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
+			gcs(ChatColor.BLUE+"| ");
+			UpToDate = "§eDevelopment build";
 		}
 	}
 
