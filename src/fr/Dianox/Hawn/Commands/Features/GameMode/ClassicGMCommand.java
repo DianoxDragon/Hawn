@@ -152,6 +152,16 @@ public class ClassicGMCommand extends BukkitCommand {
 		} else if (args.length == 1) {
 			// Self gamemode
 			if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("0")) {
+				
+				if (p.getGameMode() == GameMode.SURVIVAL) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+					return true;
+				}
+				
 				p.setGameMode(GameMode.SURVIVAL);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_survival+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_survival+"Messages")) {
@@ -159,6 +169,15 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("cretatif") || args[0].equalsIgnoreCase("1")) {
+				if (p.getGameMode() == GameMode.CREATIVE) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+					return true;
+				}
+				
 				p.setGameMode(GameMode.CREATIVE);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_creative+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_creative+"Messages")) {
@@ -166,6 +185,15 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("aventure") || args[0].equalsIgnoreCase("2")) {
+				if (p.getGameMode() == GameMode.ADVENTURE) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+					return true;
+				}
+				
 				p.setGameMode(GameMode.ADVENTURE);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
@@ -173,6 +201,15 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
+				if (p.getGameMode() == GameMode.SPECTATOR) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					}
+					return true;
+				}
+				
 				p.setGameMode(GameMode.SPECTATOR);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_spectator+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_spectator+"Messages")) {
