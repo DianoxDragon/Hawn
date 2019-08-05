@@ -66,6 +66,7 @@ import fr.Dianox.Hawn.Commands.Others.Weather.ThunderCommand;
 import fr.Dianox.Hawn.Event.AutoBroadcast;
 import fr.Dianox.Hawn.Event.AutoBroadcast_AB;
 import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
+import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Utility.CheckConfig;
@@ -1022,7 +1023,7 @@ public class Main extends JavaPlugin implements Listener {
 		    Integer abnumberput = 0;
 
 		    while (iterator2.hasNext()) {
-				String string = (String)iterator2.next();
+				String string = (String) iterator2.next();
 				autobroadcast.put(abnumberput, string);
 				abnumberput++;
 				autobroadcast_total++;
@@ -1044,7 +1045,7 @@ public class Main extends JavaPlugin implements Listener {
 		    Integer abnumberput = 0;
 
 		    while (iterator3.hasNext()) {
-				String string = (String)iterator3.next();
+				String string = (String) iterator3.next();
 				autobroadcast_titles.put(abnumberput, string);
 				abnumberput++;
 				autobroadcast_total_titles++;
@@ -1066,7 +1067,7 @@ public class Main extends JavaPlugin implements Listener {
 		    Integer abnumberput = 0;
 
 		    while (iterator4.hasNext()) {
-				String string = (String)iterator4.next();
+				String string = (String) iterator4.next();
 				autobroadcast_ab.put(abnumberput, string);
 				abnumberput++;
 				autobroadcast_total_ab++;
@@ -1076,6 +1077,22 @@ public class Main extends JavaPlugin implements Listener {
 		    
 		    @SuppressWarnings("unused")
 			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval") * 20);
+	    }
+	    
+	    /*
+	     * Voidtp per world
+	     */
+	    if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
+	    	
+		BasicFeatures.world_voidtp.clear();
+		    
+		Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
+	    	
+	    	while (iterator5.hasNext()) {
+	    		String string = (String) iterator5.next();
+	    		
+	    		BasicFeatures.world_voidtp.add(string);
+	    	}
 	    }
 	    
 	    /*
