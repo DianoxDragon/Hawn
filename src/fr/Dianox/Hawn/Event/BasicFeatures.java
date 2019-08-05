@@ -320,6 +320,11 @@ public class BasicFeatures implements Listener {
                             s = s.replaceAll("%player%", p.getName());
 
                             p.performCommand(s);
+                        } else if (s.startsWith("[customcommand-player]: ")) {
+                        	s = s.replace("[customcommand-player]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+                            
+                            OnCommandEvent.executecustomcommand(s, p);
                         } else if (s.startsWith("[command-console]: ")) {
                             s = s.replace("[command-console]: ", "");
                             s = s.replaceAll("%player%", p.getName());
@@ -348,6 +353,11 @@ public class BasicFeatures implements Listener {
 	                            s = s.replaceAll("%player%", p.getName());
 	
 	                            p.performCommand(s);
+	                        } else if (s.startsWith("[customcommand-player]: ")) {
+	                        	s = s.replace("[customcommand-player]: ", "");
+	                            s = s.replaceAll("%player%", p.getName());
+	                            
+	                            OnCommandEvent.executecustomcommand(s, p);
 	                        } else if (s.startsWith("[command-console]: ")) {
 	                            s = s.replace("[command-console]: ", "");
 	                            s = s.replaceAll("%player%", p.getName());
@@ -377,6 +387,11 @@ public class BasicFeatures implements Listener {
                                 s = s.replaceAll("%player%", p.getName());
 
                                 p.performCommand(s);
+                            } else if (s.startsWith("[customcommand-player]: ")) {
+                            	s = s.replace("[customcommand-player]: ", "");
+                                s = s.replaceAll("%player%", p.getName());
+                                
+                                OnCommandEvent.executecustomcommand(s, p);
                             } else if (s.startsWith("[command-console]: ")) {
                                 s = s.replace("[command-console]: ", "");
                                 s = s.replaceAll("%player%", p.getName());
@@ -407,6 +422,11 @@ public class BasicFeatures implements Listener {
                             s = s.replaceAll("%player%", p.getName());
 
                             p.performCommand(s);
+                        } else if (s.startsWith("[customcommand-player]: ")) {
+                        	s = s.replace("[customcommand-player]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+                            
+                            OnCommandEvent.executecustomcommand(s, p);
                         } else if (s.startsWith("[command-console]: ")) {
                             s = s.replace("[command-console]: ", "");
                             s = s.replaceAll("%player%", p.getName());
