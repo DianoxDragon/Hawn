@@ -23,7 +23,8 @@ import net.md_5.bungee.chat.ComponentSerializer;
 
 public class MessageUtils {
 
-    public static String ReplaceMainplaceholderP(String str, Player p) {
+    @SuppressWarnings("deprecation")
+	public static String ReplaceMainplaceholderP(String str, Player p) {
 
         if (str.contains("%prefix%")) {
             str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -165,6 +166,50 @@ public class MessageUtils {
         
         if (str.contains("%player_health_scale%")) {
             str = str.replaceAll("%player_health_scale%", String.valueOf(p.getHealthScale()));
+        }
+        
+        if (str.contains("%player_bed_x%")) {
+            str = str.replaceAll("%player_bed_x%", String.valueOf(p.getBedLocation().getBlockX()));
+        }
+        
+        if (str.contains("%player_bed_y%")) {
+            str = str.replaceAll("%player_bed_y%", String.valueOf(p.getBedLocation().getBlockY()));
+        }
+        
+        if (str.contains("%player_bed_z%")) {
+            str = str.replaceAll("%player_bed_z%", String.valueOf(p.getBedLocation().getBlockZ()));
+        }
+        
+        if (str.contains("%player_bed_world%")) {
+            str = str.replaceAll("%player_bed_world%", String.valueOf(p.getBedLocation().getWorld()));
+        }
+        
+        if (str.contains("%player_biome%")) {
+            str = str.replaceAll("%player_biome%", String.valueOf(p.getLocation().getBlock().getBiome()));
+        }
+        
+        if (str.contains("%player_ip%")) {
+            str = str.replaceAll("%player_ip%", String.valueOf(p.getAddress().getHostString()));
+        }
+        
+        if (str.contains("%player_max_health%")) {
+            str = str.replaceAll("%player_max_health%", String.valueOf(p.getMaxHealth()));
+        }
+        
+        if (str.contains("%player_max_health_rounded%")) {
+            str = str.replaceAll("%player_max_health_rounded%", String.valueOf(Integer.valueOf((int) p.getMaxHealth())));
+        }
+        
+        if (str.contains("%player_name%")) {
+            str = str.replaceAll("%player_name%", String.valueOf(p.getName()));
+        }
+        
+        if (str.contains("%player_displayname%")) {
+            str = str.replaceAll("%player_displayname%", String.valueOf(p.getDisplayName()));
+        }
+        
+        if (str.contains("%player_saturation%")) {
+            str = str.replaceAll("%player_saturation%", String.valueOf(p.getSaturation()));
         }
         
         return str;
