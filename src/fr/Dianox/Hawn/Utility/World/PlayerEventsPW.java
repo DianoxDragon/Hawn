@@ -211,4 +211,26 @@ public class PlayerEventsPW {
 		return worlds_fun_doublejump;
 	}
 	
+	/*
+	 * Player respawn join items
+	 */
+	public static List<String> worlds_respawncji = new ArrayList<String>();
+	
+	public static void setWGetWorldRCJI() {
+		if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
+	        if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World")) {
+	            for (String world : PlayerEventsConfig.getConfig().getStringList("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.Worlds")) {
+	            	if (Bukkit.getWorld(world) == null) {
+	            		System.out.println("| Invalid world in Events/PlayerEvents.yml, Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World: "+world);
+	            	} else {
+	            		worlds_respawncji.add(world);
+	            	}
+	            }
+	        }
+        }
+	}
+	
+	public static List<String> getWFRPCJI() {
+		return worlds_respawncji;
+	}
 }

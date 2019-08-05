@@ -90,6 +90,15 @@ public class gmsCommand extends BukkitCommand {
 		// The command
 		if (args.length == 0) {
 			// Self gamemode
+			if (p.getGameMode() == GameMode.SURVIVAL) {
+				if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				}
+				return true;
+			}
+			
 			p.setGameMode(GameMode.SURVIVAL);
 			if (ConfigMCommands.getConfig().getBoolean(msg_self+"Enable")) {
 				for (String msg: ConfigMCommands.getConfig().getStringList(msg_self+"Messages")) {

@@ -37,7 +37,9 @@ import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
+import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
+import fr.Dianox.Hawn.Utility.Config.Events.VoidTPConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
@@ -146,6 +148,104 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!PlayerEventsConfig.getConfig().isSet("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable", true);
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World", false);
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+			}));
+        	
+        	PlayerEventsConfig.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
+		
+            ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Enable")) {
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", 2);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", 3);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Flicker", false);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Trail", false);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Type", "BALL");
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Instant-explode", false);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Power", 3);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Colors", java.util.Arrays.asList(new String[] {
+                "YELLOW",
+                "RED"
+            }));
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Fade", java.util.Arrays.asList(new String[] {
+                "BLUE",
+                "WHITE"
+            }));
+        
+			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
+                "[command-player]: you can execute your custom commands too",
+                "[command-player]: to send titles for exemple",
+                "[command-console]: And More commands"
+            }));
+        
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.Enable", true);
+        
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.VoidTP", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Custom-Spawn.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Custom-Spawn.Spawn", "CHANGE ME");
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.TP-y", 0);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Override-Default-Commands", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
+                "[command-player]: a command",
+                "You can put if you want, custom commands",
+                "For one world only"
+            }));
+        
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Enable", false);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.VoidTP", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Custom-Spawn.Enable", true);
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Custom-Spawn.Spawn", "CHANGE ME");
+			VoidTPConfig.getConfig().set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.TP-y", 0);
+		
+        	VoidTPConfig.saveConfigFile();
+		}
+		
+		if (!TitleAnnouncerConfig.getConfig().isSet("Title-Announcer.Options.Write-In-The-Chat-The-Announce")) {
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
+	        
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Enable", true);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Amount", 2);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Height", 3);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Flicker", false);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Trail", false);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Type", "BALL");
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Instant-explode", false);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Power", 3);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Colors", java.util.Arrays.asList(new String[] {
+	                "YELLOW",
+	                "RED"
+	            }));
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Fade", java.util.Arrays.asList(new String[] {
+	                "BLUE",
+	                "WHITE"
+	            }));
+	        
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Volume", 1);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Pitch", 1);
+	        
+	        TitleAnnouncerConfig.getConfig().set("Title.Disable-Message", null);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Disable-Message", true);
+	        
+	        TitleAnnouncerConfig.saveConfigFile();
+		}
 		
 		if (!VanishCommandConfig.getConfig().isSet("Vanish.Action-Bar.Message-blinking")) {
 			VanishCommandConfig.getConfig().set("Vanish.Action-Bar.Message-blinking", true);
