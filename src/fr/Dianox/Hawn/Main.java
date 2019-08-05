@@ -1523,6 +1523,7 @@ public class Main extends JavaPlugin implements Listener {
 		BasicEventsPW.setWGetWorldautobroadcast_title();
 		ChangeWorldPW.setWPO();
 		CosmeticsPW.setWGetWorldls();
+		PlayerEventsPW.setWGetWorldRCJI();
 	}
 
 
