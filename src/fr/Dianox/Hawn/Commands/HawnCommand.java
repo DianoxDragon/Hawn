@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
+import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
@@ -739,6 +740,19 @@ public class HawnCommand implements CommandExecutor {
 			}
 		}
 				
+		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
+	    	
+	    	BasicFeatures.world_voidtp.clear();
+	    	
+	    	Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
+	    	
+	    	while (iterator5.hasNext()) {
+	    		String string = (String) iterator5.next();
+	    		
+	    		BasicFeatures.world_voidtp.add(string);
+	    	}
+	    }
+		
 		OnJoin.player_list.clear();
 		
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
