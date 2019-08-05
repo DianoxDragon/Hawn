@@ -10,8 +10,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.Dianox.Hawn.Main;
+import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -295,6 +297,21 @@ public class PlayerEvents implements Listener {
         	}
         }
     
+    }
+    
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+    	Player p = e.getPlayer();
+    	
+    	if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
+        	if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World")) {
+        		if (PlayerEventsPW.getWFRPCJI().contains(p.getWorld().getName())) {
+        			SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+        		}
+        	} else {
+        		SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+        	}
+        }
     }
     
     public void forceDelete(EntityDeathEvent e) {
