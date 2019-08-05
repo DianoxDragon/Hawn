@@ -148,7 +148,14 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
-		if (VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Enable")) {
+		if (!ConfigMCommands.getConfig().isSet("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
+		
+            ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Enable")) {
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Enable", true);
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", 2);
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", 3);
