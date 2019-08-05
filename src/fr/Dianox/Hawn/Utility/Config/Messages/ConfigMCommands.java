@@ -139,6 +139,9 @@ public class ConfigMCommands {
             Config.set("Gamemode.Other-Sender.Spectator.Enable", true);
             Config.set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &espectator&7 mode"}));
             
+		Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
+		
             /* ------------- *
 			 * HEAL COMMANDS *
 			 * ------------- */
