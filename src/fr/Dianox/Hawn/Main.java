@@ -157,8 +157,8 @@ public class Main extends JavaPlugin implements Listener {
 	private static Main instance;
 
 	static String versions = "0.7.3-Alpha";
-	public static Boolean devbuild = true;
-	public static Integer devbuild_number = 1;
+	public static Boolean devbuild = false;
+	public static Integer devbuild_number = 0;
 	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
@@ -1084,9 +1084,9 @@ public class Main extends JavaPlugin implements Listener {
 	     */
 	    if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
 	    	
-		BasicFeatures.world_voidtp.clear();
-		    
-		Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
+	    	BasicFeatures.world_voidtp.clear();
+	    	
+	    	Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
 	    	
 	    	while (iterator5.hasNext()) {
 	    		String string = (String) iterator5.next();
