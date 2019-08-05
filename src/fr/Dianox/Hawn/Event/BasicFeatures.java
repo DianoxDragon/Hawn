@@ -3,9 +3,14 @@ package fr.Dianox.Hawn.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -16,8 +21,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.meta.FireworkMeta;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -260,7 +268,17 @@ public class BasicFeatures implements Listener {
                 return;
             }
 
-            SpawnUtils.teleportToSpawn(p, spawn);
+            if (multiworld) {
+            	if (VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".VoidTP")) {
+	            	if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".VoidTP")) {
+	            		SpawnUtils.teleportToSpawn(p, spawn);
+	            	}
+            	} else {
+            		SpawnUtils.teleportToSpawn(p, spawn);
+            	}
+            } else {
+            	SpawnUtils.teleportToSpawn(p, spawn);
+            }
             
             if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {
                 if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
@@ -282,7 +300,158 @@ public class BasicFeatures implements Listener {
                 int pitch = VoidTPConfig.getConfig().getInt("VoidTP.Options.Sounds.Pitch");
                 p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
             }
+            
+            if (multiworld) {
+            	if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable") && VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable")) {
+            		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Commands")) {
+            			String perm = "";
 
+                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
+                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
+                        	s = s.replace("<perm>"+perm+"</perm> ", "");
+                        	
+                        	if (!p.hasPermission(perm)) {
+                        		continue;
+                        	}
+                        }
+
+                        if (s.startsWith("[command-player]: ")) {
+                            s = s.replace("[command-player]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+
+                            p.performCommand(s);
+                        } else if (s.startsWith("[command-console]: ")) {
+                            s = s.replace("[command-console]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+
+                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
+                        } else {
+                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                        }
+            		}
+            		
+            		if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Override-Default-Commands")) {
+	            		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
+	            			String perm = "";
+	
+	                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
+	                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
+	                        	s = s.replace("<perm>"+perm+"</perm> ", "");
+	                        	
+	                        	if (!p.hasPermission(perm)) {
+	                        		continue;
+	                        	}
+	                        }
+	
+	                        if (s.startsWith("[command-player]: ")) {
+	                            s = s.replace("[command-player]: ", "");
+	                            s = s.replaceAll("%player%", p.getName());
+	
+	                            p.performCommand(s);
+	                        } else if (s.startsWith("[command-console]: ")) {
+	                            s = s.replace("[command-console]: ", "");
+	                            s = s.replaceAll("%player%", p.getName());
+	
+	                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
+	                        } else {
+	                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
+	                        }
+	            		}
+            		}
+            	} else {
+            		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
+                		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
+                			String perm = "";
+
+                            if (s.startsWith("<perm>") && s.contains("</perm>")) {
+                            	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
+                            	s = s.replace("<perm>"+perm+"</perm> ", "");
+                            	
+                            	if (!p.hasPermission(perm)) {
+                            		continue;
+                            	}
+                            }
+
+                            if (s.startsWith("[command-player]: ")) {
+                                s = s.replace("[command-player]: ", "");
+                                s = s.replaceAll("%player%", p.getName());
+
+                                p.performCommand(s);
+                            } else if (s.startsWith("[command-console]: ")) {
+                                s = s.replace("[command-console]: ", "");
+                                s = s.replaceAll("%player%", p.getName());
+
+                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
+                            } else {
+                            	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                            }
+                		}
+                	}
+            	}
+            } else {
+            	if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
+            		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
+            			String perm = "";
+
+                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
+                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
+                        	s = s.replace("<perm>"+perm+"</perm> ", "");
+                        	
+                        	if (!p.hasPermission(perm)) {
+                        		continue;
+                        	}
+                        }
+
+                        if (s.startsWith("[command-player]: ")) {
+                            s = s.replace("[command-player]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+
+                            p.performCommand(s);
+                        } else if (s.startsWith("[command-console]: ")) {
+                            s = s.replace("[command-console]: ", "");
+                            s = s.replaceAll("%player%", p.getName());
+
+                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
+                        } else {
+                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                        }
+            		}
+            	}
+            }
+            
+            if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Enable")) {
+    	        for (int i = 1; i < VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Amount"); i++) {
+    	            ArrayList < Color > colors = new ArrayList < Color > ();
+    	            ArrayList < Color > fade = new ArrayList < Color > ();
+    	            List < String > lore = VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Colors");
+    	            List < String > lore2 = VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Fade");
+    	            for (String l1: lore) {
+    	                colors.add(OtherUtils.getColor(l1));
+    	            }
+    	            for (String l2: lore2) {
+    	                fade.add(OtherUtils.getColor(l2));
+    	            }
+    	            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Height"), 0.5D), Firework.class);
+    	
+    	            FireworkMeta fm = f.getFireworkMeta();
+    	            fm.addEffect(FireworkEffect.builder().flicker(VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Flicker"))
+    	                .trail(VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Trail"))
+    	                .with(FireworkEffect.Type.valueOf(VoidTPConfig.getConfig().getString("VoidTP.Options.Fireworks.Type"))).withColor(colors).withFade(fade)
+    	                .build());
+    	
+    	            if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Instant-explode")) {
+    	                fm.setPower(VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Power"));
+    	            }
+    	            f.setFireworkMeta(fm);
+    	            if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Instant-explode")) {
+    	                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+    	                    public void run() {
+    	                        f.detonate();
+    	                    }
+    	                }, 5L);
+    	            }
+    	        }
+            }
         }
 
     }
