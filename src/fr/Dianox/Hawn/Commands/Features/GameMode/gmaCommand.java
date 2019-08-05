@@ -89,6 +89,15 @@ public class gmaCommand extends BukkitCommand {
 		
 		// The command
 		if (args.length == 0) {
+			if (p.getGameMode() == GameMode.ADVENTURE) {
+				if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				}
+				return true;
+			}
+			
 			// Self gamemode
 			p.setGameMode(GameMode.ADVENTURE);
 			if (ConfigMCommands.getConfig().getBoolean(msg_self+"Enable")) {
