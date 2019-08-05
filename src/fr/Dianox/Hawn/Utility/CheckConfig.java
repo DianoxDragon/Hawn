@@ -37,6 +37,7 @@ import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
+import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
 import fr.Dianox.Hawn.Utility.Config.Events.VoidTPConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
@@ -147,6 +148,17 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!PlayerEventsConfig.getConfig().isSet("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable", true);
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World", false);
+			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+			}));
+        	
+        	PlayerEventsConfig.saveConfigFile();
+		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
 			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
