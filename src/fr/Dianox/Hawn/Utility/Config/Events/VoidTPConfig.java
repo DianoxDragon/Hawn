@@ -55,16 +55,67 @@ public class VoidTPConfig {
             
             Config.set("VoidTP.Enable", true);
             Config.set("VoidTP.Options.TP-y", 0);
+            
             Config.set("VoidTP.Options.Bypass-With-Permission", true);
+            
             Config.set("VoidTP.Options.Message.Custom", true);
             Config.set("VoidTP.Options.Message.Disable", false);
+            
             Config.set("VoidTP.Custom-Spawn.Enable", false);
             Config.set("VoidTP.Custom-Spawn.Spawn", "CHANGE ME");
+            
             Config.set("VoidTP.Options.Message.Disable", false);
+            
             Config.set("VoidTP.Options.Sounds.Enable", true);
             Config.set("VoidTP.Options.Sounds.Sound", "BLOCK_NOTE_HARP");
             Config.set("VoidTP.Options.Sounds.Volume", 1);
             Config.set("VoidTP.Options.Sounds.Pitch", 1);
+            
+            Config.set("VoidTP.Options.Fireworks.Enable", true);
+            Config.set("VoidTP.Options.Fireworks.Amount", 2);
+            Config.set("VoidTP.Options.Fireworks.Height", 3);
+            Config.set("VoidTP.Options.Fireworks.Flicker", false);
+            Config.set("VoidTP.Options.Fireworks.Trail", false);
+            Config.set("VoidTP.Options.Fireworks.Type", "BALL");
+            Config.set("VoidTP.Options.Fireworks.Instant-explode", false);
+            Config.set("VoidTP.Options.Fireworks.Power", 3);
+            Config.set("VoidTP.Options.Fireworks.Colors", java.util.Arrays.asList(new String[] {
+                    "YELLOW",
+                    "RED"
+                }));
+            Config.set("VoidTP.Options.Fireworks.Fade", java.util.Arrays.asList(new String[] {
+                    "BLUE",
+                    "WHITE"
+                }));
+            
+            Config.set("VoidTP.Options.Execute-Commands.Enable", true);
+            Config.set("VoidTP.Options.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
+                    "[command-player]: you can execute your custom commands too",
+                    "[command-player]: to send titles for exemple",
+                    "[command-console]: And More commands"
+                }));
+            
+            Config.set("VoidTP.Options.VoidTP-Per-World.Enable", true);
+            
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Enable", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.VoidTP", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Custom-Spawn.Enable", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Custom-Spawn.Spawn", "CHANGE ME");
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.TP-y", 0);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Enable", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Override-Default-Commands", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
+                    "[command-player]: a command",
+                    "You can put if you want, custom commands",
+                    "For one world only"
+                }));
+            
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Enable", false);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.VoidTP", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Custom-Spawn.Enable", true);
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.Custom-Spawn.Spawn", "CHANGE ME");
+            Config.set("VoidTP.Options.VoidTP-Per-World.World-List.world_nether.TP-y", 0);
+            
             Config.set("VoidTP.World.All_World", false);
             Config.set("VoidTP.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
