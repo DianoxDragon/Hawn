@@ -79,7 +79,7 @@ public class ABAnnouncerCommand extends BukkitCommand {
 
         msgbc = args[0] + " " + msgbc;
 
-        msgbc = msgbc.replaceAll("§", "&");
+        msgbc = msgbc.replaceAll("&", "§");
         
         ActionBar.sendActionBarToAllPlayers(msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
         
