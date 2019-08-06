@@ -54,9 +54,7 @@ public class ActionbarAnnouncerConfig {
             } catch (IOException e) {}
 
             Config.set("ActionBar-Announcer.Enable", true);
-            Config.set("ActionBar-Announcer.Title.FadeIn", 20);
-            Config.set("ActionBar-Announcer.Title.Stay", 75);
-            Config.set("ActionBar-Announcer.Title.FadeOut", 20);
+            Config.set("ActionBar-Announcer.Action-Bar.Stay", 75);
             Config.set("ActionBar-Announcer.Disable-Message", true);
             
             Config.set("ActionBar-Announcer.Options.Write-In-The-Chat-The-Announce", false);
