@@ -52,6 +52,7 @@ import fr.Dianox.Hawn.Commands.Features.GameMode.gmcCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmsCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmspCommand;
 import fr.Dianox.Hawn.Commands.Features.OptionPlayers.MainCommandOptionPlayer;
+import fr.Dianox.Hawn.Commands.Features.Specials.ABAnnouncerCommand;
 import fr.Dianox.Hawn.Commands.Features.Specials.TitleAnnouncerCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.DelWarpCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.SetWarpCommand;
@@ -86,6 +87,7 @@ import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -156,7 +158,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.3-Alpha";
+	static String versions = "0.7.4-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -316,6 +318,9 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigMCommands.loadConfig((Plugin) this);
 			ConfigMPlayerOption.loadConfig((Plugin) this);
 
+			ActionbarAnnouncerConfig.loadConfig((Plugin) this);
+			configfile.put("C-ActionBarAnnouncer", "Commands/ActionBarAnnouncer.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ActionBarAnnouncer.yml", "C-ActionBarAnnouncer");
 			FlyCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Fly", "Commands/Fly.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Fly.yml", "C-Fly");
@@ -462,6 +467,15 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
 						commandMap.register(s, new TitleAnnouncerCommand(s));
+					}
+				}
+			}
+			// >> Action bar broadcast
+			if (!ActionbarAnnouncerConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("actionbarannouncer", new ABAnnouncerCommand("actionbarannouncer"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ActionBarAnnouncer.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ActionBarAnnouncer.Aliases")) {
+						commandMap.register(s, new ABAnnouncerCommand(s));
 					}
 				}
 			}
