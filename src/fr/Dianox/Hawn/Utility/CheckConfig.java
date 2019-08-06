@@ -149,6 +149,14 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!CommandAliasesConfig.getConfig().isSet("ActionBarAnnouncer.Enable")) {
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Enable", true);
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Cannot-Be-changed.Main-Command-Is", "actionbarannouncer");
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Aliases", java.util.Arrays.asList(new String[] {"bacast", "aba"}));
+            
+            CommandAliasesConfig.saveConfigFile();
+		}
+		
 		if (!PlayerEventsConfig.getConfig().isSet("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
 			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable", true);
 			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World", false);
