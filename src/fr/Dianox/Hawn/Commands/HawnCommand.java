@@ -29,6 +29,7 @@ import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -659,6 +660,7 @@ public class HawnCommand implements CommandExecutor {
 		CommandAliasesConfig.reloadConfig();
 		WarningCommandConfig.reloadConfig();
 		AdminPanelConfig.reloadConfig();
+		ActionbarAnnouncerConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
