@@ -149,6 +149,18 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGLP.getConfig().isSet("JumpPads.Sounds.Play-for-all-players")) {
+			
+			ConfigGLP.getConfig().set("JumpPads.Sounds.Play-for-all-players", true);
+			
+			ConfigGLP.getConfig().set("JumpPads.Send-Message.Enable", true);
+			ConfigGLP.getConfig().set("JumpPads.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                    "%prefix% &eWhoosh!"
+            }));
+			
+			ConfigGLP.saveConfigFile();
+		}
+		
 		if (!CommandAliasesConfig.getConfig().isSet("ActionBarAnnouncer.Enable")) {
 			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Enable", true);
 			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Cannot-Be-changed.Main-Command-Is", "actionbarannouncer");
