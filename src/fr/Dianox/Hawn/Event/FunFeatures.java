@@ -18,6 +18,7 @@ import org.bukkit.util.Vector;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
+import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
@@ -246,12 +247,23 @@ public class FunFeatures implements Listener {
 					int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
 					int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
-						p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
+							for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+								all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+							}
+						} else {
+							p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+						}
 					}
 					String effect = ConfigGLP.getConfig().getString("JumpPads.Effect.Effect");
 					int pitch2 = ConfigGLP.getConfig().getInt("JumpPads.Effect.Pitch");
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Effect.Enable")) {
 						p.playEffect(p.getPlayer().getLocation(), Effect.valueOf(effect), pitch2);
+					}
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
+						for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(s, p);
+						}
 					}
 				}
 			} catch (NoClassDefFoundError e) {
