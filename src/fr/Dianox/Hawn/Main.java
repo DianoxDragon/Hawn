@@ -193,6 +193,7 @@ public class Main extends JavaPlugin implements Listener {
 	public HashMap<String, String> infoname2 = new HashMap<String, String>();
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
 	public static List<Player> nosb = new ArrayList<Player>();
+	public static List<Player> injumpwithjumppad = new ArrayList<Player>();
 	public static boolean newmethodver = false;
 	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
@@ -1270,6 +1271,8 @@ public class Main extends JavaPlugin implements Listener {
 
 	    }.runTaskTimer(this, 0, 60);
 
+	    injumpwithjumppad.clear();
+	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
 
