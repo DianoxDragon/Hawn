@@ -756,6 +756,7 @@ public class HawnCommand implements CommandExecutor {
 	    	}
 	    }
 		
+		Main.injumpwithjumppad.clear();
 		OnJoin.player_list.clear();
 		
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
