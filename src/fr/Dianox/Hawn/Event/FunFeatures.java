@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-import org.bukkit.util.Vector;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
@@ -67,6 +66,10 @@ public class FunFeatures implements Listener {
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
+		
+		if (Main.injumpwithjumppad.contains(p)) {
+			return;
+		}
 		
 		if (ConfigGLP.getConfig().getBoolean("JumpPads.Enable")) {
 			if (!ConfigGLP.getConfig().getBoolean("JumpPads.World.All_World")) {
@@ -240,8 +243,7 @@ public class FunFeatures implements Listener {
 				if ((p.getLocation().getBlock().getType() == plate) && (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() == block)) {
 					double height = ConfigGLP.getConfig().getDouble("JumpPads.Options.Height");
 					double length = ConfigGLP.getConfig().getDouble("JumpPads.Options.Length");
-					Vector v = p.getLocation().getDirection().multiply(length).setY(height);
-					p.setVelocity(v);
+					p.setVelocity(p.getLocation().getDirection().multiply(length).setY(height));
 					p.setFallDistance(-999.0F);
 					String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
 					int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
@@ -265,6 +267,17 @@ public class FunFeatures implements Listener {
 							MessageUtils.ReplaceCharMessagePlayer(s, p);
 						}
 					}
+					
+					Main.injumpwithjumppad.add(p);
+					
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+						@Override
+						public void run() {
+							Main.injumpwithjumppad.remove(p);
+						}
+
+					}, 10);
 				}
 			} catch (NoClassDefFoundError e) {
 				Bukkit.getConsoleSender().sendMessage("§cPLEASE RESTART THE SERVER");
