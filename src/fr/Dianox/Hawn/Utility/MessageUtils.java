@@ -385,7 +385,17 @@ public class MessageUtils {
         Player p = player;
 
         String perm = "";
+        String world = "";
+        
+        if (str.startsWith("<world>") && str.contains("</world>")) {
+        	world = StringUtils.substringBetween(str, "<world>", "</world>");
+        	str = str.replace("<world>" + world + "</world> ", "");
 
+            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                return;
+            }
+        }
+        
         if (str.startsWith("<perm>") && str.contains("</perm>")) {
             perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
             str = str.replace("<perm>" + perm + "</perm> ", "");
@@ -553,6 +563,16 @@ public class MessageUtils {
         String perm = "";
         Boolean yes = false;
 
+        String world = "";
+        Boolean yes2 = false;
+        
+        if (str.startsWith("<world>") && str.contains("</world>")) {
+        	world = StringUtils.substringBetween(str, "<world>", "</world>");
+        	str = str.replace("<world>" + world + "</world> ", "");
+
+        	yes2 = true;
+        }
+        
         if (str.startsWith("<perm>") && str.contains("</perm>")) {
             perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
             str = str.replace("<perm>" + perm + "</perm> ", "");
@@ -567,6 +587,12 @@ public class MessageUtils {
                     if (!p.hasPermission(perm)) {
                         continue;
                     }
+                }
+                
+                if (yes2) {
+                	 if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                         continue;
+                     }
                 }
 
                 str = str.replace("json:", "");
@@ -591,6 +617,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -636,6 +668,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -685,6 +723,12 @@ public class MessageUtils {
                         continue;
                     }
                 }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                        continue;
+                    }
+                }
 
                 str = str.replace("[send-actionbar]: ", "");
                 str = str.replaceAll("&", "§");
@@ -706,6 +750,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -750,6 +800,12 @@ public class MessageUtils {
                             continue;
                         }
                     }
+                    
+                    if (yes2) {
+                    	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                            continue;
+                        }
+                    }
 
                     sendCenteredMessage(p, str);
                 }
@@ -762,6 +818,13 @@ public class MessageUtils {
                         continue;
                     }
                 }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                        continue;
+                    }
+                }
+                
                 p.sendMessage(str);
             }
         }
@@ -773,6 +836,16 @@ public class MessageUtils {
         String perm = "";
         Boolean yes = false;
 
+        String world = "";
+        Boolean yes2 = false;
+        
+        if (str.startsWith("<world>") && str.contains("</world>")) {
+        	world = StringUtils.substringBetween(str, "<world>", "</world>");
+        	str = str.replace("<world>" + world + "</world> ", "");
+
+        	yes2 = true;
+        }
+        
         if (str.startsWith("<perm>") && str.contains("</perm>")) {
             perm = StringUtils.substringBetween(str, "<perm>", "</perm>");
             str = str.replace("<perm>" + perm + "</perm> ", "");
@@ -785,6 +858,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -811,6 +890,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -856,6 +941,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -905,6 +996,12 @@ public class MessageUtils {
                         continue;
                     }
                 }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                        continue;
+                    }
+                }
 
                 str = str.replace("[send-actionbar]: ", "");
                 str = str.replaceAll("&", "§");
@@ -926,6 +1023,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
@@ -951,6 +1054,12 @@ public class MessageUtils {
 
                 if (yes) {
                     if (!p.hasPermission(perm)) {
+                        continue;
+                    }
+                }
+                
+                if (yes2) {
+                	if (!p.getWorld().getName().equalsIgnoreCase(world)) {
                         continue;
                     }
                 }
