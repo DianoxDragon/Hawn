@@ -84,7 +84,7 @@ public class OnScoreboard implements Listener {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(e.getPlayer(), "scoreboard");
 			if (Main.getInstance().getBoards().containsKey(p)) {
 				ScoreboardInfo in = (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb);
-				((PlayerBoard)Main.getInstance().getBoards().get(p)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
+				((PlayerBoard)Main.getInstance().getBoards().get(p)).createNew(in);
 			} else {
 				new PlayerBoard(Main.getInstance(), p, (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb));
 			}
