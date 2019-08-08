@@ -704,10 +704,8 @@ public class HawnCommand implements CommandExecutor {
 		OnJoinPW.worlds_XP_Lvl.clear();
 		OnJoinPW.worlds_sounds_join.clear();
 		CosmeticsPW.worlds_jumppads.clear();
-		CommandsPW.worlds_JoinCommands_Console_New.clear();
-		CommandsPW.worlds_JoinCommands_Console_No_New.clear();
-		CommandsPW.worlds_JoinCommands_Player_New.clear();
-		CommandsPW.worlds_JoinCommands_Player_No_New.clear();
+		CommandsPW.worlds_JoinCommands_New.clear();
+		CommandsPW.worlds_JoinCommands_No_New.clear();
 		CommandsPW.worlds_QuitCommands_Console.clear();
 		OnJoinPW.worlds_fly.clear();
 		PlayerEventsPW.worlds_fun_doublejump.clear();
