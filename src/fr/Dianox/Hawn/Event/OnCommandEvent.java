@@ -90,8 +90,18 @@ public class OnCommandEvent implements Listener {
                         for (String msg: CustomCommandConfig.getConfig().getStringList("commands." + string + ".message")) {
 
                             String perm = "";
+                            String world = "";
+                            
+                            if (msg.startsWith("<world>") && msg.contains("</world>")) {
+                            	world = StringUtils.substringBetween(msg, "<world>", "</world>");
+                                msg = msg.replace("<world>" + world + "</world> ", "");
 
-                            if (msg.startsWith("<perm>") && msg.contains("</perm>")) {
+                                if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                    continue;
+                                }
+                            }
+                            
+                            if (msg.contains("<perm>") && msg.contains("</perm>")) {
                                 perm = StringUtils.substringBetween(msg, "<perm>", "</perm>");
                                 msg = msg.replace("<perm>" + perm + "</perm> ", "");
 
@@ -246,8 +256,18 @@ public class OnCommandEvent implements Listener {
             for (String msg: CustomCommandConfig.getConfig().getStringList("commands." + cmd + ".message")) {
 
                 String perm = "";
+                String world = "";
+                
+                if (msg.startsWith("<world>") && msg.contains("</world>")) {
+                	world = StringUtils.substringBetween(msg, "<world>", "</world>");
+                    msg = msg.replace("<world>" + world + "</world> ", "");
 
-                if (msg.startsWith("<perm>") && msg.contains("</perm>")) {
+                    if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                        continue;
+                    }
+                }
+                
+                if (msg.contains("<perm>") && msg.contains("</perm>")) {
                     perm = StringUtils.substringBetween(msg, "<perm>", "</perm>");
                     msg = msg.replace("<perm>" + perm + "</perm> ", "");
 
