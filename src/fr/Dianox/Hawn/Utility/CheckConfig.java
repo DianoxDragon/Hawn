@@ -149,17 +149,17 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
-		if (!ConfigGProtection.getConfig().isSet("PlayerInteract-Items-Blocks.Enable")) {
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.Enable", true);
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.Bypass", true);
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Enable")) {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Enable", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
                 "whatyouwant"
             }));
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.World.All_World", false);
-			ConfigGProtection.getConfig().set("PlayerInteract-Items-Blocks.World.Worlds", java.util.Arrays.asList(new String[] {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.World.All_World", false);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.World.Worlds", java.util.Arrays.asList(new String[] {
                 "world",
                 "world_nether"
 			}));
