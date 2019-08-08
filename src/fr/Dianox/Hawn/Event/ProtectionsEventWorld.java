@@ -1076,11 +1076,11 @@ public class ProtectionsEventWorld implements Listener {
             return;
         }
 
-        if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Enable")) {
-            if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.World.All_World")) {
+        if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
+            if (!ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.World.All_World")) {
                 if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
-                    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Bypass")) {
-                        if (!p.hasPermission("hawn.event.construct.bypass.place")) {
+                    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Bypass")) {
+                        if (!p.hasPermission("hawn.event.construct.bypass.protectionitemblocks")) {
                             /*
                              * WorldGuard
                              */
@@ -1186,8 +1186,8 @@ public class ProtectionsEventWorld implements Listener {
                     }
                 }
             } else {
-                if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Bypass")) {
-                    if (!p.hasPermission("hawn.event.construct.bypass.place")) {
+                if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Bypass")) {
+                    if (!p.hasPermission("hawn.event.construct.bypass.protectionitemblocks")) {
                         /*
                          * WorldGuard
                          */
