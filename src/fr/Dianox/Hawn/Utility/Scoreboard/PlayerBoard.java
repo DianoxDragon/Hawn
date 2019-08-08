@@ -56,9 +56,11 @@ public class PlayerBoard {
         updateTitle = info.getTitleUpdate();
         updateText = info.getTextUpdate();
 
-        for (String s : info.getChangeText().keySet()) {
-            chanTextInt.put(s, 0);
-            chanText.put(s, info.getChangeText().get(s).get(0));
+        if (info.getChangeText().keySet() != null) {
+	        for (String s : info.getChangeText().keySet()) {
+	            chanTextInt.put(s, 0);
+	            chanText.put(s, info.getChangeText().get(s).get(0));
+	        }
         }
 
         this.info = info;
@@ -160,18 +162,23 @@ public class PlayerBoard {
         for (Team t : this.teams) {
             String s = lot.get(t);
             if (info != null) {
-                for (String a : info.getChangeText().keySet()) {
-                	if (s.contains("{CH_" + a + "}")) {
-                        s = s.replace("{CH_" + a + "}", "");
-                        s = s + chanText.get(a);
-                    }
-                }
-                for (String a : info.getScrollerText().keySet()) {
-                    if (s.contains("{SC_" + a + "}")) {
-                        s = s.replace("{SC_" + a + "}", "");
-                        s = s + scrollerText.get(a);
-                    }
-                }
+            	if (info.getChangeText().keySet() != null) {
+	                for (String a : info.getChangeText().keySet()) {
+	                	if (s.contains("{CH_" + a + "}")) {
+	                        s = s.replace("{CH_" + a + "}", "");
+	                        s = s + chanText.get(a);
+	                    }
+	                }
+            	}
+            	
+            	if (info.getScrollerText().keySet() != null) {
+	                for (String a : info.getScrollerText().keySet()) {
+	                    if (s.contains("{SC_" + a + "}")) {
+	                        s = s.replace("{SC_" + a + "}", "");
+	                        s = s + scrollerText.get(a);
+	                    }
+	                }
+            	}
             }
             s = setHolders(s);
             WhenPluginUpdateTextEvent event = new WhenPluginUpdateTextEvent(getPlayer(), s);
@@ -263,69 +270,82 @@ public class PlayerBoard {
     	textTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::updateText, 0, updateText);
 
         if (info != null) {
-            for (final String s : info.getChangeText().keySet()) {
-                int inter = info.getChangeTextInterval().get(s);
+        	if (info.getChangeText().keySet() != null) {
+	            for (final String s : info.getChangeText().keySet()) {
+	                int inter = info.getChangeTextInterval().get(s);
+	
+	                BukkitTask task = new BukkitRunnable() {
+	                    public void run() {
+	                        List<String> text = info.getChangeText().get(s);
+	                        chanTextInt.put(s, chanTextInt.get(s) + 1);
+	
+	                        if (chanTextInt.get(s) >= text.size()) {
+	                            chanTextInt.put(s, 0);
+	                        }
+	                        int ta = chanTextInt.get(s);
+	                        chanText.put(s, text.get(ta));
+	                        updateText();
+	                    }
+	                }.runTaskTimer(plugin, 1, inter);
+	
+	                tasks.add(task.getTaskId());
+	            }
+        	}
 
-                BukkitTask task = new BukkitRunnable() {
-                    public void run() {
-                        List<String> text = info.getChangeText().get(s);
-                        chanTextInt.put(s, chanTextInt.get(s) + 1);
-
-                        if (chanTextInt.get(s) >= text.size()) {
-                            chanTextInt.put(s, 0);
-                        }
-                        int ta = chanTextInt.get(s);
-                        chanText.put(s, text.get(ta));
-                        updateText();
-                    }
-                }.runTaskTimer(plugin, 1, inter);
-
-                tasks.add(task.getTaskId());
-            }
-
-            for (final String s : info.getScrollerText().keySet()) {
-                int inter = info.getScrollerInterval().get(s);
-
-                BukkitTask task = new BukkitRunnable() {
-                    public void run() {
-                        Scroller text = info.getScrollerText().get(s);
-                        text.setupText(
-                        		setHolders(text.text), '&'
-                        		);
-                        scrollerText.put(s, text.next());
-                        updateText();
-                    }
-                }.runTaskTimer(plugin, 1, inter);
-
-                tasks.add(task.getTaskId());
-            }
+        	if (info.getScrollerText().keySet() != null) {
+	            for (final String s : info.getScrollerText().keySet()) {
+	                int inter = info.getScrollerInterval().get(s);
+	
+	                BukkitTask task = new BukkitRunnable() {
+	                    public void run() {
+	                        Scroller text = info.getScrollerText().get(s);
+	                        text.setupText(
+	                        		setHolders(text.text),
+	                        		'&'
+	                        );
+	                        scrollerText.put(s, text.next());
+	                        updateText();
+	                    }
+	                }.runTaskTimer(plugin, 1, inter);
+	
+	                tasks.add(task.getTaskId());
+	            }
+        	}
         }
     }
 
-    public void createNew(List<String> text, List<String> title, int updateTitle, int updateText) {
-        ch = true;
-        stopTasks();
+    public void createNew(ScoreboardInfo info) {
+    	ch = true;
+    	stopTasks();
         removeAll();
         colorize();
-        this.list = text;
-        this.title = title;
-        this.updateText = updateText;
-        this.updateTitle = updateTitle;
+        this.info = info;
+        this.list = info.getText();
+        this.title = info.getTitle();
+        this.updateText = info.getTextUpdate();
+        this.updateTitle = info.getTitleUpdate();
         titleindex = this.title.size();
-
+        
         score = board.getObjective("score");
 
         if (score != null) {
             score.setDisplaySlot(DisplaySlot.SIDEBAR);
             score.setDisplayName(this.title.get(0));
         }
-
+        
         if (this.title.size() <= 0) {
             this.title.add(" ");
         }
         
-        setUpText(text);
-
+        if (info.getChangeText().keySet() != null) {
+        	for (String s : info.getChangeText().keySet()) {
+	            chanTextInt.put(s, 0);
+	            chanText.put(s, info.getChangeText().get(s).get(0));
+	        }
+        }
+        
+        setUpText(info.getText());
+        
         ch = false;
         updater();
     }

@@ -1,5 +1,6 @@
 package fr.Dianox.Hawn.Event;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -112,15 +113,75 @@ public class OnQuit implements Listener {
 		
 		// QuitCommand
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("QuitCommand.Enable")) {
-        	if (!ConfigGJoinQuitCommand.getConfig().getBoolean("QuitCommand.QuitCommand-Console.World.All_World")) {
+        	if (!ConfigGJoinQuitCommand.getConfig().getBoolean("QuitCommand.World.All_World")) {
         		if (CommandsPW.getWConsoleQuitCommand().contains(p.getWorld().getName())) {
-		        	for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("QuitCommand.QuitCommand-Console.Commands")) {
-						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
+		        	for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("QuitCommand.Commands")) {
+		        		String perm = "";
+                        String world = "";
+                        
+                        if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                        	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                            commands = commands.replace("<world>" + world + "</world> ", "");
+
+                            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                continue;
+                            }
+                        }
+                        
+                        if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                            perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                            commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                            if (!p.hasPermission(perm)) {
+                                continue;
+                            }
+                        }
+
+                        if (commands.startsWith("[command-console]: ")) {
+                            commands = commands.replace("[command-console]: ", "");
+                            commands = commands.replaceAll("%player%", p.getName());
+
+                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                        } else {
+                        	commands = commands.replaceAll("%player%", p.getName());
+
+                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                        }
 					}
         		}
         	} else {
-        		for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("QuitCommand.QuitCommand-Console.Commands")) {
-    				Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
+        		for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("QuitCommand.Commands")) {
+        			String perm = "";
+                    String world = "";
+                    
+                    if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                    	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                        commands = commands.replace("<world>" + world + "</world> ", "");
+
+                        if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                            continue;
+                        }
+                    }
+                    
+                    if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                        perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                        commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                        if (!p.hasPermission(perm)) {
+                            continue;
+                        }
+                    }
+
+                    if (commands.startsWith("[command-console]: ")) {
+                        commands = commands.replace("[command-console]: ", "");
+                        commands = commands.replaceAll("%player%", p.getName());
+
+                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                    } else {
+                    	commands = commands.replaceAll("%player%", p.getName());
+
+                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                    }
     			}
         	}
         }

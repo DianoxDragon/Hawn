@@ -52,6 +52,7 @@ import fr.Dianox.Hawn.Commands.Features.GameMode.gmcCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmsCommand;
 import fr.Dianox.Hawn.Commands.Features.GameMode.gmspCommand;
 import fr.Dianox.Hawn.Commands.Features.OptionPlayers.MainCommandOptionPlayer;
+import fr.Dianox.Hawn.Commands.Features.Specials.ABAnnouncerCommand;
 import fr.Dianox.Hawn.Commands.Features.Specials.TitleAnnouncerCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.DelWarpCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.SetWarpCommand;
@@ -86,6 +87,7 @@ import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -156,7 +158,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.3-Alpha";
+	static String versions = "0.7.4-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -191,6 +193,7 @@ public class Main extends JavaPlugin implements Listener {
 	public HashMap<String, String> infoname2 = new HashMap<String, String>();
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
 	public static List<Player> nosb = new ArrayList<Player>();
+	public static List<Player> injumpwithjumppad = new ArrayList<Player>();
 	public static boolean newmethodver = false;
 	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
@@ -316,6 +319,9 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigMCommands.loadConfig((Plugin) this);
 			ConfigMPlayerOption.loadConfig((Plugin) this);
 
+			ActionbarAnnouncerConfig.loadConfig((Plugin) this);
+			configfile.put("C-ActionBarAnnouncer", "Commands/ActionBarAnnouncer.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ActionBarAnnouncer.yml", "C-ActionBarAnnouncer");
 			FlyCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Fly", "Commands/Fly.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Fly.yml", "C-Fly");
@@ -462,6 +468,15 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
 						commandMap.register(s, new TitleAnnouncerCommand(s));
+					}
+				}
+			}
+			// >> Action bar broadcast
+			if (!ActionbarAnnouncerConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("actionbarannouncer", new ABAnnouncerCommand("actionbarannouncer"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ActionBarAnnouncer.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ActionBarAnnouncer.Aliases")) {
+						commandMap.register(s, new ABAnnouncerCommand(s));
 					}
 				}
 			}
@@ -1256,6 +1271,8 @@ public class Main extends JavaPlugin implements Listener {
 
 	    }.runTaskTimer(this, 0, 60);
 
+	    injumpwithjumppad.clear();
+	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
 
@@ -1329,50 +1346,50 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void UpdateCheck() {
-		if (!devbuild) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-				try {
-					if (updater.checkForUpdates()) {
-						gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
-						gcs(ChatColor.BLUE+"| ");
-						UpToDate = "§cOld Version detected";
-					} else {
-						gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
-						gcs(ChatColor.BLUE+"| ");
-						UpToDate = "§aPlugin up to date";
-					}
-				} catch (Exception e) {
-					System.out.println("Could not check for updates! Stacktrace:");
-					e.printStackTrace();
-				}
-			}
-		} else {
+		if (devbuild) {
 			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
 			gcs(ChatColor.BLUE+"| ");
 			UpToDate = "§eDevelopment build";
+			return;
+		}
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+			try {
+				if (updater.checkForUpdates()) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
+					gcs(ChatColor.BLUE+"| ");
+					UpToDate = "§cOld Version detected";
+				} else {
+					gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
+					gcs(ChatColor.BLUE+"| ");
+					UpToDate = "§aPlugin up to date";
+				}
+			} catch (Exception e) {
+				System.out.println("Could not check for updates! Stacktrace:");
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static void UpdateCheckReload() {
-		if (!devbuild) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-				try {
-					if (updater.checkForUpdates()) {
-						UpToDate = "§cOld Version detected";
-					} else {
-						UpToDate = "§aPlugin up to date";
-					}
-				} catch (Exception e) {
-					System.out.println("Could not check for updates! Stacktrace:");
-					e.printStackTrace();
-				}
-			}
-		} else {
-			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
-			gcs(ChatColor.BLUE+"| ");
+		if (devbuild) {
 			UpToDate = "§eDevelopment build";
+			return;
+		}
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+			try {
+				if (updater.checkForUpdates()) {
+					UpToDate = "§cOld Version detected";
+				} else {
+					UpToDate = "§aPlugin up to date";
+				}
+			} catch (Exception e) {
+				System.out.println("Could not check for updates! Stacktrace:");
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -1412,7 +1429,7 @@ public class Main extends JavaPlugin implements Listener {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player)) {
 				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
-				((PlayerBoard)boards.get(player)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
+				((PlayerBoard)boards.get(player)).createNew(in);
 			} else {
 				new PlayerBoard(this, player, (ScoreboardInfo)info.get("hawn.scoreboard."+sb));
 			}
@@ -1427,7 +1444,7 @@ public class Main extends JavaPlugin implements Listener {
 	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
-	                        boards.get(player).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
+	                        boards.get(player).createNew(in);
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player, info.get(s));
@@ -1500,10 +1517,8 @@ public class Main extends JavaPlugin implements Listener {
 		OnJoinPW.setWGetWorldResetLevel();
 		OnJoinPW.setWGetWorldSoundJoin();
 		CosmeticsPW.setWGetWorldJumpPads();
-		CommandsPW.setWGetWorldJoinCommandConsoleNew();
-		CommandsPW.setWGetWorldJoinCommandConsoleNoNew();
-		CommandsPW.setWGetWorldJoinCommandPlayerNew();
-		CommandsPW.setWGetWorldJoinCommandPlayerNoNew();
+		CommandsPW.setWGetWorldJoinCommandNew();
+		CommandsPW.setWGetWorldJoinCommandNoNew();
 		CommandsPW.setWGetWorldQuitCommandConsole();
 		OnJoinPW.setWGetWorldflyoj();
 		PlayerEventsPW.setWGetFunDoubleJump();

@@ -149,6 +149,44 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Enable")) {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Enable", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                "region1",
+                "whatyouwant"
+            }));
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.World.All_World", false);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+			}));
+        
+        	ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigGLP.getConfig().isSet("JumpPads.Sounds.Play-for-all-players")) {
+			
+			ConfigGLP.getConfig().set("JumpPads.Sounds.Play-for-all-players", true);
+			
+			ConfigGLP.getConfig().set("JumpPads.Send-Message.Enable", true);
+			ConfigGLP.getConfig().set("JumpPads.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                    "%prefix% &eWhoosh!"
+            }));
+			
+			ConfigGLP.saveConfigFile();
+		}
+		
+		if (!CommandAliasesConfig.getConfig().isSet("ActionBarAnnouncer.Enable")) {
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Enable", true);
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Cannot-Be-changed.Main-Command-Is", "actionbarannouncer");
+			CommandAliasesConfig.getConfig().set("ActionBarAnnouncer.Aliases", java.util.Arrays.asList(new String[] {"bacast", "aba"}));
+            
+            CommandAliasesConfig.saveConfigFile();
+		}
+		
 		if (!PlayerEventsConfig.getConfig().isSet("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
 			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable", true);
 			PlayerEventsConfig.getConfig().set("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World", false);

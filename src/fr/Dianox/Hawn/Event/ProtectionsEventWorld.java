@@ -1,5 +1,8 @@
 package fr.Dianox.Hawn.Event;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -1045,4 +1048,251 @@ public class ProtectionsEventWorld implements Listener {
         }
     }
 
+    private static List<Material> interactables = Arrays.asList(new Material[] { 
+            XMaterial.ACACIA_DOOR.parseMaterial(), 
+            XMaterial.ACACIA_FENCE_GATE.parseMaterial(), 
+            XMaterial.BIRCH_DOOR.parseMaterial(), 
+            XMaterial.BIRCH_FENCE_GATE.parseMaterial(), 
+            XMaterial.CHEST.parseMaterial(), 
+            XMaterial.DARK_OAK_DOOR.parseMaterial(), 
+            XMaterial.DARK_OAK_FENCE_GATE.parseMaterial(), 
+            XMaterial.OAK_FENCE_GATE.parseMaterial(), 
+            XMaterial.JUNGLE_DOOR.parseMaterial(), 
+            XMaterial.JUNGLE_FENCE_GATE.parseMaterial(), 
+            XMaterial.CHEST_MINECART.parseMaterial(), 
+            XMaterial.OAK_DOOR.parseMaterial(), 
+            XMaterial.OAK_TRAPDOOR.parseMaterial(), 
+            XMaterial.TRAPPED_CHEST.parseMaterial(), 
+            XMaterial.OAK_DOOR.parseMaterial() 
+    });
+    
+    @EventHandler
+    public void onplayerinteractblocksitems(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+
+        path_wg = "Protection.PlayerInteract-Items-Blocks.";
+
+        if (Main.buildbypasscommand.contains(p)) {
+            return;
+        }
+
+        if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
+            if (!ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.World.All_World")) {
+                if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
+                    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Bypass")) {
+                        if (!p.hasPermission("hawn.event.construct.bypass.protectionitemblocks")) {
+                            /*
+                             * WorldGuard
+                             */
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                                if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                    for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                        		for (Material m : interactables) {
+                                        			if (e.getClickedBlock().getType() == m) {
+                                        				e.setCancelled(true);
+                                        			}
+                                        		}
+                                        	}
+
+                                            break;
+                                        }
+                                    }
+                                } else if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                    String check = "";
+
+                                    for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                            check = "true";
+                                        }
+                                    }
+
+                                    if (check.contains("true")) {
+                                        return;
+                                    } else {
+                                    	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                    		for (Material m : interactables) {
+                                    			if (e.getClickedBlock().getType() == m) {
+                                    				e.setCancelled(true);
+                                    			}
+                                    		}
+                                    	}
+                                    }
+                                }
+                            } else {
+                                /* The event */
+
+                            	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                            		for (Material m : interactables) {
+                            			if (e.getClickedBlock().getType() == m) {
+                            				e.setCancelled(true);
+                            			}
+                            		}
+                            	}
+                            }
+                        }
+                    } else {
+                        /*
+                         * WorldGuard
+                         */
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                    		for (Material m : interactables) {
+                                    			if (e.getClickedBlock().getType() == m) {
+                                    				e.setCancelled(true);
+                                    			}
+                                    		}
+                                    	}
+
+                                        break;
+                                    }
+                                }
+                            } else if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                String check = "";
+
+                                for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        check = "true";
+                                    }
+                                }
+
+                                if (check.contains("true")) {
+                                    return;
+                                } else {
+                                	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                		for (Material m : interactables) {
+                                			if (e.getClickedBlock().getType() == m) {
+                                				e.setCancelled(true);
+                                			}
+                                		}
+                                	}
+                                }
+                            }
+                        } else {
+                            /* The event */
+
+                        	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        		for (Material m : interactables) {
+                        			if (e.getClickedBlock().getType() == m) {
+                        				e.setCancelled(true);
+                        			}
+                        		}
+                        	}
+                        }
+                    }
+                }
+            } else {
+                if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Bypass")) {
+                    if (!p.hasPermission("hawn.event.construct.bypass.protectionitemblocks")) {
+                        /*
+                         * WorldGuard
+                         */
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                    		for (Material m : interactables) {
+                                    			if (e.getClickedBlock().getType() == m) {
+                                    				e.setCancelled(true);
+                                    			}
+                                    		}
+                                    	}
+
+                                        break;
+                                    }
+                                }
+                            } else if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                String check = "";
+
+                                for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        check = "true";
+                                    }
+                                }
+
+                                if (check.contains("true")) {
+                                    return;
+                                } else {
+                                	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                		for (Material m : interactables) {
+                                			if (e.getClickedBlock().getType() == m) {
+                                				e.setCancelled(true);
+                                			}
+                                		}
+                                	}
+                                }
+                            }
+                        } else {
+                            /* The event */
+
+                        	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        		for (Material m : interactables) {
+                        			if (e.getClickedBlock().getType() == m) {
+                        				e.setCancelled(true);
+                        			}
+                        		}
+                        	}
+                        }
+                    }
+                } else {
+                    /*
+                     * WorldGuard
+                     */
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                            for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                		for (Material m : interactables) {
+                                			if (e.getClickedBlock().getType() == m) {
+                                				e.setCancelled(true);
+                                			}
+                                		}
+                                	}
+
+                                    break;
+                                }
+                            }
+                        } else if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                            String check = "";
+
+                            for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    check = "true";
+                                }
+                            }
+
+                            if (check.contains("true")) {
+                                return;
+                            } else {
+                            	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                            		for (Material m : interactables) {
+                            			if (e.getClickedBlock().getType() == m) {
+                            				e.setCancelled(true);
+                            			}
+                            		}
+                            	}
+                            }
+                        }
+                    } else {
+                        /* The event */
+
+                    	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    		for (Material m : interactables) {
+                    			if (e.getClickedBlock().getType() == m) {
+                    				e.setCancelled(true);
+                    			}
+                    		}
+                    	}
+                    }
+                }
+            }
+        }
+    }
+    
 }

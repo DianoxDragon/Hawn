@@ -53,19 +53,29 @@ public class ConfigGLP {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("JumpPads.Enable", Boolean.valueOf(true));
-            Config.set("JumpPads.Options.Block", String.valueOf("REDSTONE_BLOCK"));
-            Config.set("JumpPads.Options.Plate", String.valueOf("GOLD_PLATE"));
-            Config.set("JumpPads.Options.Height", Integer.valueOf(1));
-            Config.set("JumpPads.Options.Length", Integer.valueOf(3));
-            Config.set("JumpPads.Sounds.Enable", Boolean.valueOf(true));
+            Config.set("JumpPads.Enable", true);
+            
+            Config.set("JumpPads.Options.Block", "REDSTONE_BLOCK");
+            Config.set("JumpPads.Options.Plate", "GOLD_PLATE");
+            Config.set("JumpPads.Options.Height", 1);
+            Config.set("JumpPads.Options.Length", 3);
+            
+            Config.set("JumpPads.Sounds.Enable", true);
+            Config.set("JumpPads.Sounds.Play-for-all-players", true);
             Config.set("JumpPads.Sounds.Sound", "NOTE_PIANO");
-            Config.set("JumpPads.Sounds.Volume", Integer.valueOf(10));
-            Config.set("JumpPads.Sounds.Pitch", Integer.valueOf(1));
-            Config.set("JumpPads.Effect.Enable", Boolean.valueOf(true));
+            Config.set("JumpPads.Sounds.Volume", 10);
+            Config.set("JumpPads.Sounds.Pitch", 1);
+            
+            Config.set("JumpPads.Effect.Enable", true);
             Config.set("JumpPads.Effect.Effect", "ENDER_SIGNAL");
-            Config.set("JumpPads.Effect.Pitch", Integer.valueOf(10));
-            Config.set("JumpPads.World.All_World", Boolean.valueOf(false));
+            Config.set("JumpPads.Effect.Pitch", 10);
+            
+            Config.set("JumpPads.Send-Message.Enable", true);
+            Config.set("JumpPads.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                    "%prefix% &eWhoosh!"
+            }));
+            
+            Config.set("JumpPads.World.All_World", false);
             Config.set("JumpPads.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"

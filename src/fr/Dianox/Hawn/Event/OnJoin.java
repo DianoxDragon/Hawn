@@ -3,7 +3,9 @@ package fr.Dianox.Hawn.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,10 +18,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
+import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Event.OnJoinE.OjCosmetics;
 import fr.Dianox.Hawn.Event.OnJoinE.OjPlayerOption;
 import fr.Dianox.Hawn.Utility.ActionBar;
+import fr.Dianox.Hawn.Utility.Bungee;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
@@ -32,6 +36,7 @@ import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
 import fr.Dianox.Hawn.Utility.World.OnJoinPW;
@@ -479,83 +484,853 @@ public class OnJoin implements Listener {
         // Join Command
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Enable")) {
             if (p.hasPlayedBefore()) {
-                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Player.Enable")) {
-                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Player.World.All_World")) {
-                        if (CommandsPW.getWPlayerJoinCommandNoNew().contains(p.getWorld().getName())) {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Player.Commands")) {
+                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.Enable")) {
+                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.World.All_World")) {
+                        if (CommandsPW.getWJoinCommandNoNew().contains(p.getWorld().getName())) {
+                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
+                            	String perm = "";
+                                String world = "";
+                                
+                                if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                                	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                    commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                    if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                        continue;
+                                    }
+                                }
+                                
+                                if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                    perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                    commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                    if (!p.hasPermission(perm)) {
+                                        continue;
+                                    }
+                                }
+
+                                if (commands.startsWith("[command-player]: ")) {
+                                    commands = commands.replace("[command-player]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
+                                    p.performCommand(commands);
+                                } else if (commands.startsWith("[command-console]: ")) {
+                                    commands = commands.replace("[command-console]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
+                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                                } else if (commands.startsWith("[gamemode-survival]")) {
+                                    p.setGameMode(GameMode.SURVIVAL);
+                                } else if (commands.startsWith("[gamemode-creative]")) {
+                                    p.setGameMode(GameMode.CREATIVE);
+                                } else if (commands.startsWith("[gamemode-adventure]")) {
+                                    p.setGameMode(GameMode.ADVENTURE);
+                                } else if (commands.startsWith("[gamemode-spectator]")) {
+                                    p.setGameMode(GameMode.SPECTATOR);
+                                } else if (commands.startsWith("[ping]")) {
+                                    for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                        MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                    }
+                                } else if (commands.startsWith("[spawn]: ")) {
+                                    commands = commands.replace("[spawn]: ", "");
+                                    SpawnUtils.teleportToSpawn(p, commands);
+                                } else if (commands.startsWith("[warp]: ")) {
+                                    commands = commands.replace("[warp]: ", "");
+                                    WarpCommand.onTp(p, commands);
+                                } else if (commands.startsWith("[bungee]: ")) {
+                                    commands = commands.replace("[bungee]: ", "");
+                                    Bungee.changeServer(p, commands);
+                                } else if (commands.startsWith("[effect[")) {
+                                    commands = commands.replace("[effect[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                                } else if (commands.startsWith("[effectclear]: ")) {
+                                    commands = commands.replace("[effectclear]: ", "");
+
+                                    p.removePotionEffect(PotionEffectType.getByName(commands));
+                                } else if (commands.startsWith("[effectclearall]")) {
+                                    for (PotionEffect effect: p.getActivePotionEffects()) {
+                                        p.removePotionEffect(effect.getType());
+                                    }
+                                } else if (commands.startsWith("[send-title]: ")) {
+                                    commands = commands.replace("[send-title]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] parts = commands.split("//n");
+                                        title = parts[0];
+                                        subtitle = parts[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-title[")) {
+                                    commands = commands.replace("[send-title[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] part = parts[1].split("//n");
+                                        title = part[0];
+                                        subtitle = part[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-actionbar]: ")) {
+                                    commands = commands.replace("[send-actionbar]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    ActionBar.sendActionBar(p, commands);
+                                } else if (commands.startsWith("[send-actionbar[")) {
+                                    commands = commands.replace("[send-actionbar[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                                } else if (commands.startsWith("[sounds]: ")) {
+                                    commands = commands.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                                } else {
+                                    MessageUtils.ReplaceCharMessagePlayer(commands, p);
+                                }
+                            }
+                        }
+                    } else {
+                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
+                        	String perm = "";
+                            String world = "";
+                            
+                            if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                            	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                    continue;
+                                }
+                            }
+                            
+                            if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                if (!p.hasPermission(perm)) {
+                                    continue;
+                                }
+                            }
+
+                            if (commands.startsWith("[command-player]: ")) {
+                                commands = commands.replace("[command-player]: ", "");
+                                commands = commands.replaceAll("%player%", p.getName());
+
                                 p.performCommand(commands);
+                            } else if (commands.startsWith("[command-console]: ")) {
+                                commands = commands.replace("[command-console]: ", "");
+                                commands = commands.replaceAll("%player%", p.getName());
+
+                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                            } else if (commands.startsWith("[gamemode-survival]")) {
+                                p.setGameMode(GameMode.SURVIVAL);
+                            } else if (commands.startsWith("[gamemode-creative]")) {
+                                p.setGameMode(GameMode.CREATIVE);
+                            } else if (commands.startsWith("[gamemode-adventure]")) {
+                                p.setGameMode(GameMode.ADVENTURE);
+                            } else if (commands.startsWith("[gamemode-spectator]")) {
+                                p.setGameMode(GameMode.SPECTATOR);
+                            } else if (commands.startsWith("[ping]")) {
+                                for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                    MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                }
+                            } else if (commands.startsWith("[spawn]: ")) {
+                                commands = commands.replace("[spawn]: ", "");
+                                SpawnUtils.teleportToSpawn(p, commands);
+                            } else if (commands.startsWith("[warp]: ")) {
+                                commands = commands.replace("[warp]: ", "");
+                                WarpCommand.onTp(p, commands);
+                            } else if (commands.startsWith("[bungee]: ")) {
+                                commands = commands.replace("[bungee]: ", "");
+                                Bungee.changeServer(p, commands);
+                            } else if (commands.startsWith("[effect[")) {
+                                commands = commands.replace("[effect[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                            } else if (commands.startsWith("[effectclear]: ")) {
+                                commands = commands.replace("[effectclear]: ", "");
+
+                                p.removePotionEffect(PotionEffectType.getByName(commands));
+                            } else if (commands.startsWith("[effectclearall]")) {
+                                for (PotionEffect effect: p.getActivePotionEffects()) {
+                                    p.removePotionEffect(effect.getType());
+                                }
+                            } else if (commands.startsWith("[send-title]: ")) {
+                                commands = commands.replace("[send-title]: ", "");
+                                commands = commands.replaceAll("&", "§");
+
+                                Boolean activate = false;
+
+                                String title = "";
+                                String subtitle = "";
+
+                                if (commands.contains("//n")) {
+                                    String[] parts = commands.split("//n");
+                                    title = parts[0];
+                                    subtitle = parts[1];
+
+                                    title = title.replaceAll("//n", "");
+                                    subtitle = subtitle.replaceAll("//n", "");
+
+                                    activate = true;
+                                }
+
+                                if (activate == false) {
+                                    TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                } else {
+                                    TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                    TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                }
+                            } else if (commands.startsWith("[send-title[")) {
+                                commands = commands.replace("[send-title[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                Boolean activate = false;
+
+                                String title = "";
+                                String subtitle = "";
+
+                                if (commands.contains("//n")) {
+                                    String[] part = parts[1].split("//n");
+                                    title = part[0];
+                                    subtitle = part[1];
+
+                                    title = title.replaceAll("//n", "");
+                                    subtitle = subtitle.replaceAll("//n", "");
+
+                                    activate = true;
+                                }
+
+                                if (activate == false) {
+                                    TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                } else {
+                                    TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                    TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                }
+                            } else if (commands.startsWith("[send-actionbar]: ")) {
+                                commands = commands.replace("[send-actionbar]: ", "");
+                                commands = commands.replaceAll("&", "§");
+
+                                ActionBar.sendActionBar(p, commands);
+                            } else if (commands.startsWith("[send-actionbar[")) {
+                                commands = commands.replace("[send-actionbar[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                            } else if (commands.startsWith("[sounds]: ")) {
+                                commands = commands.replace("[sounds]: ", "");
+                                p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                            } else {
+                                MessageUtils.ReplaceCharMessagePlayer(commands, p);
                             }
-                        }
-                    } else {
-                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Player.Commands")) {
-                            p.performCommand(commands);
-                        }
-                    }
-                }
-                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Console.Enable")) {
-                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Console.World.All_World")) {
-                        if (CommandsPW.getWConsoleJoinCommandNoNew().contains(p.getWorld().getName())) {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Console.Commands")) {
-                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
-                            }
-                        }
-                    } else {
-                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Console.Commands")) {
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
                         }
                     }
                 }
             } else {
-                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.JoinCommand-Player.Enable")) {
-                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.JoinCommand-Player.World.All_World")) {
-                        if (CommandsPW.getWPlayerJoinCommandNew().contains(p.getWorld().getName())) {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.JoinCommand-Player.Commands")) {
-                                p.performCommand(commands);
-                            }
-                        }
-                    } else {
-                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.JoinCommand-Player.Commands")) {
-                            p.performCommand(commands);
-                        }
-                    }
-                } else {
-                    if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Player.Enable")) {
-                        if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Player.World.All_World")) {
-                            if (CommandsPW.getWPlayerJoinCommandNoNew().contains(p.getWorld().getName())) {
-                                for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Player.Commands")) {
+                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.Enable")) {
+                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.World.All_World")) {
+                        if (CommandsPW.getWJoinCommandNew().contains(p.getWorld().getName())) {
+                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.Commands")) {
+                            	String perm = "";
+                                String world = "";
+                                
+                                if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                                	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                    commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                    if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                        continue;
+                                    }
+                                }
+                                
+                                if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                    perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                    commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                    if (!p.hasPermission(perm)) {
+                                        continue;
+                                    }
+                                }
+
+                                if (commands.startsWith("[command-player]: ")) {
+                                    commands = commands.replace("[command-player]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
                                     p.performCommand(commands);
+                                } else if (commands.startsWith("[command-console]: ")) {
+                                    commands = commands.replace("[command-console]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
+                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                                } else if (commands.startsWith("[gamemode-survival]")) {
+                                    p.setGameMode(GameMode.SURVIVAL);
+                                } else if (commands.startsWith("[gamemode-creative]")) {
+                                    p.setGameMode(GameMode.CREATIVE);
+                                } else if (commands.startsWith("[gamemode-adventure]")) {
+                                    p.setGameMode(GameMode.ADVENTURE);
+                                } else if (commands.startsWith("[gamemode-spectator]")) {
+                                    p.setGameMode(GameMode.SPECTATOR);
+                                } else if (commands.startsWith("[ping]")) {
+                                    for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                        MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                    }
+                                } else if (commands.startsWith("[spawn]: ")) {
+                                    commands = commands.replace("[spawn]: ", "");
+                                    SpawnUtils.teleportToSpawn(p, commands);
+                                } else if (commands.startsWith("[warp]: ")) {
+                                    commands = commands.replace("[warp]: ", "");
+                                    WarpCommand.onTp(p, commands);
+                                } else if (commands.startsWith("[bungee]: ")) {
+                                    commands = commands.replace("[bungee]: ", "");
+                                    Bungee.changeServer(p, commands);
+                                } else if (commands.startsWith("[effect[")) {
+                                    commands = commands.replace("[effect[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                                } else if (commands.startsWith("[effectclear]: ")) {
+                                    commands = commands.replace("[effectclear]: ", "");
+
+                                    p.removePotionEffect(PotionEffectType.getByName(commands));
+                                } else if (commands.startsWith("[effectclearall]")) {
+                                    for (PotionEffect effect: p.getActivePotionEffects()) {
+                                        p.removePotionEffect(effect.getType());
+                                    }
+                                } else if (commands.startsWith("[send-title]: ")) {
+                                    commands = commands.replace("[send-title]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] parts = commands.split("//n");
+                                        title = parts[0];
+                                        subtitle = parts[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-title[")) {
+                                    commands = commands.replace("[send-title[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] part = parts[1].split("//n");
+                                        title = part[0];
+                                        subtitle = part[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-actionbar]: ")) {
+                                    commands = commands.replace("[send-actionbar]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    ActionBar.sendActionBar(p, commands);
+                                } else if (commands.startsWith("[send-actionbar[")) {
+                                    commands = commands.replace("[send-actionbar[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                                } else if (commands.startsWith("[sounds]: ")) {
+                                    commands = commands.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                                } else {
+                                    MessageUtils.ReplaceCharMessagePlayer(commands, p);
                                 }
-                            }
-                        } else {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Player.Commands")) {
-                                p.performCommand(commands);
-                            }
-                        }
-                    }
-                }
-                if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.JoinCommand-Console.Enable")) {
-                    if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.JoinCommand-Console.World.All_World")) {
-                        if (CommandsPW.getWConsoleJoinCommandNew().contains(p.getWorld().getName())) {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.JoinCommand-Console.Commands")) {
-                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
                             }
                         }
                     } else {
-                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.JoinCommand-Console.Commands")) {
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
+                        for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.Commands")) {
+                        	String perm = "";
+                            String world = "";
+                            
+                            if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                            	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                    continue;
+                                }
+                            }
+                            
+                            if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                if (!p.hasPermission(perm)) {
+                                    continue;
+                                }
+                            }
+
+                            if (commands.startsWith("[command-player]: ")) {
+                                commands = commands.replace("[command-player]: ", "");
+                                commands = commands.replaceAll("%player%", p.getName());
+
+                                p.performCommand(commands);
+                            } else if (commands.startsWith("[command-console]: ")) {
+                                commands = commands.replace("[command-console]: ", "");
+                                commands = commands.replaceAll("%player%", p.getName());
+
+                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                            } else if (commands.startsWith("[gamemode-survival]")) {
+                                p.setGameMode(GameMode.SURVIVAL);
+                            } else if (commands.startsWith("[gamemode-creative]")) {
+                                p.setGameMode(GameMode.CREATIVE);
+                            } else if (commands.startsWith("[gamemode-adventure]")) {
+                                p.setGameMode(GameMode.ADVENTURE);
+                            } else if (commands.startsWith("[gamemode-spectator]")) {
+                                p.setGameMode(GameMode.SPECTATOR);
+                            } else if (commands.startsWith("[ping]")) {
+                                for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                    MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                }
+                            } else if (commands.startsWith("[spawn]: ")) {
+                                commands = commands.replace("[spawn]: ", "");
+                                SpawnUtils.teleportToSpawn(p, commands);
+                            } else if (commands.startsWith("[warp]: ")) {
+                                commands = commands.replace("[warp]: ", "");
+                                WarpCommand.onTp(p, commands);
+                            } else if (commands.startsWith("[bungee]: ")) {
+                                commands = commands.replace("[bungee]: ", "");
+                                Bungee.changeServer(p, commands);
+                            } else if (commands.startsWith("[effect[")) {
+                                commands = commands.replace("[effect[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                            } else if (commands.startsWith("[effectclear]: ")) {
+                                commands = commands.replace("[effectclear]: ", "");
+
+                                p.removePotionEffect(PotionEffectType.getByName(commands));
+                            } else if (commands.startsWith("[effectclearall]")) {
+                                for (PotionEffect effect: p.getActivePotionEffects()) {
+                                    p.removePotionEffect(effect.getType());
+                                }
+                            } else if (commands.startsWith("[send-title]: ")) {
+                                commands = commands.replace("[send-title]: ", "");
+                                commands = commands.replaceAll("&", "§");
+
+                                Boolean activate = false;
+
+                                String title = "";
+                                String subtitle = "";
+
+                                if (commands.contains("//n")) {
+                                    String[] parts = commands.split("//n");
+                                    title = parts[0];
+                                    subtitle = parts[1];
+
+                                    title = title.replaceAll("//n", "");
+                                    subtitle = subtitle.replaceAll("//n", "");
+
+                                    activate = true;
+                                }
+
+                                if (activate == false) {
+                                    TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                } else {
+                                    TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                    TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                }
+                            } else if (commands.startsWith("[send-title[")) {
+                                commands = commands.replace("[send-title[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                Boolean activate = false;
+
+                                String title = "";
+                                String subtitle = "";
+
+                                if (commands.contains("//n")) {
+                                    String[] part = parts[1].split("//n");
+                                    title = part[0];
+                                    subtitle = part[1];
+
+                                    title = title.replaceAll("//n", "");
+                                    subtitle = subtitle.replaceAll("//n", "");
+
+                                    activate = true;
+                                }
+
+                                if (activate == false) {
+                                    TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                } else {
+                                    TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                    TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                }
+                            } else if (commands.startsWith("[send-actionbar]: ")) {
+                                commands = commands.replace("[send-actionbar]: ", "");
+                                commands = commands.replaceAll("&", "§");
+
+                                ActionBar.sendActionBar(p, commands);
+                            } else if (commands.startsWith("[send-actionbar[")) {
+                                commands = commands.replace("[send-actionbar[", "");
+
+                                String[] parts = commands.split("]]: ");
+
+                                ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                            } else if (commands.startsWith("[sounds]: ")) {
+                                commands = commands.replace("[sounds]: ", "");
+                                p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                            } else {
+                                MessageUtils.ReplaceCharMessagePlayer(commands, p);
+                            }
                         }
                     }
                 } else {
-                    if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Console.Enable")) {
-                        if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.JoinCommand-Console.World.All_World")) {
-                            if (CommandsPW.getWConsoleJoinCommandNoNew().contains(p.getWorld().getName())) {
-                                for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Console.Commands")) {
-                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
+                    if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.Enable")) {
+                        if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.World.All_World")) {
+                            if (CommandsPW.getWJoinCommandNoNew().contains(p.getWorld().getName())) {
+                                for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
+                                	String perm = "";
+                                    String world = "";
+                                    
+                                    if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                                    	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                        commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                        if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                            continue;
+                                        }
+                                    }
+                                    
+                                    if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                        perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                        commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                        if (!p.hasPermission(perm)) {
+                                            continue;
+                                        }
+                                    }
+
+                                    if (commands.startsWith("[command-player]: ")) {
+                                        commands = commands.replace("[command-player]: ", "");
+                                        commands = commands.replaceAll("%player%", p.getName());
+
+                                        p.performCommand(commands);
+                                    } else if (commands.startsWith("[command-console]: ")) {
+                                        commands = commands.replace("[command-console]: ", "");
+                                        commands = commands.replaceAll("%player%", p.getName());
+
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                                    } else if (commands.startsWith("[gamemode-survival]")) {
+                                        p.setGameMode(GameMode.SURVIVAL);
+                                    } else if (commands.startsWith("[gamemode-creative]")) {
+                                        p.setGameMode(GameMode.CREATIVE);
+                                    } else if (commands.startsWith("[gamemode-adventure]")) {
+                                        p.setGameMode(GameMode.ADVENTURE);
+                                    } else if (commands.startsWith("[gamemode-spectator]")) {
+                                        p.setGameMode(GameMode.SPECTATOR);
+                                    } else if (commands.startsWith("[ping]")) {
+                                        for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                            MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                        }
+                                    } else if (commands.startsWith("[spawn]: ")) {
+                                        commands = commands.replace("[spawn]: ", "");
+                                        SpawnUtils.teleportToSpawn(p, commands);
+                                    } else if (commands.startsWith("[warp]: ")) {
+                                        commands = commands.replace("[warp]: ", "");
+                                        WarpCommand.onTp(p, commands);
+                                    } else if (commands.startsWith("[bungee]: ")) {
+                                        commands = commands.replace("[bungee]: ", "");
+                                        Bungee.changeServer(p, commands);
+                                    } else if (commands.startsWith("[effect[")) {
+                                        commands = commands.replace("[effect[", "");
+
+                                        String[] parts = commands.split("]]: ");
+
+                                        p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                                    } else if (commands.startsWith("[effectclear]: ")) {
+                                        commands = commands.replace("[effectclear]: ", "");
+
+                                        p.removePotionEffect(PotionEffectType.getByName(commands));
+                                    } else if (commands.startsWith("[effectclearall]")) {
+                                        for (PotionEffect effect: p.getActivePotionEffects()) {
+                                            p.removePotionEffect(effect.getType());
+                                        }
+                                    } else if (commands.startsWith("[send-title]: ")) {
+                                        commands = commands.replace("[send-title]: ", "");
+                                        commands = commands.replaceAll("&", "§");
+
+                                        Boolean activate = false;
+
+                                        String title = "";
+                                        String subtitle = "";
+
+                                        if (commands.contains("//n")) {
+                                            String[] parts = commands.split("//n");
+                                            title = parts[0];
+                                            subtitle = parts[1];
+
+                                            title = title.replaceAll("//n", "");
+                                            subtitle = subtitle.replaceAll("//n", "");
+
+                                            activate = true;
+                                        }
+
+                                        if (activate == false) {
+                                            TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                        } else {
+                                            TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                            TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                        }
+                                    } else if (commands.startsWith("[send-title[")) {
+                                        commands = commands.replace("[send-title[", "");
+
+                                        String[] parts = commands.split("]]: ");
+
+                                        Boolean activate = false;
+
+                                        String title = "";
+                                        String subtitle = "";
+
+                                        if (commands.contains("//n")) {
+                                            String[] part = parts[1].split("//n");
+                                            title = part[0];
+                                            subtitle = part[1];
+
+                                            title = title.replaceAll("//n", "");
+                                            subtitle = subtitle.replaceAll("//n", "");
+
+                                            activate = true;
+                                        }
+
+                                        if (activate == false) {
+                                            TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                        } else {
+                                            TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                            TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                        }
+                                    } else if (commands.startsWith("[send-actionbar]: ")) {
+                                        commands = commands.replace("[send-actionbar]: ", "");
+                                        commands = commands.replaceAll("&", "§");
+
+                                        ActionBar.sendActionBar(p, commands);
+                                    } else if (commands.startsWith("[send-actionbar[")) {
+                                        commands = commands.replace("[send-actionbar[", "");
+
+                                        String[] parts = commands.split("]]: ");
+
+                                        ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                                    } else if (commands.startsWith("[sounds]: ")) {
+                                        commands = commands.replace("[sounds]: ", "");
+                                        p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                                    } else {
+                                        MessageUtils.ReplaceCharMessagePlayer(commands, p);
+                                    }
                                 }
                             }
                         } else {
-                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.JoinCommand-Console.Commands")) {
-                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.replaceAll("%player%", p.getName()));
+                            for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
+                            	String perm = "";
+                                String world = "";
+                                
+                                if (commands.startsWith("<world>") && commands.contains("</world>")) {
+                                	world = StringUtils.substringBetween(commands, "<world>", "</world>");
+                                    commands = commands.replace("<world>" + world + "</world> ", "");
+
+                                    if (!p.getWorld().getName().equalsIgnoreCase(world)) {
+                                        continue;
+                                    }
+                                }
+                                
+                                if (commands.contains("<perm>") && commands.contains("</perm>")) {
+                                    perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
+                                    commands = commands.replace("<perm>" + perm + "</perm> ", "");
+
+                                    if (!p.hasPermission(perm)) {
+                                        continue;
+                                    }
+                                }
+
+                                if (commands.startsWith("[command-player]: ")) {
+                                    commands = commands.replace("[command-player]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
+                                    p.performCommand(commands);
+                                } else if (commands.startsWith("[command-console]: ")) {
+                                    commands = commands.replace("[command-console]: ", "");
+                                    commands = commands.replaceAll("%player%", p.getName());
+
+                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                                } else if (commands.startsWith("[gamemode-survival]")) {
+                                    p.setGameMode(GameMode.SURVIVAL);
+                                } else if (commands.startsWith("[gamemode-creative]")) {
+                                    p.setGameMode(GameMode.CREATIVE);
+                                } else if (commands.startsWith("[gamemode-adventure]")) {
+                                    p.setGameMode(GameMode.ADVENTURE);
+                                } else if (commands.startsWith("[gamemode-spectator]")) {
+                                    p.setGameMode(GameMode.SPECTATOR);
+                                } else if (commands.startsWith("[ping]")) {
+                                    for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
+                                        MessageUtils.ReplaceCharMessagePlayer(commands1, p);
+                                    }
+                                } else if (commands.startsWith("[spawn]: ")) {
+                                    commands = commands.replace("[spawn]: ", "");
+                                    SpawnUtils.teleportToSpawn(p, commands);
+                                } else if (commands.startsWith("[warp]: ")) {
+                                    commands = commands.replace("[warp]: ", "");
+                                    WarpCommand.onTp(p, commands);
+                                } else if (commands.startsWith("[bungee]: ")) {
+                                    commands = commands.replace("[bungee]: ", "");
+                                    Bungee.changeServer(p, commands);
+                                } else if (commands.startsWith("[effect[")) {
+                                    commands = commands.replace("[effect[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
+                                } else if (commands.startsWith("[effectclear]: ")) {
+                                    commands = commands.replace("[effectclear]: ", "");
+
+                                    p.removePotionEffect(PotionEffectType.getByName(commands));
+                                } else if (commands.startsWith("[effectclearall]")) {
+                                    for (PotionEffect effect: p.getActivePotionEffects()) {
+                                        p.removePotionEffect(effect.getType());
+                                    }
+                                } else if (commands.startsWith("[send-title]: ")) {
+                                    commands = commands.replace("[send-title]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] parts = commands.split("//n");
+                                        title = parts[0];
+                                        subtitle = parts[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, commands);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, 150, 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-title[")) {
+                                    commands = commands.replace("[send-title[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    Boolean activate = false;
+
+                                    String title = "";
+                                    String subtitle = "";
+
+                                    if (commands.contains("//n")) {
+                                        String[] part = parts[1].split("//n");
+                                        title = part[0];
+                                        subtitle = part[1];
+
+                                        title = title.replaceAll("//n", "");
+                                        subtitle = subtitle.replaceAll("//n", "");
+
+                                        activate = true;
+                                    }
+
+                                    if (activate == false) {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
+                                    } else {
+                                        TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
+                                        TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
+                                    }
+                                } else if (commands.startsWith("[send-actionbar]: ")) {
+                                    commands = commands.replace("[send-actionbar]: ", "");
+                                    commands = commands.replaceAll("&", "§");
+
+                                    ActionBar.sendActionBar(p, commands);
+                                } else if (commands.startsWith("[send-actionbar[")) {
+                                    commands = commands.replace("[send-actionbar[", "");
+
+                                    String[] parts = commands.split("]]: ");
+
+                                    ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
+                                } else if (commands.startsWith("[sounds]: ")) {
+                                    commands = commands.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
+                                } else {
+                                    MessageUtils.ReplaceCharMessagePlayer(commands, p);
+                                }
                             }
                         }
                     }

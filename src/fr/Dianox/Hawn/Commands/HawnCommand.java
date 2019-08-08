@@ -29,6 +29,7 @@ import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -659,6 +660,7 @@ public class HawnCommand implements CommandExecutor {
 		CommandAliasesConfig.reloadConfig();
 		WarningCommandConfig.reloadConfig();
 		AdminPanelConfig.reloadConfig();
+		ActionbarAnnouncerConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
@@ -702,10 +704,8 @@ public class HawnCommand implements CommandExecutor {
 		OnJoinPW.worlds_XP_Lvl.clear();
 		OnJoinPW.worlds_sounds_join.clear();
 		CosmeticsPW.worlds_jumppads.clear();
-		CommandsPW.worlds_JoinCommands_Console_New.clear();
-		CommandsPW.worlds_JoinCommands_Console_No_New.clear();
-		CommandsPW.worlds_JoinCommands_Player_New.clear();
-		CommandsPW.worlds_JoinCommands_Player_No_New.clear();
+		CommandsPW.worlds_JoinCommands_New.clear();
+		CommandsPW.worlds_JoinCommands_No_New.clear();
 		CommandsPW.worlds_QuitCommands_Console.clear();
 		OnJoinPW.worlds_fly.clear();
 		PlayerEventsPW.worlds_fun_doublejump.clear();
@@ -754,6 +754,7 @@ public class HawnCommand implements CommandExecutor {
 	    	}
 	    }
 		
+		Main.injumpwithjumppad.clear();
 		OnJoin.player_list.clear();
 		
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {

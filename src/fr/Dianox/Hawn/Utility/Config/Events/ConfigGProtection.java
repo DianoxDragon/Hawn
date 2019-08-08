@@ -108,8 +108,22 @@ public class ConfigGProtection {
             Config.set("Protection.PlayerInteractEntity-ItemFrame.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
-}));
+	    }));
             
+	    Config.set("Protection.PlayerInteract-Items-Blocks.Enable", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
+            Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
+            Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            Config.set("Protection.PlayerInteract-Items-Blocks.World.All_World", false);
+            Config.set("Protection.PlayerInteract-Items-Blocks.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+		
             saveConfigFile();
 
         }
