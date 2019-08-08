@@ -1517,10 +1517,8 @@ public class Main extends JavaPlugin implements Listener {
 		OnJoinPW.setWGetWorldResetLevel();
 		OnJoinPW.setWGetWorldSoundJoin();
 		CosmeticsPW.setWGetWorldJumpPads();
-		CommandsPW.setWGetWorldJoinCommandConsoleNew();
-		CommandsPW.setWGetWorldJoinCommandConsoleNoNew();
-		CommandsPW.setWGetWorldJoinCommandPlayerNew();
-		CommandsPW.setWGetWorldJoinCommandPlayerNoNew();
+		CommandsPW.setWGetWorldJoinCommandNew();
+		CommandsPW.setWGetWorldJoinCommandNoNew();
 		CommandsPW.setWGetWorldQuitCommandConsole();
 		OnJoinPW.setWGetWorldflyoj();
 		PlayerEventsPW.setWGetFunDoubleJump();
