@@ -1346,50 +1346,50 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public static void UpdateCheck() {
-		if (!devbuild) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-				try {
-					if (updater.checkForUpdates()) {
-						gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
-						gcs(ChatColor.BLUE+"| ");
-						UpToDate = "§cOld Version detected";
-					} else {
-						gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
-						gcs(ChatColor.BLUE+"| ");
-						UpToDate = "§aPlugin up to date";
-					}
-				} catch (Exception e) {
-					System.out.println("Could not check for updates! Stacktrace:");
-					e.printStackTrace();
-				}
-			}
-		} else {
+		if (devbuild) {
 			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
 			gcs(ChatColor.BLUE+"| ");
 			UpToDate = "§eDevelopment build";
+			return;
+		}
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+			try {
+				if (updater.checkForUpdates()) {
+					gcs(ChatColor.BLUE+"| "+ChatColor.RED+"Old version of Hawn detected");
+					gcs(ChatColor.BLUE+"| ");
+					UpToDate = "§cOld Version detected";
+				} else {
+					gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Plugin is up to date");
+					gcs(ChatColor.BLUE+"| ");
+					UpToDate = "§aPlugin up to date";
+				}
+			} catch (Exception e) {
+				System.out.println("Could not check for updates! Stacktrace:");
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static void UpdateCheckReload() {
-		if (!devbuild) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
-				UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
-				try {
-					if (updater.checkForUpdates()) {
-						UpToDate = "§cOld Version detected";
-					} else {
-						UpToDate = "§aPlugin up to date";
-					}
-				} catch (Exception e) {
-					System.out.println("Could not check for updates! Stacktrace:");
-					e.printStackTrace();
-				}
-			}
-		} else {
-			gcs(ChatColor.BLUE+"| "+ChatColor.GOLD+"You are in a development build");
-			gcs(ChatColor.BLUE+"| ");
+		if (devbuild) {
 			UpToDate = "§eDevelopment build";
+			return;
+		}
+		
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
+			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
+			try {
+				if (updater.checkForUpdates()) {
+					UpToDate = "§cOld Version detected";
+				} else {
+					UpToDate = "§aPlugin up to date";
+				}
+			} catch (Exception e) {
+				System.out.println("Could not check for updates! Stacktrace:");
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -1429,7 +1429,7 @@ public class Main extends JavaPlugin implements Listener {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player)) {
 				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
-				((PlayerBoard)boards.get(player)).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
+				((PlayerBoard)boards.get(player)).createNew(in);
 			} else {
 				new PlayerBoard(this, player, (ScoreboardInfo)info.get("hawn.scoreboard."+sb));
 			}
@@ -1444,7 +1444,7 @@ public class Main extends JavaPlugin implements Listener {
 	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
-	                        boards.get(player).createNew(in.getText(), in.getTitle(), in.getTitleUpdate(), in.getTextUpdate());
+	                        boards.get(player).createNew(in);
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player, info.get(s));
