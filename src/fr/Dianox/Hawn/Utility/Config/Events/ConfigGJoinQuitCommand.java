@@ -54,58 +54,36 @@ public class ConfigGJoinQuitCommand {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("JoinCommand.Enable", Boolean.valueOf(true));
-            Config.set("JoinCommand.Options.New.JoinCommand-Player.Enable", Boolean.valueOf(true));
-            Config.set("JoinCommand.Options.New.JoinCommand-Player.Commands",java.util.Arrays.asList(new String[] {
-            		"spawn",
-            		"an unknow command"
+            Config.set("JoinCommand.Enable", true);
+            Config.set("JoinCommand.Options.New.Enable", true);
+            Config.set("JoinCommand.Options.New.Commands",java.util.Arrays.asList(new String[] {
+            		"commands for new player!"
             }));
-            Config.set("JoinCommand.Options.New.JoinCommand-Player.World.All_World", Boolean.valueOf(false));
-            Config.set("JoinCommand.Options.New.JoinCommand-Player.World.Worlds", java.util.Arrays.asList(new String[] {
+            Config.set("JoinCommand.Options.New.World.All_World", false);
+            Config.set("JoinCommand.Options.New.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
             }));
             
-            Config.set("JoinCommand.Options.New.JoinCommand-Console.Enable", Boolean.valueOf(true));
-            Config.set("JoinCommand.Options.New.JoinCommand-Console.Commands",java.util.Arrays.asList(new String[] {
-            		"spawn",
-            		"an unknow command"
+            Config.set("JoinCommand.Options.No-New.Enable", true);
+            Config.set("JoinCommand.Options.No-New.Commands",java.util.Arrays.asList(new String[] {
+            		"<world>world</world> <perm>serer</perm> [command-player]: spawn",
+                    "[ping]",
+                    "send a message",
+                    "[command-player]: or just execute a command"
             }));
-            Config.set("JoinCommand.Options.New.JoinCommand-Console.World.All_World", Boolean.valueOf(false));
-            Config.set("JoinCommand.Options.New.JoinCommand-Console.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
+            Config.set("JoinCommand.Options.No-New.World.All_World", false);
+            Config.set("JoinCommand.Options.No-New.World.Worlds", java.util.Arrays.asList(new String[] {
+            		"world",
                     "world_nether"
             }));
             
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Player.Enable", Boolean.valueOf(true));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Player.Commands",java.util.Arrays.asList(new String[] {
-            		"spawn",
-            		"an unknow command"
+            Config.set("QuitCommand.Enable", false);
+            Config.set("QuitCommand.Commands",java.util.Arrays.asList(new String[] {
+            		"you can execute one or a lot of commands here with %player%"
             }));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Player.World.All_World", Boolean.valueOf(false));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Player.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Console.Enable", Boolean.valueOf(true));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Console.Commands",java.util.Arrays.asList(new String[] {
-            		"spawn",
-            		"an unknow command"
-            }));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Console.World.All_World", Boolean.valueOf(false));
-            Config.set("JoinCommand.Options.No-New.JoinCommand-Console.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            
-            Config.set("QuitCommand.Enable", Boolean.valueOf(true));
-            Config.set("QuitCommand.QuitCommand-Console.Commands",java.util.Arrays.asList(new String[] {
-            		"spawn %player%",
-            		"an unknow command"
-            }));
-            Config.set("QuitCommand.QuitCommand-Console.World.All_World", Boolean.valueOf(false));
-            Config.set("QuitCommand.QuitCommand-Console.World.Worlds", java.util.Arrays.asList(new String[] {
+            Config.set("QuitCommand.World.All_World", false);
+            Config.set("QuitCommand.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
             }));
