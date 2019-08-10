@@ -27,7 +27,9 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
+import fr.Dianox.Hawn.Utility.WorldGuardUtils;
 import fr.Dianox.Hawn.Utility.XSound;
+import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
@@ -43,6 +45,7 @@ import fr.Dianox.Hawn.Utility.World.ProtectionPW;
 
 public class BasicFeatures implements Listener {
 
+	String path_wg = "";
 	public static List<String> world_voidtp = new ArrayList<String>();
 	
     // Can't change Game mode
@@ -512,15 +515,115 @@ public class BasicFeatures implements Listener {
         }
     }
 
-
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent e) {
+    public void EntityDamageEvent(EntityDamageEvent e) {
+        path_wg = "Anti-Damage.";
+
         if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Enable")) {
             if (!ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.World.All_World")) {
                 if (BasicEventsPW.getWkHealth().contains(e.getEntity().getLocation().getWorld().getName())) {
                     if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Bypass-With-Permission")) {
                         if (e.getEntity() instanceof Player && !e.getEntity().hasPermission("hawn.bypass.antidamage")) {
-                            if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                            /*
+                             * WorldGuard
+                             */
+                            if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                                if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                    for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                        if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                            if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                                if (e.getEntity() instanceof Player) {
+                                                    Damage(e);
+                                                }
+                                            } else {
+                                                if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                                e.setCancelled(true);
+                                            }
+
+                                            break;
+                                        }
+                                    }
+                                } else if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                    String check = "";
+
+                                    for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                        if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                            check = "true";
+                                        }
+                                    }
+
+                                    if (check.contains("true")) {
+                                        return;
+                                    } else {
+                                        if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                            if (e.getEntity() instanceof Player) {
+                                                Damage(e);
+                                            }
+                                        } else {
+                                            if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                            e.setCancelled(true);
+                                        }
+                                    }
+                                }
+                            } else {
+                                /* The event */
+
+                                if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                    if (e.getEntity() instanceof Player) {
+                                        Damage(e);
+                                    }
+                                } else {
+                                    if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                    e.setCancelled(true);
+                                }
+                            }
+                        }
+                    } else {
+                        /*
+                         * WorldGuard
+                         */
+                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                            if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                            if (e.getEntity() instanceof Player) {
+                                                Damage(e);
+                                            }
+                                        } else {
+                                            if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                            e.setCancelled(true);
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            } else if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                String check = "";
+
+                                for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                        check = "true";
+                                    }
+                                }
+
+                                if (check.contains("true")) {
+                                    return;
+                                } else {
+                                	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                        if (e.getEntity() instanceof Player) {
+                                            Damage(e);
+                                        }
+                                    } else {
+                                        if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                        e.setCancelled(true);
+                                    }
+                                }
+                            }
+                        } else {
+                            /* The event */
+
+                        	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                                 if (e.getEntity() instanceof Player) {
                                     Damage(e);
                                 }
@@ -529,21 +632,111 @@ public class BasicFeatures implements Listener {
                                 e.setCancelled(true);
                             }
                         }
-                    } else {
-                        if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
-                            if (e.getEntity() instanceof Player) {
-                                Damage(e);
-                            }
-                        } else {
-                            if (e.getEntityType() == EntityType.ARMOR_STAND) return;
-                            e.setCancelled(true);
-                        }
                     }
                 }
             } else {
                 if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Bypass-With-Permission")) {
                     if (e.getEntity() instanceof Player && !e.getEntity().hasPermission("hawn.bypass.antidamage")) {
-                        if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                        /*
+                         * WorldGuard
+                         */
+                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                            if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                                for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                            if (e.getEntity() instanceof Player) {
+                                                Damage(e);
+                                            }
+                                        } else {
+                                            if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                            e.setCancelled(true);
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            } else if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                                String check = "";
+
+                                for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                        check = "true";
+                                    }
+                                }
+
+                                if (check.contains("true")) {
+                                    return;
+                                } else {
+                                	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                        if (e.getEntity() instanceof Player) {
+                                            Damage(e);
+                                        }
+                                    } else {
+                                        if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                        e.setCancelled(true);
+                                    }
+                                }
+                            }
+                        } else {
+                            /* The event */
+
+                        	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                if (e.getEntity() instanceof Player) {
+                                    Damage(e);
+                                }
+                            } else {
+                                if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                e.setCancelled(true);
+                            }
+                        }
+                    }
+                } else {
+                    /*
+                     * WorldGuard
+                     */
+                    if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
+                            for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                        if (e.getEntity() instanceof Player) {
+                                            Damage(e);
+                                        }
+                                    } else {
+                                        if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                        e.setCancelled(true);
+                                    }
+
+                                    break;
+                                }
+                            }
+                        } else if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("BLACKLIST")) {
+                            String check = "";
+
+                            for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
+                                if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    check = "true";
+                                }
+                            }
+
+                            if (check.contains("true")) {
+                                return;
+                            } else {
+                            	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
+                                    if (e.getEntity() instanceof Player) {
+                                        Damage(e);
+                                    }
+                                } else {
+                                    if (e.getEntityType() == EntityType.ARMOR_STAND) return;
+                                    e.setCancelled(true);
+                                }
+                            }
+                        }
+                    } else {
+                        /* The event */
+
+                    	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                             if (e.getEntity() instanceof Player) {
                                 Damage(e);
                             }
@@ -551,15 +744,6 @@ public class BasicFeatures implements Listener {
                             if (e.getEntityType() == EntityType.ARMOR_STAND) return;
                             e.setCancelled(true);
                         }
-                    }
-                } else {
-                    if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
-                        if (e.getEntity() instanceof Player) {
-                            Damage(e);
-                        }
-                    } else {
-                        if (e.getEntityType() == EntityType.ARMOR_STAND) return;
-                        e.setCancelled(true);
                     }
                 }
             }
