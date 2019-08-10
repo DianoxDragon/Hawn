@@ -16,6 +16,7 @@ import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.Bungee;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.XSound;
@@ -115,6 +116,13 @@ public class OnCommandEvent implements Listener {
                                 msg = msg.replaceAll("%player%", p.getName());
 
                                 p.performCommand(msg);
+                            } else if (msg.startsWith("[FWLU]: ")) {
+                            	if (msg.startsWith("[FWLU]: ")) {
+                					
+                            		msg = msg.replace("[FWLU]: ", "");
+                					
+                					OtherUtils.Fireworkmethod(p, msg);
+                				}
                             } else if (msg.startsWith("[customcommand-player]: ")) {
                             	msg = msg.replace("[customcommand-player]: ", "");
                                 msg = msg.replaceAll("%player%", p.getName());
@@ -281,6 +289,13 @@ public class OnCommandEvent implements Listener {
                     msg = msg.replaceAll("%player%", p.getName());
 
                     p.performCommand(msg);
+                } else if (msg.startsWith("[FWLU]: ")) {
+                	if (msg.startsWith("[FWLU]: ")) {
+    					
+                		msg = msg.replace("[FWLU]: ", "");
+    					
+    					OtherUtils.Fireworkmethod(p, msg);
+    				}
                 } else if (msg.startsWith("[command-console]: ")) {
                     msg = msg.replace("[command-console]: ", "");
                     msg = msg.replaceAll("%player%", p.getName());
