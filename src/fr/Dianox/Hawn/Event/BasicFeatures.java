@@ -5,12 +5,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -21,9 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.meta.FireworkMeta;
 
-import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
@@ -443,37 +438,14 @@ public class BasicFeatures implements Listener {
             }
             
             if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Enable")) {
-    	        for (int i = 1; i < VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Amount"); i++) {
-    	            ArrayList < Color > colors = new ArrayList < Color > ();
-    	            ArrayList < Color > fade = new ArrayList < Color > ();
-    	            List < String > lore = VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Colors");
-    	            List < String > lore2 = VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Fade");
-    	            for (String l1: lore) {
-    	                colors.add(OtherUtils.getColor(l1));
-    	            }
-    	            for (String l2: lore2) {
-    	                fade.add(OtherUtils.getColor(l2));
-    	            }
-    	            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Height"), 0.5D), Firework.class);
-    	
-    	            FireworkMeta fm = f.getFireworkMeta();
-    	            fm.addEffect(FireworkEffect.builder().flicker(VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Flicker"))
-    	                .trail(VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Trail"))
-    	                .with(FireworkEffect.Type.valueOf(VoidTPConfig.getConfig().getString("VoidTP.Options.Fireworks.Type"))).withColor(colors).withFade(fade)
-    	                .build());
-    	
-    	            if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Instant-explode")) {
-    	                fm.setPower(VoidTPConfig.getConfig().getInt("VoidTP.Options.Fireworks.Power"));
-    	            }
-    	            f.setFireworkMeta(fm);
-    	            if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Instant-explode")) {
-    	                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-    	                    public void run() {
-    	                        f.detonate();
-    	                    }
-    	                }, 5L);
-    	            }
-    	        }
+            	for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Firework-List")) {
+    				if (s.startsWith("[FWLU]: ")) {
+    					
+    					s = s.replace("[FWLU]: ", "");
+    					
+    					OtherUtils.Fireworkmethod(p, s);
+    				}
+    			}
             }
         }
 
