@@ -1032,7 +1032,10 @@ public class Main extends JavaPlugin implements Listener {
 	     */
 	    
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
+	    	
+		interactables.clear();
+		    
+		if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
 	    		interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
 	    	}
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE")) {
