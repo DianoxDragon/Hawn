@@ -172,7 +172,6 @@ public class CheckConfig {
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.FURNACE", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART", true);
-        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ITEM_FRAME", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.LEVER", true);
