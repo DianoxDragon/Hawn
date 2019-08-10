@@ -72,21 +72,9 @@ public class VoidTPConfig {
             Config.set("VoidTP.Options.Sounds.Pitch", 1);
             
             Config.set("VoidTP.Options.Fireworks.Enable", true);
-            Config.set("VoidTP.Options.Fireworks.Amount", 2);
-            Config.set("VoidTP.Options.Fireworks.Height", 3);
-            Config.set("VoidTP.Options.Fireworks.Flicker", false);
-            Config.set("VoidTP.Options.Fireworks.Trail", false);
-            Config.set("VoidTP.Options.Fireworks.Type", "BALL");
-            Config.set("VoidTP.Options.Fireworks.Instant-explode", false);
-            Config.set("VoidTP.Options.Fireworks.Power", 3);
-            Config.set("VoidTP.Options.Fireworks.Colors", java.util.Arrays.asList(new String[] {
-                    "YELLOW",
-                    "RED"
-                }));
-            Config.set("VoidTP.Options.Fireworks.Fade", java.util.Arrays.asList(new String[] {
-                    "BLUE",
-                    "WHITE"
-                }));
+            Config.set("VoidTP.Options.Fireworks.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
             
             Config.set("VoidTP.Options.Execute-Commands.Enable", true);
             Config.set("VoidTP.Options.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
