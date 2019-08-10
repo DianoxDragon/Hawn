@@ -150,6 +150,54 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Amount")) {
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Flicker", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Trail", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Type", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Instant-explode", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Power", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Colors", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Fade", null);
+			
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
+			
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Amount", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Height", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Flicker", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Trail", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Type", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Instant-explode", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Power", null);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Colors", null);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Fade", null);
+			
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework2"
+            }));
+	        
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Amount", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Height", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Flicker", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Trail", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Type", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Instant-explode", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Power", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Colors", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Fade", null);
+	        
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
+	        
+	        ConfigGCos.saveConfigFile();
+	        TitleAnnouncerConfig.saveConfigFile();
+			VoidTPConfig.saveConfigFile();
+		}
+		
 		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
 		ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE", true);
@@ -257,21 +305,6 @@ public class CheckConfig {
 		
 		if (!VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Enable")) {
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Enable", true);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", 2);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", 3);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Flicker", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Trail", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Type", "BALL");
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Instant-explode", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Power", 3);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Colors", java.util.Arrays.asList(new String[] {
-                "YELLOW",
-                "RED"
-            }));
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Fade", java.util.Arrays.asList(new String[] {
-                "BLUE",
-                "WHITE"
-            }));
         
 			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Enable", true);
 			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
@@ -308,21 +341,6 @@ public class CheckConfig {
 			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
 	        
 			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Enable", true);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Amount", 2);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Height", 3);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Flicker", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Trail", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Type", "BALL");
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Instant-explode", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Power", 3);
-	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Colors", java.util.Arrays.asList(new String[] {
-	                "YELLOW",
-	                "RED"
-	            }));
-	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Fade", java.util.Arrays.asList(new String[] {
-	                "BLUE",
-	                "WHITE"
-	            }));
 	        
 	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
 	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
