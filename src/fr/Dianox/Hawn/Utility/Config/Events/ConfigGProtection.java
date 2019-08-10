@@ -135,7 +135,6 @@ public class ConfigGProtection {
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.FURNACE", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART", true);
-            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ITEM_FRAME", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.LEVER", true);
