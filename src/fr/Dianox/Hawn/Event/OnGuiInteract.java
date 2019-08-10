@@ -16,7 +16,6 @@ import org.bukkit.scheduler.BukkitTask;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
@@ -26,9 +25,6 @@ import fr.Dianox.Hawn.Utility.Tasks.TaskShutdownServer;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class OnGuiInteract implements Listener {
-
-    BetweenServersConfig bs = new BetweenServersConfig();
-    
     
     @SuppressWarnings({ "deprecation", "unused" })
 	@EventHandler
@@ -87,8 +83,7 @@ public class OnGuiInteract implements Listener {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cStockageInfo")) {
                 	p.sendMessage("§cAvailable soon");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cTablist")) {
-                    p.sendMessage("§cEdit theses files manually");
-                    e.setCancelled(true);
+                	p.performCommand("ap folder Tablist");
                 }
             } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                 String nameinv = e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§b", "");
@@ -139,6 +134,15 @@ public class OnGuiInteract implements Listener {
             		
             		BukkitTask task = new TaskSavePlayerServer(p).runTaskLater(Main.getInstance(), 5);
             	}
+            } else if (e.getCurrentItem().getType() == XMaterial.EMERALD.parseMaterial()) {
+            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§eReload Hawn")) {
+            		
+            		BukkitTask task = Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            			public void run() {
+            				p.performCommand("hawn reload");
+            			}
+            		}, 5);
+            	}
             }
 
             e.setCancelled(true);
@@ -159,6 +163,8 @@ public class OnGuiInteract implements Listener {
                     p.performCommand("ap edit file E-" + name);
                 } else if (inv.equals("§cAP - Folder Messages")) {
                     p.performCommand("ap edit file M-" + name);
+                } else if (inv.equals("§cAP - Folder Tablist")) {
+                    p.performCommand("ap edit file T-" + name);
                 } else {
                     p.performCommand("ap edit file " + name);
                 }
@@ -312,6 +318,10 @@ public class OnGuiInteract implements Listener {
                 } else if (inv.contains("C-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder commands");
+                	}
+                } else if (inv.contains("T-")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
+                		p.performCommand("ap folder Tablist");
                 	}
                 }
             }

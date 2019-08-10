@@ -39,6 +39,7 @@ import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
+import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.VoidTPConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
@@ -149,6 +150,103 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Amount")) {
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Flicker", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Trail", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Type", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Instant-explode", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Power", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Colors", null);
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Fade", null);
+			
+			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
+			
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Amount", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Height", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Flicker", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Trail", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Type", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Instant-explode", null);
+			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Power", null);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Colors", null);
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Fade", null);
+			
+	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework2"
+            }));
+	        
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Amount", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Height", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Flicker", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Trail", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Type", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Instant-explode", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Power", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Colors", null);
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Fade", null);
+	        
+	        ConfigGCos.getConfig().set("Cosmetics.Firework.Options.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
+	        
+	        ConfigGCos.saveConfigFile();
+	        TitleAnnouncerConfig.saveConfigFile();
+			VoidTPConfig.saveConfigFile();
+		}
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
+		ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ANVIL", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BEACON", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.RED_BED", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DROPPER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.FURNACE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.LEVER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN", false);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+        
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Enable", false);
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Method", "WHITELIST");
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                "region1",
+                "whatyouwant"
+            }));
+        
+        ProtectionPlayerConfig.saveConfigFile();
+        ConfigGProtection.saveConfigFile();
+		}
+		
 		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Enable")) {
 			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Enable", true);
 			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
@@ -207,21 +305,6 @@ public class CheckConfig {
 		
 		if (!VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Enable")) {
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Enable", true);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", 2);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", 3);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Flicker", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Trail", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Type", "BALL");
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Instant-explode", false);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Power", 3);
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Colors", java.util.Arrays.asList(new String[] {
-                "YELLOW",
-                "RED"
-            }));
-			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Fade", java.util.Arrays.asList(new String[] {
-                "BLUE",
-                "WHITE"
-            }));
         
 			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Enable", true);
 			VoidTPConfig.getConfig().set("VoidTP.Options.Execute-Commands.Commands", java.util.Arrays.asList(new String[] {
@@ -258,21 +341,6 @@ public class CheckConfig {
 			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
 	        
 			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Enable", true);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Amount", 2);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Height", 3);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Flicker", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Trail", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Type", "BALL");
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Instant-explode", false);
-			TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Power", 3);
-	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Colors", java.util.Arrays.asList(new String[] {
-	                "YELLOW",
-	                "RED"
-	            }));
-	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Firework.Fade", java.util.Arrays.asList(new String[] {
-	                "BLUE",
-	                "WHITE"
-	            }));
 	        
 	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
 	        TitleAnnouncerConfig.getConfig().set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");

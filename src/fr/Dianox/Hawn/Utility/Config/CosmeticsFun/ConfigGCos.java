@@ -55,22 +55,12 @@ public class ConfigGCos {
 
             Config.set("Cosmetics.Firework.Enable", true);
             Config.set("Cosmetics.Firework.Bypass", false);
+            
             Config.set("Cosmetics.Firework.Options.First-Join-Only", false);
-            Config.set("Cosmetics.Firework.Options.Amount", 2);
-            Config.set("Cosmetics.Firework.Options.Height", 3);
-            Config.set("Cosmetics.Firework.Options.Flicker", false);
-            Config.set("Cosmetics.Firework.Options.Trail", false);
-            Config.set("Cosmetics.Firework.Options.Type", "BALL");
-            Config.set("Cosmetics.Firework.Options.Instant-explode", false);
-            Config.set("Cosmetics.Firework.Options.Power", 3);
-            Config.set("Cosmetics.Firework.Options.Colors", java.util.Arrays.asList(new String[] {
-                    "YELLOW",
-                    "RED"
-                }));
-            Config.set("Cosmetics.Firework.Options.Fade", java.util.Arrays.asList(new String[] {
-                    "BLUE",
-                    "WHITE"
-                }));
+            Config.set("Cosmetics.Firework.Options.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework1"
+            }));
+            
             Config.set("Cosmetics.Firework.World.All_World", false);
             Config.set("Cosmetics.Firework.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",

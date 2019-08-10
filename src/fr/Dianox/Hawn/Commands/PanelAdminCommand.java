@@ -19,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
-import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
 
@@ -102,10 +101,20 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(25, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(26, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
-            inv.setItem(27, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"), XMaterial.REDSTONE_BLOCK.parseMaterial()));
-            inv.setItem(28, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"), XMaterial.NETHER_STAR.parseMaterial()));
-            inv.setItem(29, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"), XMaterial.PLAYER_HEAD.parseMaterial()));
+            inv.setItem(27, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
+            inv.setItem(28, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"), XMaterial.REDSTONE_BLOCK.parseMaterial()));
+            inv.setItem(29, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"), XMaterial.NETHER_STAR.parseMaterial()));
+            inv.setItem(30, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"), XMaterial.PLAYER_HEAD.parseMaterial()));
 
+            inv.setItem(31, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
+            inv.setItem(32, createGuiItemWL("§eReload Hawn", XMaterial.EMERALD.parseMaterial()));
+            
+            inv.setItem(33, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(34, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(35, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
             inv.setItem(36, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(38, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -153,7 +162,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     	invname = invname.replaceAll(Main.getInstance().getDataFolder() + "/", "");
                     } catch (Exception e) {
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Edit-Files")) {
-                            MessageUtils.ReplaceMessageForConsole(msg);
+                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
                         }
                     	
                     	return true;
@@ -167,6 +176,8 @@ public class PanelAdminCommand extends BukkitCommand {
                         invname = invname.replace("Cosmetics-Fun/", "CF-");
                     } else if (invname.contains("Events/")) {
                         invname = invname.replace("Events/", "E-");
+                    } else if (invname.contains("Tablist/")) {
+                        invname = invname.replace("Tablist/", "T-");
                     }
 
                     if (args.length != 4) {
@@ -222,7 +233,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     } else if (invname.contains("warplist") || invname.contains("spawn")) {
                         if (!cfg.isSet("Coordinated")) {
                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Edit-Empty")) {
-                                MessageUtils.ReplaceMessageForConsole(msg);
+                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
                             }
                             return true;
                         }
@@ -348,7 +359,7 @@ public class PanelAdminCommand extends BukkitCommand {
                             }
                         } else {
                             if (numberitemstoeleimate < loopaeleminer) {
-                                if (OnJoinConfig.getConfig().isBoolean(string)) {
+                                if (cfg.isBoolean(string)) {
                                     numberitemstoeleimate++;
                                 }
                             } else {

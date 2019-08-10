@@ -112,6 +112,44 @@ public class ConfigGProtection {
             
 	    Config.set("Protection.PlayerInteract-Items-Blocks.Enable", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
+		
+	    Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ANVIL", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.BEACON", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.RED_BED", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.CHEST", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DROPPER", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.FURNACE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.LEVER", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN", false);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+		
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {

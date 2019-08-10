@@ -1,19 +1,12 @@
 package fr.Dianox.Hawn.Commands.Features.Specials;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.FireworkMeta;
 
-import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.TitleUtils;
@@ -117,37 +110,14 @@ public class TitleAnnouncerCommand extends BukkitCommand {
          * Firework cos
          */
         if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Firework.Enable")) {
-	        for (int i = 1; i < TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Firework.Amount"); i++) {
-	            ArrayList < Color > colors = new ArrayList < Color > ();
-	            ArrayList < Color > fade = new ArrayList < Color > ();
-	            List < String > lore = TitleAnnouncerConfig.getConfig().getStringList("Title-Announcer.Options.Firework.Colors");
-	            List < String > lore2 = TitleAnnouncerConfig.getConfig().getStringList("Title-Announcer.Options.Firework.Fade");
-	            for (String l1: lore) {
-	                colors.add(OtherUtils.getColor(l1));
-	            }
-	            for (String l2: lore2) {
-	                fade.add(OtherUtils.getColor(l2));
-	            }
-	            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Firework.Height"), 0.5D), Firework.class);
-	
-	            FireworkMeta fm = f.getFireworkMeta();
-	            fm.addEffect(FireworkEffect.builder().flicker(TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Firework.Flicker"))
-	                .trail(TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Firework.Trail"))
-	                .with(FireworkEffect.Type.valueOf(TitleAnnouncerConfig.getConfig().getString("Title-Announcer.Options.Firework.Type"))).withColor(colors).withFade(fade)
-	                .build());
-	
-	            if (!TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Firework.Instant-explode")) {
-	                fm.setPower(TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Firework.Power"));
-	            }
-	            f.setFireworkMeta(fm);
-	            if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Firework.Instant-explode")) {
-	                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-	                    public void run() {
-	                        f.detonate();
-	                    }
-	                }, 5L);
-	            }
-	        }
+        	for (String s: TitleAnnouncerConfig.getConfig().getStringList("Title-Announcer.Options.Firework.Firework-List")) {
+				if (s.startsWith("[FWLU]: ")) {
+					
+					s = s.replace("[FWLU]: ", "");
+					
+					OtherUtils.Fireworkmethod(p, s);
+				}
+			}
         }
         
         /*

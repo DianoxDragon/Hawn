@@ -52,6 +52,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -661,6 +662,7 @@ public class HawnCommand implements CommandExecutor {
 		WarningCommandConfig.reloadConfig();
 		AdminPanelConfig.reloadConfig();
 		ActionbarAnnouncerConfig.reloadConfig();
+		FireworkListCUtility.reloadConfig();
 	}
 	
 	public void reloadconfig() {
@@ -790,6 +792,120 @@ public class HawnCommand implements CommandExecutor {
 	        	} 	
 	        }
 		}
+		
+		if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
+	    	
+	    	Main.interactables.clear();
+	    	
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
+	    		Main.interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.ACACIA_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ANVIL")) {
+	    		Main.interactables.add(XMaterial.ANVIL.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BEACON")) {
+	    		Main.interactables.add(XMaterial.BEACON.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.RED_BED")) {
+	    		Main.interactables.add(XMaterial.RED_BED.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR")) {
+	    		Main.interactables.add(XMaterial.BIRCH_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.BIRCH_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT")) {
+	    		Main.interactables.add(XMaterial.OAK_BOAT.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND")) {
+	    		Main.interactables.add(XMaterial.BREWING_STAND.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK")) {
+	    		Main.interactables.add(XMaterial.COMMAND_BLOCK.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST")) {
+	    		Main.interactables.add(XMaterial.CHEST.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR")) {
+	    		Main.interactables.add(XMaterial.DARK_OAK_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.DARK_OAK_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR")) {
+	    		Main.interactables.add(XMaterial.DAYLIGHT_DETECTOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER")) {
+	    		Main.interactables.add(XMaterial.DISPENSER.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DROPPER")) {
+	    		Main.interactables.add(XMaterial.DROPPER.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE")) {
+	    		Main.interactables.add(XMaterial.ENCHANTING_TABLE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST")) {
+	    		Main.interactables.add(XMaterial.ENDER_CHEST.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.OAK_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.FURNACE")) {
+	    		Main.interactables.add(XMaterial.FURNACE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER")) {
+	    		Main.interactables.add(XMaterial.HOPPER.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART")) {
+	    		Main.interactables.add(XMaterial.HOPPER_MINECART.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR")) {
+	    		Main.interactables.add(XMaterial.JUNGLE_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.JUNGLE_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.LEVER")) {
+	    		Main.interactables.add(XMaterial.LEVER.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
+	    		Main.interactables.add(XMaterial.MINECART.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK")) {
+	    		Main.interactables.add(XMaterial.NOTE_BLOCK.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
+	    		Main.interactables.add(XMaterial.MINECART.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR")) {
+	    		Main.interactables.add(XMaterial.COMPARATOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN")) {
+	    		Main.interactables.add(XMaterial.OAK_SIGN.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART")) {
+	    		Main.interactables.add(XMaterial.CHEST_MINECART.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
+	    		Main.interactables.add(XMaterial.OAK_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.OAK_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST")) {
+	    		Main.interactables.add(XMaterial.TRAPPED_CHEST.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON")) {
+	    		Main.interactables.add(XMaterial.OAK_BUTTON.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
+	    		Main.interactables.add(XMaterial.OAK_DOOR.parseMaterial());
+	    	}
+	    }
 		
 		if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
 	    	Main.getInstance().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));

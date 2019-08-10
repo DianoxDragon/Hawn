@@ -56,6 +56,14 @@ public class ProtectionPlayerConfig {
             Config.set("Anti-Damage.Enable", Boolean.valueOf(true));
             Config.set("Anti-Damage.Custom.Enable", Boolean.valueOf(false));
             Config.set("Anti-Damage.Bypass-With-Permission", Boolean.valueOf(false));
+            
+            Config.set("Anti-Damage.WorldGuard.Enable", false);
+            Config.set("Anti-Damage.WorldGuard.Method", "WHITELIST");
+            Config.set("Anti-Damage.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
             Config.set("Anti-Damage.World.All_World", Boolean.valueOf(false));
             Config.set("Anti-Damage.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
