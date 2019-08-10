@@ -39,6 +39,7 @@ import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
+import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.VoidTPConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
@@ -187,6 +188,14 @@ public class CheckConfig {
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON", true);
         ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
         
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Enable", false);
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Method", "WHITELIST");
+        ProtectionPlayerConfig.getConfig().set("Anti-Damage.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                "region1",
+                "whatyouwant"
+            }));
+        
+        ProtectionPlayerConfig.saveConfigFile();
         ConfigGProtection.saveConfigFile();
 		}
 		
