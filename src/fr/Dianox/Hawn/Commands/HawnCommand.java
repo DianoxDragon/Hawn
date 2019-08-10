@@ -52,6 +52,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -661,6 +662,7 @@ public class HawnCommand implements CommandExecutor {
 		WarningCommandConfig.reloadConfig();
 		AdminPanelConfig.reloadConfig();
 		ActionbarAnnouncerConfig.reloadConfig();
+		FireworkListCUtility.reloadConfig();
 	}
 	
 	public void reloadconfig() {
