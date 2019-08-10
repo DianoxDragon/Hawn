@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.management.Attribute;
 import javax.management.AttributeList;
@@ -14,9 +16,16 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
 
 public class OtherUtils {
 	
@@ -308,5 +317,40 @@ public class OtherUtils {
 	    
 	    return null;
 	}
+	
+	public static void Fireworkmethod(Player p, String firework) {
+        for (int i = 1; i < FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Amount"); i++) {
+            ArrayList < Color > colors = new ArrayList < Color > ();
+            ArrayList < Color > fade = new ArrayList < Color > ();
+            List < String > lore = FireworkListCUtility.getConfig().getStringList("Fireworks." + firework +".Options.Colors");
+            List < String > lore2 = FireworkListCUtility.getConfig().getStringList("Fireworks." + firework +".Options.Fade");
+            for (String l1: lore) {
+                colors.add(getColor(l1));
+            }
+            for (String l2: lore2) {
+                fade.add(getColor(l2));
+            }
+            
+            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Height"), 0.5D), Firework.class);
+
+            FireworkMeta fm = f.getFireworkMeta();
+            fm.addEffect(FireworkEffect.builder().flicker(FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Flicker"))
+                .trail(FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Trail"))
+                .with(FireworkEffect.Type.valueOf(FireworkListCUtility.getConfig().getString("Fireworks." + firework +".Options.Type"))).withColor(colors).withFade(fade)
+                .build());
+
+            if (!FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Instant-explode")) {
+                fm.setPower(FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Power"));
+            }
+            f.setFireworkMeta(fm);
+            if (FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Instant-explode")) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+                    public void run() {
+                        f.detonate();
+                    }
+                }, 5L);
+            }
+        }
+    }
 
 }
