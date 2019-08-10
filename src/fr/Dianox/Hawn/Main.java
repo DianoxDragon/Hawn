@@ -112,6 +112,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
+import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -393,7 +394,8 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigFDoubleJump.loadConfig((Plugin) this);
 			configfile.put("CF-DoubleJump", "Cosmetics-Fun/DoubleJump.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/DoubleJump.yml", "CF-DoubleJump");
-				
+			FireworkListCUtility.loadConfig((Plugin) this);
+			
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
 		configfile.put("G-CustomCommand", "CustomCommand.yml");
