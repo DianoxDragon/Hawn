@@ -127,7 +127,6 @@ public class ConfigGProtection {
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
-            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.DROPPER", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE", true);
