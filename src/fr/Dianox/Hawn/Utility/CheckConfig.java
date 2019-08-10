@@ -149,6 +149,49 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
+		ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ANVIL", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BEACON", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.RED_BED", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DROPPER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.FURNACE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ITEM_FRAME", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.LEVER", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN", false);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON", true);
+        ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
+        
+        ConfigGProtection.saveConfigFile();
+		}
+		
 		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Enable")) {
 			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Enable", true);
 			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
