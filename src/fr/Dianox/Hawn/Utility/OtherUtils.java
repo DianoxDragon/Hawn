@@ -319,11 +319,11 @@ public class OtherUtils {
 	}
 	
 	public static void Fireworkmethod(Player p, String firework) {
-        for (int i = 1; i < FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Amount"); i++) {
+        for (int i = 1; i < FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Amount"); i++) {
             ArrayList < Color > colors = new ArrayList < Color > ();
             ArrayList < Color > fade = new ArrayList < Color > ();
-            List < String > lore = FireworkListCUtility.getConfig().getStringList("Fireworks." + firework +".Options.Colors");
-            List < String > lore2 = FireworkListCUtility.getConfig().getStringList("Fireworks." + firework +".Options.Fade");
+            List < String > lore = FireworkListCUtility.getConfig().getStringList("Firework-List." + firework +".Options.Colors");
+            List < String > lore2 = FireworkListCUtility.getConfig().getStringList("Firework-List." + firework +".Options.Fade");
             for (String l1: lore) {
                 colors.add(getColor(l1));
             }
@@ -331,19 +331,19 @@ public class OtherUtils {
                 fade.add(getColor(l2));
             }
             
-            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Height"), 0.5D), Firework.class);
+            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Height"), 0.5D), Firework.class);
 
             FireworkMeta fm = f.getFireworkMeta();
-            fm.addEffect(FireworkEffect.builder().flicker(FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Flicker"))
-                .trail(FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Trail"))
-                .with(FireworkEffect.Type.valueOf(FireworkListCUtility.getConfig().getString("Fireworks." + firework +".Options.Type"))).withColor(colors).withFade(fade)
+            fm.addEffect(FireworkEffect.builder().flicker(FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Flicker"))
+                .trail(FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Trail"))
+                .with(FireworkEffect.Type.valueOf(FireworkListCUtility.getConfig().getString("Firework-List." + firework +".Options.Type"))).withColor(colors).withFade(fade)
                 .build());
 
-            if (!FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Instant-explode")) {
-                fm.setPower(FireworkListCUtility.getConfig().getInt("Fireworks." + firework +".Options.Power"));
+            if (!FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Instant-explode")) {
+                fm.setPower(FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Power"));
             }
             f.setFireworkMeta(fm);
-            if (FireworkListCUtility.getConfig().getBoolean("Fireworks." + firework +".Options.Instant-explode")) {
+            if (FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Instant-explode")) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
                     public void run() {
                         f.detonate();
