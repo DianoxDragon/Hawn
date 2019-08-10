@@ -62,21 +62,9 @@ public class TitleAnnouncerConfig {
             Config.set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
             
             Config.set("Title-Announcer.Options.Firework.Enable", true);
-            Config.set("Title-Announcer.Options.Firework.Amount", 2);
-            Config.set("Title-Announcer.Options.Firework.Height", 3);
-            Config.set("Title-Announcer.Options.Firework.Flicker", false);
-            Config.set("Title-Announcer.Options.Firework.Trail", false);
-            Config.set("Title-Announcer.Options.Firework.Type", "BALL");
-            Config.set("Title-Announcer.Options.Firework.Instant-explode", false);
-            Config.set("Title-Announcer.Options.Firework.Power", 3);
-            Config.set("Title-Announcer.Options.Firework.Colors", java.util.Arrays.asList(new String[] {
-                    "YELLOW",
-                    "RED"
-                }));
-            Config.set("Title-Announcer.Options.Firework.Fade", java.util.Arrays.asList(new String[] {
-                    "BLUE",
-                    "WHITE"
-                }));
+            Config.set("Title-Announcer.Options.Firework.Firework-List", java.util.Arrays.asList(new String[] {
+                    "[FWLU]: Firework2"
+            }));
             
             Config.set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
             Config.set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
