@@ -346,7 +346,7 @@ public class Main extends JavaPlugin implements Listener {
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/MuteChat.yml", "C-MuteChat");
 			PingCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Ping", "Commands/Ping.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ Ping.yml", "C-Ping");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Ping.yml", "C-Ping");
 			DelayChatCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-DelayChat", "Commands/DelayChat.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/DelayChat.yml", "C-DelayChat");
@@ -396,10 +396,12 @@ public class Main extends JavaPlugin implements Listener {
 				
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
-
-		CustomCommandConfig.loadConfig((Plugin) this);
 		configfile.put("G-CustomCommand", "CustomCommand.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomCommand.yml", "G-CustomCommand");
+		
+		CustomCommandConfig.loadConfig((Plugin) this);
+		configfile.put("T-Tablist", "Tablist/Tablist.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Tablist/Tablist.yml", "T-Tablist");
 		
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
 
@@ -1033,9 +1035,9 @@ public class Main extends JavaPlugin implements Listener {
 	    
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
 	    	
-		interactables.clear();
-		    
-		if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
+	    	interactables.clear();
+	    	
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
 	    		interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
 	    	}
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE")) {
