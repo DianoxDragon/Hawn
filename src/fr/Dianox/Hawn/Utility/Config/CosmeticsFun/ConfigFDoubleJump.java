@@ -53,14 +53,14 @@ public class ConfigFDoubleJump {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("DoubleJump.Enable", Boolean.valueOf(true));
-            Config.set("DoubleJump.Double.Enable", Boolean.valueOf(true));
-            Config.set("DoubleJump.Double.Use_Permission", Boolean.valueOf(true));
-            Config.set("DoubleJump.Double.Sounds.Enable", Boolean.valueOf(true));
+            Config.set("DoubleJump.Enable", true);
+            Config.set("DoubleJump.Double.Enable", true);
+            Config.set("DoubleJump.Double.Use_Permission", true);
+            Config.set("DoubleJump.Double.Sounds.Enable", true);
             Config.set("DoubleJump.Double.Sounds.Sound", "NOTE_PIANO");
-            Config.set("DoubleJump.Double.Sounds.Volume", Integer.valueOf(10));
-            Config.set("DoubleJump.Double.Sounds.Pitch", Integer.valueOf(1));
-            Config.set("DoubleJump.Double.World.All_World", Boolean.valueOf(false));
+            Config.set("DoubleJump.Double.Sounds.Volume", 10);
+            Config.set("DoubleJump.Double.Sounds.Pitch", 1);
+            Config.set("DoubleJump.Double.World.All_World", false);
             Config.set("DoubleJump.Double.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
