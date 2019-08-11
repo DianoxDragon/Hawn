@@ -53,26 +53,26 @@ public class ClearChatCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("ClearChat.Enable", Boolean.valueOf(true));
-            Config.set("ClearChat.Lines-To-Clear", Integer.valueOf(150));
-            Config.set("ClearChat.Disable-Message", Boolean.valueOf(true));
-            Config.set("ClearChat.Anonymous.Enable", Boolean.valueOf(true));
-            Config.set("ClearChat.Anonymous.Message-Clear", Boolean.valueOf(true));
-            Config.set("ClearChat.Anonymous.Use_Permission", Boolean.valueOf(true));
-            Config.set("ClearChat.Anonymous.Disable-Message", Boolean.valueOf(true));
-            Config.set("ClearChat.Normal.Enable", Boolean.valueOf(true));
-            Config.set("ClearChat.Normal.Message-Clear", Boolean.valueOf(true));
-            Config.set("ClearChat.Normal.Use_Permission", Boolean.valueOf(true));
-            Config.set("ClearChat.Normal.Disable-Message", Boolean.valueOf(true));
-            Config.set("ClearChat.Own.Enable", Boolean.valueOf(true));
-            Config.set("ClearChat.Own.Message-Clear", Boolean.valueOf(true));
-            Config.set("ClearChat.Own.Use_Permission", Boolean.valueOf(false));
-            Config.set("ClearChat.Own.Disable-Message", Boolean.valueOf(true));
-            Config.set("ClearChat.Other.Enable", Boolean.valueOf(true));
-            Config.set("ClearChat.Other.Message-Clear", Boolean.valueOf(true));
-            Config.set("ClearChat.Other.Use_Permission", Boolean.valueOf(false));
-            Config.set("ClearChat.Other.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("ClearChat.Enable", true);
+            Config.set("ClearChat.Lines-To-Clear", 150);
+            Config.set("ClearChat.Disable-Message", true);
+            Config.set("ClearChat.Anonymous.Enable", true);
+            Config.set("ClearChat.Anonymous.Message-Clear", true);
+            Config.set("ClearChat.Anonymous.Use_Permission", true);
+            Config.set("ClearChat.Anonymous.Disable-Message", true);
+            Config.set("ClearChat.Normal.Enable", true);
+            Config.set("ClearChat.Normal.Message-Clear", true);
+            Config.set("ClearChat.Normal.Use_Permission", true);
+            Config.set("ClearChat.Normal.Disable-Message", true);
+            Config.set("ClearChat.Own.Enable", true);
+            Config.set("ClearChat.Own.Message-Clear", true);
+            Config.set("ClearChat.Own.Use_Permission", false);
+            Config.set("ClearChat.Own.Disable-Message", true);
+            Config.set("ClearChat.Other.Enable", true);
+            Config.set("ClearChat.Other.Message-Clear", true);
+            Config.set("ClearChat.Other.Use_Permission", false);
+            Config.set("ClearChat.Other.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 
