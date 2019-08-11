@@ -31,13 +31,13 @@ public class MuteChatCommand extends BukkitCommand {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "console")));
 						MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
 					}
-					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(false));
+					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 				} else {
 					for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Admin.On")) {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "console")));
 						MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
 					}
-					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(true));
+					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 				}
 		    return true;
 		    
@@ -68,12 +68,12 @@ public class MuteChatCommand extends BukkitCommand {
 						for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Admin.Off")) {
 							MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
 						}
-						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(false));
+						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 					} else {
 						for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Admin.On")) {
 							MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
 						}
-						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", Boolean.valueOf(true));
+						MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 					}
 		
 		
