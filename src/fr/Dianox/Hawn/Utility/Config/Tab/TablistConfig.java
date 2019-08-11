@@ -53,10 +53,10 @@ public class TablistConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Tablist.enable", Boolean.valueOf(true));
-            Config.set("Tablist.refresh-time-ticks", Integer.valueOf(20));
+            Config.set("Tablist.enable", true);
+            Config.set("Tablist.refresh-time-ticks", 20);
             
-            Config.set("Tablist.header.enabled", Boolean.valueOf(true));
+            Config.set("Tablist.header.enabled", true);
             Config.set("Tablist.header.message", java.util.Arrays.asList(new String[] {
             		"",
             		"&7Thank you to choose &6&lHawn",
@@ -66,7 +66,7 @@ public class TablistConfig {
             		"&6&l>> &3&m-------------------&r &6&l<<"
             		}));
             
-            Config.set("Tablist.footer.enabled", Boolean.valueOf(true));
+            Config.set("Tablist.footer.enabled", true);
             Config.set("Tablist.footer.message", java.util.Arrays.asList(new String[] {
             		"&6&l>> &3&m-------------------&r &6&l<<",
             		"",
