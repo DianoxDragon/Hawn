@@ -53,13 +53,13 @@ public class PingCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Ping.Self.Enable", Boolean.valueOf(true));
-            Config.set("Ping.Self.Use_Permission", Boolean.valueOf(false));
-            Config.set("Ping.Self.Disable-Message", Boolean.valueOf(true));
-            Config.set("Ping.Other.Enable", Boolean.valueOf(true));
-            Config.set("Ping.Other.Use_Permission", Boolean.valueOf(false));
-            Config.set("Ping.Other.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Ping.Self.Enable", true);
+            Config.set("Ping.Self.Use_Permission", false);
+            Config.set("Ping.Self.Disable-Message", true);
+            Config.set("Ping.Other.Enable", true);
+            Config.set("Ping.Other.Use_Permission", false);
+            Config.set("Ping.Other.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 
