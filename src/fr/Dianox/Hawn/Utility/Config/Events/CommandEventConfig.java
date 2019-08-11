@@ -54,9 +54,9 @@ public class CommandEventConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Block-Commands.Enable", Boolean.valueOf(true));
-            Config.set("Block-Commands.Bypass", Boolean.valueOf(true));
-            Config.set("Block-Commands.Message-Enable", Boolean.valueOf(true));
+            Config.set("Block-Commands.Enable", true);
+            Config.set("Block-Commands.Bypass", true);
+            Config.set("Block-Commands.Message-Enable", true);
             Config.set("Block-Commands.Message", java.util.Arrays.asList(new String[] {"&cSorry... But ! You're noob"}));
             Config.set("Block-Commands.List", java.util.Arrays.asList(new String[] {
                     "/pl",
