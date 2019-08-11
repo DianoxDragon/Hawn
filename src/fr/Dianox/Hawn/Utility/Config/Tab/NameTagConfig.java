@@ -53,26 +53,26 @@ public class NameTagConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("nametag-general.enable", Boolean.valueOf(true));
+            Config.set("nametag-general.enable", true);
             
-            Config.set("nametag.owner.prefix.enabled", Boolean.valueOf(true));
-            Config.set("nametag.owner.prefix.message", String.valueOf("&4[Owner]&c "));
+            Config.set("nametag.owner.prefix.enabled", true);
+            Config.set("nametag.owner.prefix.message", "&4[Owner]&c ");
             
-            Config.set("nametag.owner.suffix.enabled", Boolean.valueOf(false));
-            Config.set("nametag.owner.suffix.message", String.valueOf(" &aoui"));
+            Config.set("nametag.owner.suffix.enabled", false);
+            Config.set("nametag.owner.suffix.message", " &aoui");
             
-            Config.set("nametag.owner.priority", Integer.valueOf(01));
+            Config.set("nametag.owner.priority", 01);
             
-            Config.set("nametag.admin.prefix.enabled", Boolean.valueOf(true));
-            Config.set("nametag.admin.prefix.message", String.valueOf("&c[Admin]&6 "));
+            Config.set("nametag.admin.prefix.enabled", true);
+            Config.set("nametag.admin.prefix.message", "&c[Admin]&6 ");
             
-            Config.set("nametag.admin.suffix.enabled", Boolean.valueOf(false));
-            Config.set("nametag.admin.suffix.message", String.valueOf(" &aoui"));
+            Config.set("nametag.admin.suffix.enabled", false);
+            Config.set("nametag.admin.suffix.message", " &aoui");
             
-            Config.set("nametag.admin.priority", Integer.valueOf(02));
+            Config.set("nametag.admin.priority", 02);
             
-            Config.set("nametag-player.dianox", String.valueOf("owner"));
-            Config.set("nametag-player.randomplayeromg", String.valueOf("admin"));
+            Config.set("nametag-player.dianox", "owner");
+            Config.set("nametag-player.randomplayeromg", "admin");
             
             saveConfigFile();
 
