@@ -53,17 +53,17 @@ public class ServerListConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Slots.One-Slot-Free", Boolean.valueOf(true));
-            Config.set("Slots.Fake-Max-Player.Enable", Boolean.valueOf(false));
-            Config.set("Slots.Fake-Max-Player.Number", Integer.valueOf(2000));
-            Config.set("On-Join.Player-With-Permission-Join-Full-Server", Boolean.valueOf(true));
-            Config.set("On-Join.Message", String.valueOf("&cThe multi line \n&bworks like that %player%"));
-            Config.set("Motd.Classic.Enable", Boolean.valueOf(true));
-            Config.set("Motd.Classic.Line-1", String.valueOf("&cThis is a test of motd of course"));
-            Config.set("Motd.Classic.Line-2", String.valueOf("&eThanks to choose &lhawn"));
-            Config.set("Motd.WhiteList.Enable", Boolean.valueOf(true));
-            Config.set("Motd.WhiteList.Line-1", String.valueOf("&eServer is on whitelist"));
-            Config.set("Motd.WhiteList.Line-2", String.valueOf("&bPlease come back later"));
+            Config.set("Slots.One-Slot-Free", true);
+            Config.set("Slots.Fake-Max-Player.Enable", false);
+            Config.set("Slots.Fake-Max-Player.Number", 2000);
+            Config.set("On-Join.Player-With-Permission-Join-Full-Server", true);
+            Config.set("On-Join.Message", "&cThe multi line \n&bworks like that %player%");
+            Config.set("Motd.Classic.Enable", true);
+            Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course");
+            Config.set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");
+            Config.set("Motd.WhiteList.Enable", true);
+            Config.set("Motd.WhiteList.Line-1", "&eServer is on whitelist");
+            Config.set("Motd.WhiteList.Line-2", "&bPlease come back later");
             
             saveConfigFile();
 
