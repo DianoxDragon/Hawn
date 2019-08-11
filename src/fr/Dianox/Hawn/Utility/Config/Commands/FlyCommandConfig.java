@@ -54,9 +54,9 @@ public class FlyCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Fly.Enable", Boolean.valueOf(true));
-            Config.set("Fly.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Fly.Enable", true);
+            Config.set("Fly.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 
