@@ -53,10 +53,10 @@ public class HelpCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Help-Command.Enable", Boolean.valueOf(true));
-            Config.set("Help-Command.Use-Permissions", Boolean.valueOf(true));
+            Config.set("Help-Command.Enable", true);
+            Config.set("Help-Command.Use-Permissions", true);
             
-            Config.set("Help-Command.Categories.default", String.valueOf("CHANGE ME"));
+            Config.set("Help-Command.Categories.default", "CHANGE ME");
 
             // categories 1
             Config.set("Help-Command.Categories.lobbyhelp.1", java.util.Arrays.asList(new String[] {
@@ -79,7 +79,7 @@ public class HelpCommandConfig {
                     "pretty short help no ?"
             }));
             
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 
