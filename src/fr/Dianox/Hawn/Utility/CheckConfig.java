@@ -150,6 +150,12 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
+			
+			PlayerWorldChangeConfigE.saveConfigFile();
+		}
+		
 		if (VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Amount")) {
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", null);
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Height", null);
