@@ -5,11 +5,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
+import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 
@@ -90,6 +93,14 @@ public class PlayerChangeWorld implements Listener {
 							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
                     	}
+                    	
+                    	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
+                    		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
+    						p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+                    	} else {
+                    		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "FALSE");
+    						p.removePotionEffect(PotionEffectType.JUMP);
+                    	}
                     }
                 } else if (!ChangeWorldPW.getWPO().contains(p.getWorld().getName()) && !PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave")) {
                 	if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.Keep-Options")) {
@@ -159,6 +170,14 @@ public class PlayerChangeWorld implements Listener {
 							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
 							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+                    	}
+                    	
+                    	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
+                    		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
+    						p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+                    	} else {
+                    		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "FALSE");
+    						p.removePotionEffect(PotionEffectType.JUMP);
                     	}
                     }
                 }
@@ -230,6 +249,14 @@ public class PlayerChangeWorld implements Listener {
 						SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
 						SpecialCJIPlayerVisibility.messageitemPVOFF(p);
 						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+                	}
+                	
+                	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
+                		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
+						p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+                	} else {
+                		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "FALSE");
+						p.removePotionEffect(PotionEffectType.JUMP);
                 	}
                 }
             }
