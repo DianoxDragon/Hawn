@@ -161,7 +161,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.5-Alpha";
+	static String versions = "0.7.6-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -318,11 +318,23 @@ public class Main extends JavaPlugin implements Listener {
 			configfilereverse.put(this.getDataFolder() + "/" + "Events/PlayerWorldChange.yml", "E-PlayerWorldChange");
 			
 			ConfigMGeneral.loadConfig((Plugin) this);
+			configfile.put("MC-General", "Messages/Classic/General.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/General.yml", "MC-General");
 			ConfigMEvents.loadConfig((Plugin) this);
+			configfile.put("MC-Events", "Messages/Classic/Events.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Events.yml", "MC-Events");
 			ConfigMProtection.loadConfig((Plugin) this);
+			configfile.put("MC-Protection", "Messages/Classic/Protection.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Protection.yml", "MC-Protection");
 			ConfigMOStuff.loadConfig((Plugin) this);
+			configfile.put("MC-SomeOtherStuff", "Messages/Classic/SomeOtherStuff.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
 			ConfigMCommands.loadConfig((Plugin) this);
+			configfile.put("MC-Commands", "Messages/Classic/Commands.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Commands.yml", "MC-Commands");
 			ConfigMPlayerOption.loadConfig((Plugin) this);
+			configfile.put("MC-PlayerOption", "Messages/Classic/PlayerOption.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/PlayerOption.yml", "MC-PlayerOption");
 
 			ActionbarAnnouncerConfig.loadConfig((Plugin) this);
 			configfile.put("C-ActionBarAnnouncer", "Commands/ActionBarAnnouncer.yml");
@@ -395,6 +407,8 @@ public class Main extends JavaPlugin implements Listener {
 			configfile.put("CF-DoubleJump", "Cosmetics-Fun/DoubleJump.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/DoubleJump.yml", "CF-DoubleJump");
 			FireworkListCUtility.loadConfig((Plugin) this);
+			configfile.put("CFU-Firework-List", "Cosmetics-Fun/Utility/Firework-List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Firework-List.yml", "CFU-Firework-List");
 			
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
@@ -416,10 +430,20 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		InfoServerOverviewC.loadConfig((Plugin) this);
+		configfile.put("MA-Server-Info", "Messages/Administration/Server-Info.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Server-Info.yml", "MA-Server-Info");
 		ErrorConfigAM.loadConfig((Plugin) this);
+		configfile.put("MA-Errors", "Messages/Administration/Errors.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Errors.yml", "MA-Errors");
 		OtherAMConfig.loadConfig((Plugin) this);
+		configfile.put("MA-Others", "Messages/Administration/Others.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Others.yml", "MA-Others");
 		SpawnMConfig.loadConfig((Plugin) this);
+		configfile.put("MA-Spawn", "Messages/Administration/Spawn.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Spawn.yml", "MA-Spawn");
 		AdminPanelConfig.loadConfig((Plugin) this);
+		configfile.put("MA-AdminPanel", "Messages/Administration/AdminPanel.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/AdminPanel.yml", "MA-AdminPanel");
 		
 		instance = this;
 
