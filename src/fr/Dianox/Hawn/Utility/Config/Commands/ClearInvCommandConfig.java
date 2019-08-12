@@ -54,9 +54,9 @@ public class ClearInvCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("ClearInv.Enable", Boolean.valueOf(true));
-            Config.set("ClearInv.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("ClearInv.Enable", true);
+            Config.set("ClearInv.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

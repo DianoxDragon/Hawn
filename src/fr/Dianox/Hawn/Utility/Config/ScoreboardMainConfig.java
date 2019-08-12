@@ -55,7 +55,7 @@ public class ScoreboardMainConfig {
             
             // Configuration
             
-            Config.set("Scoreboard.Enable", Boolean.valueOf(true));
+            Config.set("Scoreboard.Enable", true);
             
             saveConfigFile();
 

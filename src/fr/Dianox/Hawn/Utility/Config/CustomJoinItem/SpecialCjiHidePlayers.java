@@ -53,42 +53,42 @@ public class SpecialCjiHidePlayers {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("PV.Enable", Boolean.valueOf(true));
-            Config.set("PV.Use_Permission", Boolean.valueOf(false));
-            Config.set("PV.Option.OnJoin-ShowPlayers", Boolean.valueOf(true));
-            Config.set("PV.Option.OnJoin-Priority-For-Player-Option", Boolean.valueOf(true));
-            Config.set("PV.Option.Item-Delay.Enable", Boolean.valueOf(true));
-            Config.set("PV.Option.Item-Delay.Delay", Integer.valueOf(5));
-            Config.set("PV.Option.Ultimate-Protection-Of-The-Items", Boolean.valueOf(true));
-            Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", Boolean.valueOf(true));
-            Config.set("PV.Option.Inventory-Click.Show-Messages", Boolean.valueOf(true));
-            Config.set("PV.Option.Inventory-Click.Sounds.Enable", Boolean.valueOf(true));
+            Config.set("PV.Enable", true);
+            Config.set("PV.Use_Permission", false);
+            Config.set("PV.Option.OnJoin-ShowPlayers", true);
+            Config.set("PV.Option.OnJoin-Priority-For-Player-Option", true);
+            Config.set("PV.Option.Item-Delay.Enable", true);
+            Config.set("PV.Option.Item-Delay.Delay", 5);
+            Config.set("PV.Option.Ultimate-Protection-Of-The-Items", true);
+            Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", true);
+            Config.set("PV.Option.Inventory-Click.Show-Messages", true);
+            Config.set("PV.Option.Inventory-Click.Sounds.Enable", true);
             Config.set("PV.Option.Inventory-Click.Sounds.Sound", "NOTE_PIANO");
-            Config.set("PV.Option.Inventory-Click.Sounds.Volume", Integer.valueOf(10));
-            Config.set("PV.Option.Inventory-Click.Sounds.Pitch", Integer.valueOf(1));
-            Config.set("PV.Option.Interact-With-Item.Sounds.Enable", Boolean.valueOf(true));
+            Config.set("PV.Option.Inventory-Click.Sounds.Volume", 10);
+            Config.set("PV.Option.Inventory-Click.Sounds.Pitch", 1);
+            Config.set("PV.Option.Interact-With-Item.Sounds.Enable", true);
             Config.set("PV.Option.Interact-With-Item.Sounds.Sound", "NOTE_PIANO");
-            Config.set("PV.Option.Interact-With-Item.Sounds.Volume", Integer.valueOf(10));
-            Config.set("PV.Option.Interact-With-Item.Sounds.Pitch", Integer.valueOf(1));
-            Config.set("PV.OFF.Title", String.valueOf("&6Invisible player &8→ §cDisabled"));
+            Config.set("PV.Option.Interact-With-Item.Sounds.Volume", 10);
+            Config.set("PV.Option.Interact-With-Item.Sounds.Pitch", 1);
+            Config.set("PV.OFF.Title", "&6Invisible player &8→ §cDisabled");
             Config.set("PV.OFF.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&c&lRight click to hide players"
                 }));
-            Config.set("PV.OFF.Material.Material", String.valueOf("COMPASS"));
-            Config.set("PV.OFF.Material.Amount", Integer.valueOf("1"));
-            Config.set("PV.OFF.Material.Data-value", Integer.valueOf("0"));
-            Config.set("PV.OFF.Material.Slot", Integer.valueOf("0"));
-            Config.set("PV.ON.Title", String.valueOf("&6Invisible player &8→ §aEnabled"));
+            Config.set("PV.OFF.Material.Material", "COMPASS");
+            Config.set("PV.OFF.Material.Amount", "1");
+            Config.set("PV.OFF.Material.Data-value", "0");
+            Config.set("PV.OFF.Material.Slot", "0");
+            Config.set("PV.ON.Title", "&6Invisible player &8→ §aEnabled");
             Config.set("PV.ON.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&a&lRight click to show players"
                 }));
-            Config.set("PV.ON.Material.Material", String.valueOf("COMPASS"));
-            Config.set("PV.ON.Material.Amount", Integer.valueOf("1"));
-            Config.set("PV.ON.Material.Slot", Integer.valueOf("0"));
-            Config.set("PV.ON.Material.Data-value", Integer.valueOf("0"));
-            Config.set("PV.World.All_World", Boolean.valueOf(false));
+            Config.set("PV.ON.Material.Material", "COMPASS");
+            Config.set("PV.ON.Material.Amount", "1");
+            Config.set("PV.ON.Material.Slot", "0");
+            Config.set("PV.ON.Material.Data-value", "0");
+            Config.set("PV.World.All_World", false);
             Config.set("PV.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"

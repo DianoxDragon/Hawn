@@ -41,6 +41,7 @@ import fr.Dianox.Hawn.Utility.Config.Events.PlayerEventsConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.PlayerWorldChangeConfigE;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.VoidTPConfig;
+import fr.Dianox.Hawn.Utility.Config.Events.WorldEventConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
@@ -149,6 +150,34 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
+			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
+			
+			WorldEventConfig.getConfig().set("World.Burn.Disable.Burn-Block.WorldGuard.Enable", false);
+			WorldEventConfig.getConfig().set("World.Burn.Disable.Burn-Block.WorldGuard.Method", "WHITELIST");
+			WorldEventConfig.getConfig().set("World.Burn.Disable.Burn-Block.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
+			WorldEventConfig.getConfig().set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Enable", false);
+			WorldEventConfig.getConfig().set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Method", "WHITELIST");
+			WorldEventConfig.getConfig().set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
+			WorldEventConfig.getConfig().set("World.Explosion.Disable.Explosion.WorldGuard.Enable", false);
+			WorldEventConfig.getConfig().set("World.Explosion.Disable.Explosion.WorldGuard.Method", "WHITELIST");
+			WorldEventConfig.getConfig().set("World.Explosion.Disable.Explosion.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+			
+            WorldEventConfig.saveConfigFile();
+			PlayerWorldChangeConfigE.saveConfigFile();
+		}
 		
 		if (VoidTPConfig.getConfig().isSet("VoidTP.Options.Fireworks.Amount")) {
 			VoidTPConfig.getConfig().set("VoidTP.Options.Fireworks.Amount", null);

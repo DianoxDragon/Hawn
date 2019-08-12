@@ -53,9 +53,9 @@ public class EmojiCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Emoji.Enable", Boolean.valueOf(true));
-            Config.set("Emoji.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Emoji.Enable", true);
+            Config.set("Emoji.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

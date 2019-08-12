@@ -53,10 +53,10 @@ public class ScoreboardCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Scoreboard.Enable", Boolean.valueOf(true));
-            Config.set("Scoreboard.Option.Keep-Scoreboard-Change", Boolean.valueOf(true));
-            Config.set("Scoreboard.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Scoreboard.Enable", true);
+            Config.set("Scoreboard.Option.Keep-Scoreboard-Change", true);
+            Config.set("Scoreboard.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

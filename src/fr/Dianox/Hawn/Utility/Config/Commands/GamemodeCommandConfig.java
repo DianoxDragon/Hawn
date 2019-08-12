@@ -54,25 +54,25 @@ public class GamemodeCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Gamemode.Enable", Boolean.valueOf(true));
-            Config.set("Gamemode.Disable-Message", Boolean.valueOf(true));
-            Config.set("Gamemode.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Gamemode.Enable", true);
+            Config.set("Gamemode.Disable-Message", true);
+            Config.set("Gamemode.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("gms.Enable", Boolean.valueOf(true));
-            Config.set("gms.Disable-Message", Boolean.valueOf(true));
-            Config.set("gms.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("gms.Enable", true);
+            Config.set("gms.Disable-Message", true);
+            Config.set("gms.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("gmc.Enable", Boolean.valueOf(true));
-            Config.set("gmc.Disable-Message", Boolean.valueOf(true));
-            Config.set("gmc.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("gmc.Enable", true);
+            Config.set("gmc.Disable-Message", true);
+            Config.set("gmc.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("gma.Enable", Boolean.valueOf(true));
-            Config.set("gma.Disable-Message", Boolean.valueOf(true));
-            Config.set("gma.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("gma.Enable", true);
+            Config.set("gma.Disable-Message", true);
+            Config.set("gma.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("gmsp.Enable", Boolean.valueOf(true));
-            Config.set("gmsp.Disable-Message", Boolean.valueOf(true));
-            Config.set("gmsp.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("gmsp.Enable", true);
+            Config.set("gmsp.Disable-Message", true);
+            Config.set("gmsp.DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

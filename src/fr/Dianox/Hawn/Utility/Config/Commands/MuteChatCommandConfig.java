@@ -53,11 +53,11 @@ public class MuteChatCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("MuteChat.Enable", Boolean.valueOf(true));
-            Config.set("MuteChat.Mute.Enable", Boolean.valueOf(false));
-            Config.set("MuteChat.Mute.Bypass", Boolean.valueOf(false));
-            Config.set("MuteChat.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("MuteChat.Enable", true);
+            Config.set("MuteChat.Mute.Enable", false);
+            Config.set("MuteChat.Mute.Bypass", false);
+            Config.set("MuteChat.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

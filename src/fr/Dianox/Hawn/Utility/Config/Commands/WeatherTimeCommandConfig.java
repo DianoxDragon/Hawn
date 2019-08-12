@@ -54,27 +54,27 @@ public class WeatherTimeCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Weather.Set.Sun.Enable", Boolean.valueOf(true));
-            Config.set("Weather.Set.Sun.Disable-Message", Boolean.valueOf(true));
-            Config.set("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Weather.Set.Sun.Enable", true);
+            Config.set("Weather.Set.Sun.Disable-Message", true);
+            Config.set("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("Weather.Set.Rain.Enable", Boolean.valueOf(true));
-            Config.set("Weather.Set.Rain.Disable-Message", Boolean.valueOf(true));
-            Config.set("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Weather.Set.Rain.Enable", true);
+            Config.set("Weather.Set.Rain.Disable-Message", true);
+            Config.set("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("Weather.Set.Thunder.Enable", Boolean.valueOf(true));
-            Config.set("Weather.Set.Thunder.Disable-Message", Boolean.valueOf(true));
-            Config.set("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Weather.Set.Thunder.Enable", true);
+            Config.set("Weather.Set.Thunder.Disable-Message", true);
+            Config.set("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("Time.Set.Day.Enable", Boolean.valueOf(true));
-            Config.set("Time.Set.Day.Value", Long.valueOf(0));
-            Config.set("Time.Set.Day.Disable-Message", Boolean.valueOf(true));
-            Config.set("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Time.Set.Day.Enable", true);
+            Config.set("Time.Set.Day.Value", 0);
+            Config.set("Time.Set.Day.Disable-Message", true);
+            Config.set("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY", false);
             
-            Config.set("Time.Set.Night.Enable", Boolean.valueOf(true));
-            Config.set("Time.Set.Night.Value", Long.valueOf(16000));
-            Config.set("Time.Set.Night.Disable-Message", Boolean.valueOf(true));
-            Config.set("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Time.Set.Night.Enable", true);
+            Config.set("Time.Set.Night.Value", 16000);
+            Config.set("Time.Set.Night.Disable-Message", true);
+            Config.set("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

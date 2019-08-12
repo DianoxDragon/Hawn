@@ -53,10 +53,10 @@ public class HealCommandConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
-            Config.set("Heal.Enable", Boolean.valueOf(true));
-            Config.set("Heal.Others.Enable", Boolean.valueOf(false));
-            Config.set("Heal.Disable-Message", Boolean.valueOf(true));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", Boolean.valueOf(false));
+            Config.set("Heal.Enable", true);
+            Config.set("Heal.Others.Enable", false);
+            Config.set("Heal.Disable-Message", true);
+            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
             
             saveConfigFile();
 

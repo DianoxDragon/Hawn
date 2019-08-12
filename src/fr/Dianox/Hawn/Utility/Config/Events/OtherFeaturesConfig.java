@@ -53,8 +53,8 @@ public class OtherFeaturesConfig {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("ColorSign.Enable", Boolean.valueOf(true));
-            Config.set("ColorSign.World.All_World", Boolean.valueOf(false));
+            Config.set("ColorSign.Enable", true);
+            Config.set("ColorSign.World.All_World", false);
             Config.set("ColorSign.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"

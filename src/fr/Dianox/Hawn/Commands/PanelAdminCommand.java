@@ -68,7 +68,7 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(1, createGuiItem("§cCosmetics-Fun", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(2, createGuiItem("§cCustomJoinItem", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
             inv.setItem(3, createGuiItem("§cEvents", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(4, createGuiItem("§cMessages", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
+            inv.setItem(4, createGuiItem("§cMessages", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(5, createGuiItem("§cScoreboard", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(6, createGuiItem("§cStockageInfo", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
             inv.setItem(7, createGuiItem("§cTablist", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
@@ -178,6 +178,8 @@ public class PanelAdminCommand extends BukkitCommand {
                         invname = invname.replace("Events/", "E-");
                     } else if (invname.contains("Tablist/")) {
                         invname = invname.replace("Tablist/", "T-");
+                    } else if (invname.contains("Cosmetics-Fun/Utility/")) {
+                        invname = invname.replace("Cosmetics-Fun/Utility/", "CFU-");
                     }
 
                     if (args.length != 4) {
@@ -527,6 +529,41 @@ public class PanelAdminCommand extends BukkitCommand {
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Cosmetics-Fun/");
                     File[] listOfFiles = folder.listFiles();
 
+                    // Folders
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                	
+                	inv.setItem(0, createGuiItem("§cUtility", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                	
+                    // Files
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
+                    for (int i = 0; i < listOfFiles.length; i++) {
+                        if (listOfFiles[i].isFile()) {
+                            String filename = listOfFiles[i].getName().replace(".yml", "");
+                            
+                            int a = i + 1;
+                            
+                            inv.setItem(a, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                        }
+                    }
+
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+
+                    p.openInventory(inv);
+                } else if (args[1].equalsIgnoreCase("CF-Utility")) {
+                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CF-Utility");
+
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Cosmetics-Fun/Utility/");
+                    File[] listOfFiles = folder.listFiles();
+
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
                 		msg = msg.replaceAll("&", "§");
@@ -541,8 +578,55 @@ public class PanelAdminCommand extends BukkitCommand {
                     }
 
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
-
+                    
                     p.openInventory(inv);
+                    p.updateInventory();
+                } else if (args[1].equalsIgnoreCase("M-Administration")) {
+                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Administration");
+
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Administration/");
+                    File[] listOfFiles = folder.listFiles();
+
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
+                    for (int i = 0; i < listOfFiles.length; i++) {
+                        if (listOfFiles[i].isFile()) {
+                            String filename = listOfFiles[i].getName().replace(".yml", "");
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                        }
+                    }
+
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+                    
+                    p.openInventory(inv);
+                    p.updateInventory();
+                } else if (args[1].equalsIgnoreCase("M-Classic")) {
+                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Classic");
+
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Classic/");
+                    File[] listOfFiles = folder.listFiles();
+
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
+                    for (int i = 0; i < listOfFiles.length; i++) {
+                        if (listOfFiles[i].isFile()) {
+                            String filename = listOfFiles[i].getName().replace(".yml", "");
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                        }
+                    }
+
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+                    
+                    p.openInventory(inv);
+                    p.updateInventory();
                 } else if (args[1].equalsIgnoreCase("Events")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Events");
 
@@ -569,21 +653,29 @@ public class PanelAdminCommand extends BukkitCommand {
                 } else if (args[1].equalsIgnoreCase("Messages")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Messages");
 
-                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/");
-                    File[] listOfFiles = folder.listFiles();
-
                     lore.clear();
-                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
                 		msg = msg.replaceAll("&", "§");
                         lore.add(msg);
                     }
-                    
-                    for (int i = 0; i < listOfFiles.length; i++) {
-                        if (listOfFiles[i].isFile()) {
-                            String filename = listOfFiles[i].getName().replace(".yml", "");
-                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
-                        }
-                    }
+                	
+                	inv.setItem(0, createGuiItem("§cAdministration", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                	inv.setItem(1, createGuiItem("§cClassic", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                	
+                	inv.setItem(2, createGuiItem("§eInfo", new ArrayList < String > (Arrays.asList(
+                			"§8------------------------------------", 
+                			"§6This folder is divided into 2 parts.",
+                			"§8------------------------------------",
+                			"§8------------------------------------",
+                			"§eThe first part concerns the administration",
+                			"§eYou will find all the messages",
+                			"§eWhich concerns the administration",
+                			"§eLike for the command /hawn",
+                			"§8------------------------------------",
+                			"§8------------------------------------",
+                			"§eThe last folder concerns all messages",
+                			"§eThat a classic player can see",
+                			"§8------------------------------------")), XMaterial.MAP.parseMaterial()));
 
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 

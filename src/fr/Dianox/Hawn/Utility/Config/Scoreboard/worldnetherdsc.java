@@ -65,10 +65,10 @@ public class worldnetherdsc {
             		"&cA kind thanks to use &4&lHawn"
             }));
             
-            Config.set("updater.title", Integer.valueOf(30));
-            Config.set("updater.text", Integer.valueOf(60));
+            Config.set("updater.title", 50);
+            Config.set("updater.text", 60);
             
-            Config.set("World.All_World", Boolean.valueOf(false));
+            Config.set("World.All_World", false);
             Config.set("World.Worlds", java.util.Arrays.asList(new String[] {
                     "world_nether"
             }));

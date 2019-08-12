@@ -73,6 +73,12 @@ public class WorldEventConfig {
             }));
             
             Config.set("World.Burn.Disable.Burn-Block.Disable", true);
+            Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Enable", false);
+            Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Method", "WHITELIST");
+            Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
             Config.set("World.Burn.Disable.Burn-Block.World.All_World", false);
             Config.set("World.Burn.Disable.Burn-Block.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
@@ -80,6 +86,12 @@ public class WorldEventConfig {
             }));
             
             Config.set("World.Burn.Disable.BlockIgnite-FireSpread.Disable", true);
+            Config.set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Enable", false);
+            Config.set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Method", "WHITELIST");
+            Config.set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
             Config.set("World.Burn.Disable.BlockIgnite-FireSpread.World.All_World", false);
             Config.set("World.Burn.Disable.BlockIgnite-FireSpread.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
@@ -87,6 +99,12 @@ public class WorldEventConfig {
             }));
             
             Config.set("World.Explosion.Disable.Explosion.Disable", true);
+            Config.set("World.Explosion.Disable.Explosion.WorldGuard.Enable", false);
+            Config.set("World.Explosion.Disable.Explosion.WorldGuard.Method", "WHITELIST");
+            Config.set("World.Explosion.Disable.Explosion.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
             Config.set("World.Explosion.Disable.Explosion.World.All_World", false);
             Config.set("World.Explosion.Disable.Explosion.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",

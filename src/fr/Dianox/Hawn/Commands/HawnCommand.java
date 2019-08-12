@@ -738,7 +738,7 @@ public class HawnCommand implements CommandExecutor {
 			if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 				Bukkit.getConsoleSender().sendMessage("| Please note that to remove the PlaceHolderAPI support, you must restart the server");
 				Bukkit.getConsoleSender().sendMessage("| The plugin supports fast removal, but does not guarantee a return to normal with a hawn reload");
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", Boolean.valueOf(false));
+				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", false);
 				ConfigGeneral.saveConfigFile();
 			}
 		}

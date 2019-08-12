@@ -89,6 +89,7 @@ public class PlayerWorldChangeConfigE {
             Config.set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
             Config.set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);
             Config.set("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility", false);
+	    Config.set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
             
             Config.set("Player-Options.World.All_World", false);
             Config.set("Player-Options.World.Worlds", java.util.Arrays.asList(new String[] {
