@@ -76,7 +76,7 @@ public class OnGuiInteract implements Listener {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
                     p.performCommand("ap folder Events");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
-                	p.sendMessage("§cAvailable soon");
+                	p.performCommand("ap folder Messages");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
                     p.sendMessage("§cEdit theses files manually");
                     e.setCancelled(true);
@@ -149,7 +149,8 @@ public class OnGuiInteract implements Listener {
             // FOLDER LIST
         } else if (inv.equals("§cAP - Folder commands") || inv.equals("§cAP - Folder Cosmetics-Fun") ||
             inv.equals("§cAP - Folder Events") || inv.equals("§cAP - Folder Messages") ||
-            inv.equals("§cAP - Folder Tablist")) {
+            inv.equals("§cAP - Folder Tablist") || inv.equals("§cAP - Folder CF-Utility") || 
+            inv.equals("§cAP - Folder M-Classic") || inv.equals("§cAP - Folder M-Administration")) {
 
             if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                 String name = e.getCurrentItem().getItemMeta().getDisplayName();
@@ -165,13 +166,34 @@ public class OnGuiInteract implements Listener {
                     p.performCommand("ap edit file M-" + name);
                 } else if (inv.equals("§cAP - Folder Tablist")) {
                     p.performCommand("ap edit file T-" + name);
+                } else if (inv.equals("§cAP - Folder Tablist")) {
+                    p.performCommand("ap edit file T-" + name);
+                } else if (inv.equals("§cAP - Folder CF-Utility")) {
+                    p.performCommand("ap edit file CFU-" + name);
+                } else if (inv.equals("§cAP - Folder M-Classic")) {
+                	p.performCommand("ap edit file MC-" + name);
+                } else if (inv.equals("§cAP - Folder M-Administration")) {
+                	p.performCommand("ap edit file MA-" + name);
                 } else {
                     p.performCommand("ap edit file " + name);
                 }
-
+                
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cUtility")) {
+            	p.performCommand("ap folder CF-Utility");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cAdministration")) {
+            	p.performCommand("ap folder M-Administration");
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cClassic")) {
+            	p.performCommand("ap folder M-Classic");
             } else if (e.getCurrentItem().getType() == XMaterial.BARRIER.parseMaterial()) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"))) {
-                    p.performCommand("ap");
+                	if (inv.equals("§cAP - Folder CF-Utility")) {
+                		p.performCommand("ap folder Cosmetics-Fun");
+                	} else if (inv.equals("§cAP - Folder M-Classic") || inv.equals("§cAP - Folder M-Administration")) {
+                		p.performCommand("ap folder Messages");
+                	
+                	} else {
+                		p.performCommand("ap");
+                	}
                 }
             }
 
@@ -315,6 +337,10 @@ public class OnGuiInteract implements Listener {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap");
                 	}
+                } else if (inv.contains("MC-")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
+                		p.performCommand("ap folder M-Classic");
+                	}
                 } else if (inv.contains("C-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder commands");
@@ -322,6 +348,14 @@ public class OnGuiInteract implements Listener {
                 } else if (inv.contains("T-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder Tablist");
+                	}
+                } else if (inv.contains("CFU-")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
+                		p.performCommand("ap folder CF-Utility");
+                	}
+                } else if (inv.contains("MA-")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
+                		p.performCommand("ap folder M-Administration");
                 	}
                 }
             }
