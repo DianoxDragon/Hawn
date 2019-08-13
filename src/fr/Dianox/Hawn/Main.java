@@ -161,7 +161,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	static String versions = "0.7.6-Alpha";
+	private static String versions = "0.7.7-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -169,10 +169,13 @@ public class Main extends JavaPlugin implements Listener {
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
 
-	static Connection connection;
-	private String host, database, username, password;
+	public static Connection connection;
+	private String host,
+					database,
+					username, 
+					password;
 	private int port;
-	static Statement statement;
+	private static Statement statement;
 	public static boolean useyamllistplayer = false;
 
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
@@ -222,7 +225,7 @@ public class Main extends JavaPlugin implements Listener {
     
     public static List<Material> interactables = new ArrayList<Material>();
     
-    WorldGuardPlugin worldGuard;
+    private WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
     @SuppressWarnings("static-access")
@@ -425,7 +428,7 @@ public class Main extends JavaPlugin implements Listener {
 			defaultscoreboardconfig.loadConfig((Plugin) this);
 			worldnetherdsc.loadConfig((Plugin) this);
 
-			ScoreboardMainConfig.getConfig().set("DefaultConfigGenerated", Boolean.valueOf(true));
+			ScoreboardMainConfig.getConfig().set("DefaultConfigGenerated", true);
 			ScoreboardMainConfig.saveConfigFile();
 		}
 
@@ -945,7 +948,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
-					worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+					setWorldGuard((WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
 					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 					try {
 						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
@@ -961,7 +964,7 @@ public class Main extends JavaPlugin implements Listener {
 			} else {
 				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
 				ConfigGeneral.saveConfigFile();
-				worldGuard = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+				setWorldGuard((WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
 				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 				try {
 					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
@@ -1035,12 +1038,10 @@ public class Main extends JavaPlugin implements Listener {
 		}*/
 
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
-			if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
-				if (FlyCommand.player_list_flyc.contains(p)) {
-					FlyCommand.player_list_flyc.remove(p);
-					p.setAllowFlight(false);
-					p.setFlying(false);
-				}
+			if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable") && FlyCommand.player_list_flyc.contains(p)) {
+				FlyCommand.player_list_flyc.remove(p);
+				p.setAllowFlight(false);
+				p.setFlying(false);
 			}
 		}
 
@@ -1751,6 +1752,14 @@ public class Main extends JavaPlugin implements Listener {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+
+	public WorldGuardPlugin getWorldGuard() {
+		return worldGuard;
+	}
+
+	public void setWorldGuard(WorldGuardPlugin worldGuard) {
+		this.worldGuard = worldGuard;
 	}
 
 }
