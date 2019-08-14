@@ -1057,7 +1057,7 @@ public class ProtectionsEventWorld implements Listener {
 
         if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
             if (!ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.World.All_World")) {
-                if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
+                if (ProtectionPW.getWPIIB().contains(p.getWorld().getName())) {
                     if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Bypass")) {
                         if (!p.hasPermission("hawn.event.construct.bypass.protectionitemblocks")) {
                             /*
