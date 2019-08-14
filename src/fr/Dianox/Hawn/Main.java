@@ -71,6 +71,8 @@ import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
+import fr.Dianox.Hawn.Event.World.AlwaysDayTask;
+import fr.Dianox.Hawn.Event.World.AlwaysNightTask;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
@@ -1425,6 +1427,14 @@ public class Main extends JavaPlugin implements Listener {
 	    }.runTaskTimer(this, 0, 60);
 
 	    injumpwithjumppad.clear();
+	    
+	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Day.Enable")) {
+	    	new AlwaysDayTask().runTaskTimer(this, 20, 10000L);
+	    }
+	    
+	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Night.Enable")) {
+	    	new AlwaysNightTask().runTaskTimer(this, 20, 7000L);
+	    }
 	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
