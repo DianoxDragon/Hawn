@@ -72,6 +72,17 @@ public class WorldEventConfig {
                     "world_nether"
             }));
             
+            Config.set("World.Time.Always-Day.Enable", true);
+            Config.set("World.Time.Always-Day.World.All_World", false);
+            Config.set("World.Time.Always-Day.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world"
+            }));
+            Config.set("World.Time.Always-Night.Enable", true);
+            Config.set("World.Time.Always-Night.World.All_World", false);
+            Config.set("World.Time.Always-Night.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "worldtest"
+            }));
+            
             Config.set("World.Burn.Disable.Burn-Block.Disable", true);
             Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Enable", false);
             Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Method", "WHITELIST");
