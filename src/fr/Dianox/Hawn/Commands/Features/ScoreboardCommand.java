@@ -182,6 +182,21 @@ public class ScoreboardCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(p, "hawn.scoreboard-keep-scoreboard-change");
 					return true;
 				}
+			} else if (args[0].equalsIgnoreCase("list")) {
+				if (p.hasPermission("hawn.scoreboard-list")) {
+					p.sendMessage("§8//§7§m--------------§r§8\\\\ §3[§bScoreboard List§3] §8//§7§m--------------§r§8\\\\");
+					p.sendMessage("");
+					
+					for (String s: Main.getInstance().infoname.keySet()) {
+						p.sendMessage("§e" + s + " §7 => §b" + Main.getInstance().infoname.get(s));
+					}
+					
+					p.sendMessage("");
+					p.sendMessage("§8\\\\§7§m--------------§r§8// §3[§bScoreboard List§3] §8\\\\§7§m--------------§r§8//");
+				} else {
+					MessageUtils.MessageNoPermission(p, "hawn.scoreboard-list");
+					return true;
+				}
 			}
 		} else {
 			p.sendMessage("§c/scoreboard");
