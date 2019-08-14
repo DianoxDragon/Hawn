@@ -151,6 +151,22 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!WorldEventConfig.getConfig().isSet("World.Time.Always-Day.Enable")) {
+			WorldEventConfig.getConfig().set("World.Time.Always-Day.Enable", true);
+			WorldEventConfig.getConfig().set("World.Time.Always-Day.World.All_World", false);
+			WorldEventConfig.getConfig().set("World.Time.Always-Day.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world"
+            }));
+			
+			WorldEventConfig.getConfig().set("World.Time.Always-Night.Enable", true);
+			WorldEventConfig.getConfig().set("World.Time.Always-Night.World.All_World", false);
+			WorldEventConfig.getConfig().set("World.Time.Always-Night.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "worldtest"
+            }));
+            
+            WorldEventConfig.saveConfigFile();
+		}
+		
 		if (!PlayerWorldChangeConfigE.getConfig().isSet("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
 			PlayerWorldChangeConfigE.getConfig().set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
 			
