@@ -72,7 +72,7 @@ public class OnGuiInteract implements Listener {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
                     p.performCommand("ap folder Cosmetics-Fun");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
-                	p.sendMessage("§cAvailable soon");
+                	p.performCommand("ap folder CustomJoinItem");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
                     p.performCommand("ap folder Events");
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
@@ -150,7 +150,8 @@ public class OnGuiInteract implements Listener {
         } else if (inv.equals("§cAP - Folder commands") || inv.equals("§cAP - Folder Cosmetics-Fun") ||
             inv.equals("§cAP - Folder Events") || inv.equals("§cAP - Folder Messages") ||
             inv.equals("§cAP - Folder Tablist") || inv.equals("§cAP - Folder CF-Utility") || 
-            inv.equals("§cAP - Folder M-Classic") || inv.equals("§cAP - Folder M-Administration")) {
+            inv.equals("§cAP - Folder M-Classic") || inv.equals("§cAP - Folder M-Administration") ||
+            inv.equals("§cAP - Folder CustomJoinItem")) {
 
             if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                 String name = e.getCurrentItem().getItemMeta().getDisplayName();
@@ -174,6 +175,8 @@ public class OnGuiInteract implements Listener {
                 	p.performCommand("ap edit file MC-" + name);
                 } else if (inv.equals("§cAP - Folder M-Administration")) {
                 	p.performCommand("ap edit file MA-" + name);
+                } else if (inv.equals("§cAP - Folder CustomJoinItem")) {
+                	p.performCommand("ap edit file CJI-" + name);
                 } else {
                     p.performCommand("ap edit file " + name);
                 }
@@ -356,6 +359,10 @@ public class OnGuiInteract implements Listener {
                 } else if (inv.contains("MA-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
                 		p.performCommand("ap folder M-Administration");
+                	}
+                }  else if (inv.contains("CJI-")) {
+                	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
+                		p.performCommand("ap folder CustomJoinItem");
                 	}
                 }
             }

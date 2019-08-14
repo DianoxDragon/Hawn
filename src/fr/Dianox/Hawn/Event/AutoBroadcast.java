@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 
@@ -25,10 +26,10 @@ public class AutoBroadcast extends BukkitRunnable {
     }
 
     String msg = "";
-    List < String > newmessage = new ArrayList < String > ();
+    public static List < String > newmessage = new ArrayList < String > ();
 
     public void run() {
-        newmessage.clear();
+    	newmessage.clear();
         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Random")) {
             Random rand = new Random();
 
@@ -57,12 +58,22 @@ public class AutoBroadcast extends BukkitRunnable {
                     if (p.hasPermission("hawn.get.autobroadcast")) {
                         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
                             for (String s: newmessage) {
-                                MessageUtils.ReplaceCharMessagePlayer(s, p);
+                            	if (s.startsWith("[sounds]: ")) {
+                                    s = s.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                } else {
+                                	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                }
                             }
                         } else {
                             if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
                                 for (String s: newmessage) {
-                                    MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                	if (s.startsWith("[sounds]: ")) {
+                                        s = s.replace("[sounds]: ", "");
+                                        p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                    } else {
+                                    	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                    }
                                 }
                             }
                         }
@@ -70,12 +81,22 @@ public class AutoBroadcast extends BukkitRunnable {
                 } else {
                     if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
                         for (String s: newmessage) {
-                            MessageUtils.ReplaceCharMessagePlayer(s, p);
+                        	if (s.startsWith("[sounds]: ")) {
+                                s = s.replace("[sounds]: ", "");
+                                p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                            } else {
+                            	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                            }
                         }
                     } else {
                         if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
                             for (String s: newmessage) {
-                                MessageUtils.ReplaceCharMessagePlayer(s, p);
+                            	if (s.startsWith("[sounds]: ")) {
+                                    s = s.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                } else {
+                                	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                }
                             }
                         }
                     }
@@ -113,12 +134,22 @@ public class AutoBroadcast extends BukkitRunnable {
                         if (p.hasPermission("hawn.get.autobroadcast")) {
                             if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
                                 for (String s: newmessage) {
-                                    MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                	if (s.startsWith("[sounds]: ")) {
+                                        s = s.replace("[sounds]: ", "");
+                                        p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                    } else {
+                                    	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                    }
                                 }
                             } else {
                                 if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
                                     for (String s: newmessage) {
-                                        MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                    	if (s.startsWith("[sounds]: ")) {
+                                            s = s.replace("[sounds]: ", "");
+                                            p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                        } else {
+                                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                        }
                                     }
                                 }
                             }
@@ -126,12 +157,22 @@ public class AutoBroadcast extends BukkitRunnable {
                     } else {
                         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
                             for (String s: newmessage) {
-                                MessageUtils.ReplaceCharMessagePlayer(s, p);
+                            	if (s.startsWith("[sounds]: ")) {
+                                    s = s.replace("[sounds]: ", "");
+                                    p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                } else {
+                                	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                }
                             }
                         } else {
                             if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
                                 for (String s: newmessage) {
-                                    MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                	if (s.startsWith("[sounds]: ")) {
+                                        s = s.replace("[sounds]: ", "");
+                                        p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
+                                    } else {
+                                    	MessageUtils.ReplaceCharMessagePlayer(s, p);
+                                    }
                                 }
                             }
                         }
