@@ -423,7 +423,9 @@ public class Main extends JavaPlugin implements Listener {
 		configfilereverse.put(this.getDataFolder() + "/" + "Tablist/Tablist.yml", "T-Tablist");
 		
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
-
+		configfile.put("CJI-Special-HidePlayers", "CustomJoinItem/Special-HidePlayers.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-HidePlayers.yml", "CJI-Special-HidePlayers");
+		
 		if (!ScoreboardMainConfig.getConfig().isSet("DefaultConfigGenerated")) {
 			defaultscoreboardconfig.loadConfig((Plugin) this);
 			worldnetherdsc.loadConfig((Plugin) this);
