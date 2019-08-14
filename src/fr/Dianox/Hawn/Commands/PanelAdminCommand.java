@@ -66,7 +66,7 @@ public class PanelAdminCommand extends BukkitCommand {
         	
             inv.setItem(0, createGuiItem("§cCommands", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(1, createGuiItem("§cCosmetics-Fun", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(2, createGuiItem("§cCustomJoinItem", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
+            inv.setItem(2, createGuiItem("§cCustomJoinItem", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(3, createGuiItem("§cEvents", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(4, createGuiItem("§cMessages", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
             inv.setItem(5, createGuiItem("§cScoreboard", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
@@ -608,6 +608,29 @@ public class PanelAdminCommand extends BukkitCommand {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Classic");
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Classic/");
+                    File[] listOfFiles = folder.listFiles();
+
+                    lore.clear();
+                	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+                		msg = msg.replaceAll("&", "§");
+                        lore.add(msg);
+                    }
+                    
+                    for (int i = 0; i < listOfFiles.length; i++) {
+                        if (listOfFiles[i].isFile()) {
+                            String filename = listOfFiles[i].getName().replace(".yml", "");
+                            inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                        }
+                    }
+
+                    inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+                    
+                    p.openInventory(inv);
+                    p.updateInventory();
+                } else if (args[1].equalsIgnoreCase("CustomJoinItem")) {
+                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CustomJoinItem");
+
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/CustomJoinItem/");
                     File[] listOfFiles = folder.listFiles();
 
                     lore.clear();
