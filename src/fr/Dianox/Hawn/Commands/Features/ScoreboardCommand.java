@@ -105,6 +105,11 @@ public class ScoreboardCommand extends BukkitCommand {
 				if (p.hasPermission("hawn.scoreboard.command.set")) {
 					
 					if (args.length == 1) {
+						
+						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+		            	}
+						
 						return true;
 					}
 					
