@@ -206,6 +206,10 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ReplaceMessageForConsole(msg);
 					}
 					// Server info
+				} else if (args[0].equalsIgnoreCase("donor") || args[0].equalsIgnoreCase("donors")) {
+					sender.sendMessage("§8§l§m-----------------------------");
+					sender.sendMessage("§7Adfrorg: §e25 € §cThank you a lot §4<3§c The first donor");
+					sender.sendMessage("§8§l§m-----------------------------");
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
@@ -541,6 +545,10 @@ public class HawnCommand implements CommandExecutor {
 					p.sendMessage("§7Author:§c Dianox");
 					p.sendMessage("§7Plugin version:§c " + Main.getVersion());
 					p.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
+					p.sendMessage("§8§l§m-----------------------------");
+				} else if (args[0].equalsIgnoreCase("donor") || args[0].equalsIgnoreCase("donors")) {
+					p.sendMessage("§8§l§m-----------------------------");
+					p.sendMessage("§7Adfrorg: §e25 € §cThank you a lot §4<3§c The first donor");
 					p.sendMessage("§8§l§m-----------------------------");
 				} else if (args[0].equalsIgnoreCase("tps")) {
 					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
