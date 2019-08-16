@@ -92,6 +92,9 @@ public class AutoBroadcastConfig {
                     "<--center--> The best way to support me is to put 5 stars on spigot",
                     ""
             }));
+            Config.set("Config.Messages.messages.firstmessage.world_list", java.util.Arrays.asList(new String[] {
+                    "world"
+            }));
             Config.set("Config.Messages.messages.mymessage.message", java.util.Arrays.asList(new String[] {
                     "",
                     "<--center--> &4/&c!&4\\ &6Warning &e- &6Autobroadcast &4/&c!&4\\",
