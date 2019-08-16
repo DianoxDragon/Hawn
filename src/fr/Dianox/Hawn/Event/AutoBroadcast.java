@@ -62,6 +62,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+                                	
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
@@ -72,6 +76,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+                                    	
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
@@ -85,6 +93,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                 s = s.replace("[sounds]: ", "");
                                 p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                             } else {
+                            	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                            		s = s + "<--center-->";
+                            	}
+                            	
                             	MessageUtils.ReplaceCharMessagePlayer(s, p);
                             }
                         }
@@ -95,6 +107,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+                                	
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
@@ -138,6 +154,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+                                    	
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
@@ -148,6 +168,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                             s = s.replace("[sounds]: ", "");
                                             p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                         } else {
+                                        	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                        		s = s + "<--center-->";
+                                        	}
+                                        	
                                         	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                         }
                                     }
@@ -161,6 +185,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+                                	
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
@@ -171,6 +199,10 @@ public class AutoBroadcast extends BukkitRunnable {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+                                    	
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
