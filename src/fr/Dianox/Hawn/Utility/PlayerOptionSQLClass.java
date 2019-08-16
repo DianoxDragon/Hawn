@@ -686,7 +686,7 @@ public class PlayerOptionSQLClass {
 
         if (Main.useyamllistplayer) {
             if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_autobc.Activate")) {
-                ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", false);
+                ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", true);
             }
 
             if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_autobc.Activate")) {
@@ -701,14 +701,14 @@ public class PlayerOptionSQLClass {
 
             if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_option_autobc")) {
                 if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_autobc.Activate")) {
-                    ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", false);
+                    ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", true);
                 }
 
                 value = String.valueOf(SQL.getInfoString("player_option_autobc", "Activate", "" + p.getUniqueId() + ""));
                 SQL.set("player_option_autobc", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_autobc.Activate")) {
-                    ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", false);
+                    ConfigPlayerGet.writeBoolean(uuid, "player_option_autobc.Activate", true);
                 }
 
                 if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_autobc.Activate")) {
