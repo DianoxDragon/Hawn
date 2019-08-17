@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
@@ -47,7 +48,6 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Use-Permission-To-Get-Messages")) {
 						if (p.hasPermission("hawn.get.autobroadcast_titles")) {
-							
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Title.Message")) {
 								title = MessageUtils.ReplaceMainplaceholderP(title, p);
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
@@ -71,6 +71,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 							}
 														
 							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								Integer FadeIn = 0;
 								Integer Stay = 0;
 								Integer FadeOut = 0;
@@ -150,6 +157,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 								
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									Integer FadeIn = 0;
 									Integer Stay = 0;
 									Integer FadeOut = 0;
@@ -253,6 +267,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 						}
 						
 						if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
+							
+							String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                        	
+                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                        		continue;
+                        	}
+							
 							Integer FadeIn = 0;
 							Integer Stay = 0;
 							Integer FadeOut = 0;
@@ -331,6 +352,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								Integer FadeIn = 0;
 								Integer Stay = 0;
 								Integer FadeOut = 0;
@@ -452,6 +480,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 								}
 								
 								if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									Integer FadeIn = 0;
 									Integer Stay = 0;
 									Integer FadeOut = 0;
@@ -530,6 +565,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
+										
+										String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+			                        	
+			                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+			                        		continue;
+			                        	}
+										
 										Integer FadeIn = 0;
 										Integer Stay = 0;
 										Integer FadeOut = 0;
@@ -633,6 +675,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 							}
 							
 							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								Integer FadeIn = 0;
 								Integer Stay = 0;
 								Integer FadeOut = 0;
@@ -711,6 +760,13 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									Integer FadeIn = 0;
 									Integer Stay = 0;
 									Integer FadeOut = 0;
