@@ -20,7 +20,6 @@ public class FeedCommand extends BukkitCommand {
         this.usageMessage = "/feed <player>";
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
 
@@ -81,7 +80,6 @@ public class FeedCommand extends BukkitCommand {
         // The command
 
         if (args.length == 0) {
-            Double feedth = Double.valueOf(p.getMaxFeedth());
             p.setFoodLevel(20);
 
             if (ConfigMCommands.getConfig().getBoolean("Feed.Self.Enable")) {
