@@ -151,6 +151,18 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!AutoBroadcastConfig.getConfig().isSet("Config.Messages.Options.Auto-Center")) {
+			AutoBroadcastConfig.getConfig().set("Config.Messages.Options.Auto-Center", false);
+			
+			ConfigMPlayerOption.getConfig().set("PlayerOption.AutoBroadcast.Enable.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.AutoBroadcast.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The autobroadcast visibility has been &aactivated"}));
+			ConfigMPlayerOption.getConfig().set("PlayerOption.AutoBroadcast.Disable.Enable", true);
+			ConfigMPlayerOption.getConfig().set("PlayerOption.AutoBroadcast.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The autobroadcast visibility has been &cdisabled"}));
+			
+			ConfigMPlayerOption.saveConfigFile();
+			AutoBroadcastConfig.saveConfigFile();
+		}
+		
 		if (!WorldEventConfig.getConfig().isSet("World.Time.Always-Day.Enable")) {
 			WorldEventConfig.getConfig().set("World.Time.Always-Day.Enable", true);
 			WorldEventConfig.getConfig().set("World.Time.Always-Day.World.All_World", false);
