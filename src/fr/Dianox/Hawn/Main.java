@@ -37,6 +37,7 @@ import fr.Dianox.Hawn.Commands.PanelAdminCommand;
 import fr.Dianox.Hawn.Commands.PingCommand;
 import fr.Dianox.Hawn.Commands.SetSpawnCommand;
 import fr.Dianox.Hawn.Commands.SpawnCommand;
+import fr.Dianox.Hawn.Commands.SpawnListCommand;
 import fr.Dianox.Hawn.Commands.Features.ClearInvCommand;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Commands.Features.ScoreboardCommand;
@@ -59,6 +60,8 @@ import fr.Dianox.Hawn.Commands.Features.Warp.DelWarpCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.SetWarpCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
 import fr.Dianox.Hawn.Commands.Features.Warp.WarpListCommand;
+import fr.Dianox.Hawn.Commands.Others.FeedCommand;
+import fr.Dianox.Hawn.Commands.Others.GoTopCommand;
 import fr.Dianox.Hawn.Commands.Others.HealCommand;
 import fr.Dianox.Hawn.Commands.Others.Time.DayCommand;
 import fr.Dianox.Hawn.Commands.Others.Time.NightCommand;
@@ -97,8 +100,10 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.DelayChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.EmojiCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.FeedCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.GamemodeCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.GoTopCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HealCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HelpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.MuteChatCommandConfig;
@@ -163,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.7.7-Alpha";
+	private static String versions = "0.7.9-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -401,6 +406,12 @@ public class Main extends JavaPlugin implements Listener {
 			WarningCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Warning", "Commands/Warning.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Warning.yml", "C-Warning");
+			FeedCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Feed", "Commands/Feed.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Feed.yml", "C-Feed");
+			GoTopCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Gotop", "Commands/Gotop.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Gotop.yml", "C-Gotop");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -586,6 +597,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* ------------- *
+			 * FEED COMMANDS *
+			 * ------------- */
+			// >> Heal
+			if (!FeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("feed", new FeedCommand("feed"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Feed.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Feed.Aliases")) {
+						commandMap.register(s, new FeedCommand(s));
+					}
+				}
+			}
+			
 			/* ------------ *
 			 * FLY COMMANDS *
 			 * ------------ */
@@ -674,6 +698,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* -------------- *
+			 * GOTOP COMMANDS *
+			 * -------------- */
+			// >> Help
+			if (!GoTopCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("gotop", new GoTopCommand("gotop"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Gotop.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Gotop.Aliases")) {
+						commandMap.register(s, new GoTopCommand(s));
+					}
+				}
+			}
+			
 			/* ------------------- *
 			 * SCOREBOARD COMMANDS *
 			 * ------------------- */
@@ -740,6 +777,15 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("DelSpawn.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("DelSpawn.Aliases")) {
 						commandMap.register(s, new DelSpawnCommand(s));
+					}
+				}
+			}
+			// >> Spawnlist
+			if (!SpawnCommandConfig.getConfig().getBoolean("SpawnList.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("spawnlist", new SpawnListCommand("spawnlist"));
+				if (CommandAliasesConfig.getConfig().getBoolean("SpawnList.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("SpawnList.Aliases")) {
+						commandMap.register(s, new SpawnListCommand(s));
 					}
 				}
 			}
