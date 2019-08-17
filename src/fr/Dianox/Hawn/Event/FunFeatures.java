@@ -67,6 +67,9 @@ public class FunFeatures implements Listener {
 	public void onPlayerMoveEvent(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		
+		if (Main.injumpwithjumppad.contains(p)) {
+			return;
+		}
 
 		if (ConfigGLP.getConfig().getBoolean("JumpPads.Enable")) {
 			if (!ConfigGLP.getConfig().getBoolean("JumpPads.World.All_World")) {
@@ -291,30 +294,28 @@ public class FunFeatures implements Listener {
 					p.setVelocity(p.getLocation().getDirection().multiply(length).setY(height));
 					p.setFallDistance(-999.0F);
 					
-					if (Main.injumpwithjumppad.contains(p)) {
-						String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
-						int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
-						int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
-							if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
-								for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-									all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
-								}
-							} else {
-								p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+					String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
+					int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
+					int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
+						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
+							for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+								all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
 							}
+						} else {
+							p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
 						}
+					}
 					
 					
-						String effect = ConfigGLP.getConfig().getString("JumpPads.Effect.Effect");
-						int pitch2 = ConfigGLP.getConfig().getInt("JumpPads.Effect.Pitch");
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Effect.Enable")) {
-							p.playEffect(p.getPlayer().getLocation(), Effect.valueOf(effect), pitch2);
-						}
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
-							for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
-								MessageUtils.ReplaceCharMessagePlayer(s, p);
-							}
+					String effect = ConfigGLP.getConfig().getString("JumpPads.Effect.Effect");
+					int pitch2 = ConfigGLP.getConfig().getInt("JumpPads.Effect.Pitch");
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Effect.Enable")) {
+						p.playEffect(p.getPlayer().getLocation(), Effect.valueOf(effect), pitch2);
+					}
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
+						for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(s, p);
 						}
 					}
 					
