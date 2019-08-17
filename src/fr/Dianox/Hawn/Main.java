@@ -168,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static String versions = "0.8.0-Alpha";
 	public static Boolean devbuild = true;
-	public static Integer devbuild_number = 1;
+	public static Integer devbuild_number = 2;
 	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
@@ -260,7 +260,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Version "+versions+" - Created by Dianox");
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"May the "+ChatColor.RED+"Phoenix"+ChatColor.YELLOW+" fly with you!");
+		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"When dawn was visible, a new plugin was born");
 		gcs(ChatColor.BLUE+"| ");
 
 		@SuppressWarnings("unused")
