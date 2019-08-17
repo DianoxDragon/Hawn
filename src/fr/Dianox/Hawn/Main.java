@@ -3,7 +3,6 @@ package fr.Dianox.Hawn;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -79,11 +77,9 @@ import fr.Dianox.Hawn.Event.World.AlwaysDayTask;
 import fr.Dianox.Hawn.Event.World.AlwaysNightTask;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
-import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
-import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
@@ -153,6 +149,7 @@ import fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.Server.WarnTPS;
 import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
+import fr.Dianox.Hawn.Utility.Tab.MainTablist;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -164,7 +161,6 @@ import fr.Dianox.Hawn.Utility.World.OtherFeaturesPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
 import fr.Dianox.Hawn.Utility.World.ProtectionPW;
 import fr.Dianox.Hawn.Utility.World.WorldPW;
-import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -241,6 +237,7 @@ public class Main extends JavaPlugin implements Listener {
     
     public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
     public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
+    public static Integer tablistnumber = 0;
     
     @SuppressWarnings("static-access")
 	@Override
@@ -1387,105 +1384,11 @@ public class Main extends JavaPlugin implements Listener {
 	    		animationtabtask.put(string, task.getTaskId());
 	    	}
 	    	
-		    new BukkitRunnable() {
-
-				@Override
-				public void run() {
-					if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
-						
-						hea = "";
-						String anim = "";
-						
-				    	for (String s: TablistConfig.getConfig().getStringList("Tablist.header.message")) {				    		
-				    		if (s.contains("{anim_")) {
-				    			anim = StringUtils.substringBetween(s, "{anim_", "}");
-				    			s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(animationtab.get(anim)));
-				    		}
-				    		
-				    		s = s.replaceAll("&", "§");
-				    		hea = hea + "\n" + s;
-				    	}
-				    	
-				    	hea = hea.substring(1, hea.length());
-				    }
-
-				    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
-				    	
-				    	foo = "";
-				    	String anim = "";
-				    	
-				    	for (String s: TablistConfig.getConfig().getStringList("Tablist.footer.message")) {				    		
-				    		if (s.contains("{anim_")) {
-				    			anim = StringUtils.substringBetween(s, "{anim_", "}");
-				    			s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(animationtab.get(anim)));
-				    		}
-				    		
-				    		s = s.replaceAll("&", "§");
-				    		foo = foo + "\n" + s;
-				    	}
-				    	
-				    	foo = foo.substring(1, foo.length());
-				    }
-				    
-					try {
-						for (Player p : Bukkit.getServer().getOnlinePlayers()) {							
-							String hea2 = "";
-							String foo2 = "";
-							Object packet = null;
-							
-							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
-							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
-								hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								foo2 = MessageUtils.BattleLevelPO(foo2, p);
-								hea2 = MessageUtils.BattleLevelPO(hea2, p);
-							}
-							
-							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
-							Object header = constructor.newInstance(hea2);
-							Object footer = constructor.newInstance(foo2);
-							
-							try {
-								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("a");
-								a.setAccessible(true);
-								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("b");
-								b.setAccessible(true);
-
-								packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
-
-								a.set(packet, header);
-								b.set(packet, footer);
-							} catch (Exception e) {
-								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("header");
-								a.setAccessible(true);
-								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("footer");
-								b.setAccessible(true);
-
-								try {
-									packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
-								} catch (InstantiationException | InvocationTargetException e1) {
-									e1.printStackTrace();
-								}
-
-								a.set(packet, header);
-								b.set(packet, footer);
-							}
-
-							TitleUtils.sendPacket(p, packet);
-						}
-					} catch (IllegalAccessException | NoSuchFieldException | SecurityException |
-							IllegalArgumentException | InstantiationException | InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}.runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
+	    	BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
+	    	
+	    	tablistnumber = tablistmain.getTaskId();
 	    }
-
+	    
 	    configfileinuse.clear();
 	    buildbypasscommand.clear();
 
