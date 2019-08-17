@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -151,6 +152,7 @@ import fr.Dianox.Hawn.Utility.Scoreboard.PlayerBoard;
 import fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.Server.WarnTPS;
+import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -168,9 +170,9 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.7.9-Alpha";
-	public static Boolean devbuild = false;
-	public static Integer devbuild_number = 0;
+	private static String versions = "0.8.0-Alpha";
+	public static Boolean devbuild = true;
+	public static Integer devbuild_number = 1;
 	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
@@ -236,6 +238,9 @@ public class Main extends JavaPlugin implements Listener {
     
     private WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
+    
+    public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
     
     @SuppressWarnings("static-access")
 	@Override
@@ -1372,32 +1377,62 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
 
-		    if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
-		    	hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
-
-		    	hea = hea.substring(1, hea.length() - 1).replaceAll(", ", "\n");
-		    	hea = hea.replaceAll("&", "§");
-		    }
-
-		    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
-		    	foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
-
-		    	foo = foo.substring(1, foo.length() - 1).replaceAll(", ", "\n");
-		    	foo = foo.replaceAll("&", "§");
-		    }
-
+		    Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
+		    
+		    animationtab.clear();
+	    	while (iteanimtab.hasNext()) {
+	    		String string = (String) iteanimtab.next();
+	    		
+	    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+	    		animationtabtask.put(string, task.getTaskId());
+	    	}
+	    	
 		    new BukkitRunnable() {
 
 				@Override
 				public void run() {
+					if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
+						
+						hea = "";
+						String anim = "";
+						
+				    	for (String s: TablistConfig.getConfig().getStringList("Tablist.header.message")) {				    		
+				    		if (s.contains("{anim_")) {
+				    			anim = StringUtils.substringBetween(s, "{anim_", "}");
+				    			s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(animationtab.get(anim)));
+				    		}
+				    		
+				    		s = s.replaceAll("&", "§");
+				    		hea = hea + "\n" + s;
+				    	}
+				    	
+				    	hea = hea.substring(1, hea.length());
+				    }
 
+				    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
+				    	
+				    	foo = "";
+				    	String anim = "";
+				    	
+				    	for (String s: TablistConfig.getConfig().getStringList("Tablist.footer.message")) {				    		
+				    		if (s.contains("{anim_")) {
+				    			anim = StringUtils.substringBetween(s, "{anim_", "}");
+				    			s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(animationtab.get(anim)));
+				    		}
+				    		
+				    		s = s.replaceAll("&", "§");
+				    		foo = foo + "\n" + s;
+				    	}
+				    	
+				    	foo = foo.substring(1, foo.length());
+				    }
+				    
 					try {
-						for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-
+						for (Player p : Bukkit.getServer().getOnlinePlayers()) {							
 							String hea2 = "";
 							String foo2 = "";
 							Object packet = null;
-							 
+							
 							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
 							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
 							
@@ -1414,7 +1449,7 @@ public class Main extends JavaPlugin implements Listener {
 							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
 							Object header = constructor.newInstance(hea2);
 							Object footer = constructor.newInstance(foo2);
-
+							
 							try {
 								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("a");
 								a.setAccessible(true);
@@ -1448,7 +1483,7 @@ public class Main extends JavaPlugin implements Listener {
 						e.printStackTrace();
 					}
 				}
-			}.runTaskTimer(this, 20L, 20);
+			}.runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
 	    }
 
 	    configfileinuse.clear();
