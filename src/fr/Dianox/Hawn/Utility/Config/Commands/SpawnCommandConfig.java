@@ -76,6 +76,10 @@ public class SpawnCommandConfig {
             Config.set("DelSpawn.Enable", true);
             Config.set("DelSpawn.Disable-Message", true);
             Config.set("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
+            
+            Config.set("SpawnList.Enable", true);
+            Config.set("SpawnList.Disable-Message", true);
+            Config.set("SpawnList.DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 
