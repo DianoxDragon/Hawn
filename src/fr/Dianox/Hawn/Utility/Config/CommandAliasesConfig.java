@@ -53,6 +53,10 @@ public class CommandAliasesConfig {
                 file.createNewFile();
             } catch (IOException e) {}
             
+            Config.set("ActionBarAnnouncer.Enable", true);
+            Config.set("ActionBarAnnouncer.Cannot-Be-changed.Main-Command-Is", "actionbarannouncer");
+            Config.set("ActionBarAnnouncer.Aliases", java.util.Arrays.asList(new String[] {"bacast", "aba"}));
+            
             Config.set("Broadcast.Enable", true);
             Config.set("Broadcast.Cannot-Be-changed.Main-Command-Is", "broadcast");
             Config.set("Broadcast.Aliases", java.util.Arrays.asList(new String[] {"bc"}));
@@ -81,6 +85,10 @@ public class CommandAliasesConfig {
             Config.set("Emojis.Cannot-Be-changed.Main-Command-Is", "emoji");
             Config.set("Emojis.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("Feed.Enable", false);
+            Config.set("Feed.Cannot-Be-changed.Main-Command-Is", "feed");
+            Config.set("Feed.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Fly.Enable", false);
             Config.set("Fly.Cannot-Be-changed.Main-Command-Is", "fly");
             Config.set("Fly.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -104,6 +112,10 @@ public class CommandAliasesConfig {
             Config.set("Gmsp.Enable", false);
             Config.set("Gmsp.Cannot-Be-changed.Main-Command-Is", "gmsp");
             Config.set("Gmsp.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Gotop.Enable", false);
+            Config.set("Gotop.Cannot-Be-changed.Main-Command-Is", "gotop");
+            Config.set("Gotop.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Heal.Enable", false);
             Config.set("Heal.Cannot-Be-changed.Main-Command-Is", "heal");
@@ -148,6 +160,10 @@ public class CommandAliasesConfig {
             Config.set("Spawn.Enable", true);
             Config.set("Spawn.Cannot-Be-changed.Main-Command-Is", "spawn");
             Config.set("Spawn.Aliases", java.util.Arrays.asList(new String[] {"hub", "lobby"}));
+            
+            Config.set("SpawnList.Enable", false);
+            Config.set("SpawnList.Cannot-Be-changed.Main-Command-Is", "spawnlist");
+            Config.set("SpawnList.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Thunder.Enable", false);
             Config.set("Thunder.Cannot-Be-changed.Main-Command-Is", "thunder");

@@ -114,6 +114,10 @@ public class FunFeatures implements Listener {
 					return;
 				}
 				
+				if (Main.indj.contains(p)) {
+					return;
+				}
+				
 				if (p.hasPermission("hawn.fun.doublejump.double")) {		
 					if (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
 						player_list_dbenable.remove(p);
@@ -140,6 +144,10 @@ public class FunFeatures implements Listener {
 				return;
 			}
 			
+			if (Main.indj.contains(p)) {
+				return;
+			}
+			
 			if (ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_fly.Activate") || !ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_doublejump.Activate")) {
 				return;
 			}
@@ -147,7 +155,7 @@ public class FunFeatures implements Listener {
 			if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
 				return;
 			}
-		
+			
 			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
 				if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
 					if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
@@ -155,12 +163,22 @@ public class FunFeatures implements Listener {
 							if (p.hasPermission("hawn.fun.doublejump.double")) {			
 								player_list_dbenable.add(p);
 
-								((PlayerToggleFlightEvent) e).setCancelled(true);
+								e.setCancelled(true);
 								
 								p.setAllowFlight(false);
 							    p.setFlying(false);
 							    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
 							    p.setFallDistance(-999.0F);
+							    
+							    Main.indj.add(p);
+							    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+									@Override
+									public void run() {
+										Main.indj.remove(p);
+									}
+
+								}, 20);
 							    
 							    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 							    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
@@ -173,12 +191,22 @@ public class FunFeatures implements Listener {
 							player_list_dbenable.add(p);
 							
 							
-							((PlayerToggleFlightEvent) e).setCancelled(true);
+							e.setCancelled(true);
 							
 							p.setAllowFlight(false);
 						    p.setFlying(false);
 						    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
 						    p.setFallDistance(-999.0F);
+						    
+						    Main.indj.add(p);
+						    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+								@Override
+								public void run() {
+									Main.indj.remove(p);
+								}
+
+							}, 20);
 						    
 						    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
@@ -195,12 +223,22 @@ public class FunFeatures implements Listener {
 							player_list_dbenable.add(p);
 							
 							
-							((PlayerToggleFlightEvent) e).setCancelled(true);
+							e.setCancelled(true);
 							
 							p.setAllowFlight(false);
 						    p.setFlying(false);
 						    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
 						    p.setFallDistance(-999.0F);
+						    
+						    Main.indj.add(p);
+						    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+								@Override
+								public void run() {
+									Main.indj.remove(p);
+								}
+
+							}, 20);
 						    
 						    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
@@ -212,12 +250,22 @@ public class FunFeatures implements Listener {
 					} else {
 						player_list_dbenable.add(p);
 						
-						((PlayerToggleFlightEvent) e).setCancelled(true);
+						e.setCancelled(true);
 						
 						p.setAllowFlight(false);
 					    p.setFlying(false);
 					    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
 					    p.setFallDistance(-999.0F);
+					    
+					    Main.indj.add(p);
+					    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+							@Override
+							public void run() {
+								Main.indj.remove(p);
+							}
+
+						}, 20);
 					    
 					    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 					    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
