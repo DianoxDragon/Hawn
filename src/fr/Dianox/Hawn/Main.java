@@ -231,6 +231,8 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
     
     public static List<Material> interactables = new ArrayList<Material>();
+
+    public static List<Player> indj = new ArrayList<Player>();
     
     private WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
@@ -1358,6 +1360,8 @@ public class Main extends JavaPlugin implements Listener {
 		    }.runTaskTimer(this, 0, 20);
 	    }
 
+	    indj.clear();
+	    
 	    // Tablist
 	    if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
 		    this.PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
