@@ -1,6 +1,7 @@
 package fr.Dianox.Hawn.Commands;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
@@ -18,6 +20,7 @@ import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
@@ -77,6 +80,8 @@ import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
 import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
+import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
+import fr.Dianox.Hawn.Utility.Tab.MainTablist;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -91,6 +96,13 @@ import fr.Dianox.Hawn.Utility.World.WorldPW;
 
 public class HawnCommand implements CommandExecutor {
 
+	private Class<?> PacketPlayOutPlayerListHeaderFooter;
+    private Class<?> ChatComponentText;
+    private Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
+	
+	public String hea = "";
+	public String foo = "";
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
@@ -950,7 +962,40 @@ public class HawnCommand implements CommandExecutor {
 		}
 		
 		Main.indj.clear();
+		
+		Bukkit.getScheduler().cancelTask(Main.tablistnumber);
+		
+		for (String s: Main.animationtabtask.keySet()) {
+			Bukkit.getScheduler().cancelTask(Main.animationtabtask.get(s));
+			
+		}
+		
+		Main.animationtabtask.clear();
+		Main.animationtab.clear();
+		
+		if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
+			this.PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
+		    try {
+				this.newPacketPlayOutPlayerListHeaderFooter = this.PacketPlayOutPlayerListHeaderFooter.getConstructor(new Class[0]);
+			} catch (NoSuchMethodException | SecurityException e1) {
+				e1.printStackTrace();
+			}
+		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
+			
+			Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
+		
+			while (iteanimtab.hasNext()) {
+				String string = (String) iteanimtab.next();
+    		
+				BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+				Main.animationtabtask.put(string, task.getTaskId());
+			}
 
+			BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
+		
+			Main.tablistnumber = tablistmain.getTaskId();
+		}
+    	
 		CheckConfig.warnhawnreload();
 		
 	}
