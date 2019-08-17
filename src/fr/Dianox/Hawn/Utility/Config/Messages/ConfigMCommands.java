@@ -139,9 +139,26 @@ public class ConfigMCommands {
             Config.set("Gamemode.Other-Sender.Spectator.Enable", true);
             Config.set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%player%&7's gamemode has been set in &espectator&7 mode"}));
             
-		Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
             Config.set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
-		
+            
+            /* -------------- *
+			 * GOTOP COMMANDS *
+			 * -------------- */
+            Config.set("Gotop.Enable", true);
+            Config.set("Gotop.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the highest block of your position"}));
+            
+            /* ------------- *
+			 * FEED COMMANDS *
+			 * ------------- */
+            Config.set("Feed.Self.Enable", true);
+            Config.set("Feed.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been fed"}));
+            
+            Config.set("Feed.Other.Enable", true);
+            Config.set("Feed.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been fed by &e%player%"}));
+            Config.set("Feed.Other-Sender.Enable", true);
+            Config.set("Feed.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%target%&7 has been fed"}));
+            
             /* ------------- *
 			 * HEAL COMMANDS *
 			 * ------------- */
@@ -171,9 +188,9 @@ public class ConfigMCommands {
             Config.set("Scoreboard.Keep-Off.Enable", true);
             Config.set("Scoreboard.Keep-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You will &cno longer&7 keep this scoreboard"}));
             
-		Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
+            Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
             Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou don't have a permission, for any scoreboard"}));
-		
+            
             /* ------------- *
 			 * WARP COMMANDS *
 			 * ------------- */
@@ -224,7 +241,7 @@ public class ConfigMCommands {
             Config.set("Vanish.Other-Sender-Disabled.Enable", true);
             Config.set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The &b%target%&7's vanish has been &cdisabled&7 by&e %player%"}));
             Config.set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aYou are vanished"}));
-	
+            
             /*
              * Clear inv stuff
              */
@@ -243,7 +260,13 @@ public class ConfigMCommands {
             Config.set("Spawn.Tp.Other-Sender-Delay.Enable", true);
             Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
             
-	    /*
+            Config.set("Spawn.List.Enable", true);
+            Config.set("Spawn.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bSpawnlist :&e %spawnlist%"}));
+            
+            Config.set("Spawn.No-Spawn.Enable", true);
+            Config.set("Spawn.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cI'm sorry, but there are no spawn"}));
+            
+            /*
              * Warning stuff
              */
             Config.set("Warning", java.util.Arrays.asList(new String[] {
@@ -251,8 +274,8 @@ public class ConfigMCommands {
             		"", 
             		"%broadcast%",
             		"",
-            		"<--center--> &4&m>-----------------------<"}));	
-		
+            		"<--center--> &4&m>-----------------------<"}));
+            
             saveConfigFile();
 
         }
