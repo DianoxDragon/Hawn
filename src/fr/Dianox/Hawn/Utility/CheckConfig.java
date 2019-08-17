@@ -151,6 +151,59 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMCommands.getConfig().isSet("Spawn.List.Enable")) {
+			ConfigMCommands.getConfig().set("Spawn.List.Enable", true);
+			ConfigMCommands.getConfig().set("Spawn.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bSpawnlist :&e %spawnlist%"}));
+        
+			ConfigMCommands.getConfig().set("Spawn.No-Spawn.Enable", true);
+			ConfigMCommands.getConfig().set("Spawn.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cI'm sorry, but there are no spawn"}));
+		
+			SpawnCommandConfig.getConfig().set("SpawnList.Enable", true);
+			SpawnCommandConfig.getConfig().set("SpawnList.Disable-Message", true);
+			SpawnCommandConfig.getConfig().set("SpawnList.DISABLE_THE_COMMAND_COMPLETELY", false);
+			
+			CommandAliasesConfig.getConfig().set("SpawnList.Enable", false);
+			CommandAliasesConfig.getConfig().set("SpawnList.Cannot-Be-changed.Main-Command-Is", "spawnlist");
+			CommandAliasesConfig.getConfig().set("SpawnList.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			SpawnCommandConfig.saveConfigFile();
+			CommandAliasesConfig.saveConfigFile();
+        	ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!CommandAliasesConfig.getConfig().isSet("Gotop.Enable")) {
+			CommandAliasesConfig.getConfig().set("Gotop.Enable", false);
+			CommandAliasesConfig.getConfig().set("Gotop.Cannot-Be-changed.Main-Command-Is", "gotop");
+			CommandAliasesConfig.getConfig().set("Gotop.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			ConfigMCommands.getConfig().set("Gotop.Enable", true);
+			ConfigMCommands.getConfig().set("Gotop.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the highest block of your position"}));
+			
+			ConfigMCommands.saveConfigFile();
+        	CommandAliasesConfig.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Feed.Self.Enable")) {
+			ConfigMCommands.getConfig().set("Feed.Self.Enable", true);
+			ConfigMCommands.getConfig().set("Feed.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been fed"}));
+        
+			ConfigMCommands.getConfig().set("Feed.Other.Enable", true);
+			ConfigMCommands.getConfig().set("Feed.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been fed by &e%player%"}));
+			ConfigMCommands.getConfig().set("Feed.Other-Sender.Enable", true);
+			ConfigMCommands.getConfig().set("Feed.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%target%&7 has been fed"}));
+		
+        	ConfigMCommands.saveConfigFile();
+		}
+        
+		if (!CommandAliasesConfig.getConfig().isSet("Feed.Enable")) {
+			
+			CommandAliasesConfig.getConfig().set("Feed.Enable", false);
+			CommandAliasesConfig.getConfig().set("Feed.Cannot-Be-changed.Main-Command-Is", "feed");
+			CommandAliasesConfig.getConfig().set("Feed.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			CommandAliasesConfig.saveConfigFile();
+		}
+		
 		if (!AutoBroadcastConfig.getConfig().isSet("Config.Messages.Options.Auto-Center")) {
 			AutoBroadcastConfig.getConfig().set("Config.Messages.Options.Auto-Center", false);
 			
