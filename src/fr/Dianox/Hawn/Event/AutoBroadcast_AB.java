@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
@@ -50,6 +51,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 							msg2 = msg2.replaceAll("&", "§");
 							
 							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 								} else {
@@ -57,6 +65,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 									} else {
@@ -79,6 +94,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 						msg2 = msg2.replaceAll("&", "§");
 						
 						if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+							
+							String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                        	
+                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                        		continue;
+                        	}
+							
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 								ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 							} else {
@@ -86,6 +108,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 								} else {
@@ -117,6 +146,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								msg2 = msg2.replaceAll("&", "§");
 								
 								if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 									} else {
@@ -124,6 +160,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
+										
+										String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+			                        	
+			                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+			                        		continue;
+			                        	}
+										
 										if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 											ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 										} else {
@@ -146,6 +189,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 							msg2 = msg2.replaceAll("&", "§");
 							
 							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+								
+								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+	                        	
+	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+	                        		continue;
+	                        	}
+								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 								} else {
@@ -153,6 +203,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
+									
+									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+		                        	
+		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+		                        		continue;
+		                        	}
+									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 									} else {
