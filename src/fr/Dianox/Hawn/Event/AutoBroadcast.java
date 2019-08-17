@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.XSound;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
@@ -54,24 +55,76 @@ public class AutoBroadcast extends BukkitRunnable {
             }
 
             for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+            	Boolean check = false;
+            	
                 if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Use-Permission-To-Get-Messages")) {
                     if (p.hasPermission("hawn.get.autobroadcast")) {
                         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
+                        	
+                        	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                        	
+                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                        		continue;
+                        	}
+                        	
                             for (String s: newmessage) {
+                            	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                		if (p.getWorld().getName().contains(str)) {
+                                			check = true;
+                                		}
+                                	}
+                            	} else {
+                            		check = true;
+                            	}
+                            	
+                            	if (!check) {
+                            		continue;
+                            	}
+                            	
                             	if (s.startsWith("[sounds]: ")) {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
                         } else {
                             if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
+                            	
+                            	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                            	
+                            	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                            		continue;
+                            	}
+                            	
                                 for (String s: newmessage) {
+                                	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                    	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                    		if (p.getWorld().getName().contains(str)) {
+                                    			check = true;
+                                    		}
+                                    	}
+                                	} else {
+                                		check = true;
+                                	}
+                                	
+                                	if (!check) {
+                                		continue;
+                                	}
+                                	
                                 	if (s.startsWith("[sounds]: ")) {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
@@ -80,21 +133,71 @@ public class AutoBroadcast extends BukkitRunnable {
                     }
                 } else {
                     if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
+                    	
+                    	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                    	
+                    	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                    		continue;
+                    	}
+                    	
                         for (String s: newmessage) {
+                        	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                            	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                            		if (p.getWorld().getName().contains(str)) {
+                            			check = true;
+                            		}
+                            	}
+                        	} else {
+                        		check = true;
+                        	}
+                        	
+                        	if (!check) {
+                        		continue;
+                        	}
+                        	
                         	if (s.startsWith("[sounds]: ")) {
                                 s = s.replace("[sounds]: ", "");
                                 p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                             } else {
+                            	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                            		s = s + "<--center-->";
+                            	}
+
                             	MessageUtils.ReplaceCharMessagePlayer(s, p);
                             }
                         }
                     } else {
                         if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
+                        	
+                        	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                        	
+                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                        		continue;
+                        	}
+                        	
                             for (String s: newmessage) {
+                            	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                		if (p.getWorld().getName().contains(str)) {
+                                			check = true;
+                                		}
+                                	}
+                            	} else {
+                            		check = true;
+                            	}
+                            	
+                            	if (!check) {
+                            		continue;
+                            	}
+                            	
                             	if (s.startsWith("[sounds]: ")) {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
@@ -104,10 +207,12 @@ public class AutoBroadcast extends BukkitRunnable {
             }
 
             if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Broadcast-To-Console")) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg
-                    .replaceAll("%player%", "Player name")
-                    .replaceAll("%target%", "Player name")
-                ));
+            	for (String s: newmessage) {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', s
+                        .replaceAll("%player%", "Player name")
+                        .replaceAll("%target%", "Player name")
+                    ));
+            	}
             }
         } else {
             if (Main.curMsg <= Main.autobroadcast_total) {
@@ -130,24 +235,76 @@ public class AutoBroadcast extends BukkitRunnable {
                 }
 
                 for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+                	Boolean check = false;
+                	
                     if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Use-Permission-To-Get-Messages")) {
                         if (p.hasPermission("hawn.get.autobroadcast")) {
                             if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
+                            	
+                            	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                            	
+                            	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                            		continue;
+                            	}
+                            	
                                 for (String s: newmessage) {
+                                	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                    	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                    		if (p.getWorld().getName().contains(str)) {
+                                    			check = true;
+                                    		}
+                                    	}
+                                	} else {
+                                		check = true;
+                                	}
+                                	
+                                	if (!check) {
+                                		continue;
+                                	}
+                                	
                                 	if (s.startsWith("[sounds]: ")) {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
                             } else {
                                 if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
+                                	
+                                	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                                	
+                                	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                                		continue;
+                                	}
+                                	
                                     for (String s: newmessage) {
+                                    	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                        	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                        		if (p.getWorld().getName().contains(str)) {
+                                        			check = true;
+                                        		}
+                                        	}
+                                    	} else {
+                                    		check = true;
+                                    	}
+                                    	
+                                    	if (!check) {
+                                    		continue;
+                                    	}
+                                    	
                                     	if (s.startsWith("[sounds]: ")) {
                                             s = s.replace("[sounds]: ", "");
                                             p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                         } else {
+                                        	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                        		s = s + "<--center-->";
+                                        	}
+
                                         	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                         }
                                     }
@@ -156,21 +313,71 @@ public class AutoBroadcast extends BukkitRunnable {
                         }
                     } else {
                         if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
+                        	
+                        	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                        	
+                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                        		continue;
+                        	}
+                        	
                             for (String s: newmessage) {
+                            	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                		if (p.getWorld().getName().contains(str)) {
+                                			check = true;
+                                		}
+                                	}
+                            	} else {
+                            		check = true;
+                            	}
+                            	
+                            	if (!check) {
+                            		continue;
+                            	}
+                            	
                             	if (s.startsWith("[sounds]: ")) {
                                     s = s.replace("[sounds]: ", "");
                                     p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                 } else {
+                                	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                		s = s + "<--center-->";
+                                	}
+
                                 	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                 }
                             }
                         } else {
                             if (BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
+                            	
+                            	String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+                            	
+                            	if (!valuepo.equalsIgnoreCase("TRUE")) {
+                            		continue;
+                            	}
+                            	
                                 for (String s: newmessage) {
+                                	if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
+                                    	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
+                                    		if (p.getWorld().getName().contains(str)) {
+                                    			check = true;
+                                    		}
+                                    	}
+                                	} else {
+                                		check = true;
+                                	}
+                                	
+                                	if (!check) {
+                                		continue;
+                                	}
+                                	
                                 	if (s.startsWith("[sounds]: ")) {
                                         s = s.replace("[sounds]: ", "");
                                         p.playSound(p.getLocation(), XSound.matchXSound(s).parseSound(), 1, 1);
                                     } else {
+                                    	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
+                                    		s = s + "<--center-->";
+                                    	}
+
                                     	MessageUtils.ReplaceCharMessagePlayer(s, p);
                                     }
                                 }
@@ -180,10 +387,12 @@ public class AutoBroadcast extends BukkitRunnable {
                 }
 
                 if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Broadcast-To-Console")) {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg
-                        .replaceAll("%player%", "Player name")
-                        .replaceAll("%target%", "Player name")
-                    ));
+                	for (String s: newmessage) {
+	                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', s
+	                        .replaceAll("%player%", "Player name")
+	                        .replaceAll("%target%", "Player name")
+	                    ));
+                	}
                 }
 
                 Main.curMsg++;

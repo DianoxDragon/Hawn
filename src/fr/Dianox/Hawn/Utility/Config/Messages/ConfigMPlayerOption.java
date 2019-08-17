@@ -66,6 +66,7 @@ public class ConfigMPlayerOption {
             		" &8>> &7/option doublejump - &eEnable or disable the doublejump",
             		" &8>> &7/option speed - &eEnable or disable the speed",
             		" &8>> &7/option jumpboost - &eEnable or disable the jumpboost",
+            		" &8>> &7/option autobc - &eEnable or disable the autobroadcast visibility",
             		" &8>> &7/option pv - &eEnable or disable player visibility",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bPlayerOption&3] &8\\\\&7&m---------------&r&8//"}));
@@ -86,6 +87,11 @@ public class ConfigMPlayerOption {
             Config.set("PlayerOption.JumpBoost.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &aactivated"}));
             Config.set("PlayerOption.JumpBoost.Disable.Enable", true);
             Config.set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your jumpboost has been &cdisabled"}));
+            
+            Config.set("PlayerOption.AutoBroadcast.Enable.Enable", true);
+            Config.set("PlayerOption.AutoBroadcast.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The autobroadcast visibility has been &aactivated"}));
+            Config.set("PlayerOption.AutoBroadcast.Disable.Enable", true);
+            Config.set("PlayerOption.AutoBroadcast.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The autobroadcast visibility has been &cdisabled"}));
             
             Config.set("PlayerOption.PlayerVisibility.ON.Enable", true);
             Config.set("PlayerOption.PlayerVisibility.ON.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Poof! The players are gone"}));

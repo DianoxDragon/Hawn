@@ -249,6 +249,33 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 					MessageUtils.MessageNoPermission(p, "hawn.command.optionplayer.jumpboost");
 					return true;
 				}
+			} else if (args[0].equalsIgnoreCase("autobc")) {
+				if (p.hasPermission("hawn.command.optionplayer.autobc")) {
+					
+					String value = PlayerOptionSQLClass.GetSQLPOautobc(p);
+					
+					if (value.equalsIgnoreCase("TRUE")) {
+						PlayerOptionSQLClass.SaveSQLPOautobc(p, "FALSE");
+						
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.AutoBroadcast.Disable.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.AutoBroadcast.Disable.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+					} else {
+						PlayerOptionSQLClass.SaveSQLPOautobc(p, "TRUE");
+						
+						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.AutoBroadcast.Enable.Enable")) {
+							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.AutoBroadcast.Enable.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+						}
+					}
+					
+				} else {
+					MessageUtils.MessageNoPermission(p, "hawn.command.optionplayer.autobc");
+					return true;
+				}
 			} else if (args[0].equalsIgnoreCase("speed")) {
 				if (p.hasPermission("hawn.command.optionplayer.speed")) {
 					if (args.length == 2) {
