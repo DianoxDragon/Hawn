@@ -949,6 +949,7 @@ public class HawnCommand implements CommandExecutor {
 			}
 		}
 		
+		Main.indj.clear();
 
 		CheckConfig.warnhawnreload();
 		
