@@ -111,6 +111,10 @@ public class OnQuit implements Listener {
 		
 		FlyCommand.player_list_flyc.remove(p);
 		
+		if (Main.indj.contains(p)) {
+			Main.indj.remove(p);
+		}
+		
 		// QuitCommand
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("QuitCommand.Enable")) {
         	if (!ConfigGJoinQuitCommand.getConfig().getBoolean("QuitCommand.World.All_World")) {
