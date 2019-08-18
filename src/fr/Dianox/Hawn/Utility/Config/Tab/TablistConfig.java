@@ -73,7 +73,8 @@ public class TablistConfig {
             Config.set("Tablist.footer.message", java.util.Arrays.asList(new String[] {
             		"{anim_separator}",
             		"",
-            		"{anim_hawntitle}"
+            		"{anim_hawntitle}",
+		        ""
             		}));
             
             Config.set("Animations.separator.refresh-time-ticks", 2);
