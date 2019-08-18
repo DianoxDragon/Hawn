@@ -82,7 +82,7 @@ public class ServerPingEvent implements Listener {
 			if (!whitelist.contains(e.getPlayer().getName())) {
 				String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
 				message = message.replaceAll("&", "§");
-				message = MessageUtils.ReplaceMainplaceholderC(message);
+				message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
 				
 				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
 			}
@@ -95,7 +95,7 @@ public class ServerPingEvent implements Listener {
 				} else {
 					String message = ServerListConfig.getConfig().getString("On-Join.Message");
 					message = message.replaceAll("&", "§");
-					message = MessageUtils.ReplaceMainplaceholderC(message);
+					message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
 					
 					e.setKickMessage(message);
 				}
