@@ -16,7 +16,9 @@ import fr.Dianox.Hawn.Event.OnQuitE.OQMessages;
 import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
+import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGJoinQuitCommand;
 import fr.Dianox.Hawn.Utility.World.CommandsPW;
@@ -113,6 +115,17 @@ public class OnQuit implements Listener {
 		
 		if (Main.indj.contains(p)) {
 			Main.indj.remove(p);
+		}
+		
+		if (PlayerOptionMainConfig.getConfig().getBoolean("Options.Flying.Put-boots") && p.hasPermission("hawn.fun.boots.flying")) {
+			try {
+				if (p.getInventory().getBoots().getType() == XMaterial.DIAMOND_BOOTS.parseMaterial()) {
+					if (p.getInventory().getBoots().getItemMeta().getDisplayName().contains("§eI'm flyyyyinggggggg")) {
+						p.getInventory().setBoots(null);
+						p.getInventory().setBoots(FunFeatures.boots.get(p));
+					}
+				}
+			} catch (Exception e2) {}
 		}
 		
 		// QuitCommand
