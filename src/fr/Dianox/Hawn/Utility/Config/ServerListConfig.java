@@ -56,14 +56,25 @@ public class ServerListConfig {
             Config.set("Slots.One-Slot-Free", true);
             Config.set("Slots.Fake-Max-Player.Enable", false);
             Config.set("Slots.Fake-Max-Player.Number", 2000);
+            
             Config.set("On-Join.Player-With-Permission-Join-Full-Server", true);
             Config.set("On-Join.Message", "&cThe multi line \n&bworks like that %player%");
+            
+            Config.set("Maintenance.Enable", false);
+            Config.set("Maintenance.Kick-Message", "&cThe multi line \n&bworks like that %player%");
+            Config.set("Maintenance.whitelist", java.util.Arrays.asList(new String[] {
+            		"Dianox"
+            }));
+            
             Config.set("Motd.Classic.Enable", true);
-            Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course");
+            Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
             Config.set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");
             Config.set("Motd.WhiteList.Enable", true);
-            Config.set("Motd.WhiteList.Line-1", "&eServer is on whitelist");
+            Config.set("Motd.WhiteList.Line-1", "&eThe server is on whitelist");
             Config.set("Motd.WhiteList.Line-2", "&bPlease come back later");
+            Config.set("Motd.Maintenance.Enable", true);
+            Config.set("Motd.Maintenance.Line-1", "&cThe server is in maintenance");
+            Config.set("Motd.Maintenance.Line-2", "&bPlease come back later");
             
             saveConfigFile();
 
