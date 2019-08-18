@@ -130,6 +130,13 @@ public class OtherAMConfig {
                     "&7[ %target% is now no longer vanished by %player% ]"
             		}));
 		
+	Config.set("Maintenance.On", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &aenabled&7 the maintenance"
+            		}));
+            Config.set("Maintenance.Off", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &cdisabled&7 the maintenance"
+            		}));
+		
             saveConfigFile();
 
         }
