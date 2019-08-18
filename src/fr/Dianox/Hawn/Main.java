@@ -83,7 +83,7 @@ import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -168,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static String versions = "0.8.0-Alpha";
 	public static Boolean devbuild = true;
-	public static Integer devbuild_number = 2;
+	public static Integer devbuild_number = 4;
 	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
@@ -260,7 +260,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Version "+versions+" - Created by Dianox");
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"When dawn was visible, a new plugin was born");
+		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"When the dawn was visible, a new plugin was born");
 		gcs(ChatColor.BLUE+"| ");
 
 		@SuppressWarnings("unused")
@@ -282,7 +282,7 @@ public class Main extends JavaPlugin implements Listener {
 			AutoBroadcastConfig.loadConfig((Plugin) this);
 			configfile.put("G-AutoBroadcast", "AutoBroadcast.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "AutoBroadcast.yml", "G-AutoBroadcast");
-			BetweenServersConfig.loadConfig((Plugin) this);
+			PlayerOptionMainConfig.loadConfig((Plugin) this);
 			configfile.put("G-between-servers", "between-servers.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "between-servers.yml", "G-between-servers");
 			CommandAliasesConfig.loadConfig((Plugin) this);
