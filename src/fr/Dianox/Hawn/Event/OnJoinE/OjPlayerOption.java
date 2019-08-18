@@ -16,7 +16,7 @@ import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
 import fr.Dianox.Hawn.Utility.PlayerVisibility;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.OptionPlayerConfigCommand;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
@@ -206,7 +206,7 @@ public class OjPlayerOption {
             if (!OnJoinConfig.getConfig().getBoolean("Speed.World.All_World")) {
                 if (OnJoinPW.getSOJ().contains(p.getWorld().getName())) {
                 	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-                		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+                		if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
                 			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
                 				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
                 			} else {
@@ -278,7 +278,7 @@ public class OjPlayerOption {
                 }
             } else {     
             	if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
-            		if (BetweenServersConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
+            		if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
             			if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
             				speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
             			} else {
@@ -413,7 +413,7 @@ public class OjPlayerOption {
     		return;
     	}
     	
-        if (BetweenServersConfig.getConfig().getBoolean("Keep.Gamemode-On-Join.Enable") && p.hasPlayedBefore()) {
+        if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Gamemode-On-Join.Enable") && p.hasPlayedBefore()) {
             if (p.hasPermission("Hawn.onjoin.keepgamemode")) {
 
             	int gmstock = 0;
@@ -523,7 +523,7 @@ public class OjPlayerOption {
     @SuppressWarnings("deprecation")
 	private static void vanish(Player p) {
     	if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-            if (BetweenServersConfig.getConfig().getBoolean("Keep.Vanish-On-Join.Enable")) {
+            if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Vanish-On-Join.Enable")) {
             	if (p.hasPermission("hawn.betweenservers.keepvanish")) {
     	        		if (PlayerOptionSQLClass.GetSQLPOVanish(p).equalsIgnoreCase("TRUE")) {
     	        			for (Player all : Bukkit.getServer().getOnlinePlayers()) {
@@ -728,7 +728,7 @@ public class OjPlayerOption {
     
     private static void FlyDoubleJump(Player p) {
     	
-    	if (BetweenServersConfig.getConfig().getBoolean("Keep.DoubleJump-Fly-OnJoin.Enable")) {
+    	if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.DoubleJump-Fly-OnJoin.Enable")) {
     		if (PlayerOptionSQLClass.GetSQLPOFly(p).equalsIgnoreCase("TRUE")) {
     			p.setAllowFlight(true);
 				p.setFlying(true);
