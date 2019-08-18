@@ -9,6 +9,7 @@ import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnChatEvent;
 import fr.Dianox.Hawn.Event.OnCommandEvent;
 import fr.Dianox.Hawn.Event.OnGuiInteract;
+import fr.Dianox.Hawn.Event.OnInventoryInteract;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Event.OnQuit;
 import fr.Dianox.Hawn.Event.OnScoreboard;
@@ -44,6 +45,7 @@ public class Manager {
 		pm.registerEvents(new PlayerChangeWorld(), pl);
 		pm.registerEvents(new CancelTPWarpSpawn(), pl);
 		pm.registerEvents(new SpecialCJIPlayerVisibility(), pl);
+		pm.registerEvents(new OnInventoryInteract(), pl);
 	}
 
 }
