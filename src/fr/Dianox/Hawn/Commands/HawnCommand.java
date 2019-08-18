@@ -3,6 +3,7 @@ package fr.Dianox.Hawn.Commands;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -222,6 +223,46 @@ public class HawnCommand implements CommandExecutor {
 					sender.sendMessage("§8§l§m-----------------------------");
 					sender.sendMessage("§7Adfrorg: §e25 € §cThank you a lot §4<3§c The first donor");
 					sender.sendMessage("§8§l§m-----------------------------");
+				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
+					if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
+						ServerListConfig.getConfig().set("Maintenance.Enable", false);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					} else {
+						ServerListConfig.getConfig().set("Maintenance.Enable", true);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+						
+						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+							if (!whitelist.contains(ps.getName())) {
+								String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+								message = message.replaceAll("&", "§");
+								message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+								
+								ps.kickPlayer(message);
+							}
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
@@ -591,6 +632,50 @@ public class HawnCommand implements CommandExecutor {
 						for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
 							MessageUtils.ReplaceCharMessagePlayer(msg, p);
 						}
+					}
+				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
+					if (p.hasPermission("hawn.admin.command.maintenance") || p.hasPermission("hawn.admin.*")) {
+						if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
+							ServerListConfig.getConfig().set("Maintenance.Enable", false);
+							
+							ServerListConfig.saveConfigFile();
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						} else {
+							ServerListConfig.getConfig().set("Maintenance.Enable", true);
+							
+							ServerListConfig.saveConfigFile();
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+							
+							List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+							
+							for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+								if (!whitelist.contains(ps.getName())) {
+									String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+									message = message.replaceAll("&", "§");
+									message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+									
+									ps.kickPlayer(message);
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
+								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+					} else {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.maintenance");
 					}
 				} else if (args[0].equalsIgnoreCase("debug")) {
 					if (args.length == 2) {
