@@ -6,18 +6,18 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-public class BetweenServersConfig {
+public class PlayerOptionMainConfig {
 	
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
 	
-	public BetweenServersConfig() {}
+	public PlayerOptionMainConfig() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "between-servers.yml");
+		file = new File(pl.getDataFolder(), "Player-Option-General.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -59,8 +59,10 @@ public class BetweenServersConfig {
             Config.set("Keep.PlayerVisibility-OnJoin.Enable", false);
             Config.set("Keep.Speed-OnJoin.Enable", false);
             Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
-            /*Config.set("Keep.JumpBoost-OnJoin.Enable", Boolean.valueOf(false));*/
+            //Config.set("Keep.JumpBoost-OnJoin.Enable", Boolean.valueOf(false));
             Config.set("TP.Last-Position-On-Join.Enable", false);
+            
+            Config.set("Options.Flying.Put-boots", true);
             
             saveConfigFile();
 
