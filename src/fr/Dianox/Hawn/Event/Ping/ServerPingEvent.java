@@ -1,5 +1,7 @@
 package fr.Dianox.Hawn.Event.Ping;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -7,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
+import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
-import fr.Dianox.Hawn.Utility.Server.Tps;
 
 public class ServerPingEvent implements Listener {
 
@@ -36,6 +38,9 @@ public class ServerPingEvent implements Listener {
 				
 			line1 = line1.replaceAll("&", "§");
 			line2 = line2.replaceAll("&", "§");
+			
+			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
+			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
 				
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
@@ -48,26 +53,53 @@ public class ServerPingEvent implements Listener {
 				line1 = line1.replaceAll("&", "§");
 				line2 = line2.replaceAll("&", "§");
 				
+				line1 = MessageUtils.ReplaceMainplaceholderC(line1);
+				line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+				
 				e.setMotd(String.valueOf(line1) + "\n" + line2);
 			}
+		}
+		
+		if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Maintenance.Enable")) {
+			String line1 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-1");
+			String line2 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-2");
+			
+			line1 = line1.replaceAll("&", "§");
+			line2 = line2.replaceAll("&", "§");
+			
+			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
+			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+			
+			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void login(PlayerLoginEvent e) {
+		
+		if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
+			List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+			if (!whitelist.contains(e.getPlayer().getName())) {
+				String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+				message = message.replaceAll("&", "§");
+				message = MessageUtils.ReplaceMainplaceholderC(message);
+				
+				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+			}
+		}
+		
 		if (ServerListConfig.getConfig().getBoolean("On-Join.Player-With-Permission-Join-Full-Server")) {
 			if (e.getResult().equals(PlayerLoginEvent.Result.KICK_FULL)) {
 				if (e.getPlayer().hasPermission("hawn.join.full")) {
 					e.allow();
 				} else {
 					String message = ServerListConfig.getConfig().getString("On-Join.Message");
-					message = message.replaceAll("&", "�");
-					message = message.replaceAll("%player%", e.getPlayer().getName()).replaceAll("%tps%", String.valueOf(Tps.getTPS()));
+					message = message.replaceAll("&", "§");
+					message = MessageUtils.ReplaceMainplaceholderC(message);
 					
 					e.setKickMessage(message);
 				}
 			}
 		}
 	}
-	
 }
