@@ -25,7 +25,7 @@ import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -752,7 +752,7 @@ public class HawnCommand implements CommandExecutor {
 		AutoBroadcastConfig.reloadConfig();
 		EmojiCommandConfig.reloadConfig();
 		ScoreboardMainConfig.reloadConfig();
-		BetweenServersConfig.reloadConfig();
+		PlayerOptionMainConfig.reloadConfig();
 		PlayerWorldChangeConfigE.reloadConfig();
 		ScoreboardCommandConfig.reloadConfig();
 		GamemodeCommandConfig.reloadConfig();
