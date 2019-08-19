@@ -89,10 +89,28 @@ public class PlayerWorldChangeConfigE {
             Config.set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
             Config.set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);
             Config.set("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility", false);
-	    Config.set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
+            Config.set("Player-Options.If-Not-Keeping.Options-Default.JumpBoost", false);
             
             Config.set("Player-Options.World.All_World", false);
             Config.set("Player-Options.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+                }));
+            
+            Config.set("Execute-Command.Enable", true);
+            
+            Config.set("Execute-Command.Options.When-Enter-in-The-World.world.Enable", true);
+            Config.set("Execute-Command.Options.When-Enter-in-The-World.world.Command-List", java.util.Arrays.asList(new String[] {
+                    "Enter 1"
+                }));
+            
+            Config.set("Execute-Command.Options.When-Enter-in-The-World.world_nether.Enable", true);
+            Config.set("Execute-Command.Options.When-Enter-in-The-World.world_nether.Command-List", java.util.Arrays.asList(new String[] {
+                    "Enter 2"
+                }));
+            
+            Config.set("Execute-Command.World.All_World", false);
+            Config.set("Execute-Command.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
                 }));
