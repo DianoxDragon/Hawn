@@ -57,7 +57,7 @@ public class gmspCommand extends BukkitCommand {
 					
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_sender+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_other_sender+"Messages")) {
-						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", target.getName()).replaceAll("%target%", target.getName()));
 					}
 				}
 
@@ -123,7 +123,7 @@ public class gmspCommand extends BukkitCommand {
 				
 			if (ConfigMCommands.getConfig().getBoolean(msg_other+"Enable")) {
 				for (String msg: ConfigMCommands.getConfig().getStringList(msg_other+"Messages")) {
-					MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), p);
+					MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), target);
 				}
 			}
 				
