@@ -1691,6 +1691,7 @@ public class Main extends JavaPlugin implements Listener {
 		CosmeticsPW.setWGetWorldls();
 		PlayerEventsPW.setWGetWorldRCJI();
 		ProtectionPW.setWGetWorldProtectionPlayerInteractItemsBlocks();
+		ChangeWorldPW.setCommands();
 	}
 
 
