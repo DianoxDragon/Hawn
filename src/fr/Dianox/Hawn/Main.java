@@ -168,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static String versions = "0.8.0-Alpha";
 	public static Boolean devbuild = true;
-	public static Integer devbuild_number = 4;
+	public static Integer devbuild_number = 6;
 	
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
