@@ -102,12 +102,12 @@ public class FeedCommand extends BukkitCommand {
 
                     if (ConfigMCommands.getConfig().getBoolean("Feed.Other-Sender.Enable")) {
                         for (String msg: ConfigMCommands.getConfig().getStringList("Feed.Other-Sender.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        	MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
                         }
                     }
                     if (ConfigMCommands.getConfig().getBoolean("Feed.Other.Enable")) {
                         for (String msg: ConfigMCommands.getConfig().getStringList("Feed.Other.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, target);
+                        	MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), target);
                         }
                     }
 
