@@ -106,12 +106,12 @@ public class HealCommand extends BukkitCommand {
 
                     if (ConfigMCommands.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
                         for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other-Sender.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                            MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
                         }
                     }
                     if (ConfigMCommands.getConfig().getBoolean("Heal.Other.Enable")) {
                         for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, target);
+                            MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), target);
                         }
                     }
 
