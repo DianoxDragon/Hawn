@@ -39,8 +39,10 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.DelayChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.EmojiCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.FeedCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.GamemodeCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.GoTopCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HealCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HelpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.MuteChatCommandConfig;
@@ -768,6 +770,8 @@ public class HawnCommand implements CommandExecutor {
 		AdminPanelConfig.reloadConfig();
 		ActionbarAnnouncerConfig.reloadConfig();
 		FireworkListCUtility.reloadConfig();
+		FeedCommandConfig.reloadConfig();
+		GoTopCommandConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
