@@ -340,7 +340,7 @@ public class ClearChatCommand extends BukkitCommand {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Enable")) {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Use_Permission")) {
                     		if (p.hasPermission("hawn.command.clearchat.other")) {
-                    			if (args.length != 2) {
+                    		if (args.length < 2) {
     	                            p.sendMessage(ChatColor.RED + "/cc other [player]");
     	                            return true;
     	                        }
@@ -378,7 +378,7 @@ public class ClearChatCommand extends BukkitCommand {
                     			MessageUtils.MessageNoPermission(p, Permission);
                     		}
                     	} else {
-                    		if (args.length != 2) {
+                    		if (args.length < 2) {
 	                            sender.sendMessage(ChatColor.RED + "/cc other [player]");
 	                            return true;
 	                        }
