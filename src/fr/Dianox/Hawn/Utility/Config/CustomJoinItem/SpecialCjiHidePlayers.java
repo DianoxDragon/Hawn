@@ -75,7 +75,7 @@ public class SpecialCjiHidePlayers {
                     " ",
                     "&c&lRight click to hide players"
                 }));
-            Config.set("PV.OFF.Material.Material", "COMPASS");
+            Config.set("PV.OFF.Material.Material", "CLOCK");
             Config.set("PV.OFF.Material.Amount", "1");
             Config.set("PV.OFF.Material.Data-value", "0");
             Config.set("PV.ON.Title", "&6Invisible player &8→ §aEnabled");
@@ -83,7 +83,7 @@ public class SpecialCjiHidePlayers {
                     " ",
                     "&a&lRight click to show players"
                 }));
-            Config.set("PV.ON.Material.Material", "COMPASS");
+            Config.set("PV.ON.Material.Material", "CLOCK");
             Config.set("PV.ON.Material.Amount", "1");
             Config.set("PV.ON.Material.Data-value", "0");
             Config.set("PV.World.All_World", false);
