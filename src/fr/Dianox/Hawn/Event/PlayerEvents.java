@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.Dianox.Hawn.Main;
-import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.WorldGuardUtils;
@@ -688,10 +688,10 @@ public class PlayerEvents implements Listener {
     	if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.Enable")) {
         	if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Regive-Hawn-Custom-Join-Items.World.All_World")) {
         		if (PlayerEventsPW.getWFRPCJI().contains(p.getWorld().getName())) {
-        			SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+        			CustomJoinItem.onItemGive(p);
         		}
         	} else {
-        		SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+        		CustomJoinItem.onItemGive(p);
         	}
         }
     }
@@ -702,4 +702,3 @@ public class PlayerEvents implements Listener {
 
 
 }
-
