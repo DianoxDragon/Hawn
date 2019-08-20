@@ -44,7 +44,9 @@ public class MainTablist extends BukkitRunnable {
 	    		if (s.contains("{anim_")) {
 	    			anim = StringUtils.substringBetween(s, "{anim_", "}");
 	    			if (TablistConfig.getConfig().isSet("Animations." + anim + ".text")) {
-	    				s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(Main.animationtab.get(anim)));
+	    				try {
+	    					s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(Main.animationtab.get(anim)));
+	    				} catch (Exception e) {}
 	    			}
 	    		}
 	    		
@@ -64,7 +66,9 @@ public class MainTablist extends BukkitRunnable {
 	    		if (s.contains("{anim_")) {
 	    			anim = StringUtils.substringBetween(s, "{anim_", "}");
 	    			if (TablistConfig.getConfig().isSet("Animations." + anim + ".text")) {
+	    				try {
 	    				s = s.replace("{anim_" + anim + "}", TablistConfig.getConfig().getStringList("Animations." + anim + ".text").get(Main.animationtab.get(anim)));
+	    				} catch (Exception e) {}
 	    			}
 	    		}
 	    		
