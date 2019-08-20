@@ -3,7 +3,6 @@ package fr.Dianox.Hawn;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -74,19 +73,18 @@ import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Event.World.AlwaysDayTask;
 import fr.Dianox.Hawn.Event.World.AlwaysNightTask;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
-import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.PlayerOptionSQLClass;
-import fr.Dianox.Hawn.Utility.TitleUtils;
 import fr.Dianox.Hawn.Utility.VersionUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -120,6 +118,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
+import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.ConfigCJIGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -151,6 +150,8 @@ import fr.Dianox.Hawn.Utility.Scoreboard.PlayerBoard;
 import fr.Dianox.Hawn.Utility.Scoreboard.ScoreboardInfo;
 import fr.Dianox.Hawn.Utility.Server.Tps;
 import fr.Dianox.Hawn.Utility.Server.WarnTPS;
+import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
+import fr.Dianox.Hawn.Utility.Tab.MainTablist;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -162,16 +163,16 @@ import fr.Dianox.Hawn.Utility.World.OtherFeaturesPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
 import fr.Dianox.Hawn.Utility.World.ProtectionPW;
 import fr.Dianox.Hawn.Utility.World.WorldPW;
-import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.7.9-Alpha";
+	private static String versions = "0.8.0-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
+	public static Boolean HandMethod = true;
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -237,6 +238,10 @@ public class Main extends JavaPlugin implements Listener {
     private WorldGuardPlugin worldGuard;
     public Boolean worldGuard_recent_version = false;
     
+    public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
+    public static Integer tablistnumber = 0;
+    
     @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
@@ -258,7 +263,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Version "+versions+" - Created by Dianox");
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"May the "+ChatColor.RED+"Phoenix"+ChatColor.YELLOW+" fly with you!");
+		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"When the dawn was visible, a new plugin was born");
 		gcs(ChatColor.BLUE+"| ");
 
 		@SuppressWarnings("unused")
@@ -280,7 +285,7 @@ public class Main extends JavaPlugin implements Listener {
 			AutoBroadcastConfig.loadConfig((Plugin) this);
 			configfile.put("G-AutoBroadcast", "AutoBroadcast.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "AutoBroadcast.yml", "G-AutoBroadcast");
-			BetweenServersConfig.loadConfig((Plugin) this);
+			PlayerOptionMainConfig.loadConfig((Plugin) this);
 			configfile.put("G-between-servers", "between-servers.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "between-servers.yml", "G-between-servers");
 			CommandAliasesConfig.loadConfig((Plugin) this);
@@ -440,6 +445,9 @@ public class Main extends JavaPlugin implements Listener {
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
 		configfile.put("CJI-Special-HidePlayers", "CustomJoinItem/Special-HidePlayers.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-HidePlayers.yml", "CJI-Special-HidePlayers");
+		ConfigCJIGeneral.loadConfig((Plugin) this);
+		configfile.put("CJI-General", "CustomJoinItem/General.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");
 		
 		if (!ScoreboardMainConfig.getConfig().isSet("DefaultConfigGenerated")) {
 			defaultscoreboardconfig.loadConfig((Plugin) this);
@@ -1078,6 +1086,13 @@ public class Main extends JavaPlugin implements Listener {
 		} else {
 			MaterialMethod = "false";
 		}
+		
+		// Materials
+		if (Bukkit.getVersion().contains("1.8")) {
+			HandMethod = false;
+		} else {
+			HandMethod = true;
+		}
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
 
@@ -1372,85 +1387,21 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
 
-		    if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
-		    	hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
-
-		    	hea = hea.substring(1, hea.length() - 1).replaceAll(", ", "\n");
-		    	hea = hea.replaceAll("&", "§");
-		    }
-
-		    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
-		    	foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
-
-		    	foo = foo.substring(1, foo.length() - 1).replaceAll(", ", "\n");
-		    	foo = foo.replaceAll("&", "§");
-		    }
-
-		    new BukkitRunnable() {
-
-				@Override
-				public void run() {
-
-					try {
-						for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-
-							String hea2 = "";
-							String foo2 = "";
-							Object packet = null;
-							 
-							hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
-							foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
-								hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								foo2 = MessageUtils.BattleLevelPO(foo2, p);
-								hea2 = MessageUtils.BattleLevelPO(hea2, p);
-							}
-							
-							Constructor<?> constructor = ChatComponentText.getConstructors()[0];
-							Object header = constructor.newInstance(hea2);
-							Object footer = constructor.newInstance(foo2);
-
-							try {
-								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("a");
-								a.setAccessible(true);
-								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("b");
-								b.setAccessible(true);
-
-								packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
-
-								a.set(packet, header);
-								b.set(packet, footer);
-							} catch (Exception e) {
-								Field a = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("header");
-								a.setAccessible(true);
-								Field b = PacketPlayOutPlayerListHeaderFooter.getDeclaredField("footer");
-								b.setAccessible(true);
-
-								try {
-									packet = newPacketPlayOutPlayerListHeaderFooter.newInstance(new Object[0]);
-								} catch (InstantiationException | InvocationTargetException e1) {
-									e1.printStackTrace();
-								}
-
-								a.set(packet, header);
-								b.set(packet, footer);
-							}
-
-							TitleUtils.sendPacket(p, packet);
-						}
-					} catch (IllegalAccessException | NoSuchFieldException | SecurityException |
-							IllegalArgumentException | InstantiationException | InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}.runTaskTimer(this, 20L, 20);
+		    Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
+		    
+		    animationtab.clear();
+	    	while (iteanimtab.hasNext()) {
+	    		String string = (String) iteanimtab.next();
+	    		
+	    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+	    		animationtabtask.put(string, task.getTaskId());
+	    	}
+	    	
+	    	BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
+	    	
+	    	tablistnumber = tablistmain.getTaskId();
 	    }
-
+	    
 	    configfileinuse.clear();
 	    buildbypasscommand.clear();
 
@@ -1484,6 +1435,56 @@ public class Main extends JavaPlugin implements Listener {
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Night.Enable")) {
 	    	new AlwaysNightTask().runTaskTimer(this, 20, 7000L);
+	    }
+	    
+	    /*
+	     * Custom join item
+	     */
+	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+	    	
+	    	CustomJoinItem.itemcjiname.clear();
+	    	CustomJoinItem.itemcjislot.clear();
+	    	
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
+						
+				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			// Give items
+			
+			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
+			
+			 while (iterator.hasNext()) {
+	             String string = (String) iterator.next();
+	             
+	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+	             
+	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+			 }
 	    }
 	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
@@ -1753,6 +1754,8 @@ public class Main extends JavaPlugin implements Listener {
 		CosmeticsPW.setWGetWorldls();
 		PlayerEventsPW.setWGetWorldRCJI();
 		ProtectionPW.setWGetWorldProtectionPlayerInteractItemsBlocks();
+		ChangeWorldPW.setCommands();
+		CjiPW.setItemPlayerGeneral();
 	}
 
 

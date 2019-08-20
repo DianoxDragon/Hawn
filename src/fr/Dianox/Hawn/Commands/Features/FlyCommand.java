@@ -165,12 +165,12 @@ public class FlyCommand extends BukkitCommand {
 								
 								if (ConfigMCommands.getConfig().getBoolean("Fly.Disable-Other.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Disable-Other.Messages")) {
-										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+										MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), target);
 									}
 								}
 								if (ConfigMCommands.getConfig().getBoolean("Fly.Disable-Other-Executor.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Disable-Other-Executor.Messages")) {
-										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+										MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
 									}
 								}
 							} else {
@@ -181,12 +181,12 @@ public class FlyCommand extends BukkitCommand {
 								PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 								if (ConfigMCommands.getConfig().getBoolean("Fly.Enable-Other.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable-Other.Messages")) {
-										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+										MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), target);
 									}
 								}
 								if (ConfigMCommands.getConfig().getBoolean("Fly.Enable-Other-Executor.Enable")) {
 									for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable-Other-Executor.Messages")) {
-										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+										MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
 									}
 								}
 							}

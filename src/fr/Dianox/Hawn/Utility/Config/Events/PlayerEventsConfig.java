@@ -55,6 +55,14 @@ public class PlayerEventsConfig {
             
             Config.set("Items.Drop.Disable", true);
             Config.set("Items.Drop.Bypass", true);
+            
+            Config.set("Items.Drop.WorldGuard.Enable", false);
+            Config.set("Items.Drop.WorldGuard.Method", "WHITELIST");
+            Config.set("Items.Drop.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
             Config.set("Items.Drop.World.All_World", false);
             Config.set("Items.Drop.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
@@ -63,6 +71,14 @@ public class PlayerEventsConfig {
             
             Config.set("Items.PickUp.Disable", true);
             Config.set("Items.PickUp.Bypass", true);
+            
+            Config.set("Items.PickUp.WorldGuard.Enable", false);
+            Config.set("Items.PickUp.WorldGuard.Method", "WHITELIST");
+            Config.set("Items.PickUp.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
             Config.set("Items.PickUp.World.All_World", false);
             Config.set("Items.PickUp.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
@@ -71,6 +87,14 @@ public class PlayerEventsConfig {
             
             Config.set("Items.Move.Disable", true);
             Config.set("Items.Move.Bypass", true);
+            
+            Config.set("Items.Move.WorldGuard.Enable", false);
+            Config.set("Items.Move.WorldGuard.Method", "WHITELIST");
+            Config.set("Items.Move.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
             Config.set("Items.Move.World.All_World", false);
             Config.set("Items.Move.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",

@@ -1,6 +1,7 @@
 package fr.Dianox.Hawn.Event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -13,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
@@ -20,6 +23,7 @@ import fr.Dianox.Hawn.Utility.ConfigPlayerGet;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.XSound;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
@@ -30,6 +34,9 @@ import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
 import net.md_5.bungee.api.ChatColor;
 
 public class FunFeatures implements Listener {
+	
+	public static HashMap<Player, ItemStack> boots = new HashMap<Player, ItemStack>();
+	public static List<Player> player_list_dbenable = new ArrayList<Player>();
 	
 	@EventHandler
 	public void onSign(SignChangeEvent e) {
@@ -67,6 +74,9 @@ public class FunFeatures implements Listener {
 	public void onPlayerMoveEvent(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
 		
+		if (Main.injumpwithjumppad.contains(p)) {
+			return;
+		}
 
 		if (ConfigGLP.getConfig().getBoolean("JumpPads.Enable")) {
 			if (!ConfigGLP.getConfig().getBoolean("JumpPads.World.All_World")) {
@@ -91,12 +101,47 @@ public class FunFeatures implements Listener {
 		}
 	}
 		
-		public static List<Player> player_list_dbenable = new ArrayList<Player>();
-		
 		@EventHandler
 		public void onPM2(PlayerMoveEvent e) {
 			
 			Player p = e.getPlayer();
+			
+			if (PlayerOptionMainConfig.getConfig().getBoolean("Options.Flying.Put-boots") && p.hasPermission("hawn.fun.boots.flying")) {
+				if (p.isFlying()) {
+					try {
+						if (p.getInventory().getBoots().getType() != XMaterial.DIAMOND_BOOTS.parseMaterial()) {
+							boots.put(p, p.getInventory().getBoots());
+							
+							ItemStack bootsflying = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+							ItemMeta bootsmeta = bootsflying.getItemMeta();
+							
+							bootsmeta.setDisplayName("§eI'm flyyyyinggggggg");
+							
+							bootsflying.setItemMeta(bootsmeta);
+							p.getInventory().setBoots(bootsflying);
+						}
+					} catch (Exception e1) {
+						boots.put(p, p.getInventory().getBoots());
+						
+						ItemStack bootsflying = new ItemStack(XMaterial.DIAMOND_BOOTS.parseMaterial());
+						ItemMeta bootsmeta = bootsflying.getItemMeta();
+						
+						bootsmeta.setDisplayName("§eI'm flyyyyinggggggg");
+						
+						bootsflying.setItemMeta(bootsmeta);
+						p.getInventory().setBoots(bootsflying);
+					}
+				} else {
+					try {
+						if (p.getInventory().getBoots().getType() == XMaterial.DIAMOND_BOOTS.parseMaterial()) {
+							if (p.getInventory().getBoots().getItemMeta().getDisplayName().contains("§eI'm flyyyyinggggggg")) {
+								p.getInventory().setBoots(null);
+								p.getInventory().setBoots(boots.get(p));
+							}
+						}
+					} catch (Exception e2) {}
+				}
+			}
 			
 			if (FlyCommand.player_list_flyc.contains(p)) {
 				if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
@@ -291,30 +336,28 @@ public class FunFeatures implements Listener {
 					p.setVelocity(p.getLocation().getDirection().multiply(length).setY(height));
 					p.setFallDistance(-999.0F);
 					
-					if (Main.injumpwithjumppad.contains(p)) {
-						String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
-						int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
-						int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
-							if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
-								for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-									all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
-								}
-							} else {
-								p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+					String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
+					int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
+					int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
+						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
+							for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+								all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
 							}
+						} else {
+							p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
 						}
+					}
 					
 					
-						String effect = ConfigGLP.getConfig().getString("JumpPads.Effect.Effect");
-						int pitch2 = ConfigGLP.getConfig().getInt("JumpPads.Effect.Pitch");
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Effect.Enable")) {
-							p.playEffect(p.getPlayer().getLocation(), Effect.valueOf(effect), pitch2);
-						}
-						if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
-							for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
-								MessageUtils.ReplaceCharMessagePlayer(s, p);
-							}
+					String effect = ConfigGLP.getConfig().getString("JumpPads.Effect.Effect");
+					int pitch2 = ConfigGLP.getConfig().getInt("JumpPads.Effect.Pitch");
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Effect.Enable")) {
+						p.playEffect(p.getPlayer().getLocation(), Effect.valueOf(effect), pitch2);
+					}
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
+						for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(s, p);
 						}
 					}
 					

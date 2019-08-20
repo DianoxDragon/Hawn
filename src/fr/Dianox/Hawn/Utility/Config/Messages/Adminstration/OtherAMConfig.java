@@ -129,7 +129,20 @@ public class OtherAMConfig {
             Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList(new String[] {
                     "&7[ %target% is now no longer vanished by %player% ]"
             		}));
-		
+            
+            Config.set("Maintenance.On", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &aenabled&7 the maintenance"
+            		}));
+            Config.set("Maintenance.Off", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &cdisabled&7 the maintenance"
+            		}));
+            Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(new String[] {
+                    " &4* &cThe maintenance is &eon&4 *"
+            		}));
+            Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(new String[] {
+            		" &4* &cThe maintenance is &eoff&4 *"
+            		}));
+            
             saveConfigFile();
 
         }

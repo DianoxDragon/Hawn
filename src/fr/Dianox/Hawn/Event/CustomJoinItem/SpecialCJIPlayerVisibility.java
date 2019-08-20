@@ -103,6 +103,10 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				}
 			}
 			
+			if (e.getSlot() == 39 || e.getSlot() == 38 || e.getSlot() == 37 || e.getSlot() == 36) {
+				return;
+			}
+			
 			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
 				e.setCancelled(true);
 				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
@@ -277,7 +281,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		}
 	}
 	
-	public static void PlayerGivePlayerVisibilityItemOnJoin(Player p) {
+	public static void PlayerGivePlayerVisibilityItemOnJoincji(Player p, Integer slot) {
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
 				if (CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
@@ -285,38 +289,82 @@ public class SpecialCJIPlayerVisibility implements Listener {
 						if (p.hasPermission("hawn.event.interact.item.playervisibility")) {
 							if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
 								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-									CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
+									CreateItemsOff(p, slot);
 								} else {
-									CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
+									CreateItemsOn(p, slot);
 								}
 							} else {
 								String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
 								
 								if (value.equalsIgnoreCase("FALSE")) {
-									CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
+									CreateItemsOff(p, slot);
 								} else {
-									CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
+									CreateItemsOn(p, slot);
 								}
 							}
 						}
 					} else {
 						if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
 							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-								CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
+								CreateItemsOff(p, slot);
 							} else {
-								CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
+								CreateItemsOn(p, slot);
 							}
 						} else {
 							String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
 							
 							if (value.equalsIgnoreCase("FALSE")) {
-								CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
+								CreateItemsOff(p, slot);
 							} else {
-								CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
+								CreateItemsOn(p, slot);
 							}
 						}
 					}
-					
+				}
+			} else {
+				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
+					if (p.hasPermission("hawn.event.interact.item.playervisibility")) {
+						if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
+								CreateItemsOff(p, slot);
+							} else {
+								CreateItemsOn(p, slot);
+							}
+						} else {
+							String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
+							
+							if (value.equalsIgnoreCase("FALSE")) {
+								CreateItemsOff(p, slot);
+							} else {
+								CreateItemsOn(p, slot);
+							}
+						}
+					}
+				} else {
+					if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
+							CreateItemsOff(p, slot);
+						} else {
+							CreateItemsOn(p, slot);
+						}
+					} else {
+						String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
+						
+						if (value.equalsIgnoreCase("FALSE")) {
+							CreateItemsOff(p, slot);
+						} else {
+							CreateItemsOn(p, slot);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public static void PlayerGivePlayerVisibilityItemOnJoin(Player p) {
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
+			if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
+				if (CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {					
 					if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
 							PlayerVisibility.showPlayer(p);
@@ -338,42 +386,6 @@ public class SpecialCJIPlayerVisibility implements Listener {
 					}
 				}
 			} else {
-				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-					if (p.hasPermission("hawn.event.interact.item.playervisibility")) {
-						if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-								CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
-							} else {
-								CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
-							}
-						} else {
-							String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-							
-							if (value.equalsIgnoreCase("FALSE")) {
-								CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
-							} else {
-								CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
-							}
-						}
-					}
-				} else {
-					if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-							CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
-						} else {
-							CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
-						}
-					} else {
-						String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-						
-						if (value.equalsIgnoreCase("FALSE")) {
-							CreateItemsOff(p, SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Slot"));
-						} else {
-							CreateItemsOn(p, SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Slot"));
-						}
-					}
-				}
-				
 				if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
 					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
 						PlayerVisibility.showPlayer(p);
@@ -402,11 +414,13 @@ public class SpecialCJIPlayerVisibility implements Listener {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 				for (int i = 0 ; i <= 35; ++i) {
 					if (p.getInventory().getItem(i) != null) {
-						if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
-							p.getInventory().clear(i);
-							CreateItemsOn(p, i);
-							break;
-						}
+						try {
+							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
+								p.getInventory().clear(i);
+								CreateItemsOn(p, i);
+								break;
+							}
+						} catch (Exception e1) {}
 					}
 				}
 			}
@@ -421,11 +435,13 @@ public class SpecialCJIPlayerVisibility implements Listener {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 				for (int i = 0 ; i <= 35; ++i) {
 					if (p.getInventory().getItem(i) != null) {
-						if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§"))) {
-							p.getInventory().clear(i);
-							CreateItemsOff(p, i);
-							break;
-						}
+						try {
+							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§"))) {
+								p.getInventory().clear(i);
+								CreateItemsOff(p, i);
+								break;
+							}
+						} catch (Exception e1) {}
 					}
 				}
 			}
@@ -667,4 +683,3 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		}
 	}
 }
-

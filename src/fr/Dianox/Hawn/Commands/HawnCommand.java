@@ -1,7 +1,9 @@
 package fr.Dianox.Hawn.Commands;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,18 +12,21 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
+import fr.Dianox.Hawn.Utility.NMSClass;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
@@ -35,8 +40,10 @@ import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.DelayChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.EmojiCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.FeedCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.GamemodeCommandConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.GoTopCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HealCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HelpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.MuteChatCommandConfig;
@@ -53,6 +60,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
+import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.ConfigCJIGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -77,6 +85,8 @@ import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
 import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
+import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
+import fr.Dianox.Hawn.Utility.Tab.MainTablist;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.ChangeWorldPW;
 import fr.Dianox.Hawn.Utility.World.CjiPW;
@@ -91,6 +101,13 @@ import fr.Dianox.Hawn.Utility.World.WorldPW;
 
 public class HawnCommand implements CommandExecutor {
 
+	private Class<?> PacketPlayOutPlayerListHeaderFooter;
+    private Class<?> ChatComponentText;
+    private Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
+	
+	public String hea = "";
+	public String foo = "";
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
@@ -210,6 +227,46 @@ public class HawnCommand implements CommandExecutor {
 					sender.sendMessage("§8§l§m-----------------------------");
 					sender.sendMessage("§7Adfrorg: §e25 € §cThank you a lot §4<3§c The first donor");
 					sender.sendMessage("§8§l§m-----------------------------");
+				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
+					if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
+						ServerListConfig.getConfig().set("Maintenance.Enable", false);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					} else {
+						ServerListConfig.getConfig().set("Maintenance.Enable", true);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+						
+						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+							if (!whitelist.contains(ps.getName())) {
+								String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+								message = message.replaceAll("&", "§");
+								message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+								
+								ps.kickPlayer(message);
+							}
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
@@ -580,6 +637,50 @@ public class HawnCommand implements CommandExecutor {
 							MessageUtils.ReplaceCharMessagePlayer(msg, p);
 						}
 					}
+				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
+					if (p.hasPermission("hawn.admin.command.maintenance") || p.hasPermission("hawn.admin.*")) {
+						if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
+							ServerListConfig.getConfig().set("Maintenance.Enable", false);
+							
+							ServerListConfig.saveConfigFile();
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						} else {
+							ServerListConfig.getConfig().set("Maintenance.Enable", true);
+							
+							ServerListConfig.saveConfigFile();
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+							
+							List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+							
+							for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+								if (!whitelist.contains(ps.getName())) {
+									String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+									message = message.replaceAll("&", "§");
+									message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+									
+									ps.kickPlayer(message);
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
+								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+					} else {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.maintenance");
+					}
 				} else if (args[0].equalsIgnoreCase("debug")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("emoji") || args[1].equalsIgnoreCase("emojis")) {
@@ -602,7 +703,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
 			} else {
@@ -655,7 +756,7 @@ public class HawnCommand implements CommandExecutor {
 		AutoBroadcastConfig.reloadConfig();
 		EmojiCommandConfig.reloadConfig();
 		ScoreboardMainConfig.reloadConfig();
-		BetweenServersConfig.reloadConfig();
+		PlayerOptionMainConfig.reloadConfig();
 		PlayerWorldChangeConfigE.reloadConfig();
 		ScoreboardCommandConfig.reloadConfig();
 		GamemodeCommandConfig.reloadConfig();
@@ -671,6 +772,9 @@ public class HawnCommand implements CommandExecutor {
 		AdminPanelConfig.reloadConfig();
 		ActionbarAnnouncerConfig.reloadConfig();
 		FireworkListCUtility.reloadConfig();
+		FeedCommandConfig.reloadConfig();
+		GoTopCommandConfig.reloadConfig();
+		ConfigCJIGeneral.reloadConfig();
 	}
 	
 	public void reloadconfig() {
@@ -737,6 +841,8 @@ public class HawnCommand implements CommandExecutor {
 		CosmeticsPW.worlds_ls.clear();
 		PlayerEventsPW.worlds_respawncji.clear();
 		ProtectionPW.worlds_PlayerInteract_Items_Blocks.clear();
+		ChangeWorldPW.worlds_commands.clear();
+		CjiPW.worlds_general.clear();
 		Main.GetSetWorld();
 		
 		EmojiesUtility.setaliaseslist();
@@ -950,7 +1056,90 @@ public class HawnCommand implements CommandExecutor {
 		}
 		
 		Main.indj.clear();
+		
+		Bukkit.getScheduler().cancelTask(Main.tablistnumber);
+		
+		for (String s: Main.animationtabtask.keySet()) {
+			Bukkit.getScheduler().cancelTask(Main.animationtabtask.get(s));
+			
+		}
+		
+		 /*
+	     * Custom join item
+	     */
+	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+	    	
+	    	CustomJoinItem.itemcjiname.clear();
+	    	CustomJoinItem.itemcjislot.clear();
+	    	
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
+						
+				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			// Give items
+			
+			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
+			
+			 while (iterator.hasNext()) {
+	             String string = (String) iterator.next();
+	             
+	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+	             
+	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+			 }
+	    }
+		
+		Main.animationtabtask.clear();
+		Main.animationtab.clear();
+		
+		if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
+			this.PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
+		    try {
+				this.newPacketPlayOutPlayerListHeaderFooter = this.PacketPlayOutPlayerListHeaderFooter.getConstructor(new Class[0]);
+			} catch (NoSuchMethodException | SecurityException e1) {
+				e1.printStackTrace();
+			}
+		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
+			
+			Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
+		
+			while (iteanimtab.hasNext()) {
+				String string = (String) iteanimtab.next();
+    		
+				BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+				Main.animationtabtask.put(string, task.getTaskId());
+			}
 
+			BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
+		
+			Main.tablistnumber = tablistmain.getTaskId();
+		}
+    	
 		CheckConfig.warnhawnreload();
 		
 	}
