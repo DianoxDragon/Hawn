@@ -18,6 +18,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Utility.CheckConfig;
 import fr.Dianox.Hawn.Utility.EmojiesUtility;
 import fr.Dianox.Hawn.Utility.MessageUtils;
@@ -59,6 +60,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
+import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.ConfigCJIGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -701,7 +703,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 				} else {
 					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
 			} else {
@@ -772,6 +774,7 @@ public class HawnCommand implements CommandExecutor {
 		FireworkListCUtility.reloadConfig();
 		FeedCommandConfig.reloadConfig();
 		GoTopCommandConfig.reloadConfig();
+		ConfigCJIGeneral.reloadConfig();
 	}
 	
 	public void reloadconfig() {
@@ -1059,6 +1062,55 @@ public class HawnCommand implements CommandExecutor {
 			Bukkit.getScheduler().cancelTask(Main.animationtabtask.get(s));
 			
 		}
+		
+		 /*
+	     * Custom join item
+	     */
+	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+	    	
+	    	CustomJoinItem.itemcjiname.clear();
+	    	CustomJoinItem.itemcjislot.clear();
+	    	
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
+						
+				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			// Give items
+			
+			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
+			
+			 while (iterator.hasNext()) {
+	             String string = (String) iterator.next();
+	             
+	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+	             
+	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+			 }
+	    }
 		
 		Main.animationtabtask.clear();
 		Main.animationtab.clear();
