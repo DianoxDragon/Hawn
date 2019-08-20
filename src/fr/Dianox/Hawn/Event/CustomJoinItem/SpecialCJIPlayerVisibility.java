@@ -103,6 +103,10 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				}
 			}
 			
+			if (e.getSlot() == 39 || e.getSlot() == 38 || e.getSlot() == 37 || e.getSlot() == 36) {
+				return;
+			}
+			
 			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
 				e.setCancelled(true);
 				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
