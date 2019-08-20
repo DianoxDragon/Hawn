@@ -842,6 +842,7 @@ public class HawnCommand implements CommandExecutor {
 		PlayerEventsPW.worlds_respawncji.clear();
 		ProtectionPW.worlds_PlayerInteract_Items_Blocks.clear();
 		ChangeWorldPW.worlds_commands.clear();
+		CjiPW.worlds_general.clear();
 		Main.GetSetWorld();
 		
 		EmojiesUtility.setaliaseslist();
