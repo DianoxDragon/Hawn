@@ -73,6 +73,7 @@ import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Event.World.AlwaysDayTask;
 import fr.Dianox.Hawn.Event.World.AlwaysNightTask;
 import fr.Dianox.Hawn.Utility.CheckConfig;
@@ -117,6 +118,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.FireworkListCUtility;
+import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.ConfigCJIGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.ProtectionPlayerConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
@@ -167,9 +169,10 @@ public class Main extends JavaPlugin implements Listener {
 	private static Main instance;
 
 	private static String versions = "0.8.0-Alpha";
-	public static Boolean devbuild = true;
-	public static Integer devbuild_number = 6;
+	public static Boolean devbuild = false;
+	public static Integer devbuild_number = 0;
 	
+	public static Boolean HandMethod = true;
 	public static String UpToDate, MaterialMethod, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
@@ -442,6 +445,9 @@ public class Main extends JavaPlugin implements Listener {
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
 		configfile.put("CJI-Special-HidePlayers", "CustomJoinItem/Special-HidePlayers.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-HidePlayers.yml", "CJI-Special-HidePlayers");
+		ConfigCJIGeneral.loadConfig((Plugin) this);
+		configfile.put("CJI-General", "CustomJoinItem/General.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");
 		
 		if (!ScoreboardMainConfig.getConfig().isSet("DefaultConfigGenerated")) {
 			defaultscoreboardconfig.loadConfig((Plugin) this);
@@ -1080,6 +1086,13 @@ public class Main extends JavaPlugin implements Listener {
 		} else {
 			MaterialMethod = "false";
 		}
+		
+		// Materials
+		if (Bukkit.getVersion().contains("1.8")) {
+			HandMethod = false;
+		} else {
+			HandMethod = true;
+		}
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
 
@@ -1424,6 +1437,56 @@ public class Main extends JavaPlugin implements Listener {
 	    	new AlwaysNightTask().runTaskTimer(this, 20, 7000L);
 	    }
 	    
+	    /*
+	     * Custom join item
+	     */
+	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+	    	
+	    	CustomJoinItem.itemcjiname.clear();
+	    	CustomJoinItem.itemcjislot.clear();
+	    	
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
+						
+				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
+				
+				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
+				
+				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+			}
+			
+			// Give items
+			
+			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
+			
+			 while (iterator.hasNext()) {
+	             String string = (String) iterator.next();
+	             
+	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+	             
+	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+			 }
+	    }
+	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
 
@@ -1692,6 +1755,7 @@ public class Main extends JavaPlugin implements Listener {
 		PlayerEventsPW.setWGetWorldRCJI();
 		ProtectionPW.setWGetWorldProtectionPlayerInteractItemsBlocks();
 		ChangeWorldPW.setCommands();
+		CjiPW.setItemPlayerGeneral();
 	}
 
 
