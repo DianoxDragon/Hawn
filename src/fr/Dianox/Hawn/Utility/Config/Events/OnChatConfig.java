@@ -335,7 +335,7 @@ public class OnChatConfig {
             Config.set("Chat-Emoji-Player.Emojis-list.Strong.Enable", true);
             Config.set("Chat-Emoji-Player.Emojis-list.Strong.Use_Permission", true);
             Config.set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Title", String.valueOf("&cStrong"));
-            Config.set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", String.valueOf("SPLASH_POTION"));
+            Config.set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", String.valueOf("POTION"));
             Config.set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Lore", java.util.Arrays.asList(new String[] {
                     " ",
                     "&bTo use this emoji : (9｀･ω･)9",
