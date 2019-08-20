@@ -1110,6 +1110,7 @@ public class HawnCommand implements CommandExecutor {
 	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
 	             
 	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
 			 }
 	    }
 		
