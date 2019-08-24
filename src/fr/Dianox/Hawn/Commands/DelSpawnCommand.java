@@ -8,7 +8,7 @@ import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.ErrorConfigAM;
 
 public class DelSpawnCommand extends BukkitCommand {
 	
