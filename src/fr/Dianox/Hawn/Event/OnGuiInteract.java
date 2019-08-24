@@ -18,7 +18,7 @@ import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
 import fr.Dianox.Hawn.Utility.Tasks.TaskReloadServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskSavePlayerServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskShutdownServer;
