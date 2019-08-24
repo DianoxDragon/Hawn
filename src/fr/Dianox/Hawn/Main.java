@@ -138,11 +138,15 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMProtection;
 import fr.Dianox.Hawn.Utility.Config.Messages.TXTmsg;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.ErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.InfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.en_US.AdminErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.en_US.AdminInfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.en_US.AdminOtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.en_US.AdminSpawnMConfig;
 import fr.Dianox.Hawn.Utility.Config.Scoreboard.defaultscoreboardconfig;
 import fr.Dianox.Hawn.Utility.Config.Scoreboard.worldnetherdsc;
 import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
@@ -168,9 +172,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.0-Alpha";
+	private static String versions = "0.8.1-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
+	
+	public static String LanguageType = "en_US";
 	
 	public static Boolean HandMethod = true;
 	public static String UpToDate, MaterialMethod, nmsver;
@@ -333,25 +339,6 @@ public class Main extends JavaPlugin implements Listener {
 			PlayerWorldChangeConfigE.loadConfig((Plugin) this);
 			configfile.put("E-PlayerWorldChange", "Events/PlayerWorldChange.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Events/PlayerWorldChange.yml", "E-PlayerWorldChange");
-			
-			ConfigMGeneral.loadConfig((Plugin) this);
-			configfile.put("MC-General", "Messages/Classic/General.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/General.yml", "MC-General");
-			ConfigMEvents.loadConfig((Plugin) this);
-			configfile.put("MC-Events", "Messages/Classic/Events.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Events.yml", "MC-Events");
-			ConfigMProtection.loadConfig((Plugin) this);
-			configfile.put("MC-Protection", "Messages/Classic/Protection.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Protection.yml", "MC-Protection");
-			ConfigMOStuff.loadConfig((Plugin) this);
-			configfile.put("MC-SomeOtherStuff", "Messages/Classic/SomeOtherStuff.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
-			ConfigMCommands.loadConfig((Plugin) this);
-			configfile.put("MC-Commands", "Messages/Classic/Commands.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Commands.yml", "MC-Commands");
-			ConfigMPlayerOption.loadConfig((Plugin) this);
-			configfile.put("MC-PlayerOption", "Messages/Classic/PlayerOption.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/PlayerOption.yml", "MC-PlayerOption");
 
 			ActionbarAnnouncerConfig.loadConfig((Plugin) this);
 			configfile.put("C-ActionBarAnnouncer", "Commands/ActionBarAnnouncer.yml");
@@ -457,21 +444,65 @@ public class Main extends JavaPlugin implements Listener {
 			ScoreboardMainConfig.saveConfigFile();
 		}
 
+		if (ConfigGeneral.getConfig().isSet("Plugin.Language-Type")) {
+			try {
+				LanguageType = ConfigGeneral.getConfig().getString("Plugin.Language-Type");
+			} catch (Exception e) {}
+		} else {
+			ConfigGeneral.getConfig().set("Plugin.Language-Type", "en_US");
+			
+			ConfigGeneral.saveConfigFile();
+		}
+		
+		AdminErrorConfigAM.loadConfig((Plugin) this);
+		AdminInfoServerOverviewC.loadConfig((Plugin) this);
+		AdminOtherAMConfig.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.AdminPanelConfig.loadConfig((Plugin) this);
+		AdminSpawnMConfig.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMCommands.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMEvents.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMGeneral.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMOStuff.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMPlayerOption.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.ConfigMProtection.loadConfig((Plugin) this);
+		
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.TXTmsg.onCreateInfoMsgAdmin();
+		fr.Dianox.Hawn.Utility.Config.Messages.en_US.TXTmsg.onWrite();
+		
+		ConfigMGeneral.loadConfig((Plugin) this);
+		configfile.put("MC-General", "Messages/" + LanguageType + "/Classic/General.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/General.yml", "MC-General");
+		ConfigMEvents.loadConfig((Plugin) this);
+		configfile.put("MC-Events", "Messages/" + LanguageType + "/Classic/Events.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Events.yml", "MC-Events");
+		ConfigMProtection.loadConfig((Plugin) this);
+		configfile.put("MC-Protection", "Messages/" + LanguageType + "/Classic/Protection.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Protection.yml", "MC-Protection");
+		ConfigMOStuff.loadConfig((Plugin) this);
+		configfile.put("MC-SomeOtherStuff", "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
+		ConfigMCommands.loadConfig((Plugin) this);
+		configfile.put("MC-Commands", "Messages/" + LanguageType + "/Classic/Commands.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Commands.yml", "MC-Commands");
+		ConfigMPlayerOption.loadConfig((Plugin) this);
+		configfile.put("MC-PlayerOption", "Messages/" + LanguageType + "/Classic/PlayerOption.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/PlayerOption.yml", "MC-PlayerOption");
+		
 		InfoServerOverviewC.loadConfig((Plugin) this);
-		configfile.put("MA-Server-Info", "Messages/Administration/Server-Info.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Server-Info.yml", "MA-Server-Info");
+		configfile.put("MA-Server-Info", "Messages/" + LanguageType + "/Administration/Server-Info.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Server-Info.yml", "MA-Server-Info");
 		ErrorConfigAM.loadConfig((Plugin) this);
-		configfile.put("MA-Errors", "Messages/Administration/Errors.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Errors.yml", "MA-Errors");
+		configfile.put("MA-Errors", "Messages/" + LanguageType + "/Administration/Errors.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Errors.yml", "MA-Errors");
 		OtherAMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Others", "Messages/Administration/Others.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Others.yml", "MA-Others");
+		configfile.put("MA-Others", "Messages/" + LanguageType + "/Administration/Others.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Others.yml", "MA-Others");
 		SpawnMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Spawn", "Messages/Administration/Spawn.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Spawn.yml", "MA-Spawn");
+		configfile.put("MA-Spawn", "Messages/" + LanguageType + "/Administration/Spawn.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Spawn.yml", "MA-Spawn");
 		AdminPanelConfig.loadConfig((Plugin) this);
-		configfile.put("MA-AdminPanel", "Messages/Administration/AdminPanel.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/AdminPanel.yml", "MA-AdminPanel");
+		configfile.put("MA-AdminPanel", "Messages/" + LanguageType + "/Administration/AdminPanel.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/AdminPanel.yml", "MA-AdminPanel");
 		
 		instance = this;
 
