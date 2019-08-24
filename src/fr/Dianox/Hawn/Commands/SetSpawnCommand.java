@@ -11,7 +11,7 @@ import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.SpawnMConfig;
 
 public class SetSpawnCommand extends BukkitCommand {
 	
