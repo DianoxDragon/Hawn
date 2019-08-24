@@ -20,7 +20,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
 
 public class PanelAdminCommand extends BukkitCommand {
 
