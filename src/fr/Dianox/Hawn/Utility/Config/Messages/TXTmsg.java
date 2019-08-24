@@ -12,7 +12,7 @@ import fr.Dianox.Hawn.Main;
 public class TXTmsg {
 	
 	public static void onCreateInfoMsgAdmin() {
-	    File file = new File(Main.getInstance().getDataFolder(), "Messages/info.txt");
+	    File file = new File(Main.getInstance().getDataFolder(), "Messages/" + Main.LanguageType + "/info.txt");
 	    if(!file.exists()){
 	    	try {
 	    		file.createNewFile();
