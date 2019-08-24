@@ -23,7 +23,7 @@ import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.World.BasicEventsPW;
 import fr.Dianox.Hawn.Utility.World.OnJoinPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
