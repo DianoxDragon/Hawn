@@ -454,6 +454,52 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigGeneral.saveConfigFile();
 		}
 		
+		if (LanguageType.contains("en_US")) {
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Classic");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Administration");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File fileoldconfig = new File(this.getDataFolder(), "/Messages/Classic/General.yml");
+				
+				if (fileoldconfig.exists()) {
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/General.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Events.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Protection.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/SomeOtherStuff.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Commands.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/PlayerOption.yml");
+					
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Server-Info.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Errors.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Others.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Spawn.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/AdminPanel.yml");
+				}
+
+			} catch (Exception e) {}
+		}
+		
 		AdminErrorConfigAM.loadConfig((Plugin) this);
 		AdminInfoServerOverviewC.loadConfig((Plugin) this);
 		AdminOtherAMConfig.loadConfig((Plugin) this);
@@ -465,9 +511,6 @@ public class Main extends JavaPlugin implements Listener {
 		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMOStuff.loadConfig((Plugin) this);
 		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMPlayerOption.loadConfig((Plugin) this);
 		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMProtection.loadConfig((Plugin) this);
-		
-		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.TXTmsg.onCreateInfoMsgAdmin();
-		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.TXTmsg.onWrite();
 		
 		ConfigMGeneral.loadConfig((Plugin) this);
 		configfile.put("MC-General", "Messages/" + LanguageType + "/Classic/General.yml");
@@ -509,12 +552,12 @@ public class Main extends JavaPlugin implements Listener {
 		GetSetWorld();
 
 		CheckConfig.Check();
-
+	
 		HawnCommand.configlist();
 
 		TXTmsg.onCreateInfoMsgAdmin();
 		TXTmsg.onWrite();
-
+	
 		CheckConfig.ConvertOldDataFromNew();
 		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
@@ -1280,23 +1323,29 @@ public class Main extends JavaPlugin implements Listener {
 	    // >> Messages
 	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
 	    	
-	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
-
-		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
-
-		    Integer abnumberput = 0;
-
-		    while (iterator2.hasNext()) {
-				String string = (String) iterator2.next();
-				autobroadcast.put(abnumberput, string);
-				abnumberput++;
-				autobroadcast_total++;
-		    }
-
-		    autobroadcast_total--;
-
-		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
+		    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
+	
+		    	Iterator<?> iterator2 = null;
+		    	
+		    	try {
+		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
+		    	} catch (Exception e) {
+		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.Messages").getKeys(false).iterator();
+				}
+			    
+			    Integer abnumberput = 0;
+	
+			    while (iterator2.hasNext()) {
+					String string = (String) iterator2.next();
+					autobroadcast.put(abnumberput, string);
+					abnumberput++;
+					autobroadcast_total++;
+			    }
+	
+			    autobroadcast_total--;
+	
+			    @SuppressWarnings("unused")
+				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
 	    }
 
 	    // >> Titles
