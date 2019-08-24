@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import fr.Dianox.Hawn.Main;
+
 public class ConfigMProtection {
 	
 	private static Plugin pl;
@@ -17,7 +19,7 @@ public class ConfigMProtection {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Classic/Protection.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Classic/Protection.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
