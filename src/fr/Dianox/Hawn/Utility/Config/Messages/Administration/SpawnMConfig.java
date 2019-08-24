@@ -1,10 +1,12 @@
-package fr.Dianox.Hawn.Utility.Config.Messages.Adminstration;
+package fr.Dianox.Hawn.Utility.Config.Messages.Administration;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import fr.Dianox.Hawn.Main;
 
 public class SpawnMConfig {
 	
@@ -17,7 +19,7 @@ public class SpawnMConfig {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Administration/Spawn.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Administration/Spawn.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
