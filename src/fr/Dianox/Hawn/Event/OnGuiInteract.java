@@ -66,48 +66,7 @@ public class OnGuiInteract implements Listener {
             /// ADMIN PANEL
         } else if (inv.equals("§cAP")) {
 
-            if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
-                    p.performCommand("ap folder Commands");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
-                    p.performCommand("ap folder Cosmetics-Fun");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
-                	p.performCommand("ap folder CustomJoinItem");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
-                    p.performCommand("ap folder Events");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
-                	p.performCommand("ap folder Messages");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
-                    p.sendMessage("§cEdit theses files manually");
-                    e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cStockageInfo")) {
-                	p.sendMessage("§cAvailable soon");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cTablist")) {
-                	p.performCommand("ap folder Tablist");
-                }
-            } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
-                String nameinv = e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§b", "");
-                
-                if (nameinv.contentEquals("AutoBroadcast")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("CustomCommand")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("general")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("Scoreboard-General")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("ServerList")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("spawn")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("warplist")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("between-servers")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("command-aliases")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                }
-            } else if (e.getCurrentItem().getType() == XMaterial.REDSTONE_BLOCK.parseMaterial()) {
+            if (e.getCurrentItem().getType() == XMaterial.REDSTONE.parseMaterial()) {
             	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"))) {
             		
             		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Shutdown.Messages")) {
@@ -143,10 +102,42 @@ public class OnGuiInteract implements Listener {
             			}
             		}, 5);
             	}
+            } else if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
+            	p.performCommand("ap edithawnmainmenu");
             }
 
             e.setCancelled(true);
             // FOLDER LIST
+        } else if (inv.equals("§cAP - Hawn edit menu")) {
+        	if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
+                    p.performCommand("ap folder Commands");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
+                    p.performCommand("ap folder Cosmetics-Fun");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
+                	p.performCommand("ap folder CustomJoinItem");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
+                    p.performCommand("ap folder Events");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
+                	p.performCommand("ap folder Messages");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
+                    p.sendMessage("§cEdit theses files manually");
+                    e.setCancelled(true);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cStockageInfo")) {
+                	p.sendMessage("§cAvailable soon");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cTablist")) {
+                	p.performCommand("ap folder Tablist");
+                }
+            } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
+                String nameinv = e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§b", "");
+                
+                p.performCommand("ap edit file G-" + nameinv);
+                
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"))) {
+            	p.performCommand("ap");
+            }
+        	
+        	e.setCancelled(true);
         } else if (inv.equals("§cAP - Folder commands") || inv.equals("§cAP - Folder Cosmetics-Fun") ||
             inv.equals("§cAP - Folder Events") || inv.equals("§cAP - Folder Messages") ||
             inv.equals("§cAP - Folder Tablist") || inv.equals("§cAP - Folder CF-Utility") || 
@@ -195,7 +186,7 @@ public class OnGuiInteract implements Listener {
                 		p.performCommand("ap folder Messages");
                 	
                 	} else {
-                		p.performCommand("ap");
+                		p.performCommand("ap edithawnmainmenu");
                 	}
                 }
             }
@@ -338,7 +329,7 @@ public class OnGuiInteract implements Listener {
                 	}
                 } else if (inv.contains("G-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
-                		p.performCommand("ap");
+                		p.performCommand("ap edithawnmainmenu");
                 	}
                 } else if (inv.contains("MC-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
