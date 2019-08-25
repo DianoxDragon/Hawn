@@ -1421,18 +1421,7 @@ public class Main extends JavaPlugin implements Listener {
 	        	newmethodver = true;
 	        }
 	    	
-	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
-
-		    /*File[] listOfFiles = folder.listFiles();
-
-		    for (int i = 0; i < listOfFiles.length; i++) {
-		    	if (listOfFiles[i].isFile()) {
-		    		System.out.println("File " + listOfFiles[i].getName());
-		    	} else if (listOfFiles[i].isDirectory()) {
-		    		System.out.println("Directory " + listOfFiles[i].getName());
-		    	}
-		    }*/
 
 		    loadScoreboards(folder);
 
@@ -1475,8 +1464,12 @@ public class Main extends JavaPlugin implements Listener {
 	    	while (iteanimtab.hasNext()) {
 	    		String string = (String) iteanimtab.next();
 	    		
-	    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-	    		animationtabtask.put(string, task.getTaskId());
+	    		if (string.contentEquals("Enable")) continue;
+	    		
+	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
+		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+		    		animationtabtask.put(string, task.getTaskId());
+	    		}
 	    	}
 	    	
 	    	BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
