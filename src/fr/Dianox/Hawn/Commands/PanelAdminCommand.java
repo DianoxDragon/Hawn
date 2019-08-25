@@ -584,7 +584,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 } else if (args[1].equalsIgnoreCase("M-Administration")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Administration");
 
-                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Administration/");
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/" + Main.LanguageType + "Administration/");
                     File[] listOfFiles = folder.listFiles();
 
                     lore.clear();
@@ -607,7 +607,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 } else if (args[1].equalsIgnoreCase("M-Classic")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Classic");
 
-                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Classic/");
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/" + Main.LanguageType + "/Classic/");
                     File[] listOfFiles = folder.listFiles();
 
                     lore.clear();
