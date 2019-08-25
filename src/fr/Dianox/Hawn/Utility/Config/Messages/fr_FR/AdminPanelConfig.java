@@ -134,6 +134,8 @@ public class AdminPanelConfig {
                     "&6Vous ne pouvez pas modifier la liste des spawns ici"
             		}));
             
+            Config.set("Special.Item.Hawn-Main-Menu-Configuration.Name", "&eConfiguration de Hawn");
+            Config.set("Special.Item.Reload-Hawn.Name", "&eRecharger Hawn");
             Config.set("Special.Item.Shutdown.Name", "&cArrêter le serveur");
             Config.set("Special.Item.Shutdown.Messages", java.util.Arrays.asList(new String[] {
             		"§cLe serveur va s'arrêter",
