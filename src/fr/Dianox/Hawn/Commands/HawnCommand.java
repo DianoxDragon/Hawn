@@ -1129,11 +1129,15 @@ public class HawnCommand implements CommandExecutor {
 			Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
 		
 			while (iteanimtab.hasNext()) {
-				String string = (String) iteanimtab.next();
-    		
-				BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-				Main.animationtabtask.put(string, task.getTaskId());
-			}
+	    		String string = (String) iteanimtab.next();
+	    		
+	    		if (string.contentEquals("Enable")) continue;
+	    		
+	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
+		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+		    		Main.animationtabtask.put(string, task.getTaskId());
+	    		}
+	    	}
 
 			BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
 		
