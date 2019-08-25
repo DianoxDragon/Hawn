@@ -1732,7 +1732,10 @@ public class Main extends JavaPlugin implements Listener {
 		} else {
 			for (String s : info.keySet()) {
 	            ScoreboardInfo in = info.get(s);
-	            if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(player.getWorld().getName())) {
+	            
+	            String playerWorld = player.getWorld().getName();
+	            
+	            if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
 	                if (player.hasPermission(s)) {
 	                    if (boards.containsKey(player)) {
 	                        if (boards.get(player).getList().equals(in.getText())) {
@@ -1751,6 +1754,12 @@ public class Main extends JavaPlugin implements Listener {
 	                }
 	            }
 	        }
+			
+			PlayerBoard board = boards.getOrDefault(player, null);
+			if (board != null) {
+				board.remove();
+			}
+			
 		}
 	}
 
