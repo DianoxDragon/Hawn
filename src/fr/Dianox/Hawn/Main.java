@@ -292,8 +292,8 @@ public class Main extends JavaPlugin implements Listener {
 			configfile.put("G-AutoBroadcast", "AutoBroadcast.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "AutoBroadcast.yml", "G-AutoBroadcast");
 			PlayerOptionMainConfig.loadConfig((Plugin) this);
-			configfile.put("G-between-servers", "between-servers.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "between-servers.yml", "G-between-servers");
+			configfile.put("G-Player-Option-General", "Player-Option-General.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Player-Option-General.yml", "G-Player-Option-General");
 			CommandAliasesConfig.loadConfig((Plugin) this);
 			configfile.put("G-command-aliases", "command-aliases.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "command-aliases.yml", "G-command-aliases");
