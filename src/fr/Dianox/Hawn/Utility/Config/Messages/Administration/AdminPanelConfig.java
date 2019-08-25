@@ -136,6 +136,8 @@ public class AdminPanelConfig {
                     "&6You can't edit spawn list here"
             		}));
             
+            Config.set("Special.Item.Hawn-Main-Menu-Configuration.Name", "&eHawn configuration");
+            Config.set("Special.Item.Reload-Hawn.Name", "&eReload Hawn");
             Config.set("Special.Item.Shutdown.Name", "&cShutdown the server");
             Config.set("Special.Item.Shutdown.Messages", java.util.Arrays.asList(new String[] {
             		"§cThe server will shutdown",
