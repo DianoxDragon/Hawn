@@ -68,7 +68,7 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(8, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(9, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             
-            inv.setItem(10, createGuiItemWL("§eHawn configuration", XMaterial.CHEST.parseMaterial()));
+            inv.setItem(10, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Hawn-Main-Menu-Configuration.Name").replaceAll("&", "§"), XMaterial.CHEST.parseMaterial()));
             
             inv.setItem(11, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             
@@ -78,7 +78,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
             inv.setItem(15, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             
-            inv.setItem(16, createGuiItemWL("§eReload Hawn", XMaterial.EMERALD.parseMaterial()));
+            inv.setItem(16, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload-Hawn.Name").replaceAll("&", "§"), XMaterial.EMERALD.parseMaterial()));
             
             inv.setItem(17, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(18, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
