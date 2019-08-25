@@ -31,7 +31,7 @@ public class TXTmsg {
 	
 	public static void onWrite() {
 		
-		try (FileWriter fw = new FileWriter("plugins/Hawn/Messages/info.txt", true);
+		try (FileWriter fw = new FileWriter("plugins/Hawn/Messages/" + Main.LanguageType + "/info.txt", true);
 			    BufferedWriter bw = new BufferedWriter(fw);
 			    PrintWriter out = new PrintWriter(bw)) {
 			
@@ -49,6 +49,42 @@ public class TXTmsg {
 			out.println("That a classic player can see");
 			out.println("------------------------------------");
 			
+			
+		} catch (IOException e) {}
+	}
+	
+	// Others
+	public static void onCreateInfoMsgAdminMain() {
+	    File file = new File(Main.getInstance().getDataFolder(), "Messages/info.txt");
+	    if(!file.exists()){
+	    	try {
+	    		file.createNewFile();
+	    	} catch (Exception e) {}
+	    }
+	    
+	    PrintWriter writer;
+		try {
+			writer = new PrintWriter(file);
+			writer.print("");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void onWriteMain() {
+		
+		try (FileWriter fw = new FileWriter("plugins/Hawn/Messages/info.txt", true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw)) {
+			
+			out.println("------------------------------------");
+			out.println("You can edit as many languages as you like.");
+			out.println("------------------------------------");
+			out.println("You can can create folders for new languages");
+			out.println("By changing the language type");
+			out.println("------------------------------------");
+
 			
 		} catch (IOException e) {}
 	}
