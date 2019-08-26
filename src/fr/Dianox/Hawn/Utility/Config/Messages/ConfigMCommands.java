@@ -143,6 +143,8 @@ public class ConfigMCommands {
             
             Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
             Config.set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable", true);
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe player %target% is already in the right gamemode"}));
             
             /* -------------- *
 			 * GOTOP COMMANDS *
