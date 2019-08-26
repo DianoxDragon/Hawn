@@ -47,6 +47,15 @@ public class gmcCommand extends BukkitCommand {
 					return true;
 				}
 				
+				if (target.getGameMode() == GameMode.CREATIVE) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+						}
+					}
+					return true;
+				}
+				
 				target.setGameMode(GameMode.CREATIVE);
 					
 				if (ConfigMCommands.getConfig().getBoolean(msg_other+"Enable")) {
@@ -116,6 +125,15 @@ public class gmcCommand extends BukkitCommand {
 
 			if (target == null) {
 				MessageUtils.PlayerDoesntExist(p);
+				return true;
+			}
+			
+			if (target.getGameMode() == GameMode.CREATIVE) {
+				if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
+					}
+				}
 				return true;
 			}
 			
