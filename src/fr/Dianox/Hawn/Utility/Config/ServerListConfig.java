@@ -66,6 +66,15 @@ public class ServerListConfig {
             		"Dianox"
             }));
             
+            Config.set("Urgent-mode.Enable", false);
+            Config.set("Urgent-mode.Kick-Message", "&cThe multi line \n&bworks like that %player%");
+            Config.set("Urgent-mode.whitelist", java.util.Arrays.asList(new String[] {
+            		"Dianox"
+            }));
+            Config.set("Urgent-mode.Can-Use-Urgent-Mode", java.util.Arrays.asList(new String[] {
+            		"Dianox"
+            }));
+            
             Config.set("Motd.Classic.Enable", true);
             Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
             Config.set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");
@@ -75,6 +84,9 @@ public class ServerListConfig {
             Config.set("Motd.Maintenance.Enable", true);
             Config.set("Motd.Maintenance.Line-1", "&cThe server is in maintenance");
             Config.set("Motd.Maintenance.Line-2", "&bPlease come back later");
+            Config.set("Motd.Urgent.Enable", true);
+            Config.set("Motd.Urgent.Line-1", "&cThe server is whitelisted for now");
+            Config.set("Motd.Urgent.Line-2", "&ePlease come back later");
             
             saveConfigFile();
 
