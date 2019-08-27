@@ -552,7 +552,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 					return true;
 				} else if (args[0].equalsIgnoreCase("urgent")) {
-					if (!p.hasPermission("hawn.admin.command.urgent") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.urgent") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
 						
 						return true;
@@ -603,7 +603,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 					
 				} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
-					if (!p.hasPermission("hawn.admin.command.reload") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.reload") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
 						
 						return true;
@@ -647,7 +647,7 @@ public class HawnCommand implements CommandExecutor {
 			          p.sendMessage("");
 			          
 				} else if (args[0].equalsIgnoreCase("info")) {
-					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.info") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
 						
 						return true;
@@ -690,7 +690,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 					// Version
 				} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v") || args[0].equalsIgnoreCase("ver")) {
-					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.info") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
 						
 						return true;
@@ -721,7 +721,7 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				} else if (args[0].equalsIgnoreCase("build")) {
-					if (!p.hasPermission("hawn.admin.command.bypassbuild") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.bypassbuild") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.bypassbuild");
 						
 						return true;
