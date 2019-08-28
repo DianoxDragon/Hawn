@@ -143,6 +143,39 @@ public class AdminOtherAMConfig {
             		" &4* &cLa maintenance est &einactif&4 *"
             		}));
             
+            Config.set("Urgent-mode.On", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7Tu as &aactivé&7 le mode d'urgence"
+            		}));
+            Config.set("Urgent-mode.Off", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7Tu as &cdésactivé&7 le mode d'urgence"
+            		}));
+            Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(new String[] {
+                    " &4* &cLe mode d'urgence est &eactif&4 *"
+            		}));
+            Config.set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(new String[] {
+            		" &4* &cLe mode d'urgence est &einactif&4 *"
+            		}));
+            Config.set("Urgent-mode.Zip", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &c&cUne sauvegarde de Hawn a été faite"
+            		}));
+            Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cErreur, vous devez être sur la console pour désactiver le mode urgent"
+            		}));
+            Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cDésolé mais vous ne pouvez pas utiliser la commande"
+            		}));
+            Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cUne modification a été détectée par %player% sur le panneau d'administration",
+                    "%arg1% dans le fichier %arg2%"
+            		}));
+            Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cTous les plugins ont été désactivés"
+            		}));
+            Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &7Tous les plugins ont été &aactivés",
+                    "&eS'il vous plaît, un redémarrage est nécessaire pour éviter tout problème"
+            		}));
+            
             saveConfigFile();
 
         }
