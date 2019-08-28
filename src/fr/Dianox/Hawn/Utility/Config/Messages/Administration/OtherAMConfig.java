@@ -1,10 +1,12 @@
-package fr.Dianox.Hawn.Utility.Config.Messages.Adminstration;
+package fr.Dianox.Hawn.Utility.Config.Messages.Administration;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import fr.Dianox.Hawn.Main;
 
 public class OtherAMConfig {
 	
@@ -17,7 +19,7 @@ public class OtherAMConfig {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Administration/Others.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Administration/Others.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -141,6 +143,39 @@ public class OtherAMConfig {
             		}));
             Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(new String[] {
             		" &4* &cThe maintenance is &eoff&4 *"
+            		}));
+            
+            Config.set("Urgent-mode.On", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &aenabled&7 the urgent mode"
+            		}));
+            Config.set("Urgent-mode.Off", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &cdisabled&7 the urgent mode"
+            		}));
+            Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(new String[] {
+                    " &4* &cThe urgent mode is &eon&4 *"
+            		}));
+            Config.set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(new String[] {
+            		" &4* &cThe urgent mode is &eoff&4 *"
+            		}));
+            Config.set("Urgent-mode.Zip", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &c&cA backup of Hawn has been made"
+            		}));
+            Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cError, you need to be on the console to disable the urgent mode"
+            		}));
+            Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &c&cSorry but you can't use the command"
+            		}));
+            Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cA modification has been detected by %player% on the admin panel",
+                    "%arg1% in the file %arg2%"
+            		}));
+            Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &cAll plugins have been disabled"
+            		}));
+            Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList(new String[] {
+                    "&8[&eHawn-Urgent&8] &7All plugins have been &aenabled",
+                    "&ePlease, a restart is needed to avoid any problems"
             		}));
             
             saveConfigFile();

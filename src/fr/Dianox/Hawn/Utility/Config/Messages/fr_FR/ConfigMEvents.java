@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Utility.Config.Messages;
+package fr.Dianox.Hawn.Utility.Config.Messages.fr_FR;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,20 +6,18 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import fr.Dianox.Hawn.Main;
-
-public class ConfigMProtection {
+public class ConfigMEvents {
 	
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
 	
-	public ConfigMProtection() {}
+	public ConfigMEvents() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Classic/Protection.yml");
+		file = new File(pl.getDataFolder(), "Messages/fr_FR/Classic/Events.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -55,9 +53,14 @@ public class ConfigMProtection {
                 file.createNewFile();
             } catch (IOException e) {}
 
-            Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't place block here!"}));
-            Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't break block here!"}));
+            Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh non, vous avez essayé d'atteindre le vide"}));
+            Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7a dit &e%message%"}));
             
+            Config.set("Cancel-Tp.Warp.Enable", true);
+            Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &cdésactivé"}));
+            Config.set("Cancel-Tp.Spawn.Enable", true);
+            Config.set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &cdésactivé"}));
+
             saveConfigFile();
 
         }

@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.InfoServerOverviewC;
 
 public class WarnTPS {
 	

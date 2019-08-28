@@ -138,11 +138,15 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMProtection;
 import fr.Dianox.Hawn.Utility.Config.Messages.TXTmsg;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.ErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.InfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.AdminErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.AdminInfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.AdminOtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.AdminSpawnMConfig;
 import fr.Dianox.Hawn.Utility.Config.Scoreboard.defaultscoreboardconfig;
 import fr.Dianox.Hawn.Utility.Config.Scoreboard.worldnetherdsc;
 import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
@@ -168,9 +172,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.0-Alpha";
+	private static String versions = "0.8.1-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
+	
+	public static String LanguageType = "en_US";
 	
 	public static Boolean HandMethod = true;
 	public static String UpToDate, MaterialMethod, nmsver;
@@ -286,8 +292,8 @@ public class Main extends JavaPlugin implements Listener {
 			configfile.put("G-AutoBroadcast", "AutoBroadcast.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "AutoBroadcast.yml", "G-AutoBroadcast");
 			PlayerOptionMainConfig.loadConfig((Plugin) this);
-			configfile.put("G-between-servers", "between-servers.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "between-servers.yml", "G-between-servers");
+			configfile.put("G-Player-Option-General", "Player-Option-General.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Player-Option-General.yml", "G-Player-Option-General");
 			CommandAliasesConfig.loadConfig((Plugin) this);
 			configfile.put("G-command-aliases", "command-aliases.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "command-aliases.yml", "G-command-aliases");
@@ -333,25 +339,6 @@ public class Main extends JavaPlugin implements Listener {
 			PlayerWorldChangeConfigE.loadConfig((Plugin) this);
 			configfile.put("E-PlayerWorldChange", "Events/PlayerWorldChange.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Events/PlayerWorldChange.yml", "E-PlayerWorldChange");
-			
-			ConfigMGeneral.loadConfig((Plugin) this);
-			configfile.put("MC-General", "Messages/Classic/General.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/General.yml", "MC-General");
-			ConfigMEvents.loadConfig((Plugin) this);
-			configfile.put("MC-Events", "Messages/Classic/Events.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Events.yml", "MC-Events");
-			ConfigMProtection.loadConfig((Plugin) this);
-			configfile.put("MC-Protection", "Messages/Classic/Protection.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Protection.yml", "MC-Protection");
-			ConfigMOStuff.loadConfig((Plugin) this);
-			configfile.put("MC-SomeOtherStuff", "Messages/Classic/SomeOtherStuff.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
-			ConfigMCommands.loadConfig((Plugin) this);
-			configfile.put("MC-Commands", "Messages/Classic/Commands.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/Commands.yml", "MC-Commands");
-			ConfigMPlayerOption.loadConfig((Plugin) this);
-			configfile.put("MC-PlayerOption", "Messages/Classic/PlayerOption.yml");
-			configfilereverse.put(this.getDataFolder() + "/" + "Messages/Classic/PlayerOption.yml", "MC-PlayerOption");
 
 			ActionbarAnnouncerConfig.loadConfig((Plugin) this);
 			configfile.put("C-ActionBarAnnouncer", "Commands/ActionBarAnnouncer.yml");
@@ -457,33 +444,122 @@ public class Main extends JavaPlugin implements Listener {
 			ScoreboardMainConfig.saveConfigFile();
 		}
 
+		if (ConfigGeneral.getConfig().isSet("Plugin.Language-Type")) {
+			try {
+				LanguageType = ConfigGeneral.getConfig().getString("Plugin.Language-Type");
+			} catch (Exception e) {}
+		} else {
+			ConfigGeneral.getConfig().set("Plugin.Language-Type", "en_US");
+			
+			ConfigGeneral.saveConfigFile();
+		}
+		
+		if (LanguageType.contains("en_US")) {
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Classic");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File f = null;
+				
+				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Administration");
+		         
+				f.mkdir();
+			} catch(Exception e) {}
+			
+			try {
+				File fileoldconfig = new File(this.getDataFolder(), "/Messages/Classic/General.yml");
+				
+				if (fileoldconfig.exists()) {
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/General.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Events.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Protection.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/SomeOtherStuff.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Commands.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/PlayerOption.yml");
+					
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Server-Info.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Errors.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Others.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Spawn.yml");
+					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/AdminPanel.yml");
+				}
+
+			} catch (Exception e) {}
+		}
+		
+		AdminErrorConfigAM.loadConfig((Plugin) this);
+		AdminInfoServerOverviewC.loadConfig((Plugin) this);
+		AdminOtherAMConfig.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.AdminPanelConfig.loadConfig((Plugin) this);
+		AdminSpawnMConfig.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMCommands.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMEvents.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMGeneral.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMOStuff.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMPlayerOption.loadConfig((Plugin) this);
+		fr.Dianox.Hawn.Utility.Config.Messages.fr_FR.ConfigMProtection.loadConfig((Plugin) this);
+		
+		ConfigMGeneral.loadConfig((Plugin) this);
+		configfile.put("MC-General", "Messages/" + LanguageType + "/Classic/General.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/General.yml", "MC-General");
+		ConfigMEvents.loadConfig((Plugin) this);
+		configfile.put("MC-Events", "Messages/" + LanguageType + "/Classic/Events.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Events.yml", "MC-Events");
+		ConfigMProtection.loadConfig((Plugin) this);
+		configfile.put("MC-Protection", "Messages/" + LanguageType + "/Classic/Protection.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Protection.yml", "MC-Protection");
+		ConfigMOStuff.loadConfig((Plugin) this);
+		configfile.put("MC-SomeOtherStuff", "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
+		ConfigMCommands.loadConfig((Plugin) this);
+		configfile.put("MC-Commands", "Messages/" + LanguageType + "/Classic/Commands.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Commands.yml", "MC-Commands");
+		ConfigMPlayerOption.loadConfig((Plugin) this);
+		configfile.put("MC-PlayerOption", "Messages/" + LanguageType + "/Classic/PlayerOption.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/PlayerOption.yml", "MC-PlayerOption");
+		
 		InfoServerOverviewC.loadConfig((Plugin) this);
-		configfile.put("MA-Server-Info", "Messages/Administration/Server-Info.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Server-Info.yml", "MA-Server-Info");
+		configfile.put("MA-Server-Info", "Messages/" + LanguageType + "/Administration/Server-Info.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Server-Info.yml", "MA-Server-Info");
 		ErrorConfigAM.loadConfig((Plugin) this);
-		configfile.put("MA-Errors", "Messages/Administration/Errors.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Errors.yml", "MA-Errors");
+		configfile.put("MA-Errors", "Messages/" + LanguageType + "/Administration/Errors.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Errors.yml", "MA-Errors");
 		OtherAMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Others", "Messages/Administration/Others.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Others.yml", "MA-Others");
+		configfile.put("MA-Others", "Messages/" + LanguageType + "/Administration/Others.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Others.yml", "MA-Others");
 		SpawnMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Spawn", "Messages/Administration/Spawn.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/Spawn.yml", "MA-Spawn");
+		configfile.put("MA-Spawn", "Messages/" + LanguageType + "/Administration/Spawn.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Spawn.yml", "MA-Spawn");
 		AdminPanelConfig.loadConfig((Plugin) this);
-		configfile.put("MA-AdminPanel", "Messages/Administration/AdminPanel.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/Administration/AdminPanel.yml", "MA-AdminPanel");
+		configfile.put("MA-AdminPanel", "Messages/" + LanguageType + "/Administration/AdminPanel.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/AdminPanel.yml", "MA-AdminPanel");
 		
 		instance = this;
 
 		GetSetWorld();
 
 		CheckConfig.Check();
-
+	
 		HawnCommand.configlist();
 
 		TXTmsg.onCreateInfoMsgAdmin();
 		TXTmsg.onWrite();
-
+		TXTmsg.onCreateInfoMsgAdminMain();
+		TXTmsg.onWriteMain();
+		
 		CheckConfig.ConvertOldDataFromNew();
 		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
@@ -1249,23 +1325,29 @@ public class Main extends JavaPlugin implements Listener {
 	    // >> Messages
 	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
 	    	
-	    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
-
-		    Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
-
-		    Integer abnumberput = 0;
-
-		    while (iterator2.hasNext()) {
-				String string = (String) iterator2.next();
-				autobroadcast.put(abnumberput, string);
-				abnumberput++;
-				autobroadcast_total++;
-		    }
-
-		    autobroadcast_total--;
-
-		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
+		    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
+	
+		    	Iterator<?> iterator2 = null;
+		    	
+		    	try {
+		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
+		    	} catch (Exception e) {
+		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.Messages").getKeys(false).iterator();
+				}
+			    
+			    Integer abnumberput = 0;
+	
+			    while (iterator2.hasNext()) {
+					String string = (String) iterator2.next();
+					autobroadcast.put(abnumberput, string);
+					abnumberput++;
+					autobroadcast_total++;
+			    }
+	
+			    autobroadcast_total--;
+	
+			    @SuppressWarnings("unused")
+				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
 	    }
 
 	    // >> Titles
@@ -1339,18 +1421,7 @@ public class Main extends JavaPlugin implements Listener {
 	        	newmethodver = true;
 	        }
 	    	
-	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
-
-		    /*File[] listOfFiles = folder.listFiles();
-
-		    for (int i = 0; i < listOfFiles.length; i++) {
-		    	if (listOfFiles[i].isFile()) {
-		    		System.out.println("File " + listOfFiles[i].getName());
-		    	} else if (listOfFiles[i].isDirectory()) {
-		    		System.out.println("Directory " + listOfFiles[i].getName());
-		    	}
-		    }*/
 
 		    loadScoreboards(folder);
 
@@ -1393,8 +1464,12 @@ public class Main extends JavaPlugin implements Listener {
 	    	while (iteanimtab.hasNext()) {
 	    		String string = (String) iteanimtab.next();
 	    		
-	    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-	    		animationtabtask.put(string, task.getTaskId());
+	    		if (string.contentEquals("Enable")) continue;
+	    		
+	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
+		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(this, 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+		    		animationtabtask.put(string, task.getTaskId());
+	    		}
 	    	}
 	    	
 	    	BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(this, 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
@@ -1650,7 +1725,10 @@ public class Main extends JavaPlugin implements Listener {
 		} else {
 			for (String s : info.keySet()) {
 	            ScoreboardInfo in = info.get(s);
-	            if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(player.getWorld().getName())) {
+	            
+	            String playerWorld = player.getWorld().getName();
+	            
+	            if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
 	                if (player.hasPermission(s)) {
 	                    if (boards.containsKey(player)) {
 	                        if (boards.get(player).getList().equals(in.getText())) {
@@ -1669,6 +1747,12 @@ public class Main extends JavaPlugin implements Listener {
 	                }
 	            }
 	        }
+			
+			PlayerBoard board = boards.getOrDefault(player, null);
+			if (board != null) {
+				board.remove();
+			}
+			
 		}
 	}
 

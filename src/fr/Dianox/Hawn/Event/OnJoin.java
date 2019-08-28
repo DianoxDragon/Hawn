@@ -2,6 +2,7 @@ package fr.Dianox.Hawn.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.SQL;
 import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
+import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Event.OnJoinE.OJMessages;
 import fr.Dianox.Hawn.Event.OnJoinE.OjCosmetics;
 import fr.Dianox.Hawn.Event.OnJoinE.OjPlayerOption;
@@ -158,10 +160,29 @@ public class OnJoin implements Listener {
         if (OnJoinConfig.getConfig().getBoolean("Inventory.Force-Selected-Slot.Enable")) {
             if (!OnJoinConfig.getConfig().getBoolean("Inventory.Force-Selected-Slot.World.All_World")) {
                 if (PlayerEventsPW.getWOForceSelectedSlot().contains(p.getWorld().getName())) {
-                    inv.setHeldItemSlot(OnJoinConfig.getConfig().getInt("Inventory.Force-Selected-Slot.Slot") - 1);
+                	
+                	Integer slot = OnJoinConfig.getConfig().getInt("Inventory.Force-Selected-Slot.Slot");
+                	
+                	if (slot < 0 || slot > 8) {
+                		slot = 0;
+                		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fYou put an invalid slot for the Force-Selected-Slot");
+                		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fThe slot §cmust§f be between §b0 and 8");
+                		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fWe have set the slot to 0 for the moment while waiting for a change");
+                	}
+                	
+                    inv.setHeldItemSlot(slot);
                 }
             } else {
-                inv.setHeldItemSlot(OnJoinConfig.getConfig().getInt("Inventory.Force-Selected-Slot.Slot") - 1);
+            	Integer slot = OnJoinConfig.getConfig().getInt("Inventory.Force-Selected-Slot.Slot");
+            	
+            	if (slot < 0 || slot > 8) {
+            		slot = 0;
+            		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fYou put an invalid slot for the Force-Selected-Slot");
+            		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fThe slot §cmust§f be between §b0 and 8");
+            		Bukkit.getLogger().log(Level.SEVERE, "§7Hawn §3| §eWARNING §c(Configuration error)§e: §fWe have set the slot to 0 for the moment while waiting for a change");
+            	}
+            	
+                inv.setHeldItemSlot(slot);
             }
         }
 
@@ -480,7 +501,9 @@ public class OnJoin implements Listener {
                 }
             }
         }
-
+        
+        CustomJoinItem.onItemGive(p);
+        
         // Join Command
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Enable")) {
             if (p.hasPlayedBefore()) {

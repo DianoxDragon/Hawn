@@ -1,10 +1,12 @@
-package fr.Dianox.Hawn.Utility.Config.Messages.Adminstration;
+package fr.Dianox.Hawn.Utility.Config.Messages.Administration;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import fr.Dianox.Hawn.Main;
 
 public class AdminPanelConfig {
 	
@@ -17,7 +19,7 @@ public class AdminPanelConfig {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Administration/AdminPanel.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Administration/AdminPanel.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -134,6 +136,8 @@ public class AdminPanelConfig {
                     "&6You can't edit spawn list here"
             		}));
             
+            Config.set("Special.Item.Hawn-Main-Menu-Configuration.Name", "&eHawn configuration");
+            Config.set("Special.Item.Reload-Hawn.Name", "&eReload Hawn");
             Config.set("Special.Item.Shutdown.Name", "&cShutdown the server");
             Config.set("Special.Item.Shutdown.Messages", java.util.Arrays.asList(new String[] {
             		"§cThe server will shutdown",

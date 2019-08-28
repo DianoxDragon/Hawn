@@ -13,7 +13,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.Config.Commands.VanishCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 
 public class VanishCommand extends BukkitCommand {

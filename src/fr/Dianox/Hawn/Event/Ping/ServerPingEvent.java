@@ -72,10 +72,34 @@ public class ServerPingEvent implements Listener {
 			
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
+		
+		if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Urgent.Enable")) {
+			String line1 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-1");
+			String line2 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-2");
+			
+			line1 = line1.replaceAll("&", "§");
+			line2 = line2.replaceAll("&", "§");
+			
+			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
+			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+			
+			e.setMotd(String.valueOf(line1) + "\n" + line2);
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void login(PlayerLoginEvent e) {
+		
+		if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+			List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+			if (!whitelist.contains(e.getPlayer().getName())) {
+				String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+				message = message.replaceAll("&", "§");
+				message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
+				
+				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+			}
+		}
 		
 		if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
 			List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");

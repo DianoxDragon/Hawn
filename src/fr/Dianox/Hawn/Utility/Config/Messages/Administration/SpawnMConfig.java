@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Utility.Config.Messages.Adminstration;
+package fr.Dianox.Hawn.Utility.Config.Messages.Administration;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,18 +6,20 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-public class ErrorConfigAM {
+import fr.Dianox.Hawn.Main;
+
+public class SpawnMConfig {
 	
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
 	
-	public ErrorConfigAM() {}
+	public SpawnMConfig() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Administration/Errors.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Administration/Spawn.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -56,26 +58,16 @@ public class ErrorConfigAM {
             /* -------------- *
 			 * SPAWN COMMANDS *
 			 * -------------- */
-            Config.set("Error.Console.Not-A-Player", java.util.Arrays.asList(new String[] {
-            		"&cYou are not a player"
+            Config.set("Command.Spawn.Spawn-Set.Default", java.util.Arrays.asList(new String[] {
+            		"&cYou have not put a name for this spawn, an automatic name has been chosen",
+            		"§eSpawn set on behalf of %spawnName%"
             		}));
             
-            Config.set("Error.Command.Hawn", java.util.Arrays.asList(new String[] {
-            		"&cError, Try to do /hawn"
+            Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList(new String[] {
+            		"§eSpawn set on behalf of %spawnName%"
             		}));
             
-            Config.set("Error.Command.Delspawn", java.util.Arrays.asList(new String[] {
-            		"&c/hawn delspawn <spawn>"
-            		}));
-            
-            Config.set("Error.Command.Name-already-exist", java.util.Arrays.asList(new String[] {
-            		"&cThe name already exist"
-            		}));
-            
-            Config.set("Error.Argument-Missing", java.util.Arrays.asList(new String[] {
-            		"&cI'm sorry, but there must be one or two arguments missing."
-            		}));
-            Config.set("Error.No-Spawn", java.util.Arrays.asList(new String[] {"&cSpawn doesn't exist"}));
+            Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList(new String[] {"&bThe spawn &e%spawn%&b has been deleted"}));
             
             saveConfigFile();
 

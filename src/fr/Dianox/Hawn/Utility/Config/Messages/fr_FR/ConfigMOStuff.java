@@ -1,12 +1,10 @@
-package fr.Dianox.Hawn.Utility.Config.Messages;
+package fr.Dianox.Hawn.Utility.Config.Messages.fr_FR;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-
-import fr.Dianox.Hawn.Main;
 
 public class ConfigMOStuff {
 	
@@ -19,7 +17,7 @@ public class ConfigMOStuff {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Classic/SomeOtherStuff.yml");
+		file = new File(pl.getDataFolder(), "Messages/fr_FR/Classic/SomeOtherStuff.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -56,25 +54,25 @@ public class ConfigMOStuff {
             } catch (IOException e) {}
             
             Config.set("Error.No-Permissions.Enable", true);
-            Config.set("Error.No-Permissions.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, but you don't have the permission : %noperm%"}));
+            Config.set("Error.No-Permissions.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous n'avez pas la permission : %noperm%"}));
             Config.set("Error.No-Spawn.Enable", true);
-            Config.set("Error.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe spawn doesn't exist"}));
+            Config.set("Error.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa spawn n'existe pas"}));
             Config.set("Error.Change-Me.Enable", true);
-            Config.set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou have to change the spawn/warp/etc. on &6%arg1%&c on &e%arg2%"}));
+            Config.set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous devez changer le spawn/warp/etc. sur &6%arg1%&c dans &e%arg2%"}));
             Config.set("Error.No-Players.Enable", true);
-            Config.set("Error.No-Players.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe player is not online or doesn't exist"}));
+            Config.set("Error.No-Players.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe joueur n'est pas en ligne ou n'existe pas"}));
             Config.set("Error.No-Page-Found.Enable", true);
-            Config.set("Error.No-Page-Found.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe page can't be found"}));
+            Config.set("Error.No-Page-Found.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa page ne peut pas être trouvée"}));
             Config.set("Error.No-Category.Enable", true);
-            Config.set("Error.No-Category.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe category doesn't exist"}));
+            Config.set("Error.No-Category.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa catégorie n'existe pas"}));
             Config.set("Error.Use-Number.Enable", true);
-            Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cPlease specify a number"}));
+            Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVeuillez préciser un nombre"}));
             Config.set("Error.Command-Disable.Enable", true);
-            Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, this command is disable"}));
+            Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, cette commande est désactivée"}));
             Config.set("Error.Argument-Missing.Enable", true);
-            Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cI'm sorry, but there must be one or two arguments missing"}));
+            Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis désolé, mais il doit manquer un ou deux arguments"}));
             Config.set("Error.Not-A-Player.Enable", true);
-            Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are not a player"}));
+            Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous n'êtes pas un joueur"}));
             
             saveConfigFile();
 

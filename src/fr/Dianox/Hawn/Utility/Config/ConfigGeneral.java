@@ -73,6 +73,8 @@ public class ConfigGeneral {
             Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
             Config.set("Plugin.Tps.Warn-system", true);
             
+	    Config.set("Plugin.Language-Type", "en_US");
+		
             saveConfigFile();
 
         }

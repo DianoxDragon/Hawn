@@ -57,6 +57,16 @@ public class ClassicGMCommand extends BukkitCommand {
 				}
 				
 				if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("0")) {
+					
+					if (target.getGameMode() == GameMode.SURVIVAL) {
+						if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+							for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+							}
+						}
+						return true;
+					}
+					
 					target.setGameMode(GameMode.SURVIVAL);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_survival+"Enable")) {
@@ -72,6 +82,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 					
 				} else if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("cretatif") || args[0].equalsIgnoreCase("1")) {
+					
+					if (target.getGameMode() == GameMode.CREATIVE) {
+						if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+							for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+							}
+						}
+						return true;
+					}
+					
 					target.setGameMode(GameMode.CREATIVE);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_creative+"Enable")) {
@@ -86,6 +106,16 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("aventure") || args[0].equalsIgnoreCase("2")) {
+					
+					if (target.getGameMode() == GameMode.ADVENTURE) {
+						if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+							for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+							}
+						}
+						return true;
+					}
+					
 					target.setGameMode(GameMode.ADVENTURE);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure+"Enable")) {
@@ -100,6 +130,16 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
+					
+					if (target.getGameMode() == GameMode.SPECTATOR) {
+						if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+							for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+							}
+						}
+						return true;
+					}
+					
 					target.setGameMode(GameMode.SPECTATOR);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_spectator+"Enable")) {
@@ -232,6 +272,16 @@ public class ClassicGMCommand extends BukkitCommand {
 			}
 			
 			if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("0")) {
+				
+				if (target.getGameMode() == GameMode.SURVIVAL) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
+						}
+					}
+					return true;
+				}
+				
 				target.setGameMode(GameMode.SURVIVAL);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_survival+"Enable")) {
@@ -247,6 +297,16 @@ public class ClassicGMCommand extends BukkitCommand {
 				}
 				
 			} else if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("cretatif") || args[0].equalsIgnoreCase("1")) {
+				
+				if (target.getGameMode() == GameMode.CREATIVE) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
+						}
+					}
+					return true;
+				}
+				
 				target.setGameMode(GameMode.CREATIVE);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_creative+"Enable")) {
@@ -261,6 +321,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("aventure") || args[0].equalsIgnoreCase("2")) {
+				
+				if (target.getGameMode() == GameMode.ADVENTURE) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
+						}
+					}
+					return true;
+				}
+				
 				target.setGameMode(GameMode.ADVENTURE);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure+"Enable")) {
@@ -275,6 +345,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
+				
+				if (target.getGameMode() == GameMode.SPECTATOR) {
+					if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);
+						}
+					}
+					return true;
+				}
+				
 				target.setGameMode(GameMode.SPECTATOR);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_spectator+"Enable")) {

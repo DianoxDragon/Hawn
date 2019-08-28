@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Utility.Config.Messages.Adminstration;
+package fr.Dianox.Hawn.Utility.Config.Messages.fr_FR;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,18 +6,18 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-public class SpawnMConfig {
+public class ConfigMProtection {
 	
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
 	
-	public SpawnMConfig() {}
+	public ConfigMProtection() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Administration/Spawn.yml");
+		file = new File(pl.getDataFolder(), "Messages/fr_FR/Classic/Protection.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -52,23 +52,13 @@ public class SpawnMConfig {
             try {
                 file.createNewFile();
             } catch (IOException e) {}
-                        
-            /* -------------- *
-			 * SPAWN COMMANDS *
-			 * -------------- */
-            Config.set("Command.Spawn.Spawn-Set.Default", java.util.Arrays.asList(new String[] {
-            		"&cYou have not put a name for this spawn, an automatic name has been chosen",
-            		"§eSpawn set on behalf of %spawnName%"
-            		}));
-            
-            Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList(new String[] {
-            		"§eSpawn set on behalf of %spawnName%"
-            		}));
-            
-            Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList(new String[] {"&bThe spawn &e%spawn%&b has been deleted"}));
+
+            Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas placer de bloc ici !"}));
+            Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez casser de bloc ici !"}));
             
             saveConfigFile();
 
         }
     }
+
 }

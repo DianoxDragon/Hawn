@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import fr.Dianox.Hawn.Main;
+
 public class ConfigMCommands {
 	
 	private static Plugin pl;
@@ -17,7 +19,7 @@ public class ConfigMCommands {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/Classic/Commands.yml");
+		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Classic/Commands.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -141,6 +143,8 @@ public class ConfigMCommands {
             
             Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
             Config.set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are already in the right gamemode"}));
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable", true);
+            Config.set("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe player %target% is already in the right gamemode"}));
             
             /* -------------- *
 			 * GOTOP COMMANDS *

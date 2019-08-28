@@ -1,9 +1,15 @@
 package fr.Dianox.Hawn.Commands;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +18,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
@@ -79,11 +86,11 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMProtection;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.ErrorConfigAM;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.InfoServerOverviewC;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.SpawnMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.ErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.InfoServerOverviewC;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.SpawnMConfig;
 import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
 import fr.Dianox.Hawn.Utility.Tab.AnimationTabTask;
 import fr.Dianox.Hawn.Utility.Tab.MainTablist;
@@ -101,6 +108,8 @@ import fr.Dianox.Hawn.Utility.World.WorldPW;
 
 public class HawnCommand implements CommandExecutor {
 
+	private List<String> fileList = new ArrayList<>();
+	
 	private Class<?> PacketPlayOutPlayerListHeaderFooter;
     private Class<?> ChatComponentText;
     private Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
@@ -162,6 +171,88 @@ public class HawnCommand implements CommandExecutor {
 						}
 					} else {
 						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
+					}
+				} else if (args[0].equalsIgnoreCase("urgent")) {	
+					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+						
+						ServerListConfig.getConfig().set("Urgent-mode.Enable", false);
+						
+						ServerListConfig.saveConfigFile();
+						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && !plugin.isEnabled()) {
+										Bukkit.getPluginManager().enablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Off")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.Off")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+					} else {
+						ServerListConfig.getConfig().set("Urgent-mode.Enable", true);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.On")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+						
+						List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+						
+						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+							if (!whitelist.contains(ps.getName())) {
+								String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+								message = message.replaceAll("&", "§");
+								message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+								
+								ps.kickPlayer(message);
+							}
+						}
+						
+						Zip(false, null);
+						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && plugin.isEnabled()) {
+										Bukkit.getPluginManager().disablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
@@ -499,8 +590,79 @@ public class HawnCommand implements CommandExecutor {
 						}
 					}
 					return true;
+				} else if (args[0].equalsIgnoreCase("urgent")) {
+					if (!p.hasPermission("hawn.admin.command.urgent") && !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
+						
+						return true;
+					}
+					
+					List<String> whitelistuse = ServerListConfig.getConfig().getStringList("Urgent-mode.Can-Use-Urgent-Mode");
+					
+					if (!whitelistuse.contains(p.getName())) {
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Error-cant-use-the-command")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+						
+						return true;
+					}
+					
+					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Error-Disable")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					} else {
+						ServerListConfig.getConfig().set("Urgent-mode.Enable", true);
+						
+						ServerListConfig.saveConfigFile();
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.On")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+						
+						List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+						
+						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
+							if (!whitelist.contains(ps.getName())) {
+								String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+								message = message.replaceAll("&", "§");
+								message = MessageUtils.ReplaceMainplaceholderP(message, ps);
+								
+								ps.kickPlayer(message);
+							}
+						}
+						
+						Zip(true, p);
+						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && plugin.isEnabled()) {
+										Bukkit.getPluginManager().disablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+						
+						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					}
+					
 				} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
-					if (!p.hasPermission("hawn.admin.command.reload") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.reload") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
 						
 						return true;
@@ -544,7 +706,7 @@ public class HawnCommand implements CommandExecutor {
 			          p.sendMessage("");
 			          
 				} else if (args[0].equalsIgnoreCase("info")) {
-					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.info") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
 						
 						return true;
@@ -587,7 +749,7 @@ public class HawnCommand implements CommandExecutor {
 					}
 					// Version
 				} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v") || args[0].equalsIgnoreCase("ver")) {
-					if (!p.hasPermission("hawn.admin.command.info") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.info") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.info");
 						
 						return true;
@@ -618,7 +780,7 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				} else if (args[0].equalsIgnoreCase("build")) {
-					if (!p.hasPermission("hawn.admin.command.bypassbuild") || !p.hasPermission("hawn.admin.*")) {
+					if (!p.hasPermission("hawn.admin.command.bypassbuild") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.bypassbuild");
 						
 						return true;
@@ -714,6 +876,83 @@ public class HawnCommand implements CommandExecutor {
 		return true;
 	}
 	
+	private void Zip(boolean b, Player p) {
+		
+		String pathname = Main.getInstance().getDataFolder().getAbsolutePath();
+		String zipFile = Main.getInstance().getDataFolder().getAbsolutePath() + "-save-1.zip";
+		
+		File directory = new File(pathname);
+		getFileList(directory);
+		
+		File checkname = new File(zipFile);
+		
+		Integer number = 1;
+		
+        while (checkname.exists()) {
+        	number++;
+        	zipFile = Main.getInstance().getDataFolder().getAbsolutePath() + "-save-"+ number +".zip";
+        	checkname = new File(zipFile);
+        }
+		
+		try (FileOutputStream fos = new FileOutputStream(zipFile); ZipOutputStream zos = new ZipOutputStream(fos)) {
+			
+			for (String filePath : fileList) {
+				System.out.println("Compressing: " + filePath);
+				
+				// Creates a zip entry.
+                String name = filePath.substring(
+                    directory.getAbsolutePath().length() + 1,
+                    filePath.length());
+                
+                ZipEntry zipEntry = new ZipEntry(name);
+                zos.putNextEntry(zipEntry);
+                
+                // Read file content and write to zip output stream.
+                try (FileInputStream fis = new FileInputStream(filePath)) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fis.read(buffer)) > 0) {
+                        zos.write(buffer, 0, length);
+                    }
+
+                    // Close the zip entry.
+                    zos.closeEntry();
+                } catch (IOException e) {
+                	e.printStackTrace();
+				}
+			}
+			
+			System.out.println("Compression done ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		fileList.clear();
+		
+		for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Zip")) {
+			if (b) {
+				MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+			}
+			MessageUtils.ReplaceMessageForConsole(msg);
+		}
+	}
+	
+	/**
+     * Get files list from the directory recursive to the sub directory.
+     */
+    private void getFileList(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    fileList.add(file.getAbsolutePath());
+                } else {
+                    getFileList(file);
+                }
+            }
+        }
+    }
+
 	public static void configlist() {
 		ConfigSpawn.reloadConfig();
 		ConfigGeneral.reloadConfig();
@@ -1129,11 +1368,15 @@ public class HawnCommand implements CommandExecutor {
 			Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
 		
 			while (iteanimtab.hasNext()) {
-				String string = (String) iteanimtab.next();
-    		
-				BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-				Main.animationtabtask.put(string, task.getTaskId());
-			}
+	    		String string = (String) iteanimtab.next();
+	    		
+	    		if (string.contentEquals("Enable")) continue;
+	    		
+	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
+		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+		    		Main.animationtabtask.put(string, task.getTaskId());
+	    		}
+	    	}
 
 			BukkitTask tablistmain = new MainTablist(hea, foo, this.PacketPlayOutPlayerListHeaderFooter, this.ChatComponentText, this.newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
 		

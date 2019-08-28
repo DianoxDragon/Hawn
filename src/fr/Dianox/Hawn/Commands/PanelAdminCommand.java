@@ -20,7 +20,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
 
 public class PanelAdminCommand extends BukkitCommand {
 
@@ -56,41 +56,31 @@ public class PanelAdminCommand extends BukkitCommand {
 
         if (args.length == 0) {
             Inventory inv = Bukkit.createInventory(null, 54, "§cAP");
-
-            // Folders
-            lore.clear();
-        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
-        		msg = msg.replaceAll("&", "§");
-                lore.add(msg);
-            }
-        	
-            inv.setItem(0, createGuiItem("§cCommands", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(1, createGuiItem("§cCosmetics-Fun", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(2, createGuiItem("§cCustomJoinItem", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(3, createGuiItem("§cEvents", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(4, createGuiItem("§cMessages", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(5, createGuiItem("§cScoreboard", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-            inv.setItem(6, createGuiItem("§cStockageInfo", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
-            inv.setItem(7, createGuiItem("§cTablist", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
-
-            int number_place = 8;
-            File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath());
-            File[] listOfFiles = folder.listFiles();
-
-            lore.clear();
-        	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-        		msg = msg.replaceAll("&", "§");
-                lore.add(msg);
-            }
             
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile()) {
-                    String filename = listOfFiles[i].getName().replace(".yml", "");
-                    inv.setItem(number_place, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
-                    number_place++;
-                }
-            }
+            inv.setItem(0, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(1, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(2, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(3, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(4, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(5, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(6, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(7, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(8, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(9, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
+            inv.setItem(10, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Hawn-Main-Menu-Configuration.Name").replaceAll("&", "§"), XMaterial.CHEST.parseMaterial()));
+            
+            inv.setItem(11, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
+            inv.setItem(12, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"), XMaterial.REDSTONE.parseMaterial()));
+            inv.setItem(13, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"), XMaterial.NETHER_STAR.parseMaterial()));
+            inv.setItem(14, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"), XMaterial.PLAYER_HEAD.parseMaterial()));
 
+            inv.setItem(15, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            
+            inv.setItem(16, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload-Hawn.Name").replaceAll("&", "§"), XMaterial.EMERALD.parseMaterial()));
+            
+            inv.setItem(17, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(18, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(19, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(20, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -100,21 +90,15 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(24, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(25, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(26, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-
             inv.setItem(27, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-            
-            inv.setItem(28, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"), XMaterial.REDSTONE_BLOCK.parseMaterial()));
-            inv.setItem(29, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Reload.Name").replaceAll("&", "§"), XMaterial.NETHER_STAR.parseMaterial()));
-            inv.setItem(30, createGuiItemWL(AdminPanelConfig.getConfig().getString("Special.Item.Save-Players.Name").replaceAll("&", "§"), XMaterial.PLAYER_HEAD.parseMaterial()));
-
+            inv.setItem(28, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(29, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(30, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(31, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-            
-            inv.setItem(32, createGuiItemWL("§eReload Hawn", XMaterial.EMERALD.parseMaterial()));
-            
+            inv.setItem(32, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(33, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(34, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(35, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-            
             inv.setItem(36, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(38, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -123,17 +107,76 @@ public class PanelAdminCommand extends BukkitCommand {
             inv.setItem(41, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(42, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(43, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-            inv.setItem(44, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(44, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial())); 
+            inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+            inv.setItem(53, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             
-            lore.clear();
-        	for (String msg: AdminPanelConfig.getConfig().getStringList("Special.Item.Notice.Lore")) {
-        		msg = msg.replaceAll("&", "§");
-                lore.add(msg);
-            }
-            
-            inv.setItem(45, createGuiItem(AdminPanelConfig.getConfig().getString("Special.Item.Notice.Name").replaceAll("&", "§"), (ArrayList<String>) lore, Material.MAP));
-
             p.openInventory(inv);
+        } else if (args.length == 1) {
+        	if (args[0].equalsIgnoreCase("edithawnmainmenu")) {
+        		Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Hawn edit menu");
+
+                // Folders
+                lore.clear();
+            	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
+            		msg = msg.replaceAll("&", "§");
+                    lore.add(msg);
+                }
+            	
+                inv.setItem(0, createGuiItem("§cCommands", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(1, createGuiItem("§cCosmetics-Fun", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(2, createGuiItem("§cCustomJoinItem", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(3, createGuiItem("§cEvents", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(4, createGuiItem("§cMessages", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(5, createGuiItem("§cScoreboard", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+                inv.setItem(6, createGuiItem("§cStockageInfo", new ArrayList < String > (Arrays.asList(" ", "§cAvailable soon")), XMaterial.CHEST.parseMaterial()));
+                inv.setItem(7, createGuiItem("§cTablist", (ArrayList<String>) lore, XMaterial.CHEST.parseMaterial()));
+
+                int number_place = 8;
+                File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath());
+                File[] listOfFiles = folder.listFiles();
+
+                lore.clear();
+            	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
+            		msg = msg.replaceAll("&", "§");
+                    lore.add(msg);
+                }
+                
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile()) {
+                        String filename = listOfFiles[i].getName().replace(".yml", "");
+                        inv.setItem(number_place, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                        number_place++;
+                    }
+                }
+                
+                lore.clear();
+            	for (String msg: AdminPanelConfig.getConfig().getStringList("Special.Item.Notice.Lore")) {
+            		msg = msg.replaceAll("&", "§");
+                    lore.add(msg);
+                }
+            	
+            	inv.setItem(45, createGuiItem(AdminPanelConfig.getConfig().getString("Special.Item.Notice.Name").replaceAll("&", "§"), (ArrayList<String>) lore, Material.MAP));
+            	
+            	inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                
+                inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
+            	
+            	p.openInventory(inv);
+        	}
         } else if (args.length >= 2) {
             if (args[0].equalsIgnoreCase("edit")) {
                 if (args[1].equalsIgnoreCase("file")) {
@@ -359,6 +402,8 @@ public class PanelAdminCommand extends BukkitCommand {
                             } else if (numberitems >= maximumitem) {
                                 cannextpage = true;
                             }
+                            
+                            inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
                         } else {
                             if (numberitemstoeleimate < loopaeleminer) {
                                 if (cfg.isBoolean(string)) {
@@ -494,7 +539,16 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     	
                         inv.setItem(47, createGuiItem(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
+                    } else {
+                    	inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
                     }
+                    
+                	inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));             
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
                     
@@ -519,6 +573,15 @@ public class PanelAdminCommand extends BukkitCommand {
                             inv.setItem(i, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
                         }
                     }
+                    
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
@@ -555,6 +618,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
@@ -577,6 +649,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
                     
                     p.openInventory(inv);
@@ -584,7 +665,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 } else if (args[1].equalsIgnoreCase("M-Administration")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Administration");
 
-                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Administration/");
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/" + Main.LanguageType + "/Administration/");
                     File[] listOfFiles = folder.listFiles();
 
                     lore.clear();
@@ -600,6 +681,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
                     
                     p.openInventory(inv);
@@ -607,7 +697,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 } else if (args[1].equalsIgnoreCase("M-Classic")) {
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder M-Classic");
 
-                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/Classic/");
+                    File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/" + Main.LanguageType + "/Classic/");
                     File[] listOfFiles = folder.listFiles();
 
                     lore.clear();
@@ -623,6 +713,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
                     
                     p.openInventory(inv);
@@ -646,6 +745,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
                     
                     p.openInventory(inv);
@@ -669,6 +777,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
@@ -700,6 +817,15 @@ public class PanelAdminCommand extends BukkitCommand {
                 			"§eThat a classic player can see",
                 			"§8------------------------------------")), XMaterial.MAP.parseMaterial()));
 
+                	inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                	inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                	
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
@@ -722,6 +848,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);
@@ -744,6 +879,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         }
                     }
 
+                    inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(47, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+                    
                     inv.setItem(53, createGuiItemWL(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"), XMaterial.BARRIER.parseMaterial()));
 
                     p.openInventory(inv);

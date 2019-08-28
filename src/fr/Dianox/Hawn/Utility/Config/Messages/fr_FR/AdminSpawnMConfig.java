@@ -1,4 +1,4 @@
-package fr.Dianox.Hawn.Utility.Config.Messages;
+package fr.Dianox.Hawn.Utility.Config.Messages.fr_FR;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,20 +6,18 @@ import java.io.IOException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import fr.Dianox.Hawn.Main;
-
-public class ConfigMProtection {
+public class AdminSpawnMConfig {
 	
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
 	
-	public ConfigMProtection() {}
+	public AdminSpawnMConfig() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Classic/Protection.yml");
+		file = new File(pl.getDataFolder(), "Messages/fr_FR/Administration/Spawn.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -54,13 +52,23 @@ public class ConfigMProtection {
             try {
                 file.createNewFile();
             } catch (IOException e) {}
-
-            Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't place block here!"}));
-            Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't break block here!"}));
+                        
+            /* -------------- *
+			 * SPAWN COMMANDS *
+			 * -------------- */
+            Config.set("Command.Spawn.Spawn-Set.Default", java.util.Arrays.asList(new String[] {
+            		"&cVous n'avez pas mis de nom pour ce spawn, un nom automatique a été choisi.",
+            		"§eLe spawn a été placé sous le nom de %spawnName%"
+            		}));
+            
+            Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList(new String[] {
+            		"§eLe spawn a été placé sous le nom de %spawnName%"
+            		}));
+            
+            Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList(new String[] {"&bLe spawn &e%spawn%&b a été supprimée"}));
             
             saveConfigFile();
 
         }
     }
-
 }

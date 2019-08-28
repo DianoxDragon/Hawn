@@ -1,12 +1,10 @@
-package fr.Dianox.Hawn.Utility.Config.Messages;
+package fr.Dianox.Hawn.Utility.Config.Messages.fr_FR;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-
-import fr.Dianox.Hawn.Main;
 
 public class ConfigMGeneral {
 	
@@ -19,7 +17,7 @@ public class ConfigMGeneral {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/"+ Main.LanguageType +"/Classic/General.yml");
+		file = new File(pl.getDataFolder(), "Messages/fr_FR/Classic/General.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {
@@ -66,9 +64,9 @@ public class ConfigMGeneral {
             Config.set("General.On-join.Join-Message.Per-Group.Options.Enable", true);
             Config.set("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join", false);
             Config.set("General.On-join.Join-Message.Per-Group.Groups.Owner", java.util.Arrays.asList(new String[] {
-                    "&cPLEASE WELCOME a owner"}));
+                    "&cS'IL VOUS PLAÎT, SOUHAITEZ LA BIENVENUE à un fondateur"}));
             Config.set("General.On-join.Join-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
-                    "unlimited groups of course"}));
+                    "nombre illimité de groupes bien sûr"}));
             
             Config.set("General.On-join.Join-Message.Per-World.Options.Enable", false);
             Config.set("General.On-join.Join-Message.Per-World.Options.Disable-Any-Other-Messages-On-Join", false);
@@ -93,9 +91,9 @@ public class ConfigMGeneral {
             Config.set("General.On-Quit.Quit-Message.Per-Group.Options.Enable", true);
             Config.set("General.On-Quit.Quit-Message.Per-Group.Options.Disable-Any-Messages-On-Quit", true);
             Config.set("General.On-Quit.Quit-Message.Per-Group.Groups.Owner", java.util.Arrays.asList(new String[] {
-            		"&cPLEASE SAY GOODBYE a owner"}));
+            		"&cS'IL VOUS PLAÎT DITE AU REVOIR à un fondateur"}));
             Config.set("General.On-Quit.Quit-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
-            		"unlimited groups of course"}));
+            		"nombre illimité de groupes bien sûr"}));
             
             Config.set("General.On-Quit.Quit-Message.Per-World.Options.Enable", false);
             Config.set("General.On-Quit.Quit-Message.Per-World.Options.Disable-Any-Other-Messages-On-Quit", false);
@@ -114,8 +112,8 @@ public class ConfigMGeneral {
             Config.set("Spawn.On-join.Enable", true);
             Config.set("Spawn.On-join.Messages", java.util.Arrays.asList(new String[] {
             		"&8&m<=====-------<&r &6Hawn &8&m>-------=====>",
-                    "&cHello %player%",
-                    "&cDon't forget to see our rules",
+                    "&cBonjour %player%",
+                    "&cN'oubliez pas de consulter nos règles",
             		"&8&m<=====-------<&r &6Hawn &8&m>-------=====>"}));
             Config.set("Spawn.On-join.World.All_World", true);
             Config.set("Spawn.On-join.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -131,19 +129,19 @@ public class ConfigMGeneral {
             
             Config.set("Spawn.On-join.First-Join.Broadcast.Enable", true);
             Config.set("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", true);
-            Config.set("Spawn.On-join.First-Join.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&eWelcome %player% to the server"}));
+            Config.set("Spawn.On-join.First-Join.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&eBienvenue %player% sur ce serveur"}));
             Config.set("Spawn.On-join.First-Join.Motd.Enable", true);
             Config.set("Spawn.On-join.First-Join.Motd.Both-Motd", false);
             Config.set("Spawn.On-join.First-Join.Motd.Messages", java.util.Arrays.asList(new String[] {
             		"&8&m<=====-------<&r &6Hawn &8&m>-------=====>",
-                    "&cWelcome %player%",
-                    "&cDon't forget to see our rules",
+                    "&cBienvenue %player%",
+                    "&cN'oubliez pas de consulter nos règles",
             		"&8&m<=====-------<&r &6Hawn &8&m>-------=====>"}));
             Config.set("Spawn.Teleport.Enable", true);
             Config.set("Spawn.Teleport.Enable-For-On-Join", false);
-            Config.set("Spawn.Teleport.Messages", java.util.Arrays.asList(new String[] {"&7Teleport..."}));
-            Config.set("Spawn.Teleport-By-Player.Messages", java.util.Arrays.asList(new String[] {"&7Teleported by someone..."}));
-            Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7Teleported %target%..."}));
+            Config.set("Spawn.Teleport.Messages", java.util.Arrays.asList(new String[] {"&7Téléportation..."}));
+            Config.set("Spawn.Teleport-By-Player.Messages", java.util.Arrays.asList(new String[] {"&7Téléporté par quelqu'un..."}));
+            Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7%target% a été téléporté..."}));
 
             saveConfigFile();
 

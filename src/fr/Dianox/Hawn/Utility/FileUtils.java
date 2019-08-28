@@ -135,9 +135,7 @@ public class FileUtils {
     public static void move(File from, File to) {
         try {
             Files.move(from, to);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
     }
 
     /**

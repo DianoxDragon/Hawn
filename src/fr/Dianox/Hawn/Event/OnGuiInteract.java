@@ -17,8 +17,10 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
+import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Tasks.TaskReloadServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskSavePlayerServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskShutdownServer;
@@ -66,48 +68,7 @@ public class OnGuiInteract implements Listener {
             /// ADMIN PANEL
         } else if (inv.equals("§cAP")) {
 
-            if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
-                    p.performCommand("ap folder Commands");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
-                    p.performCommand("ap folder Cosmetics-Fun");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
-                	p.performCommand("ap folder CustomJoinItem");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
-                    p.performCommand("ap folder Events");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
-                	p.performCommand("ap folder Messages");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
-                    p.sendMessage("§cEdit theses files manually");
-                    e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cStockageInfo")) {
-                	p.sendMessage("§cAvailable soon");
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cTablist")) {
-                	p.performCommand("ap folder Tablist");
-                }
-            } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
-                String nameinv = e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§b", "");
-                
-                if (nameinv.contentEquals("AutoBroadcast")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("CustomCommand")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("general")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("Scoreboard-General")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("ServerList")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("spawn")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("warplist")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("between-servers")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                } else if (nameinv.contentEquals("command-aliases")) {
-                    p.performCommand("ap edit file G-" + nameinv);
-                }
-            } else if (e.getCurrentItem().getType() == XMaterial.REDSTONE_BLOCK.parseMaterial()) {
+            if (e.getCurrentItem().getType() == XMaterial.REDSTONE.parseMaterial()) {
             	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Shutdown.Name").replaceAll("&", "§"))) {
             		
             		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Shutdown.Messages")) {
@@ -143,10 +104,42 @@ public class OnGuiInteract implements Listener {
             			}
             		}, 5);
             	}
+            } else if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
+            	p.performCommand("ap edithawnmainmenu");
             }
 
             e.setCancelled(true);
             // FOLDER LIST
+        } else if (inv.equals("§cAP - Hawn edit menu")) {
+        	if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
+                    p.performCommand("ap folder Commands");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCosmetics-Fun")) {
+                    p.performCommand("ap folder Cosmetics-Fun");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCustomJoinItem")) {
+                	p.performCommand("ap folder CustomJoinItem");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cEvents")) {
+                    p.performCommand("ap folder Events");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cMessages")) {
+                	p.performCommand("ap folder Messages");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cScoreboard")) {
+                    p.sendMessage("§cEdit theses files manually");
+                    e.setCancelled(true);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cStockageInfo")) {
+                	p.sendMessage("§cAvailable soon");
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cTablist")) {
+                	p.performCommand("ap folder Tablist");
+                }
+            } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
+                String nameinv = e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§b", "");
+                
+                p.performCommand("ap edit file G-" + nameinv);
+                
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replaceAll("&", "§"))) {
+            	p.performCommand("ap");
+            }
+        	
+        	e.setCancelled(true);
         } else if (inv.equals("§cAP - Folder commands") || inv.equals("§cAP - Folder Cosmetics-Fun") ||
             inv.equals("§cAP - Folder Events") || inv.equals("§cAP - Folder Messages") ||
             inv.equals("§cAP - Folder Tablist") || inv.equals("§cAP - Folder CF-Utility") || 
@@ -195,7 +188,7 @@ public class OnGuiInteract implements Listener {
                 		p.performCommand("ap folder Messages");
                 	
                 	} else {
-                		p.performCommand("ap");
+                		p.performCommand("ap edithawnmainmenu");
                 	}
                 }
             }
@@ -242,6 +235,24 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
+                   
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
                     } else if (e.getCurrentItem().getType() == XMaterial.RED_WOOL.parseMaterial()) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
@@ -261,6 +272,24 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
+                        
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
                     } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
@@ -294,7 +323,25 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
-                    } else if (e.getCurrentItem().getDurability() == 14) {
+                    
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
+            		} else if (e.getCurrentItem().getDurability() == 14) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
                         if (inv.contains("CustomCommand")) {
@@ -313,7 +360,25 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
-                    } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
+                    
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
+            		} else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                     	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
@@ -338,7 +403,7 @@ public class OnGuiInteract implements Listener {
                 	}
                 } else if (inv.contains("G-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {
-                		p.performCommand("ap");
+                		p.performCommand("ap edithawnmainmenu");
                 	}
                 } else if (inv.contains("MC-")) {
                 	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Folder-Menu.Name").replaceAll("&", "§"))) {

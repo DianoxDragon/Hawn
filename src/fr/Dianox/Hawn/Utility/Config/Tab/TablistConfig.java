@@ -74,9 +74,10 @@ public class TablistConfig {
             		"{anim_separator}",
             		"",
             		"{anim_hawntitle}",
-		        ""
+            		""
             		}));
             
+            Config.set("Animations.Enable", true);
             Config.set("Animations.separator.refresh-time-ticks", 2);
             Config.set("Animations.separator.text", java.util.Arrays.asList(new String[] {
             		"&e&l>> &8&m-------------------&r &e&l<<",
