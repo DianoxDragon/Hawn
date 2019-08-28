@@ -67,6 +67,10 @@ public class ServerListConfig {
             }));
             
             Config.set("Urgent-mode.Enable", false);
+            Config.set("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled", true);
+            Config.set("Urgent-mode.Plugin-desactivation.Plugin-Ignored", java.util.Arrays.asList(new String[] {
+            		"Hawn"
+            }));
             Config.set("Urgent-mode.Kick-Message", "&cThe multi line \n&bworks like that %player%");
             Config.set("Urgent-mode.whitelist", java.util.Arrays.asList(new String[] {
             		"Dianox"
