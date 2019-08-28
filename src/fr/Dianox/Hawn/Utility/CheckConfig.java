@@ -9,9 +9,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.Config.AutoBroadcastConfig;
-import fr.Dianox.Hawn.Utility.Config.BetweenServersConfig;
 import fr.Dianox.Hawn.Utility.Config.CommandAliasesConfig;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
+import fr.Dianox.Hawn.Utility.Config.PlayerOptionMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
@@ -47,12 +47,24 @@ import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMGeneral;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMPlayerOption;
-import fr.Dianox.Hawn.Utility.Config.Messages.Adminstration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
+import fr.Dianox.Hawn.Utility.Config.Tab.TablistConfig;
 
 public class CheckConfig {
 	
+	public static void moveClassicMessagesToenUS(String datafolder, String path) {
+
+		try {
+			File f = new File(datafolder, "/Messages/" + path);
+			File moved = new File(datafolder, "/Messages/en_US/" + path);
+			
+			FileUtils.move(f, moved);
+		} catch (Exception e) {}
+	}
+	
 	public static void ConvertOldDataFromNew() {
-		File f = new File(Main.getInstance().getDataFolder(), "StockageInfo/PlayerConfig.yml");
+		File f = new File(Main.getInstance().getDataFolder(), "/StockageInfo/PlayerConfig.yml");
 		
 		if (f.exists()) {
 			YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
@@ -150,6 +162,240 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!OtherAMConfig.getConfig().isSet("Urgent-mode.On")) {
+			OtherAMConfig.getConfig().set("Urgent-mode.On", java.util.Arrays.asList(new String[] {
+                "%prefix% &7You &aenabled&7 the urgent mode"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Off", java.util.Arrays.asList(new String[] {
+                "%prefix% &7You &cdisabled&7 the urgent mode"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(new String[] {
+                " &4* &cThe urgent mode is &eon&4 *"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(new String[] {
+        		" &4* &cThe urgent mode is &eoff&4 *"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Zip", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &cA backup of Hawn has been made"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Error-Disable", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &cError, you need to be on the console to disable the urgent mode"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &cSorry but you can't use the command"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &cA modification has been detected by %player% on the admin panel",
+                "%arg1% in the file %arg2%"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &cAll plugins have been disabled"
+        		}));
+			OtherAMConfig.getConfig().set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList(new String[] {
+                "&8[&eHawn-Urgent&8] &7All plugins have been &aenabled",
+                "&ePlease, a restart is needed to avoid any problems"
+        		}));
+        
+        	OtherAMConfig.saveConfigFile();
+		}
+		
+		if (!ServerListConfig.getConfig().isSet("Urgent-mode.Enable")) {
+			
+			ServerListConfig.getConfig().set("Urgent-mode.Enable", false);
+			ServerListConfig.getConfig().set("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled", true);
+			ServerListConfig.getConfig().set("Urgent-mode.Plugin-desactivation.Plugin-Ignored", java.util.Arrays.asList(new String[] {
+            		"Hawn"
+            }));
+			ServerListConfig.getConfig().set("Urgent-mode.Kick-Message", "&cThe multi line \n&bworks like that %player%");
+			ServerListConfig.getConfig().set("Urgent-mode.whitelist", java.util.Arrays.asList(new String[] {
+            		"Dianox"
+            }));
+			ServerListConfig.getConfig().set("Urgent-mode.Can-Use-Urgent-Mode", java.util.Arrays.asList(new String[] {
+            		"Dianox"
+            }));
+            
+			ServerListConfig.getConfig().set("Motd.Urgent.Enable", true);
+			ServerListConfig.getConfig().set("Motd.Urgent.Line-1", "&cThe server is whitelisted for now");
+			ServerListConfig.getConfig().set("Motd.Urgent.Line-2", "&ePlease come back later");
+			
+			ServerListConfig.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable", true);
+			ConfigMCommands.getConfig().set("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe player %target% is already in the right gamemode"}));
+		
+        	ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!AdminPanelConfig.getConfig().isSet("Special.Item.Hawn-Main-Menu-Configuration.Name")) {
+			AdminPanelConfig.getConfig().set("Special.Item.Hawn-Main-Menu-Configuration.Name", "&eHawn configuration");
+			AdminPanelConfig.getConfig().set("Special.Item.Reload-Hawn.Name", "&eReload Hawn");
+        
+        	AdminPanelConfig.saveConfigFile();
+		}
+		
+		if (!ConfigGeneral.getConfig().isSet("Plugin.Language-Type")) {
+			ConfigGeneral.getConfig().set("Plugin.Language-Type", "en_US");
+			
+			ConfigGeneral.saveConfigFile();
+		}
+		
+		if (!PlayerWorldChangeConfigE.getConfig().isSet("Execute-Command.Enable")) {
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.Enable", true);
+	        
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.Options.When-Enter-in-The-World.world.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.Options.When-Enter-in-The-World.world.Command-List", java.util.Arrays.asList(new String[] {
+	                "Enter 1"
+	            }));
+	        
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.Options.When-Enter-in-The-World.world_nether.Enable", true);
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.Options.When-Enter-in-The-World.world_nether.Command-List", java.util.Arrays.asList(new String[] {
+	                "Enter 2"
+	            }));
+	        
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.World.All_World", false);
+			PlayerWorldChangeConfigE.getConfig().set("Execute-Command.World.Worlds", java.util.Arrays.asList(new String[] {
+	                "world",
+	                "world_nether"
+	            }));
+	        
+	        PlayerWorldChangeConfigE.saveConfigFile();
+		}
+		
+		if (!PlayerEventsConfig.getConfig().isSet("Items.Drop.WorldGuard.Enable")) {
+			
+			PlayerEventsConfig.getConfig().set("Items.Drop.WorldGuard.Enable", false);
+			PlayerEventsConfig.getConfig().set("Items.Drop.WorldGuard.Method", "WHITELIST");
+			PlayerEventsConfig.getConfig().set("Items.Drop.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
+			PlayerEventsConfig.getConfig().set("Items.PickUp.WorldGuard.Enable", false);
+			PlayerEventsConfig.getConfig().set("Items.PickUp.WorldGuard.Method", "WHITELIST");
+			PlayerEventsConfig.getConfig().set("Items.PickUp.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+            
+			PlayerEventsConfig.getConfig().set("Items.Move.WorldGuard.Enable", false);
+			PlayerEventsConfig.getConfig().set("Items.Move.WorldGuard.Method", "WHITELIST");
+			PlayerEventsConfig.getConfig().set("Items.Move.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
+                    "region1",
+                    "whatyouwant"
+                }));
+			
+			PlayerEventsConfig.saveConfigFile();
+		}
+		
+		if (!PlayerOptionMainConfig.getConfig().isSet("Options.Flying.Put-boots")) {
+			PlayerOptionMainConfig.getConfig().set("Options.Flying.Put-boots", true);
+			
+			PlayerOptionMainConfig.saveConfigFile();
+		}
+		
+		if (!TablistConfig.getConfig().isSet("Animations.Enable")) {
+			
+			TablistConfig.getConfig().set("Animations.Enable", true);
+			
+			TablistConfig.saveConfigFile();
+		}
+		
+		if (!TablistConfig.getConfig().isSet("Animations.Enable") && !TablistConfig.getConfig().isSet("Animations.separator.refresh-time-ticks")) {
+			TablistConfig.getConfig().set("Animations.Enable", true);
+			TablistConfig.getConfig().set("Animations.separator.refresh-time-ticks", 2);
+			TablistConfig.getConfig().set("Animations.separator.text", java.util.Arrays.asList(new String[] {
+        		"&e&l>> &8&m-------------------&r &e&l<<",
+        		"&7&l>&e&l> &8&m-------------------&r &e&l<&7&l<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&7&l>> &8&m-------------------&7 &7&l<<",
+        		"&e&l>&7&l> &8&m-------------------&7 &7&l<&e&l<",
+        		"&e&l>> &8&m-------------------&7 &e&l<<"
+        		}));
+        
+			TablistConfig.getConfig().set("Animations.hawntitle.refresh-time-ticks", 2);
+			TablistConfig.getConfig().set("Animations.hawntitle.text", java.util.Arrays.asList(new String[] {
+        		"&8&l> &7&lHawn&8&l <",
+        		"&8&l> &7&lHaw&8&l <",
+        		"&8&l> &7&lHa&8&l <",
+        		"&8&l> &7&lH&8&l <",
+        		"&8&l> &8&l <",
+        		"&8&l< &8&l >",
+        		"&8&l< &7&lH&8&l >",
+        		"&8&l< &7&lHa&8&l >",
+        		"&8&l< &7&lHaw&8&l >",
+        		"&8&l< &7&lHawn&8&l >",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&e&lHawn",
+        		"&e&lHawn",
+        		"&e&lHawn",
+        		"&e&lHawn",
+        		"&e&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn",
+        		"&7&lHawn"
+        		}));
+        
+			TablistConfig.getConfig().set("Animations.website.refresh-time-ticks", 60);
+			TablistConfig.getConfig().set("Animations.website.text", java.util.Arrays.asList(new String[] {
+        		"&7Discord&8: &eLink 1",
+        		"&7Shop&8: &eLink 2",
+        		"&7Website&8: &eLink 3"
+        		}));
+        
+			TablistConfig.getConfig().set("Animations.maininformations.refresh-time-ticks", 60);
+			TablistConfig.getConfig().set("Animations.maininformations.text", java.util.Arrays.asList(new String[] {
+        		"&7Time&8: &e%gettime%",
+        		"&e%player_x% %player_y% %player_z%"
+        		}));
+        
+        	TablistConfig.saveConfigFile();
+		}
+        
+		
+		if (!ServerListConfig.getConfig().isSet("Motd.Maintenance.Enable")) {
+			ServerListConfig.getConfig().set("Maintenance.Enable", false);
+			ServerListConfig.getConfig().set("Maintenance.Kick-Message", "&cThe multi line \n&bworks like that %player%");
+			ServerListConfig.getConfig().set("Maintenance.whitelist", java.util.Arrays.asList(new String[] {
+					"Dianox"
+			}));
+	            
+			ServerListConfig.getConfig().set("Motd.Maintenance.Enable", true);
+			ServerListConfig.getConfig().set("Motd.Maintenance.Line-1", "&cThe server is in maintenance");
+			ServerListConfig.getConfig().set("Motd.Maintenance.Line-2", "&bPlease come back later");
+			
+			OtherAMConfig.getConfig().set("Maintenance.On", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &aenabled&7 the maintenance"
+            		}));
+			OtherAMConfig.getConfig().set("Maintenance.Off", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7You &cdisabled&7 the maintenance"
+            		}));
+			
+			OtherAMConfig.getConfig().set("Maintenance.Broadcast.On", java.util.Arrays.asList(new String[] {
+                    " &4* &cThe maintenance is &eon&4 *"
+            		}));
+			OtherAMConfig.getConfig().set("Maintenance.Broadcast.Off", java.util.Arrays.asList(new String[] {
+            		" &4* &cThe maintenance is &eoff&4 *"
+            		}));
+			
+			OtherAMConfig.saveConfigFile();
+			ServerListConfig.saveConfigFile();
+		}
 		
 		if (!ConfigMCommands.getConfig().isSet("Spawn.List.Enable")) {
 			ConfigMCommands.getConfig().set("Spawn.List.Enable", true);
@@ -709,9 +955,9 @@ public class CheckConfig {
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
 			ConfigMPlayerOption.getConfig().set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is not enabled in this world"}));
 	        
-			BetweenServersConfig.getConfig().set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
+			PlayerOptionMainConfig.getConfig().set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
 			
-			BetweenServersConfig.saveConfigFile();
+			PlayerOptionMainConfig.saveConfigFile();
 	        ConfigMPlayerOption.saveConfigFile();   
 		}
 		
@@ -972,9 +1218,9 @@ public class CheckConfig {
 			ConfigGCos.saveConfigFile();
 		}
 		
-		if (!BetweenServersConfig.getConfig().isSet("Keep.PlayerVisibility-OnJoin.Enable")) {
-			BetweenServersConfig.getConfig().set("Keep.PlayerVisibility-OnJoin.Enable", false);
-			BetweenServersConfig.getConfig().set("Keep.Speed-OnJoin.Enable", false);
+		if (!PlayerOptionMainConfig.getConfig().isSet("Keep.PlayerVisibility-OnJoin.Enable")) {
+			PlayerOptionMainConfig.getConfig().set("Keep.PlayerVisibility-OnJoin.Enable", false);
+			PlayerOptionMainConfig.getConfig().set("Keep.Speed-OnJoin.Enable", false);
 			
 			SpecialCjiHidePlayers.getConfig().set("PV.Option.OnJoin-Priority-For-Player-Option", true);
 			
@@ -997,7 +1243,7 @@ public class CheckConfig {
             ScoreboardCommandConfig.saveConfigFile();
             ConfigMCommands.saveConfigFile();
 			SpecialCjiHidePlayers.saveConfigFile();
-			BetweenServersConfig.saveConfigFile();
+			PlayerOptionMainConfig.saveConfigFile();
 			ConfigGeneral.saveConfigFile();
 		}
 		
@@ -1213,10 +1459,10 @@ public class CheckConfig {
 		}
 		
 		// Between servers
-		if (!BetweenServersConfig.getConfig().isSet("TP.Last-Position-On-Join.Enable")) {
-			BetweenServersConfig.getConfig().set("TP.Last-Position-On-Join.Enable", false);
+		if (!PlayerOptionMainConfig.getConfig().isSet("TP.Last-Position-On-Join.Enable")) {
+			PlayerOptionMainConfig.getConfig().set("TP.Last-Position-On-Join.Enable", false);
 			
-			BetweenServersConfig.saveConfigFile();
+			PlayerOptionMainConfig.saveConfigFile();
 		}
 		
 		// General
@@ -1485,7 +1731,7 @@ public class CheckConfig {
                 OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Enable", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Use_Permission", true);
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Title", "&cStrong");
-	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", "SPLASH_POTION");
+	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Material", "POTION");
 	            OnChatConfig.getConfig().set("Chat-Emoji-Player.Emojis-list.Strong.Gui.Lore", java.util.Arrays.asList(new String[] {
 	                    " ",
 	                    "&bTo use this emoji : (9｀･ω･)9",
@@ -1774,10 +2020,10 @@ public class CheckConfig {
 			PlayerWorldChangeConfigE.saveConfigFile();
 		}
 		
-		if(!BetweenServersConfig.getConfig().isSet("Keep.Vanish-On-Join.Enable")) {
-			BetweenServersConfig.getConfig().set("Keep.Vanish-On-Join.Enable", true);
+		if(!PlayerOptionMainConfig.getConfig().isSet("Keep.Vanish-On-Join.Enable")) {
+			PlayerOptionMainConfig.getConfig().set("Keep.Vanish-On-Join.Enable", true);
 			
-			BetweenServersConfig.saveConfigFile();
+			PlayerOptionMainConfig.saveConfigFile();
 		}
 		
 	}
