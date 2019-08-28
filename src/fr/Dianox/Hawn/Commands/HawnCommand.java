@@ -18,6 +18,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.Dianox.Hawn.Main;
@@ -178,6 +179,25 @@ public class HawnCommand implements CommandExecutor {
 						
 						ServerListConfig.saveConfigFile();
 						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && !plugin.isEnabled()) {
+										Bukkit.getPluginManager().enablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
+						
 						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Off")) {
 							MessageUtils.ReplaceMessageForConsole(msg);
 						}
@@ -209,6 +229,25 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						Zip(false, null);
+						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && plugin.isEnabled()) {
+										Bukkit.getPluginManager().disablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
 						
 						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
 							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
@@ -595,6 +634,26 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						Zip(true, p);
+						
+						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+							
+							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+								
+								String check = plugin.getName();
+								
+								if (!plugincheck.contains(check)) {
+									if (plugin != null && plugin.isEnabled()) {
+										Bukkit.getPluginManager().disablePlugin(plugin);
+									}
+								}
+							}
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+						}
 						
 						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
 							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
