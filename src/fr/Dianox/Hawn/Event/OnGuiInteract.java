@@ -17,8 +17,10 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
+import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Tasks.TaskReloadServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskSavePlayerServer;
 import fr.Dianox.Hawn.Utility.Tasks.TaskShutdownServer;
@@ -233,6 +235,24 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
+                   
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
                     } else if (e.getCurrentItem().getType() == XMaterial.RED_WOOL.parseMaterial()) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
@@ -252,6 +272,24 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
+                        
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
                     } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
@@ -285,7 +323,25 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
-                    } else if (e.getCurrentItem().getDurability() == 14) {
+                    
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
+            		} else if (e.getCurrentItem().getDurability() == 14) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
                         if (inv.contains("CustomCommand")) {
@@ -304,7 +360,25 @@ public class OnGuiInteract implements Listener {
 						}
                         String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
-                    } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
+                    
+                        if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
+                        			for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        }
+            		} else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                     	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                     	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
