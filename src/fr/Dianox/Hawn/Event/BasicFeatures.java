@@ -19,6 +19,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.OtherUtils;
 import fr.Dianox.Hawn.Utility.SpawnUtils;
@@ -42,6 +43,7 @@ public class BasicFeatures implements Listener {
 
 	String path_wg = "";
 	public static List<String> world_voidtp = new ArrayList<String>();
+	public static List<Player> antispam = new ArrayList<Player>();;
 	
     // Can't change Game mode
     @EventHandler
@@ -113,10 +115,23 @@ public class BasicFeatures implements Listener {
                     if (VoidTPConfig.getConfig().getString("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Custom-Spawn.Spawn").contentEquals("CHANGE ME")) {
                         String Lineerror = "VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Custom-Spawn.Spawn";
                         String Fileerror = "Events/VoidTP.yml";
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
-                            }
+                        if (!antispam.contains(p)) {
+	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                            }
+	                            
+	                            antispam.add(p);
+	                            
+	                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+	        						@Override
+	        						public void run() {
+	        							antispam.remove(p);
+	        						}
+
+	        					}, 120);
+	                        }
                         }
 
                         return;
@@ -133,10 +148,23 @@ public class BasicFeatures implements Listener {
                         if (VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn").contentEquals("CHANGE ME")) {
                             String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                             String Fileerror = "Events/VoidTP.yml";
-                            if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                                for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
-                                }
+                            if (!antispam.contains(p)) {
+    	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+    	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+    	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+    	                            }
+    	                            
+    	                            antispam.add(p);
+    	                            
+    	                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+    	        						@Override
+    	        						public void run() {
+    	        							antispam.remove(p);
+    	        						}
+
+    	        					}, 120);
+    	                        }
                             }
 
                             return;
@@ -152,10 +180,23 @@ public class BasicFeatures implements Listener {
                         if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
                             String Lineerror = "Spawn.DefaultSpawn";
                             String Fileerror = "Events/OnJoin.yml";
-                            if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                                for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
-                                }
+                            if (!antispam.contains(p)) {
+    	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+    	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+    	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+    	                            }
+    	                            
+    	                            antispam.add(p);
+    	                            
+    	                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+    	        						@Override
+    	        						public void run() {
+    	        							antispam.remove(p);
+    	        						}
+
+    	        					}, 120);
+    	                        }
                             }
 
                             return;
@@ -176,10 +217,23 @@ public class BasicFeatures implements Listener {
                     if (VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn").contentEquals("CHANGE ME")) {
                         String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                         String Fileerror = "Events/VoidTP.yml";
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
-                            }
+                        if (!antispam.contains(p)) {
+	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                            }
+	                            
+	                            antispam.add(p);
+	                            
+	                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+	        						@Override
+	        						public void run() {
+	        							antispam.remove(p);
+	        						}
+
+	        					}, 120);
+	                        }
                         }
 
                         return;
@@ -195,10 +249,23 @@ public class BasicFeatures implements Listener {
                     if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
                         String Lineerror = "Spawn.DefaultSpawn";
                         String Fileerror = "Events/OnJoin.yml";
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
-                            }
+                        if (!antispam.contains(p)) {
+	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                            }
+	                            
+	                            antispam.add(p);
+	                            
+	                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+	        						@Override
+	        						public void run() {
+	        							antispam.remove(p);
+	        						}
+
+	        					}, 120);
+	                        }
                         }
 
                         return;
@@ -219,9 +286,22 @@ public class BasicFeatures implements Listener {
                 if (VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn").contentEquals("CHANGE ME")) {
                     String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                     String Fileerror = "Events/VoidTP.yml";
-                    if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                        for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                    if (!antispam.contains(p)) {
+                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                            }
+                            
+                            antispam.add(p);
+                            
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+        						@Override
+        						public void run() {
+        							antispam.remove(p);
+        						}
+
+        					}, 120);
                         }
                     }
 
@@ -238,9 +318,22 @@ public class BasicFeatures implements Listener {
                 if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
                     String Lineerror = "Spawn.DefaultSpawn";
                     String Fileerror = "Events/OnJoin.yml";
-                    if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                        for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                    if (!antispam.contains(p)) {
+                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
+                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
+                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                            }
+                            
+                            antispam.add(p);
+                            
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+        						@Override
+        						public void run() {
+        							antispam.remove(p);
+        						}
+
+        					}, 120);
                         }
                     }
 
