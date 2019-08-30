@@ -93,6 +93,7 @@ import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.AdminPanelCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -172,7 +173,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.1-Alpha";
+	private static String versions = "0.8.2-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	
@@ -247,6 +248,8 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
     public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
     public static Integer tablistnumber = 0;
+    
+    public static PluginChannelListener pcl;
     
     @SuppressWarnings("static-access")
 	@Override
@@ -406,6 +409,9 @@ public class Main extends JavaPlugin implements Listener {
 			GoTopCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Gotop", "Commands/Gotop.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Gotop.yml", "C-Gotop");
+			AdminPanelCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-AdminPanel", "Commands/AdminPanel.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/AdminPanel.yml", "C-AdminPanel");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -991,7 +997,15 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		new Manager(this).registerEvents();
-
+		
+		getServer().getMessenger().registerIncomingPluginChannel(this, "wdl:init", pcl = new PluginChannelListener());
+	    getServer().getMessenger().registerOutgoingPluginChannel(this, "wdl:control");
+	    
+	    try {
+	    	getServer().getMessenger().registerIncomingPluginChannel(this, "WDL|INIT", pcl = new PluginChannelListener());
+	        getServer().getMessenger().registerOutgoingPluginChannel(this, "WDL|CONTROL");
+	    } catch (Exception ex) {} 
+	    	    
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
@@ -1315,6 +1329,27 @@ public class Main extends JavaPlugin implements Listener {
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
 	    		interactables.add(XMaterial.OAK_DOOR.parseMaterial());
 	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR")) {
+	    		interactables.add(XMaterial.SPRUCE_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE")) {
+	    		interactables.add(XMaterial.SPRUCE_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
+	    		interactables.add(XMaterial.SPRUCE_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR")) {
+	    		interactables.add(XMaterial.BIRCH_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR")) {
+	    		interactables.add(XMaterial.JUNGLE_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR")) {
+	    		interactables.add(XMaterial.ACACIA_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR")) {
+	    		interactables.add(XMaterial.DARK_OAK_TRAPDOOR.parseMaterial());
+	    	}
 	    }
 	    
 	    /*
@@ -1347,7 +1382,7 @@ public class Main extends JavaPlugin implements Listener {
 			    autobroadcast_total--;
 	
 			    @SuppressWarnings("unused")
-				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval") * 20);
+				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval"));
 	    }
 
 	    // >> Titles
@@ -1369,7 +1404,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total_titles--;
 		    
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval") * 20);
+			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval"));
 	    }
 	    
 	    // >> Action-Bar
@@ -1391,7 +1426,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total_ab--;
 		    
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval") * 20);
+			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval"));
 	    }
 	    
 	    /*
@@ -1611,6 +1646,13 @@ public class Main extends JavaPlugin implements Listener {
 		for (Player p : Bukkit.getOnlinePlayers()) {
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
+		
+		getServer().getMessenger().unregisterIncomingPluginChannel(this, "wdl:init");
+	    getServer().getMessenger().unregisterOutgoingPluginChannel(this, "wdl:control");
+	    try {
+	      getServer().getMessenger().unregisterIncomingPluginChannel(this, "WDL|INIT");
+	      getServer().getMessenger().unregisterOutgoingPluginChannel(this, "WDL|CONTROL");
+	    } catch (Exception e) {}
 
 		gcs(ChatColor.RED+"Hawn - Good bye");
 	}
@@ -1728,7 +1770,24 @@ public class Main extends JavaPlugin implements Listener {
 	            
 	            String playerWorld = player.getWorld().getName();
 	            
-	            if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
+	            if (in.getEnabledWorlds() == null) {
+	            	if (player.hasPermission(s)) {
+	                    if (boards.containsKey(player)) {
+	                        if (boards.get(player).getList().equals(in.getText())) {
+	                            player.setScoreboard(boards.get(player).getBoard());
+	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                            return;
+	                        }
+	                        boards.get(player).createNew(in);
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                    } else {
+	                        new PlayerBoard(this, player, info.get(s));
+	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                    }
+	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+	                    return;
+	                }
+	            } else if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
 	                if (player.hasPermission(s)) {
 	                    if (boards.containsKey(player)) {
 	                        if (boards.get(player).getList().equals(in.getText())) {
@@ -1752,7 +1811,6 @@ public class Main extends JavaPlugin implements Listener {
 			if (board != null) {
 				board.remove();
 			}
-			
 		}
 	}
 
