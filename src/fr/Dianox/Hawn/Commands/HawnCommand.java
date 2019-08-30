@@ -24,6 +24,7 @@ import org.bukkit.scheduler.BukkitTask;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.BasicFeatures;
+import fr.Dianox.Hawn.Event.FunFeatures;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Utility.CheckConfig;
@@ -42,6 +43,7 @@ import fr.Dianox.Hawn.Utility.Config.ScoreboardMainConfig;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
 import fr.Dianox.Hawn.Utility.Config.WarpListConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ActionbarAnnouncerConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.AdminPanelCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.BroadCastCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearChatCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.ClearInvCommandConfig;
@@ -878,7 +880,7 @@ public class HawnCommand implements CommandExecutor {
 	
 	private void Zip(boolean b, Player p) {
 		
-		String pathname = Main.getInstance().getDataFolder().getAbsolutePath();
+		String pathname = new File(".").getAbsolutePath();
 		String zipFile = Main.getInstance().getDataFolder().getAbsolutePath() + "-save-1.zip";
 		
 		File directory = new File(pathname);
@@ -945,7 +947,10 @@ public class HawnCommand implements CommandExecutor {
         if (files != null && files.length > 0) {
             for (File file : files) {
                 if (file.isFile()) {
-                    fileList.add(file.getAbsolutePath());
+                	if (file.getAbsolutePath().contains("\\.\\cache\\")) continue;
+                	if (file.getAbsolutePath().contains("\\.\\dumps\\")) continue;
+                	
+                	fileList.add(file.getAbsolutePath());
                 } else {
                     getFileList(file);
                 }
@@ -1014,6 +1019,7 @@ public class HawnCommand implements CommandExecutor {
 		FeedCommandConfig.reloadConfig();
 		GoTopCommandConfig.reloadConfig();
 		ConfigCJIGeneral.reloadConfig();
+		AdminPanelCommandConfig.reloadConfig();
 	}
 	
 	public void reloadconfig() {
@@ -1259,7 +1265,30 @@ public class HawnCommand implements CommandExecutor {
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
 	    		Main.interactables.add(XMaterial.OAK_DOOR.parseMaterial());
 	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR")) {
+	    		Main.interactables.add(XMaterial.SPRUCE_DOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE")) {
+	    		Main.interactables.add(XMaterial.SPRUCE_FENCE_GATE.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.SPRUCE_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.BIRCH_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.JUNGLE_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.ACACIA_TRAPDOOR.parseMaterial());
+	    	}
+	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR")) {
+	    		Main.interactables.add(XMaterial.DARK_OAK_TRAPDOOR.parseMaterial());
+	    	}
 	    }
+		
+		FunFeatures.incooldownjumppads.clear();
 		
 		if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
 	    	Main.getInstance().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
