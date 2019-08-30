@@ -147,7 +147,7 @@ public class BroadCastCommand extends BukkitCommand {
 						while (check < partlenght) {
 							for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
 								Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", parts[check])));
-								MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", parts[check]), p);
+								MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", parts[check]));
 							}
 							
 							check++;
@@ -155,7 +155,7 @@ public class BroadCastCommand extends BukkitCommand {
 					} else {
 						for (String msg: ConfigMCommands.getConfig().getStringList("Broadcast")) {
 							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", msgbc)));
-							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", msgbc), p);
+							MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", msgbc));
 						}
 					}
 					
