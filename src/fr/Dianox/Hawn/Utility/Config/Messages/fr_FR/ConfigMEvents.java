@@ -56,6 +56,9 @@ public class ConfigMEvents {
             Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh non, vous avez essayé d'atteindre le vide"}));
             Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7a dit &e%message%"}));
             
+            Config.set("LaunchPad.Cant-Use-Cooldown.Enable", true);
+            Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Désolé, mais actuellement vous ne pouvez pas utiliser les launchpads"}));
+            
             Config.set("Cancel-Tp.Warp.Enable", true);
             Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &cdésactivé"}));
             Config.set("Cancel-Tp.Spawn.Enable", true);
