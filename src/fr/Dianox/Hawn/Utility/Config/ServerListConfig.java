@@ -79,6 +79,8 @@ public class ServerListConfig {
             		"Dianox"
             }));
             
+            Config.set("Anti-WDL.Kick-Message", "&cSorry you used A world downloader");
+            
             Config.set("Motd.Classic.Enable", true);
             Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
             Config.set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");

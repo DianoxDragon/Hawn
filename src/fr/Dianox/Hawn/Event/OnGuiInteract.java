@@ -18,6 +18,7 @@ import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
 import fr.Dianox.Hawn.Utility.Config.ConfigGeneral;
 import fr.Dianox.Hawn.Utility.Config.ServerListConfig;
+import fr.Dianox.Hawn.Utility.Config.Commands.AdminPanelCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
@@ -96,7 +97,7 @@ public class OnGuiInteract implements Listener {
             		BukkitTask task = new TaskSavePlayerServer(p).runTaskLater(Main.getInstance(), 5);
             	}
             } else if (e.getCurrentItem().getType() == XMaterial.EMERALD.parseMaterial()) {
-            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§eReload Hawn")) {
+            	if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Special.Item.Reload-Hawn.Name").replaceAll("&", "§"))) {
             		
             		BukkitTask task = Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
             			public void run() {
@@ -252,7 +253,24 @@ public class OnGuiInteract implements Listener {
     									.replaceAll("%arg1%", nameitem)
     									.replaceAll("%arg2%", cfinuse));
     						}
+                        } else if (AdminPanelCommandConfig.getConfig().getBoolean("General-Options.Warn-when-people-make-change")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.spy.adminpanel")) {
+                        			for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
                         }
+                        
                     } else if (e.getCurrentItem().getType() == XMaterial.RED_WOOL.parseMaterial()) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
@@ -285,6 +303,22 @@ public class OnGuiInteract implements Listener {
                         	}
                         	
                         	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        } else if (AdminPanelCommandConfig.getConfig().getBoolean("General-Options.Warn-when-people-make-change")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.spy.adminpanel")) {
+                        			for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
     							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
     									.replaceAll("%arg1%", nameitem)
     									.replaceAll("%arg2%", cfinuse));
@@ -340,6 +374,22 @@ public class OnGuiInteract implements Listener {
     									.replaceAll("%arg1%", nameitem)
     									.replaceAll("%arg2%", cfinuse));
     						}
+                        } else if (AdminPanelCommandConfig.getConfig().getBoolean("General-Options.Warn-when-people-make-change")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.spy.adminpanel")) {
+                        			for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
                         }
             		} else if (e.getCurrentItem().getDurability() == 14) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
@@ -373,6 +423,22 @@ public class OnGuiInteract implements Listener {
                         	}
                         	
                         	for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+    							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
+    									.replaceAll("%arg1%", nameitem)
+    									.replaceAll("%arg2%", cfinuse));
+    						}
+                        } else if (AdminPanelCommandConfig.getConfig().getBoolean("General-Options.Warn-when-people-make-change")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.spy.adminpanel")) {
+                        			for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
+            							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName())
+            									.replaceAll("%arg1%", nameitem)
+            									.replaceAll("%arg2%", cfinuse), all);
+            						}
+                        		}
+                        	}
+                        	
+                        	for (String msg: AdminPanelConfig.getConfig().getStringList("Warning.Hawn-Watch-Panel-Admin")) {
     							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName())
     									.replaceAll("%arg1%", nameitem)
     									.replaceAll("%arg2%", cfinuse));

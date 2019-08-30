@@ -56,7 +56,7 @@ public class VanishCommand extends BukkitCommand {
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {
-							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On-Others")) {
+							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
 								MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", "console"), all);
 							}
 						}
@@ -92,7 +92,7 @@ public class VanishCommand extends BukkitCommand {
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {
-							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
+							for (String s: OtherAMConfig.getConfig().getStringList("Vanish.Vanish-On-Others")) {
 								MessageUtils.ReplaceCharMessagePlayer(s.replaceAll("%target%", target.getName()).replaceAll("%player%", "console"), all);
 							}
 						}

@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.XMaterial;
+import fr.Dianox.Hawn.Utility.Config.Commands.AdminPanelCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.Administration.AdminPanelConfig;
 
@@ -54,6 +55,17 @@ public class PanelAdminCommand extends BukkitCommand {
             return true;
         }
 
+        List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
+		
+		if (!whitelistuse.contains(p.getName())) {
+			
+			for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Not-listed")) {
+				MessageUtils.ReplaceCharMessagePlayer(msg, p);
+			}
+			
+			return true;
+		}
+        
         if (args.length == 0) {
             Inventory inv = Bukkit.createInventory(null, 54, "§cAP");
             

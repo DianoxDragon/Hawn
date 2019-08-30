@@ -167,6 +167,15 @@ public class AdminPanelConfig {
             		"&cThe file is empty"
             		}));
             
+            Config.set("Error.Not-listed", java.util.Arrays.asList(new String[] {
+            		"%prefix% Sorry but you are not listed to use the command (configuration files)"
+            		}));
+            
+            Config.set("Warning.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
+            		"%prefix% &7A modification has been detected by &e%player%&7 on the admin panel",
+                    "%prefix% &e%arg1%&7 in the file&b %arg2%"
+            		}));
+            
             saveConfigFile();
 
         }

@@ -48,7 +48,7 @@ public class OnInventoryInteract implements Listener {
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 			
-			if (!ConfigCJIGeneral.getConfig().getBoolean("PlayerOption.World.All_World")) {
+			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
 				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 					return;
 				}
@@ -82,7 +82,7 @@ public class OnInventoryInteract implements Listener {
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 			
-			if (!ConfigCJIGeneral.getConfig().getBoolean("PlayerOption.World.All_World")) {
+			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
 				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 					return;
 				}
@@ -92,8 +92,29 @@ public class OnInventoryInteract implements Listener {
 				 return;
 			 }
 			
-			if (Main.HandMethod) {
-				if (es.equals(EquipmentSlot.HAND)) {
+			try {
+				if (Main.HandMethod) {
+					if (es.equals(EquipmentSlot.HAND)) {
+						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+							if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
+								e.setCancelled(true);
+								if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+									 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
+										 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
+											 oncommand(s, p);
+											 p.updateInventory();
+										 }
+									 }
+								} else {
+									for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
+										oncommand(s, p);
+										p.updateInventory();
+									}
+								}
+							}
+						}
+					}
+				} else {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
 							e.setCancelled(true);
@@ -113,26 +134,7 @@ public class OnInventoryInteract implements Listener {
 						}
 					}
 				}
-			} else {
-				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-					if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
-						e.setCancelled(true);
-						if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-							 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
-								 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-									 oncommand(s, p);
-									 p.updateInventory();
-								 }
-							 }
-						} else {
-							for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-								oncommand(s, p);
-								p.updateInventory();
-							}
-						}
-					}
-				}
-			}
+			} catch (Exception e2) {}
 		}
 	}
 	
@@ -173,10 +175,10 @@ public class OnInventoryInteract implements Listener {
 			 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 				 
 				 // world
-				 if (!ConfigCJIGeneral.getConfig().getBoolean("PlayerOption.World.All_World")) {
-					 if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-						 return;
-					 }
+				 if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+						if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
+							return;
+						}
 				 }
 				 
 				 if (!p.hasPermission("hawn.use.customjoinitem")) {

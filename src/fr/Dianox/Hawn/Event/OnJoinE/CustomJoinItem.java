@@ -35,7 +35,7 @@ public class CustomJoinItem {
 		}
 		
 		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("PlayerOption.World.All_World")) {
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
 			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 				return;
 			}

@@ -28,6 +28,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.FlyCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigFDoubleJump;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.Events.OtherFeaturesConfig;
+import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMEvents;
 import fr.Dianox.Hawn.Utility.World.CosmeticsPW;
 import fr.Dianox.Hawn.Utility.World.OtherFeaturesPW;
 import fr.Dianox.Hawn.Utility.World.PlayerEventsPW;
@@ -35,6 +36,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class FunFeatures implements Listener {
 	
+	public static List<Player> incooldownjumppads = new ArrayList<Player>();;
 	public static HashMap<Player, ItemStack> boots = new HashMap<Player, ItemStack>();
 	public static List<Player> player_list_dbenable = new ArrayList<Player>();
 	
@@ -331,6 +333,28 @@ public class FunFeatures implements Listener {
 				Material plate = XMaterial.matchXMaterial(ConfigGLP.getConfig().getString("JumpPads.Options.Plate")).parseMaterial();
 				
 				if ((p.getLocation().getBlock().getType() == plate) && (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() == block)) {
+					
+					if (incooldownjumppads.contains(p)) {
+						Main.injumpwithjumppad.add(p);
+						
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+							@Override
+							public void run() {
+								Main.injumpwithjumppad.remove(p);
+							}
+
+						}, 20);
+						
+						if (ConfigMEvents.getConfig().getBoolean("LaunchPad.Cant-Use-Cooldown.Enable")) {
+							for (String s: ConfigMEvents.getConfig().getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
+								MessageUtils.ReplaceCharMessagePlayer(s, p);
+							}
+						}
+						
+						return;
+					}
+					
 					double height = ConfigGLP.getConfig().getDouble("JumpPads.Options.Height");
 					double length = ConfigGLP.getConfig().getDouble("JumpPads.Options.Length");
 					p.setVelocity(p.getLocation().getDirection().multiply(length).setY(height));
@@ -371,6 +395,19 @@ public class FunFeatures implements Listener {
 						}
 
 					}, 20);
+					
+					if (ConfigGLP.getConfig().getBoolean("JumpPads.Cooldown.Enable")) {
+						incooldownjumppads.add(p);
+						
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+							@Override
+							public void run() {
+								incooldownjumppads.remove(p);
+							}
+
+						}, ConfigGLP.getConfig().getInt("JumpPads.Cooldown.Ticks"));
+					}
 				}
 			} catch (NoClassDefFoundError e) {
 				Bukkit.getConsoleSender().sendMessage("§cPLEASE RESTART THE SERVER");

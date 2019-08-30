@@ -108,12 +108,12 @@ public class ConfigGProtection {
             Config.set("Protection.PlayerInteractEntity-ItemFrame.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
-	    }));
+            }));
             
-	    Config.set("Protection.PlayerInteract-Items-Blocks.Enable", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Enable", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Bypass", true);
-		
-	    Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
+            
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.ANVIL", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.BEACON", true);
@@ -149,7 +149,14 @@ public class ConfigGProtection {
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON", true);
             Config.set("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR", true);
-		
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR", true);
+            Config.set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR", true);
+            
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Enable", false);
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
             Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
@@ -161,7 +168,7 @@ public class ConfigGProtection {
                     "world",
                     "world_nether"
             }));
-		
+            
             saveConfigFile();
 
         }

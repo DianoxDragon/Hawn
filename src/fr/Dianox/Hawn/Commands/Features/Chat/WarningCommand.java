@@ -115,7 +115,7 @@ public class WarningCommand extends BukkitCommand {
 		
 		for (String msg: ConfigMCommands.getConfig().getStringList("Warning")) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%broadcast%", msgbc)));
-			MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%broadcast%", msgbc), p);
+			MessageUtils.ReplaceCharBroadcastNoPlayer(msg.replaceAll("%broadcast%", msgbc));
 		}
 		
 		if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
