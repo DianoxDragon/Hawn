@@ -9,6 +9,7 @@ import fr.Dianox.Hawn.Utility.Config.ConfigSpawn;
 import fr.Dianox.Hawn.Utility.Config.Commands.SpawnCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
 import fr.Dianox.Hawn.Utility.Config.Messages.Administration.ErrorConfigAM;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.SpawnMConfig;
 
 public class DelSpawnCommand extends BukkitCommand {
 	
@@ -78,10 +79,10 @@ public class DelSpawnCommand extends BukkitCommand {
 			ConfigSpawn.getConfig().set("Coordinated."+args[0]+".Pitch", null);
 			ConfigSpawn.getConfig().set("Coordinated."+args[0]+".Info", null);
 			ConfigSpawn.getConfig().set("Coordinated."+args[0], null);
-                
+            
 			ConfigSpawn.saveConfigFile();
 			
-			for (String msg: ErrorConfigAM.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+			for (String msg: SpawnMConfig.getConfig().getStringList("Command.Del.Spawn-Delete")) {
 				MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%spawn%", args[0]), p);
 			}
 		} else {
