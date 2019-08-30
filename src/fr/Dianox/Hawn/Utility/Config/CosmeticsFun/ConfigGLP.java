@@ -75,6 +75,9 @@ public class ConfigGLP {
                     "%prefix% &eWhoosh!"
             }));
             
+            Config.set("JumpPads.Cooldown.Enable", true);
+            Config.set("JumpPads.Cooldown.Ticks", 60);
+            
             Config.set("JumpPads.World.All_World", false);
             Config.set("JumpPads.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
