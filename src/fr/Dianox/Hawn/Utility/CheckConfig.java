@@ -163,6 +163,58 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR", true);
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR", true);
+        
+        	ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE")) {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE", true);
+			
+			ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR")) {
+			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR", true);
+			
+			ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigMEvents.getConfig().isSet("LaunchPad.Cant-Use-Cooldown.Enable")) {
+			ConfigMEvents.getConfig().set("LaunchPad.Cant-Use-Cooldown.Enable", true);
+			ConfigMEvents.getConfig().set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Sorry but you can't use the launchpad for now"}));
+		
+			ConfigGLP.getConfig().set("JumpPads.Cooldown.Enable", true);
+			ConfigGLP.getConfig().set("JumpPads.Cooldown.Ticks", 60);
+			
+			ConfigGLP.saveConfigFile();
+            ConfigMEvents.saveConfigFile();
+		}
+		
+		if (!ServerListConfig.getConfig().isSet("Anti-WDL.Kick-Message")) {
+			ServerListConfig.getConfig().set("Anti-WDL.Kick-Message", "&cSorry you used A world downloader");
+			
+			ServerListConfig.saveConfigFile();
+		}
+		
+		if (!AdminPanelConfig.getConfig().isSet("Error.Not-listed")) {
+			AdminPanelConfig.getConfig().set("Error.Not-listed", java.util.Arrays.asList(new String[] {
+            		"%prefix% Sorry but you are not listed to use the command (configuration files)"
+            		}));
+			
+			AdminPanelConfig.getConfig().set("Warning.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
+            		"%prefix% &7A modification has been detected by &e%player%&7 on the admin panel",
+                    "%prefix% &e%arg1%&7 in the file&b %arg2%"
+            		}));
+			
+			AdminPanelConfig.saveConfigFile();
+		}
+		
 		if (!OtherAMConfig.getConfig().isSet("Urgent-mode.On")) {
 			OtherAMConfig.getConfig().set("Urgent-mode.On", java.util.Arrays.asList(new String[] {
                 "%prefix% &7You &aenabled&7 the urgent mode"
