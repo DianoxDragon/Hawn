@@ -51,7 +51,12 @@ public class MessageUtils {
         }
 
         if (str.contains("%timedelaypvcji%")) {
-            long secondsLeft = ((Long) Main.hiderCooldowns.get(p)).longValue() / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+        	long secondsLeft = 0;
+        	try {
+        		secondsLeft = ((Long) Main.hiderCooldowns.get(p)).longValue() / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+        	} catch (Exception e) {
+        		Bukkit.getConsoleSender().sendMessage("§cThe compass, well something does not work actually, please reload the server");
+        	}
             str = str.replaceAll("%timedelaypvcji%", String.valueOf(secondsLeft));
         }
 
@@ -121,6 +126,10 @@ public class MessageUtils {
 
         if (str.contains("%gettime%")) {
             str = str.replaceAll("%gettime%", OtherUtils.getTime());
+        }
+        
+        if (str.contains("%getdate%")) {
+            str = str.replaceAll("%getdate%", Main.date);
         }
 
         // Total player
@@ -311,6 +320,10 @@ public class MessageUtils {
 
         if (str.contains("%gettime%")) {
             str = str.replaceAll("%gettime%", OtherUtils.getTime());
+        }
+        
+        if (str.contains("%getdate%")) {
+            str = str.replaceAll("%getdate%", Main.date);
         }
 
         return str;
@@ -549,7 +562,7 @@ public class MessageUtils {
                 sendCenteredMessage(p, str);
                 return;
             }
-
+            
             p.sendMessage(str);
         }
     }
