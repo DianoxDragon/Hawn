@@ -178,6 +178,10 @@ public class OtherAMConfig {
                     "&ePlease, a restart is needed to avoid any problems"
             		}));
             
+            Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList(new String[] {
+                    "%prefix% &e%player% tried to do this command: &b%arg1%"
+            		}));
+            
             saveConfigFile();
 
         }
