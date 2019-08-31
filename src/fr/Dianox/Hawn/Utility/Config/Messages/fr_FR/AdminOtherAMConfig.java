@@ -176,6 +176,10 @@ public class AdminOtherAMConfig {
                     "&eS'il vous plaît, un redémarrage est nécessaire pour éviter tout problème"
             		}));
             
+            Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList(new String[] {
+                    "%prefix% &e%player%&7 a essayé d'utiliser la commande : &b%arg1%"
+            		}));
+            
             saveConfigFile();
 
         }
