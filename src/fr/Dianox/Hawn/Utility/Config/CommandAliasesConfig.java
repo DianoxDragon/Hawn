@@ -155,7 +155,7 @@ public class CommandAliasesConfig {
             
             Config.set("SetSpawn.Enable", true);
             Config.set("SetSpawn.Cannot-Be-changed.Main-Command-Is", "setspawn");
-            Config.set("SetSpawn.Aliases", java.util.Arrays.asList(new String[] {}));
+            Config.set("SetSpawn.Aliases", java.util.Arrays.asList(new String[] {"setlobby", "sethub"}));
             
             Config.set("Spawn.Enable", true);
             Config.set("Spawn.Cannot-Be-changed.Main-Command-Is", "spawn");
