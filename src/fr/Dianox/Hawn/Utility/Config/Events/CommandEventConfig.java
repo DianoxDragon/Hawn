@@ -58,6 +58,8 @@ public class CommandEventConfig {
             Config.set("Block-Commands.Bypass", true);
             Config.set("Block-Commands.Message-Enable", true);
             Config.set("Block-Commands.Message", java.util.Arrays.asList(new String[] {"&cSorry... But ! You're noob"}));
+            Config.set("Block-Commands.Options.Face-Guardian-1-13-1-14", true);
+            Config.set("Block-Commands.Options.Notify-Staff", true);
             Config.set("Block-Commands.List", java.util.Arrays.asList(new String[] {
                     "/pl",
                     "/plugins",

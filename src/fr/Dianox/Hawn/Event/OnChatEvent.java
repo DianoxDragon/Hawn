@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -153,8 +152,38 @@ public class OnChatEvent implements Listener {
         }
 
         if (OnChatConfig.getConfig().getBoolean("Chat-Color-Player.Enable")) {
-            if (p.hasPermission("hawn.use.chatcolor.chat")) {
-                original = ChatColor.translateAlternateColorCodes('&', original);
+            if (p.hasPermission("hawn.use.chatcolor.chat.basic.light")) {
+                original = original.replaceAll("&c", "§c");
+                original = original.replaceAll("&e", "§e");
+                original = original.replaceAll("&a", "§a");
+                original = original.replaceAll("&b", "§b");
+                original = original.replaceAll("&3", "§3");
+                original = original.replaceAll("&d", "§d");
+                original = original.replaceAll("&f", "§f");
+                original = original.replaceAll("&7", "§7");
+            }
+            
+            if (p.hasPermission("hawn.use.chatcolor.chat.basic.dark")) {
+            	original = original.replaceAll("&4", "§4");
+            	original = original.replaceAll("&6", "§6");
+            	original = original.replaceAll("&2", "§2");
+            	original = original.replaceAll("&1", "§1");
+            	original = original.replaceAll("&9", "§9");
+            	original = original.replaceAll("&5", "§5");
+            	original = original.replaceAll("&8", "§8");
+            	original = original.replaceAll("&0", "§0");
+            }
+            
+            if (p.hasPermission("hawn.use.chatcolor.chat.special.format")) {
+            	original = original.replaceAll("&l", "§l");
+            	original = original.replaceAll("&m", "§m");
+            	original = original.replaceAll("&n", "§n");
+            	original = original.replaceAll("&o", "§o");
+            	original = original.replaceAll("&r", "§r");
+            }
+            
+            if (p.hasPermission("hawn.use.chatcolor.chat.special.magic")) {
+            	original = original.replaceAll("&k", "§k");
             }
         }
 

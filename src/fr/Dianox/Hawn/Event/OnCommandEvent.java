@@ -1,10 +1,13 @@
 package fr.Dianox.Hawn.Event;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +15,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.Warp.WarpCommand;
 import fr.Dianox.Hawn.Utility.ActionBar;
 import fr.Dianox.Hawn.Utility.Bungee;
@@ -24,9 +28,12 @@ import fr.Dianox.Hawn.Utility.Config.CustomCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.HelpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 
 public class OnCommandEvent implements Listener {
 
+	public static List<String> cooldowncommands = new ArrayList<String>();
+	
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onBlockCommand(PlayerCommandPreprocessEvent e) {
@@ -45,6 +52,24 @@ public class OnCommandEvent implements Listener {
                     for (String i: CommandEventConfig.getConfig().getStringList("Block-Commands.List")) {
                         if (e.getMessage().equalsIgnoreCase(i)) {
                             e.setCancelled(true);
+                            
+                            if (Main.MaterialMethod.contains("true")) {
+                            	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
+                            		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
+                            		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
+                            	}
+                            }
+                            
+                            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
+                            	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                            		if (all.hasPermission("hawn.notify.staff.commandblocker")) {
+                            			for (String str: OtherAMConfig.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
+                            				MessageUtils.ReplaceCharMessagePlayer(str.replaceAll("%player%", p.getName()).replaceAll("%arg1%", e.getMessage()), p);
+                            			}
+                            		}
+                            	}
+                            }
+                            
                             if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Message-Enable")) {
                                 for (String msg: CommandEventConfig.getConfig().getStringList("Block-Commands.Message")) {
                                     MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -57,6 +82,24 @@ public class OnCommandEvent implements Listener {
                 for (String i: CommandEventConfig.getConfig().getStringList("Block-Commands.List")) {
                     if (e.getMessage().equalsIgnoreCase(i)) {
                         e.setCancelled(true);
+                        
+                        if (Main.MaterialMethod.contains("true")) {
+                        	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
+                        		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
+                        		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
+                        	}
+                        }
+                        
+                        if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
+                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                        		if (all.hasPermission("hawn.notify.staff.commandblocker")) {
+                        			for (String str: OtherAMConfig.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
+                        				MessageUtils.ReplaceCharMessagePlayer(str.replaceAll("%player%", p.getName()).replaceAll("%arg1%", e.getMessage()), all);
+                        			}
+                        		}
+                        	}
+                        }
+                        
                         if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Message-Enable")) {
                             for (String msg: CommandEventConfig.getConfig().getStringList("Block-Commands.Message")) {
                                 MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -76,18 +119,45 @@ public class OnCommandEvent implements Listener {
                 if (e.getMessage().equalsIgnoreCase(CustomCommandConfig.getConfig().getString("commands." + string + ".command"))) {
                     if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".enable")) {
 
-                        if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".permission.enable")) {
-                            if (!p.hasPermission(CustomCommandConfig.getConfig().getString("commands." + string + ".permission.message"))) {
-                                if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".no-permission-message-enable")) {
-                                    String Permission = String.valueOf(CustomCommandConfig.getConfig().getString("commands." + string + ".permission.message"));
-                                    MessageUtils.MessageNoPermission(p, Permission);
-                                }
+                    	if (CustomCommandConfig.getConfig().isSet("commands." + string + ".permission.enable")) {
+	                        if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".permission.enable")) {
+	                            if (!p.hasPermission(CustomCommandConfig.getConfig().getString("commands." + string + ".permission.message"))) {
+	                                if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".no-permission-message-enable")) {
+	                                    String Permission = String.valueOf(CustomCommandConfig.getConfig().getString("commands." + string + ".permission.message"));
+	                                    MessageUtils.MessageNoPermission(p, Permission);
+	                                }
+	
+	                                e.setCancelled(true);
+	                                return;
+	                            }
+	                        }
+                    	}
 
-                                e.setCancelled(true);
-                                return;
-                            }
+                        if (CustomCommandConfig.getConfig().isSet("commands." + string + ".Cooldown.enable")) {
+                        	if (CustomCommandConfig.getConfig().getBoolean("commands." + string + ".Cooldown.enable")) {
+                        		if (cooldowncommands.contains(p.getName() + string)) {
+                        			
+                        			for (String str: CustomCommandConfig.getConfig().getStringList("commands." + string + ".Cooldown.messages")) {
+                        				MessageUtils.ReplaceCharMessagePlayer(str, p);
+                        			}
+                        			
+                        			e.setCancelled(true);
+                        			return;
+                        		} else {
+                        			cooldowncommands.add(p.getName() + string);
+                        			
+                        			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+    									@Override
+    									public void run() {
+    										cooldowncommands.remove(p.getName() + string);
+    									}
+
+    								}, CustomCommandConfig.getConfig().getInt("commands." + string + ".Cooldown.Ticks"));
+                        		}
+                        	}
                         }
-
+                        
                         for (String msg: CustomCommandConfig.getConfig().getStringList("commands." + string + ".message")) {
 
                             String perm = "";
@@ -250,17 +320,43 @@ public class OnCommandEvent implements Listener {
     public static void executecustomcommand(String cmd, Player p) {
         if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".enable")) {
 
-            if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".permission.enable")) {
-                if (!p.hasPermission(CustomCommandConfig.getConfig().getString("commands." + cmd + ".permission.message"))) {
-                    if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".no-permission-message-enable")) {
-                        String Permission = String.valueOf(CustomCommandConfig.getConfig().getString("commands." + cmd + ".permission.message"));
-                        MessageUtils.MessageNoPermission(p, Permission);
-                    }
+        	if (CustomCommandConfig.getConfig().isSet("commands." + cmd + ".permission.enable")) {
+	            if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".permission.enable")) {
+	                if (!p.hasPermission(CustomCommandConfig.getConfig().getString("commands." + cmd + ".permission.message"))) {
+	                    if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".no-permission-message-enable")) {
+	                        String Permission = String.valueOf(CustomCommandConfig.getConfig().getString("commands." + cmd + ".permission.message"));
+	                        MessageUtils.MessageNoPermission(p, Permission);
+	                    }
+	
+	                    return;
+	                }
+	            }
+        	}
 
-                    return;
-                }
+        	if (CustomCommandConfig.getConfig().isSet("commands." + cmd + ".Cooldown.enable")) {
+            	if (CustomCommandConfig.getConfig().getBoolean("commands." + cmd + ".Cooldown.enable")) {
+            		if (cooldowncommands.contains(p.getName() + cmd)) {
+            			
+            			for (String str: CustomCommandConfig.getConfig().getStringList("commands." + cmd + ".Cooldown.messages")) {
+            				MessageUtils.ReplaceCharMessagePlayer(str, p);
+            			}
+            			
+            			return;
+            		} else {
+            			cooldowncommands.add(p.getName() + cmd);
+            			
+            			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+
+							@Override
+							public void run() {
+								cooldowncommands.remove(p.getName() + cmd);
+							}
+
+						}, CustomCommandConfig.getConfig().getInt("commands." + cmd + ".Cooldown.Ticks"));
+            		}
+            	}
             }
-
+        	
             for (String msg: CustomCommandConfig.getConfig().getStringList("commands." + cmd + ".message")) {
 
                 String perm = "";

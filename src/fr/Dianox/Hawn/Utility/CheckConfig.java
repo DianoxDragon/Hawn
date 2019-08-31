@@ -34,6 +34,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
+import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
 import fr.Dianox.Hawn.Utility.Config.Events.OnChatConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.OnJoinConfig;
@@ -162,6 +163,23 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!CommandEventConfig.getConfig().isSet("Block-Commands.Options.Notify-Staff")) {
+			CommandEventConfig.getConfig().set("Block-Commands.Options.Notify-Staff", true);
+			 
+			OtherAMConfig.getConfig().set("Command-Blocker.Notify-Staff", java.util.Arrays.asList(new String[] {
+                    "%prefix% &e%player% tried to do this command: &b%arg1%"
+            		}));
+			
+			OtherAMConfig.saveConfigFile();
+			CommandEventConfig.saveConfigFile();
+		}
+		
+		if (!CommandEventConfig.getConfig().isSet("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
+			CommandEventConfig.getConfig().set("Block-Commands.Options.Face-Guardian-1-13-1-14", true);
+			
+			CommandEventConfig.saveConfigFile();
+		}
 		
 		if (!ConfigGProtection.getConfig().isSet("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
 			ConfigGProtection.getConfig().set("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR", true);

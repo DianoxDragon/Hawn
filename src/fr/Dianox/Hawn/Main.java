@@ -72,6 +72,7 @@ import fr.Dianox.Hawn.Event.AutoBroadcast_AB;
 import fr.Dianox.Hawn.Event.AutoBroadcast_Title;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
+import fr.Dianox.Hawn.Event.OnCommandEvent;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Event.World.AlwaysDayTask;
@@ -173,9 +174,10 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.2-Alpha";
+	private static String versions = "0.8.3-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
+	public static String date = "";
 	
 	public static String LanguageType = "en_US";
 	
@@ -1482,6 +1484,7 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 
 	    indj.clear();
+	    OnCommandEvent.cooldowncommands.clear();
 	    
 	    // Tablist
 	    if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
@@ -1537,6 +1540,17 @@ public class Main extends JavaPlugin implements Listener {
 
 	    }.runTaskTimer(this, 0, 60);
 
+	    date = OtherUtils.getDate();
+	    
+	    new BukkitRunnable() {
+
+	    	@Override
+			public void run() {
+	    		date = OtherUtils.getDate();	    		
+	    	}
+
+	    }.runTaskTimer(this, 0, 600);
+	    
 	    injumpwithjumppad.clear();
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Day.Enable")) {
