@@ -35,11 +35,88 @@ public class FlyCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
+			
+			if (args.length == 0) {
+				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
 					MessageUtils.ReplaceMessageForConsole(msg);
+            	}
+                return true;
+			}
+			
+			Player target = Bukkit.getServer().getPlayer(args[0]);
+			
+			if (target == null) {
+				if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+					for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg);
+					}
+				}
+        		return true;
+			}
+			
+			if (target.getAllowFlight() && (player_list_flyc.contains(target) || ConfigPlayerGet.getFile(target.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
+				target.setAllowFlight(false);
+				target.setFlying(false);
+				player_list_flyc.remove(target);
+				PlayerOptionSQLClass.SaveSQLPOFly(target, "FALSE");
+				if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+		        	if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
+		        		if (PlayerEventsPW.getWFDoubleJump().contains(target.getWorld().getName())) {
+		        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+		        				if (target.hasPermission("hawn.fun.doublejump.double")) {
+		        					target.setAllowFlight(true);
+		        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+		        				} else {
+		        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
+		        				}
+		        			} else {
+		        				target.setAllowFlight(true);
+		        				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+		        			}
+		        		}
+		        	} else {
+		        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
+		    				if (target.hasPermission("hawn.fun.doublejump.double")) {
+		    					target.setAllowFlight(true);
+		    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+		    				} else {
+		    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
+		    				}
+		    			} else {
+		    				target.setAllowFlight(true);
+		    				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
+		    			}
+		        	} 	
+		        }
+				
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Disable-Other.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Disable-Other.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+					}
+				}
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Disable-Other-Executor.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Disable-Other-Executor.Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+					}
+				}
+			} else {
+				target.setAllowFlight(true);
+				target.setFlying(true);
+				player_list_flyc.add(target);
+				PlayerOptionSQLClass.SaveSQLPOFly(target, "TRUE");
+				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Enable-Other.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable-Other.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", "console"), target);
+					}
+				}
+				if (ConfigMCommands.getConfig().getBoolean("Fly.Enable-Other-Executor.Enable")) {
+					for (String msg: ConfigMCommands.getConfig().getStringList("Fly.Enable-Other-Executor.Messages")) {
+						MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
+					}
 				}
 			}
+			
 			return true;
 		}
 		
