@@ -56,6 +56,19 @@ public class GamemodeCommandConfig {
 
             Config.set("Gamemode.Enable", true);
             Config.set("Gamemode.Disable-Message", true);
+            
+            Config.set("Gamemode.Options.Quick-Mode-Change.Enable", true);
+            Config.set("Gamemode.Options.Quick-Mode-Change.Default-Mode", 0);
+            Config.set("Gamemode.Options.Quick-Mode-Change.Mode1", 0);
+            Config.set("Gamemode.Options.Quick-Mode-Change.Mode2", 1);
+            
+            Config.set("Gamemode.Options.Hawn-Build-Mode.Enable", false);
+            Config.set("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too", true);
+            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0", false);
+            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1", true);
+            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2", false);
+            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3", false);
+            
             Config.set("Gamemode.DISABLE_THE_COMMAND_COMPLETELY", false);
             
             Config.set("gms.Enable", true);
