@@ -152,39 +152,235 @@ public class OnChatEvent implements Listener {
         }
 
         if (OnChatConfig.getConfig().getBoolean("Chat-Color-Player.Enable")) {
-            if (p.hasPermission("hawn.use.chatcolor.chat.basic.light")) {
-                original = original.replaceAll("&c", "§c");
-                original = original.replaceAll("&e", "§e");
-                original = original.replaceAll("&a", "§a");
-                original = original.replaceAll("&b", "§b");
-                original = original.replaceAll("&3", "§3");
-                original = original.replaceAll("&d", "§d");
-                original = original.replaceAll("&f", "§f");
-                original = original.replaceAll("&7", "§7");
-            }
-            
-            if (p.hasPermission("hawn.use.chatcolor.chat.basic.dark")) {
-            	original = original.replaceAll("&4", "§4");
-            	original = original.replaceAll("&6", "§6");
-            	original = original.replaceAll("&2", "§2");
-            	original = original.replaceAll("&1", "§1");
-            	original = original.replaceAll("&9", "§9");
-            	original = original.replaceAll("&5", "§5");
-            	original = original.replaceAll("&8", "§8");
-            	original = original.replaceAll("&0", "§0");
-            }
-            
-            if (p.hasPermission("hawn.use.chatcolor.chat.special.format")) {
-            	original = original.replaceAll("&l", "§l");
-            	original = original.replaceAll("&m", "§m");
-            	original = original.replaceAll("&n", "§n");
-            	original = original.replaceAll("&o", "§o");
-            	original = original.replaceAll("&r", "§r");
-            }
-            
-            if (p.hasPermission("hawn.use.chatcolor.chat.special.magic")) {
-            	original = original.replaceAll("&k", "§k");
-            }
+        	 if (OnChatConfig.getConfig().getBoolean("Chat-Color-Player.Per-Color-Permission")) {
+        		 if (original.contains("&c")) {
+        			 if (p.hasPermission("hawn.use.chatcolor.chat.code.c")) {
+        				 original = original.replaceAll("&c", "§c");
+        			 }
+        		 }
+              	
+              	if (original.contains("&e")) {
+              		 if (p.hasPermission("hawn.use.chatcolor.chat.code.e")) {
+              			 original = original.replaceAll("&e", "§e");
+              		 }
+              	}
+              	
+              	if (original.contains("&a")) {
+              		 if (p.hasPermission("hawn.use.chatcolor.chat.code.a")) {
+              			 original = original.replaceAll("&a", "§a");
+              		 }
+              	}
+              	
+              	if (original.contains("&b")) {
+              		 if (p.hasPermission("hawn.use.chatcolor.chat.code.b")) {
+              			 original = original.replaceAll("&b", "§b");
+              		 }
+              	}
+              	
+              	if (original.contains("&3")) {
+              		if (p.hasPermission("hawn.use.chatcolor.chat.code.3")) {
+              			original = original.replaceAll("&3", "§3");
+              		}
+              	}
+              	
+              	if (original.contains("&d")) {
+              		if (p.hasPermission("hawn.use.chatcolor.chat.code.d")) {
+              			original = original.replaceAll("&d", "§d");
+              		}
+              	}
+              	
+              	if (original.contains("&f")) {
+              		if (p.hasPermission("hawn.use.chatcolor.chat.code.f")) {
+              			original = original.replaceAll("&f", "§f");
+              		}
+              	}
+              	
+              	if (original.contains("&7")) {
+              		if (p.hasPermission("hawn.use.chatcolor.chat.code.7")) {
+              			original = original.replaceAll("&7", "§7");
+              		}
+              	}
+              	
+              	if (original.contains("&4")) {
+              		if (p.hasPermission("hawn.use.chatcolor.chat.code.4")) {
+              			original = original.replaceAll("&4", "§4");
+              		}
+             	}
+             	
+             	if (original.contains("&6")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.6")) {
+             			original = original.replaceAll("&6", "§6");
+             		}
+             	}
+             	
+             	if (original.contains("&2")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.2")) {
+             			original = original.replaceAll("&2", "§2");
+             		}
+             	}
+             	
+             	if (original.contains("&1")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.1")) {
+             			original = original.replaceAll("&1", "§1");
+             		}
+             	}
+             	
+             	if (original.contains("&9")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.9")) {
+             			original = original.replaceAll("&9", "§9");
+             		}
+             	}
+             	
+             	if (original.contains("&5")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.5")) {
+             			original = original.replaceAll("&5", "§5");
+             		}
+             	}
+             	
+             	if (original.contains("&8")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.8")) {
+             			original = original.replaceAll("&8", "§8");
+             		}
+             	}
+             	
+             	if (original.contains("&0")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.0")) {
+             			original = original.replaceAll("&0", "§0");
+             		}
+             	}
+             	
+             	if (original.contains("&c")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.l")) {
+             			original = original.replaceAll("&l", "§l");
+             		}
+             	}
+             	
+             	if (original.contains("&m")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.m")) {
+             			original = original.replaceAll("&m", "§m");
+             		}
+             	}
+             	
+             	if (original.contains("&n")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.n")) {
+             			original = original.replaceAll("&n", "§n");
+             		}
+             	}
+             	
+             	if (original.contains("&o")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.o")) {
+             			original = original.replaceAll("&o", "§o");
+             		}
+             	}
+             	
+             	if (original.contains("&r")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.r")) {
+             			original = original.replaceAll("&r", "§r");
+             		}
+             	}
+             	
+             	if (original.contains("&k")) {
+             		if (p.hasPermission("hawn.use.chatcolor.chat.code.k")) {
+             			original = original.replaceAll("&k", "§k");
+             		}
+             	}
+        	 } else {
+        		 if (p.hasPermission("hawn.use.chatcolor.chat.basic.light")) {
+                 	if (original.contains("&c")) {
+                 		original = original.replaceAll("&c", "§c");
+                 	}
+                 	
+                 	if (original.contains("&e")) {
+                 		original = original.replaceAll("&e", "§e");
+                 	}
+                 	
+                 	if (original.contains("&a")) {
+                 		original = original.replaceAll("&a", "§a");
+                 	}
+                 	
+                 	if (original.contains("&b")) {
+                 		original = original.replaceAll("&b", "§b");
+                 	}
+                 	
+                 	if (original.contains("&b")) {
+                 		original = original.replaceAll("&3", "§3");
+                 	}
+                 	
+                 	if (original.contains("&d")) {
+                 		original = original.replaceAll("&d", "§d");
+                 	}
+                 	
+                 	if (original.contains("&f")) {
+                 		original = original.replaceAll("&f", "§f");
+                 	}
+                 	
+                 	if (original.contains("&7")) {
+                 		original = original.replaceAll("&7", "§7");
+                 	}
+                 }
+        		 
+        		 if (p.hasPermission("hawn.use.chatcolor.chat.basic.dark")) {
+                 	if (original.contains("&4")) {
+                 		original = original.replaceAll("&4", "§4");
+                 	}
+                 	
+                 	if (original.contains("&6")) {
+                 		original = original.replaceAll("&6", "§6");
+                 	}
+                 	
+                 	if (original.contains("&2")) {
+                 		original = original.replaceAll("&2", "§2");
+                 	}
+                 	
+                 	if (original.contains("&1")) {
+                 		original = original.replaceAll("&1", "§1");
+                 	}
+                 	
+                 	if (original.contains("&9")) {
+                 		original = original.replaceAll("&9", "§9");
+                 	}
+                 	
+                 	if (original.contains("&5")) {
+                 		original = original.replaceAll("&5", "§5");
+                 	}
+                 	
+                 	if (original.contains("&8")) {
+                 		original = original.replaceAll("&8", "§8");
+                 	}
+                 	
+                 	if (original.contains("&0")) {
+                 		original = original.replaceAll("&0", "§0");
+                 	}
+                 }
+        		 
+        		 if (p.hasPermission("hawn.use.chatcolor.chat.special.format")) {
+                 	if (original.contains("&c")) {
+                 		original = original.replaceAll("&l", "§l");
+                 	}
+                 	
+                 	if (original.contains("&m")) {
+                 		original = original.replaceAll("&m", "§m");
+                 	}
+                 	
+                 	if (original.contains("&n")) {
+                 		original = original.replaceAll("&n", "§n");
+                 	}
+                 	
+                 	if (original.contains("&o")) {
+                 		original = original.replaceAll("&o", "§o");
+                 	}
+                 	
+                 	if (original.contains("&r")) {
+                 		original = original.replaceAll("&r", "§r");
+                 	}
+                 }
+                 
+                 if (p.hasPermission("hawn.use.chatcolor.chat.special.magic")) {
+                 	if (original.contains("&k")) {
+                 		original = original.replaceAll("&k", "§k");
+                 	}
+                 }
+        	 }
         }
 
         if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Enable")) {
