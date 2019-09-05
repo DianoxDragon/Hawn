@@ -54,6 +54,7 @@ public class HealCommandConfig {
             } catch (IOException e) {}
             
             Config.set("Heal.Enable", true);
+            Config.set("Heal.Option.Feed", true);
             Config.set("Heal.Others.Enable", false);
             Config.set("Heal.Disable-Message", true);
             Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
