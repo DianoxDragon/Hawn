@@ -6,9 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Utility.MessageUtils;
 import fr.Dianox.Hawn.Utility.Config.Commands.GamemodeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMOStuff;
+import fr.Dianox.Hawn.Utility.Config.Messages.Administration.OtherAMConfig;
 import fr.Dianox.Hawn.Utility.Config.Messages.ConfigMCommands;
 
 public class ClassicGMCommand extends BukkitCommand {
@@ -67,6 +69,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						return true;
 					}
 					
+					if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+						if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+								if (!Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.add(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							} else {
+								if (Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.remove(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							}
+						}
+					}
+					
 					target.setGameMode(GameMode.SURVIVAL);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_survival+"Enable")) {
@@ -90,6 +114,28 @@ public class ClassicGMCommand extends BukkitCommand {
 							}
 						}
 						return true;
+					}
+					
+					if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+						if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+								if (!Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.add(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							} else {
+								if (Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.remove(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							}
+						}
 					}
 					
 					target.setGameMode(GameMode.CREATIVE);
@@ -116,6 +162,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						return true;
 					}
 					
+					if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+						if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+								if (!Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.add(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							} else {
+								if (Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.remove(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							}
+						}
+					}
+					
 					target.setGameMode(GameMode.ADVENTURE);
 					
 					if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure+"Enable")) {
@@ -138,6 +206,28 @@ public class ClassicGMCommand extends BukkitCommand {
 							}
 						}
 						return true;
+					}
+					
+					if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+						if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+								if (!Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.add(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							} else {
+								if (Main.buildbypasscommand.contains(target)) {
+									Main.buildbypasscommand.remove(target);
+									
+									for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, target);
+									}
+								}
+							}
+						}
 					}
 					
 					target.setGameMode(GameMode.SPECTATOR);
@@ -184,7 +274,492 @@ public class ClassicGMCommand extends BukkitCommand {
 		// The command
 		if (args.length == 0) {
 			// If no argument has been put in the command
-			if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+			if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Quick-Mode-Change.Enable")) {
+				if (p.hasPermission("hawn.command.gamemode.quickgm")) {
+					Integer mode1 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode1");
+					Integer mode2 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode2");
+					Integer modepriority = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Default-Mode");
+					
+					Integer finalmode = 0;
+					
+					if (p.getGameMode() == GameMode.SURVIVAL) {
+						finalmode = 0;
+					} else if (p.getGameMode() == GameMode.CREATIVE) {
+						finalmode = 1;
+					} else if (p.getGameMode() == GameMode.ADVENTURE) {
+						finalmode = 2;
+					} else if (p.getGameMode() == GameMode.SPECTATOR) {
+						finalmode = 3;
+					}
+					
+					if (finalmode == mode1) {
+						if (mode2 == 0) {
+							if (p.getGameMode() == GameMode.SURVIVAL) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SURVIVAL);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_survival+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_survival+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode2 == 1) {
+							if (p.getGameMode() == GameMode.CREATIVE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.CREATIVE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_creative+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_creative+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode2 == 2) {
+							if (p.getGameMode() == GameMode.ADVENTURE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.ADVENTURE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode2 == 3) {
+							if (p.getGameMode() == GameMode.SPECTATOR) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SPECTATOR);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_spectator+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_spectator+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					} else if (finalmode == mode2) {
+						if (mode1 == 0) {
+							if (p.getGameMode() == GameMode.SURVIVAL) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SURVIVAL);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_survival+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_survival+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode1 == 1) {
+							if (p.getGameMode() == GameMode.CREATIVE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.CREATIVE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_creative+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_creative+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode1 == 2) {
+							if (p.getGameMode() == GameMode.ADVENTURE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.ADVENTURE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (mode1 == 3) {
+							if (p.getGameMode() == GameMode.SPECTATOR) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SPECTATOR);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_spectator+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_spectator+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					} else {
+						if (modepriority == 0) {
+							if (p.getGameMode() == GameMode.SURVIVAL) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SURVIVAL);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_survival+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_survival+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (modepriority == 1) {
+							if (p.getGameMode() == GameMode.CREATIVE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.CREATIVE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_creative+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_creative+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (modepriority == 2) {
+							if (p.getGameMode() == GameMode.ADVENTURE) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.ADVENTURE);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else if (modepriority == 3) {
+							if (p.getGameMode() == GameMode.SPECTATOR) {
+								if (ConfigMCommands.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
+									for (String msg: ConfigMCommands.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+										MessageUtils.ReplaceCharMessagePlayer(msg, p);
+									}
+								}
+								return true;
+							}
+							
+							if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+								if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+									if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+										if (!Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.add(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									} else {
+										if (Main.buildbypasscommand.contains(p)) {
+											Main.buildbypasscommand.remove(p);
+											
+											for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+												MessageUtils.ReplaceCharMessagePlayer(msg, p);
+											}
+										}
+									}
+								}
+							}
+							
+							p.setGameMode(GameMode.SPECTATOR);
+							if (ConfigMCommands.getConfig().getBoolean(msg_self_spectator+"Enable")) {
+								for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_spectator+"Messages")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					}
+				} else {
+					MessageUtils.MessageNoPermission(p, "hawn.command.gamemode.quickgm");
+					return true;
+				}
+			} else if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
 				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
 					MessageUtils.ReplaceCharMessagePlayer(msg, p);
 				}
@@ -200,6 +775,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					return true;
+				}
+				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+					if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+							if (!Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.add(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.remove(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					}
 				}
 				
 				p.setGameMode(GameMode.SURVIVAL);
@@ -218,6 +815,28 @@ public class ClassicGMCommand extends BukkitCommand {
 					return true;
 				}
 				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+					if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+							if (!Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.add(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.remove(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					}
+				}
+				
 				p.setGameMode(GameMode.CREATIVE);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_creative+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_creative+"Messages")) {
@@ -234,6 +853,28 @@ public class ClassicGMCommand extends BukkitCommand {
 					return true;
 				}
 				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+					if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+							if (!Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.add(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.remove(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					}
+				}
+				
 				p.setGameMode(GameMode.ADVENTURE);
 				if (ConfigMCommands.getConfig().getBoolean(msg_self_adventure+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_self_adventure+"Messages")) {
@@ -248,6 +889,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					return true;
+				}
+				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable")) {
+					if (p.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+							if (!Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.add(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(p)) {
+								Main.buildbypasscommand.remove(p);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								}
+							}
+						}
+					}
 				}
 				
 				p.setGameMode(GameMode.SPECTATOR);
@@ -282,6 +945,28 @@ public class ClassicGMCommand extends BukkitCommand {
 					return true;
 				}
 				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+					if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0")) {
+							if (!Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.add(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.remove(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						}
+					}
+				}
+				
 				target.setGameMode(GameMode.SURVIVAL);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_survival+"Enable")) {
@@ -305,6 +990,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					return true;
+				}
+				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+					if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1")) {
+							if (!Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.add(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.remove(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						}
+					}
 				}
 				
 				target.setGameMode(GameMode.CREATIVE);
@@ -331,6 +1038,28 @@ public class ClassicGMCommand extends BukkitCommand {
 					return true;
 				}
 				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+					if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2")) {
+							if (!Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.add(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.remove(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						}
+					}
+				}
+				
 				target.setGameMode(GameMode.ADVENTURE);
 				
 				if (ConfigMCommands.getConfig().getBoolean(msg_other_adventure+"Enable")) {
@@ -353,6 +1082,28 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					return true;
+				}
+				
+				if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Enable") && GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too")) {
+					if (target.hasPermission("hawn.command.gamemode.buildmode")) {
+						if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3")) {
+							if (!Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.add(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						} else {
+							if (Main.buildbypasscommand.contains(target)) {
+								Main.buildbypasscommand.remove(target);
+								
+								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									MessageUtils.ReplaceCharMessagePlayer(msg, target);
+								}
+							}
+						}
+					}
 				}
 				
 				target.setGameMode(GameMode.SPECTATOR);

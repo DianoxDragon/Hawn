@@ -25,6 +25,7 @@ import fr.Dianox.Hawn.Main;
 import fr.Dianox.Hawn.Commands.Features.FlyCommand;
 import fr.Dianox.Hawn.Event.BasicFeatures;
 import fr.Dianox.Hawn.Event.FunFeatures;
+import fr.Dianox.Hawn.Event.OnCommandEvent;
 import fr.Dianox.Hawn.Event.OnJoin;
 import fr.Dianox.Hawn.Event.OnJoinE.CustomJoinItem;
 import fr.Dianox.Hawn.Utility.CheckConfig;
@@ -425,8 +426,46 @@ public class HawnCommand implements CommandExecutor {
 			          }
 			          sender.sendMessage("");
 				} else {
-					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+					try {
+						int i = Integer.parseInt(args[0]);
+						
+						if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+							sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
+							sender.sendMessage("");
+							sender.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
+							sender.sendMessage("");
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
+							
+							if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								sender.sendMessage("");
+								sender.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+								sender.sendMessage("");
+								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								sender.sendMessage("");
+								sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
+								sender.sendMessage("");
+								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								sender.sendMessage("");
+								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else {
+								sender.sendMessage("");
+								sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1)+" §7// §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+								sender.sendMessage("");
+								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							}
+						} else {
+							sender.sendMessage("§cerror");
+						}
+						
+					} catch (NumberFormatException e) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
 					}
 				}
 			}
@@ -861,13 +900,49 @@ public class HawnCommand implements CommandExecutor {
 									}
 			                    }
 							}
-						} else if (args[1].equalsIgnoreCase("t")) {
-							p.sendMessage(String.valueOf(p.getLocation().getWorld().getPlayerCount()));
 						}
 					}
 				} else {
-					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					try {
+						int i = Integer.parseInt(args[0]);
+						
+						if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+							p.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
+							p.sendMessage("");
+							p.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
+							p.sendMessage("");
+							
+							for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							}
+							
+							if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								p.sendMessage("");
+								p.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+								p.sendMessage("");
+								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								p.sendMessage("");
+								p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
+								p.sendMessage("");
+								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								p.sendMessage("");
+								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							} else {
+								p.sendMessage("");
+								p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1)+" §7// §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
+								p.sendMessage("");
+								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
+							}
+						} else {
+							p.sendMessage("§cerror");
+						}
+						
+					} catch (NumberFormatException e) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
 					}
 				}
 			} else {
@@ -1382,6 +1457,7 @@ public class HawnCommand implements CommandExecutor {
 			 }
 	    }
 		
+	    OnCommandEvent.cooldowncommands.clear();
 		Main.animationtabtask.clear();
 		Main.animationtab.clear();
 		
