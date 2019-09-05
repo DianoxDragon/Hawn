@@ -66,6 +66,7 @@ public class OnChatConfig {
                 }));
             
             Config.set("Chat-Color-Player.Enable", true);
+            Config.set("Chat-Color-Player.Per-Color-Permission", false);
             
             Config.set("Chat-Emoji-Player.Enable", true);
             
