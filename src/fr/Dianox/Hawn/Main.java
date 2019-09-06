@@ -174,7 +174,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.3-Alpha";
+	private static String versions = "0.8.5-Alpha";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -240,6 +240,8 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
     public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
     
+    public static List<Material> block_exception_place = new ArrayList<Material>();
+    public static List<Material> block_exception_break = new ArrayList<Material>();
     public static List<Material> interactables = new ArrayList<Material>();
 
     public static List<Player> indj = new ArrayList<Player>();
@@ -1351,6 +1353,25 @@ public class Main extends JavaPlugin implements Listener {
 	    	}
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR")) {
 	    		interactables.add(XMaterial.DARK_OAK_TRAPDOOR.parseMaterial());
+	    	}
+	    }
+	    
+	    block_exception_break.clear();
+	    block_exception_place.clear();
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
+	    		try {
+	    			block_exception_place.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
+	    	}
+	    }
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
+	    		try {
+	    			block_exception_break.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
 	    	}
 	    }
 	    
