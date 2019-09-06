@@ -175,7 +175,7 @@ public class HawnCommand implements CommandExecutor {
 					} else {
 						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 					}
-				} else if (args[0].equalsIgnoreCase("urgent")) {	
+				} else if (args[0].equalsIgnoreCase("urgent")) {
 					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 						
 						ServerListConfig.getConfig().set("Urgent-mode.Enable", false);
@@ -632,6 +632,15 @@ public class HawnCommand implements CommandExecutor {
 					}
 					return true;
 				} else if (args[0].equalsIgnoreCase("urgent")) {
+					
+					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
+							MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+						}
+						
+						return true;
+					}
+					
 					if (!p.hasPermission("hawn.admin.command.urgent") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
 						
