@@ -1499,6 +1499,25 @@ public class HawnCommand implements CommandExecutor {
     	
 		CheckConfig.warnhawnreload();
 		
+		Main.block_exception_break.clear();
+		Main.block_exception_place.clear();
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
+	    		try {
+	    			Main.block_exception_place.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
+	    	}
+	    }
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
+	    		try {
+	    			Main.block_exception_break.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
+	    	}
+	    }
+		
 	}
 
 }
