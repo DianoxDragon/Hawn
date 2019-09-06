@@ -30,7 +30,50 @@ public class ABAnnouncerCommand extends BukkitCommand {
 
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cAnother day for sure");
+        	if (args.length == 0) {
+
+        		Bukkit.getConsoleSender().sendMessage("§cError");
+
+                return true;
+            }
+
+            String msgbc = "";
+
+            if (args.length >= 1) {
+                if (!args[0].isEmpty()) {
+                    for (int i = 1; i < args.length; i++) {
+                        if (!Objects.equals(msgbc, "")) {
+                            msgbc = msgbc + " ";
+                        }
+                        msgbc = msgbc + args[i];
+                    }
+                }
+            }
+
+            msgbc = args[0] + " " + msgbc;
+
+            msgbc = msgbc.replaceAll("&", "§");
+            
+            ActionBar.sendActionBarToAllPlayers(msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
+            
+            /*
+             * Sound
+             */
+            if (ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Options.Sound-For-All-Players.Enable")) {
+    	        String sound = ActionbarAnnouncerConfig.getConfig().getString("ActionBar-Announcer.Options.Sound-For-All-Players.Sound");
+    	        int volume = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Volume");
+    	        int pitch = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch");
+    	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+    	        	all.playSound(all.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+    	        }
+            }
+            
+            /*
+             * Write in the chat
+             */
+            if (ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Options.Write-In-The-Chat-The-Announce")) {
+            	Bukkit.broadcastMessage(msgbc);
+            }
             return true;
         }
 
