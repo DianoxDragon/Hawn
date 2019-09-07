@@ -157,7 +157,13 @@ public class PlayerEventsConfig {
                     "world",
                     "world_nether"
                 }));
-            
+            Config.set("Block-Off-Hand.Enable", true);
+            Config.set("Block-Off-Hand.Bypass-With-Permission", false);
+            Config.set("Block-Off-Hand.World.All_World", false);
+            Config.set("Block-Off-Hand.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
             
             saveConfigFile();
 
