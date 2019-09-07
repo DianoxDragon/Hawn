@@ -42,8 +42,10 @@ public class OnInventoryInteract implements Listener {
 			return;
         }
 		
-		if (p.getGameMode() == GameMode.CREATIVE) {
-			 return;
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case")) {
+			if (p.getGameMode() == GameMode.CREATIVE) {
+				 return;
+			}
 		}
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
@@ -70,8 +72,10 @@ public class OnInventoryInteract implements Listener {
 			return;
         }
 		
-		if (p.getGameMode() == GameMode.CREATIVE) {
-			 return;
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case")) {
+			if (p.getGameMode() == GameMode.CREATIVE) {
+				 return;
+			}
 		}
 		
 		EquipmentSlot es = null;
@@ -151,9 +155,11 @@ public class OnInventoryInteract implements Listener {
 			 return;
 		 }
 		 
-		 if (e.getWhoClicked().getGameMode() == GameMode.CREATIVE) {
-			 return;
-		 }
+		 if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case")) {
+				if (e.getWhoClicked().getGameMode() == GameMode.CREATIVE) {
+					 return;
+				}
+			}
 		 
 		 Player p = (Player) e.getWhoClicked();
 		 

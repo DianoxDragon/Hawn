@@ -33,6 +33,7 @@ import fr.Dianox.Hawn.Utility.Config.Commands.WarpSetWarpCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.Commands.WeatherTimeCommandConfig;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGCos;
 import fr.Dianox.Hawn.Utility.Config.CosmeticsFun.ConfigGLP;
+import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.ConfigCJIGeneral;
 import fr.Dianox.Hawn.Utility.Config.CustomJoinItem.SpecialCjiHidePlayers;
 import fr.Dianox.Hawn.Utility.Config.Events.CommandEventConfig;
 import fr.Dianox.Hawn.Utility.Config.Events.ConfigGProtection;
@@ -163,6 +164,72 @@ public class CheckConfig {
 	}
 	
 	public static void Check() {
+		
+		if (!PlayerEventsConfig.getConfig().isSet("Block-Off-Hand.Enable")) {
+			PlayerEventsConfig.getConfig().set("Block-Off-Hand.Enable", true);
+			PlayerEventsConfig.getConfig().set("Block-Off-Hand.Bypass-With-Permission", false);
+			PlayerEventsConfig.getConfig().set("Block-Off-Hand.World.All_World", false);
+			PlayerEventsConfig.getConfig().set("Block-Off-Hand.World.Worlds", java.util.Arrays.asList(new String[] {
+					"world",
+					"world_nether"
+			}));
+        
+        	PlayerEventsConfig.saveConfigFile();
+		}
+		
+		if (!ConfigCJIGeneral.getConfig().isSet("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case")) {
+			ConfigCJIGeneral.getConfig().set("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case", false);
+			
+			ConfigCJIGeneral.saveConfigFile();
+		}
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.Block-Exception.Enable", false);
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.Block-Exception.Materials", java.util.Arrays.asList(new String[] {
+                    "DIRT"
+                }));
+            
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.Block-Exception.Enable", false);
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.Block-Exception.Materials", java.util.Arrays.asList(new String[] {
+                    "DIRT"
+                }));
+			
+			ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ServerListConfig.getConfig().isSet("Urgent-mode.Use-It-Only-On-The-Console")) {
+			ServerListConfig.getConfig().set("Urgent-mode.Use-It-Only-On-The-Console", false);
+		
+			ServerListConfig.saveConfigFile();
+		}
+		
+		if (!HealCommandConfig.getConfig().isSet("Heal.Option.Feed")) {
+			HealCommandConfig.getConfig().set("Heal.Option.Feed", true);
+			
+			HealCommandConfig.saveConfigFile();
+		}
+		
+		if (!GamemodeCommandConfig.getConfig().isSet("Chat-Color-Player.Per-Color-Permission")) {
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Quick-Mode-Change.Enable", true);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Quick-Mode-Change.Default-Mode", 0);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Quick-Mode-Change.Mode1", 0);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Quick-Mode-Change.Mode2", 1);
+        
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.Enable", false);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too", true);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0", false);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1", true);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2", false);
+			GamemodeCommandConfig.getConfig().set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3", false);
+		
+        	GamemodeCommandConfig.saveConfigFile();
+		}
+		
+		if (!OnChatConfig.getConfig().isSet("Chat-Color-Player.Per-Color-Permission")) {
+			OnChatConfig.getConfig().set("Chat-Color-Player.Per-Color-Permission", false);
+		
+			OnChatConfig.saveConfigFile();
+		}
 		
 		if (!CommandEventConfig.getConfig().isSet("Block-Commands.Options.Notify-Staff")) {
 			CommandEventConfig.getConfig().set("Block-Commands.Options.Notify-Staff", true);

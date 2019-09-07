@@ -41,7 +41,12 @@ public class HealCommand extends BukkitCommand {
 
                 Double health = Double.valueOf(target.getMaxHealth());
                 target.setHealth(health);
-
+                target.setFireTicks(0);
+                
+                if (HealCommandConfig.getConfig().getBoolean("Heal.Option.Feed")) {
+                	target.setFoodLevel(20);
+                }
+                
                 if (ConfigMCommands.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
                     for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other-Sender.Messages")) {
                         MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%target%", target.getName()));
@@ -84,7 +89,12 @@ public class HealCommand extends BukkitCommand {
         if (args.length == 0) {
             Double health = Double.valueOf(p.getMaxHealth());
             p.setHealth(health);
-
+            p.setFireTicks(0);
+            
+            if (HealCommandConfig.getConfig().getBoolean("Heal.Option.Feed")) {
+            	p.setFoodLevel(20);
+            }
+            
             if (ConfigMCommands.getConfig().getBoolean("Heal.Self.Enable")) {
                 for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Self.Messages")) {
                     MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -103,7 +113,12 @@ public class HealCommand extends BukkitCommand {
 
                     Double health = Double.valueOf(target.getMaxHealth());
                     target.setHealth(health);
-
+                    target.setFireTicks(0);
+                    
+                    if (HealCommandConfig.getConfig().getBoolean("Heal.Option.Feed")) {
+                    	target.setFoodLevel(20);
+                    }
+                    
                     if (ConfigMCommands.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
                         for (String msg: ConfigMCommands.getConfig().getStringList("Heal.Other-Sender.Messages")) {
                             MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", target.getName()), p);

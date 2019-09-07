@@ -1,7 +1,5 @@
 package fr.Dianox.Hawn.Utility;
 
-import java.util.Iterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -391,7 +389,6 @@ public class MessageUtils {
     }
 
     @SuppressWarnings({
-        "rawtypes",
         "deprecation"
     })
     public static void ReplaceCharMessagePlayer(String str, Player player) {
@@ -432,10 +429,7 @@ public class MessageUtils {
                 str = BattleLevelPO(str, player);
             }
             BaseComponent[] bc = ComponentSerializer.parse(str);
-            for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
-                p = (Player) localIterator.next();
-                p.spigot().sendMessage(bc);
-            }
+            p.spigot().sendMessage(bc);
         } else if (str.startsWith("[send-title]: ")) {
 
             str = str.replace("[send-title]: ", "");
@@ -568,7 +562,6 @@ public class MessageUtils {
     }
 
     @SuppressWarnings({
-        "rawtypes",
         "deprecation"
     })
     public static void ReplaceCharBroadcastPlayer(String str, Player player) {
@@ -620,10 +613,7 @@ public class MessageUtils {
                     str = BattleLevelPO(str, player);
                 }
                 BaseComponent[] bc = ComponentSerializer.parse(str);
-                for (Iterator localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
-                    p = (Player) localIterator.next();
-                    p.spigot().sendMessage(bc);
-                }
+                p.spigot().sendMessage(bc);
             }
         } else if (str.startsWith("[send-title]: ")) {
             for (Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -893,10 +883,7 @@ public class MessageUtils {
                     str = BattleLevelPO(str, p);
                 }
                 BaseComponent[] bc = ComponentSerializer.parse(str);
-                for (Iterator < ? > localIterator = Bukkit.getOnlinePlayers().iterator(); localIterator.hasNext();) {
-                    p = (Player) localIterator.next();
-                    p.spigot().sendMessage(bc);
-                }
+                p.spigot().sendMessage(bc);
             }
         } else if (str.startsWith("[send-title]: ")) {
             for (Player p: Bukkit.getServer().getOnlinePlayers()) {

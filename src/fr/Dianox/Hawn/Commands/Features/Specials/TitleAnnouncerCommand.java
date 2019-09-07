@@ -30,7 +30,82 @@ public class TitleAnnouncerCommand extends BukkitCommand {
 
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cAnother day for sure");
+        	if (args.length == 0) {
+
+                Bukkit.getConsoleSender().sendMessage("§cError");
+
+                return true;
+            }
+
+            Boolean activate = false;
+            String msgbc = "";
+
+            String title = "";
+            String subtitle = "";
+
+            if (args.length >= 1) {
+                if (!args[0].isEmpty()) {
+                    for (int i = 1; i < args.length; i++) {
+                        if (!Objects.equals(msgbc, "")) {
+                            msgbc = msgbc + " ";
+                        }
+                        msgbc = msgbc + args[i];
+                    }
+                }
+            }
+
+            msgbc = args[0] + " " + msgbc;
+
+            if (msgbc.contains("//n")) {
+                String[] parts = msgbc.split("//n");
+                title = parts[0];
+                subtitle = parts[1];
+
+                title = title.replaceAll("//n", "");
+                subtitle = subtitle.replaceAll("//n", "");
+
+                activate = true;
+            }
+
+
+            if (activate == false) {
+                for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                    TitleUtils.sendTitle(all, TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeIn"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.Stay"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeOut"), msgbc);
+                }
+            } else {
+                for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                    TitleUtils.sendTitle(all, TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeIn"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.Stay"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeOut"), title);
+                    TitleUtils.sendSubtitle(all, TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeIn"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.Stay"), TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Title.FadeOut"), subtitle);
+                }
+            }
+            
+            /*
+             * Sound
+             */
+            if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Sound-For-All-Players.Enable")) {
+    	        String sound = TitleAnnouncerConfig.getConfig().getString("Title-Announcer.Options.Sound-For-All-Players.Sound");
+    	        int volume = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Volume");
+    	        int pitch = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Pitch");
+    	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+    	        	all.playSound(all.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+    	        }
+            }
+            
+            /*
+             * Write in the chat
+             */
+            if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Write-In-The-Chat-The-Announce")) {
+            	if (activate == false) {
+            		msgbc = msgbc.replaceAll("&", "§");
+            		Bukkit.broadcastMessage(msgbc);
+                } else {
+                	title = title.replaceAll("&", "§");
+                	subtitle = subtitle.replaceAll("&", "§");
+                    	
+                	Bukkit.broadcastMessage(title);
+                	Bukkit.broadcastMessage(subtitle);
+                }
+            }
             return true;
         }
 

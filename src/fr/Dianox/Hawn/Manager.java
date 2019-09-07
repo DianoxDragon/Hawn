@@ -18,6 +18,7 @@ import fr.Dianox.Hawn.Event.PlayerEvents;
 import fr.Dianox.Hawn.Event.ProtectionsEventWorld;
 import fr.Dianox.Hawn.Event.WorldEvent;
 import fr.Dianox.Hawn.Event.CustomJoinItem.SpecialCJIPlayerVisibility;
+import fr.Dianox.Hawn.Event.Modules.DisableOffHand;
 import fr.Dianox.Hawn.Event.Ping.ServerPingEvent;
 
 public class Manager {
@@ -46,6 +47,10 @@ public class Manager {
 		pm.registerEvents(new CancelTPWarpSpawn(), pl);
 		pm.registerEvents(new SpecialCJIPlayerVisibility(), pl);
 		pm.registerEvents(new OnInventoryInteract(), pl);
+		
+		if (Main.HandMethod) {
+			pm.registerEvents(new DisableOffHand(), pl);
+		}
 	}
 
 }

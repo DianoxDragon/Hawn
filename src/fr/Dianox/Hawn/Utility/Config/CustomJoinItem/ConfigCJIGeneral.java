@@ -58,6 +58,7 @@ public class ConfigCJIGeneral {
              */
             Config.set("Custom-Join-Item.Enable", true);
             Config.set("Custom-Join-Item.General-Option.Use_Permission_Per_Item", false);
+            Config.set("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case", false);
             Config.set("Custom-Join-Item.General-Option.Inventory-Click", true);
             Config.set("Custom-Join-Item.General-Option.World.All_World", false);
             Config.set("Custom-Join-Item.General-Option.World.Worlds", java.util.Arrays.asList(new String[] {

@@ -36,6 +36,16 @@ public class ProtectionsEventWorld implements Listener {
         }
 
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Enable")) {
+        	
+        	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
+        		
+        		for (Material m : Main.block_exception_place) {
+        			if (e.getBlockPlaced().getType() == m) {
+        				return;
+        			}
+        		}
+        	}
+        	
             if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.World.All_World")) {
                 if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Bypass")) {
@@ -512,6 +522,16 @@ public class ProtectionsEventWorld implements Listener {
         }
 
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Enable")) {
+        	
+        	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
+        		
+        		for (Material m2 : Main.block_exception_break) {
+        			if (e.getBlock().getType() == m2) {
+        				return;
+        			}
+        		}
+        	}
+        	
             if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.World.All_World")) {
                 if (ProtectionPW.getWPCB().contains(p.getWorld().getName())) {
                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Bypass")) {

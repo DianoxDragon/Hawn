@@ -175,7 +175,7 @@ public class HawnCommand implements CommandExecutor {
 					} else {
 						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 					}
-				} else if (args[0].equalsIgnoreCase("urgent")) {	
+				} else if (args[0].equalsIgnoreCase("urgent")) {
 					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 						
 						ServerListConfig.getConfig().set("Urgent-mode.Enable", false);
@@ -632,6 +632,15 @@ public class HawnCommand implements CommandExecutor {
 					}
 					return true;
 				} else if (args[0].equalsIgnoreCase("urgent")) {
+					
+					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
+							MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+						}
+						
+						return true;
+					}
+					
 					if (!p.hasPermission("hawn.admin.command.urgent") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.reload");
 						
@@ -1163,6 +1172,7 @@ public class HawnCommand implements CommandExecutor {
 		ProtectionPW.worlds_PlayerInteract_Items_Blocks.clear();
 		ChangeWorldPW.worlds_commands.clear();
 		CjiPW.worlds_general.clear();
+		PlayerEventsPW.worlds_block_off_hand.clear();
 		Main.GetSetWorld();
 		
 		EmojiesUtility.setaliaseslist();
@@ -1489,6 +1499,25 @@ public class HawnCommand implements CommandExecutor {
 		}
     	
 		CheckConfig.warnhawnreload();
+		
+		Main.block_exception_break.clear();
+		Main.block_exception_place.clear();
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
+	    		try {
+	    			Main.block_exception_place.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
+	    	}
+	    }
+	    
+	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
+	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
+	    		try {
+	    			Main.block_exception_break.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    		} catch (Exception e) {}
+	    	}
+	    }
 		
 	}
 
