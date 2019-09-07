@@ -23,7 +23,20 @@ public class PlayerEventsPW {
     public static List < String > worlds_respawn = new ArrayList < String > ();
     public static List < String > worlds_force_selected_slot = new ArrayList < String > ();
     public static List < String > worlds_item_clearondrop = new ArrayList < String > ();
+    public static List < String > worlds_block_off_hand = new ArrayList < String > ();
 
+    public static void setWBlockOffHand() {
+        if (PlayerEventsConfig.getConfig().getBoolean("Block-Off-Hand.Enable") && !PlayerEventsConfig.getConfig().getBoolean("Block-Off-Hand.World.All_World")) {
+            for (String world: PlayerEventsConfig.getConfig().getStringList("Block-Off-Hand.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in Events/PlayerEvents.yml, Block-Off-Hand.World: " + world);
+                } else {
+                	worlds_block_off_hand.add(world);
+                }
+            }
+        }
+    }
+    
     public static void setPlayerOptionJoin() {
         if (OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Enable") && !OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
             for (String world: OptionPlayerConfigCommand.getConfig().getStringList("PlayerOption.World.Worlds")) {
@@ -167,6 +180,10 @@ public class PlayerEventsPW {
         }
     }
 
+    public static List < String > getWBOH() {
+        return worlds_block_off_hand;
+    }
+    
     public static List < String > getWFRPCJI() {
         return worlds_respawncji;
     }
