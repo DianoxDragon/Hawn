@@ -1933,6 +1933,7 @@ public class Main extends JavaPlugin implements Listener {
 		ProtectionPW.setWGetWorldProtectionPlayerInteractItemsBlocks();
 		ChangeWorldPW.setCommands();
 		CjiPW.setItemPlayerGeneral();
+		PlayerEventsPW.setWBlockOffHand();
 	}
 
 
