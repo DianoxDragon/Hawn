@@ -62,7 +62,6 @@ public class PlayerOptionMainConfig {
             Config.set("Keep.Speed-OnJoin.Enable", false);
             Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
             Config.set("Keep.JumpBoost-OnJoin.Enable", false);
-            Config.set("Keep.AutoBc-OnJoin.Enable", false);
             Config.set("TP.Last-Position-On-Join.Enable", false);
             
             Config.set("Options.Flying.Put-boots", true);

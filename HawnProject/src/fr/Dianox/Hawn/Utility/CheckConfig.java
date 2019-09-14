@@ -168,7 +168,6 @@ public class CheckConfig {
 		if (!PlayerOptionMainConfig.getConfig().isSet("General.Enable")) {
 			PlayerOptionMainConfig.getConfig().set("General.Enable", true);
 			PlayerOptionMainConfig.getConfig().set("Keep.JumpBoost-OnJoin.Enable", false);
-			PlayerOptionMainConfig.getConfig().set("Keep.AutoBc-OnJoin.Enable", false);
 			
 			PlayerOptionMainConfig.saveConfigFile();
 		}
