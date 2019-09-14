@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/Nouveau dossier/plugins/PlaceholderAPI-2.10.2.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.14/plugins/worldedit-bukkit-7.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.14/BattleLevels(1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/matle/Downloads/MVdWPlaceholderAPI.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.8/plugins/worldguard-6.1.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.8/plugins/worldedit-bukkit-6.1.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.14/plugins/worldguard-bukkit-7.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/Minecraft (Jeux)/1.14/spigot-1.14.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/matle/Downloads/luckperms-api-4.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
