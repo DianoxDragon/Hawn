@@ -702,9 +702,13 @@ public class PlayerEvents implements Listener {
     
     @EventHandler
     public void EntityMountEvent(org.spigotmc.event.entity.EntityMountEvent e) {
-    	    	
+    	    
+    	 if(!(e.getEntity() instanceof Player)) {
+    		 return;
+    	 }
+    	
 	        Player p = (Player) e.getEntity();
-	        	        
+	        
 	        if (Main.buildbypasscommand.contains(p)) {
 	        	return;
 	        }

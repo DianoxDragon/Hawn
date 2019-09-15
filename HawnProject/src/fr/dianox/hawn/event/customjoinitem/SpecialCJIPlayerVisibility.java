@@ -52,7 +52,19 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
 				try {
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+					
+					String Check1 = Check;
+					String Check2 = CheckTwo;
+					
+					if (Check1.startsWith("&f")) {
+						Check1 = Check1.substring(2, Check1.length());
+					}
+					
+					if (Check2.startsWith("&f")) {
+						Check2 = Check2.substring(2, Check2.length());
+					}
+					
+					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
 						e.setCancelled(true);
 					}
 				} catch (Exception e1) {}
@@ -67,7 +79,19 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
 				try {
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+					
+					String Check1 = Check;
+					String Check2 = CheckTwo;
+					
+					if (Check1.startsWith("&f")) {
+						Check1 = Check1.substring(2, Check1.length());
+					}
+					
+					if (Check2.startsWith("&f")) {
+						Check2 = Check2.substring(2, Check2.length());
+					}
+					
+					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
 						e.setCancelled(true);
 					}
 				} catch (Exception e1) {}
@@ -76,11 +100,25 @@ public class SpecialCJIPlayerVisibility implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onDropWithItemVisibility(PlayerDropItemEvent e) {		
+	public void onDropWithItemVisibility(PlayerDropItemEvent e) {	
+		Player p = e.getPlayer();
+		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
 				try {
-					if (e.getItemDrop() != null && (e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§")) || e.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§")))) {
+					
+					String Check1 = Check;
+					String Check2 = CheckTwo;
+					
+					if (Check1.startsWith("&f")) {
+						Check1 = Check1.substring(2, Check1.length());
+					}
+					
+					if (Check2.startsWith("&f")) {
+						Check2 = Check2.substring(2, Check2.length());
+					}
+					
+					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
 						e.setCancelled(true);
 					}
 				} catch (Exception e1) {}
@@ -107,10 +145,21 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				return;
 			}
 			
-			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
-				e.setCancelled(true);
+			String Check1 = Check;
+			String Check2 = CheckTwo;
+			
+			if (Check1.startsWith("&f")) {
+				Check1 = Check1.substring(2, Check1.length());
+			}
+			
+			if (Check2.startsWith("&f")) {
+				Check2 = Check2.substring(2, Check2.length());
+			}
+						
+			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
 				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 					if (PlayerVisibility.Cooling().contains(name)) {
+						e.setCancelled(true);
 						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
 							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
 					    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
@@ -134,9 +183,9 @@ public class SpecialCJIPlayerVisibility implements Listener {
 								
 						}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
 						Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+						e.setCancelled(true);
 					}
 				} else {
-					e.setCancelled(true);
 					PlayerVisibility.hidePlayer(p);
 					swithPVItemsOnJoinToON(p);
 					soundInventoryClickPVOJI(p);
@@ -144,8 +193,9 @@ public class SpecialCJIPlayerVisibility implements Listener {
 						messageitemPVON(p);
 					}
 					PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+					e.setCancelled(true);
 				}
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§"))) {
+			} else if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
 				e.setCancelled(true);
 				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 					if (PlayerVisibility.Cooling().contains(name)) {
@@ -200,8 +250,19 @@ public class SpecialCJIPlayerVisibility implements Listener {
 					}
 				}
 				
+				String Check1 = Check;
+				String Check2 = CheckTwo;
+				
+				if (Check1.startsWith("&f")) {
+					Check1 = Check1.substring(2, Check1.length());
+				}
+				
+				if (Check2.startsWith("&f")) {
+					Check2 = Check2.substring(2, Check2.length());
+				}
+				
 				try {
-				if (p.getItemInHand().getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
+				if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
 					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 						if (PlayerVisibility.Cooling().contains(name)) {
 							if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
@@ -238,7 +299,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 						}
 						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 					}
-				} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§"))) {
+				} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
 					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 						if (PlayerVisibility.Cooling().contains(name)) {
 							if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
@@ -415,7 +476,14 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				for (int i = 0 ; i <= 35; ++i) {
 					if (p.getInventory().getItem(i) != null) {
 						try {
-							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheck().replaceAll("&", "§"))) {
+							
+							String Check1 = Check;
+							
+							if (Check1.startsWith("&f")) {
+								Check1 = Check1.substring(2, Check1.length());
+							}
+							
+							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
 								p.getInventory().clear(i);
 								CreateItemsOn(p, i);
 								break;
@@ -436,7 +504,14 @@ public class SpecialCJIPlayerVisibility implements Listener {
 				for (int i = 0 ; i <= 35; ++i) {
 					if (p.getInventory().getItem(i) != null) {
 						try {
-							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(getCheckTwo().replaceAll("&", "§"))) {
+							
+							String Check2 = CheckTwo;
+							
+							if (Check2.startsWith("&f")) {
+								Check2 = Check2.substring(2, Check2.length());
+							}
+							
+							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
 								p.getInventory().clear(i);
 								CreateItemsOff(p, i);
 								break;

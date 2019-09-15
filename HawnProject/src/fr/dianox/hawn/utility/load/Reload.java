@@ -36,17 +36,21 @@ import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
+import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
+import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
+import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
@@ -154,6 +158,10 @@ public class Reload {
 		GoTopCommandConfig.reloadConfig();
 		ConfigCJIGeneral.reloadConfig();
 		AdminPanelCommandConfig.reloadConfig();
+		SuicideCommandConfig.reloadConfig();
+		EnderChestCommandConfig.reloadConfig();
+		InvSeeCommandConfig.reloadConfig();
+		RepairCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

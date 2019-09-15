@@ -53,7 +53,7 @@ public class OnCommandEvent implements Listener {
                         if (e.getMessage().equalsIgnoreCase(i)) {
                             e.setCancelled(true);
                             
-                            if (Main.MaterialMethod.contains("true")) {
+                            if (Main.Spigot_Version >= 113) {
                             	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
                             		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
                             		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
@@ -83,7 +83,7 @@ public class OnCommandEvent implements Listener {
                     if (e.getMessage().equalsIgnoreCase(i)) {
                         e.setCancelled(true);
                         
-                        if (Main.MaterialMethod.contains("true")) {
+                        if (Main.Spigot_Version >= 113) {
                         	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
                         		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
                         		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);

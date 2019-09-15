@@ -81,7 +81,7 @@ public class OnInventoryInteract implements Listener {
 		
 		EquipmentSlot es = null;
 		
-		if (Main.HandMethod) {
+		if (Main.Spigot_Version >= 19) {
 			es = e.getHand();
 		}
 		
@@ -98,7 +98,7 @@ public class OnInventoryInteract implements Listener {
 			 }
 			
 			try {
-				if (Main.HandMethod) {
+				if (Main.Spigot_Version >= 19) {
 					if (es.equals(EquipmentSlot.HAND)) {
 						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 							if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {

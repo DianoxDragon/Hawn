@@ -165,6 +165,58 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMCommands.getConfig().isSet("Repair.Repaired.Enable")) {
+			ConfigMCommands.getConfig().set("Repair.Repaired.Enable", true);
+			ConfigMCommands.getConfig().set("Repair.Repaired.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The item &e%item% &7has been fixed"}));
+            
+			ConfigMCommands.getConfig().set("Repair.Can-t-Repair.Enable", true);
+			ConfigMCommands.getConfig().set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, but you can't repair that item"}));
+            
+			CommandAliasesConfig.getConfig().set("Repair.Enable", true);
+			CommandAliasesConfig.getConfig().set("Repair.Cannot-Be-changed.Main-Command-Is", "repair");
+			CommandAliasesConfig.getConfig().set("Repair.Aliases", java.util.Arrays.asList(new String[] {"fix"}));
+			
+			CommandAliasesConfig.saveConfigFile();
+			ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("EnderChest.Self.Enable")) {
+			ConfigMCommands.getConfig().set("EnderChest.Self.Enable", true);
+			ConfigMCommands.getConfig().set("EnderChest.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened your enderchest"}));
+        
+			ConfigMCommands.getConfig().set("EnderChest.Other-Sender.Enable", true);
+			ConfigMCommands.getConfig().set("EnderChest.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened &e%target%&7's enderchest"}));
+        
+			ConfigMCommands.getConfig().set("InvSee.Other-Sender.Enable", true);
+			ConfigMCommands.getConfig().set("InvSee.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened &e%target%&7's inventory"}));
+		
+			CommandAliasesConfig.getConfig().set("EnderChest.Enable", true);
+			CommandAliasesConfig.getConfig().set("EnderChest.Cannot-Be-changed.Main-Command-Is", "enderchest");
+			CommandAliasesConfig.getConfig().set("EnderChest.Aliases", java.util.Arrays.asList(new String[] {"ec"}));
+            
+			CommandAliasesConfig.getConfig().set("InvSee.Enable", false);
+            CommandAliasesConfig.getConfig().set("InvSee.Cannot-Be-changed.Main-Command-Is", "invsee");
+            CommandAliasesConfig.getConfig().set("InvSee.Aliases", java.util.Arrays.asList(new String[] {}));
+
+            CommandAliasesConfig.saveConfigFile();
+        	ConfigMCommands.saveConfigFile();
+		}
+        
+		if (!ConfigMCommands.getConfig().isSet("Suicide.Self.Enable")) {
+			ConfigMCommands.getConfig().set("Suicide.Self.Enable", true);
+			ConfigMCommands.getConfig().set("Suicide.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You killed yourself"}));
+        
+			ConfigMCommands.getConfig().set("Suicide.Broadcast.Enable", true);
+			ConfigMCommands.getConfig().set("Suicide.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&7%player% said goodbye to the world"}));
+		
+			CommandAliasesConfig.getConfig().set("Suicide.Enable", false);
+			CommandAliasesConfig.getConfig().set("Suicide.Cannot-Be-changed.Main-Command-Is", "suicide");
+            CommandAliasesConfig.getConfig().set("Suicide.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+        	ConfigMCommands.saveConfigFile();
+        	CommandAliasesConfig.saveConfigFile();
+		}
+        
 		if (!PlayerOptionMainConfig.getConfig().isSet("General.Enable")) {
 			PlayerOptionMainConfig.getConfig().set("General.Enable", true);
 			PlayerOptionMainConfig.getConfig().set("Keep.JumpBoost-OnJoin.Enable", false);

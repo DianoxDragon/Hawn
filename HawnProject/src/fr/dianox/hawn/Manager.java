@@ -48,7 +48,7 @@ public class Manager {
 		pm.registerEvents(new SpecialCJIPlayerVisibility(), pl);
 		pm.registerEvents(new OnInventoryInteract(), pl);
 		
-		if (Main.HandMethod) {
+		if (Main.Spigot_Version >= 19) {
 			pm.registerEvents(new DisableOffHand(), pl);
 		}
 	}

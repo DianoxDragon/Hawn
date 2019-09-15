@@ -59,9 +59,13 @@ import fr.dianox.hawn.commands.features.warp.DelWarpCommand;
 import fr.dianox.hawn.commands.features.warp.SetWarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpListCommand;
+import fr.dianox.hawn.commands.others.EnderChestCommand;
 import fr.dianox.hawn.commands.others.FeedCommand;
 import fr.dianox.hawn.commands.others.GoTopCommand;
 import fr.dianox.hawn.commands.others.HealCommand;
+import fr.dianox.hawn.commands.others.InvSeeCommand;
+import fr.dianox.hawn.commands.others.RepairCommand;
+import fr.dianox.hawn.commands.others.SuicideCommand;
 import fr.dianox.hawn.commands.others.time.DayCommand;
 import fr.dianox.hawn.commands.others.time.NightCommand;
 import fr.dianox.hawn.commands.others.weather.RainCommand;
@@ -100,17 +104,21 @@ import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
+import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
+import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
+import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
@@ -165,15 +173,15 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.6-Alpha";
+	private static String versions = "0.8.7-Alpha";
+	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
 	
 	public static String LanguageType = "en_US";
 	
-	public static Boolean HandMethod = true;
-	public static String UpToDate, MaterialMethod, nmsver;
+	public static String UpToDate, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
 
@@ -208,7 +216,6 @@ public class Main extends JavaPlugin implements Listener {
 	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
 	public static List<Player> nosb = new ArrayList<Player>();
 	public static List<Player> injumpwithjumppad = new ArrayList<Player>();
-	public static boolean newmethodver = false;
 	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
 	public static List<Player> inwarpd = new ArrayList<Player>();
@@ -407,6 +414,18 @@ public class Main extends JavaPlugin implements Listener {
 			AdminPanelCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-AdminPanel", "Commands/AdminPanel.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/AdminPanel.yml", "C-AdminPanel");
+			SuicideCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Suicide", "Commands/Suicide.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Suicide.yml", "C-Suicide");
+			EnderChestCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-EnderChest", "Commands/EnderChest.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/EnderChest.yml", "C-EnderChest");
+			InvSeeCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-InvSee", "Commands/InvSee.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/InvSee.yml", "C-InvSee");
+			RepairCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Repair", "Commands/Repair.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Repair.yml", "C-Repair");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -670,7 +689,7 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				}
 			}
-
+			
 			/* --------------- *
 			 * EMOJIS COMMANDS *
 			 * --------------- */
@@ -680,6 +699,19 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("Emojis.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Emojis.Aliases")) {
 						commandMap.register(s, new EmojiesCommand(s));
+					}
+				}
+			}
+			
+			/* ------------------- *
+			 * ENDERCHEST COMMANDS *
+			 * ------------------- */
+			// >> EnderChest
+			if (!EnderChestCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("invsee", new EnderChestCommand("enderchest"));
+				if (CommandAliasesConfig.getConfig().getBoolean("EnderChest.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("EnderChest.Aliases")) {
+						commandMap.register(s, new EnderChestCommand(s));
 					}
 				}
 			}
@@ -788,12 +820,25 @@ public class Main extends JavaPlugin implements Listener {
 			/* -------------- *
 			 * GOTOP COMMANDS *
 			 * -------------- */
-			// >> Help
+			// >> GoTop
 			if (!GoTopCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("gotop", new GoTopCommand("gotop"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Gotop.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Gotop.Aliases")) {
 						commandMap.register(s, new GoTopCommand(s));
+					}
+				}
+			}
+			
+			/* --------------- *
+			 * INVSEE COMMANDS *
+			 * --------------- */
+			// >> InvSee
+			if (!InvSeeCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("invsee", new InvSeeCommand("invsee"));
+				if (CommandAliasesConfig.getConfig().getBoolean("InvSee.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("InvSee.Aliases")) {
+						commandMap.register(s, new InvSeeCommand(s));
 					}
 				}
 			}
@@ -837,6 +882,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* --------------- *
+			 * REPAIR COMMANDS *
+			 * --------------- */
+			// >> Repair
+			if (!RepairCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("repair", new RepairCommand("repair"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Repair.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Repair.Aliases")) {
+						commandMap.register(s, new RepairCommand(s));
+					}
+				}
+			}
+			
 			/* -------------- *
 			 * SPAWN COMMANDS *
 			 * -------------- */
@@ -873,6 +931,19 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("SpawnList.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("SpawnList.Aliases")) {
 						commandMap.register(s, new SpawnListCommand(s));
+					}
+				}
+			}
+			
+			/* ---------------- *
+			 * SUICIDE COMMANDS *
+			 * ---------------- */
+			// >> Suicide
+			if (!SuicideCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("suicide", new SuicideCommand("suicide"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Suicide.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Suicide.Aliases")) {
+						commandMap.register(s, new SuicideCommand(s));
 					}
 				}
 			}
@@ -1160,18 +1231,23 @@ public class Main extends JavaPlugin implements Listener {
 		FlyCommand.player_list_flyc.clear();
 		FunFeatures.player_list_dbenable.clear();
 
-		// Materials
-		if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
-			MaterialMethod = "true";
-		} else {
-			MaterialMethod = "false";
-		}
-		
-		// Materials
-		if (Bukkit.getVersion().contains("1.8")) {
-			HandMethod = false;
-		} else {
-			HandMethod = true;
+		// Versions
+		if (Bukkit.getVersion().contains("1.15")) {
+			Spigot_Version = 115;
+		} else if (Bukkit.getVersion().contains("1.14")) {
+			Spigot_Version = 114;
+		} else if (Bukkit.getVersion().contains("1.13")) {
+			Spigot_Version = 113;
+		} else if (Bukkit.getVersion().contains("1.12")) {
+			Spigot_Version = 112;
+		} else if (Bukkit.getVersion().contains("1.11")) {
+			Spigot_Version = 111;
+		} else if (Bukkit.getVersion().contains("1.10")) {
+			Spigot_Version = 110;
+		} else if (Bukkit.getVersion().contains("1.9")) {
+			Spigot_Version = 19;
+		} else if (Bukkit.getVersion().contains("1.8")) {
+			Spigot_Version = 18;
 		}
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
@@ -1463,10 +1539,6 @@ public class Main extends JavaPlugin implements Listener {
 	     * --------------
 	     */
 	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
-	    	
-	    	if (Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15")) {
-	        	newmethodver = true;
-	        }
 	    	
 	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
 
