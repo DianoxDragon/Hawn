@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
-encoding//src/fr/Dianox/Hawn/Commands/HawnCommand.java=UTF-8
-encoding//src/fr/Dianox/Hawn/Event/OnChatEvent.java=UTF-8
-encoding//src/fr/Dianox/Hawn/Main.java=UTF-8
-encoding//src/fr/Dianox/Hawn/Manager.java=UTF-8
-encoding//src/fr/Dianox/Hawn/Utility/EmojiesUtility.java=UTF-8
-encoding//src/fr/Dianox/Hawn/Utility/Server/Tps.java=UTF-8
+encoding//src/fr/dianox/hawn/Main.java=UTF-8
+encoding//src/fr/dianox/hawn/Manager.java=UTF-8
+encoding//src/fr/dianox/hawn/commands/HawnCommand.java=UTF-8
+encoding//src/fr/dianox/hawn/event/OnChatEvent.java=UTF-8
+encoding//src/fr/dianox/hawn/utility/EmojiesUtility.java=UTF-8
+encoding//src/fr/dianox/hawn/utility/server/Tps.java=UTF-8
 encoding/<project>=UTF-8
