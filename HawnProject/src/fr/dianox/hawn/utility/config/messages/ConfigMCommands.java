@@ -175,6 +175,23 @@ public class ConfigMCommands {
             Config.set("Heal.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%target%&7 has been healed"}));
             
             /* ------------------- *
+			 * ENDERCHEST COMMANDS *
+			 * ------------------- */
+            
+            Config.set("EnderChest.Self.Enable", true);
+            Config.set("EnderChest.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened your enderchest"}));
+            
+            Config.set("EnderChest.Other-Sender.Enable", true);
+            Config.set("EnderChest.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened &e%target%&7's enderchest"}));
+            
+            /* --------------- *
+			 * INVSEE COMMANDS *
+			 * --------------- */
+            
+            Config.set("InvSee.Other-Sender.Enable", true);
+            Config.set("InvSee.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You opened &e%target%&7's inventory"}));
+            
+            /* ------------------- *
 			 * SCOREBOARD COMMANDS *
 			 * ------------------- */
             Config.set("Scoreboard.Toggle.On.Enable", true);
@@ -226,6 +243,25 @@ public class ConfigMCommands {
             Config.set("Warp.Del.Warp-Delete.Enable", true);
             Config.set("Warp.Del.Warp-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The warp &e%warp%&7 has been &cdeleted"}));
             
+            /* ---------------- *
+			 * SUICIDE COMMANDS *
+			 * ---------------- */
+            
+            Config.set("Suicide.Self.Enable", true);
+            Config.set("Suicide.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You killed yourself"}));
+            
+            Config.set("Suicide.Broadcast.Enable", true);
+            Config.set("Suicide.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&7%player% said goodbye to the world"}));
+            
+            /* --------------- *
+			 * REPAIR COMMANDS *
+			 * --------------- */
+            
+            Config.set("Repair.Repaired.Enable", true);
+            Config.set("Repair.Repaired.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The item &e%item% &7has been fixed"}));
+            
+            Config.set("Repair.Can-t-Repair.Enable", true);
+            Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, but you can't repair that item"}));
             
             /*
              * Vanish stuff

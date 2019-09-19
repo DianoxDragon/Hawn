@@ -85,6 +85,10 @@ public class CommandAliasesConfig {
             Config.set("Emojis.Cannot-Be-changed.Main-Command-Is", "emoji");
             Config.set("Emojis.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("EnderChest.Enable", true);
+            Config.set("EnderChest.Cannot-Be-changed.Main-Command-Is", "enderchest");
+            Config.set("EnderChest.Aliases", java.util.Arrays.asList(new String[] {"ec"}));
+            
             Config.set("Feed.Enable", false);
             Config.set("Feed.Cannot-Be-changed.Main-Command-Is", "feed");
             Config.set("Feed.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -125,6 +129,10 @@ public class CommandAliasesConfig {
             Config.set("Help.Cannot-Be-changed.Main-Command-Is", "help");
             Config.set("Help.Aliases", java.util.Arrays.asList(new String[] {"?"}));
             
+            Config.set("InvSee.Enable", false);
+            Config.set("InvSee.Cannot-Be-changed.Main-Command-Is", "invsee");
+            Config.set("InvSee.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("MuteChat.Enable", true);
             Config.set("MuteChat.Cannot-Be-changed.Main-Command-Is", "globalmute");
             Config.set("MuteChat.Aliases", java.util.Arrays.asList(new String[] {"gmute"}));
@@ -145,6 +153,10 @@ public class CommandAliasesConfig {
             Config.set("Rain.Cannot-Be-changed.Main-Command-Is", "rain");
             Config.set("Rain.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("Repair.Enable", true);
+            Config.set("Repair.Cannot-Be-changed.Main-Command-Is", "repair");
+            Config.set("Repair.Aliases", java.util.Arrays.asList(new String[] {"fix"}));
+            
             Config.set("Sun.Enable", true);
             Config.set("Sun.Cannot-Be-changed.Main-Command-Is", "sun");
             Config.set("Sun.Aliases", java.util.Arrays.asList(new String[] {"clearw"}));
@@ -164,6 +176,10 @@ public class CommandAliasesConfig {
             Config.set("SpawnList.Enable", false);
             Config.set("SpawnList.Cannot-Be-changed.Main-Command-Is", "spawnlist");
             Config.set("SpawnList.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Suicide.Enable", false);
+            Config.set("Suicide.Cannot-Be-changed.Main-Command-Is", "suicide");
+            Config.set("Suicide.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Thunder.Enable", false);
             Config.set("Thunder.Cannot-Be-changed.Main-Command-Is", "thunder");

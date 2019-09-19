@@ -110,7 +110,7 @@ public class PlayerBoard {
 	private void buildScoreboard(PlayerReceiveBoardEvent event) {
         board = Bukkit.getScoreboardManager().getNewScoreboard();
         
-        if (Main.newmethodver) {
+        if (Main.Spigot_Version >= 113) {
         	score = board.registerNewObjective("score", "dummy", event.getTitle().get(0));
         } else {
         	score = board.registerNewObjective("score", "dummy");
@@ -120,7 +120,7 @@ public class PlayerBoard {
         if (event.getTitle().size() == 0)
             event.getTitle().add(" ");
 
-        if (!Main.newmethodver) {
+        if (Main.Spigot_Version < 113) {
         	score.setDisplayName(event.getTitle().get(0));
         }
         
@@ -226,7 +226,7 @@ public class PlayerBoard {
     }
 
     private int getMaxSize() {
-        if (Main.newmethodver) {
+    	if (Main.Spigot_Version >= 113) {
         	return 64;
         }
         return 16;
@@ -239,7 +239,14 @@ public class PlayerBoard {
         if (titleindex > (title.size() - 1)) {
             titleindex = 0;
         }
-        score.setDisplayName(maxChars(Main.newmethodver ? 128 : 32, setHolders(title.get(titleindex))));
+        
+        Boolean check = false;
+        
+        if (Main.Spigot_Version >= 113) {
+        	check = true;
+        }
+        
+        score.setDisplayName(maxChars(check ? 128 : 32, setHolders(title.get(titleindex))));
         titleindex++;
     }
 

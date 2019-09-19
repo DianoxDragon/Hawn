@@ -217,7 +217,7 @@ public class CustomJoinItem {
 		} else {
 			if (material.contains("SKULL")) {
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name")) {
-					if (Main.newmethodver) {
+					if (Main.Spigot_Version >= 113) {
 						item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), amount);
 					} else {
 						item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());
