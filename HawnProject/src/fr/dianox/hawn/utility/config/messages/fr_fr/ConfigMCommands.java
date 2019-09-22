@@ -262,6 +262,35 @@ public class ConfigMCommands {
             Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous ne pouvez pas réparer cette objet"}));
             
             /*
+             * Hat
+             */
+            Config.set("Hat.Self.Set.Enable", true);
+            Config.set("Hat.Self.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Le nouveau chapeau a été mis"}));
+            Config.set("Hat.Self.Removed.Enable", true);
+            Config.set("Hat.Self.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Le chapeau a été supprimé"}));
+            
+            Config.set("Hat.Other-Target.Set.Enable", true);
+            Config.set("Hat.Other-Target.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Tu as reçu un nouveau chapeau de &e%player%"}));
+            Config.set("Hat.Other-Target.Removed.Enable", true);
+            Config.set("Hat.Other-Target.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Ton chapeau t'a été retiré par &e%player%"}));
+            
+            Config.set("Hat.Other-Sender.Set.Enable", true);
+            Config.set("Hat.Other-Sender.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Vous avez mis un nouveau chapeau pour &e%target%"}));
+            Config.set("Hat.Other-Sender.Removed.Enable", true);
+            Config.set("Hat.Other-Sender.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Tu as supprimé le chapeau de &e%target%"}));
+            
+            Config.set("Hat.Error.No-Hat-Can-Be-Set.Enable", true);
+            Config.set("Hat.Error.No-Hat-Can-Be-Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé mais tu ne peux pas mettre de nouveau chapeau"}));
+            Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Enable", true);
+            Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé mais vous ne pouvez par supprimer ce chapeau, c'est vide"}));
+            
+            /*
+             * GetPos
+             */
+            Config.set("GetPos.Enable", true);
+            Config.set("GetPos.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La position du joueur est: &e%X% %Y% %Z%&7 dans le monde&b %world%"}));
+            
+            /*
              * Vanish stuff
              */
             Config.set("Vanish.Self.Enable", true);

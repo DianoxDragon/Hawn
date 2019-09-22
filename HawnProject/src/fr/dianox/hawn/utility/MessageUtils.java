@@ -219,6 +219,10 @@ public class MessageUtils {
             str = str.replaceAll("%player_saturation%", String.valueOf(p.getSaturation()));
         }
         
+        if (str.contains("%worldtime%")) {
+            str = str.replaceAll("%worldtime%", String.valueOf(p.getWorld().getTime()));
+        }
+        
         return str;
     }
     

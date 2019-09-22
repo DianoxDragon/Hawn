@@ -347,10 +347,30 @@ public class ProtectionsEventWorld implements Listener {
         	
         	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
         		
-        		for (Material m : Main.block_exception_place) {
-        			if (e.getBlockPlaced().getType() == m) {
+        		if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Place.Block-Exception.Method").equalsIgnoreCase("WHITELIST")) {
+	        		for (Material m : Main.block_exception_place) {
+	        			if (e.getBlockPlaced().getType() == m) {
+	        				return;
+	        			}
+	        		}
+        		} else if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Place.Block-Exception.Method").equalsIgnoreCase("BLACKLIST")) {
+        			Boolean check = false;
+        			
+        			for (Material m : Main.block_exception_place) {
+	        			if (e.getBlockPlaced().getType() == m) {
+	        				check = true;
+	        			}
+	        		}
+        			
+        			if (!check) {
         				return;
         			}
+        		} else {
+        			for (Material m : Main.block_exception_place) {
+	        			if (e.getBlockPlaced().getType() == m) {
+	        				return;
+	        			}
+	        		}
         		}
         	}
         	
@@ -584,6 +604,10 @@ public class ProtectionsEventWorld implements Listener {
             return;
         }
 
+        if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable") && ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Armor_Stand")) {
+        	return;
+        }
+        
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Enable")) {
             if (!ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.World.All_World")) {
                 if (ProtectionPW.getWPCP().contains(p.getWorld().getName())) {
@@ -828,15 +852,35 @@ public class ProtectionsEventWorld implements Listener {
         if (Main.buildbypasscommand.contains(p)) {
             return;
         }
-
+        
         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Enable")) {
         	
         	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
         		
-        		for (Material m2 : Main.block_exception_break) {
-        			if (e.getBlock().getType() == m2) {
+        		if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Break.Block-Exception.Method").equalsIgnoreCase("WHITELIST")) {
+	        		for (Material m2 : Main.block_exception_break) {
+	        			if (e.getBlock().getType() == m2) {
+	        				return;
+	        			}
+	        		}
+        		} else if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Break.Block-Exception.Method").equalsIgnoreCase("BLACKLIST")) {
+        			Boolean check = false;
+        			
+        			for (Material m2 : Main.block_exception_break) {
+	        			if (e.getBlock().getType() == m2) {
+	        				check = true;
+	        			}
+	        		}
+        			
+        			if (!check) {
         				return;
         			}
+        		} else {
+        			for (Material m2 : Main.block_exception_break) {
+	        			if (e.getBlock().getType() == m2) {
+	        				return;
+	        			}
+	        		}
         		}
         	}
         	

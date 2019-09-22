@@ -1,6 +1,7 @@
 package fr.dianox.hawn.utility.scoreboard;
 
-import org.bukkit.entity.Player;
+import java.util.UUID;
+
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -8,11 +9,11 @@ public class WhenPluginUpdateTextEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player p;
+    private UUID playerID;
     private String text;
 
-    public WhenPluginUpdateTextEvent(Player p, String text) {
-        this.p = p;
+    public WhenPluginUpdateTextEvent(UUID playerID, String text) {
+        this.playerID  = playerID;
         this.text = text;
     }
 
@@ -24,10 +25,14 @@ public class WhenPluginUpdateTextEvent extends Event {
         return handlers;
     }
 
-    public Player getPlayer() {
-        return p;
+    public UUID getPlayerID() {
+    	return playerID;
     }
-
+    
+    public void setPlayerID(UUID playerID) {
+    	this.playerID = playerID;
+    }
+    
     public String getText() {
         return text;
     }

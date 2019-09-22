@@ -1,29 +1,32 @@
 package fr.dianox.hawn.utility.scoreboard;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import fr.dianox.hawn.utility.scoreboard.PlayerBoard;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerReceiveBoardEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
 
-    private Player p;
+    private UUID playerID;
     private List<String> text;
     private List<String> title;
-    private PlayerBoard scoreboard;
+    private PlayerBoard board;
+    private String boardName;
 
-    public PlayerReceiveBoardEvent(Player p, List<String> text, List<String> title, PlayerBoard scoreboard) {
-        this.p = p;
-        this.text = text;
+    public PlayerReceiveBoardEvent(UUID playerID, String boardName, List<String> text, List<String> title, PlayerBoard board) {
+    	this.playerID = playerID;
+    	this.text = new ArrayList<>(text);
         this.title = title;
-        this.scoreboard = scoreboard;
+        this.board = board;
+        this.boardName = boardName;
     }
 
     public static HandlerList getHandlerList() {
@@ -34,8 +37,20 @@ public class PlayerReceiveBoardEvent extends Event implements Cancellable {
         return handlers;
     }
 
-    public Player getPlayer() {
-        return p;
+    public UUID getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(UUID playerID) {
+        this.playerID = playerID;
+    }
+
+    public String getBoardName() {
+        return boardName;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
     }
 
     public List<String> getText() {
@@ -47,7 +62,7 @@ public class PlayerReceiveBoardEvent extends Event implements Cancellable {
     }
 
     public PlayerBoard getBoard() {
-        return scoreboard;
+        return board;
     }
 
     public List<String> setText(List<String> text) {
@@ -61,7 +76,7 @@ public class PlayerReceiveBoardEvent extends Event implements Cancellable {
     }
 
     public PlayerBoard setBoard(PlayerBoard board) {
-        this.scoreboard = board;
+        this.board = board;
         return board;
     }
 

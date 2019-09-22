@@ -79,8 +79,8 @@ public class ScoreboardCommand extends BukkitCommand {
 		}
 		
 		if (args.length == 0) {
-			if (Main.boards.containsKey(p)) {
-				((PlayerBoard)Main.getInstance().getBoards().get(p)).remove();
+			if (Main.boards.containsKey(p.getUniqueId())) {
+				((PlayerBoard)Main.getInstance().getBoards().get(p.getUniqueId())).remove();
 				Main.playerWorldTimer.remove(p);
 				Main.nosb.add(p);
 				
@@ -136,7 +136,7 @@ public class ScoreboardCommand extends BukkitCommand {
 					
 					Main.playerWorldTimer.remove(p);
 					try {
-						((PlayerBoard)Main.getInstance().getBoards().get(p)).remove();
+						((PlayerBoard)Main.getInstance().getBoards().get(p.getUniqueId())).remove();
 					} catch (Exception e) {}
 					Main.nosb.add(p);
 						

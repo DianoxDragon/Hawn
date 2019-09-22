@@ -61,9 +61,13 @@ import fr.dianox.hawn.commands.features.warp.WarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpListCommand;
 import fr.dianox.hawn.commands.others.EnderChestCommand;
 import fr.dianox.hawn.commands.others.FeedCommand;
+import fr.dianox.hawn.commands.others.GetPosCommand;
 import fr.dianox.hawn.commands.others.GoTopCommand;
+import fr.dianox.hawn.commands.others.HatCommand;
 import fr.dianox.hawn.commands.others.HealCommand;
 import fr.dianox.hawn.commands.others.InvSeeCommand;
+import fr.dianox.hawn.commands.others.IpCommand;
+import fr.dianox.hawn.commands.others.KickAllCommand;
 import fr.dianox.hawn.commands.others.RepairCommand;
 import fr.dianox.hawn.commands.others.SuicideCommand;
 import fr.dianox.hawn.commands.others.time.DayCommand;
@@ -108,10 +112,14 @@ import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.GetPosCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
+import fr.dianox.hawn.utility.config.commands.HatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
+import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
@@ -173,7 +181,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.7-Alpha";
+	private static String versions = "0.8.8-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -208,7 +216,7 @@ public class Main extends JavaPlugin implements Listener {
     public static int curMsg_titles = 0;
 	public Scoreboard board;
 
-	public static HashMap<Player, PlayerBoard> boards = new HashMap<Player, PlayerBoard>();
+	public static HashMap<UUID, PlayerBoard> boards = new HashMap<UUID, PlayerBoard>();
 	public static List<PlayerBoard> allboards = new ArrayList<PlayerBoard>();
 	public HashMap<String, ScoreboardInfo> info = new HashMap<String, ScoreboardInfo>();
 	public HashMap<String, String> infoname = new HashMap<String, String>();
@@ -426,6 +434,18 @@ public class Main extends JavaPlugin implements Listener {
 			RepairCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-Repair", "Commands/Repair.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Repair.yml", "C-Repair");
+			HatCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Hat", "Commands/Hat.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Hat.yml", "C-Hat");
+			KickAllCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-KickAll", "Commands/KickAll.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/KickAll.yml", "C-KickAll");
+			IpCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Ip", "Commands/Ip.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Ip.yml", "C-Ip");
+			GetPosCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-GetPos", "Commands/GetPos.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/GetPos.yml", "C-GetPos");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -742,6 +762,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* ------------ *
+			 * HAT COMMANDS *
+			 * ------------ */
+			// >> Hat
+			if (!HatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("hat", new HatCommand("hat"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Hat.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Hat.Aliases")) {
+						commandMap.register(s, new HatCommand(s));
+					}
+				}
+			}
+			
 			/* ------------- *
 			 * HEAL COMMANDS *
 			 * ------------- */
@@ -817,6 +850,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* --------------- *
+			 * GETPOS COMMANDS *
+			 * --------------- */
+			// >> GetPos
+			if (!GetPosCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("getpos", new GetPosCommand("getpos"));
+				if (CommandAliasesConfig.getConfig().getBoolean("GetPos.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("GetPos.Aliases")) {
+						commandMap.register(s, new GetPosCommand(s));
+					}
+				}
+			}
+			
 			/* -------------- *
 			 * GOTOP COMMANDS *
 			 * -------------- */
@@ -839,6 +885,32 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("InvSee.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("InvSee.Aliases")) {
 						commandMap.register(s, new InvSeeCommand(s));
+					}
+				}
+			}
+			
+			/* ----------- *
+			 * IP COMMANDS *
+			 * ----------- */
+			// >> Hat
+			if (!IpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("ip", new IpCommand("ip"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Ip.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Ip.Aliases")) {
+						commandMap.register(s, new IpCommand(s));
+					}
+				}
+			}
+			
+			/* ---------------- *
+			 * KICKALL COMMANDS *
+			 * ---------------- */
+			// >> Kickall
+			if (!KickAllCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("kickall", new KickAllCommand("kickall"));
+				if (CommandAliasesConfig.getConfig().getBoolean("KickAll.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("KickAll.Aliases")) {
+						commandMap.register(s, new KickAllCommand(s));
 					}
 				}
 			}
@@ -1857,11 +1929,11 @@ public class Main extends JavaPlugin implements Listener {
 
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
-			if (boards.containsKey(player)) {
+			if (boards.containsKey(player.getUniqueId())) {
 				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
-				((PlayerBoard)boards.get(player)).createNew(in);
+				((PlayerBoard)boards.get(player.getUniqueId())).createNew(in);
 			} else {
-				new PlayerBoard(this, player, (ScoreboardInfo)info.get("hawn.scoreboard."+sb));
+				new PlayerBoard(this, player.getUniqueId(), (ScoreboardInfo)info.get("hawn.scoreboard."+sb));
 			}
 		} else {
 			for (String s : info.keySet()) {
@@ -1871,16 +1943,16 @@ public class Main extends JavaPlugin implements Listener {
 	            
 	            if (in.getEnabledWorlds() == null) {
 	            	if (player.hasPermission(s)) {
-	                    if (boards.containsKey(player)) {
-	                        if (boards.get(player).getList().equals(in.getText())) {
-	                            player.setScoreboard(boards.get(player).getBoard());
+	                    if (boards.containsKey(player.getUniqueId())) {
+	                        if (boards.get(player.getUniqueId()).getList().equals(in.getText())) {
+	                            player.setScoreboard(boards.get(player.getUniqueId()).getBoard());
 	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
-	                        boards.get(player).createNew(in);
+	                        boards.get(player.getUniqueId()).createNew(in);
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
-	                        new PlayerBoard(this, player, info.get(s));
+	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
 	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
@@ -1888,16 +1960,16 @@ public class Main extends JavaPlugin implements Listener {
 	                }
 	            } else if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
 	                if (player.hasPermission(s)) {
-	                    if (boards.containsKey(player)) {
-	                        if (boards.get(player).getList().equals(in.getText())) {
-	                            player.setScoreboard(boards.get(player).getBoard());
+	                    if (boards.containsKey(player.getUniqueId())) {
+	                        if (boards.get(player.getUniqueId()).getList().equals(in.getText())) {
+	                            player.setScoreboard(boards.get(player.getUniqueId()).getBoard());
 	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                            return;
 	                        }
-	                        boards.get(player).createNew(in);
+	                        boards.get(player.getUniqueId()).createNew(in);
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
-	                        new PlayerBoard(this, player, info.get(s));
+	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
 	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
 	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
@@ -1906,7 +1978,7 @@ public class Main extends JavaPlugin implements Listener {
 	            }
 	        }
 			
-			PlayerBoard board = boards.getOrDefault(player, null);
+			PlayerBoard board = boards.getOrDefault(player.getUniqueId(), null);
 			if (board != null) {
 				board.remove();
 			}
@@ -1914,7 +1986,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	@SuppressWarnings("static-access")
-	public HashMap<Player, PlayerBoard> getBoards() {
+	public HashMap<UUID, PlayerBoard> getBoards() {
 		return this.boards;
 	}
 

@@ -215,6 +215,14 @@ public class AdminOtherAMConfig {
             Config.set("Command.SlotView.Off", java.util.Arrays.asList(new String[] {
                     "%prefix% &7Le SlotView est &cdÃ©sactivÃ©"
                 }));
+            
+            Config.set("Command.IP", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7L'ip du joueur est: &e%getplayerip%"
+                }));
+            
+            Config.set("Command.Kickall", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7Tous les joueurs ont été kick du serveur"
+                }));
 
             saveConfigFile();
 

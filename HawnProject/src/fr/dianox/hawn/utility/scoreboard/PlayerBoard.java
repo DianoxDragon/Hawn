@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -21,6 +20,7 @@ import fr.dianox.hawn.utility.scoreboard.WhenPluginUpdateTextEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerBoard {
 
@@ -28,7 +28,7 @@ public class PlayerBoard {
 
     private Scoreboard board;
     private Objective score;
-    private Player player;
+    private UUID playerID;
 
     private List<Team> teams = new ArrayList<>();
     private HashMap<Team, String> lot = new HashMap<>();
@@ -49,9 +49,9 @@ public class PlayerBoard {
     private int index = 15;
     private int titleindex = 0;
 
-    public PlayerBoard(Main plugin, Player player, ScoreboardInfo info) {
+    public PlayerBoard(Main plugin, UUID playerID, ScoreboardInfo info) {
         this.plugin = plugin;
-        this.player = player;
+        this.playerID = playerID;
         list = info.getText();
         title = info.getTitle();
         updateTitle = info.getTitleUpdate();
@@ -66,23 +66,23 @@ public class PlayerBoard {
 
         this.info = info;
 
-        PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(getPlayer(), list, title, this);
+        PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(playerID, info.getPermission(), list, title, this);
         Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             startSetup(event);
         }
     }
 
-    public PlayerBoard(Main plugin, Player player, List<String> text, List<String> title, int updateTitle, int updateText) {
+    public PlayerBoard(Main plugin, UUID playerID, List<String> text, List<String> title, int updateTitle, int updateText) {
         this.plugin = plugin;
-        this.player = player;
+        this.playerID = playerID;
         this.updateTitle = updateTitle;
         this.updateText = updateText;
 
         this.title = title;
         this.list = text;
 
-        PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(getPlayer(), this.list, this.title, this);
+        PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(playerID, info.getPermission(), this.list, this.title, this);
         Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             startSetup(event);
@@ -90,13 +90,13 @@ public class PlayerBoard {
     }
 
     private void startSetup(final PlayerReceiveBoardEvent event) {
-        if (plugin.getBoards().containsKey(getPlayer())) {
-            plugin.getBoards().get(getPlayer()).remove();
+        if (plugin.getBoards().containsKey(getPlayerID())) {
+            plugin.getBoards().get(getPlayerID()).remove();
         }
 
         colorize();
         titleindex = event.getTitle().size();
-        plugin.getBoards().put(getPlayer(), this);
+        plugin.getBoards().put(getPlayerID(), this);
         plugin.getAllboards().add(this);
 
         buildScoreboard(event);
@@ -124,7 +124,7 @@ public class PlayerBoard {
         	score.setDisplayName(event.getTitle().get(0));
         }
         
-        getPlayer().setScoreboard(board);
+        Bukkit.getPlayer(getPlayerID()).setScoreboard(board);
     }
 
     private void setUpText(final List<String> text) {
@@ -182,7 +182,7 @@ public class PlayerBoard {
             	}
             }
             s = setHolders(s);
-            WhenPluginUpdateTextEvent event = new WhenPluginUpdateTextEvent(getPlayer(), s);
+            WhenPluginUpdateTextEvent event = new WhenPluginUpdateTextEvent(getPlayerID(), s);
             Bukkit.getPluginManager().callEvent(event);
 
             String[] ts = splitString(event.getText());
@@ -208,20 +208,23 @@ public class PlayerBoard {
     }
 
     private String setHolders(String s) {
-        s = s.replace("{PLAYER}", getPlayer().getName()).replace("{ONLINE}", Bukkit.getOnlinePlayers().size() + "")
-                .replace("{TIME}", getPlayer().getWorld().getTime() + "");
-        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-        	if (PlaceholderAPI.containsPlaceholders(s))
-        		s = PlaceholderAPI.setPlaceholders(getPlayer(), s);
-        }
-        
-        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-			s = MessageUtils.BattleLevelPO(s, getPlayer());
-		}
-        
-        s = MessageUtils.ReplaceMainplaceholderP(s, getPlayer());
+    	try {
+    		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            	if (PlaceholderAPI.containsPlaceholders(s))
+            		s = PlaceholderAPI.setPlaceholders(Bukkit.getPlayer(getPlayerID()), s);
+            }
+            
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+    			s = MessageUtils.BattleLevelPO(s, Bukkit.getPlayer(getPlayerID()));
+    		}
+            
+            s = MessageUtils.ReplaceMainplaceholderP(s, Bukkit.getPlayer(getPlayerID()));
 
-        s = ChatColor.translateAlternateColorCodes('&', s);
+            s = ChatColor.translateAlternateColorCodes('&', s);
+            
+            return s;
+    	} catch (Exception e) {}
+    	
         return s;
     }
 
@@ -259,9 +262,9 @@ public class PlayerBoard {
 
     public void remove() {
         stopTasks();
-        plugin.getBoards().remove(getPlayer());
+        plugin.getBoards().remove(getPlayerID());
         plugin.getAllboards().remove(this);
-        getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        Bukkit.getPlayer(getPlayerID()).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
 
     public void stopTasks() {
@@ -308,7 +311,7 @@ public class PlayerBoard {
 	                    public void run() {
 	                        Scroller text = info.getScrollerText().get(s);
 	                        text.setupText(
-	                        		setHolders(text.text),
+	                        		setHolders(text.getText()),
 	                        		'&'
 	                        );
 	                        scrollerText.put(s, text.next());
@@ -440,12 +443,16 @@ public class PlayerBoard {
         return board;
     }
 
-    public Objective getScore() {
-        return score;
+    public UUID getPlayerID() {
+        return playerID;
     }
 
-    public Player getPlayer() {
-        return player;
+    public void setPlayerID(UUID playerID) {
+        this.playerID = playerID;
+    }
+    
+    public Objective getScore() {
+        return score;
     }
 
     public List<String> getList() {

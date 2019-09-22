@@ -264,6 +264,35 @@ public class ConfigMCommands {
             Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, but you can't repair that item"}));
             
             /*
+             * Hat
+             */
+            Config.set("Hat.Self.Set.Enable", true);
+            Config.set("Hat.Self.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7The new hat has been set"}));
+            Config.set("Hat.Self.Removed.Enable", true);
+            Config.set("Hat.Self.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7The hat has been removed"}));
+            
+            Config.set("Hat.Other-Target.Set.Enable", true);
+            Config.set("Hat.Other-Target.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You got a new hat from &e%player%"}));
+            Config.set("Hat.Other-Target.Removed.Enable", true);
+            Config.set("Hat.Other-Target.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Your hat has been removed from &e%player%"}));
+            
+            Config.set("Hat.Other-Sender.Set.Enable", true);
+            Config.set("Hat.Other-Sender.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You set a new hat for &e%target%"}));
+            Config.set("Hat.Other-Sender.Removed.Enable", true);
+            Config.set("Hat.Other-Sender.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You removed the hat of &e%target%"}));
+            
+            Config.set("Hat.Error.No-Hat-Can-Be-Set.Enable", true);
+            Config.set("Hat.Error.No-Hat-Can-Be-Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cSorry but you can't set a new hat"}));
+            Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Enable", true);
+            Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cSorry but you can't remove the hat, it's empty"}));
+            
+            /*
+             * GetPos
+             */
+            Config.set("GetPos.Enable", true);
+            Config.set("GetPos.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% The player location is: &e%X% %Y% %Z%&7 in the world&b %world%"}));
+            
+            /*
              * Vanish stuff
              */
             Config.set("Vanish.Self.Enable", true);

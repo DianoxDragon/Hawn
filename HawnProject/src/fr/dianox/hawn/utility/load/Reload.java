@@ -40,10 +40,14 @@ import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.GetPosCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
+import fr.dianox.hawn.utility.config.commands.HatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
+import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
@@ -162,6 +166,10 @@ public class Reload {
 		EnderChestCommandConfig.reloadConfig();
 		InvSeeCommandConfig.reloadConfig();
 		RepairCommandConfig.reloadConfig();
+		HatCommandConfig.reloadConfig();
+		KickAllCommandConfig.reloadConfig();
+		GetPosCommandConfig.reloadConfig();
+		IpCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {
@@ -398,9 +406,9 @@ public class Reload {
 			Main.getInstance().loadScoreboards(folder);
 			
 			for (Player p : Bukkit.getOnlinePlayers()) {
-	            if (Main.getInstance().getBoards().containsKey(p)) {
-	            	Main.getInstance().getBoards().get(p).remove();
-	            	Main.getInstance().getBoards().remove(p);
+	            if (Main.getInstance().getBoards().containsKey(p.getUniqueId())) {
+	            	Main.getInstance().getBoards().get(p.getUniqueId()).remove();
+	            	Main.getInstance().getBoards().remove(p.getUniqueId());
 	            }
 	            Main.getInstance().createDefaultScoreboard(p);
 			}

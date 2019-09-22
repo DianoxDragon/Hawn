@@ -57,6 +57,8 @@ public class ConfigGProtection {
             Config.set("Protection.Construct.Anti-Place.Bypass", true);
             Config.set("Protection.Construct.Anti-Place.Message", true);
             Config.set("Protection.Construct.Anti-Place.Block-Exception.Enable", false);
+            Config.set("Protection.Construct.Anti-Place.Block-Exception.Method", "WHITELIST");
+            Config.set("Protection.Construct.Anti-Place.Block-Exception.Armor_Stand", false);
             Config.set("Protection.Construct.Anti-Place.Block-Exception.Materials", java.util.Arrays.asList(new String[] {
                     "DIRT"
                 }));
@@ -76,6 +78,7 @@ public class ConfigGProtection {
             Config.set("Protection.Construct.Anti-Break.Bypass", true);
             Config.set("Protection.Construct.Anti-Break.Message", true);
             Config.set("Protection.Construct.Anti-Break.Block-Exception.Enable", false);
+            Config.set("Protection.Construct.Anti-Break.Block-Exception.Method", "WHITELIST");
             Config.set("Protection.Construct.Anti-Break.Block-Exception.Materials", java.util.Arrays.asList(new String[] {
                     "DIRT"
                 }));

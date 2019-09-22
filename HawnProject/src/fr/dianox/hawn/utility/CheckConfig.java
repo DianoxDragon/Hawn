@@ -165,6 +165,72 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigGProtection.getConfig().isSet("Protection.Construct.Anti-Place.Block-Exception.Method")) {
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.Block-Exception.Method", "WHITELIST");
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.Block-Exception.Method", "WHITELIST");
+			 
+			ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigGProtection.getConfig().isSet("Protection.Construct.Anti-Place.Block-Exception.Armor_Stand")) {
+			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.Block-Exception.Armor_Stand", false);
+			 
+			ConfigGProtection.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Hat.Enable")) {
+			ConfigMCommands.getConfig().set("Hat.Self.Set.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Self.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7The new hat has been set"}));
+			ConfigMCommands.getConfig().set("Hat.Self.Removed.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Self.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7The hat has been removed"}));
+            
+			ConfigMCommands.getConfig().set("Hat.Other-Target.Set.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Other-Target.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You got a new hat from &e%player%"}));
+			ConfigMCommands.getConfig().set("Hat.Other-Target.Removed.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Other-Target.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Your hat has been removed from &e%player%"}));
+            
+			ConfigMCommands.getConfig().set("Hat.Other-Sender.Set.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Other-Sender.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You set a new hat for &e%target%"}));
+			ConfigMCommands.getConfig().set("Hat.Other-Sender.Removed.Enable", true);
+			ConfigMCommands.getConfig().set("Hat.Other-Sender.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7You removed the hat of &e%target%"}));
+            
+			ConfigMCommands.getConfig().set("Hat.Error.No-Hat-Can-Be-Set.Enable", true);
+            ConfigMCommands.getConfig().set("Hat.Error.No-Hat-Can-Be-Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cSorry but you can't set a new hat"}));
+            ConfigMCommands.getConfig().set("Hat.Error.Need-Have-NoEmpty-Helmet.Enable", true);
+            ConfigMCommands.getConfig().set("Hat.Error.Need-Have-NoEmpty-Helmet.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cSorry but you can't remove the hat, it's empty"}));
+            
+			ConfigMCommands.getConfig().set("GetPos.Enable", true);
+            ConfigMCommands.getConfig().set("GetPos.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% The player location is: &e%X% %Y% %Z%&7 in the world&b %world%"}));
+            
+            OtherAMConfig.getConfig().set("Command.IP", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7The player's ip is: &e%getplayerip%"
+                }));
+            
+            OtherAMConfig.getConfig().set("Command.Kickall", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7All player has been kick"
+                }));
+            
+            CommandAliasesConfig.getConfig().set("Hat.Enable", false);
+            CommandAliasesConfig.getConfig().set("Hat.Cannot-Be-changed.Main-Command-Is", "hat");
+            CommandAliasesConfig.getConfig().set("Hat.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            CommandAliasesConfig.getConfig().set("GetPos.Enable", false);
+            CommandAliasesConfig.getConfig().set("GetPos.Cannot-Be-changed.Main-Command-Is", "getpos");
+            CommandAliasesConfig.getConfig().set("GetPos.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            CommandAliasesConfig.getConfig().set("Ip.Enable", false);
+            CommandAliasesConfig.getConfig().set("Ip.Cannot-Be-changed.Main-Command-Is", "ip");
+            CommandAliasesConfig.getConfig().set("Ip.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            CommandAliasesConfig.getConfig().set("KickAll.Enable", false);
+            CommandAliasesConfig.getConfig().set("KickAll.Cannot-Be-changed.Main-Command-Is", "kickall");
+            CommandAliasesConfig.getConfig().set("KickAll.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            CommandAliasesConfig.saveConfigFile();
+            OtherAMConfig.saveConfigFile();
+            ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!ConfigMCommands.getConfig().isSet("Repair.Repaired.Enable")) {
 			ConfigMCommands.getConfig().set("Repair.Repaired.Enable", true);
 			ConfigMCommands.getConfig().set("Repair.Repaired.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The item &e%item% &7has been fixed"}));

@@ -34,7 +34,7 @@ public class OnScoreboard implements Listener {
         	return;
         }
         
-        if (Main.boards.containsKey(e.getPlayer())) {
+        if (Main.boards.containsKey(e.getPlayer().getUniqueId())) {
 	        if (!e.getFrom().getWorld().getName().equals(e.getTo().getWorld().getName())) {
 	        	Main.playerWorldTimer.put(p, System.currentTimeMillis() + 3000);
 	        }
@@ -82,11 +82,11 @@ public class OnScoreboard implements Listener {
     	
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(e.getPlayer(), "scoreboard");
-			if (Main.getInstance().getBoards().containsKey(p)) {
+			if (Main.getInstance().getBoards().containsKey(p.getUniqueId())) {
 				ScoreboardInfo in = (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb);
-				((PlayerBoard)Main.getInstance().getBoards().get(p)).createNew(in);
+				((PlayerBoard)Main.getInstance().getBoards().get(p.getUniqueId())).createNew(in);
 			} else {
-				new PlayerBoard(Main.getInstance(), p, (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb));
+				new PlayerBoard(Main.getInstance(), p.getUniqueId(), (ScoreboardInfo)Main.getInstance().getInfo().get("hawn.scoreboard."+sb));
 			}
 		} else {
 	    	Main.playerWorldTimer.put(e.getPlayer(), System.currentTimeMillis() + 3000);

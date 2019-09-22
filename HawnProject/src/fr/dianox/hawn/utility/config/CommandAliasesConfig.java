@@ -101,6 +101,10 @@ public class CommandAliasesConfig {
             Config.set("Gamemode-Classic.Cannot-Be-changed.Main-Command-Is", "gamemode");
             Config.set("Gamemode-Classic.Aliases", java.util.Arrays.asList(new String[] {"gm"}));
             
+            Config.set("GetPos.Enable", false);
+            Config.set("GetPos.Cannot-Be-changed.Main-Command-Is", "getpos");
+            Config.set("GetPos.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Gms.Enable", false);
             Config.set("Gms.Cannot-Be-changed.Main-Command-Is", "gms");
             Config.set("Gms.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -121,6 +125,10 @@ public class CommandAliasesConfig {
             Config.set("Gotop.Cannot-Be-changed.Main-Command-Is", "gotop");
             Config.set("Gotop.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("Hat.Enable", false);
+            Config.set("Hat.Cannot-Be-changed.Main-Command-Is", "hat");
+            Config.set("Hat.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Heal.Enable", false);
             Config.set("Heal.Cannot-Be-changed.Main-Command-Is", "heal");
             Config.set("Heal.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -132,6 +140,14 @@ public class CommandAliasesConfig {
             Config.set("InvSee.Enable", false);
             Config.set("InvSee.Cannot-Be-changed.Main-Command-Is", "invsee");
             Config.set("InvSee.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Ip.Enable", false);
+            Config.set("Ip.Cannot-Be-changed.Main-Command-Is", "ip");
+            Config.set("Ip.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("KickAll.Enable", false);
+            Config.set("KickAll.Cannot-Be-changed.Main-Command-Is", "kickall");
+            Config.set("KickAll.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("MuteChat.Enable", true);
             Config.set("MuteChat.Cannot-Be-changed.Main-Command-Is", "globalmute");

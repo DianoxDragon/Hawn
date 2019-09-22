@@ -14,7 +14,7 @@ public class Scroller {
 
     private static final char COLOUR_CHAR = '§';
     private int width, spaceBetween;
-    String text;
+    private String text;
     private int position;
     private List<String> list;
     private ChatColor colour = ChatColor.RESET;
@@ -33,6 +33,10 @@ public class Scroller {
         setupText(message, width, spaceBetween, colourChar);
     }
 
+    public String getText() {
+        return text;
+    }
+    
     /**
      * @return Gets the next String to display
      */
@@ -99,7 +103,7 @@ public class Scroller {
         // Add space between repeats
         StringBuilder space = new StringBuilder();
         for (int i = 0; i < spaceBetween; ++i) {
-            list.add(message.substring(message.length() - width + (i > width ? width : i)) + space);
+        	list.add(message.substring(message.length() - width + (Math.min(i, width))) + space);
             if (space.length() < width)
                 space.append(" ");
         }
@@ -112,7 +116,7 @@ public class Scroller {
         for (int i = 0; i < spaceBetween; i++) {
             if (i > space.length())
                 break;
-            list.add(space.substring(0, space.length() - i) + message.substring(0, width - (spaceBetween > width ? width : spaceBetween) + i));
+            list.add(space.substring(0, space.length() - i) + message.substring(0, width - (Math.min(spaceBetween, width)) + i));
         }
     }
 
