@@ -59,6 +59,8 @@ import fr.dianox.hawn.commands.features.warp.DelWarpCommand;
 import fr.dianox.hawn.commands.features.warp.SetWarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpListCommand;
+import fr.dianox.hawn.commands.others.ClearGroundItemsCommand;
+import fr.dianox.hawn.commands.others.ClearMobsCommand;
 import fr.dianox.hawn.commands.others.EnderChestCommand;
 import fr.dianox.hawn.commands.others.FeedCommand;
 import fr.dianox.hawn.commands.others.GetPosCommand;
@@ -105,7 +107,9 @@ import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
@@ -181,7 +185,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.8-Alpha";
+	private static String versions = "0.8.9-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -446,6 +450,12 @@ public class Main extends JavaPlugin implements Listener {
 			GetPosCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-GetPos", "Commands/GetPos.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/GetPos.yml", "C-GetPos");
+			ClearGroundItemsCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-ClearGroundItems", "Commands/ClearGroundItems.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ClearGroundItems.yml", "C-ClearGroundItems");
+			ClearMobsCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-ClearMobs", "Commands/ClearMobs.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ClearMobs.yml", "C-ClearMobs");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -697,15 +707,35 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
-			/* ------------------------ *
-			 * CLEAR INVENTORY COMMANDS *
-			 * ------------------------ */
+			/* -------------- *
+			 * CLEAR COMMANDS *
+			 * -------------- */
+			// >> Clear Ground Items
+			if (!ClearGroundItemsCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("cleargrounditems", new ClearGroundItemsCommand("cleargrounditems"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ClearGroundItems.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearGroundItems.Aliases")) {
+						commandMap.register(s, new ClearGroundItemsCommand(s));
+					}
+				}
+			}
+
 			// >> Clear inventory
 			if (!ClearInvCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("clearinventory", new ClearInvCommand("clearinventory"));
 				if (CommandAliasesConfig.getConfig().getBoolean("ClearInv.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearInv.Aliases")) {
 						commandMap.register(s, new ClearInvCommand(s));
+					}
+				}
+			}
+			
+			// >> Clear Mobs
+			if (!ClearMobsCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("clearmobs", new ClearMobsCommand("clearmobs"));
+				if (CommandAliasesConfig.getConfig().getBoolean("ClearMobs.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearMobs.Aliases")) {
+						commandMap.register(s, new ClearMobsCommand(s));
 					}
 				}
 			}

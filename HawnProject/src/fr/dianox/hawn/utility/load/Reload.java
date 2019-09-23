@@ -33,7 +33,9 @@ import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
@@ -170,6 +172,8 @@ public class Reload {
 		KickAllCommandConfig.reloadConfig();
 		GetPosCommandConfig.reloadConfig();
 		IpCommandConfig.reloadConfig();
+		ClearGroundItemsCommandConfig.reloadConfig();
+		ClearMobsCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

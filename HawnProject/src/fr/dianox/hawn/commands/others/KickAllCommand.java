@@ -26,11 +26,19 @@ public class KickAllCommand extends BukkitCommand {
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
 
-        	if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				 for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					 MessageUtils.ReplaceMessageForConsole(msg);
-				 }
-			 }
+        	if (args.length == 0) {
+                for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+             	   if (!all.hasPermission("hawn.command.bypass.kickall")) {
+             		   all.kickPlayer("Kicked");
+             	   }
+                }
+                
+                for (String msg: OtherAMConfig.getConfig().getStringList("Command.Kickall")) {
+             	   MessageUtils.ReplaceMessageForConsole(msg);
+                }
+             } else {
+             	sender.sendMessage("§c/kickall");
+             }
 
             return true;
         }
@@ -63,7 +71,7 @@ public class KickAllCommand extends BukkitCommand {
         		  continue;
         	   }
         	   
-        	   if (!p.hasPermission("hawn.command.bypass.kickall")) {
+        	   if (!all.hasPermission("hawn.command.bypass.kickall")) {
         		   all.kickPlayer("Kicked");
         	   }
            }

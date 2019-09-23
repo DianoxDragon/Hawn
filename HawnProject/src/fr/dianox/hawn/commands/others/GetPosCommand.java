@@ -26,11 +26,42 @@ public class GetPosCommand extends BukkitCommand {
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
 
-        	if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				 for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					 MessageUtils.ReplaceMessageForConsole(msg);
-				 }
-			 }
+        	if (args.length == 0) {
+                if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+    				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+    					MessageUtils.ReplaceMessageForConsole(msg);
+    				}
+    			}
+            } else if (args.length == 1) {
+            	Player target = Bukkit.getServer().getPlayer(args[0]);
+
+        		if (target == null) {
+        			if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+        	            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+        	            	MessageUtils.ReplaceMessageForConsole(msg);
+        	            }
+        	        }
+        			return true;
+        		}
+        		
+        		Integer X = target.getLocation().getBlockX();
+        		Integer Y = target.getLocation().getBlockY();
+        		Integer Z = target.getLocation().getBlockZ();
+        		String World = target.getLocation().getWorld().getName();
+        		
+        		if (ConfigMCommands.getConfig().getBoolean("GetPos.Enable")) {
+        			for (String msg: ConfigMCommands.getConfig().getStringList("GetPos.Messages")) {
+        				MessageUtils.ReplaceMessageForConsole(msg
+        						.replaceAll("%target%", target.getName())
+        						.replaceAll("%X%", String.valueOf(X))
+        						.replaceAll("%Y%", String.valueOf(Y))
+        						.replaceAll("%Z%", String.valueOf(Z))
+        						.replaceAll("%world%", World));
+        			}
+        		}
+            } else {
+            	sender.sendMessage("§c/getpos <player>");
+            }
 
             return true;
         }

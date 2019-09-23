@@ -224,6 +224,14 @@ public class OtherAMConfig {
             Config.set("Command.Kickall", java.util.Arrays.asList(new String[] {
                     "%prefix% &7All player has been kick"
                 }));
+            
+            Config.set("Command.ClearGroundItems", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7All items have been cleared"
+                }));
+            
+            Config.set("Command.ClearMobs", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7All mobs have been cleared"
+                }));
 
             saveConfigFile();
 

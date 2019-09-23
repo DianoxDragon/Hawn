@@ -26,11 +26,34 @@ public class IpCommand extends BukkitCommand {
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
 
-        	if (ConfigMOStuff.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
-				 for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Not-A-Player.Messages")) {
-					 MessageUtils.ReplaceMessageForConsole(msg);
-				 }
-			 }
+        	 if (args.length == 0) {
+                 if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+     				for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+     					MessageUtils.ReplaceMessageForConsole(msg);
+     				}
+     			}
+             } else if (args.length == 1) {
+             	Player target = Bukkit.getServer().getPlayer(args[0]);
+
+         		if (target == null) {
+         			if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
+        	            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
+        	            	MessageUtils.ReplaceMessageForConsole(msg);
+        	            }
+        	        }
+         			return true;
+         		}
+         		
+         		String ip = target.getAddress().getHostString();
+         		
+         		for (String msg: OtherAMConfig.getConfig().getStringList("Command.IP")) {
+         			MessageUtils.ReplaceMessageForConsole(msg
+         					.replaceAll("%target%", target.getName())
+         					.replaceAll("%getplayerip%", ip));
+         		}
+             } else {
+             	sender.sendMessage("§c/ip <player>");
+             }
 
             return true;
         }

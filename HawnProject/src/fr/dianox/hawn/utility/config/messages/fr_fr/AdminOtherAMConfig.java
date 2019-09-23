@@ -223,6 +223,14 @@ public class AdminOtherAMConfig {
             Config.set("Command.Kickall", java.util.Arrays.asList(new String[] {
                     "%prefix% &7Tous les joueurs ont été kick du serveur"
                 }));
+            
+            Config.set("Command.ClearGroundItems", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7Tous les objets ont été effacés"
+                }));
+            
+            Config.set("Command.ClearMobs", java.util.Arrays.asList(new String[] {
+                    "%prefix% &7Toutes les monstres ont été éliminés"
+                }));
 
             saveConfigFile();
 

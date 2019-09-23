@@ -165,6 +165,28 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OtherAMConfig.getConfig().isSet("Command.ClearGroundItems")) {
+			
+			OtherAMConfig.getConfig().set("Command.ClearGroundItems", java.util.Arrays.asList(new String[] {
+                "%prefix% &7All items have been cleared"
+            }));
+			
+			OtherAMConfig.getConfig().set("Command.ClearMobs", java.util.Arrays.asList(new String[] {
+                "%prefix% &7All mobs have been cleared"
+            }));
+        
+			CommandAliasesConfig.getConfig().set("ClearGroundItems.Enable", true);
+			CommandAliasesConfig.getConfig().set("ClearGroundItems.Cannot-Be-changed.Main-Command-Is", "cleargrounditems");
+			CommandAliasesConfig.getConfig().set("ClearGroundItems.Aliases", java.util.Arrays.asList(new String[] {"cleargi"}));
+			
+			CommandAliasesConfig.getConfig().set("ClearMobs.Enable", true);
+			CommandAliasesConfig.getConfig().set("ClearMobs.Cannot-Be-changed.Main-Command-Is", "clearmobs");
+			CommandAliasesConfig.getConfig().set("ClearMobs.Aliases", java.util.Arrays.asList(new String[] {"clearm"}));
+			
+			CommandAliasesConfig.saveConfigFile();
+        	OtherAMConfig.saveConfigFile();
+		}
+		
 		if (!ConfigGProtection.getConfig().isSet("Protection.Construct.Anti-Place.Block-Exception.Method")) {
 			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Place.Block-Exception.Method", "WHITELIST");
 			ConfigGProtection.getConfig().set("Protection.Construct.Anti-Break.Block-Exception.Method", "WHITELIST");

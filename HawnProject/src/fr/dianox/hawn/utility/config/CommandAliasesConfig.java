@@ -65,9 +65,17 @@ public class CommandAliasesConfig {
             Config.set("ClearChat.Cannot-Be-changed.Main-Command-Is", "cc");
             Config.set("ClearChat.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("ClearGroundItems.Enable", true);
+            Config.set("ClearGroundItems.Cannot-Be-changed.Main-Command-Is", "cleargrounditems");
+            Config.set("ClearGroundItems.Aliases", java.util.Arrays.asList(new String[] {"cleargi"}));
+            
             Config.set("ClearInv.Enable", true);
             Config.set("ClearInv.Cannot-Be-changed.Main-Command-Is", "clearinventory");
             Config.set("ClearInv.Aliases", java.util.Arrays.asList(new String[] {"clearinv"}));
+            
+            Config.set("ClearMobs.Enable", true);
+            Config.set("ClearMobs.Cannot-Be-changed.Main-Command-Is", "clearmobs");
+            Config.set("ClearMobs.Aliases", java.util.Arrays.asList(new String[] {"clearm"}));
             
             Config.set("Day.Enable", false);
             Config.set("Day.Cannot-Be-changed.Main-Command-Is", "day");
