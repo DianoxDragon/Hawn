@@ -149,7 +149,7 @@ public class PingCommand extends BukkitCommand {
     /*
      * Method to get the ping of a player
      */
-    public static int getPing(Player p) {
+    public static int getPing(Player p) {    	
         String bpName = Bukkit.getServer().getClass().getPackage().getName();
         String version = bpName.substring(bpName.lastIndexOf(".") + 1, bpName.length());
         try {
@@ -160,11 +160,9 @@ public class PingCommand extends BukkitCommand {
             Object EntityPlayer = getHandle.invoke(CraftPlayer, new Object[0]);
 
             Field ping = EntityPlayer.getClass().getDeclaredField("ping");
-
+            
             return ping.getInt(EntityPlayer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return 0;
     }
 

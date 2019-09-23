@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -209,16 +210,19 @@ public class PlayerBoard {
 
     private String setHolders(String s) {
     	try {
+    		
+    		Player p = Bukkit.getPlayer(getPlayerID());
+    		
     		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
             	if (PlaceholderAPI.containsPlaceholders(s))
-            		s = PlaceholderAPI.setPlaceholders(Bukkit.getPlayer(getPlayerID()), s);
+            		s = PlaceholderAPI.setPlaceholders(p, s);
             }
             
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-    			s = MessageUtils.BattleLevelPO(s, Bukkit.getPlayer(getPlayerID()));
+    			s = MessageUtils.BattleLevelPO(s, p);
     		}
             
-            s = MessageUtils.ReplaceMainplaceholderP(s, Bukkit.getPlayer(getPlayerID()));
+            s = MessageUtils.ReplaceMainplaceholderP(s, p);
 
             s = ChatColor.translateAlternateColorCodes('&', s);
             

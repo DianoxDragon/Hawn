@@ -185,7 +185,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.9-Alpha";
+	private static String versions = "0.8.9.1-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
