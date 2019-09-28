@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event.onjoine;
+package fr.dianox.hawn.modules.onjoin.cji;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +8,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.event.customjoinitem.SpecialCJIPlayerVisibility;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -212,7 +213,91 @@ public class CustomJoinItem {
 		}
 		
 		if (material.contains("Special-HidePlayers")) {
-			SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoincji(p, slot);
+			SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoincji(p, slot);
+			return;
+		} else if (material.contains("Special-LobbyBow")) {
+			SpecialIteLobbyBow.PlayerGiveLobbyBow(p, slot);
+			return;
+		} else if (material.contains("Special-Book")) {
+			
+			material = material.replace("Special-Book:", "");
+			
+			item = new ItemStack(XMaterial.WRITTEN_BOOK.parseMaterial(), amount);
+			
+			BookMeta metabook = (BookMeta) item.getItemMeta();
+			
+			// author
+			metabook.setAuthor(BookListConfiguration.getConfig().getString("Book-List." + material + ".Author"));
+			
+			// title
+			String booktitle = BookListConfiguration.getConfig().getString("Book-List." + material + ".Title");
+			
+			booktitle = MessageUtils.ReplaceMainplaceholderP(booktitle, p);
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				booktitle = PlaceholderAPI.setPlaceholders(p, booktitle);
+			}
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				booktitle = MessageUtils.BattleLevelPO(booktitle, p);
+			}
+			
+			booktitle = booktitle.replaceAll("&", "§");
+			
+			metabook.setTitle(booktitle);
+			
+			// pages
+			Iterator<?> iterator = BookListConfiguration.getConfig().getConfigurationSection("Book-List." + material).getKeys(false).iterator();
+			
+			ArrayList<String> pages = new ArrayList<String>();
+			pages.clear();
+			
+			Integer number = 0;
+			
+			while (iterator.hasNext()) {
+				String string = (String) iterator.next();
+				
+				String page = "";
+				Boolean check = false;
+				
+				if (string.equals("Title") || string.equals("Author")) {
+					continue;
+				}
+				
+				for (String s: BookListConfiguration.getConfig().getStringList("Book-List." + material + "." + string + ".page")) {
+					s = s.replaceAll("&", "§");
+					
+					s = MessageUtils.ReplaceMainplaceholderP(s, p);
+					
+					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+						s = PlaceholderAPI.setPlaceholders(p, s);
+					}
+					
+					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+						s = MessageUtils.BattleLevelPO(s, p);
+					}
+					
+					if (!check) {
+						page = s;
+						check = true;
+					} else {
+						page = page + "\n" + s;
+					}
+				}
+				
+				pages.add(number, page);
+				number++;
+			}
+			
+			metabook.setPages(pages);
+			
+			if (lorecheck) {
+				metabook.setLore(lore);
+			}
+			
+			item.setItemMeta(metabook);
+			p.getInventory().setItem(slot, item);
+			
 			return;
 		} else {
 			if (material.contains("SKULL")) {

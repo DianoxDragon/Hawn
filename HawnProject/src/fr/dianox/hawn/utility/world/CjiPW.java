@@ -7,12 +7,26 @@ import org.bukkit.Bukkit;
 
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
 
 public class CjiPW {
 
+	public static List < String > worlds_po_lobbybow_item = new ArrayList < String > ();
     public static List < String > worlds_po_playervisibility_item = new ArrayList < String > ();
     public static List < String > worlds_general = new ArrayList < String > ();
-
+    
+    public static void setpoLobbyBow() {
+        if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Enable") && !SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.World.All_World")) {
+            for (String world: SpecialCjiLobbyBow.getConfig().getStringList("LobbyBow.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in Special-LobbyBow.yml, LobbyBow.World: " + world);
+                } else {
+                	worlds_po_lobbybow_item.add(world);
+                }
+            }
+        }
+    }
+    
     public static void setItemPlayerVisibility() {
         if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable") && !SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
             for (String world: SpecialCjiHidePlayers.getConfig().getStringList("PV.World.Worlds")) {
@@ -35,6 +49,10 @@ public class CjiPW {
                 }
             }
         }
+    }
+    
+    public static List < String > getLobbyBow() {
+        return worlds_po_lobbybow_item;
     }
     
     public static List < String > getWItemPVOnJoin() {

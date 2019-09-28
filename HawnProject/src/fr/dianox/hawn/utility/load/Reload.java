@@ -15,7 +15,7 @@ import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnJoin;
-import fr.dianox.hawn.event.onjoine.CustomJoinItem;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.CheckConfig;
 import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.NMSClass;
@@ -62,12 +62,14 @@ import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WeatherTimeCommandConfig;
+import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
 import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.events.CommandEventConfig;
 import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.config.events.ConfigGProtection;
@@ -174,6 +176,8 @@ public class Reload {
 		IpCommandConfig.reloadConfig();
 		ClearGroundItemsCommandConfig.reloadConfig();
 		ClearMobsCommandConfig.reloadConfig();
+		SpecialCjiLobbyBow.reloadConfig();
+		BookListConfiguration.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

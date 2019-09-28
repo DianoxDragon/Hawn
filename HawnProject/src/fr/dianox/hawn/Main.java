@@ -79,14 +79,15 @@ import fr.dianox.hawn.commands.others.weather.SunCommand;
 import fr.dianox.hawn.commands.others.weather.ThunderCommand;
 import fr.dianox.hawn.event.AutoBroadcast;
 import fr.dianox.hawn.event.AutoBroadcast_AB;
+import fr.dianox.hawn.event.AutoBroadcast_BossBar;
 import fr.dianox.hawn.event.AutoBroadcast_Title;
 import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnJoin;
-import fr.dianox.hawn.event.onjoine.CustomJoinItem;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.CheckConfig;
 import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.NMSClass;
@@ -136,12 +137,14 @@ import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WeatherTimeCommandConfig;
+import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
 import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.events.CommandEventConfig;
 import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.config.events.ConfigGProtection;
@@ -185,7 +188,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.8.9.1-Alpha";
+	private static String versions = "0.9.0-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -209,14 +212,18 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
     public static HashMap<Integer, String> autobroadcast_titles = new HashMap<>();
     public static HashMap<Integer, String> autobroadcast_ab = new HashMap<>();
+    public static HashMap<Integer, String> autobroadcast_bb = new HashMap<>();
     public static Integer autobroadcast_total= 0;
     public static Integer autobroadcast_total_titles = 0;
     public static Integer autobroadcast_total_ab = 0;
+    public static Integer autobroadcast_total_bb = 0;
     public static int interval = 0;
     public static int interval_titles = 0;
     public static int interval_ab = 0;
+    public static int interval_bb = 0;
     public static int curMsg = 0;
     public static int curMsg_ab = 0;
+    public static int curMsg_bb = 0;
     public static int curMsg_titles = 0;
 	public Scoreboard board;
 
@@ -469,6 +476,9 @@ public class Main extends JavaPlugin implements Listener {
 			FireworkListCUtility.loadConfig((Plugin) this);
 			configfile.put("CFU-Firework-List", "Cosmetics-Fun/Utility/Firework-List.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Firework-List.yml", "CFU-Firework-List");
+			BookListConfiguration.loadConfig((Plugin) this);
+			configfile.put("CFU-Book-List", "Cosmetics-Fun/Utility/Book-List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Book-List.yml", "CFU-Book-List");
 			
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
@@ -482,6 +492,9 @@ public class Main extends JavaPlugin implements Listener {
 		SpecialCjiHidePlayers.loadConfig((Plugin) this);
 		configfile.put("CJI-Special-HidePlayers", "CustomJoinItem/Special-HidePlayers.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-HidePlayers.yml", "CJI-Special-HidePlayers");
+		SpecialCjiLobbyBow.loadConfig((Plugin) this);
+		configfile.put("CJI-Special-LobbyBow", "CustomJoinItem/Special-LobbyBow.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-LobbyBow.yml", "CJI-Special-LobbyBow");
 		ConfigCJIGeneral.loadConfig((Plugin) this);
 		configfile.put("CJI-General", "CustomJoinItem/General.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");
@@ -1619,6 +1632,28 @@ public class Main extends JavaPlugin implements Listener {
 			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval"));
 	    }
 	    
+	    // >> BossBar
+	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
+
+	    	interval_bb = AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval");
+
+		    Iterator<?> iterator5 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.BossBar.messages").getKeys(false).iterator();
+
+		    Integer bbnumberput = 0;
+
+		    while (iterator5.hasNext()) {
+				String string = (String) iterator5.next();
+				autobroadcast_bb.put(bbnumberput, string);
+				bbnumberput++;
+				autobroadcast_total_bb++;
+		    }
+
+		    autobroadcast_total_bb--;
+		    
+		    @SuppressWarnings("unused")
+			BukkitTask TaskName = (new AutoBroadcast_BossBar(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval"));
+	    }
+	    
 	    /*
 	     * Voidtp per world
 	     */
@@ -1666,7 +1701,7 @@ public class Main extends JavaPlugin implements Listener {
 	            }
 		    }.runTaskTimer(this, 0, 20);
 	    }
-
+	    
 	    indj.clear();
 	    OnCommandEvent.cooldowncommands.clear();
 	    
@@ -1795,6 +1830,24 @@ public class Main extends JavaPlugin implements Listener {
 	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
 			 }
 	    }
+	    
+	    new BukkitRunnable() {
+            @Override
+            public void run() {
+            	if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
+        			File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Scoreboard/");
+        			Main.getInstance().loadScoreboards(folder);
+        			
+        			for (Player p : Bukkit.getOnlinePlayers()) {
+        	            if (Main.getInstance().getBoards().containsKey(p.getUniqueId())) {
+        	            	Main.getInstance().getBoards().get(p.getUniqueId()).remove();
+        	            	Main.getInstance().getBoards().remove(p.getUniqueId());
+        	            }
+        	            Main.getInstance().createDefaultScoreboard(p);
+        			}
+        		}
+            }
+	    }.runTaskLater(this, 150);
 	    
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");

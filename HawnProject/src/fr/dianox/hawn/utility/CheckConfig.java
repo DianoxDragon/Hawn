@@ -165,6 +165,71 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!AutoBroadcastConfig.getConfig().isSet("Config.BossBar.Enable")) {
+			/*
+             * Auto broadcast
+             * BossBar
+             */
+			AutoBroadcastConfig.getConfig().set("Config.BossBar.Enable", true);
+			AutoBroadcastConfig.getConfig().set("Config.BossBar.Random", false);
+			AutoBroadcastConfig.getConfig().set("Config.BossBar.Interval", 60);
+			AutoBroadcastConfig.getConfig().set("Config.BossBar.Use-Permission-To-Get-Messages", false);
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.Options-Default.Color", "PURPLE");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.Options-Default.Style", "SOLID");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.Options-Default.Progress", 0.7D);
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.World.All_World", false);
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            // Messages
+            
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.default.Message", "&eDefault message bossbar without settings");
+            
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.totalcustom.Message", "&cAll settings has been changed here %player%");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.totalcustom.Color", "BLUE");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.totalcustom.Style", "SEGMENTED_20");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.totalcustom.Progress", 1.0D);
+            
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.slightchange.Message", "owo");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.slightchange.Color", "YELLOW");
+            AutoBroadcastConfig.getConfig().set("Config.BossBar.messages.slightchange.Progress", 0.1D);
+            
+            AutoBroadcastConfig.saveConfigFile();
+		}
+		
+		if (!OnJoinConfig.getConfig().isSet("Boss-Bar.Enable")) {
+			OnJoinConfig.getConfig().set("Boss-Bar.Enable", true);
+
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Enable", true);
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Message", "&6Welcome %player% &e!!"); 
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Color", "BLUE");
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Style", "SEGMENTED_10");
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Progress", 1D);
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Time.Keep-Bar", true);
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Time.If-not.Time-Stay", 150);
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Enable", true);
+			OnJoinConfig.getConfig().set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Keep-The-BossBar", false);
+            
+			OnJoinConfig.getConfig().set("Boss-Bar.Join.Enable", true);
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Message", "&6Hello %player%"); 
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Color", "PURPLE");
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Style", "SOLID");
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Progress", 0.7D);
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Time.Keep-Bar", true);
+            OnJoinConfig.getConfig().set("Boss-Bar.Join.Time.If-not.Time-Stay", 150);
+            
+            OnJoinConfig.getConfig().set("Boss-Bar.World.All_World", false);
+            OnJoinConfig.getConfig().set("Boss-Bar.World.Keep-BossBar-For-Theses-Worlds", true);
+            OnJoinConfig.getConfig().set("Boss-Bar.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+                }));
+            
+            OnJoinConfig.saveConfigFile();
+		}
+		
 		if (!OtherAMConfig.getConfig().isSet("Command.ClearGroundItems")) {
 			
 			OtherAMConfig.getConfig().set("Command.ClearGroundItems", java.util.Arrays.asList(new String[] {

@@ -27,7 +27,25 @@ public class OnJoinPW {
     public static List < String > worlds_first_join_title = new ArrayList < String > ();
     public static List < String > worlds_join_title = new ArrayList < String > ();
     public static List < String > worlds_sounds_join = new ArrayList < String > ();
+    public static List < String > worlds_bossbar = new ArrayList < String > ();
 
+    // BossBar
+    public static void setBossBaronjoin() {
+        if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Enable") && !OnJoinConfig.getConfig().getBoolean("Boss-Bar.World.All_World")) {
+            for (String world: OnJoinConfig.getConfig().getStringList("Boss-Bar.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in Events/OnJoin.yml, Boss-Bar.World: " + world);
+                } else {
+                	worlds_bossbar.add(world);
+                }
+            }
+        }
+    }
+
+    public static List < String > getBB() {
+        return worlds_bossbar;
+    }
+    
     // MOTD
     public static void setWGetWorldforMOTD() {
         if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.Enable") && !ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.World.All_World")) {

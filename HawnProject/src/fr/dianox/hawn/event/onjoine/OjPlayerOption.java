@@ -11,7 +11,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.commands.features.FlyCommand;
 import fr.dianox.hawn.commands.features.VanishCommand;
 import fr.dianox.hawn.commands.features.VanishTaskAB;
-import fr.dianox.hawn.event.customjoinitem.SpecialCJIPlayerVisibility;
+import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
@@ -38,7 +38,7 @@ public class OjPlayerOption {
 					onGamemodePO(p);
 					FlyDoubleJump(p);
 					vanish(p);
-					SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+					SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
 				} else {
 					int speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
 					
@@ -107,12 +107,12 @@ public class OjPlayerOption {
 				onGamemodePO(p);
 				FlyDoubleJump(p);
 				vanish(p);
-				SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+				SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
 			}
 		} else {
 			int speedvaluepo = OnJoinConfig.getConfig().getInt("Speed.Value");
 			
-			SpecialCJIPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
+			SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
 			
 			if (OnJoinConfig.getConfig().getBoolean("Speed.Enable")) {
 	            if (!OnJoinConfig.getConfig().getBoolean("Speed.World.All_World")) {

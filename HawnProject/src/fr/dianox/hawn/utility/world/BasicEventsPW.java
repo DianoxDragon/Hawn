@@ -21,6 +21,7 @@ public class BasicEventsPW {
     public static List < String > worlds_autobroadcast = new ArrayList < String > ();
     public static List < String > worlds_autobroadcast_title = new ArrayList < String > ();
     public static List < String > worlds_autobroadcast_ab = new ArrayList < String > ();
+    public static List < String > worlds_autobroadcast_bb = new ArrayList < String > ();
 
     // Void TP
     public static void setWGetWorldforVOIDTP() {
@@ -124,7 +125,24 @@ public class BasicEventsPW {
             }
         }
     }
+    
+    // AB - BossBar
+    public static void setWGetWorldautobroadcast_bb() {
+        if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable") && !AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
+            for (String world: AutoBroadcastConfig.getConfig().getStringList("Config.BossBar.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in AutoBroadcast.yml, Config.BossBar.World: " + world);
+                } else {
+                    worlds_autobroadcast_bb.add(world);
+                }
+            }
+        }
+    }
 
+    public static List < String > getAutoBroadcast_bb() {
+        return worlds_autobroadcast_bb;
+    }
+    
     public static List < String > getAutoBroadcast_ab() {
         return worlds_autobroadcast_ab;
     }

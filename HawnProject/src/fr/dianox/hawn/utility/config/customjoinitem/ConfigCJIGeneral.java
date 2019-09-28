@@ -132,6 +132,9 @@ public class ConfigCJIGeneral {
                     "[sounds]: NOTE_PIANO"
                 }));
             
+            Config.set("Custom-Join-Item.Items.Inventory.Items.Player-LobbyBow.Special-Items", "Special-LobbyBow");
+            Config.set("Custom-Join-Item.Items.Inventory.Items.Player-LobbyBow.Slot", 7);
+            
             Config.set("Custom-Join-Item.Items.Inventory.Items.Player-Visibility.Special-Items", "Special-HidePlayers");
             Config.set("Custom-Join-Item.Items.Inventory.Items.Player-Visibility.Slot", 8);
             

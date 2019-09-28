@@ -82,6 +82,9 @@ public class WorldList {
 		ProtectionPW.worlds_buckets.clear();
 		WorldPW.worlds_shears.clear();
 		PlayerEventsPW.worlds_block_mount.clear();
+		CjiPW.worlds_po_lobbybow_item.clear();
+		OnJoinPW.worlds_bossbar.clear();
+		BasicEventsPW.worlds_autobroadcast_bb.clear();
 	}
 	
 	public static void setworldlist() {
@@ -153,6 +156,9 @@ public class WorldList {
 		ProtectionPW.setWworldBukets();
 		WorldPW.setWShears();
 		PlayerEventsPW.setWGetMount();
+		CjiPW.setpoLobbyBow();
+		OnJoinPW.setBossBaronjoin();
+		BasicEventsPW.setWGetWorldautobroadcast_bb();
 	}
 
 }

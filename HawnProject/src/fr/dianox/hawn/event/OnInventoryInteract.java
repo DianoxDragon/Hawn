@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.commands.HawnCommand;
 import fr.dianox.hawn.commands.features.warp.WarpCommand;
-import fr.dianox.hawn.event.onjoine.CustomJoinItem;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.Bungee;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -95,13 +95,24 @@ public class OnInventoryInteract implements Listener {
 			
 			if (!p.hasPermission("hawn.use.customjoinitem")) {
 				 return;
-			 }
-			
+			}
+
 			try {
 				if (Main.Spigot_Version >= 19) {
 					if (es.equals(EquipmentSlot.HAND)) {
 						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 							if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
+									
+								if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
+									if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
+										e.setCancelled(false);
+										return;
+									} else if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").contains("Special-Book")) {
+										e.setCancelled(false);
+										return;
+									}
+								}
+								
 								e.setCancelled(true);
 								if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 									 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
@@ -122,6 +133,17 @@ public class OnInventoryInteract implements Listener {
 				} else {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
+							
+							if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
+								if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
+									e.setCancelled(false);
+									return;
+								} else if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").contains("Special-Book")) {
+									e.setCancelled(false);
+									return;
+								}
+							}
+							
 							e.setCancelled(true);
 							if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 								 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {

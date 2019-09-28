@@ -243,6 +243,34 @@ public class OnJoinConfig {
                     "world_nether"
             }));
             
+            // Boss Bar
+            Config.set("Boss-Bar.Enable", true);
+
+            Config.set("Boss-Bar.First-Join.Enable", true);
+            Config.set("Boss-Bar.First-Join.Message", "&6Welcome %player% &e!!"); 
+            Config.set("Boss-Bar.First-Join.Color", "BLUE");
+            Config.set("Boss-Bar.First-Join.Style", "SEGMENTED_10");
+            Config.set("Boss-Bar.First-Join.Progress", 1D);
+            Config.set("Boss-Bar.First-Join.Time.Keep-Bar", true);
+            Config.set("Boss-Bar.First-Join.Time.If-not.Time-Stay", 150);
+            Config.set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Enable", true);
+            Config.set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Keep-The-BossBar", false);
+            
+            Config.set("Boss-Bar.Join.Enable", true);
+            Config.set("Boss-Bar.Join.Message", "&6Hello %player%"); 
+            Config.set("Boss-Bar.Join.Color", "PURPLE");
+            Config.set("Boss-Bar.Join.Style", "SOLID");
+            Config.set("Boss-Bar.Join.Progress", 0.7D);
+            Config.set("Boss-Bar.Join.Time.Keep-Bar", true);
+            Config.set("Boss-Bar.Join.Time.If-not.Time-Stay", 150);
+            
+            Config.set("Boss-Bar.World.All_World", false);
+            Config.set("Boss-Bar.World.Keep-BossBar-For-Theses-Worlds", true);
+            Config.set("Boss-Bar.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+                }));
+            
             saveConfigFile();
 
         }

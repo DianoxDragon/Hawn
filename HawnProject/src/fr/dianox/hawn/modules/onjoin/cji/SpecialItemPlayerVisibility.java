@@ -1,6 +1,8 @@
-package fr.dianox.hawn.event.customjoinitem;
+package fr.dianox.hawn.modules.onjoin.cji;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -32,19 +34,13 @@ import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 @SuppressWarnings("deprecation")
-public class SpecialCJIPlayerVisibility implements Listener {
+public class SpecialItemPlayerVisibility implements Listener {
+	
+	HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
 	
 	public static String Check = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
 	public static String CheckTwo = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
 
-	public static String getCheck() {
-		return Check;
-	}
-	
-	public static String getCheckTwo() {
-		return CheckTwo;
-	}
-	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onBreakWithItemVisibility(BlockBreakEvent e) {
 		Player p = e.getPlayer();
@@ -343,129 +339,67 @@ public class SpecialCJIPlayerVisibility implements Listener {
 	}
 	
 	public static void PlayerGivePlayerVisibilityItemOnJoincji(Player p, Integer slot) {
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
-				if (CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-						if (p.hasPermission("hawn.event.interact.item.playervisibility")) {
-							if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-									CreateItemsOff(p, slot);
-								} else {
-									CreateItemsOn(p, slot);
-								}
-							} else {
-								String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-								
-								if (value.equalsIgnoreCase("FALSE")) {
-									CreateItemsOff(p, slot);
-								} else {
-									CreateItemsOn(p, slot);
-								}
-							}
-						}
-					} else {
-						if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-								CreateItemsOff(p, slot);
-							} else {
-								CreateItemsOn(p, slot);
-							}
-						} else {
-							String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-							
-							if (value.equalsIgnoreCase("FALSE")) {
-								CreateItemsOff(p, slot);
-							} else {
-								CreateItemsOn(p, slot);
-							}
-						}
-					}
-				}
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
+			return;
+		}
+		
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
+			if (!CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
+				return;
+			}
+		}
+		
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
+			if (!p.hasPermission("hawn.event.interact.item.playervisibility")) {
+				return;
+			}
+		}
+		
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
+				CreateItem(p, false, slot);
 			} else {
-				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-					if (p.hasPermission("hawn.event.interact.item.playervisibility")) {
-						if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-								CreateItemsOff(p, slot);
-							} else {
-								CreateItemsOn(p, slot);
-							}
-						} else {
-							String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-							
-							if (value.equalsIgnoreCase("FALSE")) {
-								CreateItemsOff(p, slot);
-							} else {
-								CreateItemsOn(p, slot);
-							}
-						}
-					}
-				} else {
-					if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-							CreateItemsOff(p, slot);
-						} else {
-							CreateItemsOn(p, slot);
-						}
-					} else {
-						String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-						
-						if (value.equalsIgnoreCase("FALSE")) {
-							CreateItemsOff(p, slot);
-						} else {
-							CreateItemsOn(p, slot);
-						}
-					}
-				}
+				CreateItem(p, true, slot);
+			}
+		} else {
+			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
+			
+			if (value.equalsIgnoreCase("FALSE")) {
+				CreateItem(p, false, slot);
+			} else {
+				CreateItem(p, true, slot);
 			}
 		}
 	}
 	
 	public static void PlayerGivePlayerVisibilityItemOnJoin(Player p) {
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
-				if (CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {					
-					if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-							PlayerVisibility.showPlayer(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-						} else {
-							PlayerVisibility.hidePlayer(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-						}
-					} else {
-						String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-						
-						if (value.equalsIgnoreCase("FALSE")) {
-							PlayerVisibility.showPlayer(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-						} else {
-							PlayerVisibility.hidePlayer(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-						}
-					}
-				}
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
+			return;
+		}
+		
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
+			if (!CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
+				return;
+			}
+		}
+
+		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
+				PlayerVisibility.showPlayer(p);
+				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 			} else {
-				if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-						PlayerVisibility.showPlayer(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-					} else {
-						PlayerVisibility.hidePlayer(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-					}
-				} else {
-					String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
+				PlayerVisibility.hidePlayer(p);
+				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+			}
+		} else {
+			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
 					
-					if (value.equalsIgnoreCase("FALSE")) {
-						PlayerVisibility.showPlayer(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-					} else {
-						PlayerVisibility.hidePlayer(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-					}
-				}
+			if (value.equalsIgnoreCase("FALSE")) {
+				PlayerVisibility.showPlayer(p);
+				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+			} else {
+				PlayerVisibility.hidePlayer(p);
+				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 			}
 		}
 	}
@@ -485,7 +419,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 							
 							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
 								p.getInventory().clear(i);
-								CreateItemsOn(p, i);
+								CreateItem(p, true, i);
 								break;
 							}
 						} catch (Exception e1) {}
@@ -513,7 +447,7 @@ public class SpecialCJIPlayerVisibility implements Listener {
 							
 							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
 								p.getInventory().clear(i);
-								CreateItemsOff(p, i);
+								CreateItem(p, false, i);
 								break;
 							}
 						} catch (Exception e1) {}
@@ -561,201 +495,129 @@ public class SpecialCJIPlayerVisibility implements Listener {
 		}
 	}
 	
-	public static void CreateItemsOn(Player p, Integer i) {
+	public static void CreateItem(Player p, Boolean bool, Integer slot) {
+		String material = "";
+		ItemStack item = null;
+		Integer amount = 1;
+		ItemMeta itemmeta = null;
+		SkullMeta meta = null;
+		String skullname = "";
+		String onoroff = "";
+		
+		ArrayList < String > lore = new ArrayList < String > ();
+		Boolean lorecheck = false;
+		
+		String title = "thistitleinsnotforuseorsomethingelse";
+		
+		if (bool) {
+			onoroff = "ON";
+		} else {
+			onoroff = "OFF";
+		}
+		
+		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Title")) {
+			String pretitle = SpecialCjiHidePlayers.getConfig().getString("PV."+onoroff+".Title");
 				
-		ItemStack ref1 = null;
-        ItemMeta metaref1 = null;
-        SkullMeta meta = null;
-        ArrayList < String > lore = new ArrayList < String > ();
-		String displayname = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
-		displayname = displayname.replaceAll("&", "§");
-        
-		if (SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material").equalsIgnoreCase("SKULL") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material").equalsIgnoreCase("LEGACY_SKULL") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material").equalsIgnoreCase("SKULL_ITEM") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material").equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
-			if (SpecialCjiHidePlayers.getConfig().isSet("PV.ON.Material.Material.Skull-Name")) {
-				String skullname = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material.Skull-Name");
-				skullname = skullname.replaceAll("%player%", p.getName());
-				ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Amount"), (short) SkullType.PLAYER.ordinal());
-				metaref1 = ref1.getItemMeta();
-                meta = (SkullMeta) ref1.getItemMeta();
-                meta.setOwner(skullname);
-                
-                if (SpecialCjiHidePlayers.getConfig().isSet("PV.ON.Lore")) {
-	                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.ON.Lore")) {
-	                    loremsg = loremsg.replaceAll("&", "§");
-	                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-	                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-	                    }
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
+			}
 	
-	                    lore.add(loremsg);
-	                }
-	
-	                meta.setLore(lore);
-	            }
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				pretitle = MessageUtils.BattleLevelPO(pretitle, p);
+			}
+	            
+			pretitle = MessageUtils.ReplaceMainplaceholderP(pretitle, p);
+				
+			pretitle = pretitle.replaceAll("&", "§");
+			
+			title = pretitle;
+		}
 		
-	            meta.setDisplayName(displayname);
-	
-	
-	            ref1.setItemMeta(meta);
-	            p.getInventory().setItem(i, ref1);
+		material = SpecialCjiHidePlayers.getConfig().getString("PV."+onoroff+".Material.Material");
+			
+		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Amount")) {
+			amount = SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Amount");
+		}
+			
+		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Lore")) {
+			for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV."+onoroff+".Lore")) {
+				
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
+				}
 
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+					loremsg = MessageUtils.BattleLevelPO(loremsg, p);
+				}
+		            
+				loremsg = MessageUtils.ReplaceMainplaceholderP(loremsg, p);
+					
+				loremsg = loremsg.replaceAll("&", "§");
+					
+				lore.add(loremsg);
+					
+				lorecheck = true;
+			}
+		}
+			
+		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name")) {	
+			skullname = SpecialCjiHidePlayers.getConfig().getString("PV."+onoroff+".Material.Skull-Name");
+				
+			skullname = skullname.replaceAll("%player%", p.getName());
+		}
+			
+		if (material.contains("SKULL")) {
+			if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name")) {
+				if (Main.Spigot_Version >= 113) {
+					item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), amount);
+				} else {
+					item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());
+				}
 			} else {
-				ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Amount"));
-                metaref1 = ref1.getItemMeta();
-                
-                if (SpecialCjiHidePlayers.getConfig().isSet("PV.ON.Lore")) {
-	                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.ON.Lore")) {
-	                    loremsg = loremsg.replaceAll("&", "§");
-	                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-	                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-	                    }
-	
-	                    lore.add(loremsg);
-	                }
-	                metaref1.setLore(lore);
-	            }
-                
-                metaref1.setDisplayName(displayname);
-	
-	
-	            ref1.setItemMeta(metaref1);
-	            	            
-	            p.getInventory().setItem(i, ref1);
+				if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Data-value")) {
+					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
+				} else {
+					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
+				}
 			}
 		} else {
-			if (SpecialCjiHidePlayers.getConfig().isSet("PV.ON.Material.Data-value")) {
-				if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
-					ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material")).parseMaterial(), 
-	    					SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Amount"));
-				} else {
-					ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material")).parseMaterial(), 
-    					SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Amount"), 
-    					(short) SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Data-value"));
-				}
-    		} else {
-    			ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material")).parseMaterial(), 
-    					SpecialCjiHidePlayers.getConfig().getInt("PV.ON.Material.Amount"));
-    		}
-            metaref1 = ref1.getItemMeta();
-            
-            if (SpecialCjiHidePlayers.getConfig().isSet("PV.ON.Lore")) {
-                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.ON.Lore")) {
-                    loremsg = loremsg.replaceAll("&", "§");
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-                    }
-                    lore.add(loremsg);
-                }
-                
-                metaref1.setLore(lore);
-            }
-            metaref1.setDisplayName(displayname);
-            
-            ref1.setItemMeta(metaref1);
-            
-            p.getInventory().setItem(i, ref1);
-		}
-	}
-
-	public static void CreateItemsOff(Player p, Integer i) {
-		
-		ItemStack ref1 = null;
-        ItemMeta metaref1 = null;
-        SkullMeta meta = null;
-        ArrayList < String > lore = new ArrayList < String > ();
-        String displayname = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
-		displayname = displayname.replaceAll("&", "§");
-		
-		if (SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material").equalsIgnoreCase("SKULL") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material").equalsIgnoreCase("LEGACY_SKULL") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material").equalsIgnoreCase("SKULL_ITEM") ||
-				SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material").equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
-			if (SpecialCjiHidePlayers.getConfig().isSet("PV.OFF.Material.Material.Skull-Name")) {
-				String skullname = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material.Skull-Name");
-				skullname = skullname.replaceAll("%player%", p.getName());
-				ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Amount"), (short) SkullType.PLAYER.ordinal());
-				metaref1 = ref1.getItemMeta();
-                meta = (SkullMeta) ref1.getItemMeta();
-                meta.setOwner(skullname);
-                
-                if (SpecialCjiHidePlayers.getConfig().isSet("PV.OFF.Lore")) {
-	                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.OFF.Lore")) {
-	                    loremsg = loremsg.replaceAll("&", "§");
-	                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-	                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-	                    }
-	
-	                    lore.add(loremsg);
-	                }
-	
-	                meta.setLore(lore);
-	            }
-		
-	            meta.setDisplayName(displayname);
-	
-	
-	            ref1.setItemMeta(meta);
-	            p.getInventory().setItem(i, ref1);
-
+			if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Data-value")) {
+				item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
 			} else {
-				ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Amount"));
-                metaref1 = ref1.getItemMeta();
-                
-                if (SpecialCjiHidePlayers.getConfig().isSet("PV.OFF.Lore")) {
-	                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.OFF.Lore")) {
-	                    loremsg = loremsg.replaceAll("&", "§");
-	                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-	                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-	                    }
-	
-	                    lore.add(loremsg);
-	                }
-	
-	                metaref1.setLore(lore);
-	            }
-		
-                metaref1.setDisplayName(displayname);
-	
-	
-	            ref1.setItemMeta(metaref1);
-	            p.getInventory().setItem(i, ref1);
+				item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
 			}
-		} else {
-			if (SpecialCjiHidePlayers.getConfig().isSet("PV.OFF.Material.Data-value")) {
-				if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
-					ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material")).parseMaterial(), 
-	    					SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Amount"));
-				} else {
-					ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material")).parseMaterial(), 
-    					SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Amount"), 
-    					(short) SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Data-value"));
-				}
-    		} else {
-    			ref1 = new ItemStack(XMaterial.matchXMaterial(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material")).parseMaterial(), 
-    					SpecialCjiHidePlayers.getConfig().getInt("PV.OFF.Material.Amount"));
-    		}
-            metaref1 = ref1.getItemMeta();
-            
-            if (SpecialCjiHidePlayers.getConfig().isSet("PV.OFF.Lore")) {
-                for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV.OFF.Lore")) {
-                    loremsg = loremsg.replaceAll("&", "§");
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-                        loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
-                    }
-
-                    lore.add(loremsg);
-                }
-
-                metaref1.setLore(lore);
-            }
-	
-            metaref1.setDisplayName(displayname);
-
-
-            ref1.setItemMeta(metaref1);
-            p.getInventory().setItem(i, ref1);
 		}
+		
+		if (!SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name") || !material.contains("SKULL")) {
+			itemmeta = item.getItemMeta();
+		} else {
+			itemmeta = item.getItemMeta();
+			meta = (SkullMeta) item.getItemMeta();
+			meta.setOwner(skullname);
+		}
+		
+		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name") && material.contains("SKULL")) {
+			if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
+				meta.setDisplayName(title);
+			}
+			
+			if (lorecheck) {
+				meta.setLore(lore);
+			}
+						
+			item.setItemMeta(meta);
+		} else {
+			if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
+				itemmeta.setDisplayName(title);
+			}
+			
+			if (lorecheck) {
+				itemmeta.setLore(lore);
+			}
+			
+			item.setItemMeta(itemmeta);
+		}
+		
+		p.getInventory().setItem(slot, item);
 	}
 }

@@ -11,16 +11,68 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.dianox.hawn.commands.features.FlyCommand;
-import fr.dianox.hawn.event.customjoinitem.SpecialCJIPlayerVisibility;
+import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
+import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
+import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.events.PlayerWorldChangeConfigE;
 import fr.dianox.hawn.utility.world.ChangeWorldPW;
+import fr.dianox.hawn.utility.world.OnJoinPW;
 
 public class PlayerChangeWorld implements Listener {
 
+	@EventHandler
+    public void onBossBarChangeWorld(PlayerChangedWorldEvent e) {
+		Player p = e.getPlayer();
+		
+		if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Enable")) {
+        	if (!OnJoinConfig.getConfig().getBoolean("Boss-Bar.World.All_World")) {
+                if (OnJoinPW.getBB().contains(p.getWorld().getName())) {
+                	
+                	if (!OnJoinConfig.getConfig().getBoolean("Boss-Bar.World.Keep-BossBar-For-Theses-Worlds")) {
+            			return;
+            		}
+                	
+                	if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
+                		
+                		BossBarApi.BBBlock.add(p);
+                		
+                		if (!OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Message")) {
+                			return;
+                		}
+                    	
+                		Double progress = 1D;
+                		
+                		if (OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Progress")) {
+                			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.Join.Progress");
+                		}
+                		
+                    	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
+                    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
+                	}
+                } else {
+                	if (BossBarApi.BBBlock.contains(p)) {
+                		BossBarApi.BBBlock.remove(p);
+                		BossBarApi.deletebar(p);
+                	} else if (!AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
+                		BossBarApi.deletebar(p);
+                	}
+                }
+        	}
+		} else {
+			if (BossBarApi.BBBlock.contains(p)) {
+        		BossBarApi.BBBlock.remove(p);
+        		BossBarApi.deletebar(p);
+        	} else {
+        		BossBarApi.deletebar(p);
+        	}
+		}
+	}
+	
 	@EventHandler
     public void onCommandexecutor(PlayerChangedWorldEvent e) {
 		Player p = e.getPlayer();
@@ -174,13 +226,13 @@ public class PlayerChangeWorld implements Listener {
                     	
                     	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
                     		PlayerVisibility.hidePlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
-							SpecialCJIPlayerVisibility.messageitemPVON(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
+							SpecialItemPlayerVisibility.messageitemPVON(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
                     	} else {
                     		PlayerVisibility.showPlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
+							SpecialItemPlayerVisibility.messageitemPVOFF(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
                     	}
                     	
@@ -252,13 +304,13 @@ public class PlayerChangeWorld implements Listener {
                     	
                     	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
                     		PlayerVisibility.hidePlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
-							SpecialCJIPlayerVisibility.messageitemPVON(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
+							SpecialItemPlayerVisibility.messageitemPVON(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
                     	} else {
                     		PlayerVisibility.showPlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
+							SpecialItemPlayerVisibility.messageitemPVOFF(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
                     	}
                     	
@@ -331,13 +383,13 @@ public class PlayerChangeWorld implements Listener {
                 	
                 	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
                 		PlayerVisibility.hidePlayer(p);
-						SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
-						SpecialCJIPlayerVisibility.messageitemPVON(p);
+						SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
+						SpecialItemPlayerVisibility.messageitemPVON(p);
 						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
                 	} else {
                 		PlayerVisibility.showPlayer(p);
-						SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-						SpecialCJIPlayerVisibility.messageitemPVOFF(p);
+						SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
+						SpecialItemPlayerVisibility.messageitemPVOFF(p);
 						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
                 	}
                 	

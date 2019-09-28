@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.event.onjoine.CustomJoinItem;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
 import fr.dianox.hawn.utility.WorldGuardUtils;

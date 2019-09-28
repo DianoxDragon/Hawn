@@ -8,6 +8,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
@@ -59,8 +60,16 @@ public class RepairCommand extends BukkitCommand {
 		 }
 		 
 		 // >>> Commande
-		 ItemStack item = p.getInventory().getItemInMainHand();
 		 
+		 ItemStack item = null;
+		 
+		 if (Main.Spigot_Version > 18) {
+			 item = p.getInventory().getItemInMainHand();
+		 } else {
+			 item = p.getInventory().getItemInHand();
+		 }
+		 
+
 		 if (item == null) return false;
 		 
 		 String in = item.getType().toString().toLowerCase(Locale.ENGLISH);

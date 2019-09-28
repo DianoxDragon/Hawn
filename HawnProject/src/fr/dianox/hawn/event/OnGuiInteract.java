@@ -38,12 +38,12 @@ public class OnGuiInteract implements Listener {
         if (e.getCurrentItem() == null) {
         	return;
         }
-        
+
         String inv = e.getWhoClicked().getOpenInventory().getTitle();
         Player p = (Player) e.getWhoClicked();
         String Displayname = "";
 
-        String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Title");
+        String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
         titlegui = titlegui.replaceAll("&", "§");
         
         

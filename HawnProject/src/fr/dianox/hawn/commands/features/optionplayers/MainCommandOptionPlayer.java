@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.commands.features.FlyCommand;
-import fr.dianox.hawn.event.customjoinitem.SpecialCJIPlayerVisibility;
+import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
@@ -540,9 +540,9 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							} else {
 								PlayerVisibility.Cooling().add(p.getName());
 								PlayerVisibility.showPlayer(p);
-								SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
+								SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
 
-								SpecialCJIPlayerVisibility.messageitemPVOFF(p);
+								SpecialItemPlayerVisibility.messageitemPVOFF(p);
 
 								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 
@@ -558,8 +558,8 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							}
 						} else {
 							PlayerVisibility.showPlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-							SpecialCJIPlayerVisibility.messageitemPVOFF(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
+							SpecialItemPlayerVisibility.messageitemPVOFF(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 						}
 					} else {
@@ -573,9 +573,9 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							} else {
 								PlayerVisibility.Cooling().add(p.getName());
 								PlayerVisibility.hidePlayer(p);
-								SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
+								SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
 
-								SpecialCJIPlayerVisibility.messageitemPVON(p);
+								SpecialItemPlayerVisibility.messageitemPVON(p);
 
 								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 
@@ -591,8 +591,8 @@ public class MainCommandOptionPlayer extends BukkitCommand {
 							}
 						} else {
 							PlayerVisibility.hidePlayer(p);
-							SpecialCJIPlayerVisibility.swithPVItemsOnJoinToON(p);
-							SpecialCJIPlayerVisibility.messageitemPVON(p);
+							SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
+							SpecialItemPlayerVisibility.messageitemPVON(p);
 							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 						}
 					}

@@ -162,6 +162,35 @@ public class AutoBroadcastConfig {
             Config.set("Config.Action-Bar.messages.custom.Time-Stay", 60);
             Config.set("Config.Action-Bar.messages.custom.Message", "&6custom Action-Bar &7(autobroadcast)");
             
+            /*
+             * Auto broadcast
+             * BossBar
+             */
+            Config.set("Config.BossBar.Enable", true);
+            Config.set("Config.BossBar.Random", false);
+            Config.set("Config.BossBar.Interval", 60);
+            Config.set("Config.BossBar.Use-Permission-To-Get-Messages", false);
+            Config.set("Config.BossBar.Options-Default.Color", "PURPLE");
+            Config.set("Config.BossBar.Options-Default.Style", "SOLID");
+            Config.set("Config.BossBar.Options-Default.Progress", 0.7D);
+            Config.set("Config.BossBar.World.All_World", false);
+            Config.set("Config.BossBar.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            // Messages
+            
+            Config.set("Config.BossBar.messages.default.Message", "&eDefault message bossbar without settings");
+            
+            Config.set("Config.BossBar.messages.totalcustom.Message", "&cAll settings has been changed here %player%");
+            Config.set("Config.BossBar.messages.totalcustom.Color", "BLUE");
+            Config.set("Config.BossBar.messages.totalcustom.Style", "SEGMENTED_20");
+            Config.set("Config.BossBar.messages.totalcustom.Progress", 1.0D);
+            
+            Config.set("Config.BossBar.messages.slightchange.Message", "owo");
+            Config.set("Config.BossBar.messages.slightchange.Color", "YELLOW");
+            Config.set("Config.BossBar.messages.slightchange.Progress", 0.1D);
             
             saveConfigFile();
 

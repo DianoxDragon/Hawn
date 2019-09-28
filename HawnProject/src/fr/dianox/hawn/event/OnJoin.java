@@ -16,15 +16,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
 import fr.dianox.hawn.commands.features.warp.WarpCommand;
-import fr.dianox.hawn.event.onjoine.CustomJoinItem;
 import fr.dianox.hawn.event.onjoine.OJMessages;
 import fr.dianox.hawn.event.onjoine.OjCosmetics;
 import fr.dianox.hawn.event.onjoine.OjPlayerOption;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ActionBar;
+import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.Bungee;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -42,6 +44,8 @@ import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.config.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.tasks.SwitchClassicOnFirstJoinBB;
+import fr.dianox.hawn.utility.tasks.SwitchClassicOnJoinBB;
 import fr.dianox.hawn.utility.world.CommandsPW;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
@@ -432,6 +436,136 @@ public class OnJoin implements Listener {
 
         player_list.add(p);
         Main.buildbypasscommand.remove(p);
+        
+        if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Enable")) {
+        	if (!OnJoinConfig.getConfig().getBoolean("Boss-Bar.World.All_World")) {
+                if (OnJoinPW.getBB().contains(p.getWorld().getName())) {
+                	if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Enable")) {
+            			if (p.hasPlayedBefore()) {
+            				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
+            					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
+            						BossBarApi.BBBlock.add(p);
+            						
+            						createClassicBB(p);
+            					} else {
+            						createClassicBB(p);
+            						BossBarApi.BBBlock.add(p);
+            						
+            						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+            						
+            						BossBarApi.ptaskbb.put(p, task.getTaskId());
+            					}
+            				}
+            			} else {
+            				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Time.Keep-Bar")) {
+        						BossBarApi.BBBlock.add(p);
+        						
+        						createClassicBBFJ(p);
+        					} else {
+        						createClassicBBFJ(p);
+        						BossBarApi.BBBlock.add(p);
+        						
+        						BukkitTask task = new SwitchClassicOnFirstJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+        						
+        						BossBarApi.ptaskbb.put(p, task.getTaskId());
+        					}
+            			}
+                	} else {
+                		if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
+        					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
+        						BossBarApi.BBBlock.add(p);
+        						
+        						createClassicBB(p);
+        					} else {
+        						createClassicBB(p);
+        						BossBarApi.BBBlock.add(p);
+        						
+        						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						
+        						BossBarApi.ptaskbb.put(p, task.getTaskId());
+        					}
+        				}
+                	}
+                }
+        	} else {
+        		if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Enable")) {
+        			if (p.hasPlayedBefore()) {
+        				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
+        					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
+        						BossBarApi.BBBlock.add(p);
+        						
+        						createClassicBB(p);
+        					} else {
+        						createClassicBB(p);
+        						BossBarApi.BBBlock.add(p);
+        						
+        						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						
+        						BossBarApi.ptaskbb.put(p, task.getTaskId());
+        					}
+        				}
+        			} else {
+        				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Time.Keep-Bar")) {
+    						BossBarApi.BBBlock.add(p);
+    						
+    						createClassicBBFJ(p);
+    					} else {
+    						createClassicBBFJ(p);
+    						BossBarApi.BBBlock.add(p);
+    						
+    						BukkitTask task = new SwitchClassicOnFirstJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+    						
+    						BossBarApi.ptaskbb.put(p, task.getTaskId());
+    					}
+        			}
+            	} else {
+            		if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
+    					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
+    						BossBarApi.BBBlock.add(p);
+    						
+    						createClassicBB(p);
+    					} else {
+    						createClassicBB(p);
+    						BossBarApi.BBBlock.add(p);
+    						
+    						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+    						
+    						BossBarApi.ptaskbb.put(p, task.getTaskId());
+    					}
+    				}
+            	}
+        	}
+        }
+    }
+    
+    private void createClassicBBFJ(Player p) {
+    	if (!OnJoinConfig.getConfig().isSet("Boss-Bar.First-Join.Message")) {
+			return;
+		}
+    	
+		Double progress = 1D;
+		
+		if (OnJoinConfig.getConfig().isSet("Boss-Bar.First-Join.Progress")) {
+			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.First-Join.Progress");
+		}
+		
+    	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Color"), 
+    			OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Style"), progress);
+    }
+    
+    private void createClassicBB(Player p) {
+    	if (!OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Message")) {
+			return;
+		}
+    	
+		Double progress = 1D;
+		
+		if (OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Progress")) {
+			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.Join.Progress");
+		}
+		
+    	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
+    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
     }
 
     @SuppressWarnings("deprecation")
