@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ServerListConfig;
 
 public class ServerPingEvent implements Listener {
@@ -39,8 +39,8 @@ public class ServerPingEvent implements Listener {
 			line1 = line1.replaceAll("&", "§");
 			line2 = line2.replaceAll("&", "§");
 			
-			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
-			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
 				
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
@@ -53,8 +53,8 @@ public class ServerPingEvent implements Listener {
 				line1 = line1.replaceAll("&", "§");
 				line2 = line2.replaceAll("&", "§");
 				
-				line1 = MessageUtils.ReplaceMainplaceholderC(line1);
-				line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
 				
 				e.setMotd(String.valueOf(line1) + "\n" + line2);
 			}
@@ -67,8 +67,8 @@ public class ServerPingEvent implements Listener {
 			line1 = line1.replaceAll("&", "§");
 			line2 = line2.replaceAll("&", "§");
 			
-			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
-			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
 			
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
@@ -80,8 +80,8 @@ public class ServerPingEvent implements Listener {
 			line1 = line1.replaceAll("&", "§");
 			line2 = line2.replaceAll("&", "§");
 			
-			line1 = MessageUtils.ReplaceMainplaceholderC(line1);
-			line2 = MessageUtils.ReplaceMainplaceholderC(line2);
+			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
 			
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
@@ -95,7 +95,7 @@ public class ServerPingEvent implements Listener {
 			if (!whitelist.contains(e.getPlayer().getName())) {
 				String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
 				message = message.replaceAll("&", "§");
-				message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
+				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
 				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
 			}
@@ -106,7 +106,7 @@ public class ServerPingEvent implements Listener {
 			if (!whitelist.contains(e.getPlayer().getName())) {
 				String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
 				message = message.replaceAll("&", "§");
-				message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
+				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
 				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
 			}
@@ -119,7 +119,7 @@ public class ServerPingEvent implements Listener {
 				} else {
 					String message = ServerListConfig.getConfig().getString("On-Join.Message");
 					message = message.replaceAll("&", "§");
-					message = MessageUtils.ReplaceMainplaceholderP(message, e.getPlayer());
+					message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 					
 					e.setKickMessage(message);
 				}

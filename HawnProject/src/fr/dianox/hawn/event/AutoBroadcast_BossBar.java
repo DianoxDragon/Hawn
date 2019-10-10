@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
@@ -38,14 +38,14 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Use-Permission-To-Get-Messages")) {
 						if (p.hasPermission("hawn.get.autobroadcastbb")) {
-							msg2 = MessageUtils.ReplaceMainplaceholderP(msg2, p);
+							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
 							
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
 							}
 							
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = MessageUtils.BattleLevelPO(msg2, p);
+								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
 							}
 							
 							msg2 = msg2.replaceAll("&", "§");
@@ -116,14 +116,14 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 							}
 						}
 					} else {
-						msg2 = MessageUtils.ReplaceMainplaceholderP(msg2, p);
+						msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
 						
 						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 							msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
 						}
 						
 						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-							msg2 = MessageUtils.BattleLevelPO(msg2, p);
+							msg2 = PlaceHolders.BattleLevelPO(msg2, p);
 						}
 						
 						msg2 = msg2.replaceAll("&", "§");
@@ -202,14 +202,14 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 						if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Use-Permission-To-Get-Messages")) {
 							if (p.hasPermission("hawn.get.autobroadcastbb")) {
-								msg2 = MessageUtils.ReplaceMainplaceholderP(msg2, p);
+								msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
 								
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 									msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
 								}
 								
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									msg2 = MessageUtils.BattleLevelPO(msg2, p);
+									msg2 = PlaceHolders.BattleLevelPO(msg2, p);
 								}
 								
 								msg2 = msg2.replaceAll("&", "§");
@@ -279,14 +279,14 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 								}
 							}
 						} else {
-							msg2 = MessageUtils.ReplaceMainplaceholderP(msg2, p);
+							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
 							
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
 							}
 							
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = MessageUtils.BattleLevelPO(msg2, p);
+								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
 							}
 							
 							msg2 = msg2.replaceAll("&", "§");

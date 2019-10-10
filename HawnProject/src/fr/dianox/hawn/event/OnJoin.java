@@ -31,6 +31,7 @@ import fr.dianox.hawn.utility.Bungee;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.SpawnUtils;
 import fr.dianox.hawn.utility.TitleUtils;
@@ -292,7 +293,7 @@ public class OnJoin implements Listener {
                                     actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                                 }
 
-                                actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
+                                actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
                                 actionbarjoin = actionbarjoin.replaceAll("&", "§");
 
@@ -304,7 +305,7 @@ public class OnJoin implements Listener {
                                 actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                             }
 
-                            actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
+                            actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
                             actionbarjoin = actionbarjoin.replaceAll("&", "§");
 
@@ -319,7 +320,7 @@ public class OnJoin implements Listener {
                                 actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                             }
 
-                            actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
+                            actionbarFirstjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
                             actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
 
@@ -331,7 +332,7 @@ public class OnJoin implements Listener {
                             actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                         }
 
-                        actionbarFirstjoin = MessageUtils.ReplaceMainplaceholderP(actionbarFirstjoin, p);
+                        actionbarFirstjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
                         actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
 
@@ -345,7 +346,7 @@ public class OnJoin implements Listener {
                         actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                     }
 
-                    actionbarjoin = MessageUtils.ReplaceMainplaceholderP(actionbarjoin, p);
+                    actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
                     actionbarjoin = actionbarjoin.replaceAll("&", "§");
 

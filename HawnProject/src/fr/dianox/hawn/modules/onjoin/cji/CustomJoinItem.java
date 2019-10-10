@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
@@ -174,10 +174,10 @@ public class CustomJoinItem {
             }
 
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-            	pretitle = MessageUtils.BattleLevelPO(pretitle, p);
+            	pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
             }
             
-            pretitle = MessageUtils.ReplaceMainplaceholderP(pretitle, p);
+            pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 			
 			pretitle = pretitle.replaceAll("&", "§");
 			
@@ -192,10 +192,10 @@ public class CustomJoinItem {
 	            }
 
 	            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-	            	loremsg = MessageUtils.BattleLevelPO(loremsg, p);
+	            	loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
 	            }
 	            
-	            loremsg = MessageUtils.ReplaceMainplaceholderP(loremsg, p);
+	            loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 				
 				loremsg = loremsg.replaceAll("&", "§");
 				
@@ -232,14 +232,14 @@ public class CustomJoinItem {
 			// title
 			String booktitle = BookListConfiguration.getConfig().getString("Book-List." + material + ".Title");
 			
-			booktitle = MessageUtils.ReplaceMainplaceholderP(booktitle, p);
+			booktitle = PlaceHolders.ReplaceMainplaceholderP(booktitle, p);
 			
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 				booktitle = PlaceholderAPI.setPlaceholders(p, booktitle);
 			}
 			
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-				booktitle = MessageUtils.BattleLevelPO(booktitle, p);
+				booktitle = PlaceHolders.BattleLevelPO(booktitle, p);
 			}
 			
 			booktitle = booktitle.replaceAll("&", "§");
@@ -267,14 +267,14 @@ public class CustomJoinItem {
 				for (String s: BookListConfiguration.getConfig().getStringList("Book-List." + material + "." + string + ".page")) {
 					s = s.replaceAll("&", "§");
 					
-					s = MessageUtils.ReplaceMainplaceholderP(s, p);
+					s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 					
 					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 						s = PlaceholderAPI.setPlaceholders(p, s);
 					}
 					
 					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-						s = MessageUtils.BattleLevelPO(s, p);
+						s = PlaceHolders.BattleLevelPO(s, p);
 					}
 					
 					if (!check) {

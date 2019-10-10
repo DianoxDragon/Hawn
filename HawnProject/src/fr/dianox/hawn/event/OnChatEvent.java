@@ -16,6 +16,7 @@ import fr.dianox.hawn.commands.features.chat.DelaychatCommand;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.TitleUtils;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
@@ -933,7 +934,7 @@ public class OnChatEvent implements Listener {
 
                     actionbar = actionbar.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 
-                    actionbar = MessageUtils.ReplaceMainplaceholderP(actionbar, p);
+                    actionbar = PlaceHolders.ReplaceMainplaceholderP(actionbar, p);
 
                     ActionBar.sendActionBar(p, actionbar, OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay"));
                 }
@@ -955,7 +956,7 @@ public class OnChatEvent implements Listener {
 
                         title = title.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 
-                        title = MessageUtils.ReplaceMainplaceholderP(title, p);
+                        title = PlaceHolders.ReplaceMainplaceholderP(title, p);
                     }
 
                     if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
@@ -969,7 +970,7 @@ public class OnChatEvent implements Listener {
 
                         subtitle = subtitle.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 
-                        subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+                        subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
                     }
 
                     if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {

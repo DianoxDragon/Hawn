@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.TitleUtils;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
@@ -49,23 +49,23 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 					if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Use-Permission-To-Get-Messages")) {
 						if (p.hasPermission("hawn.get.autobroadcast_titles")) {
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Title.Message")) {
-								title = MessageUtils.ReplaceMainplaceholderP(title, p);
+								title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 									title = PlaceholderAPI.setPlaceholders(p, title);
 								}
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									title = MessageUtils.BattleLevelPO(title, p);
+									title = PlaceHolders.BattleLevelPO(title, p);
 								}
 								title = title.replaceAll("&", "§");
 							}
 							
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".SubTitle.Message")) {
-								subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+								subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 									subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
 								}
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									subtitle = MessageUtils.BattleLevelPO(subtitle, p);
+									subtitle = PlaceHolders.BattleLevelPO(subtitle, p);
 								}
 								subtitle = subtitle.replaceAll("&", "§");
 							}
@@ -245,23 +245,23 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 						}
 					} else {
 						if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Title.Message")) {
-							title = MessageUtils.ReplaceMainplaceholderP(title, p);
+							title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								title = PlaceholderAPI.setPlaceholders(p, title);
 							}
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								title = MessageUtils.BattleLevelPO(title, p);
+								title = PlaceHolders.BattleLevelPO(title, p);
 							}
 							title = title.replaceAll("&", "§");
 						}
 						
 						if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".SubTitle.Message")) {
-							subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+							subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 								subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
 							}
 							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								subtitle = MessageUtils.BattleLevelPO(subtitle, p);
+								subtitle = PlaceHolders.BattleLevelPO(subtitle, p);
 							}
 							subtitle = subtitle.replaceAll("&", "§");
 						}
@@ -458,23 +458,23 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 						if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Use-Permission-To-Get-Messages")) {
 							if (p.hasPermission("hawn.get.autobroadcast_titles")) {
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Title.Message")) {
-									title = MessageUtils.ReplaceMainplaceholderP(title, p);
+									title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 									if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 										title = PlaceholderAPI.setPlaceholders(p, title);
 									}
 									if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-										title = MessageUtils.BattleLevelPO(title, p);
+										title = PlaceHolders.BattleLevelPO(title, p);
 									}
 									title = title.replaceAll("&", "§");
 								}
 								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".SubTitle.Message")) {
-									subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+									subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
 									if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 										subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
 									}
 									if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-										subtitle = MessageUtils.BattleLevelPO(subtitle, p);
+										subtitle = PlaceHolders.BattleLevelPO(subtitle, p);
 									}
 									subtitle = subtitle.replaceAll("&", "§");
 								}
@@ -653,23 +653,23 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 							}
 						} else {
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Title.Message")) {
-								title = MessageUtils.ReplaceMainplaceholderP(title, p);
+								title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 									title = PlaceholderAPI.setPlaceholders(p, title);
 								}
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									title = MessageUtils.BattleLevelPO(title, p);
+									title = PlaceHolders.BattleLevelPO(title, p);
 								}
 								title = title.replaceAll("&", "§");
 							}
 							
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".SubTitle.Message")) {
-								subtitle = MessageUtils.ReplaceMainplaceholderP(subtitle, p);
+								subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 									subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
 								}
 								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									subtitle = MessageUtils.BattleLevelPO(subtitle, p);
+									subtitle = PlaceHolders.BattleLevelPO(subtitle, p);
 								}
 								subtitle = subtitle.replaceAll("&", "§");
 							}

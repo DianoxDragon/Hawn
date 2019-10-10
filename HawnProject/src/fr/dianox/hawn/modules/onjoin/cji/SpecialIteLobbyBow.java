@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
@@ -293,10 +293,10 @@ public class SpecialIteLobbyBow implements Listener {
 			}
 	
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-				pretitle = MessageUtils.BattleLevelPO(pretitle, p);
+				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
 			}
 	            
-			pretitle = MessageUtils.ReplaceMainplaceholderP(pretitle, p);
+			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
 			pretitle = pretitle.replaceAll("&", "§");
 			
@@ -315,10 +315,10 @@ public class SpecialIteLobbyBow implements Listener {
 				}
 
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-					loremsg = MessageUtils.BattleLevelPO(loremsg, p);
+					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
 				}
-		            
-				loremsg = MessageUtils.ReplaceMainplaceholderP(loremsg, p);
+		        
+				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					
 				loremsg = loremsg.replaceAll("&", "§");
 					

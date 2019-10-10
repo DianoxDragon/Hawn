@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -27,7 +27,7 @@ public class VanishTaskAB extends BukkitRunnable {
 		
 		String str = ConfigMCommands.getConfig().getString("Vanish.Action-Bar");
 		str = str.replaceAll("&", "Â§");
-		str = MessageUtils.ReplaceMainplaceholderP(str, p);
+		str = PlaceHolders.ReplaceMainplaceholderP(str, p);
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 			str = PlaceholderAPI.setPlaceholders(p, str);
 		}

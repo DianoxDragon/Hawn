@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.TitleUtils;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
@@ -85,8 +85,8 @@ public class MainTablist extends BukkitRunnable {
 				String foo2 = "";
 				Object packet = null;
 				
-				hea2 = MessageUtils.ReplaceMainplaceholderP(hea, p);
-				foo2 = MessageUtils.ReplaceMainplaceholderP(foo, p);
+				hea2 = PlaceHolders.ReplaceMainplaceholderP(hea, p);
+				foo2 = PlaceHolders.ReplaceMainplaceholderP(foo, p);
 				
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 					foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
@@ -94,8 +94,8 @@ public class MainTablist extends BukkitRunnable {
 				}
 				
 				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-					foo2 = MessageUtils.BattleLevelPO(foo2, p);
-					hea2 = MessageUtils.BattleLevelPO(hea2, p);
+					foo2 = PlaceHolders.BattleLevelPO(foo2, p);
+					hea2 = PlaceHolders.BattleLevelPO(hea2, p);
 				}
 				
 				Constructor<?> constructor = ChatComponentText.getConstructors()[0];

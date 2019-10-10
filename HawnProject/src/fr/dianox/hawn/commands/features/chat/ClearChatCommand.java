@@ -93,7 +93,7 @@ public class ClearChatCommand extends BukkitCommand {
                     	}
                     }
 				} else if (args[0].equalsIgnoreCase("other")) {
-					if (args.length != 2) {
+					if (args.length < 2) {
                         sender.sendMessage(ChatColor.RED + "/cc other [player]");
                         return true;
                     }
@@ -170,36 +170,13 @@ public class ClearChatCommand extends BukkitCommand {
                 } else if (args[0].equalsIgnoreCase("a")) {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Enable")) {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Use_Permission")) {
-                    		if (p.hasPermission("hawn.command.clearchat.anonymous")) {
-		                        for (int i = 0; i < lines; i++) {
-		                        	MessageUtils.ReplaceCharBroadcastNoPlayer(" ");
-		                        }
-		                        
-		                        String msg = ConfigMCommands.getConfig().getString("ClearChat.No-Reason");
-		                        
-		                        if (args.length >= 2) {
-		                            if (!args[1].isEmpty()) {
-		                            	msg = "";
-		                            	for (int i = 1; i < args.length; i++) {
-		                            		if (!Objects.equals(msg, "")) {
-		    	    	                    	msg = msg + " ";
-		                            		}
-		                            		msg = msg + args[i];
-		                            	}
-		                            }
-		                        }
-		                        
-		                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Message-Clear")) {
-		                        	for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Anonymously")) {
-		                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg)));
-		                        		MessageUtils.ReplaceCharBroadcastPlayer(ms1.replaceAll("%reason%", msg), p);
-		                        	}
-		                        }
-                    		} else {
+                    		if (!p.hasPermission("hawn.command.clearchat.anonymous")) {
                     			String Permission = "hawn.command.clearchat.anonymous";
                     			MessageUtils.MessageNoPermission(p, Permission);
+                    			return false;
                     		}
-                    	} else {
+                    	}
+
                     		for (int i = 0; i < lines; i++) {
                     			MessageUtils.ReplaceCharBroadcastNoPlayer(" ");
 	                        }
@@ -224,7 +201,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        		MessageUtils.ReplaceCharBroadcastPlayer(ms1.replaceAll("%reason%", msg), p);
 	                        	}
 	                        }
-                    	}
+                    	
                     } else {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Disable-Message")) {
                     		if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
@@ -237,36 +214,12 @@ public class ClearChatCommand extends BukkitCommand {
                 } else if (args[0].equalsIgnoreCase("c")) {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Enable")) {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Use_Permission")) {
-                    		if (p.hasPermission("hawn.command.clearchat.normal")) {
-                    			for (int i = 0; i < lines; i++) {
-                    				MessageUtils.ReplaceCharBroadcastNoPlayer(" ");
-    	                        }
-    	                        
-    	                        String msg = ConfigMCommands.getConfig().getString("ClearChat.No-Reason");
-    	                        
-    	                        if (args.length >= 2) {
-    	                            if (!args[1].isEmpty()) {
-    	                            	msg = "";
-    	                            	for (int i = 1; i < args.length; i++) {
-    	                            		if (!Objects.equals(msg, "")) {
-    	    	    	                    	msg = msg + " ";
-    	                            		}
-    	                            		msg = msg + args[i];
-    	                            	}
-    	                            }
-    	                        }
-		                        
-		                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Message-Clear")) {
-		                        	for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Normal")) {
-		                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg)));
-		                        		MessageUtils.ReplaceCharBroadcastPlayer(ms1.replaceAll("%reason%", msg), p);
-		                        	}
-		                        }
-                    		} else {
+                    		if (!p.hasPermission("hawn.command.clearchat.normal")) {
                     			String Permission = "hawn.command.clearchat.normal";
                     			MessageUtils.MessageNoPermission(p, Permission);
+                    			return false;
                     		}
-                    	} else {
+                    	}
                     		for (int i = 0; i < lines; i++) {
                     			MessageUtils.ReplaceCharBroadcastNoPlayer(" ");
 	                        }
@@ -291,7 +244,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        		MessageUtils.ReplaceCharBroadcastPlayer(ms1.replaceAll("%reason%", msg), p);
 	                        	}
 	                        }
-                    	}
+                    	
                     } else {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Disable-Message")) {
                     		if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
@@ -304,28 +257,20 @@ public class ClearChatCommand extends BukkitCommand {
                 } else if (args[0].equalsIgnoreCase("o") || args[0].equalsIgnoreCase("own")) {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Enable")) {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Use_Permission")) {
-                    		if (p.hasPermission("hawn.command.clearchat.own")) {
-		                        for (int i = 0; i < lines; i++) {
-		                            p.sendMessage(" ");
-		                        }
-		                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Message-Clear")) {
-			                        for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Own")) {
-			                        	MessageUtils.ReplaceCharMessagePlayer(ms1, p);
-		                        	}
-		                        }
-                    		} else {
+                    		if (!p.hasPermission("hawn.command.clearchat.own")) {
                     			String Permission = "hawn.command.clearchat.own";
                     			MessageUtils.MessageNoPermission(p, Permission);
+                    			return false;
                     		}
-                    	} else {
-                    		for (int i = 0; i < lines; i++) {
-	                            p.sendMessage(" ");
-	                        }
-	                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Message-Clear")) {
-		                        for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Own")) {
-		                        	MessageUtils.ReplaceCharMessagePlayer(ms1, p);
-	                        	}
-	                        }
+                    	}
+
+                    	for (int i = 0; i < lines; i++) {
+                    		p.sendMessage(" ");
+                    	}
+                    	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Message-Clear")) {
+                    		for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Own")) {
+                    			MessageUtils.ReplaceCharMessagePlayer(ms1, p);
+                    		}
                     	}
                     } else {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Own.Disable-Message")) {
@@ -339,79 +284,48 @@ public class ClearChatCommand extends BukkitCommand {
                 } else if (args[0].equalsIgnoreCase("other")) {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Enable")) {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Use_Permission")) {
-                    		if (p.hasPermission("hawn.command.clearchat.other")) {
-                    			if (args.length < 2) {
-    	                            p.sendMessage(ChatColor.RED + "/cc other [player]");
-    	                            return true;
-    	                        }
-    	                        Player target = Bukkit.getServer().getPlayer(args[1]);
-    	                        if (target == null) {
-    	                        	MessageUtils.PlayerDoesntExist(p);
-    	                            return true;
-    	                        }
-    	                        for (int i = 0; i < lines; i++) {
-    	                            target.sendMessage(" ");
-    	                        }
-    	                        
-    	                        String msg = ConfigMCommands.getConfig().getString("ClearChat.No-Reason");
-    	                        
-    	                        if (args.length >= 2) {
-    	                            if (!args[1].isEmpty()) {
-    	                            	msg = "";
-    	                            	for (int i = 1; i < args.length; i++) {
-    	                            		if (!Objects.equals(msg, "")) {
-    	    	    	                    	msg = msg + " ";
-    	                            		}
-    	                            		msg = msg + args[i];
-    	                            	}
-    	                            }
-    	                        }
-    	                        
-    	                        for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Sender")) {
-    	                        	MessageUtils.ReplaceCharMessagePlayer(ms1.replaceAll("%reason%", msg), p);
-    	                        }
-    	                        for (String ms2: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Target")) {
-    	                        	MessageUtils.ReplaceCharMessagePlayer(ms2.replaceAll("%reason%", msg), target);
-    	                        }
-                    		} else {
+                    		if (!p.hasPermission("hawn.command.clearchat.other")) {
                     			String Permission = "hawn.command.clearchat.other";
                     			MessageUtils.MessageNoPermission(p, Permission);
+                    			return false;
                     		}
-                    	} else {
-                    		if (args.length < 2) {
-	                            sender.sendMessage(ChatColor.RED + "/cc other [player]");
-	                            return true;
-	                        }
-	                        Player target = Bukkit.getServer().getPlayer(args[1]);
-	                        if (target == null) {
-	                        	MessageUtils.PlayerDoesntExist(p);
-	                            return true;
-	                        }
-	                        for (int i = 0; i < lines; i++) {
-	                            target.sendMessage(" ");
-	                        }
-	                        
-	                        String msg = ConfigMCommands.getConfig().getString("ClearChat.No-Reason");
-	                        
-	                        if (args.length >= 2) {
-	                            if (!args[1].isEmpty()) {
-	                            	msg = "";
-	                            	for (int i = 1; i < args.length; i++) {
-	                            		if (!Objects.equals(msg, "")) {
-	    	    	                    	msg = msg + " ";
-	                            		}
-	                            		msg = msg + args[i];
-	                            	}
-	                            }
-	                        }
-	                        
-	                        for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Sender")) {
-	                        	MessageUtils.ReplaceCharMessagePlayer(ms1.replaceAll("%reason%", msg), p);
-	                        }
-	                        for (String ms2: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Target")) {
-	                        	MessageUtils.ReplaceCharMessagePlayer(ms2.replaceAll("%reason%", msg), target);
-	                        }
                     	}
+
+                    	if (args.length < 2) {
+                    		sender.sendMessage(ChatColor.RED + "/cc other [player]");
+                    		return true;
+                    	}
+                    	
+                    	Player target = Bukkit.getServer().getPlayer(args[1]);
+                    	if (target == null) {
+                    		MessageUtils.PlayerDoesntExist(p);
+                    		return true;
+                    	}
+                    	for (int i = 0; i < lines; i++) {
+                    		target.sendMessage(" ");
+                    	}
+	                        
+                    	String msg = ConfigMCommands.getConfig().getString("ClearChat.No-Reason");
+	                        
+                    	if (args.length >= 2) {
+                    		if (!args[1].isEmpty()) {
+                    			msg = "";
+                    			for (int i = 1; i < args.length; i++) {
+                    				if (!Objects.equals(msg, "")) {
+                    					msg = msg + " ";
+                    				}
+                    				msg = msg + args[i];
+                    			}
+                    		}
+                    	}
+	                        
+                    	for (String ms1: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Sender")) {
+                    		MessageUtils.ReplaceCharMessagePlayer(ms1.replaceAll("%reason%", msg), p);
+                    	}
+                    	for (String ms2: ConfigMCommands.getConfig().getStringList("ClearChat.Other.Target")) {
+                    		MessageUtils.ReplaceCharMessagePlayer(ms2.replaceAll("%reason%", msg), target);
+                    	}
+                    	
                     } else {
                     	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Disable-Message")) {
                     		if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {

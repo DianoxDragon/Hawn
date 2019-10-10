@@ -88,6 +88,7 @@ import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.CheckConfig;
 import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.NMSClass;
@@ -188,7 +189,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.0-Alpha";
+	private static String versions = "0.9.1-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -1891,12 +1892,14 @@ public class Main extends JavaPlugin implements Listener {
 	public void onDisable() {
 		super.onDisable();
 
-		// Tablist.disable();
-
 		fileconfiglist.clear();
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            
+            try {
+            	BossBarApi.deletebar(p);
+            } catch (Exception e) {}
 		}
 		
 		getServer().getMessenger().unregisterIncomingPluginChannel(this, "wdl:init");

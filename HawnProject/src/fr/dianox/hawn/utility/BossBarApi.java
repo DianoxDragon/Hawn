@@ -34,10 +34,10 @@ public class BossBarApi {
         }
         
         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-        	title = MessageUtils.BattleLevelPO(title, p);
+        	title = PlaceHolders.BattleLevelPO(title, p);
 		}
         
-        title = MessageUtils.ReplaceMainplaceholderP(title, p);
+        title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 		
 		title = title.replaceAll("&", "§");
 		
@@ -99,10 +99,10 @@ public class BossBarApi {
         }
         
         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-        	title = MessageUtils.BattleLevelPO(title, p);
+        	title = PlaceHolders.BattleLevelPO(title, p);
 		}
         
-        title = MessageUtils.ReplaceMainplaceholderP(title, p);
+        title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 		
 		title = title.replaceAll("&", "§");
 		

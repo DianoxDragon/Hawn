@@ -13,7 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.scoreboard.PlayerReceiveBoardEvent;
 import fr.dianox.hawn.utility.scoreboard.WhenPluginUpdateTextEvent;
@@ -219,10 +219,10 @@ public class PlayerBoard {
             }
             
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-    			s = MessageUtils.BattleLevelPO(s, p);
+    			s = PlaceHolders.BattleLevelPO(s, p);
     		}
             
-            s = MessageUtils.ReplaceMainplaceholderP(s, p);
+            s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 
             s = ChatColor.translateAlternateColorCodes('&', s);
             

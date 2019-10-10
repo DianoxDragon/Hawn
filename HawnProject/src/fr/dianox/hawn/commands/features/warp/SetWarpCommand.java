@@ -22,7 +22,7 @@ public class SetWarpCommand extends BukkitCommand {
 	public SetWarpCommand(String name) {
 		super(name);
 		this.description = "Creates a new warp";
-        this.usageMessage = "/setwarp <warp>";
+        this.usageMessage = "/setwarp <warp> [w:world1,world2 etc.]";
 	}
 
 	@Override
@@ -67,40 +67,96 @@ public class SetWarpCommand extends BukkitCommand {
 				}
 			}
 		} else if (args.length == 1) {
+			createcomplexwarp(p, false, "", args[0]);
+		} else if ((args.length == 2) && (args[1].startsWith("w:"))) {
+			createcomplexwarp(p, true, args[1], args[0]);
+		} else {
+			p.sendMessage("§c/setwarp <warp> [w:world1,world2 etc.]");
+		}
+		
+		return false;
+	}
+	
+	private void createcomplexwarp(Player p, Boolean multiworld, String worldlist, String warpstring) {
+		if (multiworld) {
+			String worldlistformat = worldlist;
+			
+			worldlistformat = worldlistformat.replace("w:", "");
+			
+			String[] arr = worldlistformat.split(",");
+						
+			for (String ss : arr) {
+				if (!WarpListConfig.getConfig().isSet("Coordinated."+warpstring)) {
+					Location l = p.getLocation();
+					
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".World", ss);
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".X", Double.valueOf(l.getX()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".Y", Double.valueOf(l.getY()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".Z", Double.valueOf(l.getZ()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".Yaw", Float.valueOf(l.getYaw()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".Pitch", Float.valueOf(l.getPitch()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+".Info", String.valueOf("Player "+p.getName()+" created the warp at: "+OtherUtils.getDate()+", "+OtherUtils.getTime()));
+					
+					WarpListConfig.saveConfigFile();
+					
+					if (ConfigMCommands.getConfig().getBoolean(msg_setwarp_set+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_setwarp_set+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg%", warpstring), p);
+						}
+					}
+				} else {
+					Integer number = 1;
+					while (WarpListConfig.getConfig().isSet("Coordinated."+warpstring+number)) {
+						number++;
+					}
+					Location l = p.getLocation();
+					
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".World", ss);
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".X", Double.valueOf(l.getX()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".Y", Double.valueOf(l.getY()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".Z", Double.valueOf(l.getZ()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".Yaw", Float.valueOf(l.getYaw()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".Pitch", Float.valueOf(l.getPitch()));
+					WarpListConfig.getConfig().set("Coordinated."+warpstring+number+".Info", String.valueOf("Player "+p.getName()+" created the warp at: "+OtherUtils.getDate()+", "+OtherUtils.getTime()));
+						
+					WarpListConfig.saveConfigFile();
+			            
+					if (ConfigMCommands.getConfig().getBoolean(msg_setwarp_set+"Enable")) {
+						for (String msg: ConfigMCommands.getConfig().getStringList(msg_setwarp_set+"Messages")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg%", warpstring+number), p);
+						}
+					}
+				}
+			}
+		} else {
 			// If the warp already exist
-			if (WarpListConfig.getConfig().isSet("Coordinated."+args[0])) {
+			if (WarpListConfig.getConfig().isSet("Coordinated."+warpstring)) {
 				if (ConfigMCommands.getConfig().getBoolean(msg_setwarp_alreadyexist+"Enable")) {
 					for (String msg: ConfigMCommands.getConfig().getStringList(msg_setwarp_alreadyexist+"Messages")) {
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				}
 			}
-			
+						
 			// Set the warp
 			Location l = p.getLocation();
-					
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".World", l.getWorld().getName());
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".X", Double.valueOf(l.getX()));
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".Y", Double.valueOf(l.getY()));
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".Z", Double.valueOf(l.getZ()));
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".Yaw", Float.valueOf(l.getYaw()));
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".Pitch", Float.valueOf(l.getPitch()));
-			WarpListConfig.getConfig().set("Coordinated."+args[0]+".Info", String.valueOf("Player "+p.getName()+" created the warp at: "+OtherUtils.getDate()+", "+OtherUtils.getTime()));
-			                
+						
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".World", l.getWorld().getName());
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".X", Double.valueOf(l.getX()));
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".Y", Double.valueOf(l.getY()));
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".Z", Double.valueOf(l.getZ()));
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".Yaw", Float.valueOf(l.getYaw()));
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".Pitch", Float.valueOf(l.getPitch()));
+			WarpListConfig.getConfig().set("Coordinated."+warpstring+".Info", String.valueOf("Player "+p.getName()+" created the warp at: "+OtherUtils.getDate()+", "+OtherUtils.getTime()));
+			
 			WarpListConfig.saveConfigFile();
-			                
-			p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
-					
+			
 			if (ConfigMCommands.getConfig().getBoolean(msg_setwarp_set+"Enable")) {
 				for (String msg: ConfigMCommands.getConfig().getStringList(msg_setwarp_set+"Messages")) {
-					MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg%", args[0]), p);
+					MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg%", warpstring), p);
 				}
 			}
-		} else {
-			p.sendMessage("§c/setwarp <warp>");
 		}
-		
-		return false;
 	}
 	
 }
