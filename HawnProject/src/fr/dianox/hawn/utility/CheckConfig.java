@@ -165,6 +165,54 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OtherAMConfig.getConfig().isSet("Command.CheckAccount")) {
+			OtherAMConfig.getConfig().set("Command.CheckAccount", java.util.Arrays.asList(new String[] {
+					"",
+                    "  &8→ &r&lPlayer info for&8:&r &b%target%",
+                    "&7&lJoin date&r&8:&e %hawn_player_join_date%",
+                    "&7&lFirst join date&r&8:&e %hawn_player_first_join_date%",
+                    "&7&lIp&r&8:&e %player_ip%",
+                    "",
+                    "  &8→ &r&lOptions&8:&r &8(&aGreen &8=&7 true / &cRed&8 = &7false&8)",
+                    "&7&lPlayer visibility: %pv_point%",
+                    "&7&lSpeed: %ps_point% &7(&e%ps_number%&7)",
+                    "&7&lFly: %pof_point%",
+                    "&7&lDouble jump: %dj_point%",
+                    "&7&lAuto broadcast: %ab_point%",
+                    "&7&lVanished: %v_point%",
+                    "&7&lKeep scoreboard: %ksb_point% &8(&e%scorename%&8)",
+                    "&7&lJump Boost: %jb_point%",
+                    "",
+                    "&7&lGamemode: &e%gm_number%",
+                    ""
+                }));
+			
+			CommandAliasesConfig.getConfig().set("CheckAccount.Enable", true);
+            CommandAliasesConfig.getConfig().set("CheckAccount.Cannot-Be-changed.Main-Command-Is", "checkaccount");
+            CommandAliasesConfig.getConfig().set("CheckAccount.Aliases", java.util.Arrays.asList(new String[] {"checka"}));
+			
+            CommandAliasesConfig.saveConfigFile();
+			OtherAMConfig.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Warp.Edit.Warp-Edited.Enable")) {
+			
+			ConfigMCommands.getConfig().set("Warp.Edit.Warp-Edited.Enable", true);
+			ConfigMCommands.getConfig().set("Warp.Edit.Warp-Edited.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The new location of the warp &e%warp% has been set"}));
+			
+			WarpSetWarpCommandConfig.getConfig().set("EditWarp.Enable", true);
+			WarpSetWarpCommandConfig.getConfig().set("EditWarp.Disable-Message", true);
+			WarpSetWarpCommandConfig.getConfig().set("EditWarp.DISABLE_THE_COMMAND_COMPLETELY", false);
+			
+			CommandAliasesConfig.getConfig().set("Warp.Edit-Warp.Enable", false);
+			CommandAliasesConfig.getConfig().set("Warp.Edit-Warp.Warp.Cannot-Be-changed.Main-Command-Is", "editwarp");
+			CommandAliasesConfig.getConfig().set("Warp.Edit-Warp.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			CommandAliasesConfig.saveConfigFile();
+			WarpSetWarpCommandConfig.saveConfigFile();
+			ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!AutoBroadcastConfig.getConfig().isSet("Config.BossBar.Enable")) {
 			/*
              * Auto broadcast

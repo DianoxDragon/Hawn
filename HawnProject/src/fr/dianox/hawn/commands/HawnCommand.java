@@ -173,6 +173,16 @@ public class HawnCommand implements CommandExecutor {
 							MessageUtils.ReplaceMessageForConsole(msg);
 						}
 					}
+				} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder")) {
+					if (args.length == 1) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
+							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					} else if (args.length == 2) {
+						String msg = PlaceHolders.ReplaceMainplaceholderC(args[1]);
+						
+						MessageUtils.ReplaceMessageForConsole(msg);
+					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
 						// If no argument has been put in the command
@@ -443,6 +453,16 @@ public class HawnCommand implements CommandExecutor {
 						}
 					} else {
 						p.performCommand("hawn help 1");
+					}
+				} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder")) {
+					if (args.length == 1) {
+						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+					} else if (args.length == 2) {
+						String msg = PlaceHolders.ReplaceMainplaceholderP(args[1], p);
+						
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {

@@ -67,7 +67,7 @@ public class DelWarpCommand extends BukkitCommand {
 					}
 				}
 			} else {
-				sender.sendMessage("Â§c/delwarp <warp>");
+				sender.sendMessage("§c/delwarp <warp>");
 			}
 			
 			return true;
@@ -134,7 +134,7 @@ public class DelWarpCommand extends BukkitCommand {
 				}
 			}
 		} else {
-			p.sendMessage("Â§c/delwarp <warp>");
+			p.sendMessage("§c/delwarp <warp>");
 		}
 		
 		return false;

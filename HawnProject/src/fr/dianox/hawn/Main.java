@@ -56,9 +56,11 @@ import fr.dianox.hawn.commands.features.optionplayers.MainCommandOptionPlayer;
 import fr.dianox.hawn.commands.features.specials.ABAnnouncerCommand;
 import fr.dianox.hawn.commands.features.specials.TitleAnnouncerCommand;
 import fr.dianox.hawn.commands.features.warp.DelWarpCommand;
+import fr.dianox.hawn.commands.features.warp.EditWarpCommand;
 import fr.dianox.hawn.commands.features.warp.SetWarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpCommand;
 import fr.dianox.hawn.commands.features.warp.WarpListCommand;
+import fr.dianox.hawn.commands.others.CheckAccountCommand;
 import fr.dianox.hawn.commands.others.ClearGroundItemsCommand;
 import fr.dianox.hawn.commands.others.ClearMobsCommand;
 import fr.dianox.hawn.commands.others.EnderChestCommand;
@@ -108,6 +110,7 @@ import fr.dianox.hawn.utility.config.WarpListConfig;
 import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
+import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
@@ -189,7 +192,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.1-Alpha";
+	private static String versions = "0.9.2-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -464,6 +467,9 @@ public class Main extends JavaPlugin implements Listener {
 			ClearMobsCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-ClearMobs", "Commands/ClearMobs.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/ClearMobs.yml", "C-ClearMobs");
+			CheckAccountCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-CheckAccount", "Commands/CheckAccount.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/CheckAccount.yml", "C-CheckAccount");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -721,6 +727,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* ---------------------- *
+			 * CHECK ACCOUNT COMMANDS *
+			 * ---------------------- */
+			// >> Check Account
+			if (!CheckAccountCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("checkaccount", new CheckAccountCommand("checkaccount"));
+				if (CommandAliasesConfig.getConfig().getBoolean("CheckAccount.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("CheckAccount.Aliases")) {
+						commandMap.register(s, new CheckAccountCommand(s));
+					}
+				}
+			}
+			
 			/* -------------- *
 			 * CLEAR COMMANDS *
 			 * -------------- */
@@ -1134,7 +1153,16 @@ public class Main extends JavaPlugin implements Listener {
 				commandMap.register("warplist", new WarpListCommand("warplist"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Warp-list.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Warp-list.Aliases")) {
-						commandMap.register(s, new DelWarpCommand(s));
+						commandMap.register(s, new WarpListCommand(s));
+					}
+				}
+			}
+			// >> Edit warp
+			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("EditWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("editwarp", new EditWarpCommand("editwarp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Edit-Warp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Edit-Warp.Aliases")) {
+						commandMap.register(s, new EditWarpCommand(s));
 					}
 				}
 			}

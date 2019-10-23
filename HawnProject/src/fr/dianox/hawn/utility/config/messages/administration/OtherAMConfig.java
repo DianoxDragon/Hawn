@@ -70,78 +70,78 @@ public class OtherAMConfig {
             }));
 
             Config.set("Command.Hawn-Main-help.1", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/hawn setspawn [name] - Â§eSet the spawn",
-                "Â§8>> Â§7/hawn delspawn <name> - Â§eDelete the spawn",
-                "Â§8>> Â§7/hawn reload Â§eor Â§7rl - Â§eReload some config files",
-                "Â§8>> Â§7/hawn version Â§eor Â§7v  - Â§eSee the version of the plugin",
-                "Â§8>> Â§7/hawn tps - Â§eSee the TPS of the server",
-                "Â§8>> Â§7/hawn info [all/memory/tps/disk/cpu/server/version] - Â§eSee the infos of the server",
-                "Â§8>> Â§7/hawn debug emoji - Â§eDebug config files of emoji's items",
-                "Â§8>> Â§7/hawn build - Â§eTo bypass protection temporary",
-                "Â§8>> Â§7/hawn hooks - Â§ePour vÃ©rifier les sous-dÃ©pendances du plugin, s'ils sont activÃ©s ou non",
-                "Â§8>> Â§7/hawn urgent - Â§eTo use the urgent mode",
-                "Â§8>> Â§7/hawn [maintenance/m] - Â§eTo use the maintenance mode"
+                "§8>> §7/hawn setspawn [name] - §eSet the spawn",
+                "§8>> §7/hawn delspawn <name> - §eDelete the spawn",
+                "§8>> §7/hawn reload §eor §7rl - §eReload some config files",
+                "§8>> §7/hawn version §eor §7v  - §eSee the version of the plugin",
+                "§8>> §7/hawn tps - §eSee the TPS of the server",
+                "§8>> §7/hawn info [all/memory/tps/disk/cpu/server/version] - §eSee the infos of the server",
+                "§8>> §7/hawn debug emoji - §eDebug config files of emoji's items",
+                "§8>> §7/hawn build - §eTo bypass protection temporary",
+                "§8>> §7/hawn hooks - §ePour vÃ©rifier les sous-dÃ©pendances du plugin, s'ils sont activÃ©s ou non",
+                "§8>> §7/hawn urgent - §eTo use the urgent mode",
+                "§8>> §7/hawn [maintenance/m] - §eTo use the maintenance mode"
             }));
             Config.set("Command.Hawn-Main-help.2", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/hawn dornor - Â§eShow all the donors of the plugin",
-                "Â§8>> Â§7/hawn about - Â§eJust show some informations",
+                "§8>> §7/hawn dornor - §eShow all the donors of the plugin",
+                "§8>> §7/hawn about - §eJust show some informations",
                 "",
-                "Â§8>> Â§7/ap Â§eor Â§7pa - Â§eAccess to the admin panel",
+                "§8>> §7/ap §eor §7pa - §eAccess to the admin panel",
                 "",
-                "Â§8>> Â§7/spawn [SpawnName] - Â§eGo to the spawn",
-                "Â§8>> Â§7/spawn tp <player> [SpawnName] - Â§eTp a player to a spawn",
-                "Â§8>> Â§7/spawnlist - Â§eSee the list of spawns",
+                "§8>> §7/spawn [SpawnName] - §eGo to the spawn",
+                "§8>> §7/spawn tp <player> [SpawnName] - §eTp a player to a spawn",
+                "§8>> §7/spawnlist - §eSee the list of spawns",
                 "",
-                "Â§8>> Â§7/warp <WarpName> [player] - Â§eGo to the warp",
-                "Â§8>> Â§7/warplist - Â§eSee the list of warps",
-                "Â§8>> Â§7/setwarp <warpname> - Â§eCreate a warp"
+                "§8>> §7/warp <WarpName> [player] - §eGo to the warp",
+                "§8>> §7/warplist - §eSee the list of warps",
+                "§8>> §7/setwarp <warpname> - §eCreate a warp"
             }));
 
             Config.set("Command.Hawn-Main-help.3", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/delwarp <warpname> - Â§eDelete a warp",
+                "§8>> §7/delwarp <warpname> - §eDelete a warp",
                 "",
-                "Â§8>> Â§7/sun or /clearw - Â§eClear the weather",
-                "Â§8>> Â§7/rain - Â§eTo make the world raining",
-                "Â§8>> Â§7/thunder - Â§eIf you like a bad weather",
-                "Â§8>> Â§7/day - Â§ePut the day",
-                "Â§8>> Â§7/night - Â§ePut the night",
+                "§8>> §7/sun or /clearw - §eClear the weather",
+                "§8>> §7/rain - §eTo make the world raining",
+                "§8>> §7/thunder - §eIf you like a bad weather",
+                "§8>> §7/day - §ePut the day",
+                "§8>> §7/night - §ePut the night",
                 "",
-                "Â§8>> Â§7/fly [player] - Â§ePut the flight mode",
-                "Â§8>> Â§7/heal [player] - Â§eHeal a player",
-                "Â§8>> Â§7/feed [player] - Â§eFeed the player"
+                "§8>> §7/fly [player] - §ePut the flight mode",
+                "§8>> §7/heal [player] - §eHeal a player",
+                "§8>> §7/feed [player] - §eFeed the player"
             }));
 
             Config.set("Command.Hawn-Main-help.4", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/clearinv [player] - Â§eClear inventory a player",
-                "Â§8>> Â§7/ping [player] - Â§eShow the ping of a player",
-                "Â§8>> Â§7/v [player] - Â§eVanish a player",
-                "Â§8>> Â§7/gamemode or gm... or gma etc. - Â§eSet to player a gamemode",
+                "§8>> §7/clearinv [player] - §eClear inventory a player",
+                "§8>> §7/ping [player] - §eShow the ping of a player",
+                "§8>> §7/v [player] - §eVanish a player",
+                "§8>> §7/gamemode or gm... or gma etc. - §eSet to player a gamemode",
                 "",
-                "Â§8>> Â§7/cc - Â§eShow the help of the clearchat",
-                "Â§8>> Â§7/delaychat <number> - Â§ePut a delay on the chat",
-                "Â§8>> Â§7/gmute - Â§eMute the chat",
+                "§8>> §7/cc - §eShow the help of the clearchat",
+                "§8>> §7/delaychat <number> - §ePut a delay on the chat",
+                "§8>> §7/gmute - §eMute the chat",
                 "",
-                "Â§8>> Â§7/broadcast <message>Â§7 - Â§eBroadcast a message",
-                "Â§8>> Â§7/btcast Â§eor Â§7/ta <message>Â§7 - Â§eBroadcast a title message"
+                "§8>> §7/broadcast <message>§7 - §eBroadcast a message",
+                "§8>> §7/btcast §eor §7/ta <message>§7 - §eBroadcast a title message"
             }));
 
             Config.set("Command.Hawn-Main-help.5", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/bacast Â§eor Â§7/aba <message>Â§7 - Â§eBroadcast an action bar",
+                "§8>> §7/bacast §eor §7/aba <message>§7 - §eBroadcast an action bar",
                 "",
-                "Â§8>> Â§7/help <.../...>Â§7 - Â§eShow the custom help, if enabled",
-                "Â§8>> Â§7/gotopÂ§7 - Â§eGo to the highest block of your position",
+                "§8>> §7/help <.../...>§7 - §eShow the custom help, if enabled",
+                "§8>> §7/gotop§7 - §eGo to the highest block of your position",
                 "",
-                "Â§8>> Â§7/emojiÂ§7 - Â§eSee the gui of emojis",
+                "§8>> §7/emoji§7 - §eSee the gui of emojis",
                 "",
-                "Â§8>> Â§7/scoreboardÂ§7 - Â§eToggle off or on the scoreboard",
-                "Â§8>> Â§7/scoreboard set <scoreboard's file name>Â§7 - Â§eTo change the actual scoreboard",
-                "Â§8>> Â§7/scoreboard keepÂ§7 - Â§eKeep the scoreboard between servers",
-                "Â§8>> Â§7/scoreboard listÂ§7 - Â§eSee all registered scoreboards"
+                "§8>> §7/scoreboard§7 - §eToggle off or on the scoreboard",
+                "§8>> §7/scoreboard set <scoreboard's file name>§7 - §eTo change the actual scoreboard",
+                "§8>> §7/scoreboard keep§7 - §eKeep the scoreboard between servers",
+                "§8>> §7/scoreboard list§7 - §eSee all registered scoreboards"
             }));
 
             Config.set("Command.Hawn-Main-help.6", java.util.Arrays.asList(new String[] {
                 "",
-                "Â§8>> Â§7/optionÂ§7 - Â§eFor main player's options"
+                "§8>> §7/option§7 - §eFor main player's options"
             }));
 
             /*
@@ -233,6 +233,27 @@ public class OtherAMConfig {
                     "%prefix% &7All mobs have been cleared"
                 }));
 
+            Config.set("Command.CheckAccount", java.util.Arrays.asList(new String[] {
+            		"",
+                    "  &8→ &r&lPlayer info for&8:&r &b%target%",
+                    "&7&lJoin date&r&8:&e %hawn_player_join_date%",
+                    "&7&lFirst join date&r&8:&e %hawn_player_first_join_date%",
+                    "&7&lIp&r&8:&e %player_ip%",
+                    "",
+                    "  &8→ &r&lOptions&8:&r &8(&aGreen &8=&7 true / &cRed&8 = &7false&8)",
+                    "&7&lPlayer visibility: %pv_point%",
+                    "&7&lSpeed: %ps_point% &7(&e%ps_number%&7)",
+                    "&7&lFly: %pof_point%",
+                    "&7&lDouble jump: %dj_point%",
+                    "&7&lAuto broadcast: %ab_point%",
+                    "&7&lVanished: %v_point%",
+                    "&7&lKeep scoreboard: %ksb_point% &8(&e%scorename%&8)",
+                    "&7&lJump Boost: %jb_point%",
+                    "",
+                    "&7&lGamemode: &e%gm_number%",
+                    ""
+                }));
+            
             saveConfigFile();
 
         }

@@ -79,6 +79,10 @@ public class WarpSetWarpCommandConfig {
             Config.set("DelWarp.Enable", true);
             Config.set("DelWarp.Disable-Message", true);
             Config.set("DelWarp.DISABLE_THE_COMMAND_COMPLETELY", false);
+            
+            Config.set("EditWarp.Enable", true);
+            Config.set("EditWarp.Disable-Message", true);
+            Config.set("EditWarp.DISABLE_THE_COMMAND_COMPLETELY", false);
 
             saveConfigFile();
 

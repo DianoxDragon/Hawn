@@ -32,6 +32,7 @@ import fr.dianox.hawn.utility.config.WarpListConfig;
 import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
+import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
@@ -178,6 +179,7 @@ public class Reload {
 		ClearMobsCommandConfig.reloadConfig();
 		SpecialCjiLobbyBow.reloadConfig();
 		BookListConfiguration.reloadConfig();
+		CheckAccountCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

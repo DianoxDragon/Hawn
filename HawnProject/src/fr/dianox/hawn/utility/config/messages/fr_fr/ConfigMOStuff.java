@@ -54,7 +54,7 @@ public class ConfigMOStuff {
             } catch (IOException e) {}
             
             Config.set("Error.No-Permissions.Enable", true);
-            Config.set("Error.No-Permissions.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDÃ©solÃ©, mais vous n'avez pas la permission : %noperm%"}));
+            Config.set("Error.No-Permissions.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous n'avez pas la permission : %noperm%"}));
             Config.set("Error.No-Spawn.Enable", true);
             Config.set("Error.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa spawn n'existe pas"}));
             Config.set("Error.Change-Me.Enable", true);
@@ -62,15 +62,15 @@ public class ConfigMOStuff {
             Config.set("Error.No-Players.Enable", true);
             Config.set("Error.No-Players.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe joueur n'est pas en ligne ou n'existe pas"}));
             Config.set("Error.No-Page-Found.Enable", true);
-            Config.set("Error.No-Page-Found.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa page ne peut pas Ãªtre trouvÃ©e"}));
+            Config.set("Error.No-Page-Found.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa page ne peut pas Ãªtre trouvée"}));
             Config.set("Error.No-Category.Enable", true);
-            Config.set("Error.No-Category.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa catÃ©gorie n'existe pas"}));
+            Config.set("Error.No-Category.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa catégorie n'existe pas"}));
             Config.set("Error.Use-Number.Enable", true);
-            Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVeuillez prÃ©ciser un nombre"}));
+            Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVeuillez préciser un nombre"}));
             Config.set("Error.Command-Disable.Enable", true);
-            Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDÃ©solÃ©, cette commande est dÃ©sactivÃ©e"}));
+            Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, cette commande est désactivée"}));
             Config.set("Error.Argument-Missing.Enable", true);
-            Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis dÃ©solÃ©, mais il doit manquer un ou deux arguments"}));
+            Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis désolé, mais il doit manquer un ou deux arguments"}));
             Config.set("Error.Not-A-Player.Enable", true);
             Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous n'Ãªtes pas un joueur"}));
             

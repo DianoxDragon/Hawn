@@ -61,6 +61,10 @@ public class CommandAliasesConfig {
             Config.set("Broadcast.Cannot-Be-changed.Main-Command-Is", "broadcast");
             Config.set("Broadcast.Aliases", java.util.Arrays.asList(new String[] {"bc"}));
             
+            Config.set("CheckAccount.Enable", true);
+            Config.set("CheckAccount.Cannot-Be-changed.Main-Command-Is", "checkaccount");
+            Config.set("CheckAccount.Aliases", java.util.Arrays.asList(new String[] {"checka"}));
+            
             Config.set("ClearChat.Enable", false);
             Config.set("ClearChat.Cannot-Be-changed.Main-Command-Is", "cc");
             Config.set("ClearChat.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -224,6 +228,10 @@ public class CommandAliasesConfig {
             Config.set("Warp.Del-Warp.Enable", false);
             Config.set("Warp.Del-Warp.Warp.Cannot-Be-changed.Main-Command-Is", "delwarp");
             Config.set("Warp.Del-Warp.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Warp.Edit-Warp.Enable", false);
+            Config.set("Warp.Edit-Warp.Warp.Cannot-Be-changed.Main-Command-Is", "editwarp");
+            Config.set("Warp.Edit-Warp.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Warp.Set-Warp.Enable", false);
             Config.set("Warp.Set-Warp.Warp.Cannot-Be-changed.Main-Command-Is", "setwarp");

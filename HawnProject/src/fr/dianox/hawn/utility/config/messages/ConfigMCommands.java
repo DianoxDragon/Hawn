@@ -243,6 +243,9 @@ public class ConfigMCommands {
             Config.set("Warp.Del.Warp-Delete.Enable", true);
             Config.set("Warp.Del.Warp-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The warp &e%warp%&7 has been &cdeleted"}));
             
+            Config.set("Warp.Edit.Warp-Edited.Enable", true);
+            Config.set("Warp.Edit.Warp-Edited.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The new location of the warp &e%warp% has been set"}));
+            
             /* ---------------- *
 			 * SUICIDE COMMANDS *
 			 * ---------------- */

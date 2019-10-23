@@ -57,7 +57,7 @@ public class AdminOtherAMConfig {
              * RELOAD COMMANDS *
              * --------------- */
             Config.set("Command.Reload", java.util.Arrays.asList(new String[] {
-                "&aConfiguration rechargÃ©e"
+                "&aConfiguration rechargée"
             }));
 
             Config.set("Command.Build-Bypass.On", java.util.Arrays.asList(new String[] {
@@ -68,79 +68,79 @@ public class AdminOtherAMConfig {
             }));
 
             Config.set("Command.Hawn-Main-help.1", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/hawn setspawn [name] - Â§ePlace le spawn",
-                "Â§8>> Â§7/hawn delspawn <name> - Â§eSupprime le spawn",
-                "Â§8>> Â§7/hawn reload Â§eou Â§7rl - Â§eRecharge certains fichiers de configuration",
-                "Â§8>> Â§7/hawn version Â§eou Â§7v  - Â§eVoir la version du plugin",
-                "Â§8>> Â§7/hawn tps - Â§eVoir le TPS du serveur",
-                "Â§8>> Â§7/hawn info [all/memouy/tps/disk/cpu/server/version] - Â§eVoir les infos du serveur",
-                "Â§8>> Â§7/hawn debug emoji - Â§eDÃ©boguer le fichier de configuration des objets du menu d'emoji",
-                "Â§8>> Â§7/hawn build - Â§ePour contourner temporairement la protection",
-                "Â§8>> Â§7/hawn hooks - Â§ePour vÃ©rifier les sous-dÃ©pendances du plugin, s'ils sont activÃ©s ou non",
-                "Â§8>> Â§7/hawn urgent - Â§ePour utiliser le mode d'urgence",
-                "Â§8>> Â§7/hawn [maintenance/m] - Â§ePour utiliser le mode de maintenance"
+                "§8>> §7/hawn setspawn [name] - §ePlace le spawn",
+                "§8>> §7/hawn delspawn <name> - §eSupprime le spawn",
+                "§8>> §7/hawn reload §eou §7rl - §eRecharge certains fichiers de configuration",
+                "§8>> §7/hawn version §eou §7v  - §eVoir la version du plugin",
+                "§8>> §7/hawn tps - §eVoir le TPS du serveur",
+                "§8>> §7/hawn info [all/memouy/tps/disk/cpu/server/version] - §eVoir les infos du serveur",
+                "§8>> §7/hawn debug emoji - §eDéboguer le fichier de configuration des objets du menu d'emoji",
+                "§8>> §7/hawn build - §ePour contourner temporairement la protection",
+                "§8>> §7/hawn hooks - §ePour vérifier les sous-dépendances du plugin, s'ils sont activés ou non",
+                "§8>> §7/hawn urgent - §ePour utiliser le mode d'urgence",
+                "§8>> §7/hawn [maintenance/m] - §ePour utiliser le mode de maintenance"
             }));
 
             Config.set("Command.Hawn-Main-help.2", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/hawn dornor - Â§eMontre tous les donneurs du plugin",
-                "Â§8>> Â§7/hawn about - Â§eMontre certaines informations",
+                "§8>> §7/hawn dornor - §eMontre tous les donneurs du plugin",
+                "§8>> §7/hawn about - §eMontre certaines informations",
                 "",
-                "Â§8>> Â§7/ap Â§eou Â§7pa - Â§eAccÃ¨s au panneau d'administration",
+                "§8>> §7/ap §eou §7pa - §eAccès au panneau d'administration",
                 "",
-                "Â§8>> Â§7/spawn [SpawnName] - Â§eAller au spawn",
-                "Â§8>> Â§7/spawn tp <joueur> [SpawnName] - Â§eTp un joueur au spawn",
-                "Â§8>> Â§7/spawnlist - Â§eVoir la liste des spawns",
+                "§8>> §7/spawn [SpawnName] - §eAller au spawn",
+                "§8>> §7/spawn tp <joueur> [SpawnName] - §eTp un joueur au spawn",
+                "§8>> §7/spawnlist - §eVoir la liste des spawns",
                 "",
-                "Â§8>> Â§7/warp <WarpName> [joueur] - Â§eAller au warp",
-                "Â§8>> Â§7/warplist - Â§eVoir la liste des warps",
-                "Â§8>> Â§7/setwarp <warpname> - Â§eCrÃ©er un warp"
+                "§8>> §7/warp <WarpName> [joueur] - §eAller au warp",
+                "§8>> §7/warplist - §eVoir la liste des warps",
+                "§8>> §7/setwarp <warpname> - §eCréer un warp"
             }));
 
             Config.set("Command.Hawn-Main-help.3", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/delwarp <warpname> - Â§eSupprimer un warp",
+                "§8>> §7/delwarp <warpname> - §eSupprimer un warp",
                 "",
-                "Â§8>> Â§7/sun ou /clearw - Â§eDÃ©gagez le temps",
-                "Â§8>> Â§7/rain - Â§eFaire pleuvoir le monde",
-                "Â§8>> Â§7/thunder - Â§eSi vous aimez le mauvais temps",
-                "Â§8>> Â§7/day - Â§eMet le jour",
-                "Â§8>> Â§7/night - Â§eMet la nuit",
+                "§8>> §7/sun ou /clearw - §eDégagez le temps",
+                "§8>> §7/rain - §eFaire pleuvoir le monde",
+                "§8>> §7/thunder - §eSi vous aimez le mauvais temps",
+                "§8>> §7/day - §eMet le jour",
+                "§8>> §7/night - §eMet la nuit",
                 "",
-                "Â§8>> Â§7/fly [joueur] - Â§eDÃ©finit le mode de vol",
-                "Â§8>> Â§7/heal [joueur] - Â§eGuÃ©ris un joueur",
-                "Â§8>> Â§7/feed [joueur] - Â§eNourrir le joueur"
+                "§8>> §7/fly [joueur] - §eDéfinit le mode de vol",
+                "§8>> §7/heal [joueur] - §eGuéris un joueur",
+                "§8>> §7/feed [joueur] - §eNourrir le joueur"
             }));
 
             Config.set("Command.Hawn-Main-help.4", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/clearinv [joueur] - Â§eEfface l'inventaire d'un joueur",
-                "Â§8>> Â§7/ping [joueur] - Â§eAffiche le ping d'un joueur",
-                "Â§8>> Â§7/v [joueur] - Â§eVanish le joueur",
-                "Â§8>> Â§7/gamemode ou gm... ou gma etc. - Â§eDÃ©finit le mode de jeu du joueur",
+                "§8>> §7/clearinv [joueur] - §eEfface l'inventaire d'un joueur",
+                "§8>> §7/ping [joueur] - §eAffiche le ping d'un joueur",
+                "§8>> §7/v [joueur] - §eVanish le joueur",
+                "§8>> §7/gamemode ou gm... ou gma etc. - §eDéfinit le mode de jeu du joueur",
                 "",
-                "Â§8>> Â§7/cc - Â§eVoir l'aide du clearchat",
-                "Â§8>> Â§7/delaychat <nombre> - Â§eMettre un dÃ©lai sur le chat",
-                "Â§8>> Â§7/gmute - Â§eDÃ©sactive le chat",
+                "§8>> §7/cc - §eVoir l'aide du clearchat",
+                "§8>> §7/delaychat <nombre> - §eMettre un délai sur le chat",
+                "§8>> §7/gmute - §eDésactive le chat",
                 "",
-                "Â§8>> Â§7/broadcast <message>Â§7 - Â§eÃ‰mettre un message",
-                "Â§8>> Â§7/btcast Â§eou Â§7/ta <message>Â§7 - Â§eDiffuser un message de titre"
+                "§8>> §7/broadcast <message>§7 - §eÃ‰mettre un message",
+                "§8>> §7/btcast §eou §7/ta <message>§7 - §eDiffuser un message de titre"
             }));
 
             Config.set("Command.Hawn-Main-help.5", java.util.Arrays.asList(new String[] {
-                "Â§8>> Â§7/bacast Â§eou Â§7/aba <message>Â§7 - Â§eDiffuser un message d'action bar",
+                "§8>> §7/bacast §eou §7/aba <message>§7 - §eDiffuser un message d'action bar",
                 "",
-                "Â§8>> Â§7/help <.../...>Â§7 - Â§eAfficher l'aide personnalisÃ©e, si elle est activÃ©e",
-                "Â§8>> Â§7/gotopÂ§7 - Â§eAller au bloc le plus haut de votre position",
+                "§8>> §7/help <.../...>§7 - §eAfficher l'aide personnalisée, si elle est activée",
+                "§8>> §7/gotop§7 - §eAller au bloc le plus haut de votre position",
                 "",
-                "Â§8>> Â§7/emojiÂ§7 - Â§eVoir le menu des emojis",
+                "§8>> §7/emoji§7 - §eVoir le menu des emojis",
                 "",
-                "Â§8>> Â§7/scoreboardÂ§7 - Â§eActive ou dÃ©sactive le scoreboard",
-                "Â§8>> Â§7/scoreboard set <nom de fichier du scoreboard>Â§7 - Â§ePour modifier le scoreboard actuel",
-                "Â§8>> Â§7/scoreboard keepÂ§7 - Â§eGarder le scoreboard entre les serveurs/mondes",
-                "Â§8>> Â§7/scoreboard listÂ§7 - Â§eVoir tous les scoreboard enregistrÃ©s"
+                "§8>> §7/scoreboard§7 - §eActive ou désactive le scoreboard",
+                "§8>> §7/scoreboard set <nom de fichier du scoreboard>§7 - §ePour modifier le scoreboard actuel",
+                "§8>> §7/scoreboard keep§7 - §eGarder le scoreboard entre les serveurs/mondes",
+                "§8>> §7/scoreboard list§7 - §eVoir tous les scoreboard enregistrés"
             }));
 
             Config.set("Command.Hawn-Main-help.6", java.util.Arrays.asList(new String[] {
             	"",
-                "Â§8>> Â§7/optionÂ§7 - Â§ePour les options du joueur principal"
+                "§8>> §7/option§7 - §ePour les options du joueur principal"
             }));
 
             /*
@@ -153,17 +153,17 @@ public class AdminOtherAMConfig {
                 "&7[ %player% n'est plus vanish ]"
             }));
             Config.set("Vanish.Vanish-On-Others", java.util.Arrays.asList(new String[] {
-                "&7[ %target% a Ã©tÃ© vanish par %player% ]"
+                "&7[ %target% a été vanish par %player% ]"
             }));
             Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList(new String[] {
                 "&7[ %target% n'est plus vanish par %player% ]"
             }));
 
             Config.set("Maintenance.On", java.util.Arrays.asList(new String[] {
-                "%prefix% &7Tu as &aactivÃ©&7 la maintenance"
+                "%prefix% &7Tu as &aactivé&7 la maintenance"
             }));
             Config.set("Maintenance.Off", java.util.Arrays.asList(new String[] {
-                "%prefix% &7Tu as &cactivÃ©&7 la maintenance"
+                "%prefix% &7Tu as &cactivé&7 la maintenance"
             }));
             Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(new String[] {
                 " &4* &cLa maintenance est &eactif&4 *"
@@ -173,10 +173,10 @@ public class AdminOtherAMConfig {
             }));
 
             Config.set("Urgent-mode.On", java.util.Arrays.asList(new String[] {
-                "%prefix% &7Tu as &aactivÃ©&7 le mode d'urgence"
+                "%prefix% &7Tu as &aactivé&7 le mode d'urgence"
             }));
             Config.set("Urgent-mode.Off", java.util.Arrays.asList(new String[] {
-                "%prefix% &7Tu as &cdÃ©sactivÃ©&7 le mode d'urgence"
+                "%prefix% &7Tu as &cdésactivé&7 le mode d'urgence"
             }));
             Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(new String[] {
                 " &4* &cLe mode d'urgence est &eactif&4 *"
@@ -185,35 +185,35 @@ public class AdminOtherAMConfig {
                 " &4* &cLe mode d'urgence est &einactif&4 *"
             }));
             Config.set("Urgent-mode.Zip", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &c&cUne sauvegarde de Hawn a Ã©tÃ© faite"
+                "&8[&eHawn-Urgent&8] &c&cUne sauvegarde de Hawn a été faite"
             }));
             Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &cErreur, vous devez Ãªtre sur la console pour dÃ©sactiver le mode urgent"
+                "&8[&eHawn-Urgent&8] &cErreur, vous devez Ãªtre sur la console pour désactiver le mode urgent"
             }));
             Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &cDÃ©solÃ© mais vous ne pouvez pas utiliser la commande"
+                "&8[&eHawn-Urgent&8] &cDésolé mais vous ne pouvez pas utiliser la commande"
             }));
             Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &cUne modification a Ã©tÃ© dÃ©tectÃ©e par %player% sur le panneau d'administration",
+                "&8[&eHawn-Urgent&8] &cUne modification a été détectée par %player% sur le panneau d'administration",
                 "%arg1% dans le fichier %arg2%"
             }));
             Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &cTous les plugins ont Ã©tÃ© dÃ©sactivÃ©s"
+                "&8[&eHawn-Urgent&8] &cTous les plugins ont été désactivés"
             }));
             Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList(new String[] {
-                "&8[&eHawn-Urgent&8] &7Tous les plugins ont Ã©tÃ© &aactivÃ©s",
-                "&eS'il vous plaÃ®t, un redÃ©marrage est nÃ©cessaire pour Ã©viter tout problÃ¨me"
+                "&8[&eHawn-Urgent&8] &7Tous les plugins ont été &aactivés",
+                "&eS'il vous plaÃ®t, un redémarrage est nécessaire pour éviter tout problème"
             }));
 
             Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList(new String[] {
-                "%prefix% &e%player%&7 a essayÃ© d'utiliser la commande : &b%arg1%"
+                "%prefix% &e%player%&7 a essayé d'utiliser la commande : &b%arg1%"
             }));
             
             Config.set("Command.SlotView.On", java.util.Arrays.asList(new String[] {
-                    "%prefix% &7Vous pouvez maintenant voir quel slot vous avez cliquÃ© sur votre inventaire etc."
+                    "%prefix% &7Vous pouvez maintenant voir quel slot vous avez cliqué sur votre inventaire etc."
                 }));
             Config.set("Command.SlotView.Off", java.util.Arrays.asList(new String[] {
-                    "%prefix% &7Le SlotView est &cdÃ©sactivÃ©"
+                    "%prefix% &7Le SlotView est &cdésactivé"
                 }));
             
             Config.set("Command.IP", java.util.Arrays.asList(new String[] {
@@ -230,6 +230,27 @@ public class AdminOtherAMConfig {
             
             Config.set("Command.ClearMobs", java.util.Arrays.asList(new String[] {
                     "%prefix% &7Toutes les monstres ont été éliminés"
+                }));
+            
+            Config.set("Command.CheckAccount", java.util.Arrays.asList(new String[] {
+            		"",
+                    "  &8→ &r&lInfos joueur pour&8:&r &b%target%",
+                    "&7&lDate de connexion&r&8:&e %hawn_player_join_date%",
+                    "&7&lDate de première connexion&r&8:&e %hawn_player_first_join_date%",
+                    "&7&lIp&r&8:&e %player_ip%",
+                    "",
+                    "  &8→ &r&lOptions&8:&r &8(&aVert &8=&7 vrai / &cRouge&8 = &7faux&8)",
+                    "&7&lVisibilité des joueurs: %pv_point%",
+                    "&7&lVitesse: %ps_point% &7(&e%ps_number%&7)",
+                    "&7&lVol: %pof_point%",
+                    "&7&lDouble saut: %dj_point%",
+                    "&7&lAuto broadcast: %ab_point%",
+                    "&7&lVanish: %v_point%",
+                    "&7&lConserver le scoreboard: %ksb_point% &8(&e%scorename%&8)",
+                    "&7&lJump Boost: %jb_point%",
+                    "",
+                    "&7&lGamemode: &e%gm_number%",
+                    ""
                 }));
 
             saveConfigFile();
