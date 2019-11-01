@@ -34,9 +34,18 @@ public class DelaychatCommand extends BukkitCommand {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "CONSOLE").replaceAll("%DELAY%", String.valueOf(DelaychatCommand.delay))));
 					}
 				} else {
-					if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-						for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+					if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Enable") && DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Enable")) {
+						DelayChatCommandConfig.getConfig().set("DelayChat.Delay.Enable", false);
+						DelayChatCommandConfig.saveConfigFile();
+						
+						for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Admin.Removed")) {
 							MessageUtils.ReplaceMessageForConsole(msg);
+						}
+					} else {
+						if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+							for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+								MessageUtils.ReplaceMessageForConsole(msg);
+							}
 						}
 					}
 				}
@@ -66,18 +75,27 @@ public class DelaychatCommand extends BukkitCommand {
 		
 		// The command
 		
-					if (args.length == 1) {
-						delay = Integer.parseInt(args[0]);
-						for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Admin.Set")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
-						}
-					} else {
-						if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-							for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
-							}
-						}
+		if (args.length == 1) {
+			delay = Integer.parseInt(args[0]);
+			for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Admin.Set")) {
+				MessageUtils.ReplaceCharMessagePlayer(msg, p);
+			}
+		} else {
+			if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Enable") && DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Enable")) {
+				DelayChatCommandConfig.getConfig().set("DelayChat.Delay.Enable", false);
+				DelayChatCommandConfig.saveConfigFile();
+				
+				for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Admin.Removed")) {
+					MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				}
+			} else {
+				if (ConfigMOStuff.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+					for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
 					}
+				}
+			}
+		}
 		
 		return true;
 	}

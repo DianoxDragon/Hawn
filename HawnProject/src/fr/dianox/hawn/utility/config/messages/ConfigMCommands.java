@@ -67,6 +67,7 @@ public class ConfigMCommands {
             
             Config.set("MuteChat.Can-t-Speak", java.util.Arrays.asList(new String[] {"%prefix% &cYou can't talk, because the chat is locked"}));
             Config.set("MuteChat.Admin.On", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cThe chat has been locked by &6%player% &4&m&l-<-=->-"}));
+            Config.set("MuteChat.Admin.On-Time", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cThe chat has been locked by &6%player%&c for &6%minutes% minutes &4&m&l-<-=->-"}));
             Config.set("MuteChat.Admin.Off", java.util.Arrays.asList(new String[] {" &3&m&l->-=-<-&r &bThe chat has been &aunlocked&b by &e%player% &3&m&l->-=-<-"}));
             
             Config.set("Ping.Self", java.util.Arrays.asList(new String[] {"%prefix% &7Your ping is &e%ping%&7 ms"}));
@@ -76,6 +77,7 @@ public class ConfigMCommands {
             Config.set("ChatDelay.Admin.Set", java.util.Arrays.asList(new String[] {"%prefix% &7The delay of the chat was set to &e%DELAY%&7 second(s)", 
             		"          &7&oDon't forget to edit this value in the config", 
             		"          &7&oThe value is only valid if the server doesn't shut down"}));
+            Config.set("ChatDelay.Admin.Removed", java.util.Arrays.asList(new String[] {"%prefix% &7The chat delay has been &cdisabled"}));
             
             Config.set("Broadcast", java.util.Arrays.asList(new String[] {"&8[&eBroadcast&8]&r %broadcast%"}));
             
@@ -266,6 +268,32 @@ public class ConfigMCommands {
             Config.set("Repair.Can-t-Repair.Enable", true);
             Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, but you can't repair that item"}));
             
+            /* ------------ *
+			 * EXP COMMANDS *
+			 * ------------ */
+            
+            Config.set("Exp.Add.Sender.Enable", true);
+            Config.set("Exp.Add.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7has been added to the &b%target%&7's total experience points"}));
+            Config.set("Exp.Add.Target.Enable", true);
+            Config.set("Exp.Add.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7has been added to your total experience points"}));
+            
+            Config.set("Exp.Set.Sender.Enable", true);
+            Config.set("Exp.Set.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's total experience points has been set to &e%number_exp%"}));
+            Config.set("Exp.Set.Target.Enable", true);
+            Config.set("Exp.Set.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your total experience points has been set to &e%number_exp%"}));
+            
+            Config.set("Exp.Take.Sender.Enable", true);
+            Config.set("Exp.Take.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's lost &e%number_exp%&7 experience points"}));
+            Config.set("Exp.Take.Target.Enable", true);
+            Config.set("Exp.Take.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You lost &e%number_exp%&7 experience points"}));
+            Config.set("Exp.Take.Sender-Error.Enable", true);
+            Config.set("Exp.Take.Sender-Error.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou can't take more than &6%target_exp_points%&c for the player &e%target%"}));
+            
+            Config.set("Exp.Clear.Sender.Enable", true);
+            Config.set("Exp.Clear.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's has now 0 experience points"}));
+            Config.set("Exp.Clear.Target.Enable", true);
+            Config.set("Exp.Clear.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your experience points has been cleared"}));
+
             /*
              * Hat
              */

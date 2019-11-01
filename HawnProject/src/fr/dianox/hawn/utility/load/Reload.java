@@ -40,6 +40,7 @@ import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ExpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
@@ -51,6 +52,7 @@ import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
@@ -180,6 +182,8 @@ public class Reload {
 		SpecialCjiLobbyBow.reloadConfig();
 		BookListConfiguration.reloadConfig();
 		CheckAccountCommandConfig.reloadConfig();
+		ExpCommandConfig.reloadConfig();
+		ListCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

@@ -253,6 +253,18 @@ public class AdminOtherAMConfig {
                     ""
                 }));
 
+            Config.set("Command.List.Part-One", java.util.Arrays.asList(new String[] {
+            		"§8//§7§m---------------§r§8\\\\ §3[§bList§3] §8//§7§m---------------§r§8\\\\",
+            		" ",
+            		"  &8→ &6&lPage %number%",
+            		" "
+                }));
+            
+            Config.set("Command.List.Part-Two", java.util.Arrays.asList(new String[] {
+            		"§8\\\\§7§m---------------§r§8// §3[§bList§3] §8\\\\§7§m---------------§r§8//"
+                }));
+            
+            
             saveConfigFile();
 
         }

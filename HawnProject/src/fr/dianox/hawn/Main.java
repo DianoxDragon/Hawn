@@ -64,6 +64,7 @@ import fr.dianox.hawn.commands.others.CheckAccountCommand;
 import fr.dianox.hawn.commands.others.ClearGroundItemsCommand;
 import fr.dianox.hawn.commands.others.ClearMobsCommand;
 import fr.dianox.hawn.commands.others.EnderChestCommand;
+import fr.dianox.hawn.commands.others.ExpCommand;
 import fr.dianox.hawn.commands.others.FeedCommand;
 import fr.dianox.hawn.commands.others.GetPosCommand;
 import fr.dianox.hawn.commands.others.GoTopCommand;
@@ -72,6 +73,7 @@ import fr.dianox.hawn.commands.others.HealCommand;
 import fr.dianox.hawn.commands.others.InvSeeCommand;
 import fr.dianox.hawn.commands.others.IpCommand;
 import fr.dianox.hawn.commands.others.KickAllCommand;
+import fr.dianox.hawn.commands.others.ListCommand;
 import fr.dianox.hawn.commands.others.RepairCommand;
 import fr.dianox.hawn.commands.others.SuicideCommand;
 import fr.dianox.hawn.commands.others.time.DayCommand;
@@ -118,6 +120,7 @@ import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ExpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
@@ -129,6 +132,7 @@ import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
+import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
@@ -192,7 +196,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.2-Alpha";
+	private static String versions = "0.9.3-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -470,6 +474,12 @@ public class Main extends JavaPlugin implements Listener {
 			CheckAccountCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-CheckAccount", "Commands/CheckAccount.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/CheckAccount.yml", "C-CheckAccount");
+			ExpCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Exp", "Commands/Exp.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Exp.yml", "C-Exp");
+			ListCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-List", "Commands/List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/List.yml", "C-List");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -799,6 +809,19 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
 
+			/* ------------ *
+			 * EXP COMMANDS *
+			 * ------------ */
+			// >> exp
+			if (!ExpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("exp", new ExpCommand("exp"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Exp.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Exp.Aliases")) {
+						commandMap.register(s, new ExpCommand(s));
+					}
+				}
+			}
+			
 			/* ------------- *
 			 * FEED COMMANDS *
 			 * ------------- */
@@ -974,6 +997,19 @@ public class Main extends JavaPlugin implements Listener {
 				if (CommandAliasesConfig.getConfig().getBoolean("KickAll.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("KickAll.Aliases")) {
 						commandMap.register(s, new KickAllCommand(s));
+					}
+				}
+			}
+			
+			/* ------------- *
+			 * LIST COMMANDS *
+			 * ------------- */
+			// >> List
+			if (!ListCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("list", new ListCommand("list"));
+				if (CommandAliasesConfig.getConfig().getBoolean("List.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("List.Aliases")) {
+						commandMap.register(s, new ListCommand(s));
 					}
 				}
 			}

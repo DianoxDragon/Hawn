@@ -101,6 +101,10 @@ public class CommandAliasesConfig {
             Config.set("EnderChest.Cannot-Be-changed.Main-Command-Is", "enderchest");
             Config.set("EnderChest.Aliases", java.util.Arrays.asList(new String[] {"ec"}));
             
+            Config.set("Exp.Enable", false);
+            Config.set("Exp.Cannot-Be-changed.Main-Command-Is", "exp");
+            Config.set("Exp.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Feed.Enable", false);
             Config.set("Feed.Cannot-Be-changed.Main-Command-Is", "feed");
             Config.set("Feed.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -160,6 +164,10 @@ public class CommandAliasesConfig {
             Config.set("KickAll.Enable", false);
             Config.set("KickAll.Cannot-Be-changed.Main-Command-Is", "kickall");
             Config.set("KickAll.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("List.Enable", false);
+            Config.set("List.Cannot-Be-changed.Main-Command-Is", "list");
+            Config.set("List.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("MuteChat.Enable", true);
             Config.set("MuteChat.Cannot-Be-changed.Main-Command-Is", "globalmute");

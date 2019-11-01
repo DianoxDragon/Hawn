@@ -65,6 +65,7 @@ public class ConfigMCommands {
             
             Config.set("MuteChat.Can-t-Speak", java.util.Arrays.asList(new String[] {"%prefix% &cTu ne peux pas parler, parce que le chat est verrouillé"}));
             Config.set("MuteChat.Admin.On", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cLe chat a été verrouillé par &6%player% &4&m&l-<-=->-"}));
+            Config.set("MuteChat.Admin.On-Time", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cLe chat a été verrouillé par &6%player%&c pour &6%minutes% minutes &4&m&l-<-=->-"}));
             Config.set("MuteChat.Admin.Off", java.util.Arrays.asList(new String[] {" &3&m&l->-=-<-&r &bLe chat a été &adéverrouillé&b par &e%player% &3&m&l->-=-<-"}));
             
             Config.set("Ping.Self", java.util.Arrays.asList(new String[] {"%prefix% &7Votre ping est de &e%ping%&7 ms"}));
@@ -74,6 +75,7 @@ public class ConfigMCommands {
             Config.set("ChatDelay.Admin.Set", java.util.Arrays.asList(new String[] {"%prefix% &7Le délai du chat a été fixé à &e%DELAY%&7 seconde(s)", 
             		"          &7&oN'oubliez pas d'éditer cette valeur dans la configuration", 
             		"          &7&oLa valeur n'est valide que si le serveur ne s'arrête pas"}));
+            Config.set("ChatDelay.Admin.Removed", java.util.Arrays.asList(new String[] {"%prefix% &7Le délai du chat a été &cdésactivé"}));
             
             Config.set("Broadcast", java.util.Arrays.asList(new String[] {"&8[&eBroadcast&8]&r %broadcast%"}));
             
@@ -263,6 +265,32 @@ public class ConfigMCommands {
             
             Config.set("Repair.Can-t-Repair.Enable", true);
             Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous ne pouvez pas réparer cette objet"}));
+            
+            /* ------------ *
+			 * EXP COMMANDS *
+			 * ------------ */
+            
+            Config.set("Exp.Add.Sender.Enable", true);
+            Config.set("Exp.Add.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7a été ajouté au nombre total de points d'expérience à &b%target%"}));
+            Config.set("Exp.Add.Target.Enable", true);
+            Config.set("Exp.Add.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7a été ajouté au nombre total de vos points d'expérience"}));
+            
+            Config.set("Exp.Set.Sender.Enable", true);
+            Config.set("Exp.Set.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le nombre total de points d'expérienc &b%target%&7a été défini sur &e%number_exp%"}));
+            Config.set("Exp.Set.Target.Enable", true);
+            Config.set("Exp.Set.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le total de vos points d'expérience a été défini à &e%number_exp%"}));
+            
+            Config.set("Exp.Take.Sender.Enable", true);
+            Config.set("Exp.Take.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7 a perdu &e%number_exp%&7 points d'expérience"}));
+            Config.set("Exp.Take.Target.Enable", true);
+            Config.set("Exp.Take.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as perdu &e%number_exp%&7 points d'expérience"}));
+            Config.set("Exp.Take.Sender-Error.Enable", true);
+            Config.set("Exp.Take.Sender-Error.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas prendre plus de &6%target_exp_points%&c points d'expérience pour le joueur &e%target%"}));
+            
+            Config.set("Exp.Clear.Sender.Enable", true);
+            Config.set("Exp.Clear.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7 a maintenant 0 point d'expérience"}));
+            Config.set("Exp.Clear.Target.Enable", true);
+            Config.set("Exp.Clear.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vos points d'expérience ont été effacés"}));
             
             /*
              * Hat

@@ -165,6 +165,64 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!ConfigMCommands.getConfig().isSet("ChatDelay.Admin.Removed")) {
+			ConfigMCommands.getConfig().set("ChatDelay.Admin.Removed", java.util.Arrays.asList(new String[] {"%prefix% &7The chat delay has been &cdisabled"}));
+			ConfigMCommands.getConfig().set("MuteChat.Admin.On-Time", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cThe chat has been locked by &6%player%&c for &6%minutes% minutes &4&m&l-<-=->-"}));
+			
+			ConfigMCommands.saveConfigFile();
+		}
+		
+		if (!OtherAMConfig.getConfig().isSet("Command.List.Part-One")) {
+			OtherAMConfig.getConfig().set("Command.List.Part-One", java.util.Arrays.asList(new String[] {
+        		"§8//§7§m---------------§r§8\\\\ §3[§bList§3] §8//§7§m---------------§r§8\\\\",
+        		" ",
+        		"  &8→ &6&lPage %number%",
+        		" "
+            }));
+        
+			OtherAMConfig.getConfig().set("Command.List.Part-Two", java.util.Arrays.asList(new String[] {
+        		"§8\\\\§7§m---------------§r§8// §3[§bList§3] §8\\\\§7§m---------------§r§8//"
+            }));
+			
+			CommandAliasesConfig.getConfig().set("List.Enable", false);
+			CommandAliasesConfig.getConfig().set("List.Cannot-Be-changed.Main-Command-Is", "list");
+			CommandAliasesConfig.getConfig().set("List.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			CommandAliasesConfig.saveConfigFile();
+        	OtherAMConfig.saveConfigFile();
+		}
+		
+		if (!ConfigMCommands.getConfig().isSet("Exp.Add.Sender.Enable")) {
+			ConfigMCommands.getConfig().set("Exp.Add.Sender.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Add.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7has been added to the &b%target%&7's total experience points"}));
+			ConfigMCommands.getConfig().set("Exp.Add.Target.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Add.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7has been added to your total experience points"}));
+         
+			ConfigMCommands.getConfig().set("Exp.Set.Sender.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Set.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's total experience points has been set to &e%number_exp%"}));
+			ConfigMCommands.getConfig().set("Exp.Set.Target.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Set.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your total experience points has been set to &e%number_exp%"}));
+         
+			ConfigMCommands.getConfig().set("Exp.Take.Sender.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Take.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's lost &e%number_exp%&7 experience points"}));
+			ConfigMCommands.getConfig().set("Exp.Take.Target.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Take.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You lost &e%number_exp%&7 experience points"}));
+			ConfigMCommands.getConfig().set("Exp.Take.Sender-Error.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Take.Sender-Error.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou can't take more than &6%target_exp_points%&c for the player &e%target%"}));
+         
+			ConfigMCommands.getConfig().set("Exp.Clear.Sender.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Clear.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7's has now 0 experience points"}));
+			ConfigMCommands.getConfig().set("Exp.Clear.Target.Enable", true);
+			ConfigMCommands.getConfig().set("Exp.Clear.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Your experience points has been cleared"}));
+			
+			CommandAliasesConfig.getConfig().set("Exp.Enable", false);
+			CommandAliasesConfig.getConfig().set("Exp.Cannot-Be-changed.Main-Command-Is", "exp");
+			CommandAliasesConfig.getConfig().set("Exp.Aliases", java.util.Arrays.asList(new String[] {}));
+			
+			CommandAliasesConfig.saveConfigFile();
+			ConfigMCommands.saveConfigFile();
+		}
+		
 		if (!OtherAMConfig.getConfig().isSet("Command.CheckAccount")) {
 			OtherAMConfig.getConfig().set("Command.CheckAccount", java.util.Arrays.asList(new String[] {
 					"",
