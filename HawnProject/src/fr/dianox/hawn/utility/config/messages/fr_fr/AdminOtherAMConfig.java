@@ -264,6 +264,17 @@ public class AdminOtherAMConfig {
             		"§8\\\\§7§m---------------§r§8// §3[§bList§3] §8\\\\§7§m---------------§r§8//"
                 }));
             
+            Config.set("Command.No-Clip.Enable", java.util.Arrays.asList(new String[] {
+            		"%prefix% &7Le No clip est &aactivé"
+                }));
+            
+            Config.set("Command.No-Clip.Disable", java.util.Arrays.asList(new String[] {
+            		"%prefix% &7Le No clip est &cdésactivé"
+                }));
+            
+            Config.set("Command.NightVision", java.util.Arrays.asList(new String[] {
+            		"%prefix% &7Vous pouvez voir dans le noir"
+                }));
             
             saveConfigFile();
 

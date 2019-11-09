@@ -11,6 +11,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
+import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
@@ -63,6 +64,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								} else {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
 								}
+								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
 									
@@ -76,6 +81,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 									} else {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
 									}
 								}
 							}
@@ -106,6 +115,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 							} else {
 								ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
 							}
+							
+							if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+								p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
 								
@@ -119,6 +132,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 								} else {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+								}
+								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
 								}
 							}
 						}
@@ -158,6 +175,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									} else {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
 									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
 										
@@ -171,6 +192,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 											ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 										} else {
 											ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+										}
+										
+										if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+											p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
 										}
 									}
 								}
@@ -201,6 +226,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								} else {
 									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
 								}
+								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
 									
@@ -214,6 +243,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 									} else {
 										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
 									}
 								}
 							}

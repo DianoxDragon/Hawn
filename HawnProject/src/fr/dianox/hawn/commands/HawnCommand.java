@@ -16,6 +16,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -30,11 +33,13 @@ import fr.dianox.hawn.utility.config.messages.administration.ErrorConfigAM;
 import fr.dianox.hawn.utility.config.messages.administration.InfoServerOverviewC;
 import fr.dianox.hawn.utility.config.messages.administration.OtherAMConfig;
 import fr.dianox.hawn.utility.load.Reload;
+import fr.dianox.hawn.utility.tasks.TaskNoClipCommand;
 
 public class HawnCommand implements CommandExecutor {
 
 	private List<String> fileList = new ArrayList<>();
 	public static List<Player> slotview = new ArrayList<Player>();
+	public static List<Player> noclip = new ArrayList<Player>();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -401,7 +406,11 @@ public class HawnCommand implements CommandExecutor {
 		}
 
 		/*
-		 * Executed by the player
+		 * ==============================
+		 * 
+		 * COMMAND EXECUTED ON THE SERVER
+		 * 
+		 * ==============================
 		 */
 		
 		Player p = (Player) sender;
@@ -463,6 +472,40 @@ public class HawnCommand implements CommandExecutor {
 						String msg = PlaceHolders.ReplaceMainplaceholderP(args[1], p);
 						
 						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+				} else if (args[0].equalsIgnoreCase("nv") || args[0].equalsIgnoreCase("nightvision")) {
+					
+					if (!p.hasPermission("hawn.admin.command.nightvision") && !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.nightvision");
+						
+						return true;
+					}
+					
+					p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1999999999, 1));
+					
+					for (String msg: OtherAMConfig.getConfig().getStringList("Command.NightVision")) {
+						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					}
+					
+				} else if (args[0].equalsIgnoreCase("noclip")) {
+					
+					if (!p.hasPermission("hawn.admin.command.noclip") && !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.admin.command.noclip");
+						
+						return true;
+					}
+					
+					if (noclip.contains(p)) {
+						noclip.remove(p);
+					} else {
+						for (String msg: OtherAMConfig.getConfig().getStringList("Command.No-Clip.Enable")) {
+							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						}
+						
+						noclip.add(p);
+						
+						@SuppressWarnings("unused")
+						BukkitTask task = new TaskNoClipCommand(p).runTaskTimer(Main.getInstance(), 5, 2);
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {

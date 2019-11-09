@@ -11,6 +11,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.TitleUtils;
+import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
@@ -155,6 +156,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 									}
 								}
 								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
+								}
+								
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
 									
@@ -239,6 +244,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 													FadeOut_s, 
 													subtitle);
 										}
+									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
 									}
 								}
 							}
@@ -350,6 +359,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 											subtitle);
 								}
 							}
+							
+							if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+								p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
+							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
 								
@@ -434,6 +447,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 												FadeOut_s, 
 												subtitle);
 									}
+								}
+								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
 								}
 							}
 						}
@@ -563,6 +580,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 													subtitle);
 										}
 									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
+									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
 										
@@ -647,6 +668,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 														FadeOut_s, 
 														subtitle);
 											}
+										}
+										
+										if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+											p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
 										}
 									}
 								}
@@ -758,6 +783,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 												subtitle);
 									}
 								}
+								
+								if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
+								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
 									
@@ -842,6 +871,10 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 													FadeOut_s, 
 													subtitle);
 										}
+									}
+									
+									if (AutoBroadcastConfig.getConfig().isSet("Config.Titles.messages."+msg+".Sound")) {
+										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Titles.messages."+msg+".Sound")).parseSound(), 1, 1);
 									}
 								}
 							}

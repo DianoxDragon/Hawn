@@ -165,6 +165,26 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!OtherAMConfig.getConfig().isSet("Command.NightVision")) {
+			OtherAMConfig.getConfig().set("Command.NightVision", java.util.Arrays.asList(new String[] {
+        		"%prefix% &7You can see in the night"
+            }));
+		
+			OtherAMConfig.saveConfigFile();
+		}
+		
+		if (!OtherAMConfig.getConfig().isSet("Command.No-Clip.Enable")) {
+			OtherAMConfig.getConfig().set("Command.No-Clip.Enable", java.util.Arrays.asList(new String[] {
+        		"%prefix% &7The No clip is &aenabled"
+            }));
+        
+			OtherAMConfig.getConfig().set("Command.No-Clip.Disable", java.util.Arrays.asList(new String[] {
+        		"%prefix% &7The No clip is &cdisabled"
+            }));
+        
+        	OtherAMConfig.saveConfigFile();
+		}
+		
 		if (!ConfigMCommands.getConfig().isSet("ChatDelay.Admin.Removed")) {
 			ConfigMCommands.getConfig().set("ChatDelay.Admin.Removed", java.util.Arrays.asList(new String[] {"%prefix% &7The chat delay has been &cdisabled"}));
 			ConfigMCommands.getConfig().set("MuteChat.Admin.On-Time", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cThe chat has been locked by &6%player%&c for &6%minutes% minutes &4&m&l-<-=->-"}));

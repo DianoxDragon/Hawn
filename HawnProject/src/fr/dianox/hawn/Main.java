@@ -196,7 +196,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.3-Alpha";
+	private static String versions = "0.9.4-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -1435,6 +1435,8 @@ public class Main extends JavaPlugin implements Listener {
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Tps.Warn-system")) {
 			WarnTPS.runWarnSystemTask(this);
 		}
+		
+		HawnCommand.noclip.clear();
 
 		/*if (NameTagConfig.getConfig().getBoolean("nametag-general.enable")) {
 			Tablist.ScoreboardManager();
@@ -1650,7 +1652,7 @@ public class Main extends JavaPlugin implements Listener {
 			    autobroadcast_total--;
 	
 			    @SuppressWarnings("unused")
-				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval"));
+				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval"));
 	    }
 
 	    // >> Titles
@@ -1672,7 +1674,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total_titles--;
 		    
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval"));
+			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval"));
 	    }
 	    
 	    // >> Action-Bar
@@ -1694,7 +1696,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total_ab--;
 		    
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval"));
+			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval"));
 	    }
 	    
 	    // >> BossBar
@@ -1716,7 +1718,7 @@ public class Main extends JavaPlugin implements Listener {
 		    autobroadcast_total_bb--;
 		    
 		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_BossBar(this)).runTaskTimer(this, 20L, AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval"));
+			BukkitTask TaskName = (new AutoBroadcast_BossBar(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval"));
 	    }
 	    
 	    /*
