@@ -165,6 +165,26 @@ public class CheckConfig {
 	
 	public static void Check() {
 		
+		if (!CommandAliasesConfig.getConfig().isSet("WorldEdit-Aliases.1.Enable")) {
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.1.Enable", false);
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.1.Cannot-Be-changed.Main-Command-Is", "1");
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.1.Aliases", java.util.Arrays.asList(new String[] {}));
+        
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.2.Enable", false);
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.2.Cannot-Be-changed.Main-Command-Is", "2");
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.2.Aliases", java.util.Arrays.asList(new String[] {}));
+        
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.C.Enable", false);
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.C.Cannot-Be-changed.Main-Command-Is", "c");
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.C.Aliases", java.util.Arrays.asList(new String[] {}));
+        
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.P.Enable", false);
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.P.Cannot-Be-changed.Main-Command-Is", "p");
+			CommandAliasesConfig.getConfig().set("WorldEdit-Aliases.P.Aliases", java.util.Arrays.asList(new String[] {}));
+        
+        	CommandAliasesConfig.saveConfigFile();
+		}
+		
 		if (!OtherAMConfig.getConfig().isSet("Command.NightVision")) {
 			OtherAMConfig.getConfig().set("Command.NightVision", java.util.Arrays.asList(new String[] {
         		"%prefix% &7You can see in the night"

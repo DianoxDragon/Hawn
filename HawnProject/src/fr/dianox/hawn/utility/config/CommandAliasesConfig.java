@@ -253,6 +253,22 @@ public class CommandAliasesConfig {
             Config.set("Warp.Warp-list.Warp.Cannot-Be-changed.Main-Command-Is", "warplist");
             Config.set("Warp.Warp-list.Aliases", java.util.Arrays.asList(new String[] {}));
             
+            Config.set("WorldEdit-Aliases.1.Enable", false);
+            Config.set("WorldEdit-Aliases.1.Cannot-Be-changed.Main-Command-Is", "1");
+            Config.set("WorldEdit-Aliases.1.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("WorldEdit-Aliases.2.Enable", false);
+            Config.set("WorldEdit-Aliases.2.Cannot-Be-changed.Main-Command-Is", "2");
+            Config.set("WorldEdit-Aliases.2.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("WorldEdit-Aliases.C.Enable", false);
+            Config.set("WorldEdit-Aliases.C.Cannot-Be-changed.Main-Command-Is", "c");
+            Config.set("WorldEdit-Aliases.C.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("WorldEdit-Aliases.P.Enable", false);
+            Config.set("WorldEdit-Aliases.P.Cannot-Be-changed.Main-Command-Is", "p");
+            Config.set("WorldEdit-Aliases.P.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("Vanish.Enable", true);
             Config.set("Vanish.Cannot-Be-changed.Main-Command-Is", "vanish");
             Config.set("Vanish.Aliases", java.util.Arrays.asList(new String[] {"v"}));

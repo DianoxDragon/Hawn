@@ -37,6 +37,7 @@ import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
+import fr.dianox.hawn.utility.config.commands.CopyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
@@ -54,13 +55,16 @@ import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.OneCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
 import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
+import fr.dianox.hawn.utility.config.commands.TwoCommandConfig;
 import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
@@ -184,6 +188,10 @@ public class Reload {
 		CheckAccountCommandConfig.reloadConfig();
 		ExpCommandConfig.reloadConfig();
 		ListCommandConfig.reloadConfig();
+		OneCommandConfig.reloadConfig();
+		TwoCommandConfig.reloadConfig();
+		CopyCommandConfig.reloadConfig();
+		PasteCommandConfig.reloadConfig();
 	}
 	
 	public static void reloadconfig() {

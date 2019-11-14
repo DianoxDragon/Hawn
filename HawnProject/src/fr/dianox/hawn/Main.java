@@ -78,6 +78,10 @@ import fr.dianox.hawn.commands.others.RepairCommand;
 import fr.dianox.hawn.commands.others.SuicideCommand;
 import fr.dianox.hawn.commands.others.time.DayCommand;
 import fr.dianox.hawn.commands.others.time.NightCommand;
+import fr.dianox.hawn.commands.others.we.CopyCommand;
+import fr.dianox.hawn.commands.others.we.OneCommand;
+import fr.dianox.hawn.commands.others.we.PasteCommand;
+import fr.dianox.hawn.commands.others.we.TwoCommand;
 import fr.dianox.hawn.commands.others.weather.RainCommand;
 import fr.dianox.hawn.commands.others.weather.SunCommand;
 import fr.dianox.hawn.commands.others.weather.ThunderCommand;
@@ -117,6 +121,7 @@ import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
+import fr.dianox.hawn.utility.config.commands.CopyCommandConfig;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
@@ -134,13 +139,16 @@ import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.OneCommandConfig;
 import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
 import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
+import fr.dianox.hawn.utility.config.commands.TwoCommandConfig;
 import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
@@ -196,7 +204,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.4-Alpha";
+	private static String versions = "0.9.5-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -480,6 +488,18 @@ public class Main extends JavaPlugin implements Listener {
 			ListCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-List", "Commands/List.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/List.yml", "C-List");
+			OneCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-1-WE", "Commands/1-WE.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/1-WE.yml", "C-1-WE");
+			TwoCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-2-WE", "Commands/2-WE.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/2-WE.yml", "C-2-WE");
+			CopyCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-C-WE", "Commands/C-WE.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/C-WE.yml", "C-C-WE");
+			PasteCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-P-WE", "Commands/P-WE.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/P-WE.yml", "C-P-WE");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -665,6 +685,49 @@ public class Main extends JavaPlugin implements Listener {
 			commandMap.register("adminpanel", new PanelAdminCommand("adminpanel"));
 			commandMap.register("pa", new PanelAdminCommand("pa"));
 			commandMap.register("ap", new PanelAdminCommand("ap"));
+			
+			/* --------------------------- *
+			 * WORLD EDIT ALIASES COMMANDS *
+			 * --------------------------- */
+			// >> Pos 1
+			if (!OneCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("1", new OneCommand("1"));
+				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.1.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.1.Aliases")) {
+						commandMap.register(s, new OneCommand(s));
+					}
+				}
+			}
+			
+			// >> Pos 2
+			if (!TwoCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("2", new TwoCommand("2"));
+				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.2.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.2.Aliases")) {
+						commandMap.register(s, new TwoCommand(s));
+					}
+				}
+			}
+			
+			// >> Copy
+			if (!CopyCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("c", new CopyCommand("c"));
+				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.C.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.C.Aliases")) {
+						commandMap.register(s, new CopyCommand(s));
+					}
+				}
+			}
+			
+			// >> Paste
+			if (!PasteCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("p", new PasteCommand("p"));
+				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.P.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.P.Aliases")) {
+						commandMap.register(s, new PasteCommand(s));
+					}
+				}
+			}
 			
 			/* ------------------ *
 			 * BROADCAST COMMANDS *
