@@ -204,7 +204,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 
-	private static String versions = "0.9.5-Alpha";
+	private static String versions = "0.9.6-Alpha";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -1831,6 +1831,13 @@ public class Main extends JavaPlugin implements Listener {
 	            }
 		    }.runTaskTimer(this, 0, 20);
 	    }
+	    
+	    new BukkitRunnable() {
+	    	@Override
+	    	public void run() {
+	    		UpdateCheck();
+	    	}
+	    }.runTaskTimer(this, 0, 360000);
 	    
 	    indj.clear();
 	    OnCommandEvent.cooldowncommands.clear();
