@@ -54,8 +54,6 @@ public class SpecialCjiLobbyBow {
             } catch (IOException e) {}
             
             Config.set("LobbyBow.Enable", true);
-            Config.set("LobbyBow.Use_Permission", false);
-            Config.set("LobbyBow.Option.Ultimate-Protection-Of-The-Items", true);
             
             Config.set("LobbyBow.Item.Title", "&6Lobby bow");
             Config.set("LobbyBow.Item.Lore", java.util.Arrays.asList(new String[] {
@@ -63,12 +61,6 @@ public class SpecialCjiLobbyBow {
                     "&c&lAaaaaahhhh"
                 }));
             Config.set("LobbyBow.Item.Material.Amount", 1);
-
-            Config.set("LobbyBow.World.All_World", false);
-            Config.set("LobbyBow.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-                }));
             
             saveConfigFile();
 

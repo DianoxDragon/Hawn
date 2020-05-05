@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import com.google.common.base.Strings;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
@@ -215,6 +221,9 @@ public class CustomJoinItem {
 		if (material.contains("Special-HidePlayers")) {
 			SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoincji(p, slot);
 			return;
+		} else if (material.contains("Special-FunGun")) {
+			SpecialIteFunGun.PlayerGiveFunGun(p, slot);
+			return;
 		} else if (material.contains("Special-LobbyBow")) {
 			SpecialIteLobbyBow.PlayerGiveLobbyBow(p, slot);
 			return;
@@ -309,49 +318,65 @@ public class CustomJoinItem {
 					}
 				} else {
 					if (ConfigCJIGeneral.getConfig().isSet(path_item + "Data-value")) {
-						item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) ConfigCJIGeneral.getConfig().getInt(path_item + "Data-value"));
+						item = new ItemStack(XMaterial.getMat(material, path_item + "Material"), amount, (short) ConfigCJIGeneral.getConfig().getInt(path_item + "Data-value"));
 					} else {
-						item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
+						item = new ItemStack(XMaterial.getMat(material, path_item + "Material"), amount);
 					}
 				}
 			} else {
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Data-value")) {
-					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) ConfigCJIGeneral.getConfig().getInt(path_item + "Data-value"));
+					item = new ItemStack(XMaterial.getMat(material, path_item + "Material"), amount, (short) ConfigCJIGeneral.getConfig().getInt(path_item + "Data-value"));
 				} else {
-					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
+					item = new ItemStack(XMaterial.getMat(material, path_item + "Material"), amount);
 				}
 			}
 		}
 		
-		if (!ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") || !material.contains("SKULL")) {
-			itemmeta = item.getItemMeta();
-		} else {
-			itemmeta = item.getItemMeta();
-			meta = (SkullMeta) item.getItemMeta();
-			meta.setOwner(skullname);
-		}
-		
-		if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") && material.contains("SKULL")) {
-			if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
-				meta.setDisplayName(title);
+			if (!ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") || !material.contains("SKULL")) {
+				itemmeta = item.getItemMeta();
+			} else {
+				itemmeta = item.getItemMeta();
+				meta = (SkullMeta) item.getItemMeta();
+				meta.setOwner(skullname);
 			}
 			
-			if (lorecheck) {
-				meta.setLore(lore);
+			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") && material.contains("SKULL")) {
+				if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
+					meta.setDisplayName(title);
+				}
+				
+				if (lorecheck) {
+					meta.setLore(lore);
+				}
+							
+				item.setItemMeta(meta);
+			} else if (material.contains("LEATHER")) {
+				if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
+					itemmeta.setDisplayName(title);
+				}
+				
+				if (lorecheck) {
+					itemmeta.setLore(lore);
+				}
+				
+				LeatherArmorMeta leather = (LeatherArmorMeta) itemmeta;
+								
+				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Color")) {
+					leather.setColor(parseColor(ConfigCJIGeneral.getConfig().getString(path_item + "Color")));
+				}
+				
+				item.setItemMeta(leather);
+			} else {
+				if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
+					itemmeta.setDisplayName(title);
+				}
+				
+				if (lorecheck) {
+					itemmeta.setLore(lore);
+				}
+				
+				item.setItemMeta(itemmeta);
 			}
-						
-			item.setItemMeta(meta);
-		} else {
-			if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
-				itemmeta.setDisplayName(title);
-			}
-			
-			if (lorecheck) {
-				itemmeta.setLore(lore);
-			}
-			
-			item.setItemMeta(itemmeta);
-		}
 		
 		if (specialvalue.contentEquals("Helmet")) {
 			p.getInventory().setHelmet(item);
@@ -366,5 +391,11 @@ public class CustomJoinItem {
 		}
 		
 	}
+	
+	public static Color parseColor(String str) {
+        if (Strings.isNullOrEmpty(str)) return Color.BLACK;
+        String[] rgb = StringUtils.split(StringUtils.deleteWhitespace(str), ',');
+        return Color.fromRGB(NumberUtils.toInt(rgb[0], 0), NumberUtils.toInt(rgb[1], 0), NumberUtils.toInt(rgb[2], 0));
+    }
 
 }

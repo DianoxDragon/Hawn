@@ -61,6 +61,10 @@ public class CommandAliasesConfig {
             Config.set("Broadcast.Cannot-Be-changed.Main-Command-Is", "broadcast");
             Config.set("Broadcast.Aliases", java.util.Arrays.asList(new String[] {"bc"}));
             
+            Config.set("Burn.Enable", false);
+            Config.set("Burn.Cannot-Be-changed.Main-Command-Is", "burn");
+            Config.set("Burn.Aliases", java.util.Arrays.asList(new String[] {}));
+            
             Config.set("CheckAccount.Enable", true);
             Config.set("CheckAccount.Cannot-Be-changed.Main-Command-Is", "checkaccount");
             Config.set("CheckAccount.Aliases", java.util.Arrays.asList(new String[] {"checka"}));
@@ -112,6 +116,10 @@ public class CommandAliasesConfig {
             Config.set("Fly.Enable", false);
             Config.set("Fly.Cannot-Be-changed.Main-Command-Is", "fly");
             Config.set("Fly.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("FlySpeed.Enable", true);
+            Config.set("FlySpeed.Cannot-Be-changed.Main-Command-Is", "flyspeed");
+            Config.set("FlySpeed.Aliases", java.util.Arrays.asList(new String[] {"fs"}));
             
             Config.set("Gamemode-Classic.Enable", true);
             Config.set("Gamemode-Classic.Cannot-Be-changed.Main-Command-Is", "gamemode");
@@ -193,10 +201,6 @@ public class CommandAliasesConfig {
             Config.set("Repair.Cannot-Be-changed.Main-Command-Is", "repair");
             Config.set("Repair.Aliases", java.util.Arrays.asList(new String[] {"fix"}));
             
-            Config.set("Sun.Enable", true);
-            Config.set("Sun.Cannot-Be-changed.Main-Command-Is", "sun");
-            Config.set("Sun.Aliases", java.util.Arrays.asList(new String[] {"clearw"}));
-            
             Config.set("Scoreboard.Enable", false);
             Config.set("Scoreboard.Cannot-Be-changed.Main-Command-Is", "scoreboard");
             Config.set("Scoreboard.Aliases", java.util.Arrays.asList(new String[] {}));
@@ -204,6 +208,14 @@ public class CommandAliasesConfig {
             Config.set("SetSpawn.Enable", true);
             Config.set("SetSpawn.Cannot-Be-changed.Main-Command-Is", "setspawn");
             Config.set("SetSpawn.Aliases", java.util.Arrays.asList(new String[] {"setlobby", "sethub"}));
+            
+            Config.set("Speed.Enable", false);
+            Config.set("Speed.Cannot-Be-changed.Main-Command-Is", "speed");
+            Config.set("Speed.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Skull.Enable", false);
+            Config.set("Skull.Cannot-Be-changed.Main-Command-Is", "skull");
+            Config.set("Skull.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("Spawn.Enable", true);
             Config.set("Spawn.Cannot-Be-changed.Main-Command-Is", "spawn");
@@ -216,6 +228,10 @@ public class CommandAliasesConfig {
             Config.set("Suicide.Enable", false);
             Config.set("Suicide.Cannot-Be-changed.Main-Command-Is", "suicide");
             Config.set("Suicide.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("Sun.Enable", true);
+            Config.set("Sun.Cannot-Be-changed.Main-Command-Is", "sun");
+            Config.set("Sun.Aliases", java.util.Arrays.asList(new String[] {"clearw"}));
             
             Config.set("Thunder.Enable", false);
             Config.set("Thunder.Cannot-Be-changed.Main-Command-Is", "thunder");
@@ -252,6 +268,10 @@ public class CommandAliasesConfig {
             Config.set("Warp.Warp-list.Enable", false);
             Config.set("Warp.Warp-list.Warp.Cannot-Be-changed.Main-Command-Is", "warplist");
             Config.set("Warp.Warp-list.Aliases", java.util.Arrays.asList(new String[] {}));
+            
+            Config.set("WorkBench.Enable", false);
+            Config.set("WorkBench.Cannot-Be-changed.Main-Command-Is", "workbench");
+            Config.set("WorkBench.Aliases", java.util.Arrays.asList(new String[] {}));
             
             Config.set("WorldEdit-Aliases.1.Enable", false);
             Config.set("WorldEdit-Aliases.1.Cannot-Be-changed.Main-Command-Is", "1");

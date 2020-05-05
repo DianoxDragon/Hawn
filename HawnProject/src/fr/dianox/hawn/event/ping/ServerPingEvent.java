@@ -1,6 +1,7 @@
 package fr.dianox.hawn.event.ping;
 
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -9,8 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
+import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ServerListConfig;
+import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
 
 public class ServerPingEvent implements Listener {
 
@@ -33,16 +36,36 @@ public class ServerPingEvent implements Listener {
 		}
 		
 		if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Enable")) {
-			String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Line-1");
-			String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Line-2");
+			if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Random")) {
+				String msg = "";
 				
-			line1 = line1.replaceAll("&", "§");
-			line2 = line2.replaceAll("&", "§");
-			
-			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
-			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
+				Random rand = new Random();
 				
-			e.setMotd(String.valueOf(line1) + "\n" + line2);
+				int value = rand.nextInt(Main.motd_total_sl+1);
+				msg = String.valueOf(Main.motd_sl.get(value));
+				
+				String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-1");
+				String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-2");
+				
+				line1 = line1.replaceAll("&", "§");
+				line2 = line2.replaceAll("&", "§");
+				
+				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
+				
+				e.setMotd(String.valueOf(line1) + "\n" + line2);
+			} else {
+				String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Main.Line-1");
+				String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Main.Line-2");
+					
+				line1 = line1.replaceAll("&", "§");
+				line2 = line2.replaceAll("&", "§");
+				
+				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
+				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
+					
+				e.setMotd(String.valueOf(line1) + "\n" + line2);
+			}
 		}
 		
 		if (Bukkit.hasWhitelist()) {
@@ -60,7 +83,7 @@ public class ServerPingEvent implements Listener {
 			}
 		}
 		
-		if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Maintenance.Enable")) {
+		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Maintenance.Enable")) {
 			String line1 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-1");
 			String line2 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-2");
 			
@@ -73,7 +96,7 @@ public class ServerPingEvent implements Listener {
 			e.setMotd(String.valueOf(line1) + "\n" + line2);
 		}
 		
-		if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Urgent.Enable")) {
+		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable") && ServerListConfig.getConfig().getBoolean("Motd.Urgent.Enable")) {
 			String line1 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-1");
 			String line2 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-2");
 			
@@ -90,10 +113,19 @@ public class ServerPingEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void login(PlayerLoginEvent e) {
 		
-		if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
-			List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+			List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
 			if (!whitelist.contains(e.getPlayer().getName())) {
-				String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+				String message = "";
+				Boolean bool = false;
+				for (String str: HawnCommandConfig.getConfig().getStringList("Urgent-mode.Kick-Message")) {
+					if (bool) {
+						message = message + "\n" + str;
+					} else {
+						message = str;
+						bool = true;
+					}
+				}
 				message = message.replaceAll("&", "§");
 				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
@@ -101,10 +133,19 @@ public class ServerPingEvent implements Listener {
 			}
 		}
 		
-		if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
-			List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")) {
+			List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
 			if (!whitelist.contains(e.getPlayer().getName())) {
-				String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+				String message = "";
+				Boolean bool = false;
+				for (String str: HawnCommandConfig.getConfig().getStringList("Maintenance.Kick-Message")) {
+					if (bool) {
+						message = message + "\n" + str;
+					} else {
+						message = str;
+						bool = true;
+					}
+				}
 				message = message.replaceAll("&", "§");
 				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
@@ -117,7 +158,16 @@ public class ServerPingEvent implements Listener {
 				if (e.getPlayer().hasPermission("hawn.join.full")) {
 					e.allow();
 				} else {
-					String message = ServerListConfig.getConfig().getString("On-Join.Message");
+					String message = "";
+					Boolean bool = false;
+					for (String str: ServerListConfig.getConfig().getStringList("On-Join.Message")) {
+						if (bool) {
+							message = message + "\n" + str;
+						} else {
+							message = str;
+							bool = true;
+						}
+					}
 					message = message.replaceAll("&", "§");
 					message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 					

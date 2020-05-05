@@ -15,12 +15,12 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.WorldGuardUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.events.ConfigGProtection;
-import fr.dianox.hawn.utility.config.messages.ConfigMProtection;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.ProtectionPW;
 
 public class ProtectionsEventWorld implements Listener {
@@ -388,8 +388,8 @@ public class ProtectionsEventWorld implements Listener {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
 
@@ -411,8 +411,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                            	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -423,8 +423,8 @@ public class ProtectionsEventWorld implements Listener {
                                 e.setCancelled(true);
 
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                    	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -440,8 +440,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                            	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
 
@@ -463,8 +463,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                        	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -475,8 +475,8 @@ public class ProtectionsEventWorld implements Listener {
                             e.setCancelled(true);
 
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
                         }
@@ -495,8 +495,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                            	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
 
@@ -518,8 +518,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                        	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -530,8 +530,8 @@ public class ProtectionsEventWorld implements Listener {
                             e.setCancelled(true);
 
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
                         }
@@ -547,8 +547,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                        	ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
 
@@ -570,8 +570,8 @@ public class ProtectionsEventWorld implements Listener {
                                 e.setCancelled(true);
 
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -582,8 +582,8 @@ public class ProtectionsEventWorld implements Listener {
                         e.setCancelled(true);
 
                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }
@@ -625,8 +625,8 @@ public class ProtectionsEventWorld implements Listener {
                                                     e.setCancelled(true);
 
                                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                         }
                                                     }
 
@@ -648,8 +648,8 @@ public class ProtectionsEventWorld implements Listener {
                                                 e.setCancelled(true);
 
                                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
                                             }
@@ -660,8 +660,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -681,8 +681,8 @@ public class ProtectionsEventWorld implements Listener {
                                                 e.setCancelled(true);
 
                                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
 
@@ -704,8 +704,8 @@ public class ProtectionsEventWorld implements Listener {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
                                         }
@@ -716,8 +716,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -740,8 +740,8 @@ public class ProtectionsEventWorld implements Listener {
                                                 e.setCancelled(true);
 
                                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
 
@@ -763,8 +763,8 @@ public class ProtectionsEventWorld implements Listener {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
                                         }
@@ -775,8 +775,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -796,8 +796,8 @@ public class ProtectionsEventWorld implements Listener {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
 
@@ -819,8 +819,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -831,8 +831,8 @@ public class ProtectionsEventWorld implements Listener {
                                 e.setCancelled(true);
 
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Place")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Place")) {
+                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -898,8 +898,8 @@ public class ProtectionsEventWorld implements Listener {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
 
@@ -921,8 +921,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -933,8 +933,8 @@ public class ProtectionsEventWorld implements Listener {
                                 e.setCancelled(true);
 
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -950,8 +950,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
 
@@ -973,8 +973,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -985,8 +985,8 @@ public class ProtectionsEventWorld implements Listener {
                             e.setCancelled(true);
 
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
                         }
@@ -1005,8 +1005,8 @@ public class ProtectionsEventWorld implements Listener {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
 
@@ -1028,8 +1028,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -1040,8 +1040,8 @@ public class ProtectionsEventWorld implements Listener {
                             e.setCancelled(true);
 
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
                         }
@@ -1057,8 +1057,8 @@ public class ProtectionsEventWorld implements Listener {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
 
@@ -1080,8 +1080,8 @@ public class ProtectionsEventWorld implements Listener {
                                 e.setCancelled(true);
 
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -1092,8 +1092,8 @@ public class ProtectionsEventWorld implements Listener {
                         e.setCancelled(true);
 
                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                            for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }

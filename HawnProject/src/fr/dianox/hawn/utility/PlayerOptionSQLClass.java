@@ -7,7 +7,113 @@ import fr.dianox.hawn.SQL;
 import fr.dianox.hawn.utility.config.events.OnJoinConfig;
 
 public class PlayerOptionSQLClass {
+	
+    /*
+     * Player Option fly Speed
+     */
+    // > Save YAML/SQL
+    public static void SaveSQLPOFlySpeed(Player p, String boolea, Integer value) {
+        String uuid = p.getUniqueId().toString();
 
+        if (boolea.equalsIgnoreCase("TRUE")) {
+            ConfigPlayerGet.writeBoolean(uuid, "player_fly_speed.Activate", true);
+        } else {
+            ConfigPlayerGet.writeBoolean(uuid, "player_fly_speed.Activate", false);
+        }
+
+        ConfigPlayerGet.writeInt(uuid, "player_fly_speed.value", value);
+
+        if (!Main.useyamllistplayer) {
+            if (SQL.tableExists("player_fly_speed")) {
+                if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_fly_speed")) {
+                    SQL.set("player_fly_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+                    SQL.set("player_fly_speed", "value", "" + value + "", "player_UUID", "" + p.getUniqueId() + "");
+                    SQL.set("player_fly_speed", "Activate", "" + boolea + "", "player_UUID", "" + p.getUniqueId() + "");
+                } else {
+                    SQL.insertData("player, player_UUID, value, Activate",
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + boolea + "' ", "player_fly_speed");
+                }
+            } else {
+                SQL.createTable("player_fly_speed", "player TEXT, player_UUID TEXT, value INT, Activate TEXT");
+                if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_fly_speed")) {
+                    SQL.set("player_fly_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+                    SQL.set("player_fly_speed", "value", "" + value + "", "player_UUID", "" + p.getUniqueId() + "");
+                    SQL.set("player_fly_speed", "Activate", "" + boolea + "", "player_UUID", "" + p.getUniqueId() + "");
+                } else {
+                    SQL.insertData("player, player_UUID, value, Activate",
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + boolea + "' ", "player_fly_speed");
+                }
+            }
+        }
+    }
+
+    public static String GetSQLPOFlySpeed(Player p, String method) {
+        String value = "";
+        String uuid = p.getUniqueId().toString();
+
+        if (!ConfigPlayerGet.getFile(uuid).isSet("player_fly_speed.Activate")) {
+            ConfigPlayerGet.writeBoolean(uuid, "player_fly_speed.Activate", false);
+            ConfigPlayerGet.writeInt(uuid, "player_fly_speed.value", OnJoinConfig.getConfig().getInt("Speed.Value"));
+        }
+
+        if (Main.useyamllistplayer) {
+            if (method.equalsIgnoreCase("VALUE")) {
+                value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_fly_speed.value"));
+            } else if (method.equalsIgnoreCase("ACTIVATE")) {
+                if (ConfigPlayerGet.getFile(uuid).getBoolean("player_fly_speed.Activate")) {
+                    value = "TRUE";
+                } else {
+                    value = "FALSE";
+                }
+            }
+        } else {
+            if (!SQL.tableExists("player_fly_speed")) {
+                SQL.createTable("player_fly_speed", "player TEXT, player_UUID TEXT, value INT, Activate TEXT");
+            }
+
+            if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_fly_speed")) {
+                SQL.set("player_fly_speed", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
+                if (method.equalsIgnoreCase("VALUE")) {
+                    value = String.valueOf(SQL.getInfoInt("player_fly_speed", "value", "" + p.getUniqueId() + ""));
+                } else if (method.equalsIgnoreCase("ACTIVATE")) {
+                    value = String.valueOf(SQL.getInfoString("player_fly_speed", "Activate", "" + p.getUniqueId() + ""));
+                }
+            } else {
+                if (method.equalsIgnoreCase("VALUE")) {
+                    String getac = "";
+                    Integer getva = ConfigPlayerGet.getFile(uuid).getInt("player_fly_speed.value");
+
+                    if (ConfigPlayerGet.getFile(uuid).getBoolean("player_fly_speed.Activate")) {
+                        getac = "TRUE";
+                    } else {
+                        getac = "FALSE";
+                    }
+
+                    SQL.insertData("player, player_UUID, value, Activate",
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + getac + "' ", "player_fly_speed");
+
+                    value = String.valueOf(getva);
+                } else if (method.equalsIgnoreCase("ACTIVATE")) {
+                    String getac = "";
+                    Integer getva = ConfigPlayerGet.getFile(uuid).getInt("player_fly_speed.value");
+
+                    if (ConfigPlayerGet.getFile(uuid).getBoolean("player_fly_speed.Activate")) {
+                        getac = "TRUE";
+                    } else {
+                        getac = "FALSE";
+                    }
+
+                    SQL.insertData("player, player_UUID, value, Activate",
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_fly_speed");
+
+                    value = getac;
+                }
+            }
+        }
+
+        return value;
+    }
+    
     /*
      * Player Option Speed
      */

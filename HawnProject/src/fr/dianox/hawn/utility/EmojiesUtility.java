@@ -57,6 +57,22 @@ public class EmojiesUtility {
 	public static List<String> checkmark_list = new ArrayList<String>();
 	public static String crossmark = "✖";
 	public static List<String> crossmark_list = new ArrayList<String>();
+	public static String flag = "🏳";
+	public static List<String> flag_list = new ArrayList<String>();
+	public static String curlyloop = "➰";
+	public static List<String> curlyloop_list = new ArrayList<String>();
+	public static String bed = "🛏";
+	public static List<String> bed_list = new ArrayList<String>();
+	public static String pill = "💊";
+	public static List<String> pill_list = new ArrayList<String>();
+	public static String wrench = "🔧";
+	public static List<String> wrench_list = new ArrayList<String>();
+	public static String gear = "⚙";
+	public static List<String> gear_list = new ArrayList<String>();
+	public static String hammer = "🔨";
+	public static List<String> hammer_list = new ArrayList<String>();
+	public static String pick = "⛏";
+	public static List<String> pick_list = new ArrayList<String>();
 	
 	// Travel
 	public static String airplane = "✈";
@@ -76,6 +92,14 @@ public class EmojiesUtility {
 		
 	public static void setaliaseslist() {
 		
+		pick_list.clear();
+		hammer_list.clear();
+		gear_list.clear();
+		wrench_list.clear();
+		pill_list.clear();
+		bed_list.clear();
+		curlyloop_list.clear();
+		flag_list.clear();
 		email_list.clear();
 		sad_list.clear();
 		radioactive_list.clear();
@@ -119,6 +143,62 @@ public class EmojiesUtility {
             			}
             		}
             		email_list.add(":email:");
+            	} else if (string.equalsIgnoreCase("pick")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				pick_list.add(aliases);
+            			}
+            		}
+            		pick_list.add(":pick:");
+            	} else if (string.equalsIgnoreCase("hammer")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				hammer_list.add(aliases);
+            			}
+            		}
+            		hammer_list.add(":hammer:");
+            	} else if (string.equalsIgnoreCase("gear")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				gear_list.add(aliases);
+            			}
+            		}
+            		gear_list.add(":gear:");
+            	} else if (string.equalsIgnoreCase("wrench")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				wrench_list.add(aliases);
+            			}
+            		}
+            		wrench_list.add(":wrench:");
+            	} else if (string.equalsIgnoreCase("pill")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				pill_list.add(aliases);
+            			}
+            		}
+            		pill_list.add(":pill:");
+            	} else if (string.equalsIgnoreCase("bed")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				bed_list.add(aliases);
+            			}
+            		}
+            		bed_list.add(":bed:");
+            	} else if (string.equalsIgnoreCase("curlyloop")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				curlyloop_list.add(aliases);
+            			}
+            		}
+            		curlyloop_list.add(":curlyloop:");
+            	} else if (string.equalsIgnoreCase("flag")) {
+            		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
+            				flag_list.add(aliases);
+            			}
+            		}
+            		flag_list.add(":flag:");
             	} else if (string.equalsIgnoreCase("sad")) {
             		if (OnChatConfig.getConfig().isSet("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {
             			for (String aliases: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list." + string + ".Aliases")) {

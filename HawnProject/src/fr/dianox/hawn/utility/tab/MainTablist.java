@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.TitleUtils;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -128,7 +128,13 @@ public class MainTablist extends BukkitRunnable {
 					b.set(packet, footer);
 				}
 
-				TitleUtils.sendPacket(p, packet);
+				try {
+					Object handle = p.getClass().getMethod("getHandle", new Class[0]).invoke(p, new Object[0]);
+					Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+					playerConnection.getClass().getMethod("sendPacket", new Class[] { NMSClass.getNMSClass("Packet") }).invoke(playerConnection, new Object[] { packet });
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException |
 				IllegalArgumentException | InstantiationException | InvocationTargetException e) {

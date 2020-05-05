@@ -56,27 +56,34 @@ public class HelpCommandConfig {
             Config.set("Help-Command.Enable", true);
             Config.set("Help-Command.Use-Permissions", true);
             
-            Config.set("Help-Command.Categories.default", "CHANGE ME");
+            Config.set("Help-Command.Categories.default", "lobbyhelp");
 
             // categories 1
             Config.set("Help-Command.Categories.lobbyhelp.1", java.util.Arrays.asList(new String[] {
-                    "Hello the good help",
-                    "want to go to the page 2 ?"
+                    "&8----------------------------------",
+                    " ",
+                    " - &e&lHelp sample page",
+                    " ",
+                    "This is much more than a simple remodeling of the help",
+                    "You can create categories, pages, whatever you want with all possible events.",
+                    " ",
+                    "json:{\"text\":\"§eClick here to go to page 2\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/help lobbyhelp 2\"}}",
+                    "json:{\"text\":\"§cClick here to go to the faction category\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/help faction\"}}",
+                    " ",
+                    "&8----------------------------------"
             }));
             Config.set("Help-Command.Categories.lobbyhelp.2", java.util.Arrays.asList(new String[] {
-                    "don't forget that JSON works too",
-                    "and papi too"
+            		"&8----------------------------------",
+                    "Lobbyhelp page 2 :",
+                    "json:{\"text\":\"Click here to go to page 1\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/help\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Yes you can go back\"}}",
+                    "&8----------------------------------"
             }));
             
             // categories 2
             Config.set("Help-Command.Categories.faction.1", java.util.Arrays.asList(new String[] {
-                    "&cWe love factions",
-                    "&elmao %player%"
-            }));
-            Config.set("Help-Command.Categories.faction.2", java.util.Arrays.asList(new String[] {
-                    "and yes",
-                    "and no",
-                    "pretty short help no ?"
+            		"&8----------------------------------",
+                    "Faction help page",
+                    "&8----------------------------------"
             }));
             
             Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);

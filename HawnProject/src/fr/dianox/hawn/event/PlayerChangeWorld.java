@@ -1,7 +1,5 @@
 package fr.dianox.hawn.event;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +8,10 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.dianox.hawn.commands.features.FlyCommand;
+import fr.dianox.hawn.commands.FlyCommand;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
@@ -85,35 +83,7 @@ public class PlayerChangeWorld implements Listener {
             		if (PlayerWorldChangeConfigE.getConfig().isSet("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Enable")) {
             			if (PlayerWorldChangeConfigE.getConfig().getBoolean("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Enable")) {
             				for (String s: PlayerWorldChangeConfigE.getConfig().getStringList("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Command-List")) {
-                    			String perm = "";
-
-                                if (s.startsWith("<perm>") && s.contains("</perm>")) {
-                                	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-                                	s = s.replace("<perm>"+perm+"</perm> ", "");
-                                	
-                                	if (!p.hasPermission(perm)) {
-                                		continue;
-                                	}
-                                }
-
-                                if (s.startsWith("[command-player]: ")) {
-                                    s = s.replace("[command-player]: ", "");
-                                    s = s.replaceAll("%player%", p.getName());
-
-                                    p.performCommand(s);
-                                } else if (s.startsWith("[customcommand-player]: ")) {
-                                	s = s.replace("[customcommand-player]: ", "");
-                                    s = s.replaceAll("%player%", p.getName());
-                                    
-                                    OnCommandEvent.executecustomcommand(s, p);
-                                } else if (s.startsWith("[command-console]: ")) {
-                                    s = s.replace("[command-console]: ", "");
-                                    s = s.replaceAll("%player%", p.getName());
-
-                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-                                } else {
-                                	MessageUtils.ReplaceCharMessagePlayer(s, p);
-                                }
+            					ConfigEventUtils.ExecuteEvent(p, s, "none", "PlayerChangedWorldEvent", false);
                     		}
             			}
             		}
@@ -124,35 +94,7 @@ public class PlayerChangeWorld implements Listener {
         		if (PlayerWorldChangeConfigE.getConfig().isSet("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Enable")) {
         			if (PlayerWorldChangeConfigE.getConfig().getBoolean("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Enable")) {
         				for (String s: PlayerWorldChangeConfigE.getConfig().getStringList("Execute-Command.Options.When-Enter-in-The-World."+worldname+".Command-List")) {
-                			String perm = "";
-
-                            if (s.startsWith("<perm>") && s.contains("</perm>")) {
-                            	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-                            	s = s.replace("<perm>"+perm+"</perm> ", "");
-                            	
-                            	if (!p.hasPermission(perm)) {
-                            		continue;
-                            	}
-                            }
-
-                            if (s.startsWith("[command-player]: ")) {
-                                s = s.replace("[command-player]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-
-                                p.performCommand(s);
-                            } else if (s.startsWith("[customcommand-player]: ")) {
-                            	s = s.replace("[customcommand-player]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-                                
-                                OnCommandEvent.executecustomcommand(s, p);
-                            } else if (s.startsWith("[command-console]: ")) {
-                                s = s.replace("[command-console]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-
-                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-                            } else {
-                            	MessageUtils.ReplaceCharMessagePlayer(s, p);
-                            }
+        					ConfigEventUtils.ExecuteEvent(p, s, "none", "PlayerChangedWorldEvent", false);
                 		}
         			}
         		}

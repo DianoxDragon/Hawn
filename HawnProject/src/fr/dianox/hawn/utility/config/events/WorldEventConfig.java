@@ -156,6 +156,12 @@ public class WorldEventConfig {
                     "world",
                     "world_nether"
             }));
+            Config.set("DenyEntityTravelPortal.Enable", true);
+            Config.set("DenyEntityTravelPortal.World.All_World", false);
+            Config.set("DenyEntityTravelPortal.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
             
             saveConfigFile();
 

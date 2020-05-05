@@ -54,6 +54,7 @@ public class ListCommandConfig {
             } catch (IOException e) {}
 
             Config.set("List.Enable", true);
+            Config.set("List.Gui-Version", true);
             Config.set("List.Disable-Message", true);
             Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 

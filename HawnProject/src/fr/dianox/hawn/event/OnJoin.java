@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,26 +13,25 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
-import fr.dianox.hawn.commands.features.warp.WarpCommand;
 import fr.dianox.hawn.event.onjoine.OJMessages;
 import fr.dianox.hawn.event.onjoine.OjCosmetics;
 import fr.dianox.hawn.event.onjoine.OjPlayerOption;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.Bungee;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.SpawnUtils;
-import fr.dianox.hawn.utility.TitleUtils;
+import fr.dianox.hawn.utility.Titles;
+import fr.dianox.hawn.utility.XPotion;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.ConfigSpawn;
@@ -43,7 +40,6 @@ import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.tasks.SwitchClassicOnFirstJoinBB;
 import fr.dianox.hawn.utility.tasks.SwitchClassicOnJoinBB;
@@ -57,11 +53,10 @@ public class OnJoin implements Listener {
     public static List < Player > player_list = new ArrayList < Player > ();
     int gm = OnJoinConfig.getConfig().getInt("Change-Gamemode.Value");
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-
+        
         String uuid = p.getUniqueId().toString();
 
         String date = String.valueOf(OtherUtils.getDate() + ", " + OtherUtils.getTime());
@@ -202,12 +197,12 @@ public class OnJoin implements Listener {
                         if (p.hasPermission("hawn.onjoin.potion.blindness")) {
                             int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
                             int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, amplifier));
+                            p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
                         }
                     } else {
                         int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
                         int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, amplifier));
+                        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
                     }
                 }
             } else {
@@ -215,12 +210,12 @@ public class OnJoin implements Listener {
                     if (p.hasPermission("hawn.onjoin.potion.blindness")) {
                         int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
                         int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, amplifier));
+                        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
                     }
                 } else {
                     int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
                     int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, amplifier));
+                    p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
                 }
             }
         }
@@ -233,13 +228,13 @@ public class OnJoin implements Listener {
                         if (p.hasPermission("hawn.onjoin.potion.jump")) {
                             int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
                             int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+                            p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
                             OjPlayerOption.onJumpBoost(p, duration);
                         }
                     } else {
                         int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
                         int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+                        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
                         OjPlayerOption.onJumpBoost(p, duration);
                     }
                 }
@@ -248,13 +243,13 @@ public class OnJoin implements Listener {
                     if (p.hasPermission("hawn.onjoin.potion.jump")) {
                         int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
                         int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+                        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
                         OjPlayerOption.onJumpBoost(p, duration);
                     }
                 } else {
                     int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
                     int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, duration, amplifier));
+                    p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
                     OjPlayerOption.onJumpBoost(p, duration);
                 }
             }
@@ -362,12 +357,12 @@ public class OnJoin implements Listener {
                     if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.World.All_World")) {
                         if (CommandsPW.getWJoinCommandNoNew().contains(p.getWorld().getName())) {
                             for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
-                                CommandsMethod(p, commands);
+                            	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                             }
                         }
                     } else {
                         for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
-                            CommandsMethod(p, commands);
+                        	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                         }
                     }
                 }
@@ -376,12 +371,12 @@ public class OnJoin implements Listener {
                     if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.World.All_World")) {
                         if (CommandsPW.getWJoinCommandNew().contains(p.getWorld().getName())) {
                             for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.Commands")) {
-                                CommandsMethod(p, commands);
+                            	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                             }
                         }
                     } else {
                         for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.New.Commands")) {
-                            CommandsMethod(p, commands);
+                        	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                         }
                     }
                 } else {
@@ -389,12 +384,12 @@ public class OnJoin implements Listener {
                         if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.World.All_World")) {
                             if (CommandsPW.getWJoinCommandNoNew().contains(p.getWorld().getName())) {
                                 for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
-                                    CommandsMethod(p, commands);
+                                	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                                 }
                             }
                         } else {
                             for (String commands: ConfigGJoinQuitCommand.getConfig().getStringList("JoinCommand.Options.No-New.Commands")) {
-                                CommandsMethod(p, commands);
+                            	ConfigEventUtils.ExecuteEvent(p, commands, "none", "onjoin commands", false);
                             }
                         }
                     }
@@ -410,24 +405,44 @@ public class OnJoin implements Listener {
                         if (p.hasPlayedBefore()) {
                             Titlemethod(p);
                         } else {
-                            if (OnJoinConfig.getConfig().getBoolean("Title.First-Join.Title.Enable")) {
-                                TitleUtils.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.Title.FadeIn"), OnJoinConfig.getConfig().getInt("Title.First-Join.Title.Stay"), OnJoinConfig.getConfig().getInt("Title.First-Join.Title.FadeOut"), OnJoinConfig.getConfig().getString("Title.First-Join.Title.Message"));
-                            }
-                            if (OnJoinConfig.getConfig().getBoolean("Title.First-Join.SubTitle.Enable")) {
-                                TitleUtils.sendSubtitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.FadeIn"), OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.Stay"), OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.FadeOut"), OnJoinConfig.getConfig().getString("Title.First-Join.SubTitle.Message"));
-                            }
+                        	
+                        	String title = " ";
+                        	String subtitle = " ";
+                        	
+                        	if (OnJoinConfig.getConfig().isSet("Title.First-Join.Title")) {
+                        		title = OnJoinConfig.getConfig().getString("Title.First-Join.Title");
+                        	}
+                        	
+                        	if (OnJoinConfig.getConfig().isSet("Title.First-Join.SubTitle")) {
+                        		subtitle = OnJoinConfig.getConfig().getString("Title.First-Join.SubTitle");
+                        	}
+                            
+                            Titles.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.FadeIn"), 
+                            		OnJoinConfig.getConfig().getInt("Title.First-Join.Stay"),
+                            		OnJoinConfig.getConfig().getInt("Title.First-Join.FadeOut"), title, subtitle);
+                            Titles.time(p, OnJoinConfig.getConfig().getInt("Title.First-Join.Stay"));
                         }
                     }
                 } else {
                     if (p.hasPlayedBefore()) {
                         Titlemethod(p);
                     } else {
-                        if (OnJoinConfig.getConfig().getBoolean("Title.First-Join.Title.Enable")) {
-                            TitleUtils.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.Title.FadeIn"), OnJoinConfig.getConfig().getInt("Title.First-Join.Title.Stay"), OnJoinConfig.getConfig().getInt("Title.First-Join.Title.FadeOut"), OnJoinConfig.getConfig().getString("Title.First-Join.Title.Message"));
-                        }
-                        if (OnJoinConfig.getConfig().getBoolean("Title.First-Join.SubTitle.Enable")) {
-                            TitleUtils.sendSubtitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.FadeIn"), OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.Stay"), OnJoinConfig.getConfig().getInt("Title.First-Join.SubTitle.FadeOut"), OnJoinConfig.getConfig().getString("Title.First-Join.SubTitle.Message"));
-                        }
+                    	
+                    	String title = " ";
+                    	String subtitle = " ";
+                    	
+                    	if (OnJoinConfig.getConfig().isSet("Title.First-Join.Title")) {
+                    		title = OnJoinConfig.getConfig().getString("Title.First-Join.Title");
+                    	}
+                    	
+                    	if (OnJoinConfig.getConfig().isSet("Title.First-Join.SubTitle")) {
+                    		subtitle = OnJoinConfig.getConfig().getString("Title.First-Join.SubTitle");
+                    	}
+                        
+                        Titles.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.First-Join.FadeIn"), 
+                        		OnJoinConfig.getConfig().getInt("Title.First-Join.Stay"),
+                        		OnJoinConfig.getConfig().getInt("Title.First-Join.FadeOut"), title, subtitle);
+                        Titles.time(p, OnJoinConfig.getConfig().getInt("Title.First-Join.Stay"));
                     }
                 }
             } else {
@@ -568,147 +583,7 @@ public class OnJoin implements Listener {
     	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
     			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
     }
-
-    @SuppressWarnings("deprecation")
-    private void CommandsMethod(Player p, String commands) {
-        String perm = "";
-        String world = "";
-
-        if (commands.startsWith("<world>") && commands.contains("</world>")) {
-            world = StringUtils.substringBetween(commands, "<world>", "</world>");
-            commands = commands.replace("<world>" + world + "</world> ", "");
-
-            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
-                return;
-            }
-        }
-
-        if (commands.contains("<perm>") && commands.contains("</perm>")) {
-            perm = StringUtils.substringBetween(commands, "<perm>", "</perm>");
-            commands = commands.replace("<perm>" + perm + "</perm> ", "");
-
-            if (!p.hasPermission(perm)) {
-                return;
-            }
-        }
-
-        if (commands.startsWith("[command-player]: ")) {
-            commands = commands.replace("[command-player]: ", "");
-            commands = commands.replaceAll("%player%", p.getName());
-
-            p.performCommand(commands);
-        } else if (commands.startsWith("[command-console]: ")) {
-            commands = commands.replace("[command-console]: ", "");
-            commands = commands.replaceAll("%player%", p.getName());
-
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
-        } else if (commands.startsWith("[gamemode-survival]")) {
-            p.setGameMode(GameMode.SURVIVAL);
-        } else if (commands.startsWith("[gamemode-creative]")) {
-            p.setGameMode(GameMode.CREATIVE);
-        } else if (commands.startsWith("[gamemode-adventure]")) {
-            p.setGameMode(GameMode.ADVENTURE);
-        } else if (commands.startsWith("[gamemode-spectator]")) {
-            p.setGameMode(GameMode.SPECTATOR);
-        } else if (commands.startsWith("[ping]")) {
-            for (String commands1: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
-                MessageUtils.ReplaceCharMessagePlayer(commands1, p);
-            }
-        } else if (commands.startsWith("[spawn]: ")) {
-            commands = commands.replace("[spawn]: ", "");
-            SpawnUtils.teleportToSpawn(p, commands);
-        } else if (commands.startsWith("[warp]: ")) {
-            commands = commands.replace("[warp]: ", "");
-            WarpCommand.onTp(p, commands);
-        } else if (commands.startsWith("[bungee]: ")) {
-            commands = commands.replace("[bungee]: ", "");
-            Bungee.changeServer(p, commands);
-        } else if (commands.startsWith("[effect[")) {
-            commands = commands.replace("[effect[", "");
-
-            String[] parts = commands.split("]]: ");
-
-            p.addPotionEffect(new PotionEffect(PotionEffectType.getByName(parts[1]), 1999999999, Integer.valueOf(parts[0])));
-        } else if (commands.startsWith("[effectclear]: ")) {
-            commands = commands.replace("[effectclear]: ", "");
-
-            p.removePotionEffect(PotionEffectType.getByName(commands));
-        } else if (commands.startsWith("[effectclearall]")) {
-            for (PotionEffect effect: p.getActivePotionEffects()) {
-                p.removePotionEffect(effect.getType());
-            }
-        } else if (commands.startsWith("[send-title]: ")) {
-            commands = commands.replace("[send-title]: ", "");
-            commands = commands.replaceAll("&", "§");
-
-            Boolean activate = false;
-
-            String title = "";
-            String subtitle = "";
-
-            if (commands.contains("//n")) {
-                String[] parts = commands.split("//n");
-                title = parts[0];
-                subtitle = parts[1];
-
-                title = title.replaceAll("//n", "");
-                subtitle = subtitle.replaceAll("//n", "");
-
-                activate = true;
-            }
-
-            if (activate == false) {
-                TitleUtils.sendTitle(p, 20, 150, 75, commands);
-            } else {
-                TitleUtils.sendTitle(p, 20, 150, 75, title);
-                TitleUtils.sendSubtitle(p, 20, 150, 75, subtitle);
-            }
-        } else if (commands.startsWith("[send-title[")) {
-            commands = commands.replace("[send-title[", "");
-
-            String[] parts = commands.split("]]: ");
-
-            Boolean activate = false;
-
-            String title = "";
-            String subtitle = "";
-
-            if (commands.contains("//n")) {
-                String[] part = parts[1].split("//n");
-                title = part[0];
-                subtitle = part[1];
-
-                title = title.replaceAll("//n", "");
-                subtitle = subtitle.replaceAll("//n", "");
-
-                activate = true;
-            }
-
-            if (activate == false) {
-                TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1]);
-            } else {
-                TitleUtils.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title);
-                TitleUtils.sendSubtitle(p, 20, Integer.valueOf(parts[0]), 75, subtitle);
-            }
-        } else if (commands.startsWith("[send-actionbar]: ")) {
-            commands = commands.replace("[send-actionbar]: ", "");
-            commands = commands.replaceAll("&", "§");
-
-            ActionBar.sendActionBar(p, commands);
-        } else if (commands.startsWith("[send-actionbar[")) {
-            commands = commands.replace("[send-actionbar[", "");
-
-            String[] parts = commands.split("]]: ");
-
-            ActionBar.sendActionBar(p, parts[1], Integer.valueOf(parts[0]));
-        } else if (commands.startsWith("[sounds]: ")) {
-            commands = commands.replace("[sounds]: ", "");
-            p.playSound(p.getLocation(), XSound.matchXSound(commands).parseSound(), 1, 1);
-        } else {
-            MessageUtils.ReplaceCharMessagePlayer(commands, p);
-        }
-    }
-
+    
     private void InventoryUtils(Player p) {
 
         // Inventory clear
@@ -892,25 +767,44 @@ public class OnJoin implements Listener {
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void Titlemethod(Player p) {
         if (OnJoinConfig.getConfig().getBoolean("Title.Join.Enable")) {
             if (!OnJoinConfig.getConfig().getBoolean("Title.Join.World.All_World")) {
                 if (OnJoinPW.getWJoinTitle().contains(p.getWorld().getName())) {
-                    if (OnJoinConfig.getConfig().getBoolean("Title.Join.Title.Enable")) {
-                        TitleUtils.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.Join.Title.FadeIn"), OnJoinConfig.getConfig().getInt("Title.Join.Title.Stay"), OnJoinConfig.getConfig().getInt("Title.Join.Title.FadeOut"), OnJoinConfig.getConfig().getString("Title.Join.Title.Message"));
-                    }
-                    if (OnJoinConfig.getConfig().getBoolean("Title.Join.SubTitle.Enable")) {
-                        TitleUtils.sendSubtitle(p, OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.FadeIn"), OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.Stay"), OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.FadeOut"), OnJoinConfig.getConfig().getString("Title.Join.SubTitle.Message"));
-                    }
+                	
+                	String title = " ";
+                	String subtitle = " ";
+                	
+                	if (OnJoinConfig.getConfig().isSet("Title.Join.Title")) {
+                		title = OnJoinConfig.getConfig().getString("Title.Join.Title");
+                	}
+                	
+                	if (OnJoinConfig.getConfig().isSet("Title.Join.SubTitle")) {
+                		subtitle = OnJoinConfig.getConfig().getString("Title.Join.SubTitle");
+                	}
+                    
+                    Titles.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.Join.FadeIn"), 
+                    		OnJoinConfig.getConfig().getInt("Title.Join.Stay"),
+                    		OnJoinConfig.getConfig().getInt("Title.Join.FadeOut"), title, subtitle);
+                    Titles.time(p, OnJoinConfig.getConfig().getInt("Title.Join.Stay"));
                 }
             } else {
-                if (OnJoinConfig.getConfig().getBoolean("Title.Join.Title.Enable")) {
-                    TitleUtils.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.Join.Title.FadeIn"), OnJoinConfig.getConfig().getInt("Title.Join.Title.Stay"), OnJoinConfig.getConfig().getInt("Title.Join.Title.FadeOut"), OnJoinConfig.getConfig().getString("Title.Join.Title.Message"));
-                }
-                if (OnJoinConfig.getConfig().getBoolean("Title.Join.SubTitle.Enable")) {
-                    TitleUtils.sendSubtitle(p, OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.FadeIn"), OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.Stay"), OnJoinConfig.getConfig().getInt("Title.Join.SubTitle.FadeOut"), OnJoinConfig.getConfig().getString("Title.Join.SubTitle.Message"));
-                }
+            	
+            	String title = " ";
+            	String subtitle = " ";
+            	
+            	if (OnJoinConfig.getConfig().isSet("Title.Join.Title")) {
+            		title = OnJoinConfig.getConfig().getString("Title.Join.Title");
+            	}
+            	
+            	if (OnJoinConfig.getConfig().isSet("Title.Join.SubTitle")) {
+            		subtitle = OnJoinConfig.getConfig().getString("Title.Join.SubTitle");
+            	}
+                
+                Titles.sendTitle(p, OnJoinConfig.getConfig().getInt("Title.Join.FadeIn"), 
+                		OnJoinConfig.getConfig().getInt("Title.Join.Stay"),
+                		OnJoinConfig.getConfig().getInt("Title.Join.FadeOut"), title, subtitle);
+                Titles.time(p, OnJoinConfig.getConfig().getInt("Title.Join.Stay"));
             }
         }
     }
@@ -922,13 +816,13 @@ public class OnJoin implements Listener {
                     String sound = OnJoinConfig.getConfig().getString("Event.OnJoin.Sounds.Sound");
                     int volume = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Volume");
                     int pitch = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Pitch");
-                    p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+                    p.playSound(p.getLocation(), XSound.getSound(sound, "Event.OnJoin.Sounds.Sound"), volume, pitch);
                 }
             } else {
                 String sound = OnJoinConfig.getConfig().getString("Event.OnJoin.Sounds.Sound");
                 int volume = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Volume");
                 int pitch = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Pitch");
-                p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+                p.playSound(p.getLocation(), XSound.getSound(sound, "Event.OnJoin.Sounds.Sound"), volume, pitch);
             }
 
         }
@@ -950,7 +844,7 @@ public class OnJoin implements Listener {
                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                     for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
                             }
@@ -974,7 +868,7 @@ public class OnJoin implements Listener {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                             for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -998,7 +892,7 @@ public class OnJoin implements Listener {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                             for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -1025,7 +919,7 @@ public class OnJoin implements Listener {
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                         for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -1049,7 +943,7 @@ public class OnJoin implements Listener {
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                         for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
                                 }
@@ -1073,7 +967,7 @@ public class OnJoin implements Listener {
                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                 for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
                         }
@@ -1095,7 +989,7 @@ public class OnJoin implements Listener {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                             for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
                                     }
@@ -1119,7 +1013,7 @@ public class OnJoin implements Listener {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                     for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
                                             }
@@ -1143,7 +1037,7 @@ public class OnJoin implements Listener {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                     for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
                                             }
@@ -1170,7 +1064,7 @@ public class OnJoin implements Listener {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                 for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
                                         }
@@ -1194,7 +1088,7 @@ public class OnJoin implements Listener {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                 for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                                                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
                                         }

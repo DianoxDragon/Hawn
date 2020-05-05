@@ -54,12 +54,10 @@ public class SpecialCjiHidePlayers {
             } catch (IOException e) {}
             
             Config.set("PV.Enable", true);
-            Config.set("PV.Use_Permission", false);
             Config.set("PV.Option.OnJoin-ShowPlayers", true);
             Config.set("PV.Option.OnJoin-Priority-For-Player-Option", true);
             Config.set("PV.Option.Item-Delay.Enable", true);
             Config.set("PV.Option.Item-Delay.Delay", 5);
-            Config.set("PV.Option.Ultimate-Protection-Of-The-Items", true);
             Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", true);
             Config.set("PV.Option.Inventory-Click.Show-Messages", true);
             Config.set("PV.Option.Inventory-Click.Sounds.Enable", true);
@@ -86,12 +84,7 @@ public class SpecialCjiHidePlayers {
             Config.set("PV.ON.Material.Material", "CLOCK");
             Config.set("PV.ON.Material.Amount", 1);
             Config.set("PV.ON.Material.Data-value", "0");
-            Config.set("PV.World.All_World", false);
-            Config.set("PV.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-                }));
-            
+
             saveConfigFile();
 
         }

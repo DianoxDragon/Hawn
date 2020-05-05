@@ -19,6 +19,7 @@ public class WorldPW {
     public static List < String > worlds_BlockFade = new ArrayList < String > ();
     public static List < String > worlds_spawning_mob_animals = new ArrayList < String > ();
     public static List < String > worlds_shears = new ArrayList < String > ();
+    public static List < String > worlds_edtp = new ArrayList < String > ();
 
     // WEATHER
     public static void setWGetWorldServerDisableWeather() {
@@ -143,8 +144,24 @@ public class WorldPW {
         }
     }
 
+    public static void setWEDTP() {
+        if (WorldEventConfig.getConfig().getBoolean("DenyEntityTravelPortal.Enable") && !WorldEventConfig.getConfig().getBoolean("DenyEntityTravelPortal.World.All_World")) {
+            for (String world: WorldEventConfig.getConfig().getStringList("DenyEntityTravelPortal.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in Events/WorldEvent.yml, DenyEntityTravelPortal.World: " + world);
+                } else {
+                	worlds_edtp.add(world);
+                }
+            }
+        }
+    }
+    
     public static List < String > getShears() {
         return worlds_shears;
+    }
+    
+    public static List < String > getPreventionEtityPortal() {
+        return worlds_edtp;
     }
     
     public static List < String > getWSMA() {

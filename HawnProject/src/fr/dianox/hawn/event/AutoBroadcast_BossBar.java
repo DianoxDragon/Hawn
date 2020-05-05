@@ -83,7 +83,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 	                        	
 	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 								}
 	                        	
 							} else {
@@ -119,7 +119,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 		                        	
 		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 									}
 								}
 							}
@@ -169,7 +169,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
                         	BossBarApi.createnewbar(p, color, msg2, style, progress);
                         	
                         	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-								p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+								p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
@@ -204,7 +204,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 	                        	
 	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 								}
 							}
 						}
@@ -263,7 +263,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 		                        	
 		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
@@ -298,7 +298,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 			                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 			                        	
 			                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-											p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+											p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 										}
 									}
 								}
@@ -348,7 +348,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 	                        	
 	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
@@ -383,7 +383,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
 		                        	
 		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 									}
 								}
 							}

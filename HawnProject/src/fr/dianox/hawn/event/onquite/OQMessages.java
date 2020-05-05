@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.world.OnQuitPW;
 
@@ -94,12 +94,12 @@ public class OQMessages {
 							for (Player all : Bukkit.getServer().getWorld(string).getPlayers()) {
 									if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
 										for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-					                    	MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%player%", p.getName()));
-					                    	MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), all);
+					                    	ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+					                    	ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
 					                    }
 					                } else {
 					                	for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-					                		MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%player%", p.getName()), all);
+					                		ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
 					                    }
 					                }
 				                }
@@ -108,11 +108,12 @@ public class OQMessages {
 						} else {
 							if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 			                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-			                        MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
+			                        ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+			                        ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages");
 			                    }
 			                } else {
 			                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-			                        MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+			                    	ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages");
 			                    }
 			                }
 			
@@ -130,11 +131,11 @@ public class OQMessages {
 		} else {
 			if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Messages")) {
-					MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
+					ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", false);
 				}
 			} else {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Messages")) {
-					MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+					ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", false);
 				}
 			}
 		}
@@ -159,11 +160,11 @@ public class OQMessages {
 					
 					if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 						for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-Group.Groups."+string)) {
-							MessageUtils.ReplaceCharBroadcastGeneral(msg, p);
+							ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", false);
 						}
 					} else {
 						for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-Group.Groups."+string)) {
-							MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+							ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", false);
 						}
 					}
 					

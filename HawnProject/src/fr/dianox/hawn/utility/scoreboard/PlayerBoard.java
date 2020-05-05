@@ -15,8 +15,6 @@ import org.bukkit.scoreboard.Team;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.scoreboard.PlayerReceiveBoardEvent;
-import fr.dianox.hawn.utility.scoreboard.WhenPluginUpdateTextEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

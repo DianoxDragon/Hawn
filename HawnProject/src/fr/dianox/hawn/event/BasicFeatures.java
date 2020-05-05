@@ -3,7 +3,6 @@ package fr.dianox.hawn.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -20,6 +19,7 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
@@ -32,10 +32,8 @@ import fr.dianox.hawn.utility.config.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
 import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
 import fr.dianox.hawn.utility.config.events.VoidTPConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.messages.ConfigMOStuff;
-import fr.dianox.hawn.utility.config.messages.ConfigMProtection;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import fr.dianox.hawn.utility.world.ProtectionPW;
 
@@ -43,7 +41,7 @@ public class BasicFeatures implements Listener {
 
 	String path_wg = "";
 	public static List<String> world_voidtp = new ArrayList<String>();
-	public static List<Player> antispam = new ArrayList<Player>();;
+	public static List<Player> antispam = new ArrayList<Player>();
 	
     // Can't change Game mode
     @EventHandler
@@ -116,9 +114,9 @@ public class BasicFeatures implements Listener {
                         String Lineerror = "VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Custom-Spawn.Spawn";
                         String Fileerror = "Events/VoidTP.yml";
                         if (!antispam.contains(p)) {
-	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                                ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
 	                            }
 	                            
 	                            antispam.add(p);
@@ -149,9 +147,9 @@ public class BasicFeatures implements Listener {
                             String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                             String Fileerror = "Events/VoidTP.yml";
                             if (!antispam.contains(p)) {
-    	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-    	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-    	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+    	                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+    	                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+    	                            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
     	                            }
     	                            
     	                            antispam.add(p);
@@ -181,9 +179,9 @@ public class BasicFeatures implements Listener {
                             String Lineerror = "Spawn.DefaultSpawn";
                             String Fileerror = "Events/OnJoin.yml";
                             if (!antispam.contains(p)) {
-    	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-    	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-    	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+    	                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+    	                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+    	                                ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
     	                            }
     	                            
     	                            antispam.add(p);
@@ -218,9 +216,9 @@ public class BasicFeatures implements Listener {
                         String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                         String Fileerror = "Events/VoidTP.yml";
                         if (!antispam.contains(p)) {
-	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
 	                            }
 	                            
 	                            antispam.add(p);
@@ -250,9 +248,9 @@ public class BasicFeatures implements Listener {
                         String Lineerror = "Spawn.DefaultSpawn";
                         String Fileerror = "Events/OnJoin.yml";
                         if (!antispam.contains(p)) {
-	                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-	                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-	                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+	                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+	                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+	                            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
 	                            }
 	                            
 	                            antispam.add(p);
@@ -287,9 +285,9 @@ public class BasicFeatures implements Listener {
                     String Lineerror = "VoidTP.Custom-Spawn.Spawn";
                     String Fileerror = "Events/VoidTP.yml";
                     if (!antispam.contains(p)) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+                            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
                             }
                             
                             antispam.add(p);
@@ -319,9 +317,9 @@ public class BasicFeatures implements Listener {
                     String Lineerror = "Spawn.DefaultSpawn";
                     String Fileerror = "Events/OnJoin.yml";
                     if (!antispam.contains(p)) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Change-Me.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Change-Me.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+                            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", Lineerror).replaceAll("%arg2%", Fileerror), "", "", false);
                             }
                             
                             antispam.add(p);
@@ -373,14 +371,14 @@ public class BasicFeatures implements Listener {
             
             if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {
                 if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
-                    for (String msg: ConfigMEvents.getConfig().getStringList("Teleport.VoidTP")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                    for (String msg: ConfigMMsg.getConfig().getStringList("Teleport.VoidTP")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
             } else {
                 if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
                     for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
             }
@@ -389,143 +387,31 @@ public class BasicFeatures implements Listener {
                 String sound = VoidTPConfig.getConfig().getString("VoidTP.Options.Sounds.Sound");
                 int volume = VoidTPConfig.getConfig().getInt("VoidTP.Options.Sounds.Volume");
                 int pitch = VoidTPConfig.getConfig().getInt("VoidTP.Options.Sounds.Pitch");
-                p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+                p.playSound(p.getLocation(), XSound.getSound(sound, "VoidTP.Options.Sounds.Sound"), volume, pitch);
             }
             
             if (multiworld) {
             	if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable") && VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable")) {
             		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Commands")) {
-            			String perm = "";
-
-                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
-                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-                        	s = s.replace("<perm>"+perm+"</perm> ", "");
-                        	
-                        	if (!p.hasPermission(perm)) {
-                        		continue;
-                        	}
-                        }
-
-                        if (s.startsWith("[command-player]: ")) {
-                            s = s.replace("[command-player]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-
-                            p.performCommand(s);
-                        } else if (s.startsWith("[customcommand-player]: ")) {
-                        	s = s.replace("[customcommand-player]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-                            
-                            OnCommandEvent.executecustomcommand(s, p);
-                        } else if (s.startsWith("[command-console]: ")) {
-                            s = s.replace("[command-console]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-                        } else {
-                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
-                        }
+            			ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
             		}
             		
             		if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Override-Default-Commands")) {
 	            		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
-	            			String perm = "";
-	
-	                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
-	                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-	                        	s = s.replace("<perm>"+perm+"</perm> ", "");
-	                        	
-	                        	if (!p.hasPermission(perm)) {
-	                        		continue;
-	                        	}
-	                        }
-	
-	                        if (s.startsWith("[command-player]: ")) {
-	                            s = s.replace("[command-player]: ", "");
-	                            s = s.replaceAll("%player%", p.getName());
-	
-	                            p.performCommand(s);
-	                        } else if (s.startsWith("[customcommand-player]: ")) {
-	                        	s = s.replace("[customcommand-player]: ", "");
-	                            s = s.replaceAll("%player%", p.getName());
-	                            
-	                            OnCommandEvent.executecustomcommand(s, p);
-	                        } else if (s.startsWith("[command-console]: ")) {
-	                            s = s.replace("[command-console]: ", "");
-	                            s = s.replaceAll("%player%", p.getName());
-	
-	                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-	                        } else {
-	                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
-	                        }
+	            			ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
 	            		}
             		}
             	} else {
             		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
                 		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
-                			String perm = "";
-
-                            if (s.startsWith("<perm>") && s.contains("</perm>")) {
-                            	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-                            	s = s.replace("<perm>"+perm+"</perm> ", "");
-                            	
-                            	if (!p.hasPermission(perm)) {
-                            		continue;
-                            	}
-                            }
-
-                            if (s.startsWith("[command-player]: ")) {
-                                s = s.replace("[command-player]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-
-                                p.performCommand(s);
-                            } else if (s.startsWith("[customcommand-player]: ")) {
-                            	s = s.replace("[customcommand-player]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-                                
-                                OnCommandEvent.executecustomcommand(s, p);
-                            } else if (s.startsWith("[command-console]: ")) {
-                                s = s.replace("[command-console]: ", "");
-                                s = s.replaceAll("%player%", p.getName());
-
-                                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-                            } else {
-                            	MessageUtils.ReplaceCharMessagePlayer(s, p);
-                            }
+                			ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
                 		}
                 	}
             	}
             } else {
             	if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
             		for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
-            			String perm = "";
-
-                        if (s.startsWith("<perm>") && s.contains("</perm>")) {
-                        	perm = StringUtils.substringBetween(s, "<perm>", "</perm>");
-                        	s = s.replace("<perm>"+perm+"</perm> ", "");
-                        	
-                        	if (!p.hasPermission(perm)) {
-                        		continue;
-                        	}
-                        }
-
-                        if (s.startsWith("[command-player]: ")) {
-                            s = s.replace("[command-player]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-
-                            p.performCommand(s);
-                        } else if (s.startsWith("[customcommand-player]: ")) {
-                        	s = s.replace("[customcommand-player]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-                            
-                            OnCommandEvent.executecustomcommand(s, p);
-                        } else if (s.startsWith("[command-console]: ")) {
-                            s = s.replace("[command-console]: ", "");
-                            s = s.replaceAll("%player%", p.getName());
-
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), s);
-                        } else {
-                        	MessageUtils.ReplaceCharMessagePlayer(s, p);
-                        }
+            			ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
             		}
             	}
             }
@@ -947,16 +833,16 @@ public class BasicFeatures implements Listener {
                                 if (!e.getDamager().hasPermission("hawn.event.construct.bypass.break")) {
                                     e.setCancelled(true);
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                        for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                            MessageUtils.ReplaceCharMessagePlayer(msg, (Player) e.getDamager());
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                            ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                         }
                                     }
                                 }
                             } else {
                                 e.setCancelled(true);
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, (Player) e.getDamager());
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    	ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                     }
                                 }
                             }
@@ -966,16 +852,16 @@ public class BasicFeatures implements Listener {
                             if (!e.getDamager().hasPermission("hawn.event.construct.bypass.break")) {
                                 e.setCancelled(true);
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                        MessageUtils.ReplaceCharMessagePlayer(msg, (Player) e.getDamager());
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    	ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                     }
                                 }
                             }
                         } else {
                             e.setCancelled(true);
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                for (String msg: ConfigMProtection.getConfig().getStringList("Protection.Anti-Break")) {
-                                    MessageUtils.ReplaceCharMessagePlayer(msg, (Player) e.getDamager());
+                                for (String msg: ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                	ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                 }
                             }
                         }

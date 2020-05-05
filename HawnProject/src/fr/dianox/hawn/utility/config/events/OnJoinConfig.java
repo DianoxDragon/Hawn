@@ -154,17 +154,11 @@ public class OnJoinConfig {
             Config.set("Title.Enable", true);
             
             Config.set("Title.First-Join.Enable", true);
-            Config.set("Title.First-Join.Title.Enable", true);
-            Config.set("Title.First-Join.Title.FadeIn", 20);
-            Config.set("Title.First-Join.Title.Stay", 150);
-            Config.set("Title.First-Join.Title.FadeOut", 20);
-            Config.set("Title.First-Join.Title.Message", "&6Welcome %player%");
-            
-            Config.set("Title.First-Join.SubTitle.Enable", true);
-            Config.set("Title.First-Join.SubTitle.FadeIn", 20);
-            Config.set("Title.First-Join.SubTitle.Stay", 150);
-            Config.set("Title.First-Join.SubTitle.FadeOut", 20);
-            Config.set("Title.First-Join.SubTitle.Message", "&eThanks to choose &6Hawn");
+            Config.set("Title.First-Join.FadeIn", 20);
+            Config.set("Title.First-Join.Stay", 150);
+            Config.set("Title.First-Join.FadeOut", 20);
+            Config.set("Title.First-Join.Title", "&6Welcome %player%");
+            Config.set("Title.First-Join.SubTitle", "&eThanks to choose &6Hawn");
             
             Config.set("Title.First-Join.World.All_World", false);
             Config.set("Title.First-Join.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -173,17 +167,11 @@ public class OnJoinConfig {
                 }));
 
             Config.set("Title.Join.Enable", true);
-            Config.set("Title.Join.Title.Enable", true);
-            Config.set("Title.Join.Title.FadeIn", 20);
-            Config.set("Title.Join.Title.Stay", 150);
-            Config.set("Title.Join.Title.FadeOut", 20);
-            Config.set("Title.Join.Title.Message", "&6Welcome %player%");
-            
-            Config.set("Title.Join.SubTitle.Enable", true);
-            Config.set("Title.Join.SubTitle.FadeIn", 20);
-            Config.set("Title.Join.SubTitle.Stay", 150);
-            Config.set("Title.Join.SubTitle.FadeOut", 20);
-            Config.set("Title.Join.SubTitle.Message", "&eThanks to choose &6Hawn");
+            Config.set("Title.Join.FadeIn", 20);
+            Config.set("Title.Join.Stay", 150);
+            Config.set("Title.Join.FadeOut", 20);
+            Config.set("Title.Join.Title", "&6Welcome %player%");
+            Config.set("Title.Join.SubTitle", "&eThanks to choose &6Hawn");
             
             Config.set("Title.Join.World.All_World", false);
             Config.set("Title.Join.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -218,6 +206,15 @@ public class OnJoinConfig {
             Config.set("Speed.Option.Priority-For-Player-Option", true);
             Config.set("Speed.World.All_World", false);
             Config.set("Speed.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            Config.set("FlySpeed.Enable", true);
+            Config.set("FlySpeed.Value", 1);
+            Config.set("FlySpeed.Option.Priority-For-Player-Option", true);
+            Config.set("FlySpeed.World.All_World", false);
+            Config.set("FlySpeed.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
                     "world_nether"
             }));

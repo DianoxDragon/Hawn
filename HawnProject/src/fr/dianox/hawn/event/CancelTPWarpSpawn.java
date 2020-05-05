@@ -8,10 +8,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 
 public class CancelTPWarpSpawn implements Listener {
 	
@@ -27,9 +27,9 @@ public class CancelTPWarpSpawn implements Listener {
 					Main.player_spawnwarpdelay.remove(p.getUniqueId());
 				}
 				
-				if (ConfigMEvents.getConfig().getBoolean("Cancel-Tp.Warp.Enable")) {
-					for (String msg: ConfigMEvents.getConfig().getStringList("Cancel-Tp.Warp.Messages")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Warp.Enable")) {
+					for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Warp.Messages")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 				
@@ -43,9 +43,9 @@ public class CancelTPWarpSpawn implements Listener {
 					Main.player_spawnwarpdelay.remove(p.getUniqueId());
 				}
 				
-				if (ConfigMEvents.getConfig().getBoolean("Cancel-Tp.Spawn.Enable")) {
-					for (String msg: ConfigMEvents.getConfig().getStringList("Cancel-Tp.Spawn.Messages")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Spawn.Enable")) {
+					for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Spawn.Messages")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 				
@@ -68,9 +68,9 @@ public class CancelTPWarpSpawn implements Listener {
 						Main.player_spawnwarpdelay.remove(p.getUniqueId());
 					}
 					
-					if (ConfigMEvents.getConfig().getBoolean("Cancel-Tp.Warp.Enable")) {
-						for (String msg: ConfigMEvents.getConfig().getStringList("Cancel-Tp.Warp.Messages")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Warp.Enable")) {
+						for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Warp.Messages")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 					
@@ -84,9 +84,9 @@ public class CancelTPWarpSpawn implements Listener {
 						Main.player_spawnwarpdelay.remove(p.getUniqueId());
 					}
 					
-					if (ConfigMEvents.getConfig().getBoolean("Cancel-Tp.Spawn.Enable")) {
-						for (String msg: ConfigMEvents.getConfig().getStringList("Cancel-Tp.Spawn.Messages")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Spawn.Enable")) {
+						for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Spawn.Messages")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 					

@@ -12,15 +12,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,95 +37,30 @@ public class SpecialIteLobbyBow implements Listener {
 	HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
 	
 	public static String Check = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onBreak(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Enable")) {
-			if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-				} catch (Exception e1) {}
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onPlace(BlockPlaceEvent e) {
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Enable")) {
-			if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-				} catch (Exception e1) {}
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onDropWithItemVisibility(PlayerDropItemEvent e) {	
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Enable")) {
-			if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-					
-					returnItem(e.getPlayer());
-					
-				} catch (Exception e1) {}
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
+
+	@EventHandler
 	public void onCLickInventory(InventoryClickEvent e) {
 		
 		if (!SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Enable")) {
 			return;
 		}
 		
-		if (!SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.World.All_World")) {
-			if (!CjiPW.getLobbyBow().contains(e.getWhoClicked().getWorld().getName())) {
+		// Check Worlds
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+			if (!CjiPW.getWItemPG().contains(e.getWhoClicked().getWorld().getName())) {
 				return;
 			}
 		}
 		
 		Player p = (Player) e.getWhoClicked();
 		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Use_Permission")) {
-			if (!p.hasPermission("hawn.event.interact.item.lobbybow")) {
+		if (!p.hasPermission("hawn.use.customjoinitem")) {
+			 return;
+		}
+		
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()))) {
+				p.sendMessage("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()));
 				return;
 			}
 		}
@@ -141,10 +74,15 @@ public class SpecialIteLobbyBow implements Listener {
 			Check1 = Check1.substring(2, Check1.length());
 		}
 		
+		Check1 = Check1.replaceAll("&", "§");
 		
-		if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")))) {
-			e.setCancelled(true);
-		}
+		try {
+			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
+				if (e.getCurrentItem().getType() == XMaterial.BOW.parseMaterial()) {
+					e.setCancelled(true);
+				}
+			}
+		} catch (Exception e2) {}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -161,14 +99,20 @@ public class SpecialIteLobbyBow implements Listener {
 			if (arrow.getShooter() instanceof Player) {
 				
 				Player p = (Player) arrow.getShooter();
-				if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Use_Permission")) {
-					if (!p.hasPermission("hawn.event.interact.item.lobbybow")) {
+				
+				// Check Worlds
+				if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+					if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 						return;
 					}
 				}
 				
-				if (!SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.World.All_World")) {
-					if (!CjiPW.getLobbyBow().contains(p.getWorld().getName())) {
+				if (!p.hasPermission("hawn.use.customjoinitem")) {
+					 return;
+				}
+				
+				if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+					if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
 						return;
 					}
 				}
@@ -199,29 +143,74 @@ public class SpecialIteLobbyBow implements Listener {
 			return;
 		}
 		
-		if (!SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.World.All_World")) {
-			if (!CjiPW.getLobbyBow().contains(p.getWorld().getName())) {
+		// Check Worlds
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 				return;
 			}
 		}
 		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Use_Permission")) {
-			if (!p.hasPermission("hawn.event.interact.item.lobbybow")) {
+		if (!p.hasPermission("hawn.use.customjoinitem")) {
+			 return;
+		}
+		
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
 				return;
 			}
 		}
 		
-		if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-			if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
-				if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
-					if(storedItem.containsKey(p)) return;
-					int slot = p.getInventory().getSize() - 10;
-					ItemStack item = p.getInventory().getItem(slot);
-					storedItem.put(p, item);
-					p.getInventory().setItem(slot, new ItemStack(XMaterial.ARROW.parseMaterial(), 1));
+		EquipmentSlot es = null;
+		
+		if (Main.Spigot_Version >= 19) {
+			es = e.getHand();
+		}
+		
+		String Check1 = Check;
+		
+		if (Check1.startsWith("&f")) {
+			Check1 = Check1.substring(2, Check1.length());
+		}
+		
+		Check1 = Check1.replaceAll("&", "§");
+		
+		try {
+			if (Main.Spigot_Version >= 19) {
+				if (es.equals(EquipmentSlot.HAND)) {
+					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
+							if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
+								if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+									if (p.getInventory().getItemInMainHand().getType() == XMaterial.BOW.parseMaterial()) {
+										if(storedItem.containsKey(p)) return;
+										int slot = p.getInventory().getSize() - 10;
+										ItemStack item = p.getInventory().getItem(slot);
+										storedItem.put(p, item);
+										p.getInventory().setItem(slot, new ItemStack(XMaterial.ARROW.parseMaterial(), 1));
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+					if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
+						if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
+							if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+								if (p.getItemInHand().getType() == XMaterial.BOW.parseMaterial()) {
+									if(storedItem.containsKey(p)) return;
+									int slot = p.getInventory().getSize() - 10;
+									ItemStack item = p.getInventory().getItem(slot);
+									storedItem.put(p, item);
+									p.getInventory().setItem(slot, new ItemStack(XMaterial.ARROW.parseMaterial(), 1));
+								}
+							}
+						}
+					}
 				}
 			}
-		}
+		} catch (Exception e2) {}
 	}
 	
 	@EventHandler
@@ -260,14 +249,19 @@ public class SpecialIteLobbyBow implements Listener {
 			return;
 		}
 		
-		if (!SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.World.All_World")) {
-			if (!CjiPW.getLobbyBow().contains(p.getWorld().getName())) {
+		// Check Worlds
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 				return;
 			}
 		}
 		
-		if (SpecialCjiLobbyBow.getConfig().getBoolean("LobbyBow.Use_Permission")) {
-			if (!p.hasPermission("hawn.event.interact.item.lobbybow")) {
+		if (!p.hasPermission("hawn.use.customjoinitem")) {
+			 return;
+		}
+		
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(slot))) {
 				return;
 			}
 		}

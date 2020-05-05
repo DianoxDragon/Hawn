@@ -19,8 +19,13 @@ import fr.dianox.hawn.event.ProtectionsEventWorld;
 import fr.dianox.hawn.event.WorldEvent;
 import fr.dianox.hawn.event.modules.DisableOffHand;
 import fr.dianox.hawn.event.ping.ServerPingEvent;
+import fr.dianox.hawn.modules.SignSystem;
+import fr.dianox.hawn.modules.admin.EditPlayerGui;
+import fr.dianox.hawn.modules.admin.ListGui;
+import fr.dianox.hawn.modules.onjoin.cji.SpecialIteFunGun;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialIteLobbyBow;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
+import fr.dianox.hawn.modules.worldsystem.GuiSystem;
 
 public class Manager {
 	
@@ -49,6 +54,11 @@ public class Manager {
 		pm.registerEvents(new SpecialItemPlayerVisibility(), pl);
 		pm.registerEvents(new OnInventoryInteract(), pl);
 		pm.registerEvents(new SpecialIteLobbyBow(), pl);
+		pm.registerEvents(new SpecialIteFunGun(), pl);
+		pm.registerEvents(new GuiSystem(), pl);
+		pm.registerEvents(new ListGui(), pl);
+		pm.registerEvents(new EditPlayerGui(), pl);
+		pm.registerEvents(new SignSystem(), pl);
 		
 		if (Main.Spigot_Version >= 19) {
 			pm.registerEvents(new DisableOffHand(), pl);

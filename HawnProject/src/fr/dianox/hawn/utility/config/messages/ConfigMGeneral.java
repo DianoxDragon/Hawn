@@ -19,7 +19,7 @@ public class ConfigMGeneral {
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
 		
-		file = new File(pl.getDataFolder(), "Messages/"+ Main.LanguageType +"/Classic/General.yml");
+		file = new File(pl.getDataFolder(), "Messages/"+ Main.LanguageType +"/General.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
 		
 		if (!pl.getDataFolder().exists()) {

@@ -11,26 +11,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
-import fr.dianox.hawn.utility.config.messages.ConfigMPlayerOption;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -41,99 +40,30 @@ public class SpecialItemPlayerVisibility implements Listener {
 	
 	public static String Check = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
 	public static String CheckTwo = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
-
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onBreakWithItemVisibility(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					String Check2 = CheckTwo;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					if (Check2.startsWith("&f")) {
-						Check2 = Check2.substring(2, Check2.length());
-					}
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-				} catch (Exception e1) {}
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onPlaceWithItemVisibility(BlockPlaceEvent e) {
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					String Check2 = CheckTwo;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					if (Check2.startsWith("&f")) {
-						Check2 = Check2.substring(2, Check2.length());
-					}
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-				} catch (Exception e1) {}
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void onDropWithItemVisibility(PlayerDropItemEvent e) {	
-		Player p = e.getPlayer();
-		
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Ultimate-Protection-Of-The-Items")) {
-				try {
-					
-					String Check1 = Check;
-					String Check2 = CheckTwo;
-					
-					if (Check1.startsWith("&f")) {
-						Check1 = Check1.substring(2, Check1.length());
-					}
-					
-					if (Check2.startsWith("&f")) {
-						Check2 = Check2.substring(2, Check2.length());
-					}
-					
-					if (p.getItemInHand() != null && (p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§")) || p.getInventory().getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§")))) {
-						e.setCancelled(true);
-					}
-				} catch (Exception e1) {}
-			}
-		}
-	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onInventoryClickWithItemVisibility(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		String name = e.getWhoClicked().getName();
 		
 		if (e.getSlotType() == SlotType.OUTSIDE) return;
 		if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
 		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-				if (!p.hasPermission("hawn.event.interact.item.playervisibility")) {
+			
+			// Check Worlds
+			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
+					return;
+				}
+			}
+			
+			if (!p.hasPermission("hawn.use.customjoinitem")) {
+				 return;
+			}
+			
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+				if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()))) {
+					p.sendMessage("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()));
 					return;
 				}
 			}
@@ -149,193 +79,339 @@ public class SpecialItemPlayerVisibility implements Listener {
 				Check1 = Check1.substring(2, Check1.length());
 			}
 			
+			Check1 = Check1.replaceAll("&", "§");
+			
 			if (Check2.startsWith("&f")) {
 				Check2 = Check2.substring(2, Check2.length());
 			}
-						
-			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
-				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-					if (PlayerVisibility.Cooling().contains(name)) {
-						e.setCancelled(true);
-						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-					    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-					    	}
-						}
-					} else {
-						PlayerVisibility.Cooling().add(name);
-						PlayerVisibility.hidePlayer(p);
-						swithPVItemsOnJoinToON(p);
-						soundInventoryClickPVOJI(p);
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-							messageitemPVON(p);
-						}
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-								
-							@Override
-							public void run() {
-								PlayerVisibility.Cooling().remove(name);
+			
+			Check2 = Check2.replaceAll("&", "§");
+			
+			try {
+				if (e.getCurrentItem() != null && (e.getCurrentItem().getItemMeta().getDisplayName().toString().contains(Check1))) {
+					if (e.getCurrentItem().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
+						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+							if (PlayerVisibility.Cooling().contains(p)) {
+								e.setCancelled(true);
+								if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+									for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+							    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+							    	}
+								}
+							} else {
+								PlayerVisibility.Cooling().add(p);
+								PlayerVisibility.hidePlayer(p);
+								swithPVItemsOnJoinToON(p);
+								soundInventoryClickPVOJI(p);
+								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+									messageitemPVON(p);
+								}
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+										
+									@Override
+									public void run() {
+										PlayerVisibility.Cooling().remove(p);
+									}
+										
+								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+								e.setCancelled(true);
 							}
-								
-						}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-						Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
-						e.setCancelled(true);
-					}
-				} else {
-					PlayerVisibility.hidePlayer(p);
-					swithPVItemsOnJoinToON(p);
-					soundInventoryClickPVOJI(p);
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-						messageitemPVON(p);
-					}
-					PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-					e.setCancelled(true);
-				}
-			} else if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
-				e.setCancelled(true);
-				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-					if (PlayerVisibility.Cooling().contains(name)) {
-						if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-							for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-					    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-					    	}
-						}
-					} else {
-						PlayerVisibility.Cooling().add(name);
-						PlayerVisibility.showPlayer(p);
-						swithPVItemsOnJoinToOFF(p);
-						soundInventoryClickPVOJI(p);
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-							messageitemPVOFF(p);
-						}
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-								
-							@Override
-							public void run() {
-								PlayerVisibility.Cooling().remove(name);
+						} else {
+							PlayerVisibility.hidePlayer(p);
+							swithPVItemsOnJoinToON(p);
+							soundInventoryClickPVOJI(p);
+							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+								messageitemPVON(p);
 							}
-								
-						}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-						Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+							e.setCancelled(true);
+						}
 					}
-				} else {
-					e.setCancelled(true);
-					PlayerVisibility.showPlayer(p);
-					swithPVItemsOnJoinToOFF(p);
-					soundInventoryClickPVOJI(p);
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-						messageitemPVOFF(p);
+				} else if (e.getCurrentItem() != null && (e.getCurrentItem().getItemMeta().getDisplayName().toString().contains(Check2))) {
+					if (e.getCurrentItem().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
+						e.setCancelled(true);
+						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+							if (PlayerVisibility.Cooling().contains(p)) {
+								if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+									for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+							    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+							    	}
+								}
+							} else {
+								PlayerVisibility.Cooling().add(p);
+								PlayerVisibility.showPlayer(p);
+								swithPVItemsOnJoinToOFF(p);
+								soundInventoryClickPVOJI(p);
+								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+									messageitemPVOFF(p);
+								}
+								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+										
+									@Override
+									public void run() {
+										PlayerVisibility.Cooling().remove(p);
+									}
+										
+								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+							}
+						} else {
+							e.setCancelled(true);
+							PlayerVisibility.showPlayer(p);
+							swithPVItemsOnJoinToOFF(p);
+							soundInventoryClickPVOJI(p);
+							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+								messageitemPVOFF(p);
+							}
+							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+						}
 					}
-					PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 				}
-			}
+			} catch (Exception e1) {}
 		}
 	}
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		String name = e.getPlayer().getName();
 		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-				if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-					if (!p.hasPermission("hawn.event.interact.item.playervisibility")) {
-						return;
-					}
+			
+			// Check Worlds
+			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
+					return;
 				}
-				
-				String Check1 = Check;
-				String Check2 = CheckTwo;
-				
-				if (Check1.startsWith("&f")) {
-					Check1 = Check1.substring(2, Check1.length());
-				}
-				
-				if (Check2.startsWith("&f")) {
-					Check2 = Check2.substring(2, Check2.length());
-				}
-				
-				try {
-				if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-						if (PlayerVisibility.Cooling().contains(name)) {
-							if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-								for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-						    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-						    	}
-							}
-						} else {
-							PlayerVisibility.Cooling().add(name);
-							PlayerVisibility.hidePlayer(p);
-							swithPVItemsOnJoinToON(p);
-							soundInteractPVOJI(p);
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-								messageitemPVON(p);
-							}
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-									
-								@Override
-								public void run() {
-									PlayerVisibility.Cooling().remove(name);
-								}
-									
-							}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-							Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
-						}
-					} else {
-						e.setCancelled(true);
-						PlayerVisibility.hidePlayer(p);
-						swithPVItemsOnJoinToON(p);
-						soundInteractPVOJI(p);
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-							messageitemPVON(p);
-						}
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-					}
-				} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
-					if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-						if (PlayerVisibility.Cooling().contains(name)) {
-							if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-								for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-						    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
-						    	}
-							}
-						} else {
-							PlayerVisibility.Cooling().add(name);
-							PlayerVisibility.showPlayer(p);
-							swithPVItemsOnJoinToOFF(p);
-							soundInteractPVOJI(p);
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-								messageitemPVOFF(p);
-							}
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-									
-								@Override
-								public void run() {
-									PlayerVisibility.Cooling().remove(name);
-								}
-									
-							}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-							Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
-						}
-					} else {
-						e.setCancelled(true);
-						PlayerVisibility.showPlayer(p);
-						swithPVItemsOnJoinToOFF(p);
-						soundInteractPVOJI(p);
-						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-							messageitemPVOFF(p);
-						}
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-					}
-				}
-				} catch (Exception e1) {}
 			}
+			
+			if (!p.hasPermission("hawn.use.customjoinitem")) {
+				 return;
+			}
+			
+			EquipmentSlot es = null;
+			
+			if (Main.Spigot_Version >= 19) {
+				es = e.getHand();
+			}
+			
+			try {
+				if (Main.Spigot_Version >= 19) {
+					if (es.equals(EquipmentSlot.HAND)) {
+						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+							if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+								if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
+									return;
+								}
+							}
+							
+							String Check1 = Check;
+							String Check2 = CheckTwo;
+							
+							if (Check1.startsWith("&f")) {
+								Check1 = Check1.substring(2, Check1.length());
+							}
+							
+							Check1 = Check1.replaceAll("&", "§");
+							
+							if (Check2.startsWith("&f")) {
+								Check2 = Check2.substring(2, Check2.length());
+							}
+							
+							Check2 = Check2.replaceAll("&", "§");
+							
+							try {
+							if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+								if (p.getInventory().getItemInMainHand().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
+									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+										if (PlayerVisibility.Cooling().contains(p)) {
+											if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+												for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+										    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+										    	}
+											}
+										} else {
+											PlayerVisibility.Cooling().add(p);
+											PlayerVisibility.hidePlayer(p);
+											swithPVItemsOnJoinToON(p);
+											soundInteractPVOJI(p);
+											if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+												messageitemPVON(p);
+											}
+											PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+													
+												@Override
+												public void run() {
+													PlayerVisibility.Cooling().remove(p);
+												}
+													
+											}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+											Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+										}
+									} else {
+										e.setCancelled(true);
+										PlayerVisibility.hidePlayer(p);
+										swithPVItemsOnJoinToON(p);
+										soundInteractPVOJI(p);
+										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+											messageitemPVON(p);
+										}
+										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+									}
+								}
+							} else if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check2)) {
+								if (p.getInventory().getItemInMainHand().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
+									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+										if (PlayerVisibility.Cooling().contains(p)) {
+											if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+												for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+										    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+										    	}
+											}
+										} else {
+											PlayerVisibility.Cooling().add(p);
+											PlayerVisibility.showPlayer(p);
+											swithPVItemsOnJoinToOFF(p);
+											soundInteractPVOJI(p);
+											if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+												messageitemPVOFF(p);
+											}
+											PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+													
+												@Override
+												public void run() {
+													PlayerVisibility.Cooling().remove(p);
+												}
+													
+											}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+											Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+										}
+									} else {
+										e.setCancelled(true);
+										PlayerVisibility.showPlayer(p);
+										swithPVItemsOnJoinToOFF(p);
+										soundInteractPVOJI(p);
+										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+											messageitemPVOFF(p);
+										}
+										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+									}
+								}
+							}
+							} catch (Exception e1) {}
+						}
+					}
+				} else {
+					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+							if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
+								return;
+							}
+						}
+						
+						String Check1 = Check;
+						String Check2 = CheckTwo;
+						
+						if (Check1.startsWith("&f")) {
+							Check1 = Check1.substring(2, Check1.length());
+						}
+						
+						Check1 = Check1.replaceAll("&", "§");
+						
+						if (Check2.startsWith("&f")) {
+							Check2 = Check2.substring(2, Check2.length());
+						}
+						
+						Check2 = Check2.replaceAll("&", "§");
+						
+						try {
+						if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+							if (p.getItemInHand().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
+								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+									if (PlayerVisibility.Cooling().contains(p)) {
+										if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+											for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+									    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+									    	}
+										}
+									} else {
+										PlayerVisibility.Cooling().add(p);
+										PlayerVisibility.hidePlayer(p);
+										swithPVItemsOnJoinToON(p);
+										soundInteractPVOJI(p);
+										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+											messageitemPVON(p);
+										}
+										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+												
+											@Override
+											public void run() {
+												PlayerVisibility.Cooling().remove(p);
+											}
+												
+										}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+										Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+									}
+								} else {
+									e.setCancelled(true);
+									PlayerVisibility.hidePlayer(p);
+									swithPVItemsOnJoinToON(p);
+									soundInteractPVOJI(p);
+									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+										messageitemPVON(p);
+									}
+									PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+								}
+							}
+						} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check2)) {
+							if (p.getItemInHand().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
+								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
+									if (PlayerVisibility.Cooling().contains(p)) {
+										if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
+											for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+									    		ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
+									    	}
+										}
+									} else {
+										PlayerVisibility.Cooling().add(p);
+										PlayerVisibility.showPlayer(p);
+										swithPVItemsOnJoinToOFF(p);
+										soundInteractPVOJI(p);
+										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+											messageitemPVOFF(p);
+										}
+										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+												
+											@Override
+											public void run() {
+												PlayerVisibility.Cooling().remove(p);
+											}
+												
+										}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+										Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+									}
+								} else {
+									e.setCancelled(true);
+									PlayerVisibility.showPlayer(p);
+									swithPVItemsOnJoinToOFF(p);
+									soundInteractPVOJI(p);
+									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+										messageitemPVOFF(p);
+									}
+									PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+								}
+							}
+						}
+						} catch (Exception e1) {}
+					}
+				}
+			} catch (Exception e2) {}
 		}
 	}
 	
@@ -344,14 +420,19 @@ public class SpecialItemPlayerVisibility implements Listener {
 			return;
 		}
 		
-		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
-			if (!CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
+		// Check Worlds
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 				return;
 			}
 		}
 		
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Use_Permission")) {
-			if (!p.hasPermission("hawn.event.interact.item.playervisibility")) {
+		if (!p.hasPermission("hawn.use.customjoinitem")) {
+			 return;
+		}
+		
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(slot))) {
 				return;
 			}
 		}
@@ -378,8 +459,9 @@ public class SpecialItemPlayerVisibility implements Listener {
 			return;
 		}
 		
-		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.World.All_World")) {
-			if (!CjiPW.getWItemPVOnJoin().contains(p.getWorld().getName())) {
+		// Check Worlds
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
+			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 				return;
 			}
 		}
@@ -462,17 +544,17 @@ public class SpecialItemPlayerVisibility implements Listener {
 	}
 	
 	public static void messageitemPVON(Player p) {
-		if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.PlayerVisibility.ON.Enable")) {
-			for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.PlayerVisibility.ON.Messages")) {
-				MessageUtils.ReplaceCharMessagePlayer(msg, p);
+		if (ConfigMMsg.getConfig().getBoolean("PlayerOption.PlayerVisibility.ON.Enable")) {
+			for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.PlayerVisibility.ON.Messages")) {
+				ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.PlayerVisibility.ON.Messages", "SpecialItemPlayerVisibility", false);
 	    	}
 		}
 	}
 	
 	public static void messageitemPVOFF(Player p) {
-		if (ConfigMPlayerOption.getConfig().getBoolean("PlayerOption.PlayerVisibility.OFF.Enable")) {
-			for (String msg: ConfigMPlayerOption.getConfig().getStringList("PlayerOption.PlayerVisibility.OFF.Messages")) {
-	    		MessageUtils.ReplaceCharMessagePlayer(msg, p);
+		if (ConfigMMsg.getConfig().getBoolean("PlayerOption.PlayerVisibility.OFF.Enable")) {
+			for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.PlayerVisibility.OFF.Messages")) {
+				ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.PlayerVisibility.OFF.Messages", "SpecialItemPlayerVisibility", false);
 	    	}
 		}
 	}
@@ -483,7 +565,8 @@ public class SpecialItemPlayerVisibility implements Listener {
 		int volume = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Inventory-Click.Sounds.Volume");
 		int pitch = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Inventory-Click.Sounds.Pitch");
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Sounds.Enable")) {
-			p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+			p.playSound(p.getLocation(), XSound.getSound(sound, "PV.Option.Inventory-Click.Sounds.Sound"), volume, pitch);
+			
 		}
 	}
 	
@@ -492,7 +575,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		int volume = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Interact-With-Item.Sounds.Volume");
 		int pitch = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Interact-With-Item.Sounds.Pitch");
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Interact-With-Item.Sounds.Enable")) {
-			p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+			p.playSound(p.getLocation(), XSound.getSound(sound, "PV.Option.Interact-With-Item.Sounds.Sound"), volume, pitch);
 		}
 	}
 	
@@ -576,16 +659,16 @@ public class SpecialItemPlayerVisibility implements Listener {
 				}
 			} else {
 				if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Data-value")) {
-					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
+					item = new ItemStack(XMaterial.getMat(material, "PV."+onoroff+".Material"), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
 				} else {
-					item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
+					item = new ItemStack(XMaterial.getMat(material, "PV."+onoroff+".Material"), amount);
 				}
 			}
 		} else {
 			if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Data-value")) {
-				item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
+				item = new ItemStack(XMaterial.getMat(material, "PV."+onoroff+".Material"), amount, (short) SpecialCjiHidePlayers.getConfig().getInt("PV."+onoroff+".Material.Data-value"));
 			} else {
-				item = new ItemStack(XMaterial.matchXMaterial(material).parseMaterial(), amount);
+				item = new ItemStack(XMaterial.getMat(material, "PV."+onoroff+".Material"), amount);
 			}
 		}
 		

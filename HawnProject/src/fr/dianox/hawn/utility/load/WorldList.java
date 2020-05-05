@@ -68,7 +68,6 @@ public class WorldList {
 		OnJoinPW.world_pe_jump.clear();
 		ChangeWorldPW.world_change_keepfly.clear();
 		ChangeWorldPW.worlds_GM_OnChangeWorld.clear();
-		CjiPW.worlds_po_playervisibility_item.clear();
 		PlayerEventsPW.worlds_playeroption_join.clear();
 		BasicEventsPW.worlds_autobroadcast_ab.clear();
 		BasicEventsPW.worlds_autobroadcast_title.clear();
@@ -82,9 +81,11 @@ public class WorldList {
 		ProtectionPW.worlds_buckets.clear();
 		WorldPW.worlds_shears.clear();
 		PlayerEventsPW.worlds_block_mount.clear();
-		CjiPW.worlds_po_lobbybow_item.clear();
 		OnJoinPW.worlds_bossbar.clear();
 		BasicEventsPW.worlds_autobroadcast_bb.clear();
+		OtherFeaturesPW.worlds_EmojiSign.clear();
+		WorldPW.worlds_edtp.clear();
+		OnJoinPW.world_fly_speed_on_join.clear();
 	}
 	
 	public static void setworldlist() {
@@ -142,7 +143,6 @@ public class WorldList {
 		OnJoinPW.setWGetWorldjump();
 		ChangeWorldPW.setWKEEPFLY();
 		ChangeWorldPW.setWGetWorldGamemodeChangeWorld();
-		CjiPW.setItemPlayerVisibility();
 		PlayerEventsPW.setPlayerOptionJoin();
 		BasicEventsPW.setWGetWorldautobroadcast_ab();
 		BasicEventsPW.setWGetWorldautobroadcast_title();
@@ -156,9 +156,11 @@ public class WorldList {
 		ProtectionPW.setWworldBukets();
 		WorldPW.setWShears();
 		PlayerEventsPW.setWGetMount();
-		CjiPW.setpoLobbyBow();
 		OnJoinPW.setBossBaronjoin();
 		BasicEventsPW.setWGetWorldautobroadcast_bb();
+		OtherFeaturesPW.setWGetWorldEventEmojiSign();
+		WorldPW.setWEDTP();
+		OnJoinPW.setWFSOJ();
 	}
 
 }

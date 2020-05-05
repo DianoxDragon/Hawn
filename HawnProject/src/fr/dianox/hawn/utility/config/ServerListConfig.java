@@ -58,33 +58,27 @@ public class ServerListConfig {
             Config.set("Slots.Fake-Max-Player.Number", 2000);
             
             Config.set("On-Join.Player-With-Permission-Join-Full-Server", true);
-            Config.set("On-Join.Message", "&cThe multi line \n&bworks like that %player%");
-            
-            Config.set("Maintenance.Enable", false);
-            Config.set("Maintenance.Kick-Message", "&cThe multi line \n&bworks like that %player%");
-            Config.set("Maintenance.whitelist", java.util.Arrays.asList(new String[] {
-            		"Dianox"
+            Config.set("On-Join.Message", java.util.Arrays.asList(new String[] {
+            		"&cThe multi line",
+            		"&bworks like that %player%"
             }));
             
-            Config.set("Urgent-mode.Enable", false);
-            Config.set("Urgent-mode.Use-It-Only-On-The-Console", false);
-            Config.set("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled", true);
-            Config.set("Urgent-mode.Plugin-desactivation.Plugin-Ignored", java.util.Arrays.asList(new String[] {
-            		"Hawn"
+            Config.set("Anti-WDL.Kick-Message", java.util.Arrays.asList(new String[] {
+            		"&cSorry you used A world downloader"
             }));
-            Config.set("Urgent-mode.Kick-Message", "&cThe multi line \n&bworks like that %player%");
-            Config.set("Urgent-mode.whitelist", java.util.Arrays.asList(new String[] {
-            		"Dianox"
-            }));
-            Config.set("Urgent-mode.Can-Use-Urgent-Mode", java.util.Arrays.asList(new String[] {
-            		"Dianox"
-            }));
-            
-            Config.set("Anti-WDL.Kick-Message", "&cSorry you used A world downloader");
             
             Config.set("Motd.Classic.Enable", true);
-            Config.set("Motd.Classic.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
-            Config.set("Motd.Classic.Line-2", "&eThanks to choose &lhawn");
+            Config.set("Motd.Classic.Random", true);
+            Config.set("Motd.Classic.Main.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
+            Config.set("Motd.Classic.Main.Line-2", "&eThanks to choose &lhawn");
+            
+            Config.set("Motd.Classic.Random-List.first.Line-1", "&aThis is a test of motd of course &7- &e%gettime%");
+            Config.set("Motd.Classic.Random-List.first.Line-2", "&eThanks to choose &lhawn");
+            Config.set("Motd.Classic.Random-List.second.Line-1", "&eThis is a test of motd of course &7- &e%gettime%");
+            Config.set("Motd.Classic.Random-List.second.Line-2", "&eThanks to choose &lhawn");
+            Config.set("Motd.Classic.Random-List.itsunlimited.Line-1", "&bThis is a test of motd of course &7- &e%gettime%");
+            Config.set("Motd.Classic.Random-List.itsunlimited.Line-2", "&eThanks to choose &lhawn");
+            
             Config.set("Motd.WhiteList.Enable", true);
             Config.set("Motd.WhiteList.Line-1", "&eThe server is on whitelist");
             Config.set("Motd.WhiteList.Line-2", "&bPlease come back later");

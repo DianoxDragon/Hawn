@@ -60,6 +60,15 @@ public class OtherFeaturesConfig {
                     "world_nether"
             }));
             
+            Config.set("EmojiSign.Enable", true);
+            Config.set("EmojiSign.World.All_World", false);
+            Config.set("EmojiSign.World.Worlds", java.util.Arrays.asList(new String[] {
+                    "world",
+                    "world_nether"
+            }));
+            
+            Config.set("SignSystem.Enable", true);
+            
             saveConfigFile();
 
         }

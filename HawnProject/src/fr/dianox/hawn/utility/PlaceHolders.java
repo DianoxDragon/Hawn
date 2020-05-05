@@ -4,8 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.commands.DelaychatCommand;
 import fr.dianox.hawn.commands.PingCommand;
-import fr.dianox.hawn.commands.features.chat.DelaychatCommand;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.server.Tps;
@@ -13,8 +14,8 @@ import me.robin.battlelevels.api.BattleLevelsAPI;
 
 public class PlaceHolders {
 
-@SuppressWarnings("deprecation")
-public static String ReplaceMainplaceholderP(String str, Player p) {
+	@SuppressWarnings("deprecation")
+	public static String ReplaceMainplaceholderP(String str, Player p) {
     	
         if (str.contains("%prefix%")) {
             str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -48,6 +49,16 @@ public static String ReplaceMainplaceholderP(String str, Player p) {
         		Bukkit.getConsoleSender().sendMessage("§cThe compass, well something does not work actually, please reload the server");
         	}
             str = str.replaceAll("%timedelaypvcji%", String.valueOf(secondsLeft));
+        }
+        
+        if (str.contains("%timedelayfunguncji%")) {
+        	long secondsLeft = 0;
+        	try {
+        		secondsLeft = ((Long) Main.fungunCooldowns.get(p)).longValue() / 1000L + SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+        	} catch (Exception e) {
+        		Bukkit.getConsoleSender().sendMessage("§cThe fungun, well something does not work actually, please reload the server");
+        	}
+            str = str.replaceAll("%timedelayfunguncji%", String.valueOf(secondsLeft));
         }
 
         if (str.contains("%barmemory%")) {
@@ -111,7 +122,7 @@ public static String ReplaceMainplaceholderP(String str, Player p) {
         }
 
         if (str.contains("%serverversion%")) {
-            str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + VersionUtils.getVersionS() + ")"));
+            str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().get() + ")"));
         }
 
         if (str.contains("%gettime%")) {
@@ -317,7 +328,7 @@ public static String ReplaceMainplaceholderP(String str, Player p) {
         }
 
         if (str.contains("%serverversion%")) {
-            str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + VersionUtils.getVersionS() + ")"));
+        	str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().get() + ")"));
         }
 
         if (str.contains("%gettime%")) {

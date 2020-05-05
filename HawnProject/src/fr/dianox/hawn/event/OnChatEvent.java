@@ -1,7 +1,9 @@
 package fr.dianox.hawn.event;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -12,19 +14,19 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.features.chat.DelaychatCommand;
+import fr.dianox.hawn.commands.DelaychatCommand;
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.EmojiesUtility;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.TitleUtils;
+import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
+
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 @SuppressWarnings("deprecation")
@@ -48,7 +50,8 @@ public class OnChatEvent implements Listener {
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("rawtypes")
+	@EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         final String name = e.getPlayer().getName();
         Player p = e.getPlayer();
@@ -58,14 +61,14 @@ public class OnChatEvent implements Listener {
             if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Bypass")) {
                 if (!p.hasPermission("hawn.event.chat.bypass.mutechat")) {
                     e.setCancelled(true);
-                    for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                    for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Can-t-Speak")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
             } else {
                 e.setCancelled(true);
-                for (String msg: ConfigMCommands.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-                    MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Can-t-Speak")) {
+                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 }
             }
         }
@@ -75,8 +78,8 @@ public class OnChatEvent implements Listener {
                 if (!p.hasPermission("hawn.event.chat.bypass.chatdelay")) {
                     if (cooling.contains(name)) {
                         e.setCancelled(true);
-                        for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
+                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     } else {
                         cooling.add(name);
@@ -91,8 +94,8 @@ public class OnChatEvent implements Listener {
             } else {
                 if (cooling.contains(name)) {
                     e.setCancelled(true);
-                    for (String msg: ConfigMCommands.getConfig().getStringList("ChatDelay.Delay")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                    for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 } else {
                     cooling.add(name);
@@ -114,9 +117,9 @@ public class OnChatEvent implements Listener {
                             if (OnChatConfig.getConfig().getBoolean("Anti-Swear.Notify-Staff")) {
                                 for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
                                     if (p1.hasPermission("hawn.antiswear.benotified")) {
-                                        for (String msg: ConfigMEvents.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
+                                        for (String msg: ConfigMMsg.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
                                             String message = msg.replaceAll("%player%", p.getName()).replaceAll("%message%", e.getMessage());
-                                            MessageUtils.ReplaceCharMessagePlayer(message, p1);
+                                            ConfigEventUtils.ExecuteEvent(p1, message, "", "", false);
                                         }
                                     }
 
@@ -135,9 +138,9 @@ public class OnChatEvent implements Listener {
                         if (OnChatConfig.getConfig().getBoolean("Anti-Swear.Notify-Staff")) {
                             for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
                                 if (p1.hasPermission("hawn.antiswear.benotified")) {
-                                    for (String msg: ConfigMEvents.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
+                                    for (String msg: ConfigMMsg.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
                                         String message = msg.replaceAll("%player%", p.getName()).replaceAll("%message%", e.getMessage());
-                                        MessageUtils.ReplaceCharMessagePlayer(message, p1);
+                                        ConfigEventUtils.ExecuteEvent(p1, message, "", "", false);
                                     }
                                 }
 
@@ -303,7 +306,7 @@ public class OnChatEvent implements Listener {
                  		original = original.replaceAll("&b", "§b");
                  	}
                  	
-                 	if (original.contains("&b")) {
+                 	if (original.contains("&3")) {
                  		original = original.replaceAll("&3", "§3");
                  	}
                  	
@@ -355,7 +358,7 @@ public class OnChatEvent implements Listener {
                  }
         		 
         		 if (p.hasPermission("hawn.use.chatcolor.chat.special.format")) {
-                 	if (original.contains("&c")) {
+                 	if (original.contains("&l")) {
                  		original = original.replaceAll("&l", "§l");
                  	}
                  	
@@ -385,487 +388,27 @@ public class OnChatEvent implements Listener {
         }
 
         if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Enable")) {
-            if (p.hasPermission("hawn.use.emoji.chat")) {
-                // Smileys
-                for (String i: EmojiesUtility.smiley_list) {
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Smiley.Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Smiley.Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji.Smiley")) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.smiley);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.smiley);
-                            }
-                        }
-                    }
-                }
+			 if (p.hasPermission("hawn.chat.emoji")) {
+				 Iterator it = ChatEmojisLoad.emojislist.entrySet().iterator();
+				 
+				 while (it.hasNext()) {
+					 Map.Entry pair = (Map.Entry)it.next();
+					 
+					 String check = String.valueOf(pair.getKey());
+					 String value = String.valueOf(pair.getValue());
+					 
+					 if (ChatEmojisLoad.emojislistperm.containsKey(check)) {
+						 if (!p.hasPermission(ChatEmojisLoad.emojislistperm.get(check))) {
+							 continue;
+						 }
+					 }
 
-                for (String i: EmojiesUtility.sad_list) {
-                    String emoji = "Sad";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.sad);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.sad);
-                            }
-                        }
-                    }
-                }
-
-                // ITEMS
-                for (String i: EmojiesUtility.email_list) {
-                    String emoji = "Email";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.email);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.email);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.swords_list) {
-                    String emoji = "Swords";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.swords);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.swords);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.coffee_list) {
-                    String emoji = "coffee";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.coffee);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.coffee);
-                            }
-                        }
-                    }
-                }
-
-                // Symbols
-                for (String i: EmojiesUtility.airplane_list) {
-                    String emoji = "airplane";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.airplane);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.airplane);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.radioactive_list) {
-                    String emoji = "Radioactive";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.radioactive);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.radioactive);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.king_list) {
-                    String emoji = "King";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.king);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.king);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.scales_list) {
-                    String emoji = "Scales";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.scales);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.scales);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.heart_list) {
-                    String emoji = "Heart";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.heart);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.heart);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.notes_list) {
-                    String emoji = "Notes";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.notes);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.notes);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.star_list) {
-                    String emoji = "Star";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.star);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.star);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.peace_list) {
-                    String emoji = "Peace";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.peace);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.peace);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.chess_list) {
-                    String emoji = "Chess";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.chess);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.chess);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.copyright_list) {
-                    String emoji = "Copyright";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.copyright);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.copyright);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.arrow_list) {
-                    String emoji = "Arrow";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.arrow);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.arrow);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.strong_list) {
-                    String emoji = "Strong";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.strong);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.strong);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.pushups_list) {
-                    String emoji = "Pushups";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.pushups);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.pushups);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.anchor_list) {
-                    String emoji = "Anchor";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.anchor);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.anchor);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.skull_list) {
-                    String emoji = "Skull";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.skull);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.skull);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.umbrella_list) {
-                    String emoji = "Umbrella";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.umbrella);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.umbrella);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.diamonds_list) {
-                    String emoji = "Diamonds";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.diamonds);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.diamonds);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.snowflake_list) {
-                    String emoji = "Snowflake";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.snowflake);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.snowflake);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.snowman_list) {
-                    String emoji = "Snowman";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.snowman);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.snowman);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.checkmark_list) {
-                    String emoji = "Checkmark";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.checkmark);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.checkmark);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.crossmark_list) {
-                    String emoji = "Crossmark";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.crossmark);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.crossmark);
-                            }
-                        }
-                    }
-                }
-
-                // Japan
-                for (String i: EmojiesUtility.shrug_list) {
-                    String emoji = "shrug";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.shrug);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.shrug);
-                            }
-                        }
-                    }
-                }
-
-                for (String i: EmojiesUtility.fliptable_list) {
-                    String emoji = "fliptable";
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list." + emoji + ".Use_Permission")) {
-                            if (p.hasPermission("hawn.useemoji." + emoji)) {
-                                if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                    original = original.replaceAll(i, EmojiesUtility.fliptable);
-                                }
-                            }
-                        } else {
-                            if (e.getMessage().toLowerCase().contains(i.toLowerCase())) {
-                                original = original.replaceAll(i, EmojiesUtility.fliptable);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+					 if (e.getMessage().toLowerCase().contains(check.toLowerCase())) {
+						 original = original.replaceAll(check, value);
+					 }
+				 }
+			 }
+		}
 
         if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Enable")) {
             Boolean disable = false;
@@ -918,7 +461,7 @@ public class OnChatEvent implements Listener {
 
                 if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Message.Enable")) {
                     for (String msg: OnChatConfig.getConfig().getStringList("Chat-Mention.Mentionned.Send-Message.Messages")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName()), p);
+                        ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName()), "", "", false);
                     }
                 }
 
@@ -972,29 +515,24 @@ public class OnChatEvent implements Listener {
 
                         subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, p);
                     }
+                    
 
-                    if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
-                        TitleUtils.sendTitle(p,
-                            OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeIn"),
-                            OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.Stay"),
-                            OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Title.FadeOut"),
-                            title);
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
-                            TitleUtils.sendSubtitle(p,
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn"),
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay"),
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut"),
-                                subtitle);
-                        }
-                    } else if (!OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
-                        if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
-                            TitleUtils.sendTitle(p, 50, 50, 50, " ");
-                            TitleUtils.sendSubtitle(p,
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeIn"),
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Stay"),
-                                OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.FadeOut"),
-                                subtitle);
-                        }
+                    if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Enable")) {
+                    	
+                    	String titlet = " ";
+                    	String subtitlet = " ";
+                    	
+                    	if (OnChatConfig.getConfig().isSet("Chat-Mention.Mentionned.Send-Title.Options.Title")) {
+                    		titlet = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.Title");
+                    	}
+                    	
+                    	if (OnChatConfig.getConfig().isSet("Chat-Mention.Mentionned.Send-Title.Options.SubTitle")) {
+                    		subtitlet = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.SubTitle");
+                    	}
+                        
+                        Titles.sendTitle(p, OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.FadeIn"), 
+                        		OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.Stay"),
+                        		OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-Title.Options.FadeOut"), titlet, subtitlet);
                     }
                 }
 
@@ -1003,7 +541,7 @@ public class OnChatEvent implements Listener {
                     String sound = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Sound.Sound");
                     int volume = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sound.Volume");
                     int pitch = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sounds.Pitch");
-                    p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+                    p.playSound(p.getLocation(), XSound.getSound(sound, "Chat-Mention.Mentionned.Sound.Sound"), volume, pitch);
                 }
             }
         }, 10);

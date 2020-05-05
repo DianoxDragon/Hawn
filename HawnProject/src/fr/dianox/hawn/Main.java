@@ -18,6 +18,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -27,64 +28,71 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+import fr.dianox.hawn.commands.ABAnnouncerCommand;
+import fr.dianox.hawn.commands.BroadCastCommand;
+import fr.dianox.hawn.commands.BurnCommand;
+import fr.dianox.hawn.commands.CheckAccountCommand;
+import fr.dianox.hawn.commands.ClassicGMCommand;
+import fr.dianox.hawn.commands.ClearChatCommand;
+import fr.dianox.hawn.commands.ClearGroundItemsCommand;
+import fr.dianox.hawn.commands.ClearInvCommand;
+import fr.dianox.hawn.commands.ClearMobsCommand;
+import fr.dianox.hawn.commands.DayCommand;
 import fr.dianox.hawn.commands.DelSpawnCommand;
+import fr.dianox.hawn.commands.DelWarpCommand;
+import fr.dianox.hawn.commands.DelaychatCommand;
+import fr.dianox.hawn.commands.EditWarpCommand;
+import fr.dianox.hawn.commands.EmojiesCommand;
+import fr.dianox.hawn.commands.EnderChestCommand;
+import fr.dianox.hawn.commands.ExpCommand;
+import fr.dianox.hawn.commands.FeedCommand;
+import fr.dianox.hawn.commands.FlyCommand;
+import fr.dianox.hawn.commands.FlySpeedCommand;
+import fr.dianox.hawn.commands.GetPosCommand;
+import fr.dianox.hawn.commands.GoTopCommand;
+import fr.dianox.hawn.commands.HatCommand;
 import fr.dianox.hawn.commands.HawnCommand;
+import fr.dianox.hawn.commands.HealCommand;
+import fr.dianox.hawn.commands.InvSeeCommand;
+import fr.dianox.hawn.commands.IpCommand;
+import fr.dianox.hawn.commands.KickAllCommand;
+import fr.dianox.hawn.commands.ListCommand;
+import fr.dianox.hawn.commands.OptionCommand;
+import fr.dianox.hawn.commands.MuteChatCommand;
+import fr.dianox.hawn.commands.NightCommand;
 import fr.dianox.hawn.commands.PanelAdminCommand;
 import fr.dianox.hawn.commands.PingCommand;
+import fr.dianox.hawn.commands.RainCommand;
+import fr.dianox.hawn.commands.RepairCommand;
+import fr.dianox.hawn.commands.ScoreboardCommand;
 import fr.dianox.hawn.commands.SetSpawnCommand;
+import fr.dianox.hawn.commands.SetWarpCommand;
+import fr.dianox.hawn.commands.SkullCommand;
 import fr.dianox.hawn.commands.SpawnCommand;
 import fr.dianox.hawn.commands.SpawnListCommand;
-import fr.dianox.hawn.commands.features.ClearInvCommand;
-import fr.dianox.hawn.commands.features.FlyCommand;
-import fr.dianox.hawn.commands.features.ScoreboardCommand;
-import fr.dianox.hawn.commands.features.VanishCommand;
-import fr.dianox.hawn.commands.features.chat.BroadCastCommand;
-import fr.dianox.hawn.commands.features.chat.ClearChatCommand;
-import fr.dianox.hawn.commands.features.chat.DelaychatCommand;
-import fr.dianox.hawn.commands.features.chat.EmojiesCommand;
-import fr.dianox.hawn.commands.features.chat.MuteChatCommand;
-import fr.dianox.hawn.commands.features.chat.WarningCommand;
-import fr.dianox.hawn.commands.features.gamemode.ClassicGMCommand;
-import fr.dianox.hawn.commands.features.gamemode.gmaCommand;
-import fr.dianox.hawn.commands.features.gamemode.gmcCommand;
-import fr.dianox.hawn.commands.features.gamemode.gmsCommand;
-import fr.dianox.hawn.commands.features.gamemode.gmspCommand;
-import fr.dianox.hawn.commands.features.optionplayers.MainCommandOptionPlayer;
-import fr.dianox.hawn.commands.features.specials.ABAnnouncerCommand;
-import fr.dianox.hawn.commands.features.specials.TitleAnnouncerCommand;
-import fr.dianox.hawn.commands.features.warp.DelWarpCommand;
-import fr.dianox.hawn.commands.features.warp.EditWarpCommand;
-import fr.dianox.hawn.commands.features.warp.SetWarpCommand;
-import fr.dianox.hawn.commands.features.warp.WarpCommand;
-import fr.dianox.hawn.commands.features.warp.WarpListCommand;
-import fr.dianox.hawn.commands.others.CheckAccountCommand;
-import fr.dianox.hawn.commands.others.ClearGroundItemsCommand;
-import fr.dianox.hawn.commands.others.ClearMobsCommand;
-import fr.dianox.hawn.commands.others.EnderChestCommand;
-import fr.dianox.hawn.commands.others.ExpCommand;
-import fr.dianox.hawn.commands.others.FeedCommand;
-import fr.dianox.hawn.commands.others.GetPosCommand;
-import fr.dianox.hawn.commands.others.GoTopCommand;
-import fr.dianox.hawn.commands.others.HatCommand;
-import fr.dianox.hawn.commands.others.HealCommand;
-import fr.dianox.hawn.commands.others.InvSeeCommand;
-import fr.dianox.hawn.commands.others.IpCommand;
-import fr.dianox.hawn.commands.others.KickAllCommand;
-import fr.dianox.hawn.commands.others.ListCommand;
-import fr.dianox.hawn.commands.others.RepairCommand;
-import fr.dianox.hawn.commands.others.SuicideCommand;
-import fr.dianox.hawn.commands.others.time.DayCommand;
-import fr.dianox.hawn.commands.others.time.NightCommand;
-import fr.dianox.hawn.commands.others.we.CopyCommand;
-import fr.dianox.hawn.commands.others.we.OneCommand;
-import fr.dianox.hawn.commands.others.we.PasteCommand;
-import fr.dianox.hawn.commands.others.we.TwoCommand;
-import fr.dianox.hawn.commands.others.weather.RainCommand;
-import fr.dianox.hawn.commands.others.weather.SunCommand;
-import fr.dianox.hawn.commands.others.weather.ThunderCommand;
+import fr.dianox.hawn.commands.SpeedCommand;
+import fr.dianox.hawn.commands.SuicideCommand;
+import fr.dianox.hawn.commands.SunCommand;
+import fr.dianox.hawn.commands.ThunderCommand;
+import fr.dianox.hawn.commands.TitleAnnouncerCommand;
+import fr.dianox.hawn.commands.VanishCommand;
+import fr.dianox.hawn.commands.WarningCommand;
+import fr.dianox.hawn.commands.WarpCommand;
+import fr.dianox.hawn.commands.WarpListCommand;
+import fr.dianox.hawn.commands.WorkBenchCommand;
+import fr.dianox.hawn.commands.WorldCommand;
+import fr.dianox.hawn.commands.gmaCommand;
+import fr.dianox.hawn.commands.gmcCommand;
+import fr.dianox.hawn.commands.gmsCommand;
+import fr.dianox.hawn.commands.gmspCommand;
+import fr.dianox.hawn.commands.specials.worldedit.CopyCommand;
+import fr.dianox.hawn.commands.specials.worldedit.OneCommand;
+import fr.dianox.hawn.commands.specials.worldedit.PasteCommand;
+import fr.dianox.hawn.commands.specials.worldedit.TwoCommand;
 import fr.dianox.hawn.event.AutoBroadcast;
 import fr.dianox.hawn.event.AutoBroadcast_AB;
 import fr.dianox.hawn.event.AutoBroadcast_BossBar;
@@ -95,9 +103,10 @@ import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.modules.worldsystem.GuiSystem;
 import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.CheckConfig;
 import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.OtherUtils;
@@ -108,6 +117,7 @@ import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.CommandAliasesConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.ConfigSpawn;
+import fr.dianox.hawn.utility.config.ConfigWorldGeneral;
 import fr.dianox.hawn.utility.config.CustomCommandConfig;
 import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.ScoreboardMainConfig;
@@ -116,6 +126,7 @@ import fr.dianox.hawn.utility.config.WarpListConfig;
 import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
+import fr.dianox.hawn.utility.config.commands.BurnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
@@ -128,10 +139,12 @@ import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ExpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
+import fr.dianox.hawn.utility.config.commands.FlySpeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GetPosCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
@@ -145,7 +158,9 @@ import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
 import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SkullCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SpeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.TwoCommandConfig;
@@ -153,12 +168,17 @@ import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WeatherTimeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.WorkBenchCommandConfig;
+import fr.dianox.hawn.utility.config.commands.WorldCommandConfig;
 import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
+import fr.dianox.hawn.utility.config.cosmeticsfun.EmojisListCUtility;
 import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
+import fr.dianox.hawn.utility.config.cosmeticsfun.SignListCUtility;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.events.CommandEventConfig;
@@ -172,22 +192,17 @@ import fr.dianox.hawn.utility.config.events.PlayerWorldChangeConfigE;
 import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
 import fr.dianox.hawn.utility.config.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.events.WorldEventConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
+import fr.dianox.hawn.utility.config.messages.AdminPanelConfig;
+import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.messages.ConfigMOStuff;
-import fr.dianox.hawn.utility.config.messages.ConfigMPlayerOption;
-import fr.dianox.hawn.utility.config.messages.ConfigMProtection;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.config.messages.TXTmsg;
-import fr.dianox.hawn.utility.config.messages.administration.AdminPanelConfig;
-import fr.dianox.hawn.utility.config.messages.administration.ErrorConfigAM;
-import fr.dianox.hawn.utility.config.messages.administration.InfoServerOverviewC;
-import fr.dianox.hawn.utility.config.messages.administration.OtherAMConfig;
-import fr.dianox.hawn.utility.config.messages.administration.SpawnMConfig;
-import fr.dianox.hawn.utility.config.messages.fr_fr.AdminErrorConfigAM;
-import fr.dianox.hawn.utility.config.messages.fr_fr.AdminInfoServerOverviewC;
-import fr.dianox.hawn.utility.config.messages.fr_fr.AdminOtherAMConfig;
-import fr.dianox.hawn.utility.config.messages.fr_fr.AdminSpawnMConfig;
+import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
+import fr.dianox.hawn.utility.config.messages.fr_fr.FRAdminAMConfig;
+import fr.dianox.hawn.utility.config.messages.fr_fr.FRAdminPanelConfig;
+import fr.dianox.hawn.utility.config.messages.fr_fr.FRConfigMGeneral;
+import fr.dianox.hawn.utility.config.messages.fr_fr.FRConfigMMsg;
+import fr.dianox.hawn.utility.config.messages.fr_fr.FRWorldManagerPanelConfig;
 import fr.dianox.hawn.utility.config.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
@@ -201,10 +216,11 @@ import fr.dianox.hawn.utility.tab.AnimationTabTask;
 import fr.dianox.hawn.utility.tab.MainTablist;
 
 public class Main extends JavaPlugin implements Listener {
-
+	
 	private static Main instance;
-
-	private static String versions = "0.9.6-Alpha";
+	VersionUtils versionUtils = new VersionUtils();
+	
+	private static String versions = "1.0.0-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -215,7 +231,7 @@ public class Main extends JavaPlugin implements Listener {
 	public static String UpToDate, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<String>();
-
+	
 	public static Connection connection;
 	private String host,
 					database,
@@ -224,7 +240,10 @@ public class Main extends JavaPlugin implements Listener {
 	private int port;
 	private static Statement statement;
 	public static boolean useyamllistplayer = false;
-
+	
+	public static HashMap<Integer, String> motd_sl = new HashMap<>();
+	public static Integer motd_total_sl = 0;
+	
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
     public static HashMap<Integer, String> autobroadcast_titles = new HashMap<>();
     public static HashMap<Integer, String> autobroadcast_ab = new HashMap<>();
@@ -264,8 +283,10 @@ public class Main extends JavaPlugin implements Listener {
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
 
     public static List<Player> buildbypasscommand = new ArrayList<Player>();
+    public static List<Player> avoidtitles = new ArrayList<Player>();
 
     public static HashMap<Player, Long> hiderCooldowns = new HashMap<Player, Long>();
+    public static HashMap<Player, Long> fungunCooldowns = new HashMap<Player, Long>();
     
     public static HashMap<Player, Integer> TaskVanishAB = new HashMap<Player, Integer>();
     
@@ -287,6 +308,9 @@ public class Main extends JavaPlugin implements Listener {
     public static Integer tablistnumber = 0;
     
     public static PluginChannelListener pcl;
+    
+    public static HashMap<ChatColor, Team> glowteam = new HashMap<ChatColor, Team>();
+    public static ArrayList<Player> pglowing = new ArrayList<Player>();
     
     @SuppressWarnings("static-access")
 	@Override
@@ -312,10 +336,16 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"When the dawn was visible, a new plugin was born");
 		gcs(ChatColor.BLUE+"| ");
 
-		@SuppressWarnings("unused")
-		Metrics metrics = new Metrics(this);
-
-		 configfile.clear();
+		try {
+			@SuppressWarnings("unused")
+			Metrics metrics = new Metrics(this);
+		} catch (Exception e) {
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"An error made it impossible for the metrics to be activated");
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You can restart your server if you want, but it's optional, metrics are just stats");
+			gcs(ChatColor.YELLOW+"| ");
+		}
+		
+		configfile.clear();
 		 configfilereverse.clear();
 		
 			// Load config
@@ -325,6 +355,9 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigGeneral.loadConfig((Plugin) this);
 			configfile.put("G-general", "general.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "general.yml", "G-general");
+			ConfigWorldGeneral.loadConfig((Plugin) this);
+			configfile.put("G-World-List", "World-List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "World-List.yml", "G-World-List");
 			ServerListConfig.loadConfig((Plugin) this);
 			configfile.put("G-ServerList", "ServerList.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "ServerList.yml", "G-ServerList");
@@ -500,6 +533,27 @@ public class Main extends JavaPlugin implements Listener {
 			PasteCommandConfig.loadConfig((Plugin) this);
 			configfile.put("C-P-WE", "Commands/P-WE.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Commands/P-WE.yml", "C-P-WE");
+			HawnCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Hawn", "Commands/Hawn.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Hawn.yml", "C-Hawn");
+			WorkBenchCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-WorkBench", "Commands/WorkBench.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/WorkBench.yml", "C-WorkBench");
+			BurnCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Burn", "Commands/Burn.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Burn.yml", "C-Burn");
+			SkullCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Skull", "Commands/Skull.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Skull.yml", "C-Skull");
+			FlySpeedCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-FlySpeed", "Commands/FlySpeed.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/FlySpeed.yml", "C-FlySpeed");
+			SpeedCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-Speed", "Commands/Speed.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/Speed.yml", "C-Speed");
+			WorldCommandConfig.loadConfig((Plugin) this);
+			configfile.put("C-World", "Commands/World.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Commands/World.yml", "C-World");
 			
 			ConfigGCos.loadConfig((Plugin) this);
 			configfile.put("CF-OnJoin", "Cosmetics-Fun/OnJoin.yml");
@@ -516,6 +570,12 @@ public class Main extends JavaPlugin implements Listener {
 			BookListConfiguration.loadConfig((Plugin) this);
 			configfile.put("CFU-Book-List", "Cosmetics-Fun/Utility/Book-List.yml");
 			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Book-List.yml", "CFU-Book-List");
+			EmojisListCUtility.loadConfig((Plugin) this);
+			configfile.put("CFU-Emojis-List", "Cosmetics-Fun/Utility/Emojis-List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Emojis-List.yml", "CFU-Emojis-List");
+			SignListCUtility.loadConfig((Plugin) this);
+			configfile.put("CFU-Sign-List", "Cosmetics-Fun/Utility/Sign-List.yml");
+			configfilereverse.put(this.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Sign-List.yml", "CFU-Sign-List");
 			
 		//NameTagConfig.loadConfig((Plugin) this);
 		TablistConfig.loadConfig((Plugin) this);
@@ -532,6 +592,9 @@ public class Main extends JavaPlugin implements Listener {
 		SpecialCjiLobbyBow.loadConfig((Plugin) this);
 		configfile.put("CJI-Special-LobbyBow", "CustomJoinItem/Special-LobbyBow.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-LobbyBow.yml", "CJI-Special-LobbyBow");
+		SpecialCjiFunGun.loadConfig((Plugin) this);
+		configfile.put("CJI-Special-FunGun", "CustomJoinItem/Special-FunGun.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/Special-FunGun.yml", "CJI-Special-FunGun");
 		ConfigCJIGeneral.loadConfig((Plugin) this);
 		configfile.put("CJI-General", "CustomJoinItem/General.yml");
 		configfilereverse.put(this.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");
@@ -554,113 +617,41 @@ public class Main extends JavaPlugin implements Listener {
 			ConfigGeneral.saveConfigFile();
 		}
 		
-		if (LanguageType.contains("en_US")) {
-			try {
-				File f = null;
-				
-				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US");
-		         
-				f.mkdir();
-			} catch(Exception e) {}
-			
-			try {
-				File f = null;
-				
-				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Classic");
-		         
-				f.mkdir();
-			} catch(Exception e) {}
-			
-			try {
-				File f = null;
-				
-				f = new File(this.getDataFolder().getAbsolutePath(), "/Messages/en_US/Administration");
-		         
-				f.mkdir();
-			} catch(Exception e) {}
-			
-			try {
-				File fileoldconfig = new File(this.getDataFolder(), "/Messages/Classic/General.yml");
-				
-				if (fileoldconfig.exists()) {
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/General.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Events.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Protection.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/SomeOtherStuff.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/Commands.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Classic/PlayerOption.yml");
-					
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Server-Info.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Errors.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Others.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/Spawn.yml");
-					CheckConfig.moveClassicMessagesToenUS(this.getDataFolder().getAbsolutePath(), "Administration/AdminPanel.yml");
-				}
-
-			} catch (Exception e) {}
-		}
+		// French language
 		
-		AdminErrorConfigAM.loadConfig((Plugin) this);
-		AdminInfoServerOverviewC.loadConfig((Plugin) this);
-		AdminOtherAMConfig.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.AdminPanelConfig.loadConfig((Plugin) this);
-		AdminSpawnMConfig.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMCommands.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMEvents.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMGeneral.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMOStuff.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMPlayerOption.loadConfig((Plugin) this);
-		fr.dianox.hawn.utility.config.messages.fr_fr.ConfigMProtection.loadConfig((Plugin) this);
+		FRAdminPanelConfig.loadConfig((Plugin) this);
+		FRConfigMMsg.loadConfig((Plugin) this);
+		FRConfigMGeneral.loadConfig((Plugin) this);
+		FRWorldManagerPanelConfig.loadConfig((Plugin) this);
+		FRAdminAMConfig.loadConfig((Plugin) this);
+		
+		// Normal
 		
 		ConfigMGeneral.loadConfig((Plugin) this);
-		configfile.put("MC-General", "Messages/" + LanguageType + "/Classic/General.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/General.yml", "MC-General");
-		ConfigMEvents.loadConfig((Plugin) this);
-		configfile.put("MC-Events", "Messages/" + LanguageType + "/Classic/Events.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Events.yml", "MC-Events");
-		ConfigMProtection.loadConfig((Plugin) this);
-		configfile.put("MC-Protection", "Messages/" + LanguageType + "/Classic/Protection.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Protection.yml", "MC-Protection");
-		ConfigMOStuff.loadConfig((Plugin) this);
-		configfile.put("MC-SomeOtherStuff", "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/SomeOtherStuff.yml", "MC-SomeOtherStuff");
-		ConfigMCommands.loadConfig((Plugin) this);
-		configfile.put("MC-Commands", "Messages/" + LanguageType + "/Classic/Commands.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/Commands.yml", "MC-Commands");
-		ConfigMPlayerOption.loadConfig((Plugin) this);
-		configfile.put("MC-PlayerOption", "Messages/" + LanguageType + "/Classic/PlayerOption.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Classic/PlayerOption.yml", "MC-PlayerOption");
+		configfile.put("M-General", "Messages/" + LanguageType + "/General.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/General.yml", "M-General");
+		ConfigMMsg.loadConfig((Plugin) this);
+		configfile.put("M-Messages", "Messages/" + LanguageType + "/Messages.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Messages.yml", "M-Messages");
 		
-		InfoServerOverviewC.loadConfig((Plugin) this);
-		configfile.put("MA-Server-Info", "Messages/" + LanguageType + "/Administration/Server-Info.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Server-Info.yml", "MA-Server-Info");
-		ErrorConfigAM.loadConfig((Plugin) this);
-		configfile.put("MA-Errors", "Messages/" + LanguageType + "/Administration/Errors.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Errors.yml", "MA-Errors");
-		OtherAMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Others", "Messages/" + LanguageType + "/Administration/Others.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Others.yml", "MA-Others");
-		SpawnMConfig.loadConfig((Plugin) this);
-		configfile.put("MA-Spawn", "Messages/" + LanguageType + "/Administration/Spawn.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/Spawn.yml", "MA-Spawn");
+		ConfigMAdmin.loadConfig((Plugin) this);
+		configfile.put("M-Admin", "Messages/" + LanguageType + "/Admin.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Admin.yml", "M-Admin");
 		AdminPanelConfig.loadConfig((Plugin) this);
-		configfile.put("MA-AdminPanel", "Messages/" + LanguageType + "/Administration/AdminPanel.yml");
-		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/Administration/AdminPanel.yml", "MA-AdminPanel");
+		configfile.put("M-AdminPanel", "Messages/" + LanguageType + "/AdminPanel.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/AdminPanel.yml", "M-AdminPanel");
+		WorldManagerPanelConfig.loadConfig((Plugin) this);
+		configfile.put("M-WorldMPC", "Messages/" + LanguageType + "/WorldManager.yml");
+		configfilereverse.put(this.getDataFolder() + "/" + "Messages/" + LanguageType + "/WorldManager.yml", "M-WorldMPC");
 		
 		instance = this;
 
 		WorldList.setworldlist();
-
-		CheckConfig.Check();
 	
 		Reload.configlist();
 
-		TXTmsg.onCreateInfoMsgAdmin();
-		TXTmsg.onWrite();
 		TXTmsg.onCreateInfoMsgAdminMain();
 		TXTmsg.onWriteMain();
-		
-		CheckConfig.ConvertOldDataFromNew();
 		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
@@ -685,6 +676,11 @@ public class Main extends JavaPlugin implements Listener {
 			commandMap.register("adminpanel", new PanelAdminCommand("adminpanel"));
 			commandMap.register("pa", new PanelAdminCommand("pa"));
 			commandMap.register("ap", new PanelAdminCommand("ap"));
+			
+			if (!WorldCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("hw", new WorldCommand("hw"));
+				commandMap.register("hworld", new WorldCommand("hworld"));
+			}
 			
 			/* --------------------------- *
 			 * WORLD EDIT ALIASES COMMANDS *
@@ -875,12 +871,74 @@ public class Main extends JavaPlugin implements Listener {
 			/* ------------ *
 			 * EXP COMMANDS *
 			 * ------------ */
-			// >> exp
+			// >> Exp
 			if (!ExpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
 				commandMap.register("exp", new ExpCommand("exp"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Exp.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Exp.Aliases")) {
 						commandMap.register(s, new ExpCommand(s));
+					}
+				}
+			}
+			
+			/* ------------------ *
+			 * WORKBENCH COMMANDS *
+			 * ------------------ */
+			// >> Workbench
+			if (!WorkBenchCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("workbench", new WorkBenchCommand("workbench"));
+				if (CommandAliasesConfig.getConfig().getBoolean("WorkBench.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("WorkBench.Aliases")) {
+						commandMap.register(s, new WorkBenchCommand(s));
+					}
+				}
+			}
+			
+			/* ------------- *
+			 * BURN COMMANDS *
+			 * ------------- */
+			// >> Burn
+			if (!BurnCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("burn", new BurnCommand("burn"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Burn.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Burn.Aliases")) {
+						commandMap.register(s, new BurnCommand(s));
+					}
+				}
+			}
+			
+			/* -------------- *
+			 * SKULL COMMANDS *
+			 * -------------- */
+			// >> Skull
+			if (!SkullCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("skull", new SkullCommand("skull"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Skull.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Skull.Aliases")) {
+						commandMap.register(s, new SkullCommand(s));
+					}
+				}
+			}
+			
+			/* --------------- *
+			 * SPEEDS COMMANDS *
+			 * --------------- */
+			// >> Flyspeed
+			if (!FlySpeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("flyspeed", new FlySpeedCommand("flyspeed"));
+				if (CommandAliasesConfig.getConfig().getBoolean("FlySpeed.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("FlySpeed.Aliases")) {
+						commandMap.register(s, new FlySpeedCommand(s));
+					}
+				}
+			}
+			
+			// >> Speed
+			if (!SpeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+				commandMap.register("speed", new SpeedCommand("speed"));
+				if (CommandAliasesConfig.getConfig().getBoolean("Speed.Enable")) {
+					for (String s : CommandAliasesConfig.getConfig().getStringList("Speed.Aliases")) {
+						commandMap.register(s, new SpeedCommand(s));
 					}
 				}
 			}
@@ -942,10 +1000,10 @@ public class Main extends JavaPlugin implements Listener {
 			 * ------------- */
 			// >> Help
 			if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("help", new fr.dianox.hawn.commands.features.HelpCommand("help"));
+				commandMap.register("help", new fr.dianox.hawn.commands.HelpCommand("help"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Help.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Help.Aliases")) {
-						commandMap.register(s, new fr.dianox.hawn.commands.features.HelpCommand(s));
+						commandMap.register(s, new fr.dianox.hawn.commands.HelpCommand(s));
 					}
 				}
 			}
@@ -1108,10 +1166,10 @@ public class Main extends JavaPlugin implements Listener {
 			 * ---------------------- */
 			// >> Main command
 			if (!OptionPlayerConfigCommand.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("option", new MainCommandOptionPlayer("option"));
+				commandMap.register("option", new OptionCommand("option"));
 				if (CommandAliasesConfig.getConfig().getBoolean("Player-Option.Enable")) {
 					for (String s : CommandAliasesConfig.getConfig().getStringList("Player-Option.Aliases")) {
-						commandMap.register(s, new MainCommandOptionPlayer(s));
+						commandMap.register(s, new OptionCommand(s));
 					}
 				}
 			}
@@ -1465,7 +1523,6 @@ public class Main extends JavaPlugin implements Listener {
 
 		// check
 		UpdateCheck();
-		VersionUtils.onGetServerVersiononLoad();
 
 		OnJoin.player_list.clear();
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -1474,6 +1531,8 @@ public class Main extends JavaPlugin implements Listener {
 		FlyCommand.player_list_flyc.clear();
 		FunFeatures.player_list_dbenable.clear();
 
+		ChatEmojisLoad.onLoad();
+		
 		// Versions
 		if (Bukkit.getVersion().contains("1.15")) {
 			Spigot_Version = 115;
@@ -1672,7 +1731,7 @@ public class Main extends JavaPlugin implements Listener {
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
 	    		try {
-	    			block_exception_place.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    			block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
 	    		} catch (Exception e) {}
 	    	}
 	    }
@@ -1680,7 +1739,7 @@ public class Main extends JavaPlugin implements Listener {
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
 	    		try {
-	    			block_exception_break.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    			block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
 	    		} catch (Exception e) {}
 	    	}
 	    }
@@ -1801,6 +1860,24 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 	    
 	    /*
+	     * MOTD
+	     */
+	    if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Enable")) {
+		    Iterator<?> iterator5 = ServerListConfig.getConfig().getConfigurationSection("Motd.Classic.Random-List").getKeys(false).iterator();
+
+		    Integer bbnumberput = 0;
+
+		    while (iterator5.hasNext()) {
+				String string = (String) iterator5.next();
+				motd_sl.put(bbnumberput, string);
+				bbnumberput++;
+				motd_total_sl++;
+		    }
+
+		    motd_total_sl--;
+	    }
+	    
+	    /*
 	     * --------------
 	     *   Scoreboard
 	     * --------------
@@ -1875,7 +1952,7 @@ public class Main extends JavaPlugin implements Listener {
 	    buildbypasscommand.clear();
 
 	    // Variable set
-
+	    
 	    OtherUtils.totalMemory();
 	    OtherUtils.totalDisk();
 	    OtherUtils.getOperatingSystem();
@@ -1909,6 +1986,7 @@ public class Main extends JavaPlugin implements Listener {
 	    
 	    HawnCommand.slotview.clear();
 	    injumpwithjumppad.clear();
+	    avoidtitles.clear();
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Day.Enable")) {
 	    	new AlwaysDayTask().runTaskTimer(this, 20, 10000L);
@@ -1916,6 +1994,54 @@ public class Main extends JavaPlugin implements Listener {
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Night.Enable")) {
 	    	new AlwaysNightTask().runTaskTimer(this, 20, 7000L);
+	    }
+	    
+	    /*
+	     * Check Worlds
+	     */
+	    if (!ConfigWorldGeneral.getConfig().isSet("World.CheckConfig")) {
+	    	String pathname = new File(".").getAbsolutePath();
+			File directory = new File(pathname);
+			GuiSystem.getFileList(directory);
+			
+			for (File directorfile : GuiSystem.fileList) {
+				if (GuiSystem.checkIfIsWorld(directorfile)) {
+					String worldname = directorfile.getName();
+					
+					if (Bukkit.getWorld(worldname) != null) {
+						ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", true);
+					} else {
+						ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", false);
+					}
+					
+					ConfigWorldGeneral.saveConfigFile();
+				}
+			}
+			
+			ConfigWorldGeneral.getConfig().set("World.CheckConfig", true);
+			ConfigWorldGeneral.saveConfigFile();
+			
+			GuiSystem.fileList.clear();
+	    }
+	    
+	    if (ConfigWorldGeneral.getConfig().isSet("World.CheckConfig")) {
+	    	String pathname = new File(".").getAbsolutePath();
+			File directory = new File(pathname);
+			GuiSystem.getFileList(directory);
+			
+			for (File directorfile : GuiSystem.fileList) {
+				if (GuiSystem.checkIfIsWorld(directorfile)) {
+					String worldname = directorfile.getName();
+					
+					if (ConfigWorldGeneral.getConfig().getBoolean("World-List." + worldname + ".Load")) {
+						if (Bukkit.getWorld(worldname) == null) {
+							Bukkit.getServer().createWorld((new WorldCreator(worldname)));
+						}
+					}
+				}
+			}
+			
+			GuiSystem.fileList.clear();
 	    }
 	    
 	    /*
@@ -1990,12 +2116,12 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		// Check version
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on "+VersionUtils.getVersionS());
+		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on " + versionUtils.get());
 		gcs(ChatColor.BLUE+"| ");
 
 		// Warning
 		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
-			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly, or make a double jump");
+			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly and make a double jump");
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
 			gcs(ChatColor.YELLOW+"| ");
 		}
@@ -2044,12 +2170,16 @@ public class Main extends JavaPlugin implements Listener {
 	      getServer().getMessenger().unregisterIncomingPluginChannel(this, "WDL|INIT");
 	      getServer().getMessenger().unregisterOutgoingPluginChannel(this, "WDL|CONTROL");
 	    } catch (Exception e) {}
-
+	    
 		gcs(ChatColor.RED+"Hawn - Good bye");
 	}
 
 	public static Main getInstance() {
 		return instance;
+	}
+	
+	public VersionUtils getVersionClass() {
+		return versionUtils;
 	}
 
 	public static String getVersion() {
@@ -2152,14 +2282,14 @@ public class Main extends JavaPlugin implements Listener {
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player.getUniqueId())) {
-				ScoreboardInfo in = (ScoreboardInfo)this.info.get("hawn.scoreboard."+sb);
+				ScoreboardInfo in = (ScoreboardInfo) this.info.get("hawn.scoreboard."+sb);
 				((PlayerBoard)boards.get(player.getUniqueId())).createNew(in);
 			} else {
-				new PlayerBoard(this, player.getUniqueId(), (ScoreboardInfo)info.get("hawn.scoreboard."+sb));
+				new PlayerBoard(this, player.getUniqueId(), info.get("hawn.scoreboard."+sb));
 			}
 		} else {
 			for (String s : info.keySet()) {
-	            ScoreboardInfo in = info.get(s);
+	            ScoreboardInfo in = (ScoreboardInfo) info.get(s);
 	            
 	            String playerWorld = player.getWorld().getName();
 	            

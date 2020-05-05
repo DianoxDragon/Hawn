@@ -66,7 +66,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								}
 								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
@@ -84,7 +84,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									}
 									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 									}
 								}
 							}
@@ -117,7 +117,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 							}
 							
 							if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-								p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+								p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 							}
 						} else {
 							if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
@@ -135,7 +135,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								}
 								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 								}
 							}
 						}
@@ -177,7 +177,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									}
 									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 									}
 								} else {
 									if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
@@ -195,7 +195,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 										}
 										
 										if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-											p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+											p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 										}
 									}
 								}
@@ -228,7 +228,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 								}
 								
 								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 								}
 							} else {
 								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
@@ -246,7 +246,7 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 									}
 									
 									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.matchXSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound")).parseSound(), 1, 1);
+										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 									}
 								}
 							}

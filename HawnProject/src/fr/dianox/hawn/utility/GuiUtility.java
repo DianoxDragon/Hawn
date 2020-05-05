@@ -15,7 +15,7 @@ public class GuiUtility {
 		ItemStack i;
 		
 		if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
-			i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);
 	        i.setItemMeta(iMeta);
@@ -27,37 +27,37 @@ public class GuiUtility {
 	    			|| mat.startsWith("GREEN") || mat.startsWith("RED") || mat.startsWith("BLACK")) {
 				
 				if (mat.startsWith("ORANGE")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 1);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 1);
 				} else if (mat.startsWith("MAGENTA")) {
-	    			i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 2);
+	    			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 2);
 				} else if (mat.startsWith("LIGHT_BLUE")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 3);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 3);
 				} else if (mat.startsWith("YELLOW")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 4);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 4);
 				} else if (mat.startsWith("LIME")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 5);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 5);
 	            } else if (mat.startsWith("PINK")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 6);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 6);
 	            } else if (mat.startsWith("GRAY")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 7);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 7);
 	            } else if (mat.startsWith("LIGHT_GRAY")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 8);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 8);
 	            } else if (mat.startsWith("CYAN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 9);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 9);
 	            } else if (mat.startsWith("PURPLE")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 10);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 10);
 	            } else if (mat.startsWith("BLUE")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 11);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 11);
 	            } else if (mat.startsWith("BROWN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 12);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 12);
 	            } else if (mat.startsWith("GREEN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 13);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 13);
 	            } else if (mat.startsWith("RED")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 14);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 14);
 	            } else if (mat.startsWith("BLACK")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 15);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 15);
 	            } else {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 	            }
 				
 				ItemMeta iMeta = i.getItemMeta();
@@ -65,7 +65,7 @@ public class GuiUtility {
 				i.setItemMeta(iMeta);
 				return i;
 			} else {
-				 i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+				 i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
                  ItemMeta iMeta = i.getItemMeta();
                  iMeta.setDisplayName(name);
                  i.setItemMeta(iMeta);
@@ -81,7 +81,7 @@ public class GuiUtility {
 		ItemStack i;
 		
 		if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
-			i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);
 	        i.setItemMeta(iMeta);
@@ -93,37 +93,37 @@ public class GuiUtility {
 	    			|| mat.startsWith("GREEN") || mat.startsWith("RED") || mat.startsWith("BLACK")) {
 				
 				if (mat.startsWith("ORANGE")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 1);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 1);
 				} else if (mat.startsWith("MAGENTA")) {
-	    			i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 2);
+	    			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 2);
 				} else if (mat.startsWith("LIGHT_BLUE")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 3);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 3);
 				} else if (mat.startsWith("YELLOW")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 4);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 4);
 				} else if (mat.startsWith("LIME")) {
-					i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 5);
+					i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 5);
 	            } else if (mat.startsWith("PINK")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 6);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 6);
 	            } else if (mat.startsWith("GRAY")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 7);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 7);
 	            } else if (mat.startsWith("LIGHT_GRAY")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 8);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 8);
 	            } else if (mat.startsWith("CYAN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 9);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 9);
 	            } else if (mat.startsWith("PURPLE")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 10);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 10);
 	            } else if (mat.startsWith("BLUE")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 11);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 11);
 	            } else if (mat.startsWith("BROWN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 12);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 12);
 	            } else if (mat.startsWith("GREEN")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 13);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 13);
 	            } else if (mat.startsWith("RED")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 14);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 14);
 	            } else if (mat.startsWith("BLACK")) {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, (short) 15);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, (short) 15);
 	            } else {
-	            	i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+	            	i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 	            }
 				
 				ItemMeta iMeta = i.getItemMeta();
@@ -131,7 +131,7 @@ public class GuiUtility {
 				i.setItemMeta(iMeta);
 				return i;
 			} else {
-				 i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1);
+				 i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
                  ItemMeta iMeta = i.getItemMeta();
                  iMeta.setDisplayName(name);
                  i.setItemMeta(iMeta);
@@ -146,7 +146,7 @@ public class GuiUtility {
 		mat = mat.toUpperCase();
 		ItemStack i;
 		
-		i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, number);
+		i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, number);
 		ItemMeta iMeta = i.getItemMeta();
 		iMeta.setDisplayName(name);
 		i.setItemMeta(iMeta);
@@ -159,7 +159,7 @@ public class GuiUtility {
 		mat = mat.toUpperCase();
 		ItemStack i;
 		
-		i = new ItemStack(XMaterial.matchXMaterial(mat).parseMaterial(), 1, number);
+		i = new ItemStack(XMaterial.getMat(mat, "no info"), 1, number);
 		ItemMeta iMeta = i.getItemMeta();
 		iMeta.setDisplayName(name);
 		iMeta.setLore(desc);

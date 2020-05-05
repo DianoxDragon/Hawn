@@ -8,10 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
-import fr.dianox.hawn.utility.config.messages.ConfigMOStuff;
+
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 
 public class PingCommand extends BukkitCommand {
 
@@ -37,16 +38,16 @@ public class PingCommand extends BukkitCommand {
 
                 // If player doesn't exist
                 if (target == null) {
-                    if (ConfigMOStuff.getConfig().getBoolean("Error.No-Players.Enable")) {
-                        for (String msg: ConfigMOStuff.getConfig().getStringList("Error.No-Players.Messages")) {
-                            MessageUtils.ReplaceMessageForConsole(msg);
+                    if (ConfigMMsg.getConfig().getBoolean("Error.No-Players.Enable")) {
+                        for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Players.Messages")) {
+                            MessageUtils.ConsoleMessages(msg);
                         }
                     }
                     return true;
                 }
 
-                for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Other")) {
-                    MessageUtils.ReplaceMessageForConsolePingCommand(msg, sender, target);
+                for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Other")) {
+                    MessageUtils.ConsoleMessages(msg.replaceAll("%target%", target.getName()));
                 }
 
             } else {
@@ -65,8 +66,8 @@ public class PingCommand extends BukkitCommand {
             if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Use_Permission")) {
                 if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
                     if (p.hasPermission("hawn.command.ping.self")) {
-                        for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
+                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     } else {
                         String Permission = "hawn.command.ping.self";
@@ -74,23 +75,23 @@ public class PingCommand extends BukkitCommand {
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }
                 }
             } else {
                 if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
-                    for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Self")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                    for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }
@@ -106,8 +107,8 @@ public class PingCommand extends BukkitCommand {
                             MessageUtils.PlayerDoesntExist(p);
                             return true;
                         }
-                        for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Other")) {
-                            MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%ping%", String.valueOf(PingCommand.getPing(other))), p);
+                        for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Other")) {
+                            ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%ping%", String.valueOf(PingCommand.getPing(other))), "", "", false);
                         }
                     } else {
                         String Permission = "hawn.command.ping.other";
@@ -115,9 +116,9 @@ public class PingCommand extends BukkitCommand {
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Other.Disable-Message")) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }
@@ -128,14 +129,14 @@ public class PingCommand extends BukkitCommand {
                         MessageUtils.PlayerDoesntExist(p);
                         return true;
                     }
-                    for (String msg: ConfigMCommands.getConfig().getStringList("Ping.Other")) {
-                        MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%target%", other.getName()).replaceAll("%ping%", String.valueOf(PingCommand.getPing(other))), p);
+                    for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Other")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%target%", other.getName()).replaceAll("%ping%", String.valueOf(PingCommand.getPing(other))), "", "", false);
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Other.Disable-Message")) {
-                        if (ConfigMOStuff.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Command-Disable.Messages")) {
-                                MessageUtils.ReplaceCharMessagePlayer(msg, p);
+                        if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
+                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
                     }

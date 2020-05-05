@@ -22,6 +22,7 @@ public class OnJoinPW {
     public static List < String > world_pe_blindness = new ArrayList < String > ();
     public static List < String > world_pe_jump = new ArrayList < String > ();
     public static List < String > world_speed_on_join = new ArrayList < String > ();
+    public static List < String > world_fly_speed_on_join = new ArrayList < String > ();
     public static List < String > worlds_first_join_ab = new ArrayList < String > ();
     public static List < String > worlds_join_ab = new ArrayList < String > ();
     public static List < String > worlds_first_join_title = new ArrayList < String > ();
@@ -296,6 +297,22 @@ public class OnJoinPW {
 
     public static List < String > getSOJ() {
         return world_speed_on_join;
+    }
+    
+    public static void setWFSOJ() {
+        if (OnJoinConfig.getConfig().getBoolean("FlySpeed.Enable") && !OnJoinConfig.getConfig().getBoolean("FlySpeed.World.All_World")) {
+            for (String world: OnJoinConfig.getConfig().getStringList("FlySpeed.World.Worlds")) {
+                if (Bukkit.getWorld(world) == null) {
+                    System.out.println("| Invalid world in Events/OnJoin.yml, FlySpeed.World: " + world);
+                } else {
+                    world_fly_speed_on_join.add(world);
+                }
+            }
+        }
+    }
+
+    public static List < String > getFSOJ() {
+        return world_fly_speed_on_join;
     }
 
     // Potion effect

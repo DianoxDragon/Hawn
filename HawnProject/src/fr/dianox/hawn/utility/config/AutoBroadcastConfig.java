@@ -61,7 +61,7 @@ public class AutoBroadcastConfig {
             
             Config.set("Config.Messages.Enable", true);
             Config.set("Config.Messages.Random", false);
-            Config.set("Config.Messages.Interval", 60);
+            Config.set("Config.Messages.Interval", 600);
             Config.set("Config.Messages.Broadcast-To-Console", false);
             Config.set("Config.Messages.Use-Permission-To-Get-Messages", false);
             
@@ -108,14 +108,11 @@ public class AutoBroadcastConfig {
              */
             Config.set("Config.Titles.Enable", true);
             Config.set("Config.Titles.Random", false);
-            Config.set("Config.Titles.Interval", 60);
+            Config.set("Config.Titles.Interval", 600);
             Config.set("Config.Titles.Use-Permission-To-Get-Messages", false);
-            Config.set("Config.Titles.Options-Default.Title.FadeIn", 20);
-            Config.set("Config.Titles.Options-Default.Title.Stay", 30);
-            Config.set("Config.Titles.Options-Default.Title.FadeOut", 20);
-            Config.set("Config.Titles.Options-Default.SubTitle.FadeIn", 30);
-            Config.set("Config.Titles.Options-Default.SubTitle.Stay", 20);
-            Config.set("Config.Titles.Options-Default.SubTitle.FadeOut", 20);
+            Config.set("Config.Titles.Options-Default.FadeIn", 20);
+            Config.set("Config.Titles.Options-Default.Stay", 30);
+            Config.set("Config.Titles.Options-Default.FadeOut", 20);
             Config.set("Config.Titles.World.All_World", false);
             Config.set("Config.Titles.World.Worlds", java.util.Arrays.asList(new String[] {
                     "world",
@@ -127,14 +124,11 @@ public class AutoBroadcastConfig {
             Config.set("Config.Titles.messages.default.Title.Message", "Default message one");
             Config.set("Config.Titles.messages.default.SubTitle.Message", "With default values - Config your autobroadcast");
             
-            Config.set("Config.Titles.messages.custom.Title.FadeIn", 20);
-            Config.set("Config.Titles.messages.custom.Title.Stay", 150);
-            Config.set("Config.Titles.messages.custom.Title.FadeOut", 20);
-            Config.set("Config.Titles.messages.custom.Title.Message", "This is a full custom title");
-            Config.set("Config.Titles.messages.custom.SubTitle.FadeIn", 20);
-            Config.set("Config.Titles.messages.custom.SubTitle.Stay", 150);
-            Config.set("Config.Titles.messages.custom.SubTitle.FadeOut", 20);
-            Config.set("Config.Titles.messages.custom.SubTitle.Message", "Without default values - Config your autobroadcast");
+            Config.set("Config.Titles.messages.custom.FadeIn", 20);
+            Config.set("Config.Titles.messages.custom.Stay", 150);
+            Config.set("Config.Titles.messages.custom.FadeOut", 20);
+            Config.set("Config.Titles.messages.custom.Title.Message", "&aThis is a full custom title");
+            Config.set("Config.Titles.messages.custom.SubTitle.Message", "&bWithout default values - Config your autobroadcast");
             
             Config.set("Config.Titles.messages.No-title-omg.SubTitle.Message", "Only subtitles - Config your autobroadcast");
             
@@ -146,7 +140,7 @@ public class AutoBroadcastConfig {
              */
             Config.set("Config.Action-Bar.Enable", true);
             Config.set("Config.Action-Bar.Random", false);
-            Config.set("Config.Action-Bar.Interval", 60);
+            Config.set("Config.Action-Bar.Interval", 600);
             Config.set("Config.Action-Bar.Use-Permission-To-Get-Messages", false);
             Config.set("Config.Action-Bar.Options-Default.Time-Stay", 120);
             Config.set("Config.Action-Bar.World.All_World", false);
@@ -168,7 +162,7 @@ public class AutoBroadcastConfig {
              */
             Config.set("Config.BossBar.Enable", true);
             Config.set("Config.BossBar.Random", false);
-            Config.set("Config.BossBar.Interval", 60);
+            Config.set("Config.BossBar.Interval", 600);
             Config.set("Config.BossBar.Use-Permission-To-Get-Messages", false);
             Config.set("Config.BossBar.Options-Default.Color", "PURPLE");
             Config.set("Config.BossBar.Options-Default.Style", "SOLID");

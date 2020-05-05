@@ -11,7 +11,7 @@ import fr.dianox.hawn.Main;
 public class PlayerVisibility {
 	
 	public static List<Player> PVPlayer = new ArrayList<Player>();
-	private static List<String> Cooling = new ArrayList<String>();
+	private static List<Player> Cooling = new ArrayList<Player>();
 	
 	public static List<Player> getPlayerVisibility() {
 		return PVPlayer;
@@ -43,7 +43,7 @@ public class PlayerVisibility {
 		PVPlayer.add(p);
 	}
 
-	public static List<String> Cooling() {
+	public static List<Player> Cooling() {
 		return Cooling;
 	}
 }

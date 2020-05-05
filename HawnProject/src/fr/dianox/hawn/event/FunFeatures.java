@@ -2,7 +2,9 @@ package fr.dianox.hawn.event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -18,9 +20,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.features.FlyCommand;
+import fr.dianox.hawn.commands.FlyCommand;
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
-import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
@@ -28,7 +31,7 @@ import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
 import fr.dianox.hawn.utility.config.events.OtherFeaturesConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.CosmeticsPW;
 import fr.dianox.hawn.utility.world.OtherFeaturesPW;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
@@ -46,26 +49,55 @@ public class FunFeatures implements Listener {
 		
 		if (OtherFeaturesConfig.getConfig().getBoolean("ColorSign.Enable")) {
 			if (!OtherFeaturesConfig.getConfig().getBoolean("ColorSign.World.All_World")) {
-				if (OtherFeaturesPW.getWColorSign().contains(p.getWorld().getName())) {
-					if (!p.hasPermission("hawn.sign.color")) {
-						return;
-					}
-					for (int i = 0; i <= 3; i++) {
-				        String line = e.getLine(i);
-				        
-				        line = ChatColor.translateAlternateColorCodes('&', line);
-				        e.setLine(i, line);
-					}
-				}
-			} else {
-				if (!p.hasPermission("hawn.sign.color")) {
+				if (!OtherFeaturesPW.getWColorSign().contains(p.getWorld().getName())) {
 					return;
 				}
+			}
+
+			if (p.hasPermission("hawn.sign.color")) {
 				for (int i = 0; i <= 3; i++) {
-			        String line = e.getLine(i);
-			        
-			        line = ChatColor.translateAlternateColorCodes('&', line);
-			        e.setLine(i, line);
+					String line = e.getLine(i);
+					
+					line = ChatColor.translateAlternateColorCodes('&', line);
+					e.setLine(i, line);
+				}
+			}			
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@EventHandler
+	public void onSignEmojis(SignChangeEvent e) {
+		if (OtherFeaturesConfig.getConfig().getBoolean("EmojiSign.Enable")) {
+			
+			if (!OtherFeaturesConfig.getConfig().getBoolean("EmojiSign.World.All_World")) {
+				if (!OtherFeaturesPW.getWEmojiSign().contains(e.getPlayer().getWorld().getName())) {
+					return;
+				}
+			}
+			
+			if (e.getPlayer().hasPermission("hawn.sign.emoji")) {
+				for (int i = 0; i <= 3; i++) {
+					String line = e.getLine(i);
+					Iterator it = ChatEmojisLoad.emojislist.entrySet().iterator();
+					
+					while (it.hasNext()) {
+						Map.Entry pair = (Map.Entry)it.next();
+						 
+						String check = String.valueOf(pair.getKey());
+						String value = String.valueOf(pair.getValue());
+						 
+						if (ChatEmojisLoad.emojislistperm.containsKey(check)) {
+							if (!e.getPlayer().hasPermission(ChatEmojisLoad.emojislistperm.get(check))) {
+								continue;
+							}
+						}
+	
+						if (line.toLowerCase().contains(check.toLowerCase())) {
+							line = line.replaceAll(check, value);
+							e.setLine(i, line);
+						}
+					}
 				}
 			}
 		}
@@ -231,7 +263,7 @@ public class FunFeatures implements Listener {
 							    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
 					            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
 					            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-					            	p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+					            	p.playSound(p.getLocation(), XSound.getSound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 							    }
 							}
 						} else {
@@ -259,7 +291,7 @@ public class FunFeatures implements Listener {
 						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
 				            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
 				            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-				            	p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+				            	p.playSound(p.getLocation(), XSound.getSound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 						    }
 						}
 						
@@ -291,7 +323,7 @@ public class FunFeatures implements Listener {
 						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
 				            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
 				            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-				            	p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+				            	p.playSound(p.getLocation(), XSound.getSound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 						    }
 						}
 					} else {
@@ -318,7 +350,7 @@ public class FunFeatures implements Listener {
 					    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
 			            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
 			            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-			            	p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+			            	p.playSound(p.getLocation(), XSound.getSound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 					    }
 					}
 				}
@@ -329,8 +361,8 @@ public class FunFeatures implements Listener {
 		public void onLPmethod(Player p) {
 			Main.getInstance();
 			try {
-				Material block = XMaterial.matchXMaterial(ConfigGLP.getConfig().getString("JumpPads.Options.Block")).parseMaterial();
-				Material plate = XMaterial.matchXMaterial(ConfigGLP.getConfig().getString("JumpPads.Options.Plate")).parseMaterial();
+				Material block = XMaterial.getMat(ConfigGLP.getConfig().getString("JumpPads.Options.Block"), "JumpPads.Options.Block");
+				Material plate = XMaterial.getMat(ConfigGLP.getConfig().getString("JumpPads.Options.Plate"), "JumpPads.Options.Plate");
 				
 				if ((p.getLocation().getBlock().getType() == plate) && (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() == block)) {
 					
@@ -346,9 +378,9 @@ public class FunFeatures implements Listener {
 
 						}, 20);
 						
-						if (ConfigMEvents.getConfig().getBoolean("LaunchPad.Cant-Use-Cooldown.Enable")) {
-							for (String s: ConfigMEvents.getConfig().getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
-								MessageUtils.ReplaceCharMessagePlayer(s, p);
+						if (ConfigMMsg.getConfig().getBoolean("LaunchPad.Cant-Use-Cooldown.Enable")) {
+							for (String s: ConfigMMsg.getConfig().getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
+								ConfigEventUtils.ExecuteEvent(p, s, "", "", false);
 							}
 						}
 						
@@ -366,10 +398,10 @@ public class FunFeatures implements Listener {
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
 						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
 							for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-								all.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+								all.playSound(p.getLocation(), XSound.getSound(sound, "JumpPads.Sounds.Sound"), volume, pitch);
 							}
 						} else {
-							p.playSound(p.getLocation(), XSound.matchXSound(sound).parseSound(), volume, pitch);
+							p.playSound(p.getLocation(), XSound.getSound(sound, "JumpPads.Sounds.Sound"), volume, pitch);
 						}
 					}
 					
@@ -381,7 +413,7 @@ public class FunFeatures implements Listener {
 					}
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Send-Message.Enable")) {
 						for (String s: ConfigGLP.getConfig().getStringList("JumpPads.Send-Message.Messages")) {
-							MessageUtils.ReplaceCharMessagePlayer(s, p);
+							ConfigEventUtils.ExecuteEvent(p, s, "", "", false);
 						}
 					}
 					

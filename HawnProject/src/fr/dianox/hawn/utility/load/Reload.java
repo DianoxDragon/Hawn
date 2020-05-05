@@ -10,20 +10,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.features.FlyCommand;
+import fr.dianox.hawn.commands.FlyCommand;
 import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnJoin;
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
-import fr.dianox.hawn.utility.CheckConfig;
-import fr.dianox.hawn.utility.EmojiesUtility;
 import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.CommandAliasesConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.ConfigSpawn;
+import fr.dianox.hawn.utility.config.ConfigWorldGeneral;
 import fr.dianox.hawn.utility.config.CustomCommandConfig;
 import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.ScoreboardMainConfig;
@@ -32,6 +32,7 @@ import fr.dianox.hawn.utility.config.WarpListConfig;
 import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
+import fr.dianox.hawn.utility.config.commands.BurnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
@@ -44,10 +45,12 @@ import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ExpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
+import fr.dianox.hawn.utility.config.commands.FlySpeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GetPosCommandConfig;
 import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HatCommandConfig;
+import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
 import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
@@ -61,7 +64,9 @@ import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
 import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
 import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
 import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SkullCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.commands.SpeedCommandConfig;
 import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
 import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
 import fr.dianox.hawn.utility.config.commands.TwoCommandConfig;
@@ -69,12 +74,17 @@ import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
 import fr.dianox.hawn.utility.config.commands.WeatherTimeCommandConfig;
+import fr.dianox.hawn.utility.config.commands.WorkBenchCommandConfig;
+import fr.dianox.hawn.utility.config.commands.WorldCommandConfig;
 import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
+import fr.dianox.hawn.utility.config.cosmeticsfun.EmojisListCUtility;
 import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
+import fr.dianox.hawn.utility.config.cosmeticsfun.SignListCUtility;
 import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.events.CommandEventConfig;
@@ -88,16 +98,12 @@ import fr.dianox.hawn.utility.config.events.PlayerWorldChangeConfigE;
 import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
 import fr.dianox.hawn.utility.config.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.events.WorldEventConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMCommands;
-import fr.dianox.hawn.utility.config.messages.ConfigMEvents;
+import fr.dianox.hawn.utility.config.messages.AdminPanelConfig;
+
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.messages.ConfigMOStuff;
-import fr.dianox.hawn.utility.config.messages.ConfigMPlayerOption;
-import fr.dianox.hawn.utility.config.messages.ConfigMProtection;
-import fr.dianox.hawn.utility.config.messages.administration.AdminPanelConfig;
-import fr.dianox.hawn.utility.config.messages.administration.ErrorConfigAM;
-import fr.dianox.hawn.utility.config.messages.administration.OtherAMConfig;
-import fr.dianox.hawn.utility.config.messages.administration.SpawnMConfig;
+import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
+import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
 import fr.dianox.hawn.utility.tab.AnimationTabTask;
 import fr.dianox.hawn.utility.tab.MainTablist;
@@ -116,14 +122,14 @@ public class Reload {
 		ConfigSpawn.reloadConfig();
 		ConfigGeneral.reloadConfig();
 		ConfigMGeneral.reloadConfig();
-		ConfigMEvents.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		VoidTPConfig.reloadConfig();
 		ConfigGProtection.reloadConfig();
-		ConfigMProtection.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		ProtectionPlayerConfig.reloadConfig();
 		OtherFeaturesConfig.reloadConfig();
 		WorldEventConfig.reloadConfig();
-		ConfigMOStuff.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		HelpCommandConfig.reloadConfig();
 		PlayerEventsConfig.reloadConfig();
 		ConfigGCos.reloadConfig();
@@ -131,7 +137,7 @@ public class Reload {
 		CommandEventConfig.reloadConfig();
 		ConfigGLP.reloadConfig();
 		ClearChatCommandConfig.reloadConfig();
-		ConfigMCommands.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		SpawnCommandConfig.reloadConfig();
 		MuteChatCommandConfig.reloadConfig();
 		PingCommandConfig.reloadConfig();
@@ -158,11 +164,11 @@ public class Reload {
 		ScoreboardCommandConfig.reloadConfig();
 		GamemodeCommandConfig.reloadConfig();
 		SpecialCjiHidePlayers.reloadConfig();
-		ConfigMPlayerOption.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		OptionPlayerConfigCommand.reloadConfig();
-		ErrorConfigAM.reloadConfig();
-		OtherAMConfig.reloadConfig();
-		SpawnMConfig.reloadConfig();
+		ConfigMAdmin.reloadConfig();
+		ConfigMAdmin.reloadConfig();
+		ConfigMMsg.reloadConfig();
 		TablistConfig.reloadConfig();
 		CommandAliasesConfig.reloadConfig();
 		WarningCommandConfig.reloadConfig();
@@ -192,6 +198,18 @@ public class Reload {
 		TwoCommandConfig.reloadConfig();
 		CopyCommandConfig.reloadConfig();
 		PasteCommandConfig.reloadConfig();
+		EmojisListCUtility.reloadConfig();
+		HawnCommandConfig.reloadConfig();
+		WorkBenchCommandConfig.reloadConfig();
+		SkullCommandConfig.reloadConfig();
+		BurnCommandConfig.reloadConfig();
+		FlySpeedCommandConfig.reloadConfig();
+		SpeedCommandConfig.reloadConfig();
+		SpecialCjiFunGun.reloadConfig();
+		WorldCommandConfig.reloadConfig();
+		ConfigWorldGeneral.reloadConfig();
+		WorldManagerPanelConfig.reloadConfig();
+		SignListCUtility.reloadConfig();
 	}
 	
 	public static void reloadconfig() {
@@ -200,7 +218,7 @@ public class Reload {
 		WorldList.clearworldlist();
 		WorldList.setworldlist();
 		
-		EmojiesUtility.setaliaseslist();
+		ChatEmojisLoad.onLoad();
 		
 		Main.UpdateCheckReload();
 		
@@ -402,6 +420,7 @@ public class Reload {
 	    }
 		
 		FunFeatures.incooldownjumppads.clear();
+		Main.avoidtitles.clear();
 		
 		if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
 	    	Main.getInstance().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
@@ -525,16 +544,14 @@ public class Reload {
 		
 			Main.tablistnumber = tablistmain.getTaskId();
 		}
-    	
-		CheckConfig.warnhawnreload();
-		
+    			
 		Main.block_exception_break.clear();
 		Main.block_exception_place.clear();
 	    
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
 	    		try {
-	    			Main.block_exception_place.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    			Main.block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
 	    		} catch (Exception e) {}
 	    	}
 	    }
@@ -542,7 +559,7 @@ public class Reload {
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
 	    		try {
-	    			Main.block_exception_break.add(XMaterial.matchXMaterial(str).parseMaterial());
+	    			Main.block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
 	    		} catch (Exception e) {}
 	    	}
 	    }

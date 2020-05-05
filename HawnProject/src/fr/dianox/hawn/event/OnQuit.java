@@ -10,8 +10,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
-import fr.dianox.hawn.commands.features.FlyCommand;
-import fr.dianox.hawn.commands.features.VanishCommand;
+import fr.dianox.hawn.commands.FlyCommand;
+import fr.dianox.hawn.commands.VanishCommand;
 import fr.dianox.hawn.event.onquite.OQMessages;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;

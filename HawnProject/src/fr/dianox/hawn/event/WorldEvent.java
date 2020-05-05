@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
@@ -24,6 +25,20 @@ public class WorldEvent implements Listener {
 
     String path_wg = "";
 
+    //Disable Thunder
+    @EventHandler
+    public void EntityPortal(EntityPortalEvent e) {
+        if (WorldEventConfig.getConfig().getBoolean("DenyEntityTravelPortal.Enable")) {
+            if (!WorldEventConfig.getConfig().getBoolean("DenyEntityTravelPortal.World.All_World")) {
+                if (WorldPW.getPreventionEtityPortal().contains(e.getEntity().getWorld().getName())) {
+                    e.setCancelled(true);
+                }
+            } else {
+                e.setCancelled(true);
+            }
+        }
+    }
+    
     // Disable Weather
     @EventHandler
     public void WeatherDisable(WeatherChangeEvent e) {

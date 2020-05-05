@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -21,17 +20,15 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.modules.admin.EditPlayerGui;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.ServerListConfig;
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMOStuff;
-import fr.dianox.hawn.utility.config.messages.administration.ErrorConfigAM;
-import fr.dianox.hawn.utility.config.messages.administration.InfoServerOverviewC;
-import fr.dianox.hawn.utility.config.messages.administration.OtherAMConfig;
+import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.load.Reload;
 import fr.dianox.hawn.utility.tasks.TaskNoClipCommand;
 
@@ -53,27 +50,27 @@ public class HawnCommand implements CommandExecutor {
 						try {
 							int i = Integer.parseInt(args[1]);
 							
-							if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+							if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + i)) {
 								sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
 								sender.sendMessage("");
 								sender.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
 								sender.sendMessage("");
 								
-								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
-									MessageUtils.ReplaceMessageForConsole(msg);
+								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+									MessageUtils.ConsoleMessages(msg);
 								}
 								
-								if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									sender.sendMessage("");
 									sender.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
 									sender.sendMessage("");
 									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-								} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								} else if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									sender.sendMessage("");
 									sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
 									sender.sendMessage("");
 									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-								} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								} else if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									sender.sendMessage("");
 									sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
 								} else {
@@ -87,9 +84,9 @@ public class HawnCommand implements CommandExecutor {
 							}
 							
 						} catch (NumberFormatException e) {
-							if (ConfigMOStuff.getConfig().getBoolean("Error.Use-Number.Enable")) {
-								for (String msg: ConfigMOStuff.getConfig().getStringList("Error.Use-Number.Messages")) {
-									MessageUtils.ReplaceMessageForConsole(msg);
+							if (ConfigMMsg.getConfig().getBoolean("Error.Use-Number.Enable")) {
+								for (String msg: ConfigMMsg.getConfig().getStringList("Error.Use-Number.Messages")) {
+									MessageUtils.ConsoleMessages(msg);
 								}
 							}
 						}
@@ -97,14 +94,14 @@ public class HawnCommand implements CommandExecutor {
 						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 					}
 				} else if (args[0].equalsIgnoreCase("urgent")) {
-					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 						
-						ServerListConfig.getConfig().set("Urgent-mode.Enable", false);
+						HawnCommandConfig.getConfig().set("Urgent-mode.Enable", false);
 						
-						ServerListConfig.saveConfigFile();
+						HawnCommandConfig.saveConfigFile();
 						
-						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+						if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
 							
 							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 								
@@ -117,34 +114,34 @@ public class HawnCommand implements CommandExecutor {
 								}
 							}
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Off")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Off")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.Off")) {
-							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.Off")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
 					} else {
-						ServerListConfig.getConfig().set("Urgent-mode.Enable", true);
+						HawnCommandConfig.getConfig().set("Urgent-mode.Enable", true);
 						
-						ServerListConfig.saveConfigFile();
+						HawnCommandConfig.saveConfigFile();
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.On")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.On")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
-						List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+						List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
 						
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
-								String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+								String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
 								message = message.replaceAll("&", "§");
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
@@ -154,8 +151,8 @@ public class HawnCommand implements CommandExecutor {
 						
 						Zip(false, null);
 						
-						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+						if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
 							
 							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 								
@@ -168,37 +165,37 @@ public class HawnCommand implements CommandExecutor {
 								}
 							}
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder")) {
 					if (args.length == 1) {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 					} else if (args.length == 2) {
 						String msg = PlaceHolders.ReplaceMainplaceholderC(args[1]);
 						
-						MessageUtils.ReplaceMessageForConsole(msg);
+						MessageUtils.ConsoleMessages(msg);
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
 						// If no argument has been put in the command
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 					} else if (args.length == 2) {
 						// If the warp does not exist
 						if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[1]+".World")) {
-							for (String msg: ErrorConfigAM.getConfig().getStringList("Error.No-Spawn")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Error.No-Spawn")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 								
 							return true;
@@ -216,18 +213,18 @@ public class HawnCommand implements CommandExecutor {
 			                
 						ConfigSpawn.saveConfigFile();
 						
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-							MessageUtils.ReplaceMessageForConsole(msg.replaceAll("%spawn%", args[1]));
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+							MessageUtils.ConsoleMessages(msg.replaceAll("%spawn%", args[1]));
 						}
 						
 					} else {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Delspawn")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Delspawn")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("setspawn")) {
-					for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Console.Not-A-Player")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Console.Not-A-Player")) {
+						MessageUtils.ConsoleMessages(msg);
 					}
 				} else if (args[0].equalsIgnoreCase("about")) {
 					sender.sendMessage("§8§l§m-----------------------------");
@@ -239,13 +236,13 @@ public class HawnCommand implements CommandExecutor {
 				} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
 					Reload.reloadconfig();
 						
-					for (String msg: OtherAMConfig.getConfig().getStringList("Command.Reload")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Reload")) {
+						MessageUtils.ConsoleMessages(msg);
 					}
 					// Versions
 				} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v") || args[0].equalsIgnoreCase("ver")) {
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+						MessageUtils.ConsoleMessages(msg);
 					}
 					// Server info
 				} else if (args[0].equalsIgnoreCase("donor") || args[0].equalsIgnoreCase("donors")) {
@@ -254,33 +251,33 @@ public class HawnCommand implements CommandExecutor {
 					sender.sendMessage("§7IgnaZ117: §e25 € §cThank you a lot §4<3§c The second donor OMG");
 					sender.sendMessage("§8§l§m-----------------------------");
 				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
-					if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
-						ServerListConfig.getConfig().set("Maintenance.Enable", false);
+					if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")) {
+						HawnCommandConfig.getConfig().set("Maintenance.Enable", false);
 						
-						ServerListConfig.saveConfigFile();
+						HawnCommandConfig.saveConfigFile();
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Off")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 					} else {
-						ServerListConfig.getConfig().set("Maintenance.Enable", true);
+						HawnCommandConfig.getConfig().set("Maintenance.Enable", true);
 						
-						ServerListConfig.saveConfigFile();
+						HawnCommandConfig.saveConfigFile();
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.On")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
-						List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+						List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
 						
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
-								String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+								String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
 								message = message.replaceAll("&", "§");
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
@@ -288,50 +285,50 @@ public class HawnCommand implements CommandExecutor {
 							}
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
-							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("info")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("memory")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Memory")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Memory")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("cpu") || args[1].equalsIgnoreCase("processor")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.CPU")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.CPU")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("disk") || args[1].equalsIgnoreCase("HDD") || args[1].equalsIgnoreCase("SDD")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Disk")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Disk")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("tps")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("server")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Server")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Server")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else if (args[1].equalsIgnoreCase("version") || args[1].equalsIgnoreCase("v") || args[1].equalsIgnoreCase("ver")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} 
 					} else {
-						for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("tps")) {
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-						MessageUtils.ReplaceMessageForConsole(msg);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+						MessageUtils.ConsoleMessages(msg);
 					}
 				} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
 					sender.sendMessage("");
@@ -361,27 +358,27 @@ public class HawnCommand implements CommandExecutor {
 					try {
 						int i = Integer.parseInt(args[0]);
 						
-						if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+						if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + i)) {
 							sender.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
 							sender.sendMessage("");
 							sender.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
 							sender.sendMessage("");
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+								MessageUtils.ConsoleMessages(msg);
 							}
 							
-							if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								sender.sendMessage("");
 								sender.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
 								sender.sendMessage("");
 								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-							} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							} else if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								sender.sendMessage("");
 								sender.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
 								sender.sendMessage("");
 								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-							} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							} else if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								sender.sendMessage("");
 								sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
 							} else {
@@ -395,8 +392,8 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 					} catch (NumberFormatException e) {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Hawn")) {
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 				}
@@ -424,27 +421,27 @@ public class HawnCommand implements CommandExecutor {
 						try {
 							int i = Integer.parseInt(args[1]);
 							
-							if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+							if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + i)) {
 								p.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
 								p.sendMessage("");
 								p.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
 								p.sendMessage("");
 								
-								for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
-									MessageUtils.ReplaceCharMessagePlayer(msg, p);
+								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 								
-								if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									p.sendMessage("");
 									p.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
 									p.sendMessage("");
 									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-								} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								} else if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									p.sendMessage("");
 									p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
 									p.sendMessage("");
 									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-								} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+								} else if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 									p.sendMessage("");
 									p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
 								} else {
@@ -465,13 +462,13 @@ public class HawnCommand implements CommandExecutor {
 					}
 				} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder")) {
 					if (args.length == 1) {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					} else if (args.length == 2) {
 						String msg = PlaceHolders.ReplaceMainplaceholderP(args[1], p);
 						
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[0].equalsIgnoreCase("nv") || args[0].equalsIgnoreCase("nightvision")) {
 					
@@ -483,10 +480,9 @@ public class HawnCommand implements CommandExecutor {
 					
 					p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1999999999, 1));
 					
-					for (String msg: OtherAMConfig.getConfig().getStringList("Command.NightVision")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
-					
 				} else if (args[0].equalsIgnoreCase("noclip")) {
 					
 					if (!p.hasPermission("hawn.admin.command.noclip") && !p.hasPermission("hawn.admin.*")) {
@@ -498,8 +494,8 @@ public class HawnCommand implements CommandExecutor {
 					if (noclip.contains(p)) {
 						noclip.remove(p);
 					} else {
-						for (String msg: OtherAMConfig.getConfig().getStringList("Command.No-Clip.Enable")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.No-Clip.Enable")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 						
 						noclip.add(p);
@@ -510,14 +506,14 @@ public class HawnCommand implements CommandExecutor {
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
 					if (args.length == 1) {
 						// If no argument has been put in the command
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Argument-Missing")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					} else if (args.length == 2) {
 						// If the spawn does not exist
 						if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[1]+".World")) {
-							for (String msg: ErrorConfigAM.getConfig().getStringList("Error.No-Spawn")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Error.No-Spawn")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 							
 							return true;
@@ -535,13 +531,13 @@ public class HawnCommand implements CommandExecutor {
 			                
 						ConfigSpawn.saveConfigFile();
 						
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg.replaceAll("%spawn%", args[1]), p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+							ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawn%", args[1]), "", "", false);
 						}
 						
 					} else {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Delspawn")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Delspawn")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("setspawn")) {
@@ -607,9 +603,10 @@ public class HawnCommand implements CommandExecutor {
 					return true;
 				} else if (args[0].equalsIgnoreCase("urgent")) {
 					
-					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-							MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Hawn")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 						
 						return true;
@@ -621,35 +618,35 @@ public class HawnCommand implements CommandExecutor {
 						return true;
 					}
 					
-					List<String> whitelistuse = ServerListConfig.getConfig().getStringList("Urgent-mode.Can-Use-Urgent-Mode");
+					List<String> whitelistuse = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Can-Use-Urgent-Mode");
 					
 					if (!whitelistuse.contains(p.getName())) {
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Error-cant-use-the-command")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-cant-use-the-command")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 						
 						return true;
 					}
 					
-					if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Error-Disable")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-Disable")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					} else {
-						ServerListConfig.getConfig().set("Urgent-mode.Enable", true);
+						HawnCommandConfig.getConfig().set("Urgent-mode.Enable", true);
 						
-						ServerListConfig.saveConfigFile();
+						HawnCommandConfig.saveConfigFile();
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.On")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.On")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 						
-						List<String> whitelist = ServerListConfig.getConfig().getStringList("Urgent-mode.whitelist");
+						List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
 						
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
-								String message = ServerListConfig.getConfig().getString("Urgent-mode.Kick-Message");
+								String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
 								message = message.replaceAll("&", "§");
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
@@ -659,8 +656,8 @@ public class HawnCommand implements CommandExecutor {
 						
 						Zip(true, p);
 						
-						if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-							List<String> plugincheck = ServerListConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
+						if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
+							List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
 							
 							for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
 								
@@ -673,15 +670,15 @@ public class HawnCommand implements CommandExecutor {
 								}
 							}
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+								MessageUtils.ConsoleMessages(msg);
 							}
 						}
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-							MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-							MessageUtils.ReplaceMessageForConsole(msg);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							MessageUtils.ConsoleMessages(msg);
 						}
 					}
 					
@@ -694,8 +691,8 @@ public class HawnCommand implements CommandExecutor {
 					
 					Reload.reloadconfig();
 					
-					for (String msg: OtherAMConfig.getConfig().getStringList("Command.Reload")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Reload")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 					// Server info
 				} else if (args[0].equalsIgnoreCase("slotview") || args[0].equalsIgnoreCase("sv")) {
@@ -707,15 +704,32 @@ public class HawnCommand implements CommandExecutor {
 					
 					if (slotview.contains(p)) {
 						slotview.remove(p);
-						for (String msg: OtherAMConfig.getConfig().getStringList("Command.SlotView.Off")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.SlotView.Off")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					} else {
 						slotview.add(p);
-						for (String msg: OtherAMConfig.getConfig().getStringList("Command.SlotView.On")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.SlotView.On")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
+					
+				} else if (args[0].equalsIgnoreCase("editplayer")) {
+					
+					if (!p.hasPermission("hawn.editplayer") && !p.hasPermission("hawn.admin.*")) {
+						MessageUtils.MessageNoPermission(p, "hawn.editplayer");
+						
+						return true;
+					}
+					
+					Player target = Bukkit.getServer().getPlayer(args[1]);
+
+					if (target == null) {
+						MessageUtils.PlayerDoesntExist(p);
+						return true;
+					}
+					
+					EditPlayerGui.OpenGui(target);
 					
 				} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
 					if (!p.hasPermission("hawn.admin.command.hooks") || !p.hasPermission("hawn.admin.*")) {
@@ -757,37 +771,37 @@ public class HawnCommand implements CommandExecutor {
 					
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("memory")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Memory")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Memory")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("cpu") || args[1].equalsIgnoreCase("processor")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.CPU")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.CPU")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("disk") || args[1].equalsIgnoreCase("HDD") || args[1].equalsIgnoreCase("SDD")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Disk")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Disk")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("tps")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("server")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Server")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Server")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} else if (args[1].equalsIgnoreCase("version") || args[1].equalsIgnoreCase("v") || args[1].equalsIgnoreCase("ver")) {
-							for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						} 
 					} else {
-						for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.General")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 					// Version
@@ -798,8 +812,8 @@ public class HawnCommand implements CommandExecutor {
 						return true;
 					}
 					
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Version")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[0].equalsIgnoreCase("about")) {
 					p.sendMessage("§8§l§m-----------------------------");
@@ -820,9 +834,11 @@ public class HawnCommand implements CommandExecutor {
 						return true;
 					}
 					
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("Command.Server-Info.Tps")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, p);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
+				} else if (args[0].equalsIgnoreCase("glow")) {
+					// TODO
 				} else if (args[0].equalsIgnoreCase("build")) {
 					if (!p.hasPermission("hawn.admin.command.bypassbuild") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.bypassbuild");
@@ -833,45 +849,45 @@ public class HawnCommand implements CommandExecutor {
 					if (Main.buildbypasscommand.contains(p)) {
 						Main.buildbypasscommand.remove(p);
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.Off")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					} else {
 						Main.buildbypasscommand.add(p);
 						
-						for (String msg: OtherAMConfig.getConfig().getStringList("Command.Build-Bypass.On")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 				} else if (args[0].equalsIgnoreCase("m") || args[0].equalsIgnoreCase("maintenance")) {
 					if (p.hasPermission("hawn.admin.command.maintenance") || p.hasPermission("hawn.admin.*")) {
-						if (ServerListConfig.getConfig().getBoolean("Maintenance.Enable")) {
-							ServerListConfig.getConfig().set("Maintenance.Enable", false);
+						if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")) {
+							HawnCommandConfig.getConfig().set("Maintenance.Enable", false);
 							
-							ServerListConfig.saveConfigFile();
+							HawnCommandConfig.saveConfigFile();
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Off")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Off")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+								MessageUtils.ConsoleMessages(msg);
 							}
 						} else {
-							ServerListConfig.getConfig().set("Maintenance.Enable", true);
+							HawnCommandConfig.getConfig().set("Maintenance.Enable", true);
 							
-							ServerListConfig.saveConfigFile();
+							HawnCommandConfig.saveConfigFile();
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.On")) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.On")) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 							
-							List<String> whitelist = ServerListConfig.getConfig().getStringList("Maintenance.whitelist");
+							List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
 							
 							for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 								if (!whitelist.contains(ps.getName())) {
-									String message = ServerListConfig.getConfig().getString("Maintenance.Kick-Message");
+									String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
 									message = message.replaceAll("&", "§");
 									message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 									
@@ -879,15 +895,15 @@ public class HawnCommand implements CommandExecutor {
 								}
 							}
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Maintenance.Broadcast.On")) {
-								MessageUtils.ReplaceCharBroadcastNoPlayer(msg);
-								MessageUtils.ReplaceMessageForConsole(msg);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+								MessageUtils.ConsoleMessages(msg);
 							}
 						}
 					} else {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.maintenance");
 					}
-				} else if (args[0].equalsIgnoreCase("debug")) {
+				/*} else if (args[0].equalsIgnoreCase("debug")) {
 					if (args.length == 2) {
 						if (args[1].equalsIgnoreCase("emoji") || args[1].equalsIgnoreCase("emojis")) {
 							Iterator < ? > iterator = OnChatConfig.getConfig().getConfigurationSection("Chat-Emoji-Player.Emojis-list").getKeys(false).iterator();
@@ -897,39 +913,40 @@ public class HawnCommand implements CommandExecutor {
 			                    
 			                    if (!string.equalsIgnoreCase("Option")) {
 				                    try {
-				                    	p.sendMessage(String.valueOf("§b"+string +"§7: §e"+XMaterial.matchXMaterial(OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list." + string + ".Gui.Material")).parseMaterial()));
+				                    	String newmat = String.valueOf(XMaterial.matchXMaterial(OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list." + string + ".Gui.Material")));
+				                    	p.sendMessage(String.valueOf("§b"+string +"§7: §e" + newmat));
 				                    } catch (Exception e) {
 										p.sendMessage("§b"+string +"§7: §cnull");
 									}
 			                    }
 							}
 						}
-					}
+					}*/
 				} else {
 					try {
 						int i = Integer.parseInt(args[0]);
 						
-						if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + i)) {
+						if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + i)) {
 							p.sendMessage("§8//§7§m---------------§r§8\\\\ §3[§bHawn§3] §8//§7§m---------------§r§8\\\\");
 							p.sendMessage("");
 							p.sendMessage("     §l>> §e§o§lGlobal Help (Page "+i+")");
 							p.sendMessage("");
 							
-							for (String msg: OtherAMConfig.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
-								MessageUtils.ReplaceCharMessagePlayer(msg, p);
+							for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Hawn-Main-help." + i)) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 							
-							if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								p.sendMessage("");
 								p.sendMessage("   §l>> §e§o§lPage "+(i + 1)+" >> /hawn help " + (i + 1));
 								p.sendMessage("");
 								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-							} else if (OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							} else if (ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								p.sendMessage("");
 								p.sendMessage("   §l>> §e§o§l/hawn help "+(i - 1)+" << Page "+(i - 1));
 								p.sendMessage("");
 								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
-							} else if (!OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !OtherAMConfig.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
+							} else if (!ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i - 1)) && !ConfigMAdmin.getConfig().isSet("Command.Hawn-Main-help." + (i + 1))) {
 								p.sendMessage("");
 								p.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
 							} else {
@@ -943,8 +960,8 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 					} catch (NumberFormatException e) {
-						for (String msg: ErrorConfigAM.getConfig().getStringList("Error.Command.Hawn")) {
-							MessageUtils.ReplaceCharMessagePlayer(msg, p);
+						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Hawn")) {
+							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
 				}
@@ -1009,11 +1026,12 @@ public class HawnCommand implements CommandExecutor {
 		
 		fileList.clear();
 		
-		for (String msg: OtherAMConfig.getConfig().getStringList("Urgent-mode.Zip")) {
+		for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Zip")) {
 			if (b) {
-				MessageUtils.ReplaceCharBroadcastPlayer(msg, p);
+				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+				MessageUtils.ConsoleMessages(msg);
 			}
-			MessageUtils.ReplaceMessageForConsole(msg);
+			MessageUtils.ConsoleMessages(msg);
 		}
 	}
 	

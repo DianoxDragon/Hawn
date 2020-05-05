@@ -55,9 +55,9 @@ public class ConfigGJoinQuitCommand {
             } catch (IOException e) {}
 
             Config.set("JoinCommand.Enable", true);
-            Config.set("JoinCommand.Options.New.Enable", true);
+            Config.set("JoinCommand.Options.New.Enable", false);
             Config.set("JoinCommand.Options.New.Commands",java.util.Arrays.asList(new String[] {
-            		"commands for new player!"
+            		"This message is sent from the JoinQuitCommand module."
             }));
             Config.set("JoinCommand.Options.New.World.All_World", false);
             Config.set("JoinCommand.Options.New.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -67,10 +67,12 @@ public class ConfigGJoinQuitCommand {
             
             Config.set("JoinCommand.Options.No-New.Enable", true);
             Config.set("JoinCommand.Options.No-New.Commands",java.util.Arrays.asList(new String[] {
-            		"<world>world</world> <perm>serer</perm> [command-player]: spawn",
+            		"-----------------------------------------------------",
+            		"&7&lThese messages are sent from the JoinQuitCommand module \\/\\/\\/",
+            		"<world>world</world> <perm>serer</perm> [command-player]: test",
                     "[ping]",
-                    "send a message",
-                    "[command-player]: or just execute a command"
+                    "You can configurate as you want this part",
+                    "-----------------------------------------------------"
             }));
             Config.set("JoinCommand.Options.No-New.World.All_World", false);
             Config.set("JoinCommand.Options.No-New.World.Worlds", java.util.Arrays.asList(new String[] {

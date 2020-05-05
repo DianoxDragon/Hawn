@@ -60,6 +60,7 @@ public class PlayerOptionMainConfig {
             Config.set("Keep.Vanish-On-Join.Enable", false);
             Config.set("Keep.PlayerVisibility-OnJoin.Enable", false);
             Config.set("Keep.Speed-OnJoin.Enable", false);
+            Config.set("Keep.FlySpeed-OnJoin.Enable", false);
             Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
             Config.set("Keep.JumpBoost-OnJoin.Enable", false);
             Config.set("TP.Last-Position-On-Join.Enable", false);

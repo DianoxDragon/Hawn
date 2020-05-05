@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.commands.HawnCommand;
-import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.messages.administration.OtherAMConfig;
+import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 
 public class TaskNoClipCommand extends BukkitRunnable {
 
@@ -48,8 +48,8 @@ public class TaskNoClipCommand extends BukkitRunnable {
 			HawnCommand.noclip.remove(p);
 			
 			if (p.isOnline()) {
-				for (String msg: OtherAMConfig.getConfig().getStringList("Command.No-Clip.Disable")) {
-					MessageUtils.ReplaceCharMessagePlayer(msg, p);
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.No-Clip.Disable")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "Command.No-Clip.Disable", "TaskNoClipCommand", false);
 				}
 				
 				if (p.getGameMode() == GameMode.ADVENTURE) {

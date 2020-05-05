@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.messages.administration.InfoServerOverviewC;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 
 public class WarnTPS {
 	
@@ -38,8 +38,8 @@ static final int[] warnSystem = new int[1];
 		public static void onPrevient() {
 			for (Player player: Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission("hawn.event.warn.tps")) {
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("TPS.Check.15")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, player);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("TPS.Check.15")) {
+						ConfigEventUtils.ExecuteEvent(player, msg, "TPS.Check.15", "WarnTPS", false);
 					}
 				}
 			}
@@ -48,8 +48,8 @@ static final int[] warnSystem = new int[1];
 		public static void onCritique() {
 			for (Player player: Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission("hawn.event.warn.tps")) {
-					for (String msg: InfoServerOverviewC.getConfig().getStringList("TPS.Check.5")) {
-						MessageUtils.ReplaceCharMessagePlayer(msg, player);
+					for (String msg: ConfigMAdmin.getConfig().getStringList("TPS.Check.5")) {
+						ConfigEventUtils.ExecuteEvent(player, msg, "TPS.Check.5", "WarnTPS", false);
 					}
 				}
 			}

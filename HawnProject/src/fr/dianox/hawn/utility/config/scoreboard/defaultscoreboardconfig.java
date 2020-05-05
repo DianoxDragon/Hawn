@@ -84,7 +84,7 @@ public class defaultscoreboardconfig {
             
             Config.set("text", java.util.Arrays.asList(new String[] {
             		" ",
-            		"&7Welcome &e{PLAYER}",
+            		"&7Welcome &e%player%",
             		" ",
             		"{CH_infoloc}",
             		"{CH_infoloc2}",
