@@ -248,7 +248,7 @@ public class OnJoinConfig {
             Config.set("Boss-Bar.First-Join.Color", "BLUE");
             Config.set("Boss-Bar.First-Join.Style", "SEGMENTED_10");
             Config.set("Boss-Bar.First-Join.Progress", 1D);
-            Config.set("Boss-Bar.First-Join.Time.Keep-Bar", true);
+            Config.set("Boss-Bar.First-Join.Time.Keep-Bar", false);
             Config.set("Boss-Bar.First-Join.Time.If-not.Time-Stay", 150);
             Config.set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Enable", true);
             Config.set("Boss-Bar.First-Join.Time.If-not.Swith-To-OnJoin-BossBar.Keep-The-BossBar", false);
@@ -258,7 +258,7 @@ public class OnJoinConfig {
             Config.set("Boss-Bar.Join.Color", "PURPLE");
             Config.set("Boss-Bar.Join.Style", "SOLID");
             Config.set("Boss-Bar.Join.Progress", 0.7D);
-            Config.set("Boss-Bar.Join.Time.Keep-Bar", true);
+            Config.set("Boss-Bar.Join.Time.Keep-Bar", false);
             Config.set("Boss-Bar.Join.Time.If-not.Time-Stay", 150);
             
             Config.set("Boss-Bar.World.All_World", false);

@@ -26,6 +26,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.config.ConfigGeneral;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 import java.lang.reflect.Constructor;
 
@@ -83,6 +85,15 @@ public class Titles {
 	    
 	    try {
 	      if (title != null) {
+	    	  title = PlaceHolders.ReplaceMainplaceholderP(title, player);
+				
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+	    		  title = PlaceholderAPI.setPlaceholders(player, title);
+	    	  }
+				
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+	    		  title = PlaceHolders.BattleLevelPO(title, player);
+	    	  }
 	        title = ChatColor.translateAlternateColorCodes('&', title);
 	        title = title.replaceAll("%player%", player.getDisplayName());
 	        Object e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TIMES").get(null);
@@ -97,6 +108,15 @@ public class Titles {
 	        sendPacket(player, titlePacket);
 	      } 
 	      if (subtitle != null) {
+	    	  subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, player);
+				
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+	    		  subtitle = PlaceholderAPI.setPlaceholders(player, subtitle);
+	    	  }
+				
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+	    		  subtitle = PlaceHolders.BattleLevelPO(subtitle, player);
+	    	  }
 	        subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
 	        subtitle = subtitle.replaceAll("%player%", player.getDisplayName());
 	        Object e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TIMES").get(null);

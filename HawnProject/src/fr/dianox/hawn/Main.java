@@ -93,10 +93,6 @@ import fr.dianox.hawn.commands.specials.worldedit.CopyCommand;
 import fr.dianox.hawn.commands.specials.worldedit.OneCommand;
 import fr.dianox.hawn.commands.specials.worldedit.PasteCommand;
 import fr.dianox.hawn.commands.specials.worldedit.TwoCommand;
-import fr.dianox.hawn.event.AutoBroadcast;
-import fr.dianox.hawn.event.AutoBroadcast_AB;
-import fr.dianox.hawn.event.AutoBroadcast_BossBar;
-import fr.dianox.hawn.event.AutoBroadcast_Title;
 import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
@@ -219,8 +215,9 @@ public class Main extends JavaPlugin implements Listener {
 	
 	private static Main instance;
 	VersionUtils versionUtils = new VersionUtils();
+	AutoBroadcastManager auto;
 	
-	private static String versions = "1.0.0-Beta";
+	private static String versions = "1.0.1-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -311,6 +308,8 @@ public class Main extends JavaPlugin implements Listener {
     
     public static HashMap<ChatColor, Team> glowteam = new HashMap<ChatColor, Team>();
     public static ArrayList<Player> pglowing = new ArrayList<Player>();
+    
+    public static HashMap<String, Integer> tasklist = new HashMap<String, Integer>();
     
     @SuppressWarnings("static-access")
 	@Override
@@ -1745,105 +1744,6 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 	    
 	    /*
-	     * -------------------
-	     *   AUTO BROADCAST
-	     * -------------------
-	     */
-	    // >> Messages
-	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
-	    	
-		    	interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
-	
-		    	Iterator<?> iterator2 = null;
-		    	
-		    	try {
-		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
-		    	} catch (Exception e) {
-		    		iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.Messages").getKeys(false).iterator();
-				}
-			    
-			    Integer abnumberput = 0;
-	
-			    while (iterator2.hasNext()) {
-					String string = (String) iterator2.next();
-					autobroadcast.put(abnumberput, string);
-					abnumberput++;
-					autobroadcast_total++;
-			    }
-	
-			    autobroadcast_total--;
-	
-			    @SuppressWarnings("unused")
-				BukkitTask TaskName = (new AutoBroadcast(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval"));
-	    }
-
-	    // >> Titles
-	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable")) {
-
-	    	interval_titles = AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval");
-
-		    Iterator<?> iterator3 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Titles.messages").getKeys(false).iterator();
-
-		    Integer abnumberput = 0;
-
-		    while (iterator3.hasNext()) {
-				String string = (String) iterator3.next();
-				autobroadcast_titles.put(abnumberput, string);
-				abnumberput++;
-				autobroadcast_total_titles++;
-		    }
-
-		    autobroadcast_total_titles--;
-		    
-		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_Title(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval"));
-	    }
-	    
-	    // >> Action-Bar
-	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable")) {
-
-	    	interval_ab = AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval");
-
-		    Iterator<?> iterator4 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Action-Bar.messages").getKeys(false).iterator();
-
-		    Integer abnumberput = 0;
-
-		    while (iterator4.hasNext()) {
-				String string = (String) iterator4.next();
-				autobroadcast_ab.put(abnumberput, string);
-				abnumberput++;
-				autobroadcast_total_ab++;
-		    }
-
-		    autobroadcast_total_ab--;
-		    
-		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_AB(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval"));
-	    }
-	    
-	    // >> BossBar
-	    if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
-
-	    	interval_bb = AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval");
-
-		    Iterator<?> iterator5 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.BossBar.messages").getKeys(false).iterator();
-
-		    Integer bbnumberput = 0;
-
-		    while (iterator5.hasNext()) {
-				String string = (String) iterator5.next();
-				autobroadcast_bb.put(bbnumberput, string);
-				bbnumberput++;
-				autobroadcast_total_bb++;
-		    }
-
-		    autobroadcast_total_bb--;
-		    
-		    @SuppressWarnings("unused")
-			BukkitTask TaskName = (new AutoBroadcast_BossBar(this)).runTaskTimer(this, 0, AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval"));
-	    }
-	    
-	    /*
 	     * Voidtp per world
 	     */
 	    if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
@@ -1876,6 +1776,9 @@ public class Main extends JavaPlugin implements Listener {
 
 		    motd_total_sl--;
 	    }
+	    
+	    // broadcast
+	    auto = new AutoBroadcastManager();
 	    
 	    /*
 	     * --------------
@@ -2180,6 +2083,10 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public VersionUtils getVersionClass() {
 		return versionUtils;
+	}
+	
+	public AutoBroadcastManager getABManager() {
+		return auto;
 	}
 
 	public static String getVersion() {

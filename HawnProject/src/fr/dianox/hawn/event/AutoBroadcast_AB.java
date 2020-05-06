@@ -34,228 +34,68 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 			
 			msg = String.valueOf(Main.autobroadcast_ab.get(value));
 			
-			String msg2 = AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Message");
-			
-				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Use-Permission-To-Get-Messages")) {
-						if (p.hasPermission("hawn.get.autobroadcast_ab")) {
-							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-							}
-							
-							msg2 = msg2.replaceAll("&", "§");
-							
-							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-								} else {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-								}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-								}
-							} else {
-								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-									} else {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-									}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-									}
-								}
-							}
-						}
-					} else {
-						msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-						
-						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-							msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-						}
-						
-						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-							msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-						}
-						
-						msg2 = msg2.replaceAll("&", "§");
-						
-						if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
-							
-							String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-                        	
-                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-                        		continue;
-                        	}
-							
-							if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-								ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-							} else {
-								ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-							}
-							
-							if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-								p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-							}
-						} else {
-							if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-								} else {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-								}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-								}
-							}
-						}
-					}
-			}
+			SendActionBar(msg);
 		} else {
 			if (Main.curMsg_ab <= Main.autobroadcast_total_ab) {
 				msg = String.valueOf(Main.autobroadcast_ab.get(Main.curMsg_ab));
 				
-				String msg2 = AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Message");
-				
-					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-						if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Use-Permission-To-Get-Messages")) {
-							if (p.hasPermission("hawn.get.autobroadcast_ab")) {
-								msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-								
-								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-									msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-								}
-								
-								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-								}
-								
-								msg2 = msg2.replaceAll("&", "§");
-								
-								if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-									} else {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-									}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-									}
-								} else {
-									if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
-										
-										String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-			                        	
-			                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-			                        		continue;
-			                        	}
-										
-										if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-											ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-										} else {
-											ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-										}
-										
-										if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-											p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-										}
-									}
-								}
-							}
-						} else {
-							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-							}
-							
-							msg2 = msg2.replaceAll("&", "§");
-							
-							if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-								} else {
-									ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-								}
-								
-								if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-								}
-							} else {
-								if (BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
-									} else {
-										ActionBar.sendActionBar(p, msg2, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
-									}
-									
-									if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
-									}
-								}
-							}
-						}
-					}
+				SendActionBar(msg);
 				
 				Main.curMsg_ab++;
 			} else {
 				Main.curMsg_ab = 0;
+			}
+		}
+	}
+	
+	private void SendActionBar(String msg) {
+		String message = AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Message");
+		
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			// Permission
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Use-Permission-To-Get-Messages")) {
+				if (!p.hasPermission("hawn.get.autobroadcast_ab")) {
+					continue;
+				}
+			}
+			
+			// Check want
+			String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+			        	
+			if (!valuepo.equalsIgnoreCase("TRUE")) {
+				continue;
+			}
+			
+			// Check world
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.World.All_World")) {
+				if (!BasicEventsPW.getAutoBroadcast_ab().contains(p.getWorld().getName())) {
+					continue;
+				}
+			}
+			
+			// Event
+			// >> Format
+			message = PlaceHolders.ReplaceMainplaceholderP(message, p);
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				message = PlaceholderAPI.setPlaceholders(p, message);
+			}
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				message = PlaceHolders.BattleLevelPO(message, p);
+			}
+			
+			message = message.replaceAll("&", "§");
+			
+			// >> Send broadcast			
+			if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
+				ActionBar.sendActionBar(p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
+			} else {
+				ActionBar.sendActionBar(p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+			}
+			
+			if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {
+				p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.Action-Bar.messages."+msg+".Sound"), "Config.Action-Bar.messages."+msg+".Sound"), 1, 1);
 			}
 		}
 	}

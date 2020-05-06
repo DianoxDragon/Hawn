@@ -34,365 +34,85 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 			
 			msg = String.valueOf(Main.autobroadcast_bb.get(value));
 			
-			String msg2 = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Message");
-			
-				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Use-Permission-To-Get-Messages")) {
-						if (p.hasPermission("hawn.get.autobroadcastbb")) {
-							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-							}
-							
-							msg2 = msg2.replaceAll("&", "§");
-							
-							if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-	                        	if (BossBarApi.BBBlock.contains(p)) {
-	                        		continue;
-	                        	}
-	                        	
-	                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-	                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-	                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-								
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-	                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-	                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-	                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-	                        	}
-	                        	
-	                        	BossBarApi.deletebar(p);
-	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-								}
-	                        	
-							} else {
-								if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-		                        	if (BossBarApi.BBBlock.contains(p)) {
-		                        		continue;
-		                        	}
-		                        	
-		                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-		                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-		                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-									
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-		                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-		                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-		                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-		                        	}
-		                        	
-		                        	BossBarApi.deletebar(p);
-		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-									}
-								}
-							}
-						}
-					} else {
-						msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-						
-						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-							msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-						}
-						
-						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-							msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-						}
-						
-						msg2 = msg2.replaceAll("&", "§");
-						
-						if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
-							
-							String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-                        	
-                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-                        		continue;
-                        	}
-							
-                        	if (BossBarApi.BBBlock.contains(p)) {
-                        		continue;
-                        	}
-                        	
-                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-							
-                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-                        	}
-                        	
-                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-                        	}
-                        	
-                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-                        	}
-                        	
-                        	BossBarApi.deletebar(p);
-                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-                        	
-                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-								p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-							}
-						} else {
-							if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-	                        	if (BossBarApi.BBBlock.contains(p)) {
-	                        		continue;
-	                        	}
-	                        	
-	                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-	                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-	                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-								
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-	                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-	                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-	                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-	                        	}
-	                        	
-	                        	BossBarApi.deletebar(p);
-	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-								}
-							}
-						}
-					}
-			}
+			SendBossBar(msg);
 		} else {
 			if (Main.curMsg_bb <= Main.autobroadcast_total_bb) {
 				msg = String.valueOf(Main.autobroadcast_bb.get(Main.curMsg_bb));
 				
-				String msg2 = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Message");
-				
-					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-						if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Use-Permission-To-Get-Messages")) {
-							if (p.hasPermission("hawn.get.autobroadcastbb")) {
-								msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-								
-								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-									msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-								}
-								
-								if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-									msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-								}
-								
-								msg2 = msg2.replaceAll("&", "§");
-								
-								if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-		                        	if (BossBarApi.BBBlock.contains(p)) {
-		                        		continue;
-		                        	}
-		                        	
-		                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-		                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-		                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-									
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-		                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-		                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-		                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-		                        	}
-		                        	
-		                        	BossBarApi.deletebar(p);
-		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-									}
-								} else {
-									if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
-										
-										String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-			                        	
-			                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-			                        		continue;
-			                        	}
-										
-			                        	if (BossBarApi.BBBlock.contains(p)) {
-			                        		continue;
-			                        	}
-			                        	
-			                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-			                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-			                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-										
-			                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-			                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-			                        	}
-			                        	
-			                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-			                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-			                        	}
-			                        	
-			                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-			                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-			                        	}
-			                        	
-			                        	BossBarApi.deletebar(p);
-			                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-			                        	
-			                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-											p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-										}
-									}
-								}
-							}
-						} else {
-							msg2 = PlaceHolders.ReplaceMainplaceholderP(msg2, p);
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-								msg2 = PlaceholderAPI.setPlaceholders(p, msg2);
-							}
-							
-							if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-								msg2 = PlaceHolders.BattleLevelPO(msg2, p);
-							}
-							
-							msg2 = msg2.replaceAll("&", "§");
-							
-							if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
-								
-								String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-	                        	
-	                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-	                        		continue;
-	                        	}
-								
-	                        	if (BossBarApi.BBBlock.contains(p)) {
-	                        		continue;
-	                        	}
-	                        	
-	                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-	                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-	                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-								
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-	                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-	                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-	                        	}
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-	                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-	                        	}
-	                        	
-	                        	BossBarApi.deletebar(p);
-	                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-	                        	
-	                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-									p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-								}
-							} else {
-								if (BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
-									
-									String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
-		                        	
-		                        	if (!valuepo.equalsIgnoreCase("TRUE")) {
-		                        		continue;
-		                        	}
-									
-		                        	if (BossBarApi.BBBlock.contains(p)) {
-		                        		continue;
-		                        	}
-		                        	
-		                        	String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
-		                        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-		                        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-									
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
-		                        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
-		                        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
-		                        	}
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
-		                        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
-		                        	}
-		                        	
-		                        	BossBarApi.deletebar(p);
-		                        	BossBarApi.createnewbar(p, color, msg2, style, progress);
-		                        	
-		                        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
-										p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
-									}
-								}
-							}
-						}
-					}
+				SendBossBar(msg);
 				
 				Main.curMsg_bb++;
 			} else {
 				Main.curMsg_bb = 0;
+			}
+		}
+	}
+	
+	private void SendBossBar(String msg) {
+		String message = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Message");
+		
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			// Permission
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Use-Permission-To-Get-Messages")) {
+				if (!p.hasPermission("hawn.get.autobroadcastbb")) {
+					continue;
+				}
+			}
+			
+			// Check want
+			String valuepo = PlayerOptionSQLClass.GetSQLPOautobc(p);
+			        	
+			if (!valuepo.equalsIgnoreCase("TRUE")) {
+				continue;
+			}
+			
+			// Check world
+			if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.World.All_World")) {
+				if (!BasicEventsPW.getAutoBroadcast_bb().contains(p.getWorld().getName())) {
+					continue;
+				}
+			}
+			
+			// Event
+			// >> Format
+			message = PlaceHolders.ReplaceMainplaceholderP(message, p);
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				message = PlaceholderAPI.setPlaceholders(p, message);
+			}
+			
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				message = PlaceHolders.BattleLevelPO(message, p);
+			}
+			
+			message = message.replaceAll("&", "§");
+			
+			// >> Send broadcast
+			if (BossBarApi.BBBlock.contains(p)) {
+        		continue;
+        	}
+			
+			String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
+        	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
+        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
+			
+        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
+        		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
+        	}
+        	
+        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Style")) {
+        		style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Style");
+        	}
+        	
+        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Progress")) {
+        		progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.messages."+msg+".Progress");
+        	}
+        	
+			BossBarApi.deletebar(p);
+        	BossBarApi.createnewbar(p, color, message, style, progress);
+        	
+        	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
+				p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);
 			}
 		}
 	}
