@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Hawn.jar">
+    <output-path>D:/Minecraft (Jeux)/Hawn dev servers/servers/LobbyHawn/plugins</output-path>
+    <root id="archive" name="Hawn.jar">
+      <element id="module-output" name="Hawn" />
+    </root>
+  </artifact>
+</component>

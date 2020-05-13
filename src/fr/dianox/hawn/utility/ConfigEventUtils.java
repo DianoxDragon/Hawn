@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility;
 
+import fr.dianox.hawn.Main;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -79,7 +80,7 @@ public class ConfigEventUtils {
             WarpCommand.onTp(p, event);
         } else if (event.startsWith("[bungee]: ")) {
             event = event.replace("[bungee]: ", "");
-            Bungee.changeServer(p, event);
+	        Main.getInstance().getBungApi().ConnectOthers(event, p);
         } else if (event.startsWith("[effect[")) {
             event = event.replace("[effect[", "");
 

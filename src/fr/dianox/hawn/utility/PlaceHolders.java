@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -12,11 +13,33 @@ import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.server.Tps;
 import me.robin.battlelevels.api.BattleLevelsAPI;
 
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+
 public class PlaceHolders {
 
 	@SuppressWarnings("deprecation")
 	public static String ReplaceMainplaceholderP(String str, Player p) {
-    	
+
+	    if (str.contains("%bungee_total%")) {
+	        if (Main.getInstance().getBungApi().PlayerCountVar.containsKey("ALL")) {
+                str = str.replaceAll("%bungee_total%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get("ALL")));
+            } else {
+                str = str.replaceAll("%bungee_total%", "0");
+            }
+        }
+
+        if (str.contains("%bungee_") && str.contains("%")) {
+            String server = "";
+            server = StringUtils.substringBetween(str, "%bungee_", "%");
+
+            if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
+                str = str.replaceAll("%bungee_" + server + "%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get(server)));
+            } else {
+                str = str.replaceAll("%bungee_" + server + "%", "0");
+            }
+        }
+
         if (str.contains("%prefix%")) {
             str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
         }
@@ -94,15 +117,11 @@ public class PlaceHolders {
         }
 
         if (str.contains("%totalspace%")) {
-            str = str.replaceAll("%totalspace%", OtherUtils.totalspaceusablev);
+            str = str.replaceAll("%totalspace%", OtherUtils.totaldiskv);
         }
 
         if (str.contains("%freespace%")) {
             str = str.replaceAll("%freespace%", OtherUtils.freespacev);
-        }
-
-        if (str.contains("%totalspaceusable%")) {
-            str = str.replaceAll("%totalspaceusable%", OtherUtils.totaldiskv);
         }
 
         if (str.contains("%javaversion%")) {
@@ -236,8 +255,27 @@ public class PlaceHolders {
         
         return str;
     }
-    
+
     public static String ReplaceMainplaceholderC(String str) {
+
+        if (str.contains("%bungee_total%")) {
+            if (Main.getInstance().getBungApi().PlayerCountVar.containsKey("ALL")) {
+                str = str.replaceAll("%bungee_total%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get("ALL")));
+            } else {
+                str = str.replaceAll("%bungee_total%", "0");
+            }
+        }
+
+        if (str.contains("%bungee_") && str.contains("%")) {
+            String server = "";
+            server = StringUtils.substringBetween(str, "%bungee_", "%");
+
+            if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
+                str = str.replaceAll("%bungee_" + server + "%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get(server)));
+            } else {
+                str = str.replaceAll("%bungee_" + server + "%", "0");
+            }
+        }
 
         if (str.contains("%prefix%")) {
             str = str.replaceAll("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -300,15 +338,11 @@ public class PlaceHolders {
         }
 
         if (str.contains("%totalspace%")) {
-            str = str.replaceAll("%totalspace%", OtherUtils.totalspaceusablev);
+            str = str.replaceAll("%totalspace%", OtherUtils.totaldiskv);
         }
 
         if (str.contains("%freespace%")) {
             str = str.replaceAll("%freespace%", OtherUtils.freespacev);
-        }
-
-        if (str.contains("%totalspaceusable%")) {
-            str = str.replaceAll("%totalspaceusable%", OtherUtils.totaldiskv);
         }
 
         if (str.contains("%javaversion%")) {

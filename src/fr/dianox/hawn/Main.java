@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import fr.dianox.hawn.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -102,13 +103,6 @@ import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.modules.worldsystem.GuiSystem;
-import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.EmojiesUtility;
-import fr.dianox.hawn.utility.NMSClass;
-import fr.dianox.hawn.utility.OtherUtils;
-import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.VersionUtils;
-import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.CommandAliasesConfig;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
@@ -216,8 +210,9 @@ public class Main extends JavaPlugin implements Listener {
 	private static Main instance;
 	VersionUtils versionUtils = new VersionUtils();
 	AutoBroadcastManager auto;
-	
-	private static String versions = "1.0.1-Beta";
+	BungeeApi bungApi = new BungeeApi(Main.getInstance());
+
+	private static String versions = "1.0.2-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -310,7 +305,7 @@ public class Main extends JavaPlugin implements Listener {
     public static ArrayList<Player> pglowing = new ArrayList<Player>();
     
     public static HashMap<String, Integer> tasklist = new HashMap<String, Integer>();
-    
+
     @SuppressWarnings("static-access")
 	@Override
 	public void onEnable() {
@@ -1373,6 +1368,22 @@ public class Main extends JavaPlugin implements Listener {
 	    } catch (Exception ex) {} 
 	    	    
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
+
+	    new BukkitRunnable() {
+		    @Override
+		    public void run() {
+			    try {
+					for (String s : bungApi.servers) {
+						bungApi.getCount(s);
+					}
+
+					bungApi.getCount("ALL");
+			    } catch (Exception ignored) {
+			    	System.out.println("error");
+			    }
+		    }
+	    }.runTaskTimer(this, 100, 100);
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
 		gcs(ChatColor.BLUE+"| ");
@@ -1533,7 +1544,9 @@ public class Main extends JavaPlugin implements Listener {
 		ChatEmojisLoad.onLoad();
 		
 		// Versions
-		if (Bukkit.getVersion().contains("1.15")) {
+	    if (Bukkit.getVersion().contains("1.16")) {
+		    Spigot_Version = 116;
+	    } else if (Bukkit.getVersion().contains("1.15")) {
 			Spigot_Version = 115;
 		} else if (Bukkit.getVersion().contains("1.14")) {
 			Spigot_Version = 114;
@@ -1871,7 +1884,6 @@ public class Main extends JavaPlugin implements Listener {
 	    		OtherUtils.maxMemory();
 	    		OtherUtils.freeMemory();
 	    		OtherUtils.freeDisk();
-	    		OtherUtils.usableDisk();
 	    	}
 
 	    }.runTaskTimer(this, 0, 60);
@@ -2326,6 +2338,10 @@ public class Main extends JavaPlugin implements Listener {
 
 	public WorldGuardPlugin getWorldGuard() {
 		return worldGuard;
+	}
+
+	public BungeeApi getBungApi() {
+		return bungApi;
 	}
 
 	public void setWorldGuard(WorldGuardPlugin worldGuard) {

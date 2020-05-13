@@ -109,7 +109,7 @@ public class ConfigMAdmin {
             		"",
             		"  &8→ &6&lDisk space",
             		"&7&lTotal disk&r&8:&r %totalspace%&8MB",
-            		"&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspaceusable%&8MB",
+            		"&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
             		"&8Bar-[%bardisk%&8]",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"
@@ -148,7 +148,7 @@ public class ConfigMAdmin {
             		"",
             		"  &8→ &6&lDisk space",
             		"&7&lTotal disk&r&8:&r %totalspace%&8MB",
-            		"&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspaceusable%&8MB",
+            		"&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
             		"&8Bar-[%bardisk%&8]",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"
@@ -203,7 +203,7 @@ public class ConfigMAdmin {
                 "§8>> §7/hawn info [all/memory/tps/disk/cpu/server/version] - §eSee the infos of the server",
                 "§8>> §7/hawn debug emoji - §eDebug config files of emoji's items",
                 "§8>> §7/hawn build - §eTo bypass protection temporary",
-                "§8>> §7/hawn hooks - §ePour vÃ©rifier les sous-dÃ©pendances du plugin, s'ils sont activÃ©s ou non",
+                "§8>> §7/hawn hooks - §eTo check the plugin's sub-dependencies, if they are enabled",
                 "§8>> §7/hawn urgent - §eTo use the urgent mode",
                 "§8>> §7/hawn [maintenance/m] - §eTo use the maintenance mode"
             }));

@@ -55,6 +55,8 @@ public class OnJoin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
+    	Main.getInstance().getBungApi().getServers();
+
         Player p = e.getPlayer();
         
         String uuid = p.getUniqueId().toString();

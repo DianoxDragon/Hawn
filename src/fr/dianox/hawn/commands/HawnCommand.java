@@ -177,12 +177,12 @@ public class HawnCommand implements CommandExecutor {
 					}
 				} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder")) {
 					if (args.length == 1) {
-						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+						for (String msg : ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
 							MessageUtils.ConsoleMessages(msg);
 						}
 					} else if (args.length == 2) {
 						String msg = PlaceHolders.ReplaceMainplaceholderC(args[1]);
-						
+
 						MessageUtils.ConsoleMessages(msg);
 					}
 				} else if (args[0].equalsIgnoreCase("delspawn")) {
@@ -737,7 +737,6 @@ public class HawnCommand implements CommandExecutor {
 						
 						return true;
 					}
-					
 					p.sendMessage("");
 			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
 			            p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
@@ -837,8 +836,6 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
-				} else if (args[0].equalsIgnoreCase("glow")) {
-					// TODO
 				} else if (args[0].equalsIgnoreCase("build")) {
 					if (!p.hasPermission("hawn.admin.command.bypassbuild") && !p.hasPermission("hawn.admin.*")) {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.bypassbuild");

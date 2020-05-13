@@ -40,7 +40,6 @@ public class OtherUtils {
 	public static String maxmemoryv = "";
 	public static String freememoryv = "";
 	
-	public static String totalspaceusablev = "";
 	public static String freespacev = "";
 	
 	// Lifetime variable
@@ -172,20 +171,12 @@ public class OtherUtils {
 	    
 	    return f.getFreeSpace();
 	  }
-	  
-	  public static long usableDisk() {
-	    f = new File("/");
-	    
-	    totalspaceusablev = String.valueOf(OtherUtils.BytesToGigaBytes(f.getUsableSpace()));
-	    
-	    return f.getUsableSpace();
-	  }
-	  
+
 	  public static double getDiskUsage() {
-		    used_memory = totalDisk() - freeDisk();
-		    double percent = (totalDisk() / 100L);
-		    return used_memory / percent;
-		  }
+		used_memory = totalDisk() - freeDisk();
+		double percent = totalDisk () / 100L;
+		return used_memory / percent;
+	}
 	  
 	
 	public static String getDiskUsageBar() {

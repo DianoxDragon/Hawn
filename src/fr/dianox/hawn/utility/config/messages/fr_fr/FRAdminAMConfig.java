@@ -105,7 +105,7 @@ public class FRAdminAMConfig {
             		"",
             		"  &8→ &6&lEspace disque",
             		"&7&lDisque total&r&8:&r %totalspace%&8MB",
-            		"&a&lDisque libre&7&l/&c&lDisque total&7&l utilisable&r&8:&r %freespace%&8MB&7/&7%totalspaceusable%&8MB",
+            		"&a&lDisque libre&7&l/&c&lDisque total&7&l utilisable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
             		"&8Bar-[%bardisk%&8]",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"
@@ -144,7 +144,7 @@ public class FRAdminAMConfig {
             		"",
             		"  &8→ &6&lEspace disque",
             		"&7&lDisque total&r&8:&r %totalspace%&8MB",
-            		"&a&lDisque libre&7&l/&c&lDisque total&7&l utilisable&r&8:&r %freespace%&8MB&7/&7%totalspaceusable%&8MB",
+            		"&a&lDisque libre&7&l/&c&lDisque total&7&l utilisable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
             		"&8Bar-[%bardisk%&8]",
             		"",
             		"&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"
