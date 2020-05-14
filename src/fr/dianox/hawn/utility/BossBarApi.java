@@ -28,12 +28,12 @@ public class BossBarApi {
 		}
 		
 		// Title
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
         	if (PlaceholderAPI.containsPlaceholders(title))
         		title = PlaceholderAPI.setPlaceholders(p, title);
         }
         
-        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
         	title = PlaceHolders.BattleLevelPO(title, p);
 		}
         
@@ -93,12 +93,12 @@ public class BossBarApi {
 		}
 		
 		// Title
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
         	if (PlaceholderAPI.containsPlaceholders(title))
         		title = PlaceholderAPI.setPlaceholders(p, title);
         }
         
-        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
         	title = PlaceHolders.BattleLevelPO(title, p);
 		}
         

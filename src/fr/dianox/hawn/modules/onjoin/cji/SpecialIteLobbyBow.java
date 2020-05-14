@@ -282,11 +282,11 @@ public class SpecialIteLobbyBow implements Listener {
 		if (SpecialCjiLobbyBow.getConfig().isSet("LobbyBow.Item.Title")) {
 			String pretitle = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
 				
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
 			}
 	
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
 			}
 	            
@@ -304,11 +304,11 @@ public class SpecialIteLobbyBow implements Listener {
 		if (SpecialCjiLobbyBow.getConfig().isSet("LobbyBow.Item.Lore")) {
 			for (String loremsg: SpecialCjiLobbyBow.getConfig().getStringList("LobbyBow.Item.Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 				}
 
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
 				}
 		        

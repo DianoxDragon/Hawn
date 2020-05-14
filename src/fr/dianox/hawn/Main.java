@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -211,8 +212,9 @@ public class Main extends JavaPlugin implements Listener {
 	VersionUtils versionUtils = new VersionUtils();
 	AutoBroadcastManager auto;
 	BungeeApi bungApi = new BungeeApi(Main.getInstance());
+	HooksManager hooksManager;
 
-	private static String versions = "1.0.2-Beta";
+	private static String versions = "1.0.3-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -291,9 +293,6 @@ public class Main extends JavaPlugin implements Listener {
     public static List<Material> interactables = new ArrayList<Material>();
 
     public static List<Player> indj = new ArrayList<Player>();
-    
-    private WorldGuardPlugin worldGuard;
-    public Boolean worldGuard_recent_version = false;
     
     public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
     public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
@@ -1425,111 +1424,7 @@ public class Main extends JavaPlugin implements Listener {
 			gcs(ChatColor.BLUE+"| ");
 		}
 
-		// Keep option placeholderAPI
-
-		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
-					Bukkit.getPluginManager().registerEvents(this, this);
-				}
-			} else {
-				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", true);
-				ConfigGeneral.saveConfigFile();
-				Bukkit.getPluginManager().registerEvents(this, this);
-			}
-		} else {
-			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Keep-The-Option")) {
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", false);
-				ConfigGeneral.saveConfigFile();
-			}
-		}
-		
-		// Keep option MVdWPlaceholderAPI
-
-				if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
-						if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
-							gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
-							gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
-							gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
-							Bukkit.getPluginManager().registerEvents(this, this);
-						}
-					} else {
-						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
-						gcs("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
-						gcs("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
-						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", true);
-						ConfigGeneral.saveConfigFile();
-						Bukkit.getPluginManager().registerEvents(this, this);
-					}
-				} else {
-					if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option")) {
-						ConfigGeneral.getConfig().set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
-						ConfigGeneral.saveConfigFile();
-					}
-				}
-
-		// Keep option Worldguard
-		if (Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
-					setWorldGuard((WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
-					try {
-						Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
-						Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
-						getInstanceMethod.invoke(null);
-						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
-						worldGuard_recent_version = true;
-					} catch (Exception e) {
-						gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
-						worldGuard_recent_version = false;
-					}
-				}
-			} else {
-				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", true);
-				ConfigGeneral.saveConfigFile();
-				setWorldGuard((WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
-				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
-				try {
-					Class<?> worldGuardClass = Class.forName("com.sk89q.worldguard.WorldGuard");
-					Method getInstanceMethod = worldGuardClass.getMethod("getInstance");
-					getInstanceMethod.invoke(null);
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard 7+ detected");
-					worldGuard_recent_version = true;
-				} catch (Exception e) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard <7 detected");
-					worldGuard_recent_version = false;
-				}
-			}
-		} else {
-			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Keep-The-Option")) {
-				ConfigGeneral.getConfig().set("Plugin.Use.WorldGuard.Enable", false);
-				ConfigGeneral.saveConfigFile();
-			}
-		}
-		
-		// BattleLevel
-		if (Bukkit.getPluginManager().isPluginEnabled("BattleLevels")) {
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
-					gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
-					Bukkit.getPluginManager().registerEvents(this, this);
-				}
-			} else {
-				gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"BattleLevels detected");
-				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", true);
-				ConfigGeneral.saveConfigFile();
-				Bukkit.getPluginManager().registerEvents(this, this);
-			}
-		} else {
-			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Keep-The-Option")) {
-				ConfigGeneral.getConfig().set("Plugin.Use.BattleLevels.Enable", false);
-				ConfigGeneral.saveConfigFile();
-			}
-		}
+		hooksManager = new HooksManager(this);
 
 		// check
 		UpdateCheck();
@@ -2336,16 +2231,12 @@ public class Main extends JavaPlugin implements Listener {
 		return rs;
 	}
 
-	public WorldGuardPlugin getWorldGuard() {
-		return worldGuard;
-	}
-
 	public BungeeApi getBungApi() {
 		return bungApi;
 	}
 
-	public void setWorldGuard(WorldGuardPlugin worldGuard) {
-		this.worldGuard = worldGuard;
+	public HooksManager getHooksManager() {
+    	return hooksManager;
 	}
 
 }

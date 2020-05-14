@@ -77,11 +77,11 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 			// >> Format
 			message = PlaceHolders.ReplaceMainplaceholderP(message, p);
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				message = PlaceholderAPI.setPlaceholders(p, message);
 			}
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 				message = PlaceHolders.BattleLevelPO(message, p);
 			}
 			

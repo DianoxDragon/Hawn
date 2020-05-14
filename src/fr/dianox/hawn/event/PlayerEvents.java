@@ -45,7 +45,7 @@ public class PlayerEvents implements Listener {
 	                    	/*
 	                         * WorldGuard
 	                         */
-	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
 	                            if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
 	                                for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
 	                                    if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -79,7 +79,7 @@ public class PlayerEvents implements Listener {
 	                	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -116,7 +116,7 @@ public class PlayerEvents implements Listener {
                     	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -150,7 +150,7 @@ public class PlayerEvents implements Listener {
                 	/*
                      * WorldGuard
                      */
-                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -202,7 +202,7 @@ public class PlayerEvents implements Listener {
 	                    	/*
 	                         * WorldGuard
 	                         */
-	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
 	                            if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
 	                                for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
 	                                    if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -236,7 +236,7 @@ public class PlayerEvents implements Listener {
 	                	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -273,7 +273,7 @@ public class PlayerEvents implements Listener {
                     	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -307,7 +307,7 @@ public class PlayerEvents implements Listener {
                 	/*
                      * WorldGuard
                      */
-                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (WorldGuardUtils.getRegion(e.getPlayer().getLocation()).contains("id='" + s + "'")) {
@@ -359,7 +359,7 @@ public class PlayerEvents implements Listener {
 	                    	/*
 	                         * WorldGuard
 	                         */
-	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+	                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
 	                            if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
 	                                for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
 	                                    if (WorldGuardUtils.getRegion(e.getWhoClicked().getLocation()).contains("id='" + s + "'")) {
@@ -393,7 +393,7 @@ public class PlayerEvents implements Listener {
 	                	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getWhoClicked().getLocation()).contains("id='" + s + "'")) {
@@ -430,7 +430,7 @@ public class PlayerEvents implements Listener {
                     	/*
                          * WorldGuard
                          */
-                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getWhoClicked().getLocation()).contains("id='" + s + "'")) {
@@ -464,7 +464,7 @@ public class PlayerEvents implements Listener {
                 	/*
                      * WorldGuard
                      */
-                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                    if (PlayerEventsConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (PlayerEventsConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: PlayerEventsConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (WorldGuardUtils.getRegion(e.getWhoClicked().getLocation()).contains("id='" + s + "'")) {

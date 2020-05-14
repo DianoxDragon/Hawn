@@ -602,11 +602,11 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Title")) {
 			String pretitle = SpecialCjiHidePlayers.getConfig().getString("PV."+onoroff+".Title");
 				
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
 			}
 	
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
 			}
 	            
@@ -626,11 +626,11 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Lore")) {
 			for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV."+onoroff+".Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 				}
 
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
 				}
 		            

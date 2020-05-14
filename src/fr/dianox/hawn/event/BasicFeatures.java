@@ -478,7 +478,7 @@ public class BasicFeatures implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                            if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
@@ -533,7 +533,7 @@ public class BasicFeatures implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
@@ -591,7 +591,7 @@ public class BasicFeatures implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                        if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
@@ -646,7 +646,7 @@ public class BasicFeatures implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+                    if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {

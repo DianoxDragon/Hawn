@@ -88,12 +88,12 @@ public class MainTablist extends BukkitRunnable {
 				hea2 = PlaceHolders.ReplaceMainplaceholderP(hea, p);
 				foo2 = PlaceHolders.ReplaceMainplaceholderP(foo, p);
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 					foo2 = PlaceholderAPI.setPlaceholders(p, foo2);
 					hea2 = PlaceholderAPI.setPlaceholders(p, hea2);
 				}
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 					foo2 = PlaceHolders.BattleLevelPO(foo2, p);
 					hea2 = PlaceHolders.BattleLevelPO(hea2, p);
 				}

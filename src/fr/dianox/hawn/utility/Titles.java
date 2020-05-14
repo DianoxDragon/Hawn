@@ -87,11 +87,11 @@ public class Titles {
 	      if (title != null) {
 	    	  title = PlaceHolders.ReplaceMainplaceholderP(title, player);
 				
-	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 	    		  title = PlaceholderAPI.setPlaceholders(player, title);
 	    	  }
 				
-	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 	    		  title = PlaceHolders.BattleLevelPO(title, player);
 	    	  }
 	        title = ChatColor.translateAlternateColorCodes('&', title);
@@ -110,11 +110,11 @@ public class Titles {
 	      if (subtitle != null) {
 	    	  subtitle = PlaceHolders.ReplaceMainplaceholderP(subtitle, player);
 				
-	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 	    		  subtitle = PlaceholderAPI.setPlaceholders(player, subtitle);
 	    	  }
 				
-	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+	    	  if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 	    		  subtitle = PlaceHolders.BattleLevelPO(subtitle, player);
 	    	  }
 	        subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);

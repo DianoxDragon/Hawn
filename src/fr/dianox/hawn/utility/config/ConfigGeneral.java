@@ -51,30 +51,34 @@ public class ConfigGeneral {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Plugin.Use.PlaceholderAPI", false);
-            Config.set("Plugin.Use.Keep-The-Option", false);
-            Config.set("Plugin.Use.WorldGuard.Enable", false);
-            Config.set("Plugin.Use.WorldGuard.Keep-The-Option", false);
-            Config.set("Plugin.Use.MVdWPlaceholderAPI.Enable", false);
-            Config.set("Plugin.Use.MVdWPlaceholderAPI.Keep-The-Option", false);
-            Config.set("Plugin.Use.BattleLevels.Enable", false);
-            Config.set("Plugin.Use.BattleLevels.Keep-The-Option", false);
-            Config.set("Plugin.Use.MYSQL.Enable", false);
-            Config.set("Plugin.Use.MYSQL.Host", "localhost");
-            Config.set("Plugin.Use.MYSQL.Username", "root");
-            Config.set("Plugin.Use.MYSQL.Password", "123");
-            Config.set("Plugin.Use.MYSQL.Database", "Hawn");
-            Config.set("Plugin.Use.MYSQL.Port", 3306);
-            Config.set("Plugin.Use.MYSQL.Use-SSL", false);
+            } catch (IOException ignored) {}
+
             Config.set("Plugin.Update.Check-Update", true);
             Config.set("Plugin.Date-Format", "dd-MM-yyyy");
             Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
             Config.set("Plugin.Tps.Warn-system", true);
             
             Config.set("Plugin.Language-Type", "en_US");
-            
+
+            // Hooks
+	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
+	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option", false);
+	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
+	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Keep-The-Option", false);
+	        Config.set("Plugin.Use.Hook.WorldGuard.Enable", false);
+	        Config.set("Plugin.Use.Hook.WorldGuard.Keep-The-Option", false);
+	        Config.set("Plugin.Use.Hook.BattleLevels.Enable", false);
+	        Config.set("Plugin.Use.Hook.BattleLevels.Keep-The-Option", false);
+
+	        // MySQL
+	        Config.set("Plugin.Use.MYSQL.Enable", false);
+	        Config.set("Plugin.Use.MYSQL.Host", "localhost");
+	        Config.set("Plugin.Use.MYSQL.Username", "root");
+	        Config.set("Plugin.Use.MYSQL.Password", "123");
+	        Config.set("Plugin.Use.MYSQL.Database", "Hawn");
+	        Config.set("Plugin.Use.MYSQL.Port", 3306);
+	        Config.set("Plugin.Use.MYSQL.Use-SSL", false);
+
             saveConfigFile();
 
         }

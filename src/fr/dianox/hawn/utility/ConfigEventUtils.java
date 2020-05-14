@@ -100,13 +100,13 @@ public class ConfigEventUtils {
             event = event.replaceAll("&", "§");
 
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
             	event = PlaceHolders.BattleLevelPO(event, p);
             }
             
@@ -136,13 +136,13 @@ public class ConfigEventUtils {
             event = event.replaceAll("&", "§");
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
             	event = PlaceHolders.BattleLevelPO(event, p);
             }
             
@@ -174,13 +174,13 @@ public class ConfigEventUtils {
             event = event.replaceAll("&", "§");
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
             	event = PlaceHolders.BattleLevelPO(event, p);
             }
 
@@ -190,13 +190,13 @@ public class ConfigEventUtils {
             event = event.replaceAll("&", "§");
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
             	event = PlaceHolders.BattleLevelPO(event, p);
             }
             

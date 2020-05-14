@@ -14,7 +14,7 @@ public class WorldGuardUtils {
 	
 	public static String getRegion(Location loc) {
 		
-		if (Main.getInstance().worldGuard_recent_version) {
+		if (Main.getInstance().getHooksManager().getWg().getWorldGuard_recent_version()) {
 			RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 			RegionQuery query = container.createQuery();
 			ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(loc));

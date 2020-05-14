@@ -469,7 +469,7 @@ public class OnChatEvent implements Listener {
 
                 if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-ActionBar.Enable")) {
                     String actionbar = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-ActionBar.Options.Message");
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                         actionbar = PlaceholderAPI.setPlaceholders(p, actionbar);
                     }
 
@@ -491,7 +491,7 @@ public class OnChatEvent implements Listener {
                     if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.Title.Enable")) {
                         title = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.Title.Message");
 
-                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                             title = PlaceholderAPI.setPlaceholders(p, title);
                         }
 
@@ -505,7 +505,7 @@ public class OnChatEvent implements Listener {
                     if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Enable")) {
                         subtitle = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Send-Title.Options.SubTitle.Message");
 
-                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                             subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
                         }
 

@@ -211,12 +211,12 @@ public class PlayerBoard {
     		
     		Player p = Bukkit.getPlayer(getPlayerID());
     		
-    		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+    		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
             	if (PlaceholderAPI.containsPlaceholders(s))
             		s = PlaceholderAPI.setPlaceholders(p, s);
             }
             
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
     			s = PlaceHolders.BattleLevelPO(s, p);
     		}
             

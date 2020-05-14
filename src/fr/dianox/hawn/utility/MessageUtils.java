@@ -19,26 +19,26 @@ public class MessageUtils {
 
             str = str.replace("json:", "");
             str = PlaceHolders.ReplaceMainplaceholderP(str, player);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
                 str = PlaceHolders.BattleLevelPO(str, player);
             }
             BaseComponent[] bc = ComponentSerializer.parse(str);
             p.spigot().sendMessage(bc);
         } else {
 
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
                 str = PlaceHolders.BattleLevelPO(str, player);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, player);
@@ -57,13 +57,13 @@ public class MessageUtils {
         if (str.startsWith("json:")) {
             str = str.replace("json:", "");
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
                 str = PlaceHolders.BattleLevelPO(str, p);
             }
             BaseComponent[] bc = ComponentSerializer.parse(str);
@@ -76,13 +76,13 @@ public class MessageUtils {
 
             Bukkit.getConsoleSender().sendMessage(sb.toString());
         } else {
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
                 str = PlaceHolders.BattleLevelPO(str, p);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);

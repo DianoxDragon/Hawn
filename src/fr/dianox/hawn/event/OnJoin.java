@@ -286,7 +286,7 @@ public class OnJoin implements Listener {
                         if (!OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.World.All_World")) {
                             if (OnJoinPW.getWJoinab().contains(p.getWorld().getName())) {
                                 String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                     actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                                 }
 
@@ -298,7 +298,7 @@ public class OnJoin implements Listener {
                             }
                         } else {
                             String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                 actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                             }
 
@@ -313,7 +313,7 @@ public class OnJoin implements Listener {
                     if (!OnJoinConfig.getConfig().getBoolean("Action-Bar.First-Join.World.All_World")) {
                         if (OnJoinPW.getWFirstJoinab().contains(p.getWorld().getName())) {
                             String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
-                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                 actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                             }
 
@@ -325,7 +325,7 @@ public class OnJoin implements Listener {
                         }
                     } else {
                         String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
-                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                             actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                         }
 
@@ -339,7 +339,7 @@ public class OnJoin implements Listener {
             } else {
                 if (OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.Enable")) {
                     String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                         actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                     }
 

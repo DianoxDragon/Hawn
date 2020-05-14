@@ -55,7 +55,7 @@ public class OnGuiInteract implements Listener {
 
                 Displayname = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
                 Displayname = Displayname.replaceAll("&", "§");
-                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                     Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                 }
 

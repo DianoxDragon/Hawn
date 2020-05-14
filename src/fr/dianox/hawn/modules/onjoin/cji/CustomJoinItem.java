@@ -175,11 +175,11 @@ public class CustomJoinItem {
 			
 			String pretitle = ConfigCJIGeneral.getConfig().getString(path_item + "Title");
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
             }
 
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
             	pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
             }
             
@@ -193,11 +193,11 @@ public class CustomJoinItem {
 		if (ConfigCJIGeneral.getConfig().isSet(path_item + "Lore")) {
 			for (String loremsg: ConfigCJIGeneral.getConfig().getStringList(path_item + "Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 	            }
 
-	            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+	            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 	            	loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
 	            }
 	            
@@ -243,11 +243,11 @@ public class CustomJoinItem {
 			
 			booktitle = PlaceHolders.ReplaceMainplaceholderP(booktitle, p);
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				booktitle = PlaceholderAPI.setPlaceholders(p, booktitle);
 			}
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 				booktitle = PlaceHolders.BattleLevelPO(booktitle, p);
 			}
 			
@@ -278,11 +278,11 @@ public class CustomJoinItem {
 					
 					s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 					
-					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 						s = PlaceholderAPI.setPlaceholders(p, s);
 					}
 					
-					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 						s = PlaceHolders.BattleLevelPO(s, p);
 					}
 					

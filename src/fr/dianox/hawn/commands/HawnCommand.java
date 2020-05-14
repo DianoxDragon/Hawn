@@ -332,23 +332,23 @@ public class HawnCommand implements CommandExecutor {
 					}
 				} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
 					sender.sendMessage("");
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 			        	  sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
 			          } else {
 			        	  sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 			          }
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
 			        	  sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
 			          } else {
 			        	  sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
 			          }
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
 			        	  sender.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
 			          } else {
 			        	  sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			          }
 			          sender.sendMessage("");
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 			        	  sender.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
 			          } else {
 			        	  sender.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");
@@ -738,23 +738,23 @@ public class HawnCommand implements CommandExecutor {
 						return true;
 					}
 					p.sendMessage("");
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 			            p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
 			          } else {
 			            p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 			          }
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
 			            p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
 			          } else {
 			            p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
 			          }
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.WorldGuard.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
 			            p.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
 			          } else {
 			            p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			          }
 			          p.sendMessage("");
-			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.BattleLevels.Enable")) {
+			          if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
 			        	  p.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
 			          } else {
 			        	  p.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");

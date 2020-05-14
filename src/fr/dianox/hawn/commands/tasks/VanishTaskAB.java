@@ -28,10 +28,10 @@ public class VanishTaskAB extends BukkitRunnable {
 		String str = ConfigMMsg.getConfig().getString("Vanish.Action-Bar");
 		str = str.replaceAll("&", "§");
 		str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 			str = PlaceholderAPI.setPlaceholders(p, str);
 		}
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MVdWPlaceholderAPI.Enable")) {
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
 			str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 		}
 		str = str.substring(1, str.length() - 1);

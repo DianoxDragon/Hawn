@@ -222,7 +222,7 @@ public class Reload {
 		
 		Main.UpdateCheckReload();
 		
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.PlaceholderAPI")) {
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 			if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 				Bukkit.getConsoleSender().sendMessage("| Please note that to remove the PlaceHolderAPI support, you must restart the server");
 				Bukkit.getConsoleSender().sendMessage("| The plugin supports fast removal, but does not guarantee a return to normal with a hawn reload");
