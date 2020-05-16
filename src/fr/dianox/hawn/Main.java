@@ -2,99 +2,30 @@ package fr.dianox.hawn;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import fr.dianox.hawn.command.CommandManager;
+import fr.dianox.hawn.command.commands.FlyCommand;
+import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
-import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import fr.dianox.hawn.commands.ABAnnouncerCommand;
-import fr.dianox.hawn.commands.BroadCastCommand;
-import fr.dianox.hawn.commands.BurnCommand;
-import fr.dianox.hawn.commands.CheckAccountCommand;
-import fr.dianox.hawn.commands.ClassicGMCommand;
-import fr.dianox.hawn.commands.ClearChatCommand;
-import fr.dianox.hawn.commands.ClearGroundItemsCommand;
-import fr.dianox.hawn.commands.ClearInvCommand;
-import fr.dianox.hawn.commands.ClearMobsCommand;
-import fr.dianox.hawn.commands.DayCommand;
-import fr.dianox.hawn.commands.DelSpawnCommand;
-import fr.dianox.hawn.commands.DelWarpCommand;
-import fr.dianox.hawn.commands.DelaychatCommand;
-import fr.dianox.hawn.commands.EditWarpCommand;
-import fr.dianox.hawn.commands.EmojiesCommand;
-import fr.dianox.hawn.commands.EnderChestCommand;
-import fr.dianox.hawn.commands.ExpCommand;
-import fr.dianox.hawn.commands.FeedCommand;
-import fr.dianox.hawn.commands.FlyCommand;
-import fr.dianox.hawn.commands.FlySpeedCommand;
-import fr.dianox.hawn.commands.GetPosCommand;
-import fr.dianox.hawn.commands.GoTopCommand;
-import fr.dianox.hawn.commands.HatCommand;
-import fr.dianox.hawn.commands.HawnCommand;
-import fr.dianox.hawn.commands.HealCommand;
-import fr.dianox.hawn.commands.InvSeeCommand;
-import fr.dianox.hawn.commands.IpCommand;
-import fr.dianox.hawn.commands.KickAllCommand;
-import fr.dianox.hawn.commands.ListCommand;
-import fr.dianox.hawn.commands.OptionCommand;
-import fr.dianox.hawn.commands.MuteChatCommand;
-import fr.dianox.hawn.commands.NightCommand;
-import fr.dianox.hawn.commands.PanelAdminCommand;
-import fr.dianox.hawn.commands.PingCommand;
-import fr.dianox.hawn.commands.RainCommand;
-import fr.dianox.hawn.commands.RepairCommand;
-import fr.dianox.hawn.commands.ScoreboardCommand;
-import fr.dianox.hawn.commands.SetSpawnCommand;
-import fr.dianox.hawn.commands.SetWarpCommand;
-import fr.dianox.hawn.commands.SkullCommand;
-import fr.dianox.hawn.commands.SpawnCommand;
-import fr.dianox.hawn.commands.SpawnListCommand;
-import fr.dianox.hawn.commands.SpeedCommand;
-import fr.dianox.hawn.commands.SuicideCommand;
-import fr.dianox.hawn.commands.SunCommand;
-import fr.dianox.hawn.commands.ThunderCommand;
-import fr.dianox.hawn.commands.TitleAnnouncerCommand;
-import fr.dianox.hawn.commands.VanishCommand;
-import fr.dianox.hawn.commands.WarningCommand;
-import fr.dianox.hawn.commands.WarpCommand;
-import fr.dianox.hawn.commands.WarpListCommand;
-import fr.dianox.hawn.commands.WorkBenchCommand;
-import fr.dianox.hawn.commands.WorldCommand;
-import fr.dianox.hawn.commands.gmaCommand;
-import fr.dianox.hawn.commands.gmcCommand;
-import fr.dianox.hawn.commands.gmsCommand;
-import fr.dianox.hawn.commands.gmspCommand;
-import fr.dianox.hawn.commands.specials.worldedit.CopyCommand;
-import fr.dianox.hawn.commands.specials.worldedit.OneCommand;
-import fr.dianox.hawn.commands.specials.worldedit.PasteCommand;
-import fr.dianox.hawn.commands.specials.worldedit.TwoCommand;
 import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
@@ -213,8 +144,9 @@ public class Main extends JavaPlugin implements Listener {
 	AutoBroadcastManager auto;
 	BungeeApi bungApi = new BungeeApi(Main.getInstance());
 	HooksManager hooksManager;
+	CommandManager commandManager;
 
-	private static String versions = "1.0.3-Beta";
+	private static String versions = "1.0.4-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -224,7 +156,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public static String UpToDate, nmsver;
 	public static boolean useOldMethods = false;
-	public static List<String> fileconfiglist = new ArrayList<String>();
+	public static List<String> fileconfiglist = new ArrayList<>();
 	
 	public static Connection connection;
 	private String host,
@@ -246,28 +178,24 @@ public class Main extends JavaPlugin implements Listener {
     public static Integer autobroadcast_total_titles = 0;
     public static Integer autobroadcast_total_ab = 0;
     public static Integer autobroadcast_total_bb = 0;
-    public static int interval = 0;
-    public static int interval_titles = 0;
-    public static int interval_ab = 0;
-    public static int interval_bb = 0;
     public static int curMsg = 0;
     public static int curMsg_ab = 0;
     public static int curMsg_bb = 0;
     public static int curMsg_titles = 0;
 	public Scoreboard board;
 
-	public static HashMap<UUID, PlayerBoard> boards = new HashMap<UUID, PlayerBoard>();
-	public static List<PlayerBoard> allboards = new ArrayList<PlayerBoard>();
-	public HashMap<String, ScoreboardInfo> info = new HashMap<String, ScoreboardInfo>();
-	public HashMap<String, String> infoname = new HashMap<String, String>();
-	public HashMap<String, String> infoname2 = new HashMap<String, String>();
-	public static HashMap<Player, Long> playerWorldTimer = new HashMap<Player, Long>();
-	public static List<Player> nosb = new ArrayList<Player>();
-	public static List<Player> injumpwithjumppad = new ArrayList<Player>();
+	public static HashMap<UUID, PlayerBoard> boards = new HashMap<>();
+	public static List<PlayerBoard> allboards = new ArrayList<>();
+	public HashMap<String, ScoreboardInfo> info = new HashMap<>();
+	public HashMap<String, String> infoname = new HashMap<>();
+	public HashMap<String, String> infoname2 = new HashMap<>();
+	public static HashMap<Player, Long> playerWorldTimer = new HashMap<>();
+	public static List<Player> nosb = new ArrayList<>();
+	public static List<Player> injumpwithjumppad = new ArrayList<>();
 	
-	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<UUID, Integer>();
-	public static List<Player> inwarpd = new ArrayList<Player>();
-	public static List<Player> inspawnd = new ArrayList<Player>();
+	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<>();
+	public static List<Player> inwarpd = new ArrayList<>();
+	public static List<Player> inspawnd = new ArrayList<>();
 	
 	public String hea = "";
 	public String foo = "";
@@ -276,34 +204,31 @@ public class Main extends JavaPlugin implements Listener {
     private static Class<?> ChatComponentText;
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
 
-    public static List<Player> buildbypasscommand = new ArrayList<Player>();
-    public static List<Player> avoidtitles = new ArrayList<Player>();
+    public static List<Player> buildbypasscommand = new ArrayList<>();
+    public static List<Player> avoidtitles = new ArrayList<>();
 
-    public static HashMap<Player, Long> hiderCooldowns = new HashMap<Player, Long>();
-    public static HashMap<Player, Long> fungunCooldowns = new HashMap<Player, Long>();
+    public static HashMap<Player, Long> hiderCooldowns = new HashMap<>();
+    public static HashMap<Player, Long> fungunCooldowns = new HashMap<>();
     
-    public static HashMap<Player, Integer> TaskVanishAB = new HashMap<Player, Integer>();
+    public static HashMap<Player, Integer> TaskVanishAB = new HashMap<>();
     
-    public static HashMap<String, String> configfile = new HashMap<String, String>();
-    public static HashMap<String, String> configfilereverse = new HashMap<String, String>();
-    public static HashMap<Player, String> configfileinuse = new HashMap<Player, String>();
+    public static HashMap<String, String> configfile = new HashMap<>();
+    public static HashMap<String, String> configfilereverse = new HashMap<>();
+    public static HashMap<Player, String> configfileinuse = new HashMap<>();
     
-    public static List<Material> block_exception_place = new ArrayList<Material>();
-    public static List<Material> block_exception_break = new ArrayList<Material>();
-    public static List<Material> interactables = new ArrayList<Material>();
+    public static List<Material> block_exception_place = new ArrayList<>();
+    public static List<Material> block_exception_break = new ArrayList<>();
+    public static List<Material> interactables = new ArrayList<>();
 
-    public static List<Player> indj = new ArrayList<Player>();
+    public static List<Player> indj = new ArrayList<>();
     
-    public static HashMap<String, Integer> animationtab = new HashMap<String, Integer>();
-    public static HashMap<String, Integer> animationtabtask = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> animationtab = new HashMap<>();
+    public static HashMap<String, Integer> animationtabtask = new HashMap<>();
     public static Integer tablistnumber = 0;
     
     public static PluginChannelListener pcl;
     
-    public static HashMap<ChatColor, Team> glowteam = new HashMap<ChatColor, Team>();
-    public static ArrayList<Player> pglowing = new ArrayList<Player>();
-    
-    public static HashMap<String, Integer> tasklist = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> tasklist = new HashMap<>();
 
     @SuppressWarnings("static-access")
 	@Override
@@ -603,7 +528,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (ConfigGeneral.getConfig().isSet("Plugin.Language-Type")) {
 			try {
 				LanguageType = ConfigGeneral.getConfig().getString("Plugin.Language-Type");
-			} catch (Exception e) {}
+			} catch (Exception ignored) {}
 		} else {
 			ConfigGeneral.getConfig().set("Plugin.Language-Type", "en_US");
 			
@@ -648,715 +573,14 @@ public class Main extends JavaPlugin implements Listener {
 		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
 		gcs(ChatColor.BLUE+"| ");
-		
-		// Commands
-		getCommand("hawn").setExecutor(new HawnCommand());
 
-		Field bukkitCommandMap;
+	    try {
+		    commandManager = new CommandManager(this);
+	    } catch (NoSuchFieldException | IllegalAccessException e) {
+		    e.printStackTrace();
+	    }
 
-		try {
-			bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-
-			bukkitCommandMap.setAccessible(true);
-			CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
-
-			/*
-			 * 
-			 * ADMINISTRATION
-			 * 
-			 */
-			commandMap.register("paneladmin", new PanelAdminCommand("paneladmin"));
-			commandMap.register("adminpanel", new PanelAdminCommand("adminpanel"));
-			commandMap.register("pa", new PanelAdminCommand("pa"));
-			commandMap.register("ap", new PanelAdminCommand("ap"));
-			
-			if (!WorldCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("hw", new WorldCommand("hw"));
-				commandMap.register("hworld", new WorldCommand("hworld"));
-			}
-			
-			/* --------------------------- *
-			 * WORLD EDIT ALIASES COMMANDS *
-			 * --------------------------- */
-			// >> Pos 1
-			if (!OneCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("1", new OneCommand("1"));
-				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.1.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.1.Aliases")) {
-						commandMap.register(s, new OneCommand(s));
-					}
-				}
-			}
-			
-			// >> Pos 2
-			if (!TwoCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("2", new TwoCommand("2"));
-				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.2.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.2.Aliases")) {
-						commandMap.register(s, new TwoCommand(s));
-					}
-				}
-			}
-			
-			// >> Copy
-			if (!CopyCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("c", new CopyCommand("c"));
-				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.C.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.C.Aliases")) {
-						commandMap.register(s, new CopyCommand(s));
-					}
-				}
-			}
-			
-			// >> Paste
-			if (!PasteCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("p", new PasteCommand("p"));
-				if (CommandAliasesConfig.getConfig().getBoolean("WorldEdit-Aliases.P.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("WorldEdit-Aliases.P.Aliases")) {
-						commandMap.register(s, new PasteCommand(s));
-					}
-				}
-			}
-			
-			/* ------------------ *
-			 * BROADCAST COMMANDS *
-			 * ------------------ */
-			// >> BroadCast
-			if (!BroadCastCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("broadcast", new BroadCastCommand("broadcast"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Broadcast.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Broadcast.Aliases")) {
-						commandMap.register(s, new BroadCastCommand(s));
-					}
-				}
-			}
-			// >> Title broadcast
-			if (!TitleAnnouncerConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("titleannouncer", new TitleAnnouncerCommand("titleannouncer"));
-				if (CommandAliasesConfig.getConfig().getBoolean("TitleAnnouncer.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("TitleAnnouncer.Aliases")) {
-						commandMap.register(s, new TitleAnnouncerCommand(s));
-					}
-				}
-			}
-			// >> Action bar broadcast
-			if (!ActionbarAnnouncerConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("actionbarannouncer", new ABAnnouncerCommand("actionbarannouncer"));
-				if (CommandAliasesConfig.getConfig().getBoolean("ActionBarAnnouncer.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("ActionBarAnnouncer.Aliases")) {
-						commandMap.register(s, new ABAnnouncerCommand(s));
-					}
-				}
-			}
-			// Warning
-			if (!WarningCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("warning", new WarningCommand("warning"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warning.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warning.Aliases")) {
-						commandMap.register(s, new WarningCommand(s));
-					}
-				}
-			}
-
-			/* ------------- *
-			 * CHAT COMMANDS *
-			 * ------------- */
-			// >> ClearChat
-			if (!ClearChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("cc", new ClearChatCommand("cc"));
-				if (CommandAliasesConfig.getConfig().getBoolean("ClearChat.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearChat.Aliases")) {
-						commandMap.register(s, new ClearChatCommand(s));
-					}
-				}
-			}
-			// >> DelayChat
-			if (!DelayChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("delaychat", new DelaychatCommand("delaychat"));
-				if (CommandAliasesConfig.getConfig().getBoolean("DelayChat.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("DelayChat.Aliases")) {
-						commandMap.register(s, new DelaychatCommand(s));
-					}
-				}
-			}
-			// >> Global mute
-			if (!MuteChatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("globalmute", new MuteChatCommand("globalmute"));
-				if (CommandAliasesConfig.getConfig().getBoolean("MuteChat.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("MuteChat.Aliases")) {
-						commandMap.register(s, new MuteChatCommand(s));
-					}
-				}
-			}
-
-			/* ---------------------- *
-			 * CHECK ACCOUNT COMMANDS *
-			 * ---------------------- */
-			// >> Check Account
-			if (!CheckAccountCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("checkaccount", new CheckAccountCommand("checkaccount"));
-				if (CommandAliasesConfig.getConfig().getBoolean("CheckAccount.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("CheckAccount.Aliases")) {
-						commandMap.register(s, new CheckAccountCommand(s));
-					}
-				}
-			}
-			
-			/* -------------- *
-			 * CLEAR COMMANDS *
-			 * -------------- */
-			// >> Clear Ground Items
-			if (!ClearGroundItemsCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("cleargrounditems", new ClearGroundItemsCommand("cleargrounditems"));
-				if (CommandAliasesConfig.getConfig().getBoolean("ClearGroundItems.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearGroundItems.Aliases")) {
-						commandMap.register(s, new ClearGroundItemsCommand(s));
-					}
-				}
-			}
-
-			// >> Clear inventory
-			if (!ClearInvCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("clearinventory", new ClearInvCommand("clearinventory"));
-				if (CommandAliasesConfig.getConfig().getBoolean("ClearInv.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearInv.Aliases")) {
-						commandMap.register(s, new ClearInvCommand(s));
-					}
-				}
-			}
-			
-			// >> Clear Mobs
-			if (!ClearMobsCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("clearmobs", new ClearMobsCommand("clearmobs"));
-				if (CommandAliasesConfig.getConfig().getBoolean("ClearMobs.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("ClearMobs.Aliases")) {
-						commandMap.register(s, new ClearMobsCommand(s));
-					}
-				}
-			}
-			
-			/* --------------- *
-			 * EMOJIS COMMANDS *
-			 * --------------- */
-			// >> Emojis
-			if (!EmojiCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("emoji", new EmojiesCommand("emoji"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Emojis.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Emojis.Aliases")) {
-						commandMap.register(s, new EmojiesCommand(s));
-					}
-				}
-			}
-			
-			/* ------------------- *
-			 * ENDERCHEST COMMANDS *
-			 * ------------------- */
-			// >> EnderChest
-			if (!EnderChestCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("invsee", new EnderChestCommand("enderchest"));
-				if (CommandAliasesConfig.getConfig().getBoolean("EnderChest.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("EnderChest.Aliases")) {
-						commandMap.register(s, new EnderChestCommand(s));
-					}
-				}
-			}
-
-			/* ------------ *
-			 * EXP COMMANDS *
-			 * ------------ */
-			// >> Exp
-			if (!ExpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("exp", new ExpCommand("exp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Exp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Exp.Aliases")) {
-						commandMap.register(s, new ExpCommand(s));
-					}
-				}
-			}
-			
-			/* ------------------ *
-			 * WORKBENCH COMMANDS *
-			 * ------------------ */
-			// >> Workbench
-			if (!WorkBenchCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("workbench", new WorkBenchCommand("workbench"));
-				if (CommandAliasesConfig.getConfig().getBoolean("WorkBench.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("WorkBench.Aliases")) {
-						commandMap.register(s, new WorkBenchCommand(s));
-					}
-				}
-			}
-			
-			/* ------------- *
-			 * BURN COMMANDS *
-			 * ------------- */
-			// >> Burn
-			if (!BurnCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("burn", new BurnCommand("burn"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Burn.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Burn.Aliases")) {
-						commandMap.register(s, new BurnCommand(s));
-					}
-				}
-			}
-			
-			/* -------------- *
-			 * SKULL COMMANDS *
-			 * -------------- */
-			// >> Skull
-			if (!SkullCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("skull", new SkullCommand("skull"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Skull.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Skull.Aliases")) {
-						commandMap.register(s, new SkullCommand(s));
-					}
-				}
-			}
-			
-			/* --------------- *
-			 * SPEEDS COMMANDS *
-			 * --------------- */
-			// >> Flyspeed
-			if (!FlySpeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("flyspeed", new FlySpeedCommand("flyspeed"));
-				if (CommandAliasesConfig.getConfig().getBoolean("FlySpeed.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("FlySpeed.Aliases")) {
-						commandMap.register(s, new FlySpeedCommand(s));
-					}
-				}
-			}
-			
-			// >> Speed
-			if (!SpeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("speed", new SpeedCommand("speed"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Speed.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Speed.Aliases")) {
-						commandMap.register(s, new SpeedCommand(s));
-					}
-				}
-			}
-			
-			/* ------------- *
-			 * FEED COMMANDS *
-			 * ------------- */
-			// >> Heal
-			if (!FeedCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("feed", new FeedCommand("feed"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Feed.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Feed.Aliases")) {
-						commandMap.register(s, new FeedCommand(s));
-					}
-				}
-			}
-			
-			/* ------------ *
-			 * FLY COMMANDS *
-			 * ------------ */
-			// >> Fly
-			if (!FlyCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("fly", new FlyCommand("fly"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Fly.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Fly.Aliases")) {
-						commandMap.register(s, new FlyCommand(s));
-					}
-				}
-			}
-
-			/* ------------ *
-			 * HAT COMMANDS *
-			 * ------------ */
-			// >> Hat
-			if (!HatCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("hat", new HatCommand("hat"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Hat.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Hat.Aliases")) {
-						commandMap.register(s, new HatCommand(s));
-					}
-				}
-			}
-			
-			/* ------------- *
-			 * HEAL COMMANDS *
-			 * ------------- */
-			// >> Heal
-			if (!HealCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("heal", new HealCommand("heal"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Heal.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Heal.Aliases")) {
-						commandMap.register(s, new HealCommand(s));
-					}
-				}
-			}
-
-			/* ------------- *
-			 * HELP COMMANDS *
-			 * ------------- */
-			// >> Help
-			if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("help", new fr.dianox.hawn.commands.HelpCommand("help"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Help.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Help.Aliases")) {
-						commandMap.register(s, new fr.dianox.hawn.commands.HelpCommand(s));
-					}
-				}
-			}
-
-			/* ----------------- *
-			 * GAMEMODE COMMANDS *
-			 * ----------------- */
-			// >> Classic command
-			if (!GamemodeCommandConfig.getConfig().getBoolean("Gamemode.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gamemode", new ClassicGMCommand("gamemode"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gamemode-Classic.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gamemode-Classic.Aliases")) {
-						commandMap.register(s, new ClassicGMCommand(s));
-					}
-				}
-			}
-			// >> Gamemode survival
-			if (!GamemodeCommandConfig.getConfig().getBoolean("gms.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gms", new gmsCommand("gms"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gms.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gms.Aliases")) {
-						commandMap.register(s, new gmsCommand(s));
-					}
-				}
-			}
-			// >> Gamemode creative
-			if (!GamemodeCommandConfig.getConfig().getBoolean("gmc.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gmc", new gmcCommand("gmc"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gmc.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gmc.Aliases")) {
-						commandMap.register(s, new gmcCommand(s));
-					}
-				}
-			}
-			// >> Gamemode adventure
-			if (!GamemodeCommandConfig.getConfig().getBoolean("gma.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gma", new gmaCommand("gma"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gma.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gma.Aliases")) {
-						commandMap.register(s, new gmaCommand(s));
-					}
-				}
-			}
-			// >> Gamemode spectator
-			if (!GamemodeCommandConfig.getConfig().getBoolean("gmsp.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gmsp", new gmspCommand("gmsp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gmsp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gmsp.Aliases")) {
-						commandMap.register(s, new gmspCommand(s));
-					}
-				}
-			}
-
-			/* --------------- *
-			 * GETPOS COMMANDS *
-			 * --------------- */
-			// >> GetPos
-			if (!GetPosCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("getpos", new GetPosCommand("getpos"));
-				if (CommandAliasesConfig.getConfig().getBoolean("GetPos.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("GetPos.Aliases")) {
-						commandMap.register(s, new GetPosCommand(s));
-					}
-				}
-			}
-			
-			/* -------------- *
-			 * GOTOP COMMANDS *
-			 * -------------- */
-			// >> GoTop
-			if (!GoTopCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("gotop", new GoTopCommand("gotop"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Gotop.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Gotop.Aliases")) {
-						commandMap.register(s, new GoTopCommand(s));
-					}
-				}
-			}
-			
-			/* --------------- *
-			 * INVSEE COMMANDS *
-			 * --------------- */
-			// >> InvSee
-			if (!InvSeeCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("invsee", new InvSeeCommand("invsee"));
-				if (CommandAliasesConfig.getConfig().getBoolean("InvSee.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("InvSee.Aliases")) {
-						commandMap.register(s, new InvSeeCommand(s));
-					}
-				}
-			}
-			
-			/* ----------- *
-			 * IP COMMANDS *
-			 * ----------- */
-			// >> Hat
-			if (!IpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("ip", new IpCommand("ip"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Ip.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Ip.Aliases")) {
-						commandMap.register(s, new IpCommand(s));
-					}
-				}
-			}
-			
-			/* ---------------- *
-			 * KICKALL COMMANDS *
-			 * ---------------- */
-			// >> Kickall
-			if (!KickAllCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("kickall", new KickAllCommand("kickall"));
-				if (CommandAliasesConfig.getConfig().getBoolean("KickAll.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("KickAll.Aliases")) {
-						commandMap.register(s, new KickAllCommand(s));
-					}
-				}
-			}
-			
-			/* ------------- *
-			 * LIST COMMANDS *
-			 * ------------- */
-			// >> List
-			if (!ListCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("list", new ListCommand("list"));
-				if (CommandAliasesConfig.getConfig().getBoolean("List.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("List.Aliases")) {
-						commandMap.register(s, new ListCommand(s));
-					}
-				}
-			}
-			
-			/* ------------------- *
-			 * SCOREBOARD COMMANDS *
-			 * ------------------- */
-			// >> Scoreboard
-			if (!ScoreboardCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("scoreboard", new ScoreboardCommand("scoreboard"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Scoreboard.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Scoreboard.Aliases")) {
-						commandMap.register(s, new ScoreboardCommand(s));
-					}
-				}
-			}
-
-			/* ------------- *
-			 * PING COMMANDS *
-			 * ------------- */
-			// >> Ping
-			if (!PingCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("ping", new PingCommand("ping"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Ping.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Ping.Aliases")) {
-						commandMap.register(s, new PingCommand(s));
-					}
-				}
-			}
-
-			/* ---------------------- *
-			 * PLAYER OPTION COMMANDS *
-			 * ---------------------- */
-			// >> Main command
-			if (!OptionPlayerConfigCommand.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("option", new OptionCommand("option"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Player-Option.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Player-Option.Aliases")) {
-						commandMap.register(s, new OptionCommand(s));
-					}
-				}
-			}
-
-			/* --------------- *
-			 * REPAIR COMMANDS *
-			 * --------------- */
-			// >> Repair
-			if (!RepairCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("repair", new RepairCommand("repair"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Repair.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Repair.Aliases")) {
-						commandMap.register(s, new RepairCommand(s));
-					}
-				}
-			}
-			
-			/* -------------- *
-			 * SPAWN COMMANDS *
-			 * -------------- */
-			// >> Spawn
-			if (!SpawnCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("spawn", new SpawnCommand("spawn"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Spawn.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Spawn.Aliases")) {
-						commandMap.register(s, new SpawnCommand(s));
-					}
-				}
-			}
-			// >> SetSpawn
-			if (!SpawnCommandConfig.getConfig().getBoolean("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("setspawn", new SetSpawnCommand("setspawn"));
-				if (CommandAliasesConfig.getConfig().getBoolean("SetSpawn.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("SetSpawn.Aliases")) {
-						commandMap.register(s, new SetSpawnCommand(s));
-					}
-				}
-			}
-			// >> DelSpawn
-			if (!SpawnCommandConfig.getConfig().getBoolean("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("delspawn", new DelSpawnCommand("delspawn"));
-				if (CommandAliasesConfig.getConfig().getBoolean("DelSpawn.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("DelSpawn.Aliases")) {
-						commandMap.register(s, new DelSpawnCommand(s));
-					}
-				}
-			}
-			// >> Spawnlist
-			if (!SpawnCommandConfig.getConfig().getBoolean("SpawnList.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("spawnlist", new SpawnListCommand("spawnlist"));
-				if (CommandAliasesConfig.getConfig().getBoolean("SpawnList.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("SpawnList.Aliases")) {
-						commandMap.register(s, new SpawnListCommand(s));
-					}
-				}
-			}
-			
-			/* ---------------- *
-			 * SUICIDE COMMANDS *
-			 * ---------------- */
-			// >> Suicide
-			if (!SuicideCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("suicide", new SuicideCommand("suicide"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Suicide.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Suicide.Aliases")) {
-						commandMap.register(s, new SuicideCommand(s));
-					}
-				}
-			}
-			
-			/* ------------- *
-			 * TIME COMMANDS *
-			 * ------------- */
-			// >> Day
-			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("day", new DayCommand("day"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Day.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Day.Aliases")) {
-						commandMap.register(s, new DayCommand(s));
-					}
-				}
-			}
-			// >> Night
-			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("night", new NightCommand("night"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Night.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Night.Aliases")) {
-						commandMap.register(s, new NightCommand(s));
-					}
-				}
-			}
-
-			/* --------------- *
-			 * VANISH COMMANDS *
-			 * --------------- */
-			// >> Vanish
-			if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("vanish", new VanishCommand("vanish"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Vanish.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Vanish.Aliases")) {
-						commandMap.register(s, new VanishCommand(s));
-					}
-				}
-			}
-
-			/* ------------- *
-			 * WARP COMMANDS *
-			 * ------------- */
-			// >> Warp
-			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("warp", new WarpCommand("warp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Warp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Warp.Aliases")) {
-						commandMap.register(s, new WarpCommand(s));
-					}
-				}
-			}
-			// >> Set Warp
-			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("SetWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("setwarp", new SetWarpCommand("setwarp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Set-Warp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Set-Warp.Aliases")) {
-						commandMap.register(s, new SetWarpCommand(s));
-					}
-				}
-			}
-			// >> Del warp
-			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("DelWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("delwarp", new DelWarpCommand("delwarp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Del-Warp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Del-Warp.Aliases")) {
-						commandMap.register(s, new DelWarpCommand(s));
-					}
-				}
-			}
-			// >> Warp list
-			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("WarpList.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("warplist", new WarpListCommand("warplist"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Warp-list.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Warp-list.Aliases")) {
-						commandMap.register(s, new WarpListCommand(s));
-					}
-				}
-			}
-			// >> Edit warp
-			if (!WarpSetWarpCommandConfig.getConfig().getBoolean("EditWarp.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("editwarp", new EditWarpCommand("editwarp"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Warp.Edit-Warp.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Warp.Edit-Warp.Aliases")) {
-						commandMap.register(s, new EditWarpCommand(s));
-					}
-				}
-			}
-
-			/* ---------------- *
-			 * WEATHER COMMANDS *
-			 * ---------------- */
-			// >> Rain
-			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("rain", new RainCommand("rain"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Rain.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Rain.Aliases")) {
-						commandMap.register(s, new RainCommand(s));
-					}
-				}
-			}
-			// >> Sun
-			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("sun", new SunCommand("sun"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Sun.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Sun.Aliases")) {
-						commandMap.register(s, new SunCommand(s));
-					}
-				}
-			}
-			// >> Thunder
-			if (!WeatherTimeCommandConfig.getConfig().getBoolean("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY")) {
-				commandMap.register("thunder", new ThunderCommand("thunder"));
-				if (CommandAliasesConfig.getConfig().getBoolean("Thunder.Enable")) {
-					for (String s : CommandAliasesConfig.getConfig().getStringList("Thunder.Aliases")) {
-						commandMap.register(s, new ThunderCommand(s));
-					}
-				}
-			}
-
-
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
-			e1.printStackTrace();
-		}
-
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Commands loaded");
-		gcs(ChatColor.BLUE+"| ");
-
-		new Manager(this).registerEvents();
+	    new Manager(this).registerEvents();
 		
 		getServer().getMessenger().registerIncomingPluginChannel(this, "wdl:init", pcl = new PluginChannelListener());
 	    getServer().getMessenger().registerOutgoingPluginChannel(this, "wdl:control");
@@ -1364,7 +588,7 @@ public class Main extends JavaPlugin implements Listener {
 	    try {
 	    	getServer().getMessenger().registerIncomingPluginChannel(this, "WDL|INIT", pcl = new PluginChannelListener());
 	        getServer().getMessenger().registerOutgoingPluginChannel(this, "WDL|CONTROL");
-	    } catch (Exception ex) {} 
+	    } catch (Exception ignored) {}
 	    	    
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
@@ -1430,9 +654,7 @@ public class Main extends JavaPlugin implements Listener {
 		UpdateCheck();
 
 		OnJoin.player_list.clear();
-		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
-			OnJoin.player_list.add(p);
-		}
+	    OnJoin.player_list.addAll(Bukkit.getServer().getOnlinePlayers());
 		FlyCommand.player_list_flyc.clear();
 		FunFeatures.player_list_dbenable.clear();
 
@@ -1639,7 +861,7 @@ public class Main extends JavaPlugin implements Listener {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
 	    		try {
 	    			block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
-	    		} catch (Exception e) {}
+	    		} catch (Exception ignored) {}
 	    	}
 	    }
 	    
@@ -1647,7 +869,7 @@ public class Main extends JavaPlugin implements Listener {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
 	    		try {
 	    			block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
-	    		} catch (Exception e) {}
+	    		} catch (Exception ignored) {}
 	    	}
 	    }
 	    
@@ -1657,21 +879,15 @@ public class Main extends JavaPlugin implements Listener {
 	    if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
 	    	
 	    	BasicFeatures.world_voidtp.clear();
-	    	
-	    	Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
-	    	
-	    	while (iterator5.hasNext()) {
-	    		String string = (String) iterator5.next();
-	    		
-	    		BasicFeatures.world_voidtp.add(string);
-	    	}
+
+		    BasicFeatures.world_voidtp.addAll(Objects.requireNonNull(VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List")).getKeys(false));
 	    }
 	    
 	    /*
 	     * MOTD
 	     */
 	    if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Enable")) {
-		    Iterator<?> iterator5 = ServerListConfig.getConfig().getConfigurationSection("Motd.Classic.Random-List").getKeys(false).iterator();
+		    Iterator<?> iterator5 = Objects.requireNonNull(ServerListConfig.getConfig().getConfigurationSection("Motd.Classic.Random-List")).getKeys(false).iterator();
 
 		    Integer bbnumberput = 0;
 
@@ -1734,13 +950,14 @@ public class Main extends JavaPlugin implements Listener {
 	    if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
 		    this.PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
 		    try {
-				this.newPacketPlayOutPlayerListHeaderFooter = this.PacketPlayOutPlayerListHeaderFooter.getConstructor(new Class[0]);
+			    assert this.PacketPlayOutPlayerListHeaderFooter != null;
+			    this.newPacketPlayOutPlayerListHeaderFooter = this.PacketPlayOutPlayerListHeaderFooter.getConstructor();
 			} catch (NoSuchMethodException | SecurityException e1) {
 				e1.printStackTrace();
 			}
 		    this.ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
 
-		    Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
+		    Iterator<?> iteanimtab = Objects.requireNonNull(TablistConfig.getConfig().getConfigurationSection("Animations")).getKeys(false).iterator();
 		    
 		    animationtab.clear();
 	    	while (iteanimtab.hasNext()) {
@@ -1817,13 +1034,8 @@ public class Main extends JavaPlugin implements Listener {
 			for (File directorfile : GuiSystem.fileList) {
 				if (GuiSystem.checkIfIsWorld(directorfile)) {
 					String worldname = directorfile.getName();
-					
-					if (Bukkit.getWorld(worldname) != null) {
-						ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", true);
-					} else {
-						ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", false);
-					}
-					
+
+					ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", Bukkit.getWorld(worldname) != null);
 					ConfigWorldGeneral.saveConfigFile();
 				}
 			}
@@ -1891,17 +1103,13 @@ public class Main extends JavaPlugin implements Listener {
 			}
 			
 			// Give items
-			
-			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
-			
-			 while (iterator.hasNext()) {
-	             String string = (String) iterator.next();
-	             
-	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-	             
-	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
-	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
-			 }
+
+		    for (String string : Objects.requireNonNull(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")).getKeys(false)) {
+			    String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+
+			    CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+			    CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+		    }
 	    }
 	    
 	    new BukkitRunnable() {
@@ -1967,11 +1175,11 @@ public class Main extends JavaPlugin implements Listener {
 		fileconfiglist.clear();
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            p.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
             
             try {
             	BossBarApi.deletebar(p);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
 		}
 		
 		getServer().getMessenger().unregisterIncomingPluginChannel(this, "wdl:init");
@@ -1979,7 +1187,7 @@ public class Main extends JavaPlugin implements Listener {
 	    try {
 	      getServer().getMessenger().unregisterIncomingPluginChannel(this, "WDL|INIT");
 	      getServer().getMessenger().unregisterOutgoingPluginChannel(this, "WDL|CONTROL");
-	    } catch (Exception e) {}
+	    } catch (Exception ignored) {}
 	    
 		gcs(ChatColor.RED+"Hawn - Good bye");
 	}
@@ -1990,10 +1198,6 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public VersionUtils getVersionClass() {
 		return versionUtils;
-	}
-	
-	public AutoBroadcastManager getABManager() {
-		return auto;
 	}
 
 	public static String getVersion() {
@@ -2066,11 +1270,11 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 
-		if (fo.listFiles().length <= 0) {
+		if (Objects.requireNonNull(fo.listFiles()).length <= 0) {
 	    	return;
 		}
 
-		for (File f : fo.listFiles()) {
+		for (File f : Objects.requireNonNull(fo.listFiles())) {
 			if (f.getName().endsWith(".yml")) {
 				String perm = "hawn.scoreboard." + f.getName().replace(".yml", "");
 				String filename = f.getName().replace(".yml", "");
@@ -2096,14 +1300,14 @@ public class Main extends JavaPlugin implements Listener {
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
 			if (boards.containsKey(player.getUniqueId())) {
-				ScoreboardInfo in = (ScoreboardInfo) this.info.get("hawn.scoreboard."+sb);
-				((PlayerBoard)boards.get(player.getUniqueId())).createNew(in);
+				ScoreboardInfo in = this.info.get("hawn.scoreboard."+sb);
+				boards.get(player.getUniqueId()).createNew(in);
 			} else {
 				new PlayerBoard(this, player.getUniqueId(), info.get("hawn.scoreboard."+sb));
 			}
 		} else {
 			for (String s : info.keySet()) {
-	            ScoreboardInfo in = (ScoreboardInfo) info.get(s);
+	            ScoreboardInfo in = info.get(s);
 	            
 	            String playerWorld = player.getWorld().getName();
 	            
@@ -2116,12 +1320,10 @@ public class Main extends JavaPlugin implements Listener {
 	                            return;
 	                        }
 	                        boards.get(player.getUniqueId()).createNew(in);
-	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
-	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
-	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+			            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    return;
 	                }
 	            } else if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
@@ -2133,12 +1335,10 @@ public class Main extends JavaPlugin implements Listener {
 	                            return;
 	                        }
 	                        boards.get(player.getUniqueId()).createNew(in);
-	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    } else {
 	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
-	                        PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    }
-	                    PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
+		                PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
 	                    return;
 	                }
 	            }
@@ -2163,11 +1363,6 @@ public class Main extends JavaPlugin implements Listener {
 
 	public HashMap<String, ScoreboardInfo> getInfo() {
 		return this.info;
-	}
-
-	@SuppressWarnings("static-access")
-	public HashMap<Player, Long> getPlayerWorldTimer() {
-		return this.playerWorldTimer;
 	}
 
 	// MYSQL

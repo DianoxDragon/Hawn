@@ -7,7 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-import fr.dianox.hawn.commands.WarpCommand;
+import fr.dianox.hawn.command.commands.WarpCommand;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.messages.ConfigMMsg;

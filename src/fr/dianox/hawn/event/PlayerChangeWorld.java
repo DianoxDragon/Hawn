@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.dianox.hawn.commands.FlyCommand;
+import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.ConfigEventUtils;

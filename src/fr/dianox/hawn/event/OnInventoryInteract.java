@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.HawnCommand;
+import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;

@@ -5,20 +5,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ScoreboardInfo {
 
-    private YamlConfiguration cfg;
-    private String permission;
+    private final YamlConfiguration cfg;
+    private final String permission;
     private List<String> text = new ArrayList<>();
     private List<String> title = new ArrayList<>();
     private int titleUpdate = 2;
     private int textUpdate = 5;
     private List<String> enabledWorlds = new ArrayList<>();
-    private HashMap<String, List<String>> changeText = new HashMap<>();
-    private HashMap<String, Integer> changeTextInterval = new HashMap<>();
-    private HashMap<String, Scroller> scrollerText = new HashMap<>();
-    private HashMap<String, Integer> scrollerInterval = new HashMap<>();
+    private final HashMap<String, List<String>> changeText = new HashMap<>();
+    private final HashMap<String, Integer> changeTextInterval = new HashMap<>();
+    private final HashMap<String, Scroller> scrollerText = new HashMap<>();
+    private final HashMap<String, Integer> scrollerInterval = new HashMap<>();
 
     public ScoreboardInfo(YamlConfiguration config, String permission) {
         cfg = config;
@@ -33,16 +34,14 @@ public class ScoreboardInfo {
         titleUpdate = cfg.getInt("updater.title", 2);
         textUpdate = cfg.getInt("updater.text", 5);
         if (cfg.getConfigurationSection("changeableText") != null) {
-            for (String s : cfg.getConfigurationSection("changeableText").getKeys(false)) {
-                if (cfg.getStringList("changeableText." + s + ".text") == null) {
-                    break;
-                }
+            for (String s : Objects.requireNonNull(cfg.getConfigurationSection("changeableText")).getKeys(false)) {
+                cfg.getStringList("changeableText." + s + ".text");
                 changeText.put(s, cfg.getStringList("changeableText." + s + ".text"));
                 changeTextInterval.put(s, cfg.getInt("changeableText." + s + ".interval", 30));
             }
         }
         if (cfg.getConfigurationSection("scroller") != null) {
-            for (String s : cfg.getConfigurationSection("scroller").getKeys(false)) {
+            for (String s : Objects.requireNonNull(cfg.getConfigurationSection("scroller")).getKeys(false)) {
                 String text = cfg.getString("scroller." + s + ".text");
                 if (text == null) {
                     break;

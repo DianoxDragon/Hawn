@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.FlyCommand;
+import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;

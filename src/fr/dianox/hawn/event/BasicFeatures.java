@@ -23,7 +23,7 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
-import fr.dianox.hawn.utility.WorldGuardUtils;
+
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.ConfigSpawn;
@@ -481,7 +481,7 @@ public class BasicFeatures implements Listener {
                             if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                             if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                                                 if (e.getEntity() instanceof Player) {
                                                     Damage(e);
@@ -498,7 +498,7 @@ public class BasicFeatures implements Listener {
                                     String check = "";
 
                                     for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -536,7 +536,7 @@ public class BasicFeatures implements Listener {
                         if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                     	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                                             if (e.getEntity() instanceof Player) {
                                                 Damage(e);
@@ -553,7 +553,7 @@ public class BasicFeatures implements Listener {
                                 String check = "";
 
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -594,7 +594,7 @@ public class BasicFeatures implements Listener {
                         if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                     	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                                             if (e.getEntity() instanceof Player) {
                                                 Damage(e);
@@ -611,7 +611,7 @@ public class BasicFeatures implements Listener {
                                 String check = "";
 
                                 for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -649,7 +649,7 @@ public class BasicFeatures implements Listener {
                     if (ProtectionPlayerConfig.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ProtectionPlayerConfig.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                 	if (ProtectionPlayerConfig.getConfig().getBoolean("Anti-Damage.Custom.Enable")) {
                                         if (e.getEntity() instanceof Player) {
                                             Damage(e);
@@ -666,7 +666,7 @@ public class BasicFeatures implements Listener {
                             String check = "";
 
                             for (String s: ProtectionPlayerConfig.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getEntity().getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }

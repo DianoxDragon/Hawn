@@ -5,16 +5,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.DelaychatCommand;
-import fr.dianox.hawn.commands.PingCommand;
+import fr.dianox.hawn.command.commands.DelaychatCommand;
+import fr.dianox.hawn.command.commands.PingCommand;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.server.Tps;
 import me.robin.battlelevels.api.BattleLevelsAPI;
-
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 public class PlaceHolders {
 

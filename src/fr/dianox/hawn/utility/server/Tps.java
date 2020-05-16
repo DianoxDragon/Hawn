@@ -4,8 +4,7 @@ public class Tps implements Runnable {
 	
 	public static int TICK_COUNT = 0;
 	public static long[] TICKS = new long['ǝ'];
-	public static long LAST_TICK = 0L;
-	
+
 	public static double getTPS() {
 		return getTPS(100);
 	}
@@ -20,11 +19,6 @@ public class Tps implements Runnable {
 			elapsed = 0;
 		}
 		return ticks / (elapsed / 1000.0D);
-	}
-	
-	public static long getElapsed(int tickID) { 
-	    long time = TICKS[(tickID % TICKS.length)];
-	    return System.currentTimeMillis() - time;
 	}
 	
 	public void run() {

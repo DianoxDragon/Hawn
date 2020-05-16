@@ -1,5 +1,3 @@
 Scoreboard based on Quickboard by Tejdik
-XMaterials//XSound - CryptoMorin // Hex_27
-PlaceholderAPI - Clip
-MVdWPlaceholderAPI - Maximvdw
+XMaterials//XSound//XPotion//ReflectionUtils - CryptoMorin // Hex_27
 Center message - SirSpoodles

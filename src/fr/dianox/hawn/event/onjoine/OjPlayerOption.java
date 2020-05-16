@@ -8,9 +8,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.FlyCommand;
-import fr.dianox.hawn.commands.VanishCommand;
-import fr.dianox.hawn.commands.tasks.VanishTaskAB;
+import fr.dianox.hawn.command.commands.FlyCommand;
+import fr.dianox.hawn.command.commands.VanishCommand;
+import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;

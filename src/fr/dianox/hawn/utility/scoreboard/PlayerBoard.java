@@ -16,34 +16,31 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerBoard {
 
-    private Main plugin;
+    private final Main plugin;
 
     private Scoreboard board;
     private Objective score;
     private UUID playerID;
 
-    private List<Team> teams = new ArrayList<>();
-    private HashMap<Team, String> lot = new HashMap<>();
+    private final List<Team> teams = new ArrayList<>();
+    private final HashMap<Team, String> lot = new HashMap<>();
     private List<String> list;
     private List<String> title;
-    private List<String> chlist = new ArrayList<>();
+    private final List<String> chlist = new ArrayList<>();
     private int updateTitle;
     private int updateText;
     private int titleTask;
     private int textTask;
     private boolean ch = false;
     private ScoreboardInfo info = null;
-    private HashMap<String, String> chanText = new HashMap<>();
-    private HashMap<String, Integer> chanTextInt = new HashMap<>();
-    private HashMap<String, String> scrollerText = new HashMap<>();
-    private List<Integer> tasks = new ArrayList<>();
+    private final HashMap<String, String> chanText = new HashMap<>();
+    private final HashMap<String, Integer> chanTextInt = new HashMap<>();
+    private final HashMap<String, String> scrollerText = new HashMap<>();
+    private final List<Integer> tasks = new ArrayList<>();
 
     private int index = 15;
     private int titleindex = 0;
@@ -56,14 +53,12 @@ public class PlayerBoard {
         updateTitle = info.getTitleUpdate();
         updateText = info.getTextUpdate();
 
-        if (info.getChangeText().keySet() != null) {
-	        for (String s : info.getChangeText().keySet()) {
-	            chanTextInt.put(s, 0);
-	            chanText.put(s, info.getChangeText().get(s).get(0));
-	        }
-        }
+	    for (String s : info.getChangeText().keySet()) {
+	        chanTextInt.put(s, 0);
+	        chanText.put(s, info.getChangeText().get(s).get(0));
+	    }
 
-        this.info = info;
+	    this.info = info;
 
         PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(playerID, info.getPermission(), list, title, this);
         Bukkit.getPluginManager().callEvent(event);
@@ -81,7 +76,8 @@ public class PlayerBoard {
         this.title = title;
         this.list = text;
 
-        PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(playerID, info.getPermission(), this.list, this.title, this);
+	    assert false;
+	    PlayerReceiveBoardEvent event = new PlayerReceiveBoardEvent(playerID, info.getPermission(), this.list, this.title, this);
         Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             startSetup(event);
@@ -107,7 +103,7 @@ public class PlayerBoard {
 
     @SuppressWarnings("deprecation")
 	private void buildScoreboard(PlayerReceiveBoardEvent event) {
-        board = Bukkit.getScoreboardManager().getNewScoreboard();
+        board = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         
         if (Main.Spigot_Version >= 113) {
         	score = board.registerNewObjective("score", "dummy", event.getTitle().get(0));
@@ -123,7 +119,7 @@ public class PlayerBoard {
         	score.setDisplayName(event.getTitle().get(0));
         }
         
-        Bukkit.getPlayer(getPlayerID()).setScoreboard(board);
+        Objects.requireNonNull(Bukkit.getPlayer(getPlayerID())).setScoreboard(board);
     }
 
     private void setUpText(final List<String> text) {
@@ -162,23 +158,19 @@ public class PlayerBoard {
         for (Team t : this.teams) {
             String s = lot.get(t);
             if (info != null) {
-            	if (info.getChangeText().keySet() != null) {
-	                for (String a : info.getChangeText().keySet()) {
-	                	if (s.contains("{CH_" + a + "}")) {
-	                        s = s.replace("{CH_" + a + "}", "");
-	                        s = s + chanText.get(a);
-	                    }
+	            for (String a : info.getChangeText().keySet()) {
+		            if (s.contains("{CH_" + a + "}")) {
+	                    s = s.replace("{CH_" + a + "}", "");
+	                    s = s + chanText.get(a);
 	                }
-            	}
-            	
-            	if (info.getScrollerText().keySet() != null) {
-	                for (String a : info.getScrollerText().keySet()) {
-	                    if (s.contains("{SC_" + a + "}")) {
-	                        s = s.replace("{SC_" + a + "}", "");
-	                        s = s + scrollerText.get(a);
-	                    }
+	            }
+
+	            for (String a : info.getScrollerText().keySet()) {
+	                if (s.contains("{SC_" + a + "}")) {
+	                    s = s.replace("{SC_" + a + "}", "");
+	                    s = s + scrollerText.get(a);
 	                }
-            	}
+	            }
             }
             s = setHolders(s);
             WhenPluginUpdateTextEvent event = new WhenPluginUpdateTextEvent(getPlayerID(), s);
@@ -225,7 +217,7 @@ public class PlayerBoard {
             s = ChatColor.translateAlternateColorCodes('&', s);
             
             return s;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	
         return s;
     }
@@ -245,7 +237,7 @@ public class PlayerBoard {
             titleindex = 0;
         }
         
-        Boolean check = false;
+        boolean check = false;
         
         if (Main.Spigot_Version >= 113) {
         	check = true;
@@ -266,7 +258,7 @@ public class PlayerBoard {
         stopTasks();
         plugin.getBoards().remove(getPlayerID());
         plugin.getAllboards().remove(this);
-        Bukkit.getPlayer(getPlayerID()).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        Objects.requireNonNull(Bukkit.getPlayer(getPlayerID())).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
     }
 
     public void stopTasks() {
@@ -283,47 +275,43 @@ public class PlayerBoard {
     	textTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::updateText, 0, updateText);
 
         if (info != null) {
-        	if (info.getChangeText().keySet() != null) {
-	            for (final String s : info.getChangeText().keySet()) {
-	                int inter = info.getChangeTextInterval().get(s);
-	
-	                BukkitTask task = new BukkitRunnable() {
-	                    public void run() {
-	                        List<String> text = info.getChangeText().get(s);
-	                        chanTextInt.put(s, chanTextInt.get(s) + 1);
-	
-	                        if (chanTextInt.get(s) >= text.size()) {
-	                            chanTextInt.put(s, 0);
-	                        }
-	                        int ta = chanTextInt.get(s);
-	                        chanText.put(s, text.get(ta));
-	                        updateText();
-	                    }
-	                }.runTaskTimer(plugin, 1, inter);
-	
-	                tasks.add(task.getTaskId());
-	            }
-        	}
+	        for (final String s : info.getChangeText().keySet()) {
+	            int inter = info.getChangeTextInterval().get(s);
 
-        	if (info.getScrollerText().keySet() != null) {
-	            for (final String s : info.getScrollerText().keySet()) {
-	                int inter = info.getScrollerInterval().get(s);
-	
-	                BukkitTask task = new BukkitRunnable() {
-	                    public void run() {
-	                        Scroller text = info.getScrollerText().get(s);
-	                        text.setupText(
-	                        		setHolders(text.getText()),
-	                        		'&'
-	                        );
-	                        scrollerText.put(s, text.next());
-	                        updateText();
+	            BukkitTask task = new BukkitRunnable() {
+	                public void run() {
+	                    List<String> text = info.getChangeText().get(s);
+	                    chanTextInt.put(s, chanTextInt.get(s) + 1);
+
+	                    if (chanTextInt.get(s) >= text.size()) {
+	                        chanTextInt.put(s, 0);
 	                    }
-	                }.runTaskTimer(plugin, 1, inter);
-	
-	                tasks.add(task.getTaskId());
-	            }
-        	}
+	                    int ta = chanTextInt.get(s);
+	                    chanText.put(s, text.get(ta));
+	                    updateText();
+	                }
+	            }.runTaskTimer(plugin, 1, inter);
+
+	            tasks.add(task.getTaskId());
+	        }
+
+	        for (final String s : info.getScrollerText().keySet()) {
+	            int inter = info.getScrollerInterval().get(s);
+
+	            BukkitTask task = new BukkitRunnable() {
+	                public void run() {
+	                    Scroller text = info.getScrollerText().get(s);
+	                    text.setupText(
+			                    setHolders(text.getText()),
+			                    '&'
+	                    );
+	                    scrollerText.put(s, text.next());
+	                    updateText();
+	                }
+	            }.runTaskTimer(plugin, 1, inter);
+
+	            tasks.add(task.getTaskId());
+	        }
         }
     }
 
@@ -349,15 +337,13 @@ public class PlayerBoard {
         if (this.title.size() <= 0) {
             this.title.add(" ");
         }
-        
-        if (info.getChangeText().keySet() != null) {
-        	for (String s : info.getChangeText().keySet()) {
-	            chanTextInt.put(s, 0);
-	            chanText.put(s, info.getChangeText().get(s).get(0));
-	        }
-        }
-        
-        setUpText(info.getText());
+
+	    for (String s : info.getChangeText().keySet()) {
+	        chanTextInt.put(s, 0);
+	        chanText.put(s, info.getChangeText().get(s).get(0));
+	    }
+
+	    setUpText(info.getText());
         
         ch = false;
         updater();
@@ -385,7 +371,7 @@ public class PlayerBoard {
     }
 
     private String[] splitString(String string) {
-        StringBuilder prefix = new StringBuilder(string.substring(0, string.length() >= getMaxSize() ? getMaxSize() : string.length()));
+        StringBuilder prefix = new StringBuilder(string.substring(0, Math.min(string.length(), getMaxSize())));
         StringBuilder suffix = new StringBuilder(string.length() > getMaxSize() ? string.substring(getMaxSize()) : "");
         if (prefix.length() > 1 && prefix.charAt(prefix.length() - 1) == '§') {
             prefix.deleteCharAt(prefix.length() - 1);

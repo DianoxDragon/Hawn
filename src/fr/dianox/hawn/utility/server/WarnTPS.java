@@ -10,9 +10,7 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 
 public class WarnTPS {
-	
-static final int[] warnSystem = new int[1];
-	
+
 		public static void runWarnSystemTask(Main plugin) {
 			
 			new BukkitRunnable() {

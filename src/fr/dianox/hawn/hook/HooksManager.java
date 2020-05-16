@@ -16,7 +16,7 @@ public class HooksManager {
 	public HooksManager(Main plugin) {
 		papi = new PlaceHolderAPI(plugin);
 		mdvpapi = new MVdWPlaceholderAPI(plugin);
-		wg = new WorldGuard(plugin);
+		wg = new WorldGuard();
 		bl = new BattleLevel(plugin);
 	}
 

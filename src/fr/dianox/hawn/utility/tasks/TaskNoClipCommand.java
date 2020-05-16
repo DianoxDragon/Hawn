@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.dianox.hawn.commands.HawnCommand;
+import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;

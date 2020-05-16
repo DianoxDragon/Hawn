@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.WorldGuardUtils;
+
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.ConfigGeneral;
 import fr.dianox.hawn.utility.config.events.ConfigGProtection;
@@ -48,7 +48,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             break;
@@ -58,7 +58,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -81,7 +81,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -91,7 +91,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -117,7 +117,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -127,7 +127,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -150,7 +150,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     e.setCancelled(true);
 
                                     break;
@@ -160,7 +160,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }
@@ -201,7 +201,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             break;
@@ -211,7 +211,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -234,7 +234,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -244,7 +244,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -270,7 +270,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -280,7 +280,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -303,7 +303,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     e.setCancelled(true);
 
                                     break;
@@ -313,7 +313,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }
@@ -384,7 +384,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -400,7 +400,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -436,7 +436,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -452,7 +452,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -491,7 +491,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -507,7 +507,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -543,7 +543,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -559,7 +559,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlockPlaced().getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }
@@ -621,7 +621,7 @@ public class ProtectionsEventWorld implements Listener {
                                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                     e.setCancelled(true);
 
                                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -637,7 +637,7 @@ public class ProtectionsEventWorld implements Listener {
                                             String check = "";
 
                                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                     check = "true";
                                                 }
                                             }
@@ -677,7 +677,7 @@ public class ProtectionsEventWorld implements Listener {
                                 if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                 e.setCancelled(true);
 
                                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -693,7 +693,7 @@ public class ProtectionsEventWorld implements Listener {
                                         String check = "";
 
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                 check = "true";
                                             }
                                         }
@@ -736,7 +736,7 @@ public class ProtectionsEventWorld implements Listener {
                                 if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                 e.setCancelled(true);
 
                                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -752,7 +752,7 @@ public class ProtectionsEventWorld implements Listener {
                                         String check = "";
 
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                                 check = "true";
                                             }
                                         }
@@ -792,7 +792,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Message")) {
@@ -808,7 +808,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -894,7 +894,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
@@ -910,7 +910,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -946,7 +946,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
@@ -962,7 +962,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1001,7 +1001,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
@@ -1017,7 +1017,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1053,7 +1053,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                     e.setCancelled(true);
 
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
@@ -1069,7 +1069,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getBlock().getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }
@@ -1124,7 +1124,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             break;
@@ -1134,7 +1134,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -1157,7 +1157,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -1167,7 +1167,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1193,7 +1193,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -1203,7 +1203,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1226,7 +1226,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     e.setCancelled(true);
 
                                     break;
@@ -1236,7 +1236,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(p.getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(p.getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }
@@ -1278,7 +1278,7 @@ public class ProtectionsEventWorld implements Listener {
                                 if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                                 e.setCancelled(true);
 
                                                 break;
@@ -1288,7 +1288,7 @@ public class ProtectionsEventWorld implements Listener {
                                         String check = "";
 
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                            if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                            if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                                 check = "true";
                                             }
                                         }
@@ -1313,7 +1313,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             break;
@@ -1323,7 +1323,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -1351,7 +1351,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                             e.setCancelled(true);
 
                                             break;
@@ -1361,7 +1361,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -1386,7 +1386,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                         e.setCancelled(true);
 
                                         break;
@@ -1396,7 +1396,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getRightClicked().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1438,7 +1438,7 @@ public class ProtectionsEventWorld implements Listener {
                             if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                         	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                         		for (Material m : Main.interactables) {
                                         			if (e.getClickedBlock().getType() == m) {
@@ -1454,7 +1454,7 @@ public class ProtectionsEventWorld implements Listener {
                                     String check = "";
 
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                        if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                        if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                             check = "true";
                                         }
                                     }
@@ -1490,7 +1490,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                     		for (Material m : Main.interactables) {
                                     			if (e.getClickedBlock().getType() == m) {
@@ -1506,7 +1506,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1545,7 +1545,7 @@ public class ProtectionsEventWorld implements Listener {
                         if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                     		for (Material m : Main.interactables) {
                                     			if (e.getClickedBlock().getType() == m) {
@@ -1561,7 +1561,7 @@ public class ProtectionsEventWorld implements Listener {
                                 String check = "";
 
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                    if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                    if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                         check = "true";
                                     }
                                 }
@@ -1597,7 +1597,7 @@ public class ProtectionsEventWorld implements Listener {
                     if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                 	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                 		for (Material m : Main.interactables) {
                                 			if (e.getClickedBlock().getType() == m) {
@@ -1613,7 +1613,7 @@ public class ProtectionsEventWorld implements Listener {
                             String check = "";
 
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
-                                if (WorldGuardUtils.getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
+                                if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                     check = "true";
                                 }
                             }

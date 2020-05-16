@@ -14,9 +14,9 @@ public class Scroller {
 
     private static final char COLOUR_CHAR = '§';
     private int width, spaceBetween;
-    private String text;
+    private final String text;
     private int position;
-    private List<String> list;
+    private final List<String> list;
     private ChatColor colour = ChatColor.RESET;
 
     /**

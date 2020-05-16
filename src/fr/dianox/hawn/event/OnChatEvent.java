@@ -14,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.commands.DelaychatCommand;
+import fr.dianox.hawn.command.commands.DelaychatCommand;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.ConfigEventUtils;
