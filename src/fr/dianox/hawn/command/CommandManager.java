@@ -13,14 +13,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class CommandManager {
 
-	Field bukkitCommandMap;
-
 	public CommandManager(Main plugin) throws NoSuchFieldException, IllegalAccessException {
 		// Basics
-		bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+		Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 		bukkitCommandMap.setAccessible(true);
 		CommandMap cm = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
 
@@ -39,7 +38,7 @@ public class CommandManager {
 			cm.register("hworld", new WorldCommand("hworld"));
 		}
 
-		plugin.getCommand("hawn").setExecutor(new HawnCommand());
+		Objects.requireNonNull(plugin.getCommand("hawn")).setExecutor(new HawnCommand());
 
 		/* --------------------------- *
 		 * WORLD EDIT ALIASES COMMANDS *
@@ -359,10 +358,10 @@ public class CommandManager {
 		 * ------------- */
 		// >> Help
 		if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-			cm.register("help", new fr.dianox.hawn.command.commands.HelpCommand("help"));
+			cm.register("help", new HelpCommand("help"));
 			if (CommandAliasesConfig.getConfig().getBoolean("Help.Enable")) {
 				for (String s : CommandAliasesConfig.getConfig().getStringList("Help.Aliases")) {
-					cm.register(s, new fr.dianox.hawn.command.commands.HelpCommand(s));
+					cm.register(s, new HelpCommand(s));
 				}
 			}
 		}

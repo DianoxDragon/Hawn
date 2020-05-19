@@ -12,24 +12,20 @@ import java.util.*;
 import fr.dianox.hawn.command.CommandManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.command.commands.HawnCommand;
+import fr.dianox.hawn.event.*;
 import fr.dianox.hawn.hook.HooksManager;
+import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import fr.dianox.hawn.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Scoreboard;
 
-import fr.dianox.hawn.event.BasicFeatures;
-import fr.dianox.hawn.event.FunFeatures;
-import fr.dianox.hawn.event.OnCommandEvent;
-import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
@@ -130,23 +126,20 @@ import fr.dianox.hawn.utility.config.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
 import fr.dianox.hawn.utility.load.Reload;
 import fr.dianox.hawn.utility.load.WorldList;
-import fr.dianox.hawn.utility.scoreboard.PlayerBoard;
-import fr.dianox.hawn.utility.scoreboard.ScoreboardInfo;
 import fr.dianox.hawn.utility.server.Tps;
 import fr.dianox.hawn.utility.server.WarnTPS;
-import fr.dianox.hawn.utility.tab.AnimationTabTask;
-import fr.dianox.hawn.utility.tab.MainTablist;
+import fr.dianox.hawn.modules.tab.AnimationTabTask;
+import fr.dianox.hawn.modules.tab.MainTablist;
 
 public class Main extends JavaPlugin implements Listener {
-	
-	private static Main instance;
-	VersionUtils versionUtils = new VersionUtils();
-	AutoBroadcastManager auto;
-	BungeeApi bungApi = new BungeeApi(Main.getInstance());
-	HooksManager hooksManager;
-	CommandManager commandManager;
 
-	private static String versions = "1.0.4-Beta";
+	private static Main instance;
+	private final VersionUtils versionUtils = new VersionUtils();
+	private final BungeeApi bungApi = new BungeeApi(Main.getInstance());
+	private HooksManager hooksManager;
+	private ScoreManager scoreManager;
+
+	private static String versions = "1.0.5-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -182,15 +175,7 @@ public class Main extends JavaPlugin implements Listener {
     public static int curMsg_ab = 0;
     public static int curMsg_bb = 0;
     public static int curMsg_titles = 0;
-	public Scoreboard board;
 
-	public static HashMap<UUID, PlayerBoard> boards = new HashMap<>();
-	public static List<PlayerBoard> allboards = new ArrayList<>();
-	public HashMap<String, ScoreboardInfo> info = new HashMap<>();
-	public HashMap<String, String> infoname = new HashMap<>();
-	public HashMap<String, String> infoname2 = new HashMap<>();
-	public static HashMap<Player, Long> playerWorldTimer = new HashMap<>();
-	public static List<Player> nosb = new ArrayList<>();
 	public static List<Player> injumpwithjumppad = new ArrayList<>();
 	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<>();
@@ -575,7 +560,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 	    try {
-		    commandManager = new CommandManager(this);
+		    CommandManager commandManager = new CommandManager(this);
 	    } catch (NoSuchFieldException | IllegalAccessException e) {
 		    e.printStackTrace();
 	    }
@@ -902,39 +887,7 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 	    
 	    // broadcast
-	    auto = new AutoBroadcastManager();
-	    
-	    /*
-	     * --------------
-	     *   Scoreboard
-	     * --------------
-	     */
-	    if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
-	    	
-	    	File folder = new File(getDataFolder().getAbsolutePath() + "/Scoreboard/");
-
-		    loadScoreboards(folder);
-
-		    for (Player p : Bukkit.getOnlinePlayers()) {
-	            playerWorldTimer.put(p, System.currentTimeMillis() + 5000);
-		    }
-
-		    new BukkitRunnable() {
-	            @Override
-	            public void run() {
-	                for (Player player : playerWorldTimer.keySet()) {
-	                	if (!nosb.contains(player)) {
-		                    long time = playerWorldTimer.get(player);
-
-		                    if (time < System.currentTimeMillis())
-		                        continue;
-
-		                    createDefaultScoreboard(player);
-	                	}
-	                }
-	            }
-		    }.runTaskTimer(this, 0, 20);
-	    }
+	    AutoBroadcastManager auto = new AutoBroadcastManager();
 	    
 	    new BukkitRunnable() {
 	    	@Override
@@ -1065,44 +1018,46 @@ public class Main extends JavaPlugin implements Listener {
 			
 			GuiSystem.fileList.clear();
 	    }
-	    
+
+	    scoreManager = new ScoreManager(this);
+
 	    /*
 	     * Custom join item
 	     */
 	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
-	    	
-	    	CustomJoinItem.itemcjiname.clear();
-	    	CustomJoinItem.itemcjislot.clear();
-	    	
+
+		    CustomJoinItem.itemcjiname.clear();
+		    CustomJoinItem.itemcjislot.clear();
+
 		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+
+			    String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
+
+			    CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
 		    }
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
-						
-				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			// Give items
+
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
+
+			    String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
+
+			    CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
+
+			    String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
+
+			    CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+
+		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
+
+			    String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
+
+			    CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
+		    }
+
+		    // Give items
 
 		    for (String string : Objects.requireNonNull(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")).getKeys(false)) {
 			    String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
@@ -1111,25 +1066,7 @@ public class Main extends JavaPlugin implements Listener {
 			    CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
 		    }
 	    }
-	    
-	    new BukkitRunnable() {
-            @Override
-            public void run() {
-            	if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
-        			File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Scoreboard/");
-        			Main.getInstance().loadScoreboards(folder);
-        			
-        			for (Player p : Bukkit.getOnlinePlayers()) {
-        	            if (Main.getInstance().getBoards().containsKey(p.getUniqueId())) {
-        	            	Main.getInstance().getBoards().get(p.getUniqueId()).remove();
-        	            	Main.getInstance().getBoards().remove(p.getUniqueId());
-        	            }
-        	            Main.getInstance().createDefaultScoreboard(p);
-        			}
-        		}
-            }
-	    }.runTaskLater(this, 150);
-	    
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
 
@@ -1265,106 +1202,6 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
-	public void loadScoreboards(File fo) {
-		if (fo.listFiles() == null) {
-			return;
-		}
-
-		if (Objects.requireNonNull(fo.listFiles()).length <= 0) {
-	    	return;
-		}
-
-		for (File f : Objects.requireNonNull(fo.listFiles())) {
-			if (f.getName().endsWith(".yml")) {
-				String perm = "hawn.scoreboard." + f.getName().replace(".yml", "");
-				String filename = f.getName().replace(".yml", "");
-				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
-				ScoreboardInfo info = new ScoreboardInfo(cfg, perm);
-				this.infoname.put(filename, perm);
-				this.infoname2.put(perm, filename);
-				this.info.put(perm, info);
-				gcs(ChatColor.BLUE+"| "+ChatColor.GRAY+"Loaded the scoreboard : " + ChatColor.GREEN + f.getName() + ChatColor.GRAY +" with the permission : " + ChatColor.GREEN + perm);
-			} else {
-				gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"The file : "+ f.getName() + "is not accepted. Accepted only '.yml' files (YAML)");
-			}
-		}
-	}
-
-	public void createDefaultScoreboard(Player player) {
-
-		if (nosb.contains(player)) {
-			return;
-		}
-		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(player, "keepsb");
-
-		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
-			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(player, "scoreboard");
-			if (boards.containsKey(player.getUniqueId())) {
-				ScoreboardInfo in = this.info.get("hawn.scoreboard."+sb);
-				boards.get(player.getUniqueId()).createNew(in);
-			} else {
-				new PlayerBoard(this, player.getUniqueId(), info.get("hawn.scoreboard."+sb));
-			}
-		} else {
-			for (String s : info.keySet()) {
-	            ScoreboardInfo in = info.get(s);
-	            
-	            String playerWorld = player.getWorld().getName();
-	            
-	            if (in.getEnabledWorlds() == null) {
-	            	if (player.hasPermission(s)) {
-	                    if (boards.containsKey(player.getUniqueId())) {
-	                        if (boards.get(player.getUniqueId()).getList().equals(in.getText())) {
-	                            player.setScoreboard(boards.get(player.getUniqueId()).getBoard());
-	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
-	                            return;
-	                        }
-	                        boards.get(player.getUniqueId()).createNew(in);
-	                    } else {
-	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
-	                    }
-			            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
-	                    return;
-	                }
-	            } else if (in.getEnabledWorlds() != null && in.getEnabledWorlds().contains(playerWorld)) {
-	                if (player.hasPermission(s)) {
-	                    if (boards.containsKey(player.getUniqueId())) {
-	                        if (boards.get(player.getUniqueId()).getList().equals(in.getText())) {
-	                            player.setScoreboard(boards.get(player.getUniqueId()).getBoard());
-	                            PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
-	                            return;
-	                        }
-	                        boards.get(player.getUniqueId()).createNew(in);
-	                    } else {
-	                        new PlayerBoard(this, player.getUniqueId(), info.get(s));
-	                    }
-		                PlayerOptionSQLClass.saveSBmysqlyaml(player, this.infoname2.get(s), "FALSE");
-	                    return;
-	                }
-	            }
-	        }
-			
-			PlayerBoard board = boards.getOrDefault(player.getUniqueId(), null);
-			if (board != null) {
-				board.remove();
-			}
-		}
-	}
-
-	@SuppressWarnings("static-access")
-	public HashMap<UUID, PlayerBoard> getBoards() {
-		return this.boards;
-	}
-
-	@SuppressWarnings("static-access")
-	public List<PlayerBoard> getAllboards() {
-		return this.allboards;
-	}
-
-	public HashMap<String, ScoreboardInfo> getInfo() {
-		return this.info;
-	}
-
 	// MYSQL
 	public void openConnection() throws SQLException, ClassNotFoundException {
 	    if (connection != null && !connection.isClosed()) {
@@ -1433,5 +1270,9 @@ public class Main extends JavaPlugin implements Listener {
 	public HooksManager getHooksManager() {
     	return hooksManager;
 	}
+
+	public ScoreManager getScoreManager() {
+    	return scoreManager;
+    }
 
 }

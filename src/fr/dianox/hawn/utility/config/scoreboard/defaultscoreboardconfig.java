@@ -98,7 +98,7 @@ public class defaultscoreboardconfig {
             }));
             
             Config.set("updater.title", 5);
-            Config.set("updater.text", 5);
+            Config.set("updater.scoreboard", 5);
             
             Config.set("World.All_World", false);
             Config.set("World.Worlds", java.util.Arrays.asList(new String[] {

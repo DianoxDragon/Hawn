@@ -66,7 +66,7 @@ public class worldnetherdsc {
             }));
             
             Config.set("updater.title", 50);
-            Config.set("updater.text", 60);
+	        Config.set("updater.scoreboard", 60);
             
             Config.set("World.All_World", false);
             Config.set("World.Worlds", java.util.Arrays.asList(new String[] {

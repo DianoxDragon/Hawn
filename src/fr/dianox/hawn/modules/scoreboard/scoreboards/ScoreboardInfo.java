@@ -1,4 +1,4 @@
-package fr.dianox.hawn.utility.scoreboard;
+package fr.dianox.hawn.modules.scoreboard.scoreboards;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 

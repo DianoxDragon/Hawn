@@ -1,4 +1,4 @@
-package fr.dianox.hawn.utility.scoreboard;
+package fr.dianox.hawn.modules.scoreboard.scoreboards;
 
 import org.bukkit.ChatColor;
 
@@ -36,11 +36,11 @@ public class Scroller {
     public String getText() {
         return text;
     }
-    
+
     /**
      * @return Gets the next String to display
      */
-    String next() {
+    public String next() {
         StringBuilder sb = getNext();
         if (sb.charAt(sb.length() - 1) == COLOUR_CHAR)
             sb.setCharAt(sb.length() - 1, ' ');
@@ -56,7 +56,6 @@ public class Scroller {
         }
 
         return colour + sb.toString();
-
     }
 
     private StringBuilder getNext() {

@@ -1,4 +1,4 @@
-package fr.dianox.hawn.utility.tab;
+package fr.dianox.hawn.modules.tab;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

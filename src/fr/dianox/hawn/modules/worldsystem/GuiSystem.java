@@ -7,6 +7,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -44,8 +45,8 @@ import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
 public class GuiSystem implements Listener {
 	
 	public static List<File> fileList = new ArrayList<>();
-	private static List<Player> plistincreation = new ArrayList<>();
-	private static HashMap<Player, String> worlddeletion = new HashMap<Player, String>();
+	private static final List<Player> plistincreation = new ArrayList<>();
+	private static final HashMap<Player, String> worlddeletion = new HashMap<>();
 	
 	/*
 	 * Interact with the manager
@@ -90,7 +91,7 @@ public class GuiSystem implements Listener {
 						return;
 					}
 					
-					String worldname = item.getItemMeta().getDisplayName();
+					String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
 					worldname = worldname.replace("§c§l", "");
 					
 					if (worldname.contains(" ") || worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
@@ -121,7 +122,7 @@ public class GuiSystem implements Listener {
 						return;
 					} else {
 						
-						String worldname = item.getItemMeta().getDisplayName();
+						String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
 						worldname = worldname.replace("§a§l", "");
 						
 						if (worldname.contains(" ") || worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
@@ -133,7 +134,8 @@ public class GuiSystem implements Listener {
 		                
 						if (!p.getWorld().getName().equals(worldname)) {
 		                	World world = Bukkit.getWorld(worldname);
-		                    Location location = world.getSpawnLocation();
+							assert world != null;
+							Location location = world.getSpawnLocation();
 		                    p.teleport(location);
 		                    for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
 		                        ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", worldname), "Gui.Tp.Success", "GuiSystem", false);
@@ -172,13 +174,11 @@ public class GuiSystem implements Listener {
 					return;
 				}
 				
-				String worldname = item.getItemMeta().getDisplayName();
+				String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
 				worldname = worldname.replace("§a§l", "");
 				worldname = worldname.replace("§c§l", "");
-				
-				if (worlddeletion.containsKey(p)) {
-					worlddeletion.remove(p);
-				}
+
+				worlddeletion.remove(p);
 				
 				worlddeletion.put(p, worldname);
 								
@@ -190,7 +190,7 @@ public class GuiSystem implements Listener {
 					return;
 				}
 				
-				String worldname = item.getItemMeta().getDisplayName();
+				String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
 				worldname = worldname.replace("§a§l", "");
 				worldname = worldname.replace("§c§l", "");
 				
@@ -208,33 +208,33 @@ public class GuiSystem implements Listener {
 			if (item.getType() == XMaterial.BARRIER.parseMaterial()) {
 				FirstPage(p);
 			} else if (e.getRawSlot() == 12) {
-				List<String> lore = new ArrayList<>();
+				ArrayList<String> lore = new ArrayList<>();
 				if (item.getType() == XMaterial.OAK_SAPLING.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Nether").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(12, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.NETHERRACK.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Nether")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(12, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type")).replaceAll("&", "§"), lore, XMaterial.NETHERRACK.parseMaterial()));
 				} else if (item.getType() == XMaterial.NETHERRACK.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.The_End").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(12, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.END_STONE.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.The_End")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(12, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type")).replaceAll("&", "§"), lore, XMaterial.END_STONE.parseMaterial()));
 				} else if (item.getType() == XMaterial.END_STONE.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Normal").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(12, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.OAK_SAPLING.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Normal")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(12, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.World-Type")).replaceAll("&", "§"), lore, XMaterial.OAK_SAPLING.parseMaterial()));
 				}
 				
 				p.updateInventory();
 			} else if (e.getRawSlot() == 14) {
-				List<String> lore = new ArrayList<>();
+				ArrayList<String> lore = new ArrayList<>();
 				if (item.getType() == XMaterial.GRASS.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Flat").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(14, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.STONE_PRESSURE_PLATE.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Flat")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(14, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face")).replaceAll("&", "§"), lore, XMaterial.STONE_PRESSURE_PLATE.parseMaterial()));
 				} else if (item.getType() == XMaterial.STONE_PRESSURE_PLATE.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Amplified").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(14, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.TALL_GRASS.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Amplified")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(14, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face")).replaceAll("&", "§"), lore, XMaterial.TALL_GRASS.parseMaterial()));
 				} else if (item.getType() == XMaterial.TALL_GRASS.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Large-Biomes").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(14, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.OAK_LEAVES.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Large-Biomes")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(14, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face")).replaceAll("&", "§"), lore, XMaterial.OAK_LEAVES.parseMaterial()));
 				} else if (item.getType() == XMaterial.OAK_LEAVES.parseMaterial()) {
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Normal").replaceAll("&", "§"));
-					p.getOpenInventory().setItem(14, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.GRASS.parseMaterial()));
+					lore.add(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.Normal")).replaceAll("&", "§"));
+					p.getOpenInventory().setItem(14, createGuiItem(Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldFace.World-Face")).replaceAll("&", "§"), lore, XMaterial.GRASS.parseMaterial()));
 				}
 				
 				p.updateInventory();
@@ -246,22 +246,22 @@ public class GuiSystem implements Listener {
 				Environment env = Environment.NORMAL;
 				WorldType wtype = WorldType.NORMAL;
 				
-				if (p.getOpenInventory().getItem(12).getType() == XMaterial.NETHERRACK.parseMaterial()) {
+				if (Objects.requireNonNull(p.getOpenInventory().getItem(12)).getType() == XMaterial.NETHERRACK.parseMaterial()) {
 					env = Environment.NETHER;
-				} else if (p.getOpenInventory().getItem(12).getType() == XMaterial.END_STONE.parseMaterial()) {
+				} else if (Objects.requireNonNull(p.getOpenInventory().getItem(12)).getType() == XMaterial.END_STONE.parseMaterial()) {
 					env = Environment.THE_END;
 				}
 				
-				if (p.getOpenInventory().getItem(14).getType() == XMaterial.STONE_PRESSURE_PLATE.parseMaterial()) {
+				if (Objects.requireNonNull(p.getOpenInventory().getItem(14)).getType() == XMaterial.STONE_PRESSURE_PLATE.parseMaterial()) {
 					wtype = WorldType.FLAT;
-				} else if (p.getOpenInventory().getItem(14).getType() == XMaterial.TALL_GRASS.parseMaterial()) {
+				} else if (Objects.requireNonNull(p.getOpenInventory().getItem(14)).getType() == XMaterial.TALL_GRASS.parseMaterial()) {
 					wtype = WorldType.AMPLIFIED;
-				} else if (p.getOpenInventory().getItem(14).getType() == XMaterial.OAK_LEAVES.parseMaterial()) {
+				} else if (Objects.requireNonNull(p.getOpenInventory().getItem(14)).getType() == XMaterial.OAK_LEAVES.parseMaterial()) {
 					wtype = WorldType.LARGE_BIOMES;
 				} 
 				
 				String worldname = p.getOpenInventory().getItem(47).getItemMeta().getLore().get(0);
-				worldname = worldname.replace("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name").replaceAll("&", "§") + " §e", "");
+				worldname = worldname.replace("§7" + Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name")).replaceAll("&", "§") + " §e", "");
 				worldname = worldname.replaceAll(" ", "_");
 				
 				if (worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
@@ -291,25 +291,23 @@ public class GuiSystem implements Listener {
 			
 			if (item.getType() == XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()) {
 				FirstPage(p);
-				
-				if (worlddeletion.containsKey(p)) {
-					worlddeletion.remove(p);
-				}
+
+				worlddeletion.remove(p);
 			} else if (item.getType() == XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()) {
 				if (worlddeletion.containsKey(p)) {
 					String worldname = worlddeletion.get(p);
 					
 					if (Bukkit.getWorld(worldname) != null) {
-						File folder = new File(Bukkit.getServer().getWorld(worldname).getWorldFolder().getPath());
+						File folder = new File(Objects.requireNonNull(Bukkit.getServer().getWorld(worldname)).getWorldFolder().getPath());
 		    			World world = Bukkit.getServer().getWorld(worldname);
-		    			if (!world.getPlayers().isEmpty()) {
+						assert world != null;
+						if (!world.getPlayers().isEmpty()) {
 		    				List<Player> list = world.getPlayers();
-		    				for (int i = 0; i < list.size(); i++) {
-		    					Player plist = (Player)list.get(i);
-		    					List<World> tpList = Bukkit.getServer().getWorlds();
-		    					World spawn = (World)tpList.get(0);
-		    					plist.teleport(spawn.getSpawnLocation());
-		    				}
+							for (Player player : list) {
+								List<World> tpList = Bukkit.getServer().getWorlds();
+								World spawn = (World)tpList.get(0);
+								((Player) player).teleport(spawn.getSpawnLocation());
+							}
 		    			}
 		    			
 		    			Bukkit.getServer().unloadWorld(worldname, true);
@@ -322,8 +320,7 @@ public class GuiSystem implements Listener {
 		        		for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
 		                    ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
 		                }
-		    			
-		    			FirstPage(p);
+
 					} else {
 						String pathname = new File(".").getAbsolutePath();
 						File directory = new File(pathname + "\\" + worldname + "\\");
@@ -336,9 +333,9 @@ public class GuiSystem implements Listener {
 		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
 		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
 		        		ConfigWorldGeneral.saveConfigFile();
-		    			
-		    			FirstPage(p);
+
 					}
+					FirstPage(p);
 				} else {
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.Error.Mystery")) {
 	                    ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Delete.Error.Mystery", "GuiSystem", false);
@@ -694,7 +691,7 @@ public class GuiSystem implements Listener {
 				try {
 					size = FileUtils.sizeOfDirectory(new File(directory + "\\" + worldname + "\\"));
 					size =  Float.parseFloat(format.format(size/1024/1024));
-				} catch (NoClassDefFoundError e) {}
+				} catch (NoClassDefFoundError ignored) {}
 				
 				if (Bukkit.getWorld(worldname) != null) {
 					
@@ -842,8 +839,8 @@ public class GuiSystem implements Listener {
 		DecimalFormat format = new DecimalFormat("0.##");
 		format.setDecimalFormatSymbols(symbols);
 		
-		Integer numberslot = 0;
-		Integer checkmax = 0;
+		int numberslot = 0;
+		int checkmax = 0;
 		
 		/*
 		 * The gui overall
@@ -1001,27 +998,19 @@ public class GuiSystem implements Listener {
 	@EventHandler
 	private static void getnameecheckone(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		
-		if (plistincreation.contains(p)) {
-			plistincreation.remove(p);
-		}
-		
-		if (worlddeletion.containsKey(p)) {
-			worlddeletion.remove(p);
-		}
+
+		plistincreation.remove(p);
+
+		worlddeletion.remove(p);
 	}
 	
 	@EventHandler
 	private static void getnameechecktwo(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		
-		if (plistincreation.contains(p)) {
-			plistincreation.remove(p);
-		}
-		
-		if (worlddeletion.containsKey(p)) {
-			worlddeletion.remove(p);
-		}
+
+		plistincreation.remove(p);
+
+		worlddeletion.remove(p);
 	}
 	
 	@EventHandler
@@ -1032,9 +1021,7 @@ public class GuiSystem implements Listener {
 		String titlegui = "§cWorld Manager";
 		
 		if (inv.equals(titlegui + " - Delete - SURE ?!")) {
-			if (worlddeletion.containsKey(p)) {
-				worlddeletion.remove(p);
-			}
+			worlddeletion.remove(p);
 		}
 	}
 	
@@ -1259,23 +1246,23 @@ public class GuiSystem implements Listener {
 		 */
 		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Ch. World - Time");
 		
-		List<String> lore = new ArrayList<>();
+		ArrayList<String> lore = new ArrayList<>();
 		
 		if (ConfigGeneral.getConfig().getInt("Plugin.12-Hours-Or-24-Hours-Format") == 12) {
 		
-			inv.setItem(11, createGuiItem("§70AM",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(11, createGuiItem("§70AM", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 		
-			inv.setItem(13, createGuiItem("§712PM",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(13, createGuiItem("§712PM", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 		
-			inv.setItem(15, createGuiItem("§76PM",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(15, createGuiItem("§76PM", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 		
 		} else {
 			
-			inv.setItem(11, createGuiItem("§700:00",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(11, createGuiItem("§700:00", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 			
-			inv.setItem(13, createGuiItem("§712:00",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(13, createGuiItem("§712:00", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 			
-			inv.setItem(15, createGuiItem("§718:00",  (ArrayList<String>) lore, XMaterial.ENDER_PEARL.parseMaterial()));
+			inv.setItem(15, createGuiItem("§718:00", lore, XMaterial.ENDER_PEARL.parseMaterial()));
 			
 		}
 		
@@ -1295,7 +1282,7 @@ public class GuiSystem implements Listener {
         
         lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name").replaceAll("&", "§") + " §e" + name);
         
-        inv.setItem(47, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Done").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.OAK_SIGN.parseMaterial()));
+        inv.setItem(47, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Done").replaceAll("&", "§"), lore, XMaterial.OAK_SIGN.parseMaterial()));
         
         inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -1412,7 +1399,7 @@ public class GuiSystem implements Listener {
 					return name.toLowerCase().endsWith(".dat");
 				}
 			});
-			if (files != null && files.length > 0) return true;
+			return files != null && files.length > 0;
 		}
 		return false;
 	}
@@ -1437,6 +1424,7 @@ public class GuiSystem implements Listener {
 	public static ItemStack createGuiItemWL(String name, Material mat) {
 		ItemStack i = new ItemStack(mat, 1);
 		ItemMeta iMeta = i.getItemMeta();
+		assert iMeta != null;
 		iMeta.setDisplayName(name);
 		i.setItemMeta(iMeta);
 		return i;
@@ -1445,23 +1433,24 @@ public class GuiSystem implements Listener {
 	public static ItemStack createGuiItem(String name, ArrayList < String > desc, Material mat) {
         ItemStack i = new ItemStack(mat, 1);
         ItemMeta iMeta = i.getItemMeta();
-        iMeta.setDisplayName(name);
+		assert iMeta != null;
+		iMeta.setDisplayName(name);
         iMeta.setLore(desc);
         i.setItemMeta(iMeta);
         return i;
     }
 	
-	private static boolean deleteDirectory(File path) {
+	private static void deleteDirectory(File path) {
     	if (path.exists()) {
     		File[] files = path.listFiles();
-    		for (int i = 0; i < files.length; i++) {
+    		for (int i = 0; i < Objects.requireNonNull(files).length; i++) {
     			if (files[i].isDirectory()) {
     				deleteDirectory(files[i]);
     			} else {
     				files[i].delete();
     			} 
     		} 
-    	} 
-    	return path.delete();
-    }
+    	}
+		path.delete();
+	}
 }

@@ -13,10 +13,7 @@ public class Tablist {
 	public static String getServerVersion() {
 		return Bukkit.getServer().getClass().getPackage().getName().substring(23);
 	}
-	
-	// Test
-	
-	
+
 	//
 	@SuppressWarnings("deprecation")
 	public static void setPrefix(Player p) {
@@ -73,14 +70,14 @@ public class Tablist {
 		while (iterator.hasNext()) {
 			String string = (String)iterator.next();
 			
-			if (Main.getInstance().board.getTeam(NameTagConfig.getConfig().getInt("nametag." + string + ".priority") + string) != null) {
-				Main.getInstance().board.getTeam(NameTagConfig.getConfig().getInt("nametag." + string + ".priority") + string).unregister();
-			}
+			//if (//scoremain.board.getTeam(NameTagConfig.getConfig().getInt("nametag." + string + ".priority") + string) != null) {
+				//scoremain.board.getTeam(NameTagConfig.getConfig().getInt("nametag." + string + ".priority") + string).unregister();
+			//}
 		}
 		
-		for (Player all : Bukkit.getOnlinePlayers()) {
-		      all.setScoreboard(Main.getInstance().board);
-		}
+		//for (Player all : Bukkit.getOnlinePlayers()) {
+		      //all.setScoreboard(scoremain.board);
+		//}
 	}
 	
 	

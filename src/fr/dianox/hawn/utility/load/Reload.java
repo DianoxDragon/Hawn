@@ -1,9 +1,9 @@
 package fr.dianox.hawn.utility.load;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
+import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -105,8 +105,8 @@ import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
 import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.tab.TablistConfig;
-import fr.dianox.hawn.utility.tab.AnimationTabTask;
-import fr.dianox.hawn.utility.tab.MainTablist;
+import fr.dianox.hawn.modules.tab.AnimationTabTask;
+import fr.dianox.hawn.modules.tab.MainTablist;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 public class Reload {
@@ -114,7 +114,7 @@ public class Reload {
 	private static Class<?> PacketPlayOutPlayerListHeaderFooter;
     private static Class<?> ChatComponentText;
     private static Constructor<?> newPacketPlayOutPlayerListHeaderFooter;
-	
+
 	public static String hea = "";
 	public static String foo = "";
     
@@ -441,20 +441,7 @@ public class Reload {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
 			Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| ");
 		}
-		
-		if (ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
-			File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Scoreboard/");
-			Main.getInstance().loadScoreboards(folder);
-			
-			for (Player p : Bukkit.getOnlinePlayers()) {
-	            if (Main.getInstance().getBoards().containsKey(p.getUniqueId())) {
-	            	Main.getInstance().getBoards().get(p.getUniqueId()).remove();
-	            	Main.getInstance().getBoards().remove(p.getUniqueId());
-	            }
-	            Main.getInstance().createDefaultScoreboard(p);
-			}
-		}
-		
+
 		Main.indj.clear();
 		
 		Bukkit.getScheduler().cancelTask(Main.tablistnumber);

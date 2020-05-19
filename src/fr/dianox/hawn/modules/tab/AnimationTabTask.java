@@ -1,4 +1,4 @@
-package fr.dianox.hawn.utility.tab;
+package fr.dianox.hawn.modules.tab;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
