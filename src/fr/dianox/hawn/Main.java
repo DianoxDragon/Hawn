@@ -1,36 +1,22 @@
 package fr.dianox.hawn;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
-
 import fr.dianox.hawn.command.CommandManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.command.commands.HawnCommand;
-import fr.dianox.hawn.event.*;
-import fr.dianox.hawn.hook.HooksManager;
-import fr.dianox.hawn.modules.scoreboard.ScoreManager;
-import fr.dianox.hawn.modules.tablist.TabManager;
-import fr.dianox.hawn.utility.*;
-import fr.dianox.hawn.utility.config.ConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
+import fr.dianox.hawn.event.BasicFeatures;
+import fr.dianox.hawn.event.FunFeatures;
+import fr.dianox.hawn.event.OnCommandEvent;
+import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.modules.scoreboard.ScoreManager;
+import fr.dianox.hawn.modules.tablist.TabManager;
 import fr.dianox.hawn.modules.worldsystem.GuiSystem;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.ConfigManager;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
 import fr.dianox.hawn.utility.config.configs.ServerListConfig;
@@ -44,6 +30,18 @@ import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 import fr.dianox.hawn.utility.server.Tps;
 import fr.dianox.hawn.utility.server.WarnTPS;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.File;
+import java.sql.*;
+import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -54,8 +52,9 @@ public class Main extends JavaPlugin implements Listener {
 	private ScoreManager scoreManager;
 	private ConfigManager configManager;
 	private TabManager tabManager;
+	private AutoBroadcastManager auto;
 
-	private static String versions = "1.0.6-Beta";
+	private static String versions = "1.0.7-Beta";
 	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
@@ -485,7 +484,7 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 	    
 	    // broadcast
-	    AutoBroadcastManager auto = new AutoBroadcastManager();
+	    auto = new AutoBroadcastManager();
 	    
 	    new BukkitRunnable() {
 	    	@Override
@@ -850,5 +849,9 @@ public class Main extends JavaPlugin implements Listener {
 
 	public TabManager getTabManager() {
 		return tabManager;
+	}
+
+	public AutoBroadcastManager getAuto() {
+		return auto;
 	}
 }
