@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 
 public class CjiPW {
 

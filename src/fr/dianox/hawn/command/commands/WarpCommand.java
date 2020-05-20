@@ -12,10 +12,10 @@ import fr.dianox.hawn.command.commands.tasks.TaskOnTPWarp;
 import fr.dianox.hawn.command.commands.tasks.TaskOnTpOthersWarp;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.WarpListConfig;
-import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class WarpCommand extends BukkitCommand {
 

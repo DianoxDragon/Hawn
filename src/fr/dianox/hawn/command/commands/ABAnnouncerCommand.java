@@ -12,8 +12,8 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.ActionbarAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class ABAnnouncerCommand extends BukkitCommand {
 

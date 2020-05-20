@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class WarnTPS {
 

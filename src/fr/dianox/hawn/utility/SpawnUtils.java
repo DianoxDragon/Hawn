@@ -2,13 +2,15 @@ package fr.dianox.hawn.utility;
 
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.config.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+
+import java.util.Objects;
 
 public class SpawnUtils {
 	
 	public static void teleportToSpawn(Player player, String str) {
         try {
-            org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(ConfigSpawn.getConfig().getString("Coordinated."+str+".World"));
+            org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(Objects.requireNonNull(ConfigSpawn.getConfig().getString("Coordinated." + str + ".World")));
             double x = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".X");
             double y = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Y");
             double z = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Z");
@@ -32,7 +34,7 @@ public class SpawnUtils {
         ConfigSpawn.getConfig().set("Coordinated."+spawnName+".Z", Z);
         ConfigSpawn.getConfig().set("Coordinated."+spawnName+".Yaw", Yaw);
         ConfigSpawn.getConfig().set("Coordinated."+spawnName+".Pitch", Pitch);
-        ConfigSpawn.getConfig().set("Coordinated."+spawnName+".Info", String.valueOf("Player "+p.getName()+" created the spawn at: "+OtherUtils.getDate()+", "+OtherUtils.getTime()));
+        ConfigSpawn.getConfig().set("Coordinated."+spawnName+".Info", "Player " + p.getName() + " created the spawn at: " + OtherUtils.getDate() + ", " + OtherUtils.getTime());
         
         ConfigSpawn.saveConfigFile();
 	}

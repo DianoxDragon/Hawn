@@ -12,7 +12,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class BossBarApi {

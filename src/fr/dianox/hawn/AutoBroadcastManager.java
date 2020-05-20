@@ -10,33 +10,26 @@ import fr.dianox.hawn.event.AutoBroadcast;
 import fr.dianox.hawn.event.AutoBroadcast_AB;
 import fr.dianox.hawn.event.AutoBroadcast_BossBar;
 import fr.dianox.hawn.event.AutoBroadcast_Title;
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 
 public class AutoBroadcastManager {
 	
 	public AutoBroadcastManager() {
-		this.StartAutoBroadcast();
-	}
-	
-	public AutoBroadcastManager StartAutoBroadcast() {
-				
 		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
 			StartAB();
 		}
-		
+
 		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable")) {
 			StartActionAB();
 		}
-		
+
 		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable")) {
 			StartTitleAB();
 		}
-		
+
 		if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
 			StartBossAB();
 		}
-		
-		return this;
 	}
 	
 	/*
@@ -44,12 +37,8 @@ public class AutoBroadcastManager {
 	 */
 	public void stopAll() {
 		if (!Main.tasklist.isEmpty()) {
-			
-			ArrayList<String> list = new ArrayList<String>();
-			
-			for (String s : Main.tasklist.keySet()) {
-				list.add(s);
-			}
+
+			ArrayList<String> list = new ArrayList<String>(Main.tasklist.keySet());
 			
 			for (String s2: list) {
 				Bukkit.getScheduler().cancelTask(Main.tasklist.get(s2));
@@ -62,7 +51,7 @@ public class AutoBroadcastManager {
 	 * Manage start of autobroadcast
 	 */
 	public void StartAB() {
-		Integer interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
+		int interval = AutoBroadcastConfig.getConfig().getInt("Config.Messages.Interval");
 
 		Iterator<?> iterator2 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Messages.messages").getKeys(false).iterator();
 		
@@ -82,7 +71,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public void StartActionAB() {
-		Integer interval_ab = AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval");
+		int interval_ab = AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Interval");
 
 	    Iterator<?> iterator4 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Action-Bar.messages").getKeys(false).iterator();
 
@@ -102,7 +91,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public void StartTitleAB() {
-		Integer interval_titles = AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval");
+		int interval_titles = AutoBroadcastConfig.getConfig().getInt("Config.Titles.Interval");
 
 	    Iterator<?> iterator3 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.Titles.messages").getKeys(false).iterator();
 
@@ -122,7 +111,7 @@ public class AutoBroadcastManager {
 	}
 	
 	public void StartBossAB() {
-		Integer interval_bb = AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval");
+		int interval_bb = AutoBroadcastConfig.getConfig().getInt("Config.BossBar.Interval");
 
 	    Iterator<?> iterator5 = AutoBroadcastConfig.getConfig().getConfigurationSection("Config.BossBar.messages").getKeys(false).iterator();
 

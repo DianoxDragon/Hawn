@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.world.OnQuitPW;
 
 public class OQMessages {

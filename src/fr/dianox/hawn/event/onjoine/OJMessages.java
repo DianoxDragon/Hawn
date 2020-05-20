@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 
 public class OJMessages {

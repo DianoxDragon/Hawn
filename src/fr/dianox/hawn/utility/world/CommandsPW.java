@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
 
 public class CommandsPW {
 

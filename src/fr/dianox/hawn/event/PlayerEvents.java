@@ -17,9 +17,9 @@ import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
 
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 @SuppressWarnings("deprecation")

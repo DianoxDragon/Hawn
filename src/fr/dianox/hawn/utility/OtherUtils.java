@@ -24,8 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
 
 public class OtherUtils {
 	

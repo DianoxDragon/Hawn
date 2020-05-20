@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import fr.dianox.hawn.utility.config.cosmeticsfun.EmojisListCUtility;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
 
 public class ChatEmojisLoad {
 	

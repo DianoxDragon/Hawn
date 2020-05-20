@@ -7,10 +7,10 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
-import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 
 public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 	

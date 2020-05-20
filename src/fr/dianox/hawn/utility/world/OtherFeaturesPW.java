@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.events.OtherFeaturesConfig;
+import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
 
 public class OtherFeaturesPW {
 

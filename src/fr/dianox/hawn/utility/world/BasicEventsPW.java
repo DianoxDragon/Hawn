@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
-import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
-import fr.dianox.hawn.utility.config.events.VoidTPConfig;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
+import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
 
 public class BasicEventsPW {
 

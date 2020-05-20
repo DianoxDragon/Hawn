@@ -5,8 +5,7 @@ import java.util.Iterator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.tab.NameTagConfig;
+import fr.dianox.hawn.utility.config.configs.tab.NameTagConfig;
 
 public class Tablist {
 	

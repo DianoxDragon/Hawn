@@ -3,7 +3,6 @@ package fr.dianox.hawn.utility.load;
 import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
-import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,94 +18,94 @@ import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.CommandAliasesConfig;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.ConfigWorldGeneral;
-import fr.dianox.hawn.utility.config.CustomCommandConfig;
-import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.ScoreboardMainConfig;
-import fr.dianox.hawn.utility.config.ServerListConfig;
-import fr.dianox.hawn.utility.config.WarpListConfig;
-import fr.dianox.hawn.utility.config.commands.ActionbarAnnouncerConfig;
-import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.commands.BroadCastCommandConfig;
-import fr.dianox.hawn.utility.config.commands.BurnCommandConfig;
-import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ClearChatCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ClearGroundItemsCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ClearInvCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ClearMobsCommandConfig;
-import fr.dianox.hawn.utility.config.commands.CopyCommandConfig;
-import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
-import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
-import fr.dianox.hawn.utility.config.commands.EnderChestCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ExpCommandConfig;
-import fr.dianox.hawn.utility.config.commands.FeedCommandConfig;
-import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
-import fr.dianox.hawn.utility.config.commands.FlySpeedCommandConfig;
-import fr.dianox.hawn.utility.config.commands.GamemodeCommandConfig;
-import fr.dianox.hawn.utility.config.commands.GetPosCommandConfig;
-import fr.dianox.hawn.utility.config.commands.GoTopCommandConfig;
-import fr.dianox.hawn.utility.config.commands.HatCommandConfig;
-import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
-import fr.dianox.hawn.utility.config.commands.HealCommandConfig;
-import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
-import fr.dianox.hawn.utility.config.commands.InvSeeCommandConfig;
-import fr.dianox.hawn.utility.config.commands.IpCommandConfig;
-import fr.dianox.hawn.utility.config.commands.KickAllCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
-import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
-import fr.dianox.hawn.utility.config.commands.OneCommandConfig;
-import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
-import fr.dianox.hawn.utility.config.commands.PingCommandConfig;
-import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
-import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
-import fr.dianox.hawn.utility.config.commands.SkullCommandConfig;
-import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
-import fr.dianox.hawn.utility.config.commands.SpeedCommandConfig;
-import fr.dianox.hawn.utility.config.commands.SuicideCommandConfig;
-import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
-import fr.dianox.hawn.utility.config.commands.TwoCommandConfig;
-import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WarningCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WeatherTimeCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WorkBenchCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WorldCommandConfig;
-import fr.dianox.hawn.utility.config.cosmeticsfun.BookListConfiguration;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
-import fr.dianox.hawn.utility.config.cosmeticsfun.EmojisListCUtility;
-import fr.dianox.hawn.utility.config.cosmeticsfun.FireworkListCUtility;
-import fr.dianox.hawn.utility.config.cosmeticsfun.SignListCUtility;
-import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
-import fr.dianox.hawn.utility.config.events.CommandEventConfig;
-import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
-import fr.dianox.hawn.utility.config.events.ConfigGProtection;
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.events.OtherFeaturesConfig;
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
-import fr.dianox.hawn.utility.config.events.PlayerWorldChangeConfigE;
-import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
-import fr.dianox.hawn.utility.config.events.VoidTPConfig;
-import fr.dianox.hawn.utility.config.events.WorldEventConfig;
-import fr.dianox.hawn.utility.config.messages.AdminPanelConfig;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.CommandAliasesConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
+import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
+import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
+import fr.dianox.hawn.utility.config.configs.ServerListConfig;
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ActionbarAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.BroadCastCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.BurnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.CheckAccountCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ClearChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ClearGroundItemsCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ClearInvCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ClearMobsCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.CopyCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.EnderChestCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ExpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.FeedCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.FlySpeedCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.GamemodeCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.GetPosCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.GoTopCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HealCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.InvSeeCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.IpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.KickAllCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ListCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OneCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.configs.commands.PasteCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.PingCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.RepairCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.SkullCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.SpeedCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.SuicideCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.TitleAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.commands.TwoCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarningCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WeatherTimeCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WorkBenchCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WorldCommandConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.BookListConfiguration;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.SignListCUtility;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
+import fr.dianox.hawn.utility.config.configs.events.CommandEventConfig;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerWorldChangeConfigE;
+import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
+import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
+import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
+import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.config.tab.TablistConfig;
-import fr.dianox.hawn.modules.tab.AnimationTabTask;
-import fr.dianox.hawn.modules.tab.MainTablist;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.messages.WorldManagerPanelConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
+import fr.dianox.hawn.modules.tablist.tab.AnimationTabTask;
+import fr.dianox.hawn.modules.tablist.tab.MainTablist;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 public class Reload {
@@ -423,17 +422,17 @@ public class Reload {
 		Main.avoidtitles.clear();
 		
 		if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
-	    	Main.getInstance().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
+	    	Main.getInstance().getTabManager().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
 	    	
-	    	Main.getInstance().hea = Main.getInstance().hea.substring(1, Main.getInstance().hea.length() - 1).replaceAll(", ", "\n");
-	    	Main.getInstance().hea = Main.getInstance().hea.replaceAll("&", "§");
+	    	Main.getInstance().getTabManager().hea = Main.getInstance().getTabManager().hea.substring(1, Main.getInstance().getTabManager().hea.length() - 1).replaceAll(", ", "\n");
+	    	Main.getInstance().getTabManager().hea = Main.getInstance().getTabManager().hea.replaceAll("&", "§");
 	    }
 	    
 	    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
-	    	Main.getInstance().foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
+	    	Main.getInstance().getTabManager().foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
 	    	
-	    	Main.getInstance().foo = Main.getInstance().foo.substring(1, Main.getInstance().foo.length() - 1).replaceAll(", ", "\n");
-	    	Main.getInstance().foo = Main.getInstance().foo.replaceAll("&", "§");
+	    	Main.getInstance().getTabManager().foo = Main.getInstance().getTabManager().foo.substring(1, Main.getInstance().getTabManager().foo.length() - 1).replaceAll(", ", "\n");
+	    	Main.getInstance().getTabManager().foo = Main.getInstance().getTabManager().foo.replaceAll("&", "§");
 	    }
 		
 		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
@@ -444,10 +443,10 @@ public class Reload {
 
 		Main.indj.clear();
 		
-		Bukkit.getScheduler().cancelTask(Main.tablistnumber);
+		Bukkit.getScheduler().cancelTask(Main.getInstance().getTabManager().tablistnumber);
 		
-		for (String s: Main.animationtabtask.keySet()) {
-			Bukkit.getScheduler().cancelTask(Main.animationtabtask.get(s));
+		for (String s: Main.getInstance().getTabManager().animationtabtask.keySet()) {
+			Bukkit.getScheduler().cancelTask(Main.getInstance().getTabManager().animationtabtask.get(s));
 			
 		}
 		
@@ -502,8 +501,8 @@ public class Reload {
 	    }
 		
 	    OnCommandEvent.cooldowncommands.clear();
-		Main.animationtabtask.clear();
-		Main.animationtab.clear();
+		Main.getInstance().getTabManager().animationtabtask.clear();
+		Main.getInstance().getTabManager().animationtab.clear();
 		
 		if (TablistConfig.getConfig().getBoolean("Tablist.enable")) {
 			PacketPlayOutPlayerListHeaderFooter = NMSClass.getNMSClass("PacketPlayOutPlayerListHeaderFooter");
@@ -523,13 +522,13 @@ public class Reload {
 	    		
 	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
 		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-		    		Main.animationtabtask.put(string, task.getTaskId());
+		    		Main.getInstance().getTabManager().animationtabtask.put(string, task.getTaskId());
 	    		}
 	    	}
 
 			BukkitTask tablistmain = new MainTablist(hea, foo, PacketPlayOutPlayerListHeaderFooter, ChatComponentText, newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
 		
-			Main.tablistnumber = tablistmain.getTaskId();
+			Main.getInstance().getTabManager().tablistnumber = tablistmain.getTaskId();
 		}
     			
 		Main.block_exception_break.clear();

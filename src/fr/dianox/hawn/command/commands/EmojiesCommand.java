@@ -20,11 +20,11 @@ import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.commands.EmojiCommandConfig;
-import fr.dianox.hawn.utility.config.cosmeticsfun.EmojisListCUtility;
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 @SuppressWarnings("deprecation")

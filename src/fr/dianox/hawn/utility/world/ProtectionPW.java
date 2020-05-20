@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.events.ConfigGProtection;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
 
 public class ProtectionPW {
 

@@ -3,7 +3,7 @@ package fr.dianox.hawn.modules.scoreboard.scoreboards;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;

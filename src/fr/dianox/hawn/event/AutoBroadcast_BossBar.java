@@ -12,8 +12,8 @@ import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 

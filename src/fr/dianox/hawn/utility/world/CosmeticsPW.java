@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGLP;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
 
 public class CosmeticsPW {
 

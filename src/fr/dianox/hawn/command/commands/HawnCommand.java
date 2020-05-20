@@ -24,11 +24,11 @@ import fr.dianox.hawn.modules.admin.EditPlayerGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.load.Reload;
 import fr.dianox.hawn.utility.tasks.TaskNoClipCommand;
 

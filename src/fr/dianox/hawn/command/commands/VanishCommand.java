@@ -13,10 +13,10 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class VanishCommand extends BukkitCommand {
 	
@@ -49,7 +49,7 @@ public class VanishCommand extends BukkitCommand {
 				
 				if (player_list_vanish.contains(target)) {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 							all.showPlayer(Main.getInstance(), target);
 						} else {
 							all.showPlayer(target);
@@ -85,7 +85,7 @@ public class VanishCommand extends BukkitCommand {
 					}
 				} else {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 							all.hidePlayer(Main.getInstance(), target);
 						} else {
 							all.hidePlayer(target);
@@ -166,7 +166,7 @@ public class VanishCommand extends BukkitCommand {
 					if (args.length == 0) {
 						if (player_list_vanish.contains(p)) {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 									all.showPlayer(Main.getInstance(), p);
 								} else {
 									all.showPlayer(p);
@@ -196,7 +196,7 @@ public class VanishCommand extends BukkitCommand {
 							}
 						} else {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 									all.hidePlayer(Main.getInstance(), p);
 								} else {
 									all.hidePlayer(p);
@@ -248,7 +248,7 @@ public class VanishCommand extends BukkitCommand {
 							
 							if (player_list_vanish.contains(target)) {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 										all.showPlayer(Main.getInstance(), target);
 									} else {
 										all.showPlayer(target);
@@ -284,7 +284,7 @@ public class VanishCommand extends BukkitCommand {
 								}
 							} else {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 										all.hidePlayer(Main.getInstance(), target);
 									} else {
 										all.hidePlayer(target);

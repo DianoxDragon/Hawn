@@ -16,10 +16,10 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.CustomCommandConfig;
-import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
-import fr.dianox.hawn.utility.config.events.CommandEventConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.CommandEventConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class OnCommandEvent implements Listener {
 

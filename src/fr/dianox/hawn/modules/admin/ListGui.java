@@ -21,8 +21,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 @SuppressWarnings("deprecation")
 public class ListGui implements Listener {

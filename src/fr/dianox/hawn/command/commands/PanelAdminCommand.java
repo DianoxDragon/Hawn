@@ -20,9 +20,9 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.messages.AdminPanelConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class PanelAdminCommand extends BukkitCommand {
 
@@ -199,13 +199,13 @@ public class PanelAdminCommand extends BukkitCommand {
                 if (args[1].equalsIgnoreCase("file")) {
                     String filename = "";
 
-                    if (Main.configfile.containsKey(args[2])) {
-                        filename = Main.configfile.get(args[2]);
+                    if (Main.getInstance().getConfigManager().configfile.containsKey(args[2])) {
+                        filename = Main.getInstance().getConfigManager().configfile.get(args[2]);
                     } else {
                         filename = args[2];
                     }
 
-                    Main.configfileinuse.put(p, filename);
+                    Main.getInstance().getConfigManager().configfileinuse.put(p, filename);
 
                     File f = new File(Main.getInstance().getDataFolder(), filename);
 
@@ -217,7 +217,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     Iterator < ? > iterator = null;
 
-                    String invname = Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + filename);
+                    String invname = Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + filename);
                     try {
                     	invname = invname.replaceAll(Main.getInstance().getDataFolder() + "/", "");
                     } catch (Exception e) {
@@ -1424,7 +1424,7 @@ public class PanelAdminCommand extends BukkitCommand {
         mat = mat.toUpperCase();
         ItemStack i;
         
-        if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
             i = new ItemStack(XMaterial.getMat(mat, "Error from the panel admin"), 1);
             ItemMeta iMeta = i.getItemMeta();
             iMeta.setDisplayName(name);

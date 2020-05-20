@@ -12,8 +12,8 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.commands.TitleAnnouncerConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.TitleAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class TitleAnnouncerCommand extends BukkitCommand {
 

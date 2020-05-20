@@ -26,10 +26,10 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiFunGun;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 

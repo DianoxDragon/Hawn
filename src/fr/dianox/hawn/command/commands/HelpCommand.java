@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.commands.HelpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
 
 public class HelpCommand extends BukkitCommand {
 		

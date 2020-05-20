@@ -26,7 +26,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import java.lang.reflect.Constructor;

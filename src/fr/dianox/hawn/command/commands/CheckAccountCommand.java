@@ -10,9 +10,9 @@ import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
-import fr.dianox.hawn.utility.config.commands.CheckAccountCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.CheckAccountCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class CheckAccountCommand extends BukkitCommand {
 

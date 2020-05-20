@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 
 public class OnQuitPW {
 

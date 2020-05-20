@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 
 public class SwitchClassicOnJoinBB extends BukkitRunnable {

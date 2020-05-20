@@ -12,9 +12,9 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.commands.RepairCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.RepairCommandConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class RepairCommand extends BukkitCommand {
 	

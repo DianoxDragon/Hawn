@@ -18,9 +18,9 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.events.ConfigGProtection;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.ProtectionPW;
 
 public class ProtectionsEventWorld implements Listener {

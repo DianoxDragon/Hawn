@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 public class DisableOffHand implements Listener {

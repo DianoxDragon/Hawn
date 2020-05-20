@@ -16,14 +16,14 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
-import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
@@ -390,7 +390,7 @@ public class OjPlayerOption {
 
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                 if (VanishCommand.player_list_vanish.contains(all)) {
-                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                         p.hidePlayer(Main.getInstance(), all);
                     } else {
                         p.hidePlayer(all);
@@ -433,7 +433,7 @@ public class OjPlayerOption {
         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
             if (PlayerVisibility.PVPlayer.contains(all)) {
                 if (!all.getName().equalsIgnoreCase(p.getName())) {
-                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                         all.hidePlayer(Main.getInstance(), p);
                     } else {
                         all.hidePlayer(p);
@@ -460,7 +460,7 @@ public class OjPlayerOption {
                 if (p.hasPermission("hawn.betweenservers.keepvanish")) {
                     if (PlayerOptionSQLClass.GetSQLPOVanish(p).equalsIgnoreCase("TRUE")) {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                                 all.hidePlayer(Main.getInstance(), p);
                             } else {
                                 all.hidePlayer(p);
@@ -508,7 +508,7 @@ public class OjPlayerOption {
                         }
                     } else {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                                 all.showPlayer(Main.getInstance(), p);
                             } else {
                                 all.showPlayer(p);
@@ -526,7 +526,7 @@ public class OjPlayerOption {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (VanishCommand.player_list_vanish.contains(all)) {
                         if (VanishCommand.player_list_vanish.contains(all)) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                                 p.showPlayer(Main.getInstance(), all);
                             } else {
                                 p.showPlayer(all);
@@ -546,7 +546,7 @@ public class OjPlayerOption {
 
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (VanishCommand.player_list_vanish.contains(all)) {
-                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                             p.hidePlayer(Main.getInstance(), all);
                         } else {
                             p.hidePlayer(all);
@@ -590,7 +590,7 @@ public class OjPlayerOption {
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                 if (PlayerVisibility.PVPlayer.contains(all)) {
                     if (!all.getName().equalsIgnoreCase(p.getName())) {
-                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
                             all.hidePlayer(Main.getInstance(), p);
                         } else {
                             all.hidePlayer(p);

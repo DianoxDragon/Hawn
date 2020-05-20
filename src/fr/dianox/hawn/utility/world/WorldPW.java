@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.events.WorldEventConfig;
+import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 
 public class WorldPW {
 

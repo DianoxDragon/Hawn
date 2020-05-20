@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.commands.ListCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.commands.ListCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class ListCommand extends BukkitCommand {
 

@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
 
 public class PlayerEventsPW {
 

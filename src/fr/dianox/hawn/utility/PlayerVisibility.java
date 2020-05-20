@@ -20,7 +20,7 @@ public class PlayerVisibility {
 	@SuppressWarnings("deprecation")
 	public static void showPlayer(Player p) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+			if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 				p.showPlayer(Main.getInstance(), player);
 			} else {
 				p.showPlayer(player);
@@ -33,7 +33,7 @@ public class PlayerVisibility {
 	@SuppressWarnings("deprecation")
 	public static void hidePlayer(Player p) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.15")) {
+			if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
 				p.hidePlayer(Main.getInstance(), player);
 			} else {
 				p.hidePlayer(player);

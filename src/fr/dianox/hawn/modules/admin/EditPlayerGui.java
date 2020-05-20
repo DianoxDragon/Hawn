@@ -21,8 +21,8 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 
 @SuppressWarnings("deprecation")
@@ -75,7 +75,7 @@ public class EditPlayerGui implements Listener {
 					}
 					
 					List<String> lore = new ArrayList<>();
-					if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+					if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
 						if (item.getType() == XMaterial.RED_WOOL.parseMaterial()) {
 							lore.add(" ");
 							lore.add(ConfigMAdmin.getConfig().getString("Command.EditPlayer.Gui.Gamemode.LeftClick").replaceAll("&", "§"));
@@ -370,7 +370,7 @@ public class EditPlayerGui implements Listener {
 	        mat = mat.toUpperCase();
 	        ItemStack i;
 	        
-	        if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+	        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
 	            i = new ItemStack(XMaterial.getMat(mat, "Error from the edit player system"), 1);
 	            ItemMeta iMeta = i.getItemMeta();
 	            iMeta.setDisplayName(name);

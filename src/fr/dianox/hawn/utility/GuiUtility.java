@@ -14,7 +14,7 @@ public class GuiUtility {
 		mat = mat.toUpperCase();
 		ItemStack i;
 		
-		if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+		if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
 			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);
@@ -80,7 +80,7 @@ public class GuiUtility {
 		mat = mat.toUpperCase();
 		ItemStack i;
 		
-		if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+		if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
 			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);

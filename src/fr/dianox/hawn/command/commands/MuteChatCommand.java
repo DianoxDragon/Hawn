@@ -10,9 +10,9 @@ import org.bukkit.scheduler.BukkitTask;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.tasks.TaskShutdownServer;
 
 public class MuteChatCommand extends BukkitCommand {

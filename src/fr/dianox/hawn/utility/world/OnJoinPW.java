@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 
 public class OnJoinPW {
 

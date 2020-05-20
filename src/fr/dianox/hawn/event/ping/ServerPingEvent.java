@@ -12,8 +12,8 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.ServerListConfig;
-import fr.dianox.hawn.utility.config.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.ServerListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 
 public class ServerPingEvent implements Listener {
 

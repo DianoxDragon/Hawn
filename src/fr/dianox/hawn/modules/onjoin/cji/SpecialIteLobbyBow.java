@@ -25,9 +25,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 

@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.commands.SpawnCommandConfig;
-import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class CancelTPWarpSpawn implements Listener {
 	

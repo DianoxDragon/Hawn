@@ -22,7 +22,7 @@ public class SQL {
             if (rs.next()) {
                 return true;
             }
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
         return false;
     }
@@ -50,7 +50,7 @@ public class SQL {
                     return true;
                 }
             }
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
 
         return false;
@@ -90,7 +90,7 @@ public class SQL {
             if (rs.next()) {
                 return rs.getObject(selected);
             }
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
 
         return null;
@@ -104,7 +104,7 @@ public class SQL {
             	 return rs.getString(column);
              }
 
-         } catch (Exception exception) {}
+         } catch (Exception ignored) {}
 
     	 return null;
     }
@@ -117,7 +117,7 @@ public class SQL {
             	return rs.getInt(column);
             }
 
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
    	 return null;
    }
@@ -130,7 +130,7 @@ public class SQL {
                	return rs.getDouble(column);
                }
 
-           } catch (Exception exception) {}
+           } catch (Exception ignored) {}
 
       	 return null;
     }
@@ -143,7 +143,7 @@ public class SQL {
               	return rs.getFloat(column);
               }
 
-          } catch (Exception exception) {}
+          } catch (Exception ignored) {}
 
      	 return null;
      }
@@ -159,7 +159,7 @@ public class SQL {
             while (rs.next()) {
                 array.add(rs.getObject(selected));
             }
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
 
         return array;
@@ -175,7 +175,7 @@ public class SQL {
             while (rs.next()) {
                 i++;
             }
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
 
 
         return i;

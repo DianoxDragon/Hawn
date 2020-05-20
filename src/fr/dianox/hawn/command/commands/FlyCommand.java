@@ -12,10 +12,10 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.config.commands.FlyCommandConfig;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
+import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 public class FlyCommand extends BukkitCommand {

@@ -11,7 +11,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 
 public class AutoBroadcast_Title extends BukkitRunnable  {

@@ -21,12 +21,12 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.commands.DelayChatCommandConfig;
-import fr.dianox.hawn.utility.config.commands.MuteChatCommandConfig;
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 @SuppressWarnings("deprecation")

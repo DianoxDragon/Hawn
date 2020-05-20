@@ -14,8 +14,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.cosmeticsfun.SignListCUtility;
-import fr.dianox.hawn.utility.config.events.OtherFeaturesConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.SignListCUtility;
+import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
 import net.md_5.bungee.api.ChatColor;
 
 public class SignSystem implements Listener {

@@ -25,15 +25,15 @@ import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
 
 import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ConfigSpawn;
-import fr.dianox.hawn.utility.config.events.ConfigGProtection;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.events.PlayerEventsConfig;
-import fr.dianox.hawn.utility.config.events.ProtectionPlayerConfig;
-import fr.dianox.hawn.utility.config.events.VoidTPConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
+import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import fr.dianox.hawn.utility.world.ProtectionPW;
 

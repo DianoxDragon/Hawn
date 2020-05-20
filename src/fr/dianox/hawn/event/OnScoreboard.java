@@ -4,7 +4,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.ScoreTask;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.config.commands.ScoreboardCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

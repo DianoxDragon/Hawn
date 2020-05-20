@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
 
 public class EmojiesUtility {
 	

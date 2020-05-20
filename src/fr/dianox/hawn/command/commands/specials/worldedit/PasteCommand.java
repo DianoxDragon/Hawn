@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.commands.PasteCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.PasteCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class PasteCommand extends BukkitCommand {
 

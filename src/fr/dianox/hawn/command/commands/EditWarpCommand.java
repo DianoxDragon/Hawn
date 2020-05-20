@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
-import fr.dianox.hawn.utility.config.WarpListConfig;
-import fr.dianox.hawn.utility.config.commands.WarpSetWarpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class EditWarpCommand extends BukkitCommand {
 	

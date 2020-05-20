@@ -17,12 +17,12 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ServerListConfig;
-import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.messages.AdminPanelConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ServerListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.tasks.TaskReloadServer;
 import fr.dianox.hawn.utility.tasks.TaskSavePlayerServer;
 import fr.dianox.hawn.utility.tasks.TaskShutdownServer;
@@ -296,8 +296,8 @@ public class OnGuiInteract implements Listener {
             e.setCancelled(true);
         } else if (inv.startsWith("§cAP") && !inv.contains("AP - World")) {
         	
-        	String cfinuse = Main.configfileinuse.get(p);
-        	
+        	String cfinuse = Main.getInstance().getConfigManager().configfileinuse.get(p);
+
         	File f = new File(Main.getInstance().getDataFolder(), cfinuse);
         	
         	if (!f.exists()) {
@@ -307,7 +307,7 @@ public class OnGuiInteract implements Listener {
         	YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             
             if (e.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial()) {
-            	if (Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+            	if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
                     if (e.getCurrentItem().getType() == XMaterial.GREEN_WOOL.parseMaterial()) {
                         String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
                         nameitem = nameitem.replaceAll("§b", "");
@@ -325,7 +325,7 @@ public class OnGuiInteract implements Listener {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-                        String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                        String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
                    
                         if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
@@ -379,7 +379,7 @@ public class OnGuiInteract implements Listener {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-                        String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                        String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
                         
                         if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
@@ -417,7 +417,7 @@ public class OnGuiInteract implements Listener {
                         }
                     } else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
-                    	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                    	String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                     	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal++;
@@ -446,7 +446,7 @@ public class OnGuiInteract implements Listener {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-                        String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                        String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
                     
                         if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
@@ -499,7 +499,7 @@ public class OnGuiInteract implements Listener {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-                        String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                        String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                         p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
                     
                         if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
@@ -537,7 +537,7 @@ public class OnGuiInteract implements Listener {
                         }
             		} else if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                     	String nameitem = e.getCurrentItem().getItemMeta().getDisplayName();
-                    	String invnamenum = inv.replace("§cAP - File " + Main.configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+                    	String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
                     	if (nameitem.contains(AdminPanelConfig.getConfig().getString("Edit.File.Next.Name").replaceAll("&", "§"))) {
                     		Integer numberfinal = Integer.valueOf(invnamenum);
                     		numberfinal++;

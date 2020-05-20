@@ -4,7 +4,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.utility.OtherUtils;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigGCos;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.world.CosmeticsPW;
 
 public class OjCosmetics {

@@ -14,12 +14,12 @@ import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
-import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.cosmeticsfun.ConfigFDoubleJump;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiHidePlayers;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
 public class OptionCommand extends BukkitCommand {

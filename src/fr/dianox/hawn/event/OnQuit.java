@@ -17,10 +17,10 @@ import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.commands.VanishCommandConfig;
-import fr.dianox.hawn.utility.config.events.ConfigGJoinQuitCommand;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
+import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.world.CommandsPW;
 
 public class OnQuit implements Listener {

@@ -5,8 +5,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.WarpListConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class TaskOnTpOthersWarp extends BukkitRunnable {
 	

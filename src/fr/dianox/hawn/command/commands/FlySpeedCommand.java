@@ -8,9 +8,9 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.config.commands.FlySpeedCommandConfig;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.commands.FlySpeedCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class FlySpeedCommand extends BukkitCommand {
 	

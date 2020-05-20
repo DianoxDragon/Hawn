@@ -18,10 +18,10 @@ import org.bukkit.entity.Player;
 import fr.dianox.hawn.modules.worldsystem.GuiSystem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.ConfigWorldGeneral;
-import fr.dianox.hawn.utility.config.commands.WorldCommandConfig;
-import fr.dianox.hawn.utility.config.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.WorldCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.config.configs.messages.WorldManagerPanelConfig;
 
 public class WorldCommand extends BukkitCommand {
 

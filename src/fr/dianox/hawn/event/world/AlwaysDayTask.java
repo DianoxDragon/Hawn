@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.dianox.hawn.utility.config.events.WorldEventConfig;
+import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 
 public class AlwaysDayTask extends BukkitRunnable {
 

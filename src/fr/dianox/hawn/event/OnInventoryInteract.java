@@ -17,9 +17,9 @@ import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.customjoinitem.SpecialCjiLobbyBow;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.world.CjiPW;
 
 public class OnInventoryInteract implements Listener {

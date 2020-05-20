@@ -14,10 +14,10 @@ import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
-import fr.dianox.hawn.utility.config.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.events.PlayerWorldChangeConfigE;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerWorldChangeConfigE;
 import fr.dianox.hawn.utility.world.ChangeWorldPW;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 

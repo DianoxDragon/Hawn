@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
-import fr.dianox.hawn.utility.config.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 
 public class PlayerOptionSQLClass {
 	

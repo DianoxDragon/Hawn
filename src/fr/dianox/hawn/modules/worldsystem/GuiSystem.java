@@ -37,10 +37,10 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
-import fr.dianox.hawn.utility.config.ConfigWorldGeneral;
-import fr.dianox.hawn.utility.config.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.messages.WorldManagerPanelConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.WorldManagerPanelConfig;
 
 public class GuiSystem implements Listener {
 	

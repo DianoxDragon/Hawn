@@ -1,7 +1,7 @@
 package fr.dianox.hawn.hook.hooklist;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
