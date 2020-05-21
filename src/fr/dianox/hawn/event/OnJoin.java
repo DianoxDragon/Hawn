@@ -86,7 +86,7 @@ public class OnJoin implements Listener {
         	PlayerOptionSQLClass.SaveSQLNumberofConnections(p, number);
         	
             // Player info
-            if (!Main.useyamllistplayer) {
+            if (!Main.getInstance().getSql().useyamllistplayer) {
                 if (!ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
                     if (SQL.tableExists("player_info")) {
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
@@ -143,7 +143,7 @@ public class OnJoin implements Listener {
 
         // JOIN TP SPAWN
         if (p.hasPlayedBefore() && PlayerOptionMainConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") || SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
-            if (Main.useyamllistplayer) {
+            if (Main.getInstance().getSql().useyamllistplayer) {
                 if (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World")) {
 
                     World w = Bukkit.getServer().getWorld(ConfigPlayerGet.getFile(uuid).getString("player_last_position.World"));

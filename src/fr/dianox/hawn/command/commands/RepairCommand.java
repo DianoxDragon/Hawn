@@ -1,20 +1,18 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.Locale;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.commands.RepairCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.commands.RepairCommandConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.Locale;
 
 public class RepairCommand extends BukkitCommand {
 	
@@ -64,18 +62,16 @@ public class RepairCommand extends BukkitCommand {
 		 
 		 ItemStack item = null;
 		 
-		 if (Main.Spigot_Version > 18) {
+		 if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
 			 item = p.getInventory().getItemInMainHand();
 		 } else {
 			 item = p.getInventory().getItemInHand();
 		 }
-		 
 
-		 if (item == null) return false;
-		 
+
 		 String in = item.getType().toString().toLowerCase(Locale.ENGLISH);
 		 
-		 if (item == null || item.getDurability() == 0 || !Canberepair(item.getType())) {
+		 if (item.getDurability() == 0 || ! Canberepair(item.getType())) {
 			 if (ConfigMMsg.getConfig().getBoolean("Repair.Can-t-Repair.Enable")) {
 				 for (String msg: ConfigMMsg.getConfig().getStringList("Repair.Can-t-Repair.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%item%", in), "", "", false);

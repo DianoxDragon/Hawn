@@ -1,9 +1,10 @@
 package fr.dianox.hawn.modules.admin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,11 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class ListGui implements Listener {
@@ -208,7 +207,7 @@ public class ListGui implements Listener {
 	public static ItemStack createGuiItemSkull(String name, String pname, ArrayList < String > desc) {
         ItemStack i = null;
         
-        if (Main.Spigot_Version >= 113) {
+        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 			i = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1);
 		} else {
 			i = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());

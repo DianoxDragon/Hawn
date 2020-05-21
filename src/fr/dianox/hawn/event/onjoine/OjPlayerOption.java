@@ -390,7 +390,7 @@ public class OjPlayerOption {
 
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                 if (VanishCommand.player_list_vanish.contains(all)) {
-                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                    if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                         p.hidePlayer(Main.getInstance(), all);
                     } else {
                         p.hidePlayer(all);
@@ -433,7 +433,7 @@ public class OjPlayerOption {
         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
             if (PlayerVisibility.PVPlayer.contains(all)) {
                 if (!all.getName().equalsIgnoreCase(p.getName())) {
-                    if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                    if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                         all.hidePlayer(Main.getInstance(), p);
                     } else {
                         all.hidePlayer(p);
@@ -460,7 +460,7 @@ public class OjPlayerOption {
                 if (p.hasPermission("hawn.betweenservers.keepvanish")) {
                     if (PlayerOptionSQLClass.GetSQLPOVanish(p).equalsIgnoreCase("TRUE")) {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                                 all.hidePlayer(Main.getInstance(), p);
                             } else {
                                 all.hidePlayer(p);
@@ -508,7 +508,7 @@ public class OjPlayerOption {
                         }
                     } else {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                                 all.showPlayer(Main.getInstance(), p);
                             } else {
                                 all.showPlayer(p);
@@ -526,7 +526,7 @@ public class OjPlayerOption {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (VanishCommand.player_list_vanish.contains(all)) {
                         if (VanishCommand.player_list_vanish.contains(all)) {
-                            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                                 p.showPlayer(Main.getInstance(), all);
                             } else {
                                 p.showPlayer(all);
@@ -546,7 +546,7 @@ public class OjPlayerOption {
 
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (VanishCommand.player_list_vanish.contains(all)) {
-                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                             p.hidePlayer(Main.getInstance(), all);
                         } else {
                             p.hidePlayer(all);
@@ -590,7 +590,7 @@ public class OjPlayerOption {
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                 if (PlayerVisibility.PVPlayer.contains(all)) {
                     if (!all.getName().equalsIgnoreCase(p.getName())) {
-                        if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                             all.hidePlayer(Main.getInstance(), p);
                         } else {
                             all.hidePlayer(p);

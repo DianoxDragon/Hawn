@@ -1,11 +1,12 @@
 package fr.dianox.hawn.command.commands;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -16,13 +17,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class PanelAdminCommand extends BukkitCommand {
 
@@ -1302,17 +1301,17 @@ public class PanelAdminCommand extends BukkitCommand {
                     p.openInventory(inv);
                 } else if (args[1].equalsIgnoreCase("Tablist")) {
                 	
-                	Integer pagenumber = 1;
-                	Boolean cannextpage = false;
-                	Integer number_place = 0;
-                	Integer maximumitem = 44;
-                	Integer numberitems = 0;
-                	Integer loopaeleminer = 0;
+                	int pagenumber = 1;
+                	boolean cannextpage = false;
+                	int number_place = 0;
+                	int maximumitem = 44;
+                	int numberitems = 0;
+                	int loopaeleminer = 0;
                 	
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Tablist " + pagenumber);
@@ -1333,15 +1332,15 @@ public class PanelAdminCommand extends BukkitCommand {
                         loopaeleminer = 45 * (pagenumber - 1);
                     }
                     
-                	Boolean stop = false;
-                	
+                	boolean stop = false;
+
                     for (int i = 0; i < listOfFiles.length; i++) {
                     	if (listOfFiles[number_place].isFile()) {
 	                    	if (pagenumber == 1) {
 	                    		if (numberitems <= maximumitem) {
 	                    			String filename = listOfFiles[i].getName().replace(".yml", "");
 	                    			inv.setItem(number_place, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
-	                    			
+
 	                    			number_place++;
 	                    			numberitems++;
 	                    		} else if (numberitems >= maximumitem) {
@@ -1354,19 +1353,19 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			if (numberitems <= maximumitem) {
 	                    				String filename = listOfFiles[i].getName().replace(".yml", "");
 		                    			inv.setItem(number_place, createGuiItem("§b" + filename, (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
-		                    			
+
 		                    			number_place++;
 		                    			numberitems++;
 	                    			} else if (numberitems >= maximumitem) {
 	                                    cannextpage = true;
 	                                }
-	                    			
+
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
 	                    				msg = msg.replaceAll("&", "§");
 	                    				lore.add(msg);
 	                    			}
-	                    			
+
 	                    			inv.setItem(45, createGuiItem(AdminPanelConfig.getConfig().getString("Edit.File.Previous.Name").replaceAll("&", "§"), (ArrayList<String>) lore, XMaterial.PAPER.parseMaterial()));
 	                    			stop = true;
 	                    		}
@@ -1424,13 +1423,12 @@ public class PanelAdminCommand extends BukkitCommand {
         mat = mat.toUpperCase();
         ItemStack i;
         
-        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
             i = new ItemStack(XMaterial.getMat(mat, "Error from the panel admin"), 1);
             ItemMeta iMeta = i.getItemMeta();
             iMeta.setDisplayName(name);
             iMeta.setLore(desc);
             i.setItemMeta(iMeta);
-            return i;
         } else {
             if (mat.startsWith("ORANGE") || mat.startsWith("MAGENTA") || mat.startsWith("LIGHT_BLUE") || mat.startsWith("YELLOW") ||
                 mat.startsWith("LIME") || mat.startsWith("PINK") || mat.startsWith("GRAY") || mat.startsWith("LIGHT_GRAY") ||
@@ -1475,7 +1473,6 @@ public class PanelAdminCommand extends BukkitCommand {
                 iMeta.setDisplayName(name);
                 iMeta.setLore(desc);
                 i.setItemMeta(iMeta);
-                return i;
 
             } else {
                 i = new ItemStack(XMaterial.getMat(mat, "Error from the panel admin"), 1);
@@ -1483,9 +1480,9 @@ public class PanelAdminCommand extends BukkitCommand {
                 iMeta.setDisplayName(name);
                 iMeta.setLore(desc);
                 i.setItemMeta(iMeta);
-                return i;
             }
         }
+	    return i;
     }
 
     public ItemStack createGuiItemWL(String name, Material mat) {

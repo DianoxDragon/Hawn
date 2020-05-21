@@ -77,12 +77,12 @@ public class SignSystem implements Listener {
 				
 				EquipmentSlot es = null;
 				
-				if (Main.Spigot_Version >= 19) {
+				if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 					es = e.getHand();
 				}
 				
 				try {
-					if (Main.Spigot_Version >= 19) {
+					if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 						if (es.equals(EquipmentSlot.HAND)) {
 							if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 								if (SignListCUtility.getConfig().isSet("Signs." + l.getWorld().getName()  + "." + l.getBlockX() + "." + l.getBlockY() + "." + l.getBlockZ())) {
@@ -113,9 +113,9 @@ public class SignSystem implements Listener {
 							}
 						}
 					}
-				} catch (Exception e1) {}
+				} catch (Exception ignored) {}
 			}
-		} catch (Exception e3) {}
+		} catch (Exception ignored2) {}
 	}
 	
 	@EventHandler

@@ -304,7 +304,7 @@ public class OnGuiInteract implements Listener {
         	YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             
             if (e.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial()) {
-            	if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+	            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                     if (e.getCurrentItem().getType() == XMaterial.GREEN_WOOL.parseMaterial()) {
                     	greenwoolaction(e, inv, p, cfinuse, cfg, f);
                     } else if (e.getCurrentItem().getType() == XMaterial.RED_WOOL.parseMaterial()) {

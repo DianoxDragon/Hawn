@@ -27,7 +27,7 @@ public class PlaceHolders {
         }
 
         if (str.contains("%bungee_") && str.contains("%")) {
-            String server = "";
+            String server;
             server = StringUtils.substringBetween(str, "%bungee_", "%");
 
             if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
@@ -64,7 +64,7 @@ public class PlaceHolders {
         if (str.contains("%timedelaypvcji%")) {
         	long secondsLeft = 0;
         	try {
-        		secondsLeft = ((Long) Main.hiderCooldowns.get(p)).longValue() / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+        		secondsLeft = Main.hiderCooldowns.get(p) / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
         	} catch (Exception e) {
         		Bukkit.getConsoleSender().sendMessage("§cThe compass, well something does not work actually, please reload the server");
         	}
@@ -74,7 +74,7 @@ public class PlaceHolders {
         if (str.contains("%timedelayfunguncji%")) {
         	long secondsLeft = 0;
         	try {
-        		secondsLeft = ((Long) Main.fungunCooldowns.get(p)).longValue() / 1000L + SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
+        		secondsLeft = Main.fungunCooldowns.get(p) / 1000L + SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
         	} catch (Exception e) {
         		Bukkit.getConsoleSender().sendMessage("§cThe fungun, well something does not work actually, please reload the server");
         	}
@@ -138,7 +138,7 @@ public class PlaceHolders {
         }
 
         if (str.contains("%serverversion%")) {
-            str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().get() + ")"));
+            str = str.replaceAll("%serverversion%", Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().getVersionsS() + ")");
         }
 
         if (str.contains("%gettime%")) {
@@ -227,11 +227,11 @@ public class PlaceHolders {
         }
         
         if (str.contains("%player_name%")) {
-            str = str.replaceAll("%player_name%", String.valueOf(p.getName()));
+            str = str.replaceAll("%player_name%", p.getName());
         }
         
         if (str.contains("%player_displayname%")) {
-            str = str.replaceAll("%player_displayname%", String.valueOf(p.getDisplayName()));
+            str = str.replaceAll("%player_displayname%", p.getDisplayName());
         }
         
         if (str.contains("%player_saturation%")) {
@@ -264,7 +264,7 @@ public class PlaceHolders {
         }
 
         if (str.contains("%bungee_") && str.contains("%")) {
-            String server = "";
+            String server;
             server = StringUtils.substringBetween(str, "%bungee_", "%");
 
             if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
@@ -359,7 +359,7 @@ public class PlaceHolders {
         }
 
         if (str.contains("%serverversion%")) {
-        	str = str.replaceAll("%serverversion%", String.valueOf(Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().get() + ")"));
+        	str = str.replaceAll("%serverversion%", Bukkit.getBukkitVersion() + " (" + Main.getInstance().getVersionClass().getVersionsS() + ")");
         }
 
         if (str.contains("%gettime%")) {

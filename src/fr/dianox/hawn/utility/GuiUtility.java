@@ -1,10 +1,10 @@
 package fr.dianox.hawn.utility;
 
-import java.util.ArrayList;
-
-import org.bukkit.Bukkit;
+import fr.dianox.hawn.Main;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
 
 public class GuiUtility {
 	
@@ -13,8 +13,8 @@ public class GuiUtility {
 		
 		mat = mat.toUpperCase();
 		ItemStack i;
-		
-		if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);
@@ -79,8 +79,8 @@ public class GuiUtility {
 		
 		mat = mat.toUpperCase();
 		ItemStack i;
-		
-		if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 			i = new ItemStack(XMaterial.getMat(mat, "no info"), 1);
 			ItemMeta iMeta = i.getItemMeta();
 			iMeta.setDisplayName(name);

@@ -1,17 +1,5 @@
 package fr.dianox.hawn.event;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -20,6 +8,17 @@ import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.CommandEventConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import org.bukkit.Bukkit;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class OnCommandEvent implements Listener {
 
@@ -43,7 +42,7 @@ public class OnCommandEvent implements Listener {
                         if (e.getMessage().equalsIgnoreCase(i)) {
                             e.setCancelled(true);
                             
-                            if (Main.Spigot_Version >= 113) {
+                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                             	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
                             		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
                             		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
@@ -73,7 +72,7 @@ public class OnCommandEvent implements Listener {
                     if (e.getMessage().equalsIgnoreCase(i)) {
                         e.setCancelled(true);
                         
-                        if (Main.Spigot_Version >= 113) {
+                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                         	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
                         		p.spawnParticle(Particle.MOB_APPEARANCE, p.getLocation(), 1);
                         		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);

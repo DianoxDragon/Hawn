@@ -1,22 +1,20 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VanishCommand extends BukkitCommand {
 	
@@ -49,7 +47,7 @@ public class VanishCommand extends BukkitCommand {
 				
 				if (player_list_vanish.contains(target)) {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+						if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 							all.showPlayer(Main.getInstance(), target);
 						} else {
 							all.showPlayer(target);
@@ -85,7 +83,7 @@ public class VanishCommand extends BukkitCommand {
 					}
 				} else {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-						if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+						if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 							all.hidePlayer(Main.getInstance(), target);
 						} else {
 							all.hidePlayer(target);
@@ -166,7 +164,7 @@ public class VanishCommand extends BukkitCommand {
 					if (args.length == 0) {
 						if (player_list_vanish.contains(p)) {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+								if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 									all.showPlayer(Main.getInstance(), p);
 								} else {
 									all.showPlayer(p);
@@ -196,7 +194,7 @@ public class VanishCommand extends BukkitCommand {
 							}
 						} else {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-								if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+								if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 									all.hidePlayer(Main.getInstance(), p);
 								} else {
 									all.hidePlayer(p);
@@ -248,7 +246,7 @@ public class VanishCommand extends BukkitCommand {
 							
 							if (player_list_vanish.contains(target)) {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+									if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 										all.showPlayer(Main.getInstance(), target);
 									} else {
 										all.showPlayer(target);
@@ -284,7 +282,7 @@ public class VanishCommand extends BukkitCommand {
 								}
 							} else {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-									if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15")) {
+									if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 										all.hidePlayer(Main.getInstance(), target);
 									} else {
 										all.hidePlayer(target);

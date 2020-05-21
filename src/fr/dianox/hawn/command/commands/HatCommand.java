@@ -70,17 +70,17 @@ public class HatCommand extends BukkitCommand {
         	if (head == null || head.getType() == XMaterial.AIR.parseMaterial()) {
         		ItemStack hand;
         		
-        		if (Main.Spigot_Version > 18) {
+        		if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
         			hand = inv.getItemInMainHand();
         		} else {
         			hand = p.getItemInHand();
         		}
         		
-        		if (hand != null && hand.getType() != XMaterial.AIR.parseMaterial()) {
+        		if (hand.getType() != XMaterial.AIR.parseMaterial()) {
         			if (hand.getType().getMaxDurability() == 0) {
         				inv.setHelmet(hand);
         				
-        				if (Main.Spigot_Version > 18) {
+        				if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
         					inv.setItemInMainHand(head);
                 		} else {
                 			inv.setItemInHand(head);
@@ -108,7 +108,7 @@ public class HatCommand extends BukkitCommand {
         	} else {
         		ItemStack air = new ItemStack(XMaterial.AIR.parseMaterial());
         		
-        		if (Main.Spigot_Version > 18) {
+        		if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
 					inv.setItemInMainHand(head);
         		} else {
         			inv.setItemInHand(head);
@@ -136,7 +136,7 @@ public class HatCommand extends BukkitCommand {
         		} else {
         			ItemStack air = new ItemStack(XMaterial.AIR.parseMaterial());
         			
-        			if (Main.Spigot_Version > 18) {
+        			if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
     					inv.setItemInMainHand(head);
             		} else {
             			inv.setItemInHand(head);
@@ -154,17 +154,17 @@ public class HatCommand extends BukkitCommand {
         		
         		ItemStack hand;
         		
-        		if (Main.Spigot_Version > 18) {
+        		if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
         			hand = inv.getItemInMainHand();
         		} else {
         			hand = p.getItemInHand();
         		}
         		
-        		if (hand != null && hand.getType() != XMaterial.AIR.parseMaterial()) {
+        		if (hand.getType() != XMaterial.AIR.parseMaterial()) {
         			if (hand.getType().getMaxDurability() == 0) {
         				inv.setHelmet(hand);
         				
-        				if (Main.Spigot_Version > 18) {
+        				if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
         					inv.setItemInMainHand(head);
                 		} else {
                 			inv.setItemInHand(head);
@@ -212,7 +212,7 @@ public class HatCommand extends BukkitCommand {
             		} else {
             			ItemStack air = new ItemStack(XMaterial.AIR.parseMaterial());
             			
-            			if (Main.Spigot_Version > 18) {
+            			if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
         					p.getInventory().setItemInMainHand(head);
                 		} else {
                 			p.getInventory().setItemInHand(head);
@@ -236,17 +236,17 @@ public class HatCommand extends BukkitCommand {
             		
             		ItemStack hand;
             		
-            		if (Main.Spigot_Version > 18) {
+            		if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
             			hand = p.getInventory().getItemInMainHand();
             		} else {
             			hand = p.getItemInHand();
             		}
             		
-            		if (hand != null && hand.getType() != XMaterial.AIR.parseMaterial()) {
+            		if (hand.getType() != XMaterial.AIR.parseMaterial()) {
             			if (hand.getType().getMaxDurability() == 0) {
             				inv.setHelmet(hand);
             				
-            				if (Main.Spigot_Version > 18) {
+            				if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
             					p.getInventory().setItemInMainHand(head);
                     		} else {
                     			p.getInventory().setItemInHand(head);

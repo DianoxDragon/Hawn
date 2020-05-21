@@ -1,8 +1,11 @@
 package fr.dianox.hawn.modules.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,12 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SuppressWarnings("deprecation")
@@ -75,7 +74,7 @@ public class EditPlayerGui implements Listener {
 					}
 					
 					List<String> lore = new ArrayList<>();
-					if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+					if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 						if (item.getType() == XMaterial.RED_WOOL.parseMaterial()) {
 							lore.add(" ");
 							lore.add(ConfigMAdmin.getConfig().getString("Command.EditPlayer.Gui.Gamemode.LeftClick").replaceAll("&", "§"));
@@ -369,15 +368,14 @@ public class EditPlayerGui implements Listener {
 
 	        mat = mat.toUpperCase();
 	        ItemStack i;
-	        
-	        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.13")) {
+
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 	            i = new ItemStack(XMaterial.getMat(mat, "Error from the edit player system"), 1);
 	            ItemMeta iMeta = i.getItemMeta();
 	            iMeta.setDisplayName(name);
 	            iMeta.setLore(desc);
 	            i.setItemMeta(iMeta);
-	            return i;
-	        } else {
+		} else {
 	            if (mat.startsWith("ORANGE") || mat.startsWith("MAGENTA") || mat.startsWith("LIGHT_BLUE") || mat.startsWith("YELLOW") ||
 	                mat.startsWith("LIME") || mat.startsWith("PINK") || mat.startsWith("GRAY") || mat.startsWith("LIGHT_GRAY") ||
 	                mat.startsWith("CYAN") || mat.startsWith("PURPLE") || mat.startsWith("BLUE") || mat.startsWith("BROWN") ||
@@ -421,7 +419,6 @@ public class EditPlayerGui implements Listener {
 	                iMeta.setDisplayName(name);
 	                iMeta.setLore(desc);
 	                i.setItemMeta(iMeta);
-	                return i;
 
 	            } else {
 	                i = new ItemStack(XMaterial.getMat(mat, "Error from the panel admin"), 1);
@@ -429,10 +426,10 @@ public class EditPlayerGui implements Listener {
 	                iMeta.setDisplayName(name);
 	                iMeta.setLore(desc);
 	                i.setItemMeta(iMeta);
-	                return i;
 	            }
-	        }
-	    }
+		}
+		return i;
+	}
 	
 	public static ItemStack createGuiItem(String name, ArrayList < String > desc, Material mat) {
         ItemStack i = new ItemStack(mat, 1);
@@ -445,8 +442,8 @@ public class EditPlayerGui implements Listener {
 	
 	public static ItemStack createGuiItemSkull(String name, String pname, ArrayList < String > desc) {
         ItemStack i = null;
-        
-        if (Main.Spigot_Version >= 113) {
+
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 			i = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1);
 		} else {
 			i = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());

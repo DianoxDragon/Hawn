@@ -46,7 +46,7 @@ public class OnQuit implements Listener {
 		
 		// Mysql
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {
-			if (!Main.useyamllistplayer) {
+			if (!Main.getInstance().getSql().useyamllistplayer) {
 				if (SQL.tableExists("player_last_position")) {
 					if (SQL.exists("player_UUID", ""+p.getUniqueId()+"", "player_last_position")) {
 						SQL.set("player_last_position", "player", ""+p.getName()+"", "player_UUID", ""+p.getUniqueId()+"");

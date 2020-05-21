@@ -1,8 +1,13 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.world.CjiPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -19,19 +24,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.PlayerVisibility;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.world.CjiPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 public class SpecialItemPlayerVisibility implements Listener {
@@ -193,12 +187,12 @@ public class SpecialItemPlayerVisibility implements Listener {
 			
 			EquipmentSlot es = null;
 			
-			if (Main.Spigot_Version >= 19) {
+			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 				es = e.getHand();
 			}
 			
 			try {
-				if (Main.Spigot_Version >= 19) {
+				if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 					if (es.equals(EquipmentSlot.HAND)) {
 						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 							if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
@@ -652,7 +646,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			
 		if (material.contains("SKULL")) {
 			if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name")) {
-				if (Main.Spigot_Version >= 113) {
+				if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 					item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), amount);
 				} else {
 					item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());

@@ -101,7 +101,7 @@ public class SkullCommand extends BukkitCommand {
 	 private ItemStack getSkull(String name) {
 		 Material m = XMaterial.PLAYER_HEAD.parseMaterial();
 		 ItemStack is = new ItemStack(m, 1);
-		 if (Main.Spigot_Version < 113) {
+		 if (Main.getInstance().getVersionUtils().getSpigot_Version() < 113) {
 			 is.setDurability((short)3);
 		 }
 		 SkullMeta meta = (SkullMeta)is.getItemMeta();

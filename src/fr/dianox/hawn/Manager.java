@@ -60,7 +60,7 @@ public class Manager {
 		pm.registerEvents(new EditPlayerGui(), pl);
 		pm.registerEvents(new SignSystem(), pl);
 		
-		if (Main.Spigot_Version >= 19) {
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 			pm.registerEvents(new DisableOffHand(), pl);
 		}
 	}

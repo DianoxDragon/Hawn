@@ -1,8 +1,13 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
+import fr.dianox.hawn.utility.world.CjiPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -12,8 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -22,19 +27,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
-import fr.dianox.hawn.utility.world.CjiPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 public class SpecialIteLobbyBow implements Listener {
 	
-	HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
+	HashMap<Player, ItemStack> storedItem = new HashMap<>();
 	
 	public static String Check = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
 
@@ -119,7 +118,7 @@ public class SpecialIteLobbyBow implements Listener {
 				
 				ItemStack item = null;
 				 
-				 if (Main.Spigot_Version > 18) {
+				 if (Main.getInstance().getVersionUtils().getSpigot_Version() > 18) {
 					 item = p.getInventory().getItemInMainHand();
 				 } else {
 					 item = p.getInventory().getItemInHand();
@@ -162,20 +161,20 @@ public class SpecialIteLobbyBow implements Listener {
 		
 		EquipmentSlot es = null;
 		
-		if (Main.Spigot_Version >= 19) {
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 			es = e.getHand();
 		}
 		
 		String Check1 = Check;
 		
 		if (Check1.startsWith("&f")) {
-			Check1 = Check1.substring(2, Check1.length());
+			Check1 = Check1.substring(2);
 		}
 		
 		Check1 = Check1.replaceAll("&", "§");
 		
 		try {
-			if (Main.Spigot_Version >= 19) {
+			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 				if (es.equals(EquipmentSlot.HAND)) {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {

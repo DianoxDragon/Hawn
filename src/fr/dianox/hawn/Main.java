@@ -40,22 +40,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.sql.*;
 import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
 	private static Main instance;
 	private VersionUtils versionUtils;
-	private final BungeeApi bungApi = new BungeeApi(Main.getInstance());
+	private BungeeApi bungApi;
 	private HooksManager hooksManager;
 	private ScoreManager scoreManager;
 	private ConfigManager configManager;
 	private TabManager tabManager;
 	private AutoBroadcastManager auto;
+	private SQL sql;
 
 	private static String versions = "1.0.7-Beta";
-	public static Integer Spigot_Version = 0;
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -65,15 +64,6 @@ public class Main extends JavaPlugin implements Listener {
 	public static String UpToDate, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<>();
-	
-	public static Connection connection;
-	private String host,
-					database,
-					username, 
-					password;
-	private int port;
-	private static Statement statement;
-	public static boolean useyamllistplayer = false;
 	
 	public static HashMap<Integer, String> motd_sl = new HashMap<>();
 	public static Integer motd_total_sl = 0;
@@ -173,60 +163,14 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
 
-	    new BukkitRunnable() {
-		    @Override
-		    public void run() {
-			    try {
-					for (String s : bungApi.servers) {
-						bungApi.getCount(s);
-					}
-
-					bungApi.getCount("ALL");
-			    } catch (Exception ignored) {
-			    	System.out.println("error");
-			    }
-		    }
-	    }.runTaskTimer(this, 100, 100);
+		bungApi = new BungeeApi(this);
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
 		gcs(ChatColor.BLUE+"| ");
 
 		// MYSQL
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {
-			host = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Host");
-	        port = ConfigGeneral.getConfig().getInt("Plugin.Use.MYSQL.Port");
-	        database = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Database");
-	        username = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Username");
-	        password = ConfigGeneral.getConfig().getString("Plugin.Use.MYSQL.Password");
-
-	        BukkitRunnable r = new BukkitRunnable() {
-	            @Override
-	            public void run() {
-	            	try {
-	            		useyamllistplayer = true;
-	                    openConnection();
-	                    statement = connection.createStatement();
-	                } catch (ClassNotFoundException e) {
-	                    e.printStackTrace();
-	                    useyamllistplayer = true;
-	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (ClassNotFoundException)");
-	        			gcs(ChatColor.BLUE+"| ");
-	                } catch (SQLException e) {
-	                    e.printStackTrace();
-	                    useyamllistplayer = true;
-	                    gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (SQLException)");
-	        			gcs(ChatColor.BLUE+"| ");
-	                }
-	            }
-	        };
-
-	        r.runTaskAsynchronously(this);
-		} else {
-			useyamllistplayer = true;
-			gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (MySQL not enabled)");
-			gcs(ChatColor.BLUE+"| ");
-		}
+		sql = new SQL(this);
 
 		hooksManager = new HooksManager(this);
 
@@ -240,27 +184,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		ChatEmojisLoad.onLoad();
 		
-		// Versions
-	    if (Bukkit.getVersion().contains("1.16")) {
-		    Spigot_Version = 116;
-	    } else if (Bukkit.getVersion().contains("1.15")) {
-			Spigot_Version = 115;
-		} else if (Bukkit.getVersion().contains("1.14")) {
-			Spigot_Version = 114;
-		} else if (Bukkit.getVersion().contains("1.13")) {
-			Spigot_Version = 113;
-		} else if (Bukkit.getVersion().contains("1.12")) {
-			Spigot_Version = 112;
-		} else if (Bukkit.getVersion().contains("1.11")) {
-			Spigot_Version = 111;
-		} else if (Bukkit.getVersion().contains("1.10")) {
-			Spigot_Version = 110;
-		} else if (Bukkit.getVersion().contains("1.9")) {
-			Spigot_Version = 19;
-		} else if (Bukkit.getVersion().contains("1.8")) {
-			Spigot_Version = 18;
-		}
-
+		// Version
 		versionUtils = new VersionUtils();
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
@@ -639,7 +563,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		// Check version
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on " + versionUtils.get());
+		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on " + versionUtils.getVersionsS());
 		gcs(ChatColor.BLUE+"| ");
 
 		// Warning
@@ -770,67 +694,6 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
-	// MYSQL
-	public void openConnection() throws SQLException, ClassNotFoundException {
-	    if (connection != null && !connection.isClosed()) {
-	        return;
-	    }
-
-	    if (host == null || username == null || password == null || database == null) {
-	        return;
-	    }
-
-	    synchronized (this) {
-	        if (connection != null && !connection.isClosed()) {
-	            return;
-	        }
-	        Class.forName("com.mysql.jdbc.Driver");
-	        try {
-	        	if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Use-SSL")) {
-	        		connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database, this.username, this.password);
-	        	} else {
-	        		connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database + "?useSSL=false", this.username, this.password);
-	        	}
-	        	useyamllistplayer = false;
-	        	gcs(ChatColor.BLUE+"| ------------------------------------");
-	        	gcs(ChatColor.BLUE+"| ");
-	        	gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use MySQL as method for information");
-    			gcs(ChatColor.BLUE+"| ");
-    			gcs(ChatColor.BLUE+"| ------------------------------------");
-	        } catch (Exception e) {
-	        	Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Connect Error: " + e.getMessage());
-	        	useyamllistplayer = true;
-			}
-	    }
-	}
-
-	public static void updateSQL(String command) {
-		if (command == null) {
-			return;
-		}
-
-		try {
-			statement.executeUpdate(command);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static ResultSet querySQL(String command) {
-		if (command == null) {
-			return null;
-		}
-
-		ResultSet rs = null;
-
-		try {
-			rs = statement.executeQuery(command);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
-
 	public BungeeApi getBungApi() {
 		return bungApi;
 	}
@@ -853,5 +716,13 @@ public class Main extends JavaPlugin implements Listener {
 
 	public AutoBroadcastManager getAuto() {
 		return auto;
+	}
+
+	public SQL getSql() {
+		return sql;
+	}
+
+	public VersionUtils getVersionUtils() {
+		return versionUtils;
 	}
 }

@@ -1,8 +1,16 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.XSound;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.world.CjiPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -21,22 +29,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.world.CjiPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpecialIteFunGun implements Listener {
 		
 	public static String Check = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
-	private static List<Player> Cooling = new ArrayList<Player>();
+	private static final List<Player> Cooling = new ArrayList<>();
 
 	@EventHandler
 	public void onCLickInventory(InventoryClickEvent e) {
@@ -117,7 +116,7 @@ public class SpecialIteFunGun implements Listener {
 				}
 				
 				for (Player all : p.getWorld().getPlayers()) {
-					if (Main.Spigot_Version >= 19) {
+					if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 						all.spawnParticle(Particle.HEART, snowball.getLocation(), 1);
 						all.spawnParticle(Particle.LAVA, snowball.getLocation(), 1);
 					}
@@ -156,20 +155,20 @@ public class SpecialIteFunGun implements Listener {
 		
 		EquipmentSlot es = null;
 		
-		if (Main.Spigot_Version >= 19) {
+		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 			es = e.getHand();
 		}
 		
 		String Check1 = Check;
 		
 		if (Check1.startsWith("&f")) {
-			Check1 = Check1.substring(2, Check1.length());
+			Check1 = Check1.substring(2);
 		}
 		
 		Check1 = Check1.replaceAll("&", "§");
 		
 		try {
-			if (Main.Spigot_Version >= 19) {
+			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 				if (es.equals(EquipmentSlot.HAND)) {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
@@ -200,7 +199,7 @@ public class SpecialIteFunGun implements Listener {
 													}
 														
 												}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
-												Main.fungunCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+												Main.fungunCooldowns.put(p, System.currentTimeMillis());
 											}
 										} else {
 											p.launchProjectile(Snowball.class);
@@ -245,7 +244,7 @@ public class SpecialIteFunGun implements Listener {
 												}
 													
 											}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
-											Main.fungunCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+											Main.fungunCooldowns.put(p, System.currentTimeMillis());
 										}
 									} else {
 										p.launchProjectile(Snowball.class);

@@ -1,9 +1,14 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
+import com.google.common.base.Strings;
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.BookListConfiguration;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.world.CjiPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -16,23 +21,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.google.common.base.Strings;
-
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.BookListConfiguration;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.world.CjiPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 @SuppressWarnings("deprecation")
 public class CustomJoinItem {
 	
-	public static HashMap<String, String> itemcjiname = new HashMap<String, String>();
-	public static HashMap<Integer, String> itemcjislot = new HashMap<Integer, String>();
-	public static HashMap<Integer, String> itemcjislotname = new HashMap<Integer, String>();
+	public static HashMap<String, String> itemcjiname = new HashMap<>();
+	public static HashMap<Integer, String> itemcjislot = new HashMap<>();
+	public static HashMap<Integer, String> itemcjislotname = new HashMap<>();
 	
 	public static void onItemGive(Player p) {
 		
@@ -116,20 +114,17 @@ public class CustomJoinItem {
 		// Give items
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Inventory.Enable")) {
-			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
-			
-			while (iterator.hasNext()) {
-				String string = (String) iterator.next();
-				
+
+			for (String string : ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false)) {
 				if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 					if (p.hasPermission("hawn.use.cji.item." + string)) {
 						String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-						
+
 						ItemsMethod(path_item, p, "no");
 					}
 				} else {
 					String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-					
+
 					ItemsMethod(path_item, p, "no");
 				}
 			}
@@ -141,14 +136,14 @@ public class CustomJoinItem {
 		
 		String material = "";
 		ItemStack item = null;
-		Integer amount = 1;
+		int amount = 1;
 		ItemMeta itemmeta = null;
-		Integer slot = 0;
+		int slot = 0;
 		SkullMeta meta = null;
 		String skullname = "";
 		
-		ArrayList < String > lore = new ArrayList < String > ();
-		Boolean lorecheck = false;
+		ArrayList < String > lore = new ArrayList <> ();
+		boolean lorecheck = false;
 		
 		String title = "thistitleinsnotforuseorsomethingelse";
 		
@@ -258,16 +253,15 @@ public class CustomJoinItem {
 			// pages
 			Iterator<?> iterator = BookListConfiguration.getConfig().getConfigurationSection("Book-List." + material).getKeys(false).iterator();
 			
-			ArrayList<String> pages = new ArrayList<String>();
-			pages.clear();
-			
-			Integer number = 0;
+			ArrayList<String> pages = new ArrayList<>();
+
+			int number = 0;
 			
 			while (iterator.hasNext()) {
 				String string = (String) iterator.next();
 				
 				String page = "";
-				Boolean check = false;
+				boolean check = false;
 				
 				if (string.equals("Title") || string.equals("Author")) {
 					continue;
@@ -311,7 +305,7 @@ public class CustomJoinItem {
 		} else {
 			if (material.contains("SKULL")) {
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name")) {
-					if (Main.Spigot_Version >= 113) {
+					if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 						item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), amount);
 					} else {
 						item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1, (short) SkullType.PLAYER.ordinal());
