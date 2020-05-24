@@ -1,17 +1,16 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.Objects;
-
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.ClearChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.ClearChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.Objects;
 
 public class ClearChatCommand extends BukkitCommand {
 	
@@ -41,7 +40,7 @@ public class ClearChatCommand extends BukkitCommand {
 					 sender.sendMessage("§8\\\\§7§m---------------§r§8// §3[§bHawn§3] §8\\\\§7§m---------------§r§8//");
 				} else if (args[0].equalsIgnoreCase("a")) {
 					for (int i = 0; i < lines; i++) {
-                    	ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "");
+                    	ConfigEventUtils.ExecuteEventAllPlayersConsole(" ", "", "");
 					}
                     	
 					String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
@@ -61,7 +60,7 @@ public class ClearChatCommand extends BukkitCommand {
 					if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Message-Clear")) {
 						for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Anonymously")) {
 							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg)));
-							ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replaceAll("%reason%", msg), "", "");
 							MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
 						}
 					}
@@ -70,7 +69,7 @@ public class ClearChatCommand extends BukkitCommand {
 					sender.sendMessage("§cYou are the console");
 				} else if (args[0].equalsIgnoreCase("c")) {
 					for (int i = 0; i < lines; i++) {
-						ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "");
+						ConfigEventUtils.ExecuteEventAllPlayersConsole(" ", "", "");
                     }
                     
                     String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
@@ -90,7 +89,7 @@ public class ClearChatCommand extends BukkitCommand {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Message-Clear")) {
                     	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Normal")) {
                     		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg).replaceAll("%player%", "console")));
-                    		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "");
+                    		ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replaceAll("%reason%", msg), "", "");
 							MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
                     	}
                     }
@@ -116,20 +115,18 @@ public class ClearChatCommand extends BukkitCommand {
                     }
                     
                     String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
-                    
-                    if (args.length >= 2) {
-                        if (!args[1].isEmpty()) {
-                        	msg = "";
-                        	for (int i = 1; i < args.length; i++) {
-                        		if (!Objects.equals(msg, "")) {
-	    	                    	msg = msg + " ";
-                        		}
-                        		msg = msg + args[i];
-                        	}
-                        }
-                    }
-                    
-                    for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
+
+					if (!args[1].isEmpty()) {
+						msg = "";
+						for (int i = 1; i < args.length; i++) {
+							if (!Objects.equals(msg, "")) {
+								msg = msg + " ";
+							}
+							msg = msg + args[i];
+						}
+					}
+
+					for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
                     	ConfigEventUtils.ExecuteEvent(target, ms1.replaceAll("%reason%", msg), "", "", false);
                     	MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
                     }
@@ -182,7 +179,7 @@ public class ClearChatCommand extends BukkitCommand {
                     	}
 
                     		for (int i = 0; i < lines; i++) {
-                    			ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "");
+                    			ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "", p, true);
 	                        }
 	                        
 	                        String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
@@ -202,7 +199,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Message-Clear")) {
 	                        	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Anonymously")) {
 	                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg)));
-	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "");
+	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "", p, true);
 	    							MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
 	                        	}
 	                        }
@@ -226,7 +223,7 @@ public class ClearChatCommand extends BukkitCommand {
                     		}
                     	}
                     		for (int i = 0; i < lines; i++) {
-                    			ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "");
+                    			ConfigEventUtils.ExecuteEventAllPlayers(" ", "", "", p, true);
 	                        }
 	                        
 	                        String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
@@ -246,7 +243,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Message-Clear")) {
 	                        	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Normal")) {
 	                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replaceAll("%reason%", msg)));
-	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "");
+	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replaceAll("%reason%", msg), "", "", p, true);
 	    							MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
 	                        	}
 	                        }
@@ -313,20 +310,18 @@ public class ClearChatCommand extends BukkitCommand {
                     	}
 	                        
                     	String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
-	                        
-                    	if (args.length >= 2) {
-                    		if (!args[1].isEmpty()) {
-                    			msg = "";
-                    			for (int i = 1; i < args.length; i++) {
-                    				if (!Objects.equals(msg, "")) {
-                    					msg = msg + " ";
-                    				}
-                    				msg = msg + args[i];
-                    			}
-                    		}
-                    	}
-	                        
-                    	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
+
+	                    if (!args[1].isEmpty()) {
+		                    msg = "";
+		                    for (int i = 1; i < args.length; i++) {
+			                    if (!Objects.equals(msg, "")) {
+				                    msg = msg + " ";
+			                    }
+			                    msg = msg + args[i];
+		                    }
+	                    }
+
+	                    for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
                     		ConfigEventUtils.ExecuteEvent(target, ms1.replaceAll("%reason%", msg), "", "", false);
                         	MessageUtils.ConsoleMessages(ms1.replaceAll("%reason%", msg));
                     	}

@@ -73,7 +73,7 @@ public class SuicideCommand extends BukkitCommand {
 		 if (ConfigMMsg.getConfig().getBoolean("Suicide.Broadcast.Enable")) {
 			 for (String msg: ConfigMMsg.getConfig().getStringList("Suicide.Broadcast.Messages")) {
 				 MessageUtils.ConsoleMessages(msg.replaceAll("%player%", p.getName()));
-				 ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()), "", "");
+				 ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()), "", "", p, true);
 			 }
 		 }
 			 

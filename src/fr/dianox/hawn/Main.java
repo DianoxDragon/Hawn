@@ -139,6 +139,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		instance = this;
 
+		versionUtils = new VersionUtils();
+
 	    configManager = new ConfigManager(this);
 		
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
@@ -159,11 +161,11 @@ public class Main extends JavaPlugin implements Listener {
 	    	getServer().getMessenger().registerIncomingPluginChannel(this, "WDL|INIT", pcl = new PluginChannelListener());
 	        getServer().getMessenger().registerOutgoingPluginChannel(this, "WDL|CONTROL");
 	    } catch (Exception ignored) {}
-	    	    
-		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
 
 		bungApi = new BungeeApi(this);
+
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
 		gcs(ChatColor.BLUE+"| ");
@@ -185,8 +187,6 @@ public class Main extends JavaPlugin implements Listener {
 		ChatEmojisLoad.onLoad();
 		
 		// Version
-		versionUtils = new VersionUtils();
-
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
 
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Tps.Warn-system")) {
@@ -221,11 +221,11 @@ public class Main extends JavaPlugin implements Listener {
 	    /*
 	     * Protection interactable
 	     */
-	    
+
 	    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
-	    	
+
 	    	interactables.clear();
-	    	
+
 	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
 	    		interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
 	    	}

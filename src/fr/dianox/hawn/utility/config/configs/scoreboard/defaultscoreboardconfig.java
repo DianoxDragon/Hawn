@@ -1,10 +1,10 @@
 package fr.dianox.hawn.utility.config.configs.scoreboard;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public class defaultscoreboardconfig {
 	
@@ -94,7 +94,7 @@ public class defaultscoreboardconfig {
             		" ",
             		"{SC_info}",
             		" ",
-            		"&7A kind thanks to use &e&lHawn"
+            		"&7Thanks to use &e&lHawn"
             }));
             
             Config.set("updater.title", 5);

@@ -1,10 +1,10 @@
 package fr.dianox.hawn.utility.config.configs.scoreboard;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public class worldnetherdsc {
 	
@@ -62,7 +62,7 @@ public class worldnetherdsc {
             		" ",
             		"&cMinimalist scoreboard",
             		" ",
-            		"&cA kind thanks to use &4&lHawn"
+            		"&cThanks to use &4&lHawn"
             }));
             
             Config.set("updater.title", 50);

@@ -13,7 +13,7 @@ public class MuteChatTask extends BukkitRunnable {
 	
 	private Player p;
 	
-	public MuteChatTask(Player p, Integer time) {
+	public MuteChatTask(Player p) {
         this.p = p;
 	}
 
@@ -27,7 +27,7 @@ public class MuteChatTask extends BukkitRunnable {
 		
 		for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
 			MessageUtils.ConsoleMessages(msg);
-			ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+			ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 		}
 		
 		MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);

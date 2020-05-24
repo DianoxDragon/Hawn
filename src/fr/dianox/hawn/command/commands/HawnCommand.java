@@ -1,14 +1,17 @@
 package fr.dianox.hawn.command.commands;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.modules.admin.EditPlayerGui;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import fr.dianox.hawn.utility.load.Reload;
+import fr.dianox.hawn.utility.tasks.TaskNoClipCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,18 +22,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.modules.admin.EditPlayerGui;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
-import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.load.Reload;
-import fr.dianox.hawn.utility.tasks.TaskNoClipCommand;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class HawnCommand implements CommandExecutor {
 
@@ -108,7 +107,7 @@ public class HawnCommand implements CommandExecutor {
 								String check = plugin.getName();
 								
 								if (!plugincheck.contains(check)) {
-									if (plugin != null && !plugin.isEnabled()) {
+									if (!plugin.isEnabled()) {
 										Bukkit.getPluginManager().enablePlugin(plugin);
 									}
 								}
@@ -124,7 +123,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.Off")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
 							MessageUtils.ConsoleMessages(msg);
 						}
 						
@@ -159,7 +158,7 @@ public class HawnCommand implements CommandExecutor {
 								String check = plugin.getName();
 								
 								if (!plugincheck.contains(check)) {
-									if (plugin != null && plugin.isEnabled()) {
+									if (plugin.isEnabled()) {
 										Bukkit.getPluginManager().disablePlugin(plugin);
 									}
 								}
@@ -171,7 +170,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
 							MessageUtils.ConsoleMessages(msg);
 						}
 					}
@@ -261,7 +260,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
 							MessageUtils.ConsoleMessages(msg);
 						}
 					} else {
@@ -286,7 +285,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
 							MessageUtils.ConsoleMessages(msg);
 						}
 					}
@@ -605,7 +604,7 @@ public class HawnCommand implements CommandExecutor {
 					
 					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Hawn")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 							MessageUtils.ConsoleMessages(msg);
 						}
 						
@@ -664,7 +663,7 @@ public class HawnCommand implements CommandExecutor {
 								String check = plugin.getName();
 								
 								if (!plugincheck.contains(check)) {
-									if (plugin != null && plugin.isEnabled()) {
+									if (plugin.isEnabled()) {
 										Bukkit.getPluginManager().disablePlugin(plugin);
 									}
 								}
@@ -677,7 +676,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 						
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+							ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 							MessageUtils.ConsoleMessages(msg);
 						}
 					}
@@ -868,7 +867,7 @@ public class HawnCommand implements CommandExecutor {
 							}
 							
 							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 								MessageUtils.ConsoleMessages(msg);
 							}
 						} else {
@@ -893,7 +892,7 @@ public class HawnCommand implements CommandExecutor {
 							}
 							
 							for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 								MessageUtils.ConsoleMessages(msg);
 							}
 						}
@@ -980,7 +979,7 @@ public class HawnCommand implements CommandExecutor {
 		
 		File checkname = new File(zipFile);
 		
-		Integer number = 1;
+		int number = 1;
 		
         while (checkname.exists()) {
         	number++;
@@ -1025,7 +1024,7 @@ public class HawnCommand implements CommandExecutor {
 		
 		for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Zip")) {
 			if (b) {
-				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 				MessageUtils.ConsoleMessages(msg);
 			}
 			MessageUtils.ConsoleMessages(msg);

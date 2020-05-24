@@ -1,14 +1,13 @@
 package fr.dianox.hawn.event.onquite;
 
-import java.util.Iterator;
-
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
+import fr.dianox.hawn.utility.world.OnQuitPW;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.world.OnQuitPW;
+import java.util.Iterator;
 
 public class OQMessages {
 	
@@ -83,44 +82,40 @@ public class OQMessages {
 		if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Silent-Staff-Quit") && p.hasPermission("hawn.event.silentquit")) {
 			e.setQuitMessage("");
 		} else {
-			Iterator < ? > iterator = ConfigMGeneral.getConfig().getConfigurationSection("General.On-Quit.Quit-Message.Per-World.Worlds").getKeys(false).iterator();
-			
-			while (iterator.hasNext()) {
-				String string = (String) iterator.next();
-				
+
+			for (String string : ConfigMGeneral.getConfig().getConfigurationSection("General.On-Quit.Quit-Message.Per-World.Worlds").getKeys(false)) {
 				if (p.getLocation().getWorld().getName().equalsIgnoreCase(string)) {
 					if (p.hasPermission("hawn.on-quit.custom-message-per-world." + string)) {
-						if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World")) {							
+						if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World")) {
 							for (Player all : Bukkit.getServer().getWorld(string).getPlayers()) {
-									if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-										for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-					                    	ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
-					                    	ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
-					                    }
-					                } else {
-					                	for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-					                		ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
-					                    }
-					                }
-				                }
+								if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
+									for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
+										ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+										ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
+									}
+								} else {
+									for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
+										ConfigEventUtils.ExecuteEvent(all, msg.replaceAll("%player%", p.getName()), "General.On-join.Join-Message.Broadcast-To-Console", "OQMessages", false);
+									}
+								}
 							}
-							break;
-						} else {
-							if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
-			                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
-			                        ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages");
-			                    }
-			                } else {
-			                    for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-			                    	ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages");
-			                    }
-			                }
-			
-			                break;
 						}
-		            }
+					} else {
+						if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
+							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
+								ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+							}
+						} else {
+							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
+								ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+							}
+						}
+
+					}
+					break;
 				}
+			}
 			
 		}
 	}

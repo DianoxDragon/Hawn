@@ -38,7 +38,7 @@ public class MuteChatCommand extends BukkitCommand {
 					for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "console")));
 						MessageUtils.ConsoleMessages(msg.replaceAll("%player%", "console"));
-						ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", "console"), "", "");
+						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replaceAll("%player%", "console"), "", "");
 					}
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 					
@@ -51,7 +51,7 @@ public class MuteChatCommand extends BukkitCommand {
 					for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "console")));
 						MessageUtils.ConsoleMessages(msg.replaceAll("%player%", "console"));
-						ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", "console"), "", "");
+						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replaceAll("%player%", "console"), "", "");
 					}
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 				}
@@ -59,12 +59,13 @@ public class MuteChatCommand extends BukkitCommand {
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%player%", "console").replaceAll("%minutes%", args[0])));
 					MessageUtils.ConsoleMessages(msg.replaceAll("%player%", "console").replaceAll("%minutes%", args[0]));
-					ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", "console").replaceAll("%minutes%", args[0]), "", "");
+					ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replaceAll("%player%", "console").replaceAll("%minutes%", args[0]),
+							"", "");
 				}
 				
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 				
-				Integer time = (Integer.valueOf(args[0]) * 60) * 20;
+				int time = (Integer.parseInt(args[0]) * 60) * 20;
 				
 				BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), time);
 				
@@ -100,7 +101,7 @@ public class MuteChatCommand extends BukkitCommand {
 			if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
 					MessageUtils.ConsoleMessages(msg);
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 				}
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 				
@@ -112,19 +113,19 @@ public class MuteChatCommand extends BukkitCommand {
 			} else {
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
 					MessageUtils.ConsoleMessages(msg);
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "");
+					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 				}
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 			}
 		} else {
 			for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 				MessageUtils.ConsoleMessages(msg.replaceAll("%minutes%", args[0]));
-				ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%minutes%", args[0]), "", "");
+				ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%minutes%", args[0]), "", "", p, true);
 			}
 			
 			MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 			
-			Integer time = (Integer.valueOf(args[0]) * 60) * 20;
+			int time = (Integer.parseInt(args[0]) * 60) * 20;
 			
 			BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), time);
 			
