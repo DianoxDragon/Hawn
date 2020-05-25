@@ -1,10 +1,10 @@
 package fr.dianox.hawn.utility.config.configs;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 public class WarpListConfig {
 	
@@ -51,7 +51,7 @@ public class WarpListConfig {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException ignored) {}
+            } catch (IOException e) {}
 
             saveConfigFile();
 

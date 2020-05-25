@@ -1,16 +1,5 @@
 package fr.dianox.hawn.utility;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.FireworkMeta;
-
-import javax.management.*;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -18,6 +7,25 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
+
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
 
 public class OtherUtils {
 	
@@ -58,7 +66,7 @@ public class OtherUtils {
 	    String os = System.getProperty("os.name");
 	    
 	    ossystem = String.valueOf(os);
-
+	    
 	    return os;
 	}
 	
@@ -95,11 +103,11 @@ public class OtherUtils {
 	    int usage = (int)Math.ceil(round_usage);
 	    for (int i = 0; i < 40; i++) {
 	    	if (i < usage) {
-	    		MemoryUsageBar = MemoryUsageBar + "§a▬";
+	    		MemoryUsageBar = String.valueOf(MemoryUsageBar) + "§a▬";
 			} else if (usage == i) {
-				MemoryUsageBar = MemoryUsageBar + "§6▬";
+				MemoryUsageBar = String.valueOf(MemoryUsageBar) + "§6▬";
 			} else {
-				MemoryUsageBar = MemoryUsageBar + "§c▬";
+				MemoryUsageBar = String.valueOf(MemoryUsageBar) + "§c▬";
 			} 
 	    }
 	    return MemoryUsageBar;
@@ -127,9 +135,9 @@ public class OtherUtils {
 	    Double value = (Double)att.getValue();
 
 	    
-	    if (value == -1.0D) return NaND;
+	    if (value.doubleValue() == -1.0D) return NaND;
 	    
-	    return (int)(value * 1000.0D) / 10.0D;
+	    return (int)(value.doubleValue() * 1000.0D) / 10.0D;
 	}
 	
 	public static String getCPUUsageBar() {
@@ -177,11 +185,11 @@ public class OtherUtils {
 		int usage = (int)Math.ceil(round_usage);
 		for (int i = 0; i < 40; i++) {
 			if (i < usage) {
-				DiskUsageBar = DiskUsageBar + "§a▬";
+				DiskUsageBar = String.valueOf(DiskUsageBar) + "§a▬";
 			} else if (usage == i) {
-				DiskUsageBar = DiskUsageBar + "§6▬";
+				DiskUsageBar = String.valueOf(DiskUsageBar) + "§6▬";
 			} else {
-				DiskUsageBar = DiskUsageBar + "§c▬";
+				DiskUsageBar = String.valueOf(DiskUsageBar) + "§c▬";
 			} 
 	    } 
 	    return DiskUsageBar;
@@ -205,7 +213,9 @@ public class OtherUtils {
 	}
 	
 	public static String getDate() {
-		return new SimpleDateFormat(ConfigGeneral.getConfig().getString("Plugin.Date-Format")).format(System.currentTimeMillis());
+		String currentDate = new SimpleDateFormat(ConfigGeneral.getConfig().getString("Plugin.Date-Format")).format(System.currentTimeMillis());
+		
+		return currentDate;
 	}
 	
 	public static String getTime() {
@@ -222,59 +232,62 @@ public class OtherUtils {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-		return simpleDateFormat.format(new Date());
+		String date = simpleDateFormat.format(new Date());
+		
+		return date;
 	}
 	
 	public static Color getColor(String paramString) {
-		if (paramString.equalsIgnoreCase("AQUA")) {
+	    String temp = paramString;
+	    if (temp.equalsIgnoreCase("AQUA")) {
 	      return Color.AQUA;
 	    }
-	    if (paramString.equalsIgnoreCase("BLACK")) {
+	    if (temp.equalsIgnoreCase("BLACK")) {
 	      return Color.BLACK;
 	    }
-	    if (paramString.equalsIgnoreCase("BLUE")) {
+	    if (temp.equalsIgnoreCase("BLUE")) {
 	      return Color.BLUE;
 	    }
-	    if (paramString.equalsIgnoreCase("FUCHSIA")) {
+	    if (temp.equalsIgnoreCase("FUCHSIA")) {
 	      return Color.FUCHSIA;
 	    }
-	    if (paramString.equalsIgnoreCase("GRAY")) {
+	    if (temp.equalsIgnoreCase("GRAY")) {
 	      return Color.GRAY;
 	    }
-	    if (paramString.equalsIgnoreCase("GREEN")) {
+	    if (temp.equalsIgnoreCase("GREEN")) {
 	      return Color.GREEN;
 	    }
-	    if (paramString.equalsIgnoreCase("LIME")) {
+	    if (temp.equalsIgnoreCase("LIME")) {
 	      return Color.LIME;
 	    }
-	    if (paramString.equalsIgnoreCase("MAROON")) {
+	    if (temp.equalsIgnoreCase("MAROON")) {
 	      return Color.MAROON;
 	    }
-	    if (paramString.equalsIgnoreCase("NAVY")) {
+	    if (temp.equalsIgnoreCase("NAVY")) {
 	      return Color.NAVY;
 	    }
-	    if (paramString.equalsIgnoreCase("OLIVE")) {
+	    if (temp.equalsIgnoreCase("OLIVE")) {
 	      return Color.OLIVE;
 	    }
-	    if (paramString.equalsIgnoreCase("ORANGE")) {
+	    if (temp.equalsIgnoreCase("ORANGE")) {
 	      return Color.ORANGE;
 	    }
-	    if (paramString.equalsIgnoreCase("PURPLE")) {
+	    if (temp.equalsIgnoreCase("PURPLE")) {
 	      return Color.PURPLE;
 	    }
-	    if (paramString.equalsIgnoreCase("RED")) {
+	    if (temp.equalsIgnoreCase("RED")) {
 	      return Color.RED;
 	    }
-	    if (paramString.equalsIgnoreCase("SILVER")) {
+	    if (temp.equalsIgnoreCase("SILVER")) {
 	      return Color.SILVER;
 	    }
-	    if (paramString.equalsIgnoreCase("TEAL")) {
+	    if (temp.equalsIgnoreCase("TEAL")) {
 	      return Color.TEAL;
 	    }
-	    if (paramString.equalsIgnoreCase("WHITE")) {
+	    if (temp.equalsIgnoreCase("WHITE")) {
 	      return Color.WHITE;
 	    }
-	    if (paramString.equalsIgnoreCase("YELLOW")) {
+	    if (temp.equalsIgnoreCase("YELLOW")) {
 	      return Color.YELLOW;
 	    }
 	    

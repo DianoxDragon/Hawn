@@ -10,7 +10,6 @@ import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.hook.HooksManager;
-import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
@@ -55,7 +54,7 @@ public class Main extends JavaPlugin implements Listener {
 	private AutoBroadcastManager auto;
 	private SQL sql;
 
-	private static String versions = "1.0.8-Beta";
+	private static String versions = "1.0.7-Beta";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -207,6 +206,8 @@ public class Main extends JavaPlugin implements Listener {
 				p.setFlying(false);
 			}
 		}
+
+		EmojiesUtility.setaliaseslist();
 
 		nmsver = Bukkit.getServer().getClass().getPackage().getName();
 	    nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);

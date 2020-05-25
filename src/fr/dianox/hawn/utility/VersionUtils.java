@@ -11,6 +11,11 @@ public class VersionUtils {
 	public VersionUtils() {
 		versionsS = Bukkit.getVersion();
 
+		if (!versionsS.contains("1.16") && !versionsS.contains("1.15") && !versionsS.contains("1.14") && !versionsS.contains("1.13")) {
+			Bukkit.getConsoleSender().sendMessage("| " + ChatColor.YELLOW + "Not developed for these versions, but it should work.");
+			Bukkit.getConsoleSender().sendMessage("| ");
+		}
+
 		if (Bukkit.getVersion().contains("1.16")) {
 			Spigot_Version = 116;
 		} else if (Bukkit.getVersion().contains("1.15")) {
@@ -29,11 +34,6 @@ public class VersionUtils {
 			Spigot_Version = 19;
 		} else if (Bukkit.getVersion().contains("1.8")) {
 			Spigot_Version = 18;
-		}
-
-		if (Spigot_Version >= 113) {
-			Bukkit.getConsoleSender().sendMessage("| " + ChatColor.YELLOW + "Not developed for these versions, but it should work.");
-			Bukkit.getConsoleSender().sendMessage("| ");
 		}
 	}
 	
