@@ -214,6 +214,10 @@ public class ConfigEventUtils {
         			MessageUtils.ClassicMessagesConsoleSupport(event, p);
         		}
         	} else {
+        		if (Informatif.equals("AUTOCENTER")) {
+		            event = "<--center--> " + event;
+		        }
+
         		MessageUtils.ClassicMessages(event, p);
         	}
         }

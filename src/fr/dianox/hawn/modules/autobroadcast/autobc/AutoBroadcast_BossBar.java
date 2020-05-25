@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event;
+package fr.dianox.hawn.modules.autobroadcast.autobc;
 
 import java.util.Random;
 
