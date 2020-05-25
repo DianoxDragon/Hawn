@@ -1,10 +1,11 @@
 package fr.dianox.hawn.utility.config.configs;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 
 public class ServerListConfig {
 	
@@ -51,21 +52,17 @@ public class ServerListConfig {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {}
+            } catch (IOException ignored) {}
             
             Config.set("Slots.One-Slot-Free", true);
             Config.set("Slots.Fake-Max-Player.Enable", false);
             Config.set("Slots.Fake-Max-Player.Number", 2000);
             
             Config.set("On-Join.Player-With-Permission-Join-Full-Server", true);
-            Config.set("On-Join.Message", java.util.Arrays.asList(new String[] {
-            		"&cThe multi line",
-            		"&bworks like that %player%"
-            }));
+            Config.set("On-Join.Message", java.util.Arrays.asList("&cThe multi line",
+		            "&bworks like that %player%"));
             
-            Config.set("Anti-WDL.Kick-Message", java.util.Arrays.asList(new String[] {
-            		"&cSorry you used A world downloader"
-            }));
+            Config.set("Anti-WDL.Kick-Message", Collections.singletonList("&cSorry you use a world downloader"));
             
             Config.set("Motd.Classic.Enable", true);
             Config.set("Motd.Classic.Random", true);

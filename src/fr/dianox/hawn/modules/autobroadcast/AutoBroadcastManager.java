@@ -1,16 +1,16 @@
-package fr.dianox.hawn;
+package fr.dianox.hawn.modules.autobroadcast;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast;
+import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_AB;
+import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_BossBar;
+import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_Title;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
-import fr.dianox.hawn.event.AutoBroadcast;
-import fr.dianox.hawn.event.AutoBroadcast_AB;
-import fr.dianox.hawn.event.AutoBroadcast_BossBar;
-import fr.dianox.hawn.event.AutoBroadcast_Title;
-import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AutoBroadcastManager {
 	
@@ -36,7 +36,7 @@ public class AutoBroadcastManager {
 	 * Manage stop of autobroadcast
 	 */
 	public void stopAll() {
-		if (!Main.tasklist.isEmpty()) {
+		if (! Main.tasklist.isEmpty()) {
 
 			ArrayList<String> list = new ArrayList<String>(Main.tasklist.keySet());
 			

@@ -1,10 +1,10 @@
 package fr.dianox.hawn.utility.config.configs;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ConfigWorldGeneral {
 	
@@ -51,10 +51,8 @@ public class ConfigWorldGeneral {
         if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch (IOException e) {}
-            
-            
-            
+            } catch (IOException ignored) {}
+
             saveConfigFile();
 
         }

@@ -1,11 +1,4 @@
-package fr.dianox.hawn.event;
-
-import java.util.Random;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+package fr.dianox.hawn.modules.autobroadcast.autobc;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
@@ -13,6 +6,12 @@ import fr.dianox.hawn.utility.Titles;
 import fr.dianox.hawn.utility.XSound;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Random;
 
 public class AutoBroadcast_Title extends BukkitRunnable  {
 	
