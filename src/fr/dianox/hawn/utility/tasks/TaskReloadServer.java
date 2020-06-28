@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TaskReloadServer extends BukkitRunnable {
 	
-	private Player p;
+	private final Player p;
 
 	public TaskReloadServer(Player p) {
         this.p = p;

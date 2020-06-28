@@ -75,7 +75,7 @@ public class ListGui implements Listener {
 							pname = pname.replace("§b", "");
 							
 							EditPlayerGui.OpenGui(Bukkit.getPlayer(pname));
-						} catch (Exception e1) {}
+						} catch (Exception ignored) {}
 					}
 				}
 			}
@@ -100,8 +100,8 @@ public class ListGui implements Listener {
 			pagenumber--;
 		}
 		
-		Integer number_place = 0;
-    	Integer numberitems = 0;
+		int number_place = 0;
+    	int numberitems = 0;
     	
     	HashMap<Integer, String> plist = new HashMap<>();
     	
@@ -113,7 +113,7 @@ public class ListGui implements Listener {
         }
     	
     	Integer pagedemande = (pagenumber * 35) + 1;
-		Integer pagedemandefinale = pagedemande + 35 - 1;
+		int pagedemandefinale = pagedemande + 35 - 1;
     			
     	ArrayList<String> lore = new ArrayList<>();
 
@@ -128,13 +128,13 @@ public class ListGui implements Listener {
     				String gm = "";
     				
     				if (p.getGameMode() == GameMode.SURVIVAL) {
-    					gm = ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Survival").replaceAll("&", "§");
+    					gm = MessageUtils.colourTheStuff(ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Survival"));
     				} else if (p.getGameMode() == GameMode.SPECTATOR) {
-    					gm = ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Spectator").replaceAll("&", "§");
+					    gm = MessageUtils.colourTheStuff(ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Spectator"));
     				} else if (p.getGameMode() == GameMode.CREATIVE) {
-    					gm = ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Creative").replaceAll("&", "§");
+					    gm = MessageUtils.colourTheStuff(ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Creative"));
     				} else if (p.getGameMode() == GameMode.ADVENTURE) {
-    					gm = ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Adventure").replaceAll("&", "§");
+					    gm = MessageUtils.colourTheStuff(ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Adventure"));
     				}
     				
     				lore.add(ConfigMAdmin.getConfig().getString("Command.List.Gui.Player.Gamemode").replaceAll("&", "§") + gm);
@@ -146,7 +146,7 @@ public class ListGui implements Listener {
     			
     				lore.clear();
     			}
-    		} catch (Exception e) {}
+    		} catch (Exception ignored) {}
     			
     		number_place++;
     		numberitems++;

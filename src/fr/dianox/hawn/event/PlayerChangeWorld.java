@@ -43,14 +43,14 @@ public class PlayerChangeWorld implements Listener {
                 			return;
                 		}
                     	
-                		Double progress = 1D;
+                		double progress = 1D;
                 		
                 		if (OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Progress")) {
                 			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.Join.Progress");
                 		}
                 		
                     	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
-                    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
+                    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), (float) progress);
                 	}
                 } else {
                 	if (BossBarApi.BBBlock.contains(p)) {

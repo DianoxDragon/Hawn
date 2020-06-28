@@ -1,11 +1,15 @@
 package fr.dianox.hawn.event;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.command.commands.DelaychatCommand;
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,21 +17,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.command.commands.DelaychatCommand;
-import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
-import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.Titles;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
 public class OnChatEvent implements Listener {
@@ -426,7 +420,7 @@ public class OnChatEvent implements Listener {
                             if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Chat-Highlight.Enable")) {
                                 String msgadd = "";
                                 String highlights = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Chat-Highlight.Highlighting");
-                                highlights = highlights.replaceAll("&", "§");
+                                highlights = MessageUtils.colourTheStuff(highlights);
                                 msgadd = original.replaceAll("@" + all.getName(), highlights + "@" + all.getName() + "§r");
                                 all.sendMessage(String.format(e.getFormat(), p.getDisplayName(), msgadd));
                             }
@@ -473,13 +467,13 @@ public class OnChatEvent implements Listener {
                         actionbar = PlaceholderAPI.setPlaceholders(p, actionbar);
                     }
 
-                    actionbar = actionbar.replaceAll("&", "§");
+                    actionbar = MessageUtils.colourTheStuff(actionbar);
 
                     actionbar = actionbar.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 
                     actionbar = PlaceHolders.ReplaceMainplaceholderP(actionbar, p);
 
-                    ActionBar.sendActionBar(p, actionbar, OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay"));
+                    ActionBar.sendActionBar(Main.getInstance(), p, actionbar, OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Send-ActionBar.Options.Time-Stay"));
                 }
 
                 // send title bar
@@ -495,7 +489,7 @@ public class OnChatEvent implements Listener {
                             title = PlaceholderAPI.setPlaceholders(p, title);
                         }
 
-                        title = title.replaceAll("&", "§");
+                        title = MessageUtils.colourTheStuff(title);
 
                         title = title.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 
@@ -509,7 +503,7 @@ public class OnChatEvent implements Listener {
                             subtitle = PlaceholderAPI.setPlaceholders(p, subtitle);
                         }
 
-                        subtitle = subtitle.replaceAll("&", "§");
+                        subtitle = MessageUtils.colourTheStuff(subtitle);
 
                         subtitle = subtitle.replaceAll("%sender%", sender.getName()).replaceAll("%player%", p.getName());
 

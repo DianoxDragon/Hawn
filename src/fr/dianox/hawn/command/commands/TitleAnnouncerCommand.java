@@ -1,19 +1,14 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.Objects;
-
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.commands.TitleAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.OtherUtils;
-import fr.dianox.hawn.utility.Titles;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.commands.TitleAnnouncerConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.Objects;
 
 public class TitleAnnouncerCommand extends BukkitCommand {
 
@@ -103,11 +98,11 @@ public class TitleAnnouncerCommand extends BukkitCommand {
              */
             if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Write-In-The-Chat-The-Announce")) {
             	if (activate == false) {
-            		msgbc = msgbc.replaceAll("&", "§");
+            		msgbc = MessageUtils.colourTheStuff(msgbc);
             		Bukkit.broadcastMessage(msgbc);
                 } else {
-                	title = title.replaceAll("&", "§");
-                	subtitle = subtitle.replaceAll("&", "§");
+                	title = MessageUtils.colourTheStuff(title);
+                	subtitle = MessageUtils.colourTheStuff(subtitle);
                     	
                 	Bukkit.broadcastMessage(title);
                 	Bukkit.broadcastMessage(subtitle);
@@ -223,11 +218,11 @@ public class TitleAnnouncerCommand extends BukkitCommand {
          */
         if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Write-In-The-Chat-The-Announce")) {
         	if (activate == false) {
-        		msgbc = msgbc.replaceAll("&", "§");
+        		msgbc = MessageUtils.colourTheStuff(msgbc);
         		Bukkit.broadcastMessage(msgbc);
             } else {
-            	title = title.replaceAll("&", "§");
-            	subtitle = subtitle.replaceAll("&", "§");
+            	title = MessageUtils.colourTheStuff(title);
+            	subtitle = MessageUtils.colourTheStuff(subtitle);
                 	
             	Bukkit.broadcastMessage(title);
             	Bukkit.broadcastMessage(subtitle);

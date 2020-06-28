@@ -1,5 +1,15 @@
 package fr.dianox.hawn.event;
 
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.command.commands.HawnCommand;
+import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
+import fr.dianox.hawn.utility.world.CjiPW;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,16 +21,6 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.command.commands.HawnCommand;
-import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
-import fr.dianox.hawn.utility.world.CjiPW;
 
 public class OnInventoryInteract implements Listener {
 	
@@ -108,7 +108,7 @@ public class OnInventoryInteract implements Listener {
 											Check1 = Check1.substring(2, Check1.length());
 										}
 										
-										Check1 = Check1.replaceAll("&", "§");
+										Check1 = MessageUtils.colourTheStuff(Check1);
 																				
 										if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
 											if (p.getInventory().getItemInMainHand().getType() == XMaterial.BOW.parseMaterial()) {
@@ -131,7 +131,7 @@ public class OnInventoryInteract implements Listener {
 									Check1 = Check1.substring(2, Check1.length());
 								}
 								
-								Check1 = Check1.replaceAll("&", "§");
+								Check1 = MessageUtils.colourTheStuff(Check1);
 								
 								if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
 									if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
@@ -168,7 +168,7 @@ public class OnInventoryInteract implements Listener {
 										Check1 = Check1.substring(2, Check1.length());
 									}
 									
-									Check1 = Check1.replaceAll("&", "§");
+									Check1 = MessageUtils.colourTheStuff(Check1);
 									
 									if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
 										if (p.getItemInHand().getType() == XMaterial.BOW.parseMaterial()) {
@@ -191,7 +191,7 @@ public class OnInventoryInteract implements Listener {
 								Check1 = Check1.substring(2, Check1.length());
 							}
 							
-							Check1 = Check1.replaceAll("&", "§");
+							Check1 = MessageUtils.colourTheStuff(Check1);
 							
 							if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
 								if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
@@ -388,7 +388,7 @@ public class OnInventoryInteract implements Listener {
 											 Check1 = Check1.substring(2, Check1.length());
 										 }
 											
-										 Check1 = Check1.replaceAll("&", "§");
+										 Check1 = MessageUtils.colourTheStuff(Check1);
 										 									 
 										 if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
 											 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
@@ -417,7 +417,7 @@ public class OnInventoryInteract implements Listener {
 										 Check1 = Check1.substring(2, Check1.length());
 									 }
 										
-									 Check1 = Check1.replaceAll("&", "§");
+									 Check1 = MessageUtils.colourTheStuff(Check1);
 									 
 									 if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
 										 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {

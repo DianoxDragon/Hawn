@@ -1,20 +1,20 @@
 package fr.dianox.hawn.modules.tablist.tab;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 public class MainTablist extends BukkitRunnable {
 
@@ -50,7 +50,7 @@ public class MainTablist extends BukkitRunnable {
 	    			}
 	    		}
 	    		
-	    		s = s.replaceAll("&", "§");
+	    		s = MessageUtils.colourTheStuff(s);
 	    		hea = hea + "\n" + s;
 	    	}
 	    	
@@ -72,7 +72,7 @@ public class MainTablist extends BukkitRunnable {
 	    			}
 	    		}
 	    		
-	    		s = s.replaceAll("&", "§");
+	    		s = MessageUtils.colourTheStuff(s);
 	    		foo = foo + "\n" + s;
 	    	}
 	    	

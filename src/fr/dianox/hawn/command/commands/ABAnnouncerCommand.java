@@ -1,19 +1,15 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.Objects;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.commands.ActionbarAnnouncerConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.Titles;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.commands.ActionbarAnnouncerConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.Objects;
 
 public class ABAnnouncerCommand extends BukkitCommand {
 
@@ -39,23 +35,22 @@ public class ABAnnouncerCommand extends BukkitCommand {
 
             String msgbc = "";
 
-            if (args.length >= 1) {
-                if (!args[0].isEmpty()) {
-                    for (int i = 1; i < args.length; i++) {
-                        if (!Objects.equals(msgbc, "")) {
-                            msgbc = msgbc + " ";
-                        }
-                        msgbc = msgbc + args[i];
-                    }
-                }
-            }
+	        if (!args[0].isEmpty()) {
+	            for (int i = 1; i < args.length; i++) {
+	                if (!Objects.equals(msgbc, "")) {
+	                    msgbc = msgbc + " ";
+	                }
+	                msgbc = msgbc + args[i];
+	            }
+	        }
 
-            msgbc = args[0] + " " + msgbc;
+	        msgbc = args[0] + " " + msgbc;
 
-            msgbc = msgbc.replaceAll("&", "§");
+            msgbc = MessageUtils.colourTheStuff(msgbc);
+
             
             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-            	ActionBar.sendActionBar(all, msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
+            	ActionBar.sendActionBar(Main.getInstance(), all, msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
             }
             
             /*
@@ -110,23 +105,22 @@ public class ABAnnouncerCommand extends BukkitCommand {
 
         String msgbc = "";
 
-        if (args.length >= 1) {
-            if (!args[0].isEmpty()) {
-                for (int i = 1; i < args.length; i++) {
-                    if (!Objects.equals(msgbc, "")) {
-                        msgbc = msgbc + " ";
-                    }
-                    msgbc = msgbc + args[i];
-                }
-            }
-        }
+	    if (!args[0].isEmpty()) {
+	        for (int i = 1; i < args.length; i++) {
+	            if (!Objects.equals(msgbc, "")) {
+	                msgbc = msgbc + " ";
+	            }
+	            msgbc = msgbc + args[i];
+	        }
+	    }
 
-        msgbc = args[0] + " " + msgbc;
+	    msgbc = args[0] + " " + msgbc;
 
-        msgbc = msgbc.replaceAll("&", "§");
+        msgbc = MessageUtils.colourTheStuff(msgbc);
+
         
         for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-        	ActionBar.sendActionBar(all, msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
+        	ActionBar.sendActionBar(Main.getInstance(), all, msgbc, ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Action-Bar.Stay"));
         }
         
         /*

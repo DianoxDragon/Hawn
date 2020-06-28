@@ -73,13 +73,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 				Check1 = Check1.substring(2, Check1.length());
 			}
 			
-			Check1 = Check1.replaceAll("&", "§");
+			Check1 = MessageUtils.colourTheStuff(Check1);
 			
 			if (Check2.startsWith("&f")) {
 				Check2 = Check2.substring(2, Check2.length());
 			}
 			
-			Check2 = Check2.replaceAll("&", "§");
+			Check2 = MessageUtils.colourTheStuff(Check2);
 			
 			try {
 				if (e.getCurrentItem() != null && (e.getCurrentItem().getItemMeta().getDisplayName().toString().contains(Check1))) {
@@ -208,13 +208,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 								Check1 = Check1.substring(2, Check1.length());
 							}
 							
-							Check1 = Check1.replaceAll("&", "§");
+							Check1 = MessageUtils.colourTheStuff(Check1);
 							
 							if (Check2.startsWith("&f")) {
 								Check2 = Check2.substring(2, Check2.length());
 							}
 							
-							Check2 = Check2.replaceAll("&", "§");
+							Check2 = MessageUtils.colourTheStuff(Check2);
 							
 							try {
 							if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
@@ -314,13 +314,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 							Check1 = Check1.substring(2, Check1.length());
 						}
 						
-						Check1 = Check1.replaceAll("&", "§");
+						Check1 = MessageUtils.colourTheStuff(Check1);
 						
 						if (Check2.startsWith("&f")) {
 							Check2 = Check2.substring(2, Check2.length());
 						}
 						
-						Check2 = Check2.replaceAll("&", "§");
+						Check2 = MessageUtils.colourTheStuff(Check2);
 						
 						try {
 						if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
@@ -606,7 +606,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
-			pretitle = pretitle.replaceAll("&", "§");
+			pretitle = MessageUtils.colourTheStuff(pretitle);
 			
 			title = pretitle;
 		}
@@ -630,7 +630,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		            
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					
-				loremsg = loremsg.replaceAll("&", "§");
+				loremsg = MessageUtils.colourTheStuff(loremsg);
 					
 				lore.add(loremsg);
 					

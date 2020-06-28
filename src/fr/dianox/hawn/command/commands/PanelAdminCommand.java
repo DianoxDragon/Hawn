@@ -142,7 +142,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 // Folders
                 lore.clear();
             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
-            		msg = msg.replaceAll("&", "§");
+            		msg = MessageUtils.colourTheStuff(msg);
                     lore.add(msg);
                 }
             	
@@ -161,7 +161,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                 lore.clear();
             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-            		msg = msg.replaceAll("&", "§");
+            		msg = MessageUtils.colourTheStuff(msg);
                     lore.add(msg);
                 }
                 
@@ -175,7 +175,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 
                 lore.clear();
             	for (String msg: AdminPanelConfig.getConfig().getStringList("Special.Item.Notice.Lore")) {
-            		msg = msg.replaceAll("&", "§");
+            		msg = MessageUtils.colourTheStuff(msg);
                     lore.add(msg);
                 }
             	
@@ -258,7 +258,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         if (cfg.getBoolean("commands-general.enable")) {   	
                         	lore.clear();
                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
-                        		msg = msg.replaceAll("&", "§");
+                        		msg = MessageUtils.colourTheStuff(msg);
                                 lore.add(msg);
                             }
                         	
@@ -266,7 +266,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         } else {
                         	lore.clear();
                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
-                        		msg = msg.replaceAll("&", "§");
+                        		msg = MessageUtils.colourTheStuff(msg);
                                 lore.add(msg);
                             }
                         	
@@ -320,7 +320,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                     if (cfg.getBoolean("commands." + string + ".enable")) {
                                     	lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.True")) {
-                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = MessageUtils.colourTheStuff(msg);
                                     		msg = msg.replaceAll("%ap_getperm%", getperm);
                                     		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
                                     		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
@@ -332,7 +332,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                     } else {
                                     	lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.False")) {
-                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = MessageUtils.colourTheStuff(msg);
                                     		msg = msg.replaceAll("%ap_getperm%", getperm);
                                     		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
                                     		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
@@ -355,7 +355,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                     lore.clear();
                                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
-                                		msg = msg.replaceAll("&", "§");
+                                		msg = MessageUtils.colourTheStuff(msg);
                                 		msg = msg.replaceAll("%ap_x%", x);
                                 		msg = msg.replaceAll("%ap_y%", y);
                                 		msg = msg.replaceAll("%ap_z%", z);
@@ -378,7 +378,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                     
                                     lore.clear();
                                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {
-                                		msg = msg.replaceAll("&", "§");
+                                		msg = MessageUtils.colourTheStuff(msg);
                                 		msg = msg.replaceAll("%ap_x%", x);
                                 		msg = msg.replaceAll("%ap_y%", y);
                                 		msg = msg.replaceAll("%ap_z%", z);
@@ -396,7 +396,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                         if (cfg.getBoolean(string)) {
                                         	lore.clear();
                                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
-                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = MessageUtils.colourTheStuff(msg);
                                                 lore.add(msg);
                                             }
 
@@ -406,7 +406,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                         } else {
                                         	lore.clear();
                                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
-                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = MessageUtils.colourTheStuff(msg);
                                                 lore.add(msg);
                                             }
 
@@ -437,7 +437,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                         if (cfg.getBoolean("commands." + string + ".enable")) {
                                         	lore.clear();
                                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.True")) {
-                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = MessageUtils.colourTheStuff(msg);
                                         		msg = msg.replaceAll("%ap_getperm%", getperm);
                                         		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
                                         		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
@@ -449,7 +449,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                         } else {
                                         	lore.clear();
                                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.CustomCommand.False")) {
-                                        		msg = msg.replaceAll("&", "§");
+                                        		msg = MessageUtils.colourTheStuff(msg);
                                         		msg = msg.replaceAll("%ap_getperm%", getperm);
                                         		msg = msg.replaceAll("%ap_getpermyesorno%", getpermyesorno);
                                         		msg = msg.replaceAll("%ap_nopermmsg%", nopermmsg);
@@ -472,7 +472,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                         lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
-                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = MessageUtils.colourTheStuff(msg);
                                     		msg = msg.replaceAll("%ap_x%", x);
                                     		msg = msg.replaceAll("%ap_y%", y);
                                     		msg = msg.replaceAll("%ap_z%", z);
@@ -495,7 +495,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                         lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {
-                                    		msg = msg.replaceAll("&", "§");
+                                    		msg = MessageUtils.colourTheStuff(msg);
                                     		msg = msg.replaceAll("%ap_x%", x);
                                     		msg = msg.replaceAll("%ap_y%", y);
                                     		msg = msg.replaceAll("%ap_z%", z);
@@ -513,7 +513,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                             if (cfg.getBoolean(string)) {
                                             	lore.clear();
                                             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
-                                            		msg = msg.replaceAll("&", "§");
+                                            		msg = MessageUtils.colourTheStuff(msg);
                                                     lore.add(msg);
                                                 }
 
@@ -523,7 +523,7 @@ public class PanelAdminCommand extends BukkitCommand {
                                             } else {
                                             	lore.clear();
                                             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.False")) {
-                                            		msg = msg.replaceAll("&", "§");
+                                            		msg = MessageUtils.colourTheStuff(msg);
                                                     lore.add(msg);
                                                 }
 
@@ -539,7 +539,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                 lore.clear();
                             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-                            		msg = msg.replaceAll("&", "§");
+                            		msg = MessageUtils.colourTheStuff(msg);
                                     lore.add(msg);
                                 }
                                 
@@ -551,7 +551,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -594,7 +594,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -635,7 +635,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -655,7 +655,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -696,7 +696,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     // Folders
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.Folder.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -705,7 +705,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     // Files
                 	lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -746,7 +746,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -762,7 +762,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -808,7 +808,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -849,7 +849,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -865,7 +865,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -911,7 +911,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -952,7 +952,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -968,7 +968,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -1014,7 +1014,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -1055,7 +1055,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -1071,7 +1071,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -1116,7 +1116,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -1157,7 +1157,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -1173,7 +1173,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -1219,7 +1219,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -1260,7 +1260,7 @@ public class PanelAdminCommand extends BukkitCommand {
 	                    			
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 	                    			
@@ -1276,7 +1276,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	
@@ -1321,7 +1321,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
                     lore.clear();
                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Items.Lore")) {
-                		msg = msg.replaceAll("&", "§");
+                		msg = MessageUtils.colourTheStuff(msg);
                         lore.add(msg);
                     }
                 	
@@ -1362,7 +1362,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
 	                    			lore.clear();
 	                    			for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Previous.Lore")) {
-	                    				msg = msg.replaceAll("&", "§");
+	                    				msg = MessageUtils.colourTheStuff(msg);
 	                    				lore.add(msg);
 	                    			}
 
@@ -1378,7 +1378,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (cannextpage) {
                     	lore.clear();
                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Next.Lore")) {
-                    		msg = msg.replaceAll("&", "§");
+                    		msg = MessageUtils.colourTheStuff(msg);
                             lore.add(msg);
                         }
                     	

@@ -11,7 +11,7 @@ import fr.dianox.hawn.utility.world.OnJoinPW;
 
 public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
 	
-	private Player p;
+	private final Player p;
 
 	public SwitchClassicOnFirstJoinBB(Player p) {
         this.p = p;
@@ -22,14 +22,14 @@ public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
 			return;
 		}
     	
-		Double progress = 1D;
+		double progress = 1D;
 		
 		if (OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Progress")) {
 			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.Join.Progress");
 		}
 		
     	BossBarApi.updateBar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
-    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
+    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), (float) progress);
     }
 	
 	@Override
@@ -52,14 +52,10 @@ public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
                 			updateClassicBB(p);
                 			
                 			BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
-    						
-                			if (BossBarApi.ptaskbb.containsKey(p)) {
-                				BossBarApi.ptaskbb.remove(p);
-                				BossBarApi.ptaskbb.put(p, task.getTaskId());
-                			} else {
-                				BossBarApi.ptaskbb.put(p, task.getTaskId());
-                			}
-                		}
+
+			                BossBarApi.ptaskbb.remove(p);
+			                BossBarApi.ptaskbb.put(p, task.getTaskId());
+		                }
                 	}
                 }
         	} else {
@@ -78,14 +74,10 @@ public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
             			updateClassicBB(p);
             			
             			BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
-						
-            			if (BossBarApi.ptaskbb.containsKey(p)) {
-            				BossBarApi.ptaskbb.remove(p);
-            				BossBarApi.ptaskbb.put(p, task.getTaskId());
-            			} else {
-            				BossBarApi.ptaskbb.put(p, task.getTaskId());
-            			}
-            		}
+
+			            BossBarApi.ptaskbb.remove(p);
+			            BossBarApi.ptaskbb.put(p, task.getTaskId());
+		            }
             	}
         	}
         }

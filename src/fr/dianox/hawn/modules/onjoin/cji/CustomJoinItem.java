@@ -2,6 +2,7 @@ package fr.dianox.hawn.modules.onjoin.cji;
 
 import com.google.common.base.Strings;
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
@@ -180,7 +181,7 @@ public class CustomJoinItem {
             
             pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 			
-			pretitle = pretitle.replaceAll("&", "§");
+			pretitle = MessageUtils.colourTheStuff(pretitle);
 			
 			title = pretitle;
 		}
@@ -198,7 +199,7 @@ public class CustomJoinItem {
 	            
 	            loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 				
-				loremsg = loremsg.replaceAll("&", "§");
+				loremsg = MessageUtils.colourTheStuff(loremsg);
 				
 				lore.add(loremsg);
 				
@@ -246,7 +247,7 @@ public class CustomJoinItem {
 				booktitle = PlaceHolders.BattleLevelPO(booktitle, p);
 			}
 			
-			booktitle = booktitle.replaceAll("&", "§");
+			booktitle = MessageUtils.colourTheStuff(booktitle);
 			
 			metabook.setTitle(booktitle);
 			
@@ -268,7 +269,7 @@ public class CustomJoinItem {
 				}
 				
 				for (String s: BookListConfiguration.getConfig().getStringList("Book-List." + material + "." + string + ".page")) {
-					s = s.replaceAll("&", "§");
+					s = MessageUtils.colourTheStuff(s);
 					
 					s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 					

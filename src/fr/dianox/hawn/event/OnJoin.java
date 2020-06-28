@@ -1,38 +1,12 @@
 package fr.dianox.hawn.event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitTask;
-
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
 import fr.dianox.hawn.event.onjoine.OJMessages;
 import fr.dianox.hawn.event.onjoine.OjCosmetics;
 import fr.dianox.hawn.event.onjoine.OjPlayerOption;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
-import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.ConfigPlayerGet;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.OtherUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.SpawnUtils;
-import fr.dianox.hawn.utility.Titles;
-import fr.dianox.hawn.utility.XPotion;
-import fr.dianox.hawn.utility.XSound;
+import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
@@ -47,6 +21,20 @@ import fr.dianox.hawn.utility.world.CommandsPW;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 public class OnJoin implements Listener {
 
@@ -292,9 +280,9 @@ public class OnJoin implements Listener {
 
                                 actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
-                                actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                                actionbarjoin = MessageUtils.colourTheStuff(actionbarjoin);
 
-                                ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
+                                ActionBar.sendActionBar(Main.getInstance(), p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                             }
                         } else {
                             String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
@@ -304,9 +292,9 @@ public class OnJoin implements Listener {
 
                             actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
-                            actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                            actionbarjoin = MessageUtils.colourTheStuff(actionbarjoin);
 
-                            ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
+                            ActionBar.sendActionBar(Main.getInstance(), p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                         }
                     }
                 } else {
@@ -319,9 +307,9 @@ public class OnJoin implements Listener {
 
                             actionbarFirstjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
-                            actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
+                            actionbarFirstjoin = MessageUtils.colourTheStuff(actionbarFirstjoin);
 
-                            ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
+                            ActionBar.sendActionBar(Main.getInstance(), p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                         }
                     } else {
                         String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
@@ -331,9 +319,9 @@ public class OnJoin implements Listener {
 
                         actionbarFirstjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarFirstjoin, p);
 
-                        actionbarFirstjoin = actionbarFirstjoin.replaceAll("&", "§");
+                        actionbarFirstjoin = MessageUtils.colourTheStuff(actionbarFirstjoin);
 
-                        ActionBar.sendActionBar(p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
+                        ActionBar.sendActionBar(Main.getInstance(), p, actionbarFirstjoin, OnJoinConfig.getConfig().getInt("Action-Bar.First-Join.Time-Stay"));
                     }
                 }
             } else {
@@ -345,9 +333,9 @@ public class OnJoin implements Listener {
 
                     actionbarjoin = PlaceHolders.ReplaceMainplaceholderP(actionbarjoin, p);
 
-                    actionbarjoin = actionbarjoin.replaceAll("&", "§");
+                    actionbarjoin = MessageUtils.colourTheStuff(actionbarjoin);
 
-                    ActionBar.sendActionBar(p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
+                    ActionBar.sendActionBar(Main.getInstance(), p, actionbarjoin, OnJoinConfig.getConfig().getInt("Action-Bar.Join.Time-Stay"));
                 }
             }
         }
@@ -561,14 +549,14 @@ public class OnJoin implements Listener {
 			return;
 		}
     	
-		Double progress = 1D;
+		double progress = 1D;
 		
 		if (OnJoinConfig.getConfig().isSet("Boss-Bar.First-Join.Progress")) {
 			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.First-Join.Progress");
 		}
 		
     	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Color"), 
-    			OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Style"), progress);
+    			OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.First-Join.Style"), (float) progress);
     }
     
     private void createClassicBB(Player p) {
@@ -576,14 +564,14 @@ public class OnJoin implements Listener {
 			return;
 		}
     	
-		Double progress = 1D;
+		double progress = 1D;
 		
 		if (OnJoinConfig.getConfig().isSet("Boss-Bar.Join.Progress")) {
 			progress = OnJoinConfig.getConfig().getDouble("Boss-Bar.Join.Progress");
 		}
 		
     	BossBarApi.createnewbar(p, OnJoinConfig.getConfig().getString("Boss-Bar.Join.Color"), 
-    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), progress);
+    			OnJoinConfig.getConfig().getString("Boss-Bar.Join.Message"), OnJoinConfig.getConfig().getString("Boss-Bar.Join.Style"), (float) progress);
     }
     
     private void InventoryUtils(Player p) {

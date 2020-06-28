@@ -1,10 +1,15 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.XMaterial;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
+import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -16,16 +21,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
-import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class EmojiesCommand extends BukkitCommand {
@@ -93,7 +92,8 @@ public class EmojiesCommand extends BukkitCommand {
 		
 		// The command	
                 String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Title");
-                titlegui = titlegui.replaceAll("&", "§");
+                titlegui = MessageUtils.colourTheStuff(titlegui);
+
 
                 Inventory inv = Bukkit.createInventory(null, 54, titlegui);
 
@@ -121,7 +121,8 @@ public class EmojiesCommand extends BukkitCommand {
                     	}
                     	
                     	Displayname = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Title");
-                    	Displayname = Displayname.replaceAll("&", "§");
+                    	Displayname = MessageUtils.colourTheStuff(Displayname);
+
                     	if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                             Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                         }
@@ -163,7 +164,8 @@ public class EmojiesCommand extends BukkitCommand {
                                         ArrayList < String > lore = new ArrayList < String > ();
 
                                         for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
-                                            loremsg = loremsg.replaceAll("&", "§");
+                                            loremsg = MessageUtils.colourTheStuff(loremsg);
+
                                             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                                 loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                             }
@@ -187,7 +189,7 @@ public class EmojiesCommand extends BukkitCommand {
                                         ArrayList < String > lore = new ArrayList < String > ();
 
                                         for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
-                                            loremsg = loremsg.replaceAll("&", "§");
+                                            loremsg = MessageUtils.colourTheStuff(loremsg);
                                             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                                 loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                             }
@@ -213,7 +215,7 @@ public class EmojiesCommand extends BukkitCommand {
                                     ArrayList < String > lore = new ArrayList < String > ();
 
                                     for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
-                                        loremsg = loremsg.replaceAll("&", "§");
+                                        loremsg = MessageUtils.colourTheStuff(loremsg);
                                         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                             loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                         }
@@ -242,7 +244,7 @@ public class EmojiesCommand extends BukkitCommand {
                 if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Enable")) {
 
                     Displayname = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
-                    Displayname = Displayname.replaceAll("&", "§");
+                    Displayname = MessageUtils.colourTheStuff(Displayname);
                     if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                         Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                     }
@@ -283,7 +285,7 @@ public class EmojiesCommand extends BukkitCommand {
                                 ArrayList < String > lore = new ArrayList < String > ();
 
                                 for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
-                                    loremsg = loremsg.replaceAll("&", "§");
+                                    loremsg = MessageUtils.colourTheStuff(loremsg);
                                     if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                         loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                     }
@@ -304,7 +306,7 @@ public class EmojiesCommand extends BukkitCommand {
                                 ArrayList < String > lore = new ArrayList < String > ();
 
                                 for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
-                                    loremsg = loremsg.replaceAll("&", "§");
+                                    loremsg = MessageUtils.colourTheStuff(loremsg);
                                     if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                         loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                     }
@@ -327,7 +329,7 @@ public class EmojiesCommand extends BukkitCommand {
                             ArrayList < String > lore = new ArrayList < String > ();
 
                             for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
-                                loremsg = loremsg.replaceAll("&", "§");
+                                loremsg = MessageUtils.colourTheStuff(loremsg);
                                 if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                                     loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                 }

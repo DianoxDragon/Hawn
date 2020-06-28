@@ -1,8 +1,10 @@
 package fr.dianox.hawn.event.ping;
 
-import java.util.List;
-import java.util.Random;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.config.configs.ServerListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,10 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.configs.ServerListConfig;
-import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
+import java.util.List;
+import java.util.Random;
 
 public class ServerPingEvent implements Listener {
 
@@ -47,8 +47,8 @@ public class ServerPingEvent implements Listener {
 				String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-1");
 				String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-2");
 				
-				line1 = line1.replaceAll("&", "§");
-				line2 = line2.replaceAll("&", "§");
+				line1 = MessageUtils.colourTheStuff(line1);
+				line2 = MessageUtils.colourTheStuff(line2);
 				
 				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
 				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
@@ -58,8 +58,8 @@ public class ServerPingEvent implements Listener {
 				String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Main.Line-1");
 				String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Main.Line-2");
 					
-				line1 = line1.replaceAll("&", "§");
-				line2 = line2.replaceAll("&", "§");
+				line1 = MessageUtils.colourTheStuff(line1);
+				line2 = MessageUtils.colourTheStuff(line2);
 				
 				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
 				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
@@ -73,8 +73,8 @@ public class ServerPingEvent implements Listener {
 				String line1 = ServerListConfig.getConfig().getString("Motd.WhiteList.Line-1");
 				String line2 = ServerListConfig.getConfig().getString("Motd.WhiteList.Line-2");
 				
-				line1 = line1.replaceAll("&", "§");
-				line2 = line2.replaceAll("&", "§");
+				line1 = MessageUtils.colourTheStuff(line1);
+				line2 = MessageUtils.colourTheStuff(line2);
 				
 				line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
 				line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
@@ -87,8 +87,8 @@ public class ServerPingEvent implements Listener {
 			String line1 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-1");
 			String line2 = ServerListConfig.getConfig().getString("Motd.Maintenance.Line-2");
 			
-			line1 = line1.replaceAll("&", "§");
-			line2 = line2.replaceAll("&", "§");
+			line1 = MessageUtils.colourTheStuff(line1);
+			line2 = MessageUtils.colourTheStuff(line2);
 			
 			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
 			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
@@ -100,8 +100,8 @@ public class ServerPingEvent implements Listener {
 			String line1 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-1");
 			String line2 = ServerListConfig.getConfig().getString("Motd.Urgent.Line-2");
 			
-			line1 = line1.replaceAll("&", "§");
-			line2 = line2.replaceAll("&", "§");
+			line1 = MessageUtils.colourTheStuff(line1);
+			line2 = MessageUtils.colourTheStuff(line2);
 			
 			line1 = PlaceHolders.ReplaceMainplaceholderC(line1);
 			line2 = PlaceHolders.ReplaceMainplaceholderC(line2);
@@ -126,7 +126,7 @@ public class ServerPingEvent implements Listener {
 						bool = true;
 					}
 				}
-				message = message.replaceAll("&", "§");
+				message = MessageUtils.colourTheStuff(message);
 				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
 				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
@@ -146,7 +146,7 @@ public class ServerPingEvent implements Listener {
 						bool = true;
 					}
 				}
-				message = message.replaceAll("&", "§");
+				message = MessageUtils.colourTheStuff(message);
 				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 				
 				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
@@ -168,7 +168,7 @@ public class ServerPingEvent implements Listener {
 							bool = true;
 						}
 					}
-					message = message.replaceAll("&", "§");
+					message = MessageUtils.colourTheStuff(message);
 					message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
 					
 					e.setKickMessage(message);

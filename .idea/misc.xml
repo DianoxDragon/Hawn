@@ -8,4 +8,11 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://D:/Minecraft (Jeux)/1.15/plugins" />
   </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="Hawn" />
+      </set>
+    </option>
+  </component>
 </project>

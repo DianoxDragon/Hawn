@@ -2,6 +2,7 @@ package fr.dianox.hawn.command.commands;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.EditPlayerGui;
+import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
@@ -141,7 +142,7 @@ public class HawnCommand implements CommandExecutor {
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
 								String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
-								message = message.replaceAll("&", "§");
+								message = MessageUtils.colourTheStuff(message);
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
 								ps.kickPlayer(message);
@@ -277,7 +278,7 @@ public class HawnCommand implements CommandExecutor {
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
 								String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
-								message = message.replaceAll("&", "§");
+								message = MessageUtils.colourTheStuff(message);
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
 								ps.kickPlayer(message);
@@ -646,7 +647,7 @@ public class HawnCommand implements CommandExecutor {
 						for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 							if (!whitelist.contains(ps.getName())) {
 								String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
-								message = message.replaceAll("&", "§");
+								message = MessageUtils.colourTheStuff(message);
 								message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 								
 								ps.kickPlayer(message);
@@ -884,7 +885,7 @@ public class HawnCommand implements CommandExecutor {
 							for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 								if (!whitelist.contains(ps.getName())) {
 									String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
-									message = message.replaceAll("&", "§");
+									message = MessageUtils.colourTheStuff(message);
 									message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
 									
 									ps.kickPlayer(message);
@@ -899,25 +900,8 @@ public class HawnCommand implements CommandExecutor {
 					} else {
 						MessageUtils.MessageNoPermission(p, "hawn.admin.command.maintenance");
 					}
-				/*} else if (args[0].equalsIgnoreCase("debug")) {
-					if (args.length == 2) {
-						if (args[1].equalsIgnoreCase("emoji") || args[1].equalsIgnoreCase("emojis")) {
-							Iterator < ? > iterator = OnChatConfig.getConfig().getConfigurationSection("Chat-Emoji-Player.Emojis-list").getKeys(false).iterator();
-							
-							while (iterator.hasNext()) {
-			                    String string = (String) iterator.next();
-			                    
-			                    if (!string.equalsIgnoreCase("Option")) {
-				                    try {
-				                    	String newmat = String.valueOf(XMaterial.matchXMaterial(OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list." + string + ".Gui.Material")));
-				                    	p.sendMessage(String.valueOf("§b"+string +"§7: §e" + newmat));
-				                    } catch (Exception e) {
-										p.sendMessage("§b"+string +"§7: §cnull");
-									}
-			                    }
-							}
-						}
-					}*/
+				} else if (args[0].equalsIgnoreCase("debug")) {
+					BossBarApi.createnewbar(p, "RED", "test", "SOLID", (float) 1.0);
 				} else {
 					try {
 						int i = Integer.parseInt(args[0]);

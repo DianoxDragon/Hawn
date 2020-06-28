@@ -10,27 +10,18 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/Minecraft (Jeux)/1.14 - Copie (2)/Spigot-1.14.4-94af569-20190911-0820.jar!/" />
+          <root url="jar://D:/Minecraft (Jeux)/Utility Hawn/spigot-1.16.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://D:/Minecraft (Jeux)/1.14 - Copie (2)/Spigot-1.14.4-94af569-20190911-0820.jar!/" />
+          <root url="jar://D:/Minecraft (Jeux)/Utility Hawn/spigot-1.16.1.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/Minecraft (Jeux)/Serveur ultime/plugins/PlaceholderAPI-2.9.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://D:/Minecraft (Jeux)/1.8/plugins/worldguard-6.1.jar!/" />
+          <root url="jar://D:/Minecraft (Jeux)/Utility Hawn/worldguard-6.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -48,7 +39,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/Minecraft (Jeux)/1.8/plugins/worldedit-bukkit-6.1.jar!/" />
+          <root url="jar://D:/Minecraft (Jeux)/Utility Hawn/worldedit-bukkit-6.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -76,6 +67,24 @@
       <library>
         <CLASSES>
           <root url="jar://D:/Minecraft (Jeux)/Utility Hawn/BattleLevels.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/Minecraft (Jeux)/Serveur ultime/plugins/PlaceholderAPI-2.9.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/Minecraft (Jeux)/Hawn dev servers/servers/Bungee/bungeecord.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

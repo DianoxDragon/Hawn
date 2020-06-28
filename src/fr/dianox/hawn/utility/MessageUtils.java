@@ -1,16 +1,21 @@
 package fr.dianox.hawn.utility;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
+import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageUtils {
+
+    private static final Pattern HEX_PATTERN = Pattern.compile("#<([A-Fa-f0-9]){6}>");
 
     public static void ClassicMessages(String str, Player player) {
         Player p = player;
@@ -42,7 +47,7 @@ public class MessageUtils {
                 str = PlaceHolders.BattleLevelPO(str, player);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, player);
-            str = str.replaceAll("&", "§");
+            str = colourTheStuff(str);
 
             if (str.contains("<--center-->")) {
                 sendCenteredMessage(p, str);
@@ -86,7 +91,7 @@ public class MessageUtils {
                 str = PlaceHolders.BattleLevelPO(str, p);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-            str = str.replaceAll("&", "§");
+            str = colourTheStuff(str);
 
             if (str.contains("<--center-->")) {
                 for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
@@ -105,7 +110,7 @@ public class MessageUtils {
         if (str.startsWith("json:")) {
             str = str.replace("json:", "");
             str = PlaceHolders.ReplaceMainplaceholderC(str);
-            str = str.replaceAll("&", "§");
+            str = colourTheStuff(str);
 
             BaseComponent[] bc = ComponentSerializer.parse(str);
 
@@ -117,7 +122,7 @@ public class MessageUtils {
             Bukkit.getConsoleSender().sendMessage(sb.toString());
         } else {
             str = PlaceHolders.ReplaceMainplaceholderC(str);
-            str = str.replaceAll("&", "§");
+            str = colourTheStuff(str);
 
             Bukkit.getConsoleSender().sendMessage(str);
         }
@@ -130,7 +135,7 @@ public class MessageUtils {
 
     public static void sendCenteredMessage(Player player, String message) {
         if (message == null || message.equals("")) player.sendMessage("");
-        message = ChatColor.translateAlternateColorCodes('&', message);
+        message = colourTheStuff(message);
 
         message = message.replace("<--center-->", "");
 
@@ -142,7 +147,7 @@ public class MessageUtils {
             if (c == '§') {
                 previousCode = true;
                 continue;
-            } else if (previousCode == true) {
+            } else if (previousCode) {
                 previousCode = false;
                 if (c == 'l' || c == 'L') {
                     isBold = true;
@@ -224,6 +229,24 @@ public class MessageUtils {
                 ConfigEventUtils.ExecuteEvent(player, msg, "usenumber", "MessageUtils", false);
             }
         }
+    }
+
+    public static String colourTheStuff(String message) {
+
+        message = message.replaceAll("&", "§");
+
+        if (Main.getInstance().getVersionUtils().Spigot_Version >= 116) {
+            for (Matcher matcher = HEX_PATTERN.matcher(message); matcher.find(); matcher = HEX_PATTERN.matcher(message)) {
+                String hexString = matcher.group();
+                hexString = "#" + hexString.substring(2, hexString.length() - 1);
+                ChatColor hex = ChatColor.of(hexString);
+                String before = message.substring(0, matcher.start());
+                String after = message.substring(matcher.end());
+                message = before + hex + after;
+            }
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
 }

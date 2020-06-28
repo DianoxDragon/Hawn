@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class TaskSavePlayerServer extends BukkitRunnable {
 
-	private Player p;
+	private final Player p;
 
 	public TaskSavePlayerServer(Player p) {
         this.p = p;

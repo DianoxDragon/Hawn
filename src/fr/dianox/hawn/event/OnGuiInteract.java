@@ -3,6 +3,7 @@ package fr.dianox.hawn.event;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.ServerListConfig;
@@ -46,7 +47,8 @@ public class OnGuiInteract implements Listener {
 
         String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
 	    assert titlegui != null;
-	    titlegui = titlegui.replaceAll("&", "§");
+	    titlegui = MessageUtils.colourTheStuff(titlegui);
+
         
         
         if (inv.equals(titlegui)) {
@@ -56,7 +58,8 @@ public class OnGuiInteract implements Listener {
 
                 Displayname = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
 	            assert Displayname != null;
-	            Displayname = Displayname.replaceAll("&", "§");
+	            Displayname = MessageUtils.colourTheStuff(Displayname);
+
                 if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                     Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                 }

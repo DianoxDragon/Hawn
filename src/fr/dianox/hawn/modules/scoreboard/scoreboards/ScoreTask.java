@@ -2,6 +2,7 @@ package fr.dianox.hawn.modules.scoreboard.scoreboards;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -39,7 +40,7 @@ public class ScoreTask extends BukkitRunnable {
 			// Set the title
 		String title = scoreManager.getFile(scoreboardfilename).getStringList("title").get(scoreManager.animationtab.get(scoreboardfilename + "TITLESCORENAME"));
 		try {
-			title = title.replaceAll("&", "§");
+			title = MessageUtils.colourTheStuff(title);
 			title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
 				title = PlaceholderAPI.setPlaceholders(p, title);
@@ -74,7 +75,7 @@ public class ScoreTask extends BukkitRunnable {
 				}
 			}
 
-			s = s.replaceAll("&", "§");
+			s = MessageUtils.colourTheStuff(s);
 
 			s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {

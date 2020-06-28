@@ -13,7 +13,7 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class TaskNoClipCommand extends BukkitRunnable {
 
-	private Player p;
+	private final Player p;
 
 	public TaskNoClipCommand(Player p) {
         this.p = p;
@@ -24,7 +24,7 @@ public class TaskNoClipCommand extends BukkitRunnable {
 		Bukkit.getServer().savePlayers();
 		
 		if (HawnCommand.noclip.contains(p) && p.isOnline() && (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)) {
-			Boolean Spectator = false;
+			boolean Spectator = false;
 			
 			for (int x = -1; x <= 1; x++) {
 				for (int y = -1; y <= 2; y++) {

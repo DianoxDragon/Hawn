@@ -1,21 +1,17 @@
 package fr.dianox.hawn.modules.autobroadcast.autobc;
 
-import java.util.Random;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.world.BasicEventsPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ActionBar;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.world.BasicEventsPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.Random;
 
 public class AutoBroadcast_AB extends BukkitRunnable {
 	
@@ -85,13 +81,13 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 				message = PlaceHolders.BattleLevelPO(message, p);
 			}
 			
-			message = message.replaceAll("&", "§");
+			message = MessageUtils.colourTheStuff(message);
 			
 			// >> Send broadcast			
 			if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Time-Stay")) {
-				ActionBar.sendActionBar(p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
+				ActionBar.sendActionBar(Main.getInstance(), p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.messages."+msg+".Time-Stay"));
 			} else {
-				ActionBar.sendActionBar(p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
+				ActionBar.sendActionBar(Main.getInstance(), p, message, AutoBroadcastConfig.getConfig().getInt("Config.Action-Bar.Options-Default.Time-Stay"));
 			}
 			
 			if (AutoBroadcastConfig.getConfig().isSet("Config.Action-Bar.messages."+msg+".Sound")) {

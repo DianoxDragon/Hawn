@@ -19,7 +19,7 @@ public class BossBarApi {
 	public static HashMap<Player, Integer> ptaskbb = new HashMap<>();
 	public static List<Player> BBBlock = new ArrayList<>();
 	
-	public static void createnewbar(Player p, String color, String title, String style, Double progress) {
+	public static void createnewbar(Player p, String color, String title, String style, Float progress) {
 		
 		if (Main.getInstance().getVersionUtils().getSpigot_Version() < 19) {
 			return;
@@ -94,7 +94,7 @@ public class BossBarApi {
 		newBar.addPlayer(p);
 	}
 	
-	public static void updateBar(Player p, String color, String title, String style, Double progress) {
+	public static void updateBar(Player p, String color, String title, String style, Float progress) {
 		
 		if (Main.getInstance().getVersionUtils().getSpigot_Version() < 19) {
 			return;

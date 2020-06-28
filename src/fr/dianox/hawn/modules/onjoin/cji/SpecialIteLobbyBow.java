@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
@@ -73,7 +74,7 @@ public class SpecialIteLobbyBow implements Listener {
 			Check1 = Check1.substring(2, Check1.length());
 		}
 		
-		Check1 = Check1.replaceAll("&", "§");
+		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
 			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
@@ -171,7 +172,7 @@ public class SpecialIteLobbyBow implements Listener {
 			Check1 = Check1.substring(2);
 		}
 		
-		Check1 = Check1.replaceAll("&", "§");
+		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
 			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
@@ -291,7 +292,7 @@ public class SpecialIteLobbyBow implements Listener {
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
-			pretitle = pretitle.replaceAll("&", "§");
+			pretitle = MessageUtils.colourTheStuff(pretitle);
 			
 			title = pretitle;
 		}
@@ -313,7 +314,7 @@ public class SpecialIteLobbyBow implements Listener {
 		        
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					
-				loremsg = loremsg.replaceAll("&", "§");
+				loremsg = MessageUtils.colourTheStuff(loremsg);
 					
 				lore.add(loremsg);
 					

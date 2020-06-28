@@ -52,10 +52,9 @@ public class Main extends JavaPlugin implements Listener {
 	private ScoreManager scoreManager;
 	private ConfigManager configManager;
 	private TabManager tabManager;
-	private AutoBroadcastManager auto;
 	private SQL sql;
 
-	private static String versions = "1.0.8-Beta";
+	private static String versions = "1.1.0-Beta";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -130,8 +129,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		try {
-			@SuppressWarnings("unused")
-			Metrics metrics = new Metrics(this, 4563);
+			new Metrics(this, 4563);
 		} catch (Exception e) {
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"An error made it impossible for the metrics to be activated");
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You can restart your server if you want, but it's optional, metrics are just stats");
@@ -148,7 +146,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 	    try {
-		    CommandManager commandManager = new CommandManager(this);
+		    new CommandManager(this);
 	    } catch (NoSuchFieldException | IllegalAccessException e) {
 		    e.printStackTrace();
 	    }
@@ -407,7 +405,7 @@ public class Main extends JavaPlugin implements Listener {
 	    }
 	    
 	    // broadcast
-	    auto = new AutoBroadcastManager();
+		new AutoBroadcastManager();
 	    
 	    new BukkitRunnable() {
 	    	@Override
@@ -604,7 +602,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
             p.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
-            
+
             try {
             	BossBarApi.deletebar(p);
             } catch (Exception ignored) {}
@@ -650,7 +648,7 @@ public class Main extends JavaPlugin implements Listener {
 			UpToDate = "§eDevelopment build";
 			return;
 		}
-		
+
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
 			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
 			try {
@@ -681,11 +679,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
 			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
 			try {
-				if (updater.checkForUpdates()) {
-					UpToDate = "§cOld Version detected";
-				} else {
-					UpToDate = "§aPlugin up to date";
-				}
+				UpToDate = updater.checkForUpdates() ? "§cOld Version detected" : "§aPlugin up to date";
 			} catch (Exception e) {
 				System.out.println("Could not check for updates! Stacktrace:");
 				e.printStackTrace();
@@ -711,10 +705,6 @@ public class Main extends JavaPlugin implements Listener {
 
 	public TabManager getTabManager() {
 		return tabManager;
-	}
-
-	public AutoBroadcastManager getAuto() {
-		return auto;
 	}
 
 	public SQL getSql() {

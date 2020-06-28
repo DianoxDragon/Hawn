@@ -1,13 +1,5 @@
 package fr.dianox.hawn.utility.load;
 
-import java.lang.reflect.Constructor;
-import java.util.Iterator;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
-
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.event.BasicFeatures;
@@ -16,97 +8,28 @@ import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.modules.tablist.tab.AnimationTabTask;
+import fr.dianox.hawn.modules.tablist.tab.MainTablist;
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.NMSClass;
 import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.configs.CommandAliasesConfig;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
-import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
-import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
-import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
-import fr.dianox.hawn.utility.config.configs.ServerListConfig;
-import fr.dianox.hawn.utility.config.configs.WarpListConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ActionbarAnnouncerConfig;
-import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.BroadCastCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.BurnCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.CheckAccountCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ClearChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ClearGroundItemsCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ClearInvCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ClearMobsCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.CopyCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.EnderChestCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ExpCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.FeedCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.FlySpeedCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.GamemodeCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.GetPosCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.GoTopCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.HatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.HealCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.InvSeeCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.IpCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.KickAllCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ListCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.OneCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
-import fr.dianox.hawn.utility.config.configs.commands.PasteCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.PingCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.RepairCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.SkullCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.SpeedCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.SuicideCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.TitleAnnouncerConfig;
-import fr.dianox.hawn.utility.config.configs.commands.TwoCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.VanishCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WarningCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WeatherTimeCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WorkBenchCommandConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WorldCommandConfig;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.BookListConfiguration;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.SignListCUtility;
+import fr.dianox.hawn.utility.config.configs.*;
+import fr.dianox.hawn.utility.config.configs.commands.*;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.*;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
-import fr.dianox.hawn.utility.config.configs.events.CommandEventConfig;
-import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
-import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
-import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
-import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
-import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
-import fr.dianox.hawn.utility.config.configs.events.PlayerWorldChangeConfigE;
-import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
-import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
-import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
-import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
-import fr.dianox.hawn.utility.config.configs.messages.WorldManagerPanelConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.events.*;
+import fr.dianox.hawn.utility.config.configs.messages.*;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
-import fr.dianox.hawn.modules.tablist.tab.AnimationTabTask;
-import fr.dianox.hawn.modules.tablist.tab.MainTablist;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.lang.reflect.Constructor;
 
 public class Reload {
 	
@@ -233,14 +156,8 @@ public class Reload {
 		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
 	    	
 	    	BasicFeatures.world_voidtp.clear();
-	    	
-	    	Iterator<?> iterator5 = VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false).iterator();
-	    	
-	    	while (iterator5.hasNext()) {
-	    		String string = (String) iterator5.next();
-	    		
-	    		BasicFeatures.world_voidtp.add(string);
-	    	}
+
+			BasicFeatures.world_voidtp.addAll(VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false));
 	    }
 		
 		Main.injumpwithjumppad.clear();
@@ -425,14 +342,14 @@ public class Reload {
 	    	Main.getInstance().getTabManager().hea = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.header.message"));
 	    	
 	    	Main.getInstance().getTabManager().hea = Main.getInstance().getTabManager().hea.substring(1, Main.getInstance().getTabManager().hea.length() - 1).replaceAll(", ", "\n");
-	    	Main.getInstance().getTabManager().hea = Main.getInstance().getTabManager().hea.replaceAll("&", "§");
+			Main.getInstance().getTabManager().hea = MessageUtils.colourTheStuff(Main.getInstance().getTabManager().hea);
 	    }
 	    
 	    if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
 	    	Main.getInstance().getTabManager().foo = String.valueOf(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
 	    	
 	    	Main.getInstance().getTabManager().foo = Main.getInstance().getTabManager().foo.substring(1, Main.getInstance().getTabManager().foo.length() - 1).replaceAll(", ", "\n");
-	    	Main.getInstance().getTabManager().foo = Main.getInstance().getTabManager().foo.replaceAll("&", "§");
+		    Main.getInstance().getTabManager().foo = MessageUtils.colourTheStuff(Main.getInstance().getTabManager().foo);
 	    }
 		
 		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
@@ -487,17 +404,13 @@ public class Reload {
 			}
 			
 			// Give items
-			
-			Iterator < ? > iterator = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false).iterator();
-			
-			 while (iterator.hasNext()) {
-	             String string = (String) iterator.next();
-	             
-	             String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-	             
-	             CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
-	             CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
-			 }
+
+		    for (String string : ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false)) {
+			    String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+
+			    CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
+			    CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+		    }
 	    }
 		
 	    OnCommandEvent.cooldowncommands.clear();
@@ -512,19 +425,15 @@ public class Reload {
 				e1.printStackTrace();
 			}
 		    ChatComponentText = NMSClass.getNMSClass("ChatComponentText");
-			
-			Iterator<?> iteanimtab = TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false).iterator();
-		
-			while (iteanimtab.hasNext()) {
-	    		String string = (String) iteanimtab.next();
-	    		
-	    		if (string.contentEquals("Enable")) continue;
-	    		
-	    		if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
-		    		BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
-		    		Main.getInstance().getTabManager().animationtabtask.put(string, task.getTaskId());
-	    		}
-	    	}
+
+			for (String string : TablistConfig.getConfig().getConfigurationSection("Animations").getKeys(false)) {
+				if (string.contentEquals("Enable")) continue;
+
+				if (TablistConfig.getConfig().getBoolean("Animations.Enable")) {
+					BukkitTask task = new AnimationTabTask(string).runTaskTimer(Main.getInstance(), 20, TablistConfig.getConfig().getInt("Animations." + string + ".refresh-time-ticks"));
+					Main.getInstance().getTabManager().animationtabtask.put(string, task.getTaskId());
+				}
+			}
 
 			BukkitTask tablistmain = new MainTablist(hea, foo, PacketPlayOutPlayerListHeaderFooter, ChatComponentText, newPacketPlayOutPlayerListHeaderFooter).runTaskTimer(Main.getInstance(), 20L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks"));
 		
@@ -538,7 +447,7 @@ public class Reload {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
 	    		try {
 	    			Main.block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
-	    		} catch (Exception e) {}
+	    		} catch (Exception ignored) {}
 	    	}
 	    }
 	    
@@ -546,7 +455,7 @@ public class Reload {
 	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
 	    		try {
 	    			Main.block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
-	    		} catch (Exception e) {}
+	    		} catch (Exception ignored) {}
 	    	}
 	    }
 	}

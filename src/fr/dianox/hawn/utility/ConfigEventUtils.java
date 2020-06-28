@@ -17,8 +17,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class ConfigEventUtils {
 	
 	public static void ExecuteEvent(Player p, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
-		String perm = "";
-        String world = "";
+		String perm;
+        String world;
         
         if (event.startsWith("<world>") && event.contains("</world>")) {
         	world = StringUtils.substringBetween(event, "<world>", "</world>");
@@ -97,7 +97,7 @@ public class ConfigEventUtils {
             }
         } else if (event.startsWith("[send-title]: ")) {
             event = event.replace("[send-title]: ", "");
-            event = event.replaceAll("&", "§");
+            event = MessageUtils.colourTheStuff(event);
 
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -133,7 +133,7 @@ public class ConfigEventUtils {
             }
         } else if (event.startsWith("[send-title[")) {
             event = event.replace("[send-title[", "");
-            event = event.replaceAll("&", "§");
+            event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -171,7 +171,7 @@ public class ConfigEventUtils {
             }
         } else if (event.startsWith("[send-actionbar]: ")) {
             event = event.replace("[send-actionbar]: ", "");
-            event = event.replaceAll("&", "§");
+            event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -187,7 +187,7 @@ public class ConfigEventUtils {
             ActionBar.sendActionBar(p, event);
         } else if (event.startsWith("[send-actionbar[")) {
             event = event.replace("[send-actionbar[", "");
-            event = event.replaceAll("&", "§");
+            event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -202,7 +202,7 @@ public class ConfigEventUtils {
             
             String[] parts = event.split("]]: ");
 
-            ActionBar.sendActionBar(p, parts[1], Integer.parseInt(parts[0]));
+            ActionBar.sendActionBar(Main.getInstance(), p, parts[1], Integer.parseInt(parts[0]));
         } else if (event.startsWith("[sounds]: ")) {
             event = event.replace("[sounds]: ", "");
             p.playSound(p.getLocation(), XSound.getSound(event, AdditionalMessageError), 1, 1);
@@ -224,8 +224,8 @@ public class ConfigEventUtils {
 	}
 
 	public static void ExecuteEventTargetPlaceHolder(Player p, Player target, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
-		String perm = "";
-		String world = "";
+		String perm;
+		String world;
 
 		if (event.startsWith("<world>") && event.contains("</world>")) {
 			world = StringUtils.substringBetween(event, "<world>", "</world>");
@@ -304,7 +304,7 @@ public class ConfigEventUtils {
 			}
 		} else if (event.startsWith("[send-title]: ")) {
 			event = event.replace("[send-title]: ", "");
-			event = event.replaceAll("&", "§");
+			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -340,7 +340,7 @@ public class ConfigEventUtils {
 			}
 		} else if (event.startsWith("[send-title[")) {
 			event = event.replace("[send-title[", "");
-			event = event.replaceAll("&", "§");
+			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -378,7 +378,7 @@ public class ConfigEventUtils {
 			}
 		} else if (event.startsWith("[send-actionbar]: ")) {
 			event = event.replace("[send-actionbar]: ", "");
-			event = event.replaceAll("&", "§");
+			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -394,7 +394,7 @@ public class ConfigEventUtils {
 			ActionBar.sendActionBar(p, event);
 		} else if (event.startsWith("[send-actionbar[")) {
 			event = event.replace("[send-actionbar[", "");
-			event = event.replaceAll("&", "§");
+			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
@@ -409,7 +409,7 @@ public class ConfigEventUtils {
 
 			String[] parts = event.split("]]: ");
 
-			ActionBar.sendActionBar(p, parts[1], Integer.parseInt(parts[0]));
+			ActionBar.sendActionBar(Main.getInstance(), p, parts[1], Integer.parseInt(parts[0]));
 		} else if (event.startsWith("[sounds]: ")) {
 			event = event.replace("[sounds]: ", "");
 			p.playSound(p.getLocation(), XSound.getSound(event, AdditionalMessageError), 1, 1);

@@ -6,6 +6,7 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -294,7 +295,7 @@ public class OtherUtils {
                 fade.add(getColor(l2));
             }
             
-            final Firework f = p.getWorld().spawn(p.getLocation().add(0.5D, FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Height"), 0.5D), Firework.class);
+            Firework f = (Firework) p.getWorld().spawnEntity(p.getLocation().add(0.5D, FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Height"), 0.5D), EntityType.FIREWORK);
 
             FireworkMeta fm = f.getFireworkMeta();
             fm.addEffect(FireworkEffect.builder().flicker(FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Flicker"))

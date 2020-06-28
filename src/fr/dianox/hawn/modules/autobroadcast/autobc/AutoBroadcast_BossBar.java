@@ -1,21 +1,17 @@
 package fr.dianox.hawn.modules.autobroadcast.autobc;
 
-import java.util.Random;
-
+import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
+import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.world.BasicEventsPW;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.BossBarApi;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.PlayerOptionSQLClass;
-import fr.dianox.hawn.utility.XSound;
-import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.world.BasicEventsPW;
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.Random;
 
 public class AutoBroadcast_BossBar extends BukkitRunnable {
 	
@@ -85,7 +81,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 				message = PlaceHolders.BattleLevelPO(message, p);
 			}
 			
-			message = message.replaceAll("&", "§");
+			message = MessageUtils.colourTheStuff(message);
 			
 			// >> Send broadcast
 			if (BossBarApi.BBBlock.contains(p)) {
@@ -94,8 +90,8 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 			
 			String color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Color");
         	String style = AutoBroadcastConfig.getConfig().getString("Config.BossBar.Options-Default.Style");
-        	Double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
-			
+        	double progress = AutoBroadcastConfig.getConfig().getDouble("Config.BossBar.Options-Default.Progress");
+
         	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Color")) {
         		color = AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Color");
         	}
@@ -109,7 +105,7 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
         	}
         	
 			BossBarApi.deletebar(p);
-        	BossBarApi.createnewbar(p, color, message, style, progress);
+        	BossBarApi.createnewbar(p, color, message, style, (float) progress);
         	
         	if (AutoBroadcastConfig.getConfig().isSet("Config.BossBar.messages."+msg+".Sound")) {
 				p.playSound(p.getLocation(), XSound.getSound(AutoBroadcastConfig.getConfig().getString("Config.BossBar.messages."+msg+".Sound"), "Config.BossBar.messages."+msg+".Sound"), 1, 1);

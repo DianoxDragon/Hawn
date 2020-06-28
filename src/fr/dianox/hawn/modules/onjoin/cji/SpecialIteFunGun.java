@@ -1,10 +1,7 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.XMaterial;
-import fr.dianox.hawn.utility.XSound;
+import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
@@ -73,7 +70,7 @@ public class SpecialIteFunGun implements Listener {
 			Check1 = Check1.substring(2, Check1.length());
 		}
 		
-		Check1 = Check1.replaceAll("&", "§");
+		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
 			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
@@ -165,7 +162,7 @@ public class SpecialIteFunGun implements Listener {
 			Check1 = Check1.substring(2);
 		}
 		
-		Check1 = Check1.replaceAll("&", "§");
+		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
 			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
@@ -310,7 +307,7 @@ public class SpecialIteFunGun implements Listener {
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
-			pretitle = pretitle.replaceAll("&", "§");
+			pretitle = MessageUtils.colourTheStuff(pretitle);
 			
 			title = pretitle;
 		}
@@ -332,7 +329,7 @@ public class SpecialIteFunGun implements Listener {
 		        
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					
-				loremsg = loremsg.replaceAll("&", "§");
+				loremsg = MessageUtils.colourTheStuff(loremsg);
 					
 				lore.add(loremsg);
 					
