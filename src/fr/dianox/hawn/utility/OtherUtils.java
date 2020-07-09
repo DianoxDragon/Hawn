@@ -21,8 +21,8 @@ import java.util.Date;
 import java.util.List;
 
 public class OtherUtils {
-	
-	static double used_memory = 0;
+
+	public static double used_memory = 0;
 	
 	// Stocke les variables
 	public static String MemoryUsageBar = "";
@@ -40,11 +40,11 @@ public class OtherUtils {
 	public static String totaldiskv = "";
 	public static String ossystem = "";
 	public static String javaver = "";
-	
-	static OperatingSystemMXBean osBean;
-	static double NaND;
-	static MBeanServer mbs;
-	static File f;
+
+	public static OperatingSystemMXBean osBean;
+	public static double NaND;
+	public static MBeanServer mbs;
+	public static File f;
 	
 	public static int getJavaVersion(){
         String javaSpecVersion = System.getProperty( "java.specification.version" );

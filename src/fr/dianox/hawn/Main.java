@@ -60,7 +60,7 @@ public class Main extends JavaPlugin implements Listener {
 	private EventManager eventManager;
 	private SQL sql;
 
-	private static String versions = "1.1.1-Beta";
+	private static String versions = "1.1.2-Beta";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";

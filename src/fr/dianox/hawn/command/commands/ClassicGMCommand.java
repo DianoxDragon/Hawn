@@ -15,25 +15,25 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
 public class ClassicGMCommand extends BukkitCommand {
 	
-	String GeneralPermission = "hawn.command.gamemode.self";
-	String GeneralOtherPermission = "hawn.command.gamemode.other";
-	
-	String Command_section = "Gamemode.";
-	
-	String msg_self_survival = "Gamemode.Self.Survival.";
-	String msg_self_creative = "Gamemode.Self.Creative.";
-	String msg_self_adventure = "Gamemode.Self.Adventure.";
-	String msg_self_spectator = "Gamemode.Self.Spectator.";
-	
-	String msg_other_survival = "Gamemode.Other.Survival.";
-	String msg_other_creative = "Gamemode.Other.Creative.";
-	String msg_other_adventure = "Gamemode.Other.Adventure.";
-	String msg_other_spectator = "Gamemode.Other.Spectator.";
-	
-	String msg_other_survival_sender = "Gamemode.Other-Sender.Survival.";
-	String msg_other_creative_sender = "Gamemode.Other-Sender.Creative.";
-	String msg_other_adventure_sender = "Gamemode.Other-Sender.Adventure.";
-	String msg_other_spectator_sender = "Gamemode.Other-Sender.Spectator.";
+	private String GeneralPermission = "hawn.command.gamemode.self";
+	private String GeneralOtherPermission = "hawn.command.gamemode.other";
+
+	private String Command_section = "Gamemode.";
+
+	private String msg_self_survival = "Gamemode.Self.Survival.";
+	private String msg_self_creative = "Gamemode.Self.Creative.";
+	private String msg_self_adventure = "Gamemode.Self.Adventure.";
+	private String msg_self_spectator = "Gamemode.Self.Spectator.";
+
+	private String msg_other_survival = "Gamemode.Other.Survival.";
+	private String msg_other_creative = "Gamemode.Other.Creative.";
+	private String msg_other_adventure = "Gamemode.Other.Adventure.";
+	private String msg_other_spectator = "Gamemode.Other.Spectator.";
+
+	private String msg_other_survival_sender = "Gamemode.Other-Sender.Survival.";
+	private String msg_other_creative_sender = "Gamemode.Other-Sender.Creative.";
+	private String msg_other_adventure_sender = "Gamemode.Other-Sender.Adventure.";
+	private String msg_other_spectator_sender = "Gamemode.Other-Sender.Spectator.";
 	
 	public ClassicGMCommand(String name) {
 		super(name);
@@ -276,15 +276,13 @@ public class ClassicGMCommand extends BukkitCommand {
 			// If no argument has been put in the command
 			if (GamemodeCommandConfig.getConfig().getBoolean("Gamemode.Options.Quick-Mode-Change.Enable")) {
 				if (p.hasPermission("hawn.command.gamemode.quickgm")) {
-					Integer mode1 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode1");
-					Integer mode2 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode2");
-					Integer modepriority = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Default-Mode");
+					int mode1 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode1");
+					int mode2 = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Mode2");
+					int modepriority = GamemodeCommandConfig.getConfig().getInt("Gamemode.Options.Quick-Mode-Change.Default-Mode");
 					
-					Integer finalmode = 0;
+					int finalmode = 0;
 					
-					if (p.getGameMode() == GameMode.SURVIVAL) {
-						finalmode = 0;
-					} else if (p.getGameMode() == GameMode.CREATIVE) {
+					if (p.getGameMode() == GameMode.CREATIVE) {
 						finalmode = 1;
 					} else if (p.getGameMode() == GameMode.ADVENTURE) {
 						finalmode = 2;

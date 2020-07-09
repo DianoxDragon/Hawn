@@ -87,12 +87,12 @@ public class OQMessages {
 							for (Player all : Bukkit.getServer().getWorld(string).getPlayers()) {
 								if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
 									for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-										ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
-										ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+										ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+										ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
 									}
 								} else {
 									for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-										ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+										ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
 									}
 								}
 							}
@@ -100,12 +100,12 @@ public class OQMessages {
 					} else {
 						if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEvent(p, msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
-								ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+								ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessagesSTRICTSCONSOLE", true);
+								ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
 							}
 						} else {
 							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg, "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
+								ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "General.On-Quit.Quit-Message.Broadcast-To-Console", "OQMessages", p, true);
 							}
 						}
 
@@ -123,12 +123,12 @@ public class OQMessages {
 		} else {
 			if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname", p.getDisplayName()), "", "OQMessagesSTRICTSCONSOLE", true);
-					ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname", p.getDisplayName()), "", "OQMessages", p, true);
+					ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "", "OQMessagesSTRICTSCONSOLE", true);
+					ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "", "OQMessages", p, true);
 				}
 			} else {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Messages")) {
-					ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname", p.getDisplayName()), "", "OQMessages", p, true);
+					ConfigEventUtils.ExecuteEventAllPlayers(msg.replaceAll("%player%", p.getName()).replaceAll("%player_displayname%", p.getDisplayName()), "", "OQMessages", p, true);
 				}
 			}
 		}
