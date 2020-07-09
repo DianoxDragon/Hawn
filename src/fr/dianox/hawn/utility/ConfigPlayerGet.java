@@ -1,13 +1,12 @@
 package fr.dianox.hawn.utility;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
+import fr.dianox.hawn.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import fr.dianox.hawn.Main;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class ConfigPlayerGet {
 	
@@ -170,7 +169,6 @@ public class ConfigPlayerGet {
         }
 		
 		return cfg;
-		
 	}
 	
 	private static void createNewFile(String file) {

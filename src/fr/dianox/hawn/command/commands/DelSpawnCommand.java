@@ -54,7 +54,7 @@ public class DelSpawnCommand extends BukkitCommand {
 	            
 				ConfigSpawn.saveConfigFile();
 				
-				for (String msg: ConfigMMsg.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
 					MessageUtils.ConsoleMessages(msg.replaceAll("%spawn%", args[0]));
 				}
 			} else {
@@ -90,7 +90,7 @@ public class DelSpawnCommand extends BukkitCommand {
 		if (args.length == 0) {
 			// If no argument has been put in the command
 			if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -116,7 +116,7 @@ public class DelSpawnCommand extends BukkitCommand {
             
 			ConfigSpawn.saveConfigFile();
 			
-			for (String msg: ConfigMMsg.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawn%", args[0]), "", "", false);
 			}
 		} else {

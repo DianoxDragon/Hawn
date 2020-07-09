@@ -1,10 +1,7 @@
-package fr.dianox.hawn.event;
+package fr.dianox.hawn.modules.onjoin;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
-import fr.dianox.hawn.event.onjoine.OJMessages;
-import fr.dianox.hawn.event.onjoine.OjCosmetics;
-import fr.dianox.hawn.event.onjoine.OjPlayerOption;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
@@ -38,10 +35,9 @@ import java.util.logging.Level;
 
 public class OnJoin implements Listener {
 
-    public static List < Player > player_list = new ArrayList < Player > ();
-    int gm = OnJoinConfig.getConfig().getInt("Change-Gamemode.Value");
+    public static List < Player > player_list = new ArrayList <> ();
 
-    @EventHandler
+	@EventHandler
     public void onJoin(PlayerJoinEvent e) {
     	Main.getInstance().getBungApi().getServers();
 
@@ -53,16 +49,16 @@ public class OnJoin implements Listener {
 
         // Yaml
         // Player info
-        if (!ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
-            ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
-            ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
-            ConfigPlayerGet.writeString(uuid, "player_info.first_join", String.valueOf(date));
-            ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
-        } else {
-            ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
-            ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
-            ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
-        }
+	    if (ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
+		    ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+	    } else {
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
+		    ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
+		    ConfigPlayerGet.writeString(uuid, "player_info.first_join", String.valueOf(date));
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+	    }
 
         // MYSQL
         if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {

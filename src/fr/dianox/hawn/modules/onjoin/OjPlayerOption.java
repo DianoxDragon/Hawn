@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event.onjoine;
+package fr.dianox.hawn.modules.onjoin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

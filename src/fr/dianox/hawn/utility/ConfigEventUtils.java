@@ -126,11 +126,11 @@ public class ConfigEventUtils {
                 activate = true;
             }
 
-            if (!activate) {
-            	Titles.sendTitle(p, 20, 150, 75, event, " ");
-            } else {
-                Titles.sendTitle(p, 20, 150, 75, title, subtitle);
-            }
+	        if (activate) {
+		        Titles.sendTitle(p, 20, 150, 75, title, subtitle);
+	        } else {
+		        Titles.sendTitle(p, 20, 150, 75, event, " ");
+	        }
         } else if (event.startsWith("[send-title[")) {
             event = event.replace("[send-title[", "");
             event = MessageUtils.colourTheStuff(event);
@@ -164,11 +164,11 @@ public class ConfigEventUtils {
                 activate = true;
             }
 
-            if (!activate) {
-            	Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
-            } else {
-            	Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title, subtitle);
-            }
+	        if (activate) {
+		        Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title, subtitle);
+	        } else {
+		        Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
+	        }
         } else if (event.startsWith("[send-actionbar]: ")) {
             event = event.replace("[send-actionbar]: ", "");
             event = MessageUtils.colourTheStuff(event);
@@ -333,10 +333,10 @@ public class ConfigEventUtils {
 				activate = true;
 			}
 
-			if (!activate) {
-				Titles.sendTitle(p, 20, 150, 75, event, " ");
-			} else {
+			if (activate) {
 				Titles.sendTitle(p, 20, 150, 75, title, subtitle);
+			} else {
+				Titles.sendTitle(p, 20, 150, 75, event, " ");
 			}
 		} else if (event.startsWith("[send-title[")) {
 			event = event.replace("[send-title[", "");
@@ -371,10 +371,10 @@ public class ConfigEventUtils {
 				activate = true;
 			}
 
-			if (!activate) {
-				Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
-			} else {
+			if (activate) {
 				Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title, subtitle);
+			} else {
+				Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
 			}
 		} else if (event.startsWith("[send-actionbar]: ")) {
 			event = event.replace("[send-actionbar]: ", "");
@@ -438,13 +438,13 @@ public class ConfigEventUtils {
 	}
 
 	public static void ExecuteEventAllPlayers(String event, String Informatif, String AdditionalMessageError, Player target, Boolean targetbool) {
-		if (!targetbool) {
+		if (targetbool) {
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				ExecuteEvent(p, event, Informatif, AdditionalMessageError, false);
+				ExecuteEventTargetPlaceHolder(p, target, event, Informatif, AdditionalMessageError, false);
 			}
 		} else {
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				ExecuteEventTargetPlaceHolder(p, target, event, Informatif, AdditionalMessageError, false);
+				ExecuteEvent(p, event, Informatif, AdditionalMessageError, false);
 			}
 		}
 	}

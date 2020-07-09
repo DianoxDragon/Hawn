@@ -14,13 +14,10 @@ import java.util.*;
 
 public class BungeeApi implements PluginMessageListener {
 
-	private final Plugin plugin;
 	public HashMap<String, Integer> PlayerCountVar = new HashMap<>();
 	public List<String> servers = new ArrayList<>();
 
 	public BungeeApi(Plugin plugin) {
-		this.plugin = plugin;
-
 		new BukkitRunnable() {
 			@Override
 			public void run() {

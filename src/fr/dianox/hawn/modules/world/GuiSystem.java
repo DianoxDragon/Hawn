@@ -1,4 +1,4 @@
-package fr.dianox.hawn.modules.worldsystem;
+package fr.dianox.hawn.modules.world;
 
 import java.io.File;
 import java.io.FilenameFilter;

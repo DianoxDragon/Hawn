@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event.modules;
+package fr.dianox.hawn.modules;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -77,7 +77,7 @@ public class DisableOffHand implements Listener {
 			}
 		}
 		
-		if (e.getInventory().getType() != InventoryType.CRAFTING || e.getInventorySlots().contains(Integer.valueOf(40))) return; 
+		if (e.getInventory().getType() != InventoryType.CRAFTING || e.getInventorySlots().contains(40)) return;
 		
 		e.setCancelled(true);
 	}

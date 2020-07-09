@@ -1,12 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
-import java.io.File;
-import java.io.IOException;
-
+import fr.dianox.hawn.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import fr.dianox.hawn.Main;
+import java.io.File;
+import java.io.IOException;
 
 public class ConfigMAdmin {
 	
@@ -84,36 +83,34 @@ public class ConfigMAdmin {
             /* ----------------- *
 			 * COMMANDS COMMANDS *
 			 * ----------------- */
-            Config.set("Command.Server-Info.General", java.util.Arrays.asList(new String[] {
-            		"&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
-            		"",
-            		"     &l>> &e&o&lServer information (All)",
-            		"        &3created by Dianox",
-            		"",
-            		"  &8→ &6&lServer",
-            		"&7&lTps&r&8:&r %tps%",
-            		"&7&lJava version&r&8:&r %javaversion%",
-            		"&7&lOS&r&8:&r %osversion%",
-            		"&7&lHawn check update&r&8:&r %checkupdatehawn%",
-            		"&7&lServer version&r&8:&r %serverversion%",
-            		"",
-            		"  &8→ &6&lMemory",
-            		"&7&lMemory max &o(java)&r&8:&r %maxmemory%&8MB",
-            		"&a&lFree&7&l/&c&lTotal&r&8:&r %freememory%&8MB&7/&7%totalmemory%&8MB",
-            		"&8Bar-[%barmemory%&8]",
-            		"",
-            		"  &8→ &6&lCPU (Processor)",
-            		"&7&lAverage load&8:&r %averagecpuload%&8%",
-            		"&7&lActual load&8:&r %cpuload%&8%",
-            		"&8Bar-[%barcpu%&8]",
-            		"",
-            		"  &8→ &6&lDisk space",
-            		"&7&lTotal disk&r&8:&r %totalspace%&8MB",
-            		"&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
-            		"&8Bar-[%bardisk%&8]",
-            		"",
-            		"&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"
-            		}));
+            Config.set("Command.Server-Info.General", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+		            "",
+		            "     &l>> &e&o&lServer information (All)",
+		            "        &3created by Dianox",
+		            "",
+		            "  &8→ &6&lServer",
+		            "&7&lTps&r&8:&r %tps%",
+		            "&7&lJava version&r&8:&r %javaversion%",
+		            "&7&lOS&r&8:&r %osversion%",
+		            "&7&lHawn check update&r&8:&r %checkupdatehawn%",
+		            "&7&lServer version&r&8:&r %serverversion%",
+		            "",
+		            "  &8→ &6&lMemory",
+		            "&7&lMemory max &o(java)&r&8:&r %maxmemory%&8MB",
+		            "&a&lFree&7&l/&c&lTotal&r&8:&r %freememory%&8MB&7/&7%totalmemory%&8MB",
+		            "&8Bar-[%barmemory%&8]",
+		            "",
+		            "  &8→ &6&lCPU (Processor)",
+		            "&7&lAverage load&8:&r %averagecpuload%&8%",
+		            "&7&lActual load&8:&r %cpuload%&8%",
+		            "&8Bar-[%barcpu%&8]",
+		            "",
+		            "  &8→ &6&lDisk space",
+		            "&7&lTotal disk&r&8:&r %totalspace%&8MB",
+		            "&a&lFree disk&7&l/&c&lTotal disk&7&l usable&r&8:&r %freespace%&8MB&7/&7%totalspace%&8MB",
+		            "&8Bar-[%bardisk%&8]",
+		            "",
+		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
             
             Config.set("Command.Server-Info.Memory", java.util.Arrays.asList(new String[] {
             		"&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",

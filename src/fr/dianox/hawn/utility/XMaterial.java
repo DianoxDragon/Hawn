@@ -61,14 +61,14 @@ import java.util.regex.Pattern;
  * 1.13 and above as priority.
  *
  * @author Crypto Morin
- * @version 5.0.0
+ * @version 5.0.1
  * @see Material
  * @see ItemStack
  */
 public enum XMaterial {
     ACACIA_BOAT("BOAT_ACACIA"),
     ACACIA_BUTTON("WOOD_BUTTON"),
-    ACACIA_DOOR("ACACIA_DOOR_ITEM"),
+    ACACIA_DOOR("ACACIA_DOOR_ITEM", "ACACIA_DOOR"),
     ACACIA_FENCE,
     ACACIA_FENCE_GATE,
     ACACIA_LEAVES("LEAVES_2"),
@@ -127,7 +127,7 @@ public enum XMaterial {
     BELL("1.14"),
     BIRCH_BOAT("BOAT_BIRCH"),
     BIRCH_BUTTON("WOOD_BUTTON"),
-    BIRCH_DOOR("BIRCH_DOOR_ITEM"),
+    BIRCH_DOOR("BIRCH_DOOR_ITEM", "BIRCH_DOOR"),
     BIRCH_FENCE,
     BIRCH_FENCE_GATE,
     BIRCH_LEAVES(2, "LEAVES"),
@@ -341,7 +341,7 @@ public enum XMaterial {
     DANDELION("YELLOW_FLOWER"),
     DARK_OAK_BOAT("BOAT_DARK_OAK"),
     DARK_OAK_BUTTON("WOOD_BUTTON"),
-    DARK_OAK_DOOR("DARK_OAK_DOOR_ITEM"),
+    DARK_OAK_DOOR("DARK_OAK_DOOR_ITEM", "DARK_OAK_DOOR"),
     DARK_OAK_FENCE,
     DARK_OAK_FENCE_GATE,
     DARK_OAK_LEAVES(4, "LEAVES", "LEAVES_2"),
@@ -470,6 +470,7 @@ public enum XMaterial {
     FURNACE_MINECART("POWERED_MINECART"),
     GHAST_SPAWN_EGG(56, "MONSTER_EGG"),
     GHAST_TEAR,
+    GILDED_BLACKSTONE("1.16"),
     GLASS,
     GLASS_BOTTLE,
     GLASS_PANE("THIN_GLASS"),
@@ -577,7 +578,7 @@ public enum XMaterial {
     JUKEBOX,
     JUNGLE_BOAT("BOAT_JUNGLE"),
     JUNGLE_BUTTON("WOOD_BUTTON"),
-    JUNGLE_DOOR("JUNGLE_DOOR_ITEM"),
+    JUNGLE_DOOR("JUNGLE_DOOR_ITEM", "JUNGLE_DOOR"),
     JUNGLE_FENCE,
     JUNGLE_FENCE_GATE,
     JUNGLE_LEAVES(3, "LEAVES"),
@@ -797,6 +798,7 @@ public enum XMaterial {
     PETRIFIED_OAK_SLAB("WOOD_STEP"),
     PHANTOM_MEMBRANE("1.13"),
     PHANTOM_SPAWN_EGG("1.13", "MONSTER_EGG", ""),
+    PIGLIN_SPAWN_EGG(57, "MONSTER_EGG"),
     PIG_SPAWN_EGG(90, "MONSTER_EGG"),
     PILLAGER_SPAWN_EGG("1.14"),
     PINK_BANNER(9, "BANNER", "STANDING_BANNER"),
@@ -1032,7 +1034,7 @@ public enum XMaterial {
     SPONGE,
     SPRUCE_BOAT("BOAT_SPRUCE"),
     SPRUCE_BUTTON("WOOD_BUTTON"),
-    SPRUCE_DOOR("SPRUCE_DOOR_ITEM"),
+    SPRUCE_DOOR("SPRUCE_DOOR_ITEM", "SPRUCE_DOOR"),
     SPRUCE_FENCE,
     SPRUCE_FENCE_GATE,
     SPRUCE_LEAVES(1, "LEAVES"),
@@ -1065,6 +1067,7 @@ public enum XMaterial {
     STONE_STAIRS,
     STONE_SWORD,
     STRAY_SPAWN_EGG(6, "MONSTER_EGG"),
+    STRIDER_SPAWN_EGG("1.16"),
     STRING,
     STRIPPED_ACACIA_LOG("LOG_2"),
     STRIPPED_ACACIA_WOOD("LOG_2"),
@@ -1212,14 +1215,13 @@ public enum XMaterial {
     YELLOW_TERRACOTTA(4, "HARD_CLAY", "STAINED_CLAY"),
     YELLOW_WALL_BANNER(11, "WALL_BANNER"),
     YELLOW_WOOL(4, "WOOL"),
+    ZOGLIN_SPAWN_EGG("1.16"),
     ZOMBIE_HEAD(2, "SKULL", "SKULL_ITEM"),
     ZOMBIE_HORSE_SPAWN_EGG(29, "MONSTER_EGG"),
-    ZOMBIE_PIGMAN_SPAWN_EGG(57, "MONSTER_EGG"),
     ZOMBIE_SPAWN_EGG(54, "MONSTER_EGG"),
     ZOMBIE_VILLAGER_SPAWN_EGG(27, "MONSTER_EGG"),
     ZOMBIE_WALL_HEAD(2, "SKULL", "SKULL_ITEM"),
-    ZOMBIFIED_PIGLIN_SPAWN_EGG(54, "MONSTER_EGG");
-
+    ZOMBIFIED_PIGLIN_SPAWN_EGG(57, "MONSTER_EGG", "ZOMBIE_PIGMAN_SPAWN_EGG");
 
     /**
      * An immutable cached set of {@link XMaterial#values()} to avoid allocating memory for
@@ -1267,11 +1269,13 @@ public enum XMaterial {
             // for 1.12 to parse the material, but it needs <type>_DOOR_ITEM.
             // We'll trick XMaterial into thinking this needs to be parsed
             // using the old methods.
+            // These materials have their enum name added to the legacy list as well.
             .put(DARK_OAK_DOOR, DARK_OAK_DOOR)
             .put(ACACIA_DOOR, ACACIA_DOOR)
             .put(BIRCH_DOOR, BIRCH_DOOR)
             .put(JUNGLE_DOOR, JUNGLE_DOOR)
             .put(SPRUCE_DOOR, SPRUCE_DOOR)
+            .put(CAULDRON, CAULDRON)
 
             .build()
             );

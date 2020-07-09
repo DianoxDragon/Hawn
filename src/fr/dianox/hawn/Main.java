@@ -3,44 +3,43 @@ package fr.dianox.hawn;
 import fr.dianox.hawn.command.CommandManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.command.commands.HawnCommand;
-import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
-import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.event.world.AlwaysDayTask;
 import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.hook.HooksManager;
+import fr.dianox.hawn.modules.Events.EventManager;
+import fr.dianox.hawn.modules.VoidTP.VoidTPManager;
 import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
-import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.modules.onjoin.OnJoin;
+import fr.dianox.hawn.modules.onjoin.cji.CjiManager;
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
+import fr.dianox.hawn.modules.serverlist.ServerListManager;
 import fr.dianox.hawn.modules.tablist.TabManager;
-import fr.dianox.hawn.modules.worldsystem.GuiSystem;
-import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.modules.world.WorldManager;
+import fr.dianox.hawn.modules.world.protection.BlockExceptions;
+import fr.dianox.hawn.modules.world.protection.Interactables;
+import fr.dianox.hawn.utility.BossBarApi;
+import fr.dianox.hawn.utility.BungeeApi;
+import fr.dianox.hawn.utility.OtherUtils;
+import fr.dianox.hawn.utility.VersionUtils;
 import fr.dianox.hawn.utility.config.ConfigManager;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
-import fr.dianox.hawn.utility.config.configs.ServerListConfig;
 import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 import fr.dianox.hawn.utility.server.Tps;
 import fr.dianox.hawn.utility.server.WarnTPS;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
@@ -52,9 +51,16 @@ public class Main extends JavaPlugin implements Listener {
 	private ScoreManager scoreManager;
 	private ConfigManager configManager;
 	private TabManager tabManager;
+	private Interactables interactables;
+	private BlockExceptions blockExceptions;
+	private ServerListManager serverListManager;
+	private WorldManager worldManager;
+	private CjiManager cjiManager;
+	private VoidTPManager voidTPManager;
+	private EventManager eventManager;
 	private SQL sql;
 
-	private static String versions = "1.1.0-Beta";
+	private static String versions = "1.1.1-Beta";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -64,9 +70,6 @@ public class Main extends JavaPlugin implements Listener {
 	public static String UpToDate, nmsver;
 	public static boolean useOldMethods = false;
 	public static List<String> fileconfiglist = new ArrayList<>();
-	
-	public static HashMap<Integer, String> motd_sl = new HashMap<>();
-	public static Integer motd_total_sl = 0;
 	
     public static HashMap<Integer, String> autobroadcast = new HashMap<>();
     public static HashMap<Integer, String> autobroadcast_titles = new HashMap<>();
@@ -94,10 +97,6 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<Player, Long> fungunCooldowns = new HashMap<>();
     
     public static HashMap<Player, Integer> TaskVanishAB = new HashMap<>();
-    
-    public static List<Material> block_exception_place = new ArrayList<>();
-    public static List<Material> block_exception_break = new ArrayList<>();
-    public static List<Material> interactables = new ArrayList<>();
 
     public static List<Player> indj = new ArrayList<>();
     
@@ -166,6 +165,8 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	    getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bungApi);
 
+		eventManager = new EventManager();
+
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
 		gcs(ChatColor.BLUE+"| ");
 
@@ -194,10 +195,6 @@ public class Main extends JavaPlugin implements Listener {
 		
 		HawnCommand.noclip.clear();
 
-		/*if (NameTagConfig.getConfig().getBoolean("nametag-general.enable")) {
-			Tablist.ScoreboardManager();
-		}*/
-
 		for (Player p: Bukkit.getServer().getOnlinePlayers()) {
 			if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable") && FlyCommand.player_list_flyc.contains(p)) {
 				FlyCommand.player_list_flyc.remove(p);
@@ -218,191 +215,18 @@ public class Main extends JavaPlugin implements Listener {
 	    /*
 	     * Protection interactable
 	     */
-
-	    if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
-
-	    	interactables.clear();
-
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
-	    		interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE")) {
-	    		interactables.add(XMaterial.ACACIA_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ANVIL")) {
-	    		interactables.add(XMaterial.ANVIL.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BEACON")) {
-	    		interactables.add(XMaterial.BEACON.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.RED_BED")) {
-	    		interactables.add(XMaterial.RED_BED.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR")) {
-	    		interactables.add(XMaterial.BIRCH_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE")) {
-	    		interactables.add(XMaterial.BIRCH_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT")) {
-	    		interactables.add(XMaterial.OAK_BOAT.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND")) {
-	    		interactables.add(XMaterial.BREWING_STAND.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK")) {
-	    		interactables.add(XMaterial.COMMAND_BLOCK.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST")) {
-	    		interactables.add(XMaterial.CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR")) {
-	    		interactables.add(XMaterial.DARK_OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE")) {
-	    		interactables.add(XMaterial.DARK_OAK_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR")) {
-	    		interactables.add(XMaterial.DAYLIGHT_DETECTOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER")) {
-	    		interactables.add(XMaterial.DISPENSER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DROPPER")) {
-	    		interactables.add(XMaterial.DROPPER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE")) {
-	    		interactables.add(XMaterial.ENCHANTING_TABLE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST")) {
-	    		interactables.add(XMaterial.ENDER_CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE")) {
-	    		interactables.add(XMaterial.OAK_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.FURNACE")) {
-	    		interactables.add(XMaterial.FURNACE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER")) {
-	    		interactables.add(XMaterial.HOPPER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART")) {
-	    		interactables.add(XMaterial.HOPPER_MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR")) {
-	    		interactables.add(XMaterial.JUNGLE_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE")) {
-	    		interactables.add(XMaterial.JUNGLE_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.LEVER")) {
-	    		interactables.add(XMaterial.LEVER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
-	    		interactables.add(XMaterial.MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK")) {
-	    		interactables.add(XMaterial.NOTE_BLOCK.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
-	    		interactables.add(XMaterial.MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR")) {
-	    		interactables.add(XMaterial.COMPARATOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN")) {
-	    		interactables.add(XMaterial.OAK_SIGN.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART")) {
-	    		interactables.add(XMaterial.CHEST_MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
-	    		interactables.add(XMaterial.OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR")) {
-	    		interactables.add(XMaterial.OAK_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST")) {
-	    		interactables.add(XMaterial.TRAPPED_CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON")) {
-	    		interactables.add(XMaterial.OAK_BUTTON.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
-	    		interactables.add(XMaterial.OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR")) {
-	    		interactables.add(XMaterial.SPRUCE_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE")) {
-	    		interactables.add(XMaterial.SPRUCE_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
-	    		interactables.add(XMaterial.SPRUCE_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR")) {
-	    		interactables.add(XMaterial.BIRCH_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR")) {
-	    		interactables.add(XMaterial.JUNGLE_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR")) {
-	    		interactables.add(XMaterial.ACACIA_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR")) {
-	    		interactables.add(XMaterial.DARK_OAK_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SWEET_BERRY_BUSH")) {
-	    		interactables.add(XMaterial.SWEET_BERRY_BUSH.parseMaterial());
-	    	}
-	    }
-	    
-	    block_exception_break.clear();
-	    block_exception_place.clear();
-	    
-	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
-	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
-	    		try {
-	    			block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
-	    		} catch (Exception ignored) {}
-	    	}
-	    }
-	    
-	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
-	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
-	    		try {
-	    			block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
-	    		} catch (Exception ignored) {}
-	    	}
-	    }
+	    interactables = new Interactables();
+	    blockExceptions = new BlockExceptions();
 	    
 	    /*
 	     * Voidtp per world
 	     */
-	    if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
-	    	
-	    	BasicFeatures.world_voidtp.clear();
+		voidTPManager = new VoidTPManager();
 
-		    BasicFeatures.world_voidtp.addAll(Objects.requireNonNull(VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List")).getKeys(false));
-	    }
-	    
 	    /*
 	     * MOTD
 	     */
-	    if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Enable")) {
-		    Iterator<?> iterator5 = Objects.requireNonNull(ServerListConfig.getConfig().getConfigurationSection("Motd.Classic.Random-List")).getKeys(false).iterator();
-
-		    Integer bbnumberput = 0;
-
-		    while (iterator5.hasNext()) {
-				String string = (String) iterator5.next();
-				motd_sl.put(bbnumberput, string);
-				bbnumberput++;
-				motd_total_sl++;
-		    }
-
-		    motd_total_sl--;
-	    }
+		serverListManager = new ServerListManager();
 	    
 	    // broadcast
 		new AutoBroadcastManager();
@@ -466,45 +290,7 @@ public class Main extends JavaPlugin implements Listener {
 	    /*
 	     * Check Worlds
 	     */
-	    if (!ConfigWorldGeneral.getConfig().isSet("World.CheckConfig")) {
-	    	String pathname = new File(".").getAbsolutePath();
-			File directory = new File(pathname);
-			GuiSystem.getFileList(directory);
-			
-			for (File directorfile : GuiSystem.fileList) {
-				if (GuiSystem.checkIfIsWorld(directorfile)) {
-					String worldname = directorfile.getName();
-
-					ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", Bukkit.getWorld(worldname) != null);
-					ConfigWorldGeneral.saveConfigFile();
-				}
-			}
-			
-			ConfigWorldGeneral.getConfig().set("World.CheckConfig", true);
-			ConfigWorldGeneral.saveConfigFile();
-			
-			GuiSystem.fileList.clear();
-	    }
-	    
-	    if (ConfigWorldGeneral.getConfig().isSet("World.CheckConfig")) {
-	    	String pathname = new File(".").getAbsolutePath();
-			File directory = new File(pathname);
-			GuiSystem.getFileList(directory);
-			
-			for (File directorfile : GuiSystem.fileList) {
-				if (GuiSystem.checkIfIsWorld(directorfile)) {
-					String worldname = directorfile.getName();
-					
-					if (ConfigWorldGeneral.getConfig().getBoolean("World-List." + worldname + ".Load")) {
-						if (Bukkit.getWorld(worldname) == null) {
-							Bukkit.getServer().createWorld((new WorldCreator(worldname)));
-						}
-					}
-				}
-			}
-			
-			GuiSystem.fileList.clear();
-	    }
+	    worldManager = new WorldManager();
 
 	    scoreManager = new ScoreManager(this);
 
@@ -513,48 +299,7 @@ public class Main extends JavaPlugin implements Listener {
 	    /*
 	     * Custom join item
 	     */
-	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
-
-		    CustomJoinItem.itemcjiname.clear();
-		    CustomJoinItem.itemcjislot.clear();
-
-		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
-
-			    String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
-
-			    CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-		    }
-
-		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
-
-			    String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
-
-			    CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-		    }
-
-		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
-
-			    String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
-
-			    CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-		    }
-
-		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
-
-			    String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
-
-			    CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-		    }
-
-		    // Give items
-
-		    for (String string : Objects.requireNonNull(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")).getKeys(false)) {
-			    String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-
-			    CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
-			    CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
-		    }
-	    }
+		cjiManager = new CjiManager();
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
@@ -713,5 +458,33 @@ public class Main extends JavaPlugin implements Listener {
 
 	public VersionUtils getVersionUtils() {
 		return versionUtils;
+	}
+
+	public Interactables getInteractables() {
+		return interactables;
+	}
+
+	public BlockExceptions getBlockExceptions() {
+		return blockExceptions;
+	}
+
+	public ServerListManager getServerListManager() {
+		return serverListManager;
+	}
+
+	public WorldManager getWorldManager() {
+		return worldManager;
+	}
+
+	public CjiManager getCjiManager() {
+		return cjiManager;
+	}
+
+	public VoidTPManager getVoidTPManager() {
+		return voidTPManager;
+	}
+
+	public EventManager getEventManager() {
+		return eventManager;
 	}
 }

@@ -348,7 +348,7 @@ public class ProtectionsEventWorld implements Listener {
         	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
         		
         		if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Place.Block-Exception.Method").equalsIgnoreCase("WHITELIST")) {
-	        		for (Material m : Main.block_exception_place) {
+	        		for (Material m : Main.getInstance().getBlockExceptions().getBlock_exception_place()) {
 	        			if (e.getBlockPlaced().getType() == m) {
 	        				return;
 	        			}
@@ -356,7 +356,7 @@ public class ProtectionsEventWorld implements Listener {
         		} else if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Place.Block-Exception.Method").equalsIgnoreCase("BLACKLIST")) {
         			Boolean check = false;
         			
-        			for (Material m : Main.block_exception_place) {
+        			for (Material m : Main.getInstance().getBlockExceptions().getBlock_exception_place()) {
 	        			if (e.getBlockPlaced().getType() == m) {
 	        				check = true;
 	        			}
@@ -366,7 +366,7 @@ public class ProtectionsEventWorld implements Listener {
         				return;
         			}
         		} else {
-        			for (Material m : Main.block_exception_place) {
+        			for (Material m : Main.getInstance().getBlockExceptions().getBlock_exception_place()) {
 	        			if (e.getBlockPlaced().getType() == m) {
 	        				return;
 	        			}
@@ -858,7 +858,7 @@ public class ProtectionsEventWorld implements Listener {
         	if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
         		
         		if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Break.Block-Exception.Method").equalsIgnoreCase("WHITELIST")) {
-	        		for (Material m2 : Main.block_exception_break) {
+	        		for (Material m2 : Main.getInstance().getBlockExceptions().getBlock_exception_break()) {
 	        			if (e.getBlock().getType() == m2) {
 	        				return;
 	        			}
@@ -866,7 +866,7 @@ public class ProtectionsEventWorld implements Listener {
         		} else if (ConfigGProtection.getConfig().getString("Protection.Construct.Anti-Break.Block-Exception.Method").equalsIgnoreCase("BLACKLIST")) {
         			Boolean check = false;
         			
-        			for (Material m2 : Main.block_exception_break) {
+        			for (Material m2 : Main.getInstance().getBlockExceptions().getBlock_exception_break()) {
 	        			if (e.getBlock().getType() == m2) {
 	        				check = true;
 	        			}
@@ -876,7 +876,7 @@ public class ProtectionsEventWorld implements Listener {
         				return;
         			}
         		} else {
-        			for (Material m2 : Main.block_exception_break) {
+        			for (Material m2 : Main.getInstance().getBlockExceptions().getBlock_exception_break()) {
 	        			if (e.getBlock().getType() == m2) {
 	        				return;
 	        			}
@@ -1440,7 +1440,7 @@ public class ProtectionsEventWorld implements Listener {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                         	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        		for (Material m : Main.interactables) {
+                                        		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                         			if (e.getClickedBlock().getType() == m) {
                                         				e.setCancelled(true);
                                         			}
@@ -1463,7 +1463,7 @@ public class ProtectionsEventWorld implements Listener {
                                         return;
                                     } else {
                                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                    		for (Material m : Main.interactables) {
+                                    		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                     			if (e.getClickedBlock().getType() == m) {
                                     				e.setCancelled(true);
                                     			}
@@ -1475,7 +1475,7 @@ public class ProtectionsEventWorld implements Listener {
                                 /* The event */
 
                             	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                            		for (Material m : Main.interactables) {
+                            		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                             			if (e.getClickedBlock().getType() == m) {
                             				e.setCancelled(true);
                             			}
@@ -1492,7 +1492,7 @@ public class ProtectionsEventWorld implements Listener {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                    		for (Material m : Main.interactables) {
+                                    		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                     			if (e.getClickedBlock().getType() == m) {
                                     				e.setCancelled(true);
                                     			}
@@ -1515,7 +1515,7 @@ public class ProtectionsEventWorld implements Listener {
                                     return;
                                 } else {
                                 	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                		for (Material m : Main.interactables) {
+                                		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                 			if (e.getClickedBlock().getType() == m) {
                                 				e.setCancelled(true);
                                 			}
@@ -1527,7 +1527,7 @@ public class ProtectionsEventWorld implements Listener {
                             /* The event */
 
                         	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                        		for (Material m : Main.interactables) {
+                        		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                         			if (e.getClickedBlock().getType() == m) {
                         				e.setCancelled(true);
                         			}
@@ -1547,7 +1547,7 @@ public class ProtectionsEventWorld implements Listener {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                    		for (Material m : Main.interactables) {
+                                    		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                     			if (e.getClickedBlock().getType() == m) {
                                     				e.setCancelled(true);
                                     			}
@@ -1570,7 +1570,7 @@ public class ProtectionsEventWorld implements Listener {
                                     return;
                                 } else {
                                 	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                		for (Material m : Main.interactables) {
+                                		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                 			if (e.getClickedBlock().getType() == m) {
                                 				e.setCancelled(true);
                                 			}
@@ -1582,7 +1582,7 @@ public class ProtectionsEventWorld implements Listener {
                             /* The event */
 
                         	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                        		for (Material m : Main.interactables) {
+                        		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                         			if (e.getClickedBlock().getType() == m) {
                         				e.setCancelled(true);
                         			}
@@ -1599,7 +1599,7 @@ public class ProtectionsEventWorld implements Listener {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().getRegion(e.getClickedBlock().getLocation()).contains("id='" + s + "'")) {
                                 	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                		for (Material m : Main.interactables) {
+                                		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                                 			if (e.getClickedBlock().getType() == m) {
                                 				e.setCancelled(true);
                                 			}
@@ -1622,7 +1622,7 @@ public class ProtectionsEventWorld implements Listener {
                                 return;
                             } else {
                             	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                            		for (Material m : Main.interactables) {
+                            		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                             			if (e.getClickedBlock().getType() == m) {
                             				e.setCancelled(true);
                             			}
@@ -1634,7 +1634,7 @@ public class ProtectionsEventWorld implements Listener {
                         /* The event */
 
                     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    		for (Material m : Main.interactables) {
+                    		for (Material m : Main.getInstance().getInteractables().getInteractableList()) {
                     			if (e.getClickedBlock().getType() == m) {
                     				e.setCancelled(true);
                     			}

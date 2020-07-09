@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event.onjoine;
+package fr.dianox.hawn.modules.onjoin;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;

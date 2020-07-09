@@ -27,10 +27,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@SuppressWarnings("deprecation")
 public class SpecialItemPlayerVisibility implements Listener {
 	
-	HashMap<Player, ItemStack> storedItem = new HashMap<Player, ItemStack>();
+	HashMap<Player, ItemStack> storedItem = new HashMap<>();
 	
 	public static String Check = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
 	public static String CheckTwo = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
@@ -38,12 +37,12 @@ public class SpecialItemPlayerVisibility implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onInventoryClickWithItemVisibility(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		
+		ItemStack item = e.getCurrentItem();
+
 		if (e.getSlotType() == SlotType.OUTSIDE) return;
-		if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
+		if (item == null || item.getType() == Material.AIR) return;
 		
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			
 			// Check Worlds
 			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
 				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
@@ -61,29 +60,29 @@ public class SpecialItemPlayerVisibility implements Listener {
 					return;
 				}
 			}
-			
-			if (e.getSlot() == 39 || e.getSlot() == 38 || e.getSlot() == 37 || e.getSlot() == 36) {
+
+			if (e.getSlot() >= 36 && e.getSlot() <= 39) {
 				return;
 			}
-			
+
 			String Check1 = Check;
 			String Check2 = CheckTwo;
 			
 			if (Check1.startsWith("&f")) {
-				Check1 = Check1.substring(2, Check1.length());
+				Check1 = Check1.substring(2);
 			}
 			
 			Check1 = MessageUtils.colourTheStuff(Check1);
 			
 			if (Check2.startsWith("&f")) {
-				Check2 = Check2.substring(2, Check2.length());
+				Check2 = Check2.substring(2);
 			}
 			
 			Check2 = MessageUtils.colourTheStuff(Check2);
 			
 			try {
-				if (e.getCurrentItem() != null && (e.getCurrentItem().getItemMeta().getDisplayName().toString().contains(Check1))) {
-					if (e.getCurrentItem().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
+				if (item.getItemMeta().getDisplayName().contains(Check1)) {
+					if (item.getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 							if (PlayerVisibility.Cooling().contains(p)) {
 								e.setCancelled(true);
@@ -94,37 +93,18 @@ public class SpecialItemPlayerVisibility implements Listener {
 								}
 							} else {
 								PlayerVisibility.Cooling().add(p);
-								PlayerVisibility.hidePlayer(p);
-								swithPVItemsOnJoinToON(p);
-								soundInventoryClickPVOJI(p);
-								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-									messageitemPVON(p);
-								}
-								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-										
-									@Override
-									public void run() {
-										PlayerVisibility.Cooling().remove(p);
-									}
-										
-								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+								SwitchTrue(p, true);
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, System.currentTimeMillis());
 								e.setCancelled(true);
 							}
 						} else {
-							PlayerVisibility.hidePlayer(p);
-							swithPVItemsOnJoinToON(p);
-							soundInventoryClickPVOJI(p);
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-								messageitemPVON(p);
-							}
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+							SwitchTrue(p, true);
 							e.setCancelled(true);
 						}
 					}
-				} else if (e.getCurrentItem() != null && (e.getCurrentItem().getItemMeta().getDisplayName().toString().contains(Check2))) {
-					if (e.getCurrentItem().getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
+				} else if (item.getItemMeta().getDisplayName().contains(Check2)) {
+					if (item.getType() == XMaterial.getMat(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
 						e.setCancelled(true);
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 							if (PlayerVisibility.Cooling().contains(p)) {
@@ -135,36 +115,17 @@ public class SpecialItemPlayerVisibility implements Listener {
 								}
 							} else {
 								PlayerVisibility.Cooling().add(p);
-								PlayerVisibility.showPlayer(p);
-								swithPVItemsOnJoinToOFF(p);
-								soundInventoryClickPVOJI(p);
-								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-									messageitemPVOFF(p);
-								}
-								PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-										
-									@Override
-									public void run() {
-										PlayerVisibility.Cooling().remove(p);
-									}
-										
-								}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-								Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+								SwitchFalse(p, true);
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+								Main.hiderCooldowns.put(p, System.currentTimeMillis());
 							}
 						} else {
 							e.setCancelled(true);
-							PlayerVisibility.showPlayer(p);
-							swithPVItemsOnJoinToOFF(p);
-							soundInventoryClickPVOJI(p);
-							if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-								messageitemPVOFF(p);
-							}
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
+							SwitchFalse(p, true);
 						}
 					}
 				}
-			} catch (Exception e1) {}
+			} catch (Exception ignored) {}
 		}
 	}
 	
@@ -205,13 +166,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 							String Check2 = CheckTwo;
 							
 							if (Check1.startsWith("&f")) {
-								Check1 = Check1.substring(2, Check1.length());
+								Check1 = Check1.substring(2);
 							}
 							
 							Check1 = MessageUtils.colourTheStuff(Check1);
 							
 							if (Check2.startsWith("&f")) {
-								Check2 = Check2.substring(2, Check2.length());
+								Check2 = Check2.substring(2);
 							}
 							
 							Check2 = MessageUtils.colourTheStuff(Check2);
@@ -228,32 +189,14 @@ public class SpecialItemPlayerVisibility implements Listener {
 											}
 										} else {
 											PlayerVisibility.Cooling().add(p);
-											PlayerVisibility.hidePlayer(p);
-											swithPVItemsOnJoinToON(p);
-											soundInteractPVOJI(p);
-											if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-												messageitemPVON(p);
-											}
-											PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-													
-												@Override
-												public void run() {
-													PlayerVisibility.Cooling().remove(p);
-												}
-													
-											}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-											Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+											SwitchTrue(p, false);
+											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+											Main.hiderCooldowns.put(p, System.currentTimeMillis());
+											e.setCancelled(true);
 										}
 									} else {
+										SwitchTrue(p, false);
 										e.setCancelled(true);
-										PlayerVisibility.hidePlayer(p);
-										swithPVItemsOnJoinToON(p);
-										soundInteractPVOJI(p);
-										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-											messageitemPVON(p);
-										}
-										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 									}
 								}
 							} else if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check2)) {
@@ -267,36 +210,18 @@ public class SpecialItemPlayerVisibility implements Listener {
 											}
 										} else {
 											PlayerVisibility.Cooling().add(p);
-											PlayerVisibility.showPlayer(p);
-											swithPVItemsOnJoinToOFF(p);
-											soundInteractPVOJI(p);
-											if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-												messageitemPVOFF(p);
-											}
-											PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-													
-												@Override
-												public void run() {
-													PlayerVisibility.Cooling().remove(p);
-												}
-													
-											}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-											Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+											SwitchFalse(p, false);
+											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+											Main.hiderCooldowns.put(p, System.currentTimeMillis());
+											e.setCancelled(true);
 										}
 									} else {
+										SwitchFalse(p, false);
 										e.setCancelled(true);
-										PlayerVisibility.showPlayer(p);
-										swithPVItemsOnJoinToOFF(p);
-										soundInteractPVOJI(p);
-										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-											messageitemPVOFF(p);
-										}
-										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 									}
 								}
 							}
-							} catch (Exception e1) {}
+							} catch (Exception ignored) {}
 						}
 					}
 				} else {
@@ -311,13 +236,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 						String Check2 = CheckTwo;
 						
 						if (Check1.startsWith("&f")) {
-							Check1 = Check1.substring(2, Check1.length());
+							Check1 = Check1.substring(2);
 						}
 						
 						Check1 = MessageUtils.colourTheStuff(Check1);
 						
 						if (Check2.startsWith("&f")) {
-							Check2 = Check2.substring(2, Check2.length());
+							Check2 = Check2.substring(2);
 						}
 						
 						Check2 = MessageUtils.colourTheStuff(Check2);
@@ -334,32 +259,14 @@ public class SpecialItemPlayerVisibility implements Listener {
 										}
 									} else {
 										PlayerVisibility.Cooling().add(p);
-										PlayerVisibility.hidePlayer(p);
-										swithPVItemsOnJoinToON(p);
-										soundInteractPVOJI(p);
-										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-											messageitemPVON(p);
-										}
-										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-												
-											@Override
-											public void run() {
-												PlayerVisibility.Cooling().remove(p);
-											}
-												
-										}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-										Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+										SwitchTrue(p, false);
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+										Main.hiderCooldowns.put(p, System.currentTimeMillis());
+										e.setCancelled(true);
 									}
 								} else {
+									SwitchTrue(p, false);
 									e.setCancelled(true);
-									PlayerVisibility.hidePlayer(p);
-									swithPVItemsOnJoinToON(p);
-									soundInteractPVOJI(p);
-									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-										messageitemPVON(p);
-									}
-									PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 								}
 							}
 						} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check2)) {
@@ -373,40 +280,67 @@ public class SpecialItemPlayerVisibility implements Listener {
 										}
 									} else {
 										PlayerVisibility.Cooling().add(p);
-										PlayerVisibility.showPlayer(p);
-										swithPVItemsOnJoinToOFF(p);
-										soundInteractPVOJI(p);
-										if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-											messageitemPVOFF(p);
-										}
-										PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-												
-											@Override
-											public void run() {
-												PlayerVisibility.Cooling().remove(p);
-											}
-												
-										}, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
-										Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
+										SwitchFalse(p, false);
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+										Main.hiderCooldowns.put(p, System.currentTimeMillis());
 									}
 								} else {
+									SwitchFalse(p, false);
 									e.setCancelled(true);
-									PlayerVisibility.showPlayer(p);
-									swithPVItemsOnJoinToOFF(p);
-									soundInteractPVOJI(p);
-									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
-										messageitemPVOFF(p);
-									}
-									PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 								}
 							}
 						}
-						} catch (Exception e1) {}
+						} catch (Exception ignored) {}
 					}
 				}
-			} catch (Exception e2) {}
+			} catch (Exception ignored) {}
 		}
+	}
+
+	private void SwitchTrue(Player p, Boolean InventoryClick) {
+		// Hide Players
+		PlayerVisibility.hidePlayer(p);
+
+		// Change item in the inventory
+		swithPVItemsOnJoinToON(p);
+
+		// Sound
+		if (InventoryClick) {
+			soundInventoryClickPVOJI(p);
+		} else {
+			soundInteractPVOJI(p);
+		}
+
+		// Message
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+			messageitemPVON(p);
+		}
+
+		// DataBase
+		PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+	}
+
+	private void SwitchFalse(Player p, Boolean InventoryClick) {
+		// Show players
+		PlayerVisibility.showPlayer(p);
+
+		// Change item in the inventory
+		swithPVItemsOnJoinToOFF(p);
+
+		// Sound
+		if (InventoryClick) {
+			soundInventoryClickPVOJI(p);
+		} else {
+			soundInteractPVOJI(p);
+		}
+
+		// Message
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Show-Messages")) {
+			messageitemPVOFF(p);
+		}
+
+		// DataBase
+		PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 	}
 	
 	public static void PlayerGivePlayerVisibilityItemOnJoincji(Player p, Integer slot) {
@@ -430,21 +364,13 @@ public class SpecialItemPlayerVisibility implements Listener {
 				return;
 			}
 		}
-		
-		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
-				CreateItem(p, false, slot);
-			} else {
-				CreateItem(p, true, slot);
-			}
-		} else {
+
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
 			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-			
-			if (value.equalsIgnoreCase("FALSE")) {
-				CreateItem(p, false, slot);
-			} else {
-				CreateItem(p, true, slot);
-			}
+
+			CreateItem(p, ! value.equalsIgnoreCase("FALSE"), slot);
+		} else {
+			CreateItem(p, ! SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers"), slot);
 		}
 	}
 	
@@ -460,8 +386,10 @@ public class SpecialItemPlayerVisibility implements Listener {
 			}
 		}
 
-		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
-			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
+		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
+
+			if (value.equalsIgnoreCase("FALSE")) {
 				PlayerVisibility.showPlayer(p);
 				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 			} else {
@@ -469,9 +397,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
 			}
 		} else {
-			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
-					
-			if (value.equalsIgnoreCase("FALSE")) {
+			if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-ShowPlayers")) {
 				PlayerVisibility.showPlayer(p);
 				PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 			} else {
@@ -491,7 +417,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 							String Check1 = Check;
 							
 							if (Check1.startsWith("&f")) {
-								Check1 = Check1.substring(2, Check1.length());
+								Check1 = Check1.substring(2);
 							}
 							
 							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check1.replaceAll("&", "§"))) {
@@ -499,7 +425,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 								CreateItem(p, true, i);
 								break;
 							}
-						} catch (Exception e1) {}
+						} catch (Exception ignored) {}
 					}
 				}
 			}
@@ -519,7 +445,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 							String Check2 = CheckTwo;
 							
 							if (Check2.startsWith("&f")) {
-								Check2 = Check2.substring(2, Check2.length());
+								Check2 = Check2.substring(2);
 							}
 							
 							if (p.getInventory().getItem(i).getItemMeta().getDisplayName().contains(Check2.replaceAll("&", "§"))) {
@@ -527,7 +453,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 								CreateItem(p, false, i);
 								break;
 							}
-						} catch (Exception e1) {}
+						} catch (Exception ignored) {}
 					}
 				}
 			}
@@ -576,14 +502,14 @@ public class SpecialItemPlayerVisibility implements Listener {
 	public static void CreateItem(Player p, Boolean bool, Integer slot) {
 		String material = "";
 		ItemStack item = null;
-		Integer amount = 1;
+		int amount = 1;
 		ItemMeta itemmeta = null;
 		SkullMeta meta = null;
 		String skullname = "";
 		String onoroff = "";
 		
-		ArrayList < String > lore = new ArrayList < String > ();
-		Boolean lorecheck = false;
+		ArrayList <String> lore = new ArrayList <> ();
+		boolean lorecheck = false;
 		
 		String title = "thistitleinsnotforuseorsomethingelse";
 		

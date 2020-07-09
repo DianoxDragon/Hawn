@@ -1,5 +1,6 @@
 package fr.dianox.hawn;
 
+import fr.dianox.hawn.modules.VoidTP.VoidTPEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -10,22 +11,22 @@ import fr.dianox.hawn.event.OnChatEvent;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnGuiInteract;
 import fr.dianox.hawn.event.OnInventoryInteract;
-import fr.dianox.hawn.event.OnJoin;
+import fr.dianox.hawn.modules.onjoin.OnJoin;
 import fr.dianox.hawn.event.OnQuit;
 import fr.dianox.hawn.event.OnScoreboard;
 import fr.dianox.hawn.event.PlayerChangeWorld;
 import fr.dianox.hawn.event.PlayerEvents;
 import fr.dianox.hawn.event.ProtectionsEventWorld;
 import fr.dianox.hawn.event.WorldEvent;
-import fr.dianox.hawn.event.modules.DisableOffHand;
-import fr.dianox.hawn.event.ping.ServerPingEvent;
+import fr.dianox.hawn.modules.DisableOffHand;
+import fr.dianox.hawn.modules.serverlist.ServerPingEvent;
 import fr.dianox.hawn.modules.SignSystem;
 import fr.dianox.hawn.modules.admin.EditPlayerGui;
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialIteFunGun;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialIteLobbyBow;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
-import fr.dianox.hawn.modules.worldsystem.GuiSystem;
+import fr.dianox.hawn.modules.world.GuiSystem;
 
 public class Manager {
 	
@@ -59,6 +60,7 @@ public class Manager {
 		pm.registerEvents(new ListGui(), pl);
 		pm.registerEvents(new EditPlayerGui(), pl);
 		pm.registerEvents(new SignSystem(), pl);
+		pm.registerEvents(new VoidTPEvent(), pl);
 		
 		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 			pm.registerEvents(new DisableOffHand(), pl);

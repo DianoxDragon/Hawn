@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -140,17 +141,17 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 						}
 			            
 			            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 			            }
 			            
 			            if (defaulbool) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 		                }
 			            
@@ -167,17 +168,17 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 						}
 			            
 			            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 			            }
 			            
 			            if (defaulbool) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 		                }
 					}
@@ -192,17 +193,17 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 						}
 			            
 			            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 			            }
 			            
 			            if (defaulbool) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 		                }
 					} else {
@@ -217,17 +218,17 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 						}
 			            
 			            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 			            }
 			            
 			            if (defaulbool) {
-			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+			            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 			            	OnJoinConfig.saveConfigFile();
 		                }
 					}
@@ -245,7 +246,7 @@ public class SetSpawnCommand extends BukkitCommand {
 	                
 	                p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 	                
-	                for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Other")) {
+	                for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Other")) {
 	                	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 					}
 	                
@@ -254,7 +255,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		            	OnJoinConfig.saveConfigFile();
 	                }
 				} else {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Name-already-exist")) {
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Name-already-exist")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -269,17 +270,17 @@ public class SetSpawnCommand extends BukkitCommand {
 		            
 		            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 		            
-		            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+		            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 		            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 					}
 		            
 		            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 		            	OnJoinConfig.saveConfigFile();
 		            }
 		            
 		            if (defaulbool) {
-		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 		            	OnJoinConfig.saveConfigFile();
 	                }
 				} else {
@@ -294,17 +295,17 @@ public class SetSpawnCommand extends BukkitCommand {
 		            
 		            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 		            
-		            for (String msg: ConfigMMsg.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+		            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
 		            	ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%spawnName%", spawnName), "", "", false);
 					}
 		            
 		            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
-		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 		            	OnJoinConfig.saveConfigFile();
 		            }
 		            
 		            if (defaulbool) {
-		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", String.valueOf(spawnName));
+		            	OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawnName);
 		            	OnJoinConfig.saveConfigFile();
 	                }
 				}

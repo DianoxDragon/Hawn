@@ -1,4 +1,4 @@
-package fr.dianox.hawn.event.ping;
+package fr.dianox.hawn.modules.serverlist;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -41,8 +41,8 @@ public class ServerPingEvent implements Listener {
 				
 				Random rand = new Random();
 				
-				int value = rand.nextInt(Main.motd_total_sl+1);
-				msg = String.valueOf(Main.motd_sl.get(value));
+				int value = rand.nextInt(Main.getInstance().getServerListManager().getMotd_total_sl()+1);
+				msg = String.valueOf(Main.getInstance().getServerListManager().getMotd_sl().get(value));
 				
 				String line1 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-1");
 				String line2 = ServerListConfig.getConfig().getString("Motd.Classic.Random-List."+msg+".Line-2");

@@ -17,13 +17,11 @@ public class MessageUtils {
 
     private static final Pattern HEX_PATTERN = Pattern.compile("#<([A-Fa-f0-9]){6}>");
 
-    public static void ClassicMessages(String str, Player player) {
-        Player p = player;
-
+    public static void ClassicMessages(String str, Player p) {
         if (str.startsWith("json:")) {
 
             str = str.replace("json:", "");
-            str = PlaceHolders.ReplaceMainplaceholderP(str, player);
+            str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
@@ -31,7 +29,7 @@ public class MessageUtils {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, player);
+                str = PlaceHolders.BattleLevelPO(str, p);
             }
             BaseComponent[] bc = ComponentSerializer.parse(str);
             p.spigot().sendMessage(bc);
@@ -44,9 +42,9 @@ public class MessageUtils {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
             if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, player);
+                str = PlaceHolders.BattleLevelPO(str, p);
             }
-            str = PlaceHolders.ReplaceMainplaceholderP(str, player);
+            str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             str = colourTheStuff(str);
 
             if (str.contains("<--center-->")) {

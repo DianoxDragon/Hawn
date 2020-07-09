@@ -80,10 +80,10 @@ public class ScoreManager {
 
 								@Override
 								public void run() {
-									if (!scrollerText.containsKey(filename + string)) {
-										scrollerText.put(filename + string, scroller.next());
-									} else {
+									if (scrollerText.containsKey(filename + string)) {
 										scrollerText.replace(filename + string, scroller.next());
+									} else {
+										scrollerText.put(filename + string, scroller.next());
 									}
 
 									if (!check) {

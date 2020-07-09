@@ -2,17 +2,14 @@ package fr.dianox.hawn.utility.load;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.FlyCommand;
-import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
-import fr.dianox.hawn.event.OnJoin;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
-import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
+import fr.dianox.hawn.modules.onjoin.OnJoin;
 import fr.dianox.hawn.modules.tablist.tab.AnimationTabTask;
 import fr.dianox.hawn.modules.tablist.tab.MainTablist;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.NMSClass;
-import fr.dianox.hawn.utility.XMaterial;
 import fr.dianox.hawn.utility.config.configs.*;
 import fr.dianox.hawn.utility.config.configs.commands.*;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.*;
@@ -153,12 +150,8 @@ public class Reload {
 			}
 		}
 				
-		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Enable") && VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.Enable")) {
-	    	
-	    	BasicFeatures.world_voidtp.clear();
-
-			BasicFeatures.world_voidtp.addAll(VoidTPConfig.getConfig().getConfigurationSection("VoidTP.Options.VoidTP-Per-World.World-List").getKeys(false));
-	    }
+		Main.getInstance().getVoidTPManager().load();
+		Main.getInstance().getEventManager().loaddamageEvent();
 		
 		Main.injumpwithjumppad.clear();
 		OnJoin.player_list.clear();
@@ -197,144 +190,10 @@ public class Reload {
 	        }
 		}
 		
-		if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Enable")) {
-	    	
-	    	Main.interactables.clear();
-	    	
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_DOOR")) {
-	    		Main.interactables.add(XMaterial.ACACIA_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.ACACIA_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ANVIL")) {
-	    		Main.interactables.add(XMaterial.ANVIL.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BEACON")) {
-	    		Main.interactables.add(XMaterial.BEACON.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.RED_BED")) {
-	    		Main.interactables.add(XMaterial.RED_BED.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_DOOR")) {
-	    		Main.interactables.add(XMaterial.BIRCH_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.BIRCH_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BOAT")) {
-	    		Main.interactables.add(XMaterial.OAK_BOAT.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BREWING_STAND")) {
-	    		Main.interactables.add(XMaterial.BREWING_STAND.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMMAND_BLOCK")) {
-	    		Main.interactables.add(XMaterial.COMMAND_BLOCK.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST")) {
-	    		Main.interactables.add(XMaterial.CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_DOOR")) {
-	    		Main.interactables.add(XMaterial.DARK_OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.DARK_OAK_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DAYLIGHT_DETECTOR")) {
-	    		Main.interactables.add(XMaterial.DAYLIGHT_DETECTOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DISPENSER")) {
-	    		Main.interactables.add(XMaterial.DISPENSER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DROPPER")) {
-	    		Main.interactables.add(XMaterial.DROPPER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENCHANTING_TABLE")) {
-	    		Main.interactables.add(XMaterial.ENCHANTING_TABLE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ENDER_CHEST")) {
-	    		Main.interactables.add(XMaterial.ENDER_CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.OAK_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.FURNACE")) {
-	    		Main.interactables.add(XMaterial.FURNACE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER")) {
-	    		Main.interactables.add(XMaterial.HOPPER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.HOPPER_MINECART")) {
-	    		Main.interactables.add(XMaterial.HOPPER_MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_DOOR")) {
-	    		Main.interactables.add(XMaterial.JUNGLE_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.JUNGLE_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.LEVER")) {
-	    		Main.interactables.add(XMaterial.LEVER.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
-	    		Main.interactables.add(XMaterial.MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.NOTE_BLOCK")) {
-	    		Main.interactables.add(XMaterial.NOTE_BLOCK.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.MINECART")) {
-	    		Main.interactables.add(XMaterial.MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.COMPARATOR")) {
-	    		Main.interactables.add(XMaterial.COMPARATOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_SIGN")) {
-	    		Main.interactables.add(XMaterial.OAK_SIGN.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.CHEST_MINECART")) {
-	    		Main.interactables.add(XMaterial.CHEST_MINECART.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
-	    		Main.interactables.add(XMaterial.OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.OAK_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.TRAPPED_CHEST")) {
-	    		Main.interactables.add(XMaterial.TRAPPED_CHEST.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_BUTTON")) {
-	    		Main.interactables.add(XMaterial.OAK_BUTTON.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.OAK_DOOR")) {
-	    		Main.interactables.add(XMaterial.OAK_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_DOOR")) {
-	    		Main.interactables.add(XMaterial.SPRUCE_DOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_FENCE_GATE")) {
-	    		Main.interactables.add(XMaterial.SPRUCE_FENCE_GATE.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SPRUCE_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.SPRUCE_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.BIRCH_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.BIRCH_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.JUNGLE_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.JUNGLE_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.ACACIA_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.ACACIA_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.DARK_OAK_TRAPDOOR")) {
-	    		Main.interactables.add(XMaterial.DARK_OAK_TRAPDOOR.parseMaterial());
-	    	}
-	    	if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SWEET_BERRY_BUSH")) {
-	    		Main.interactables.add(XMaterial.SWEET_BERRY_BUSH.parseMaterial());
-	    	}
-	    }
-		
+		Main.getInstance().getInteractables().load();
+
+		Main.getInstance().getServerListManager().load();
+
 		FunFeatures.incooldownjumppads.clear();
 		Main.avoidtitles.clear();
 		
@@ -370,48 +229,8 @@ public class Reload {
 		 /*
 	     * Custom join item
 	     */
-	    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
-	    	
-	    	CustomJoinItem.itemcjiname.clear();
-	    	CustomJoinItem.itemcjislot.clear();
-	    	
-		    if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-		    }
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
-						
-				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
-				
-				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
-				
-				CustomJoinItem.itemcjiname.put("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"), path_item);
-			}
-			
-			// Give items
 
-		    for (String string : ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false)) {
-			    String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-
-			    CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
-			    CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
-		    }
-	    }
+		Main.getInstance().getCjiManager().load();
 		
 	    OnCommandEvent.cooldowncommands.clear();
 		Main.getInstance().getTabManager().animationtabtask.clear();
@@ -440,24 +259,7 @@ public class Reload {
 			Main.getInstance().getTabManager().tablistnumber = tablistmain.getTaskId();
 		}
     			
-		Main.block_exception_break.clear();
-		Main.block_exception_place.clear();
-	    
-	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Place.Block-Exception.Enable")) {
-	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Place.Block-Exception.Materials")) {
-	    		try {
-	    			Main.block_exception_place.add(XMaterial.getMat(str, "Protection.Construct.Anti-Place.Block-Exception.Materials"));
-	    		} catch (Exception ignored) {}
-	    	}
-	    }
-	    
-	    if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Block-Exception.Enable")) {
-	    	for (String str: ConfigGProtection.getConfig().getStringList("Protection.Construct.Anti-Break.Block-Exception.Materials")) {
-	    		try {
-	    			Main.block_exception_break.add(XMaterial.getMat(str, "Protection.Construct.Anti-Break.Block-Exception.Materials"));
-	    		} catch (Exception ignored) {}
-	    	}
-	    }
+		Main.getInstance().getBlockExceptions().load();
 	}
 
 }
