@@ -63,24 +63,24 @@ public class ScoreboardCommand extends BukkitCommand {
 		// The command
 		
 		boolean value = false;
-		
-		for (String s : Main.getInstance().getScoreManager().worldscore.keySet()) {
-			if (p.hasPermission("hawn.scoreboard." + s)) {
-				value = true;
-				break;
-			}
-		}
-		
-		if (!value) {
-			if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Error-No-Perm-For-Any-Score.Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+
+		if (args.length == 0) {
+			for (String s : Main.getInstance().getScoreManager().worldscore.keySet()) {
+				if (p.hasPermission("hawn.scoreboard." + s)) {
+					value = true;
+					break;
 				}
 			}
-			return true;
-		}
-		
-		if (args.length == 0) {
+
+			if (!value) {
+				if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
+					for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Error-No-Perm-For-Any-Score.Messages")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+					}
+				}
+				return true;
+			}
+
 			if (Main.getInstance().getScoreManager().playerscore.containsKey(p)) {
 				Bukkit.getScheduler().cancelTask(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
 

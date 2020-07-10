@@ -286,18 +286,18 @@ public class OjPlayerOption {
 
         if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Enable")) {
             if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Bypass-With-Permission")) {
-                if (!p.hasPermission("hawn.bypass.gamemodeonjoin")) {
+                if (p.hasPermission("hawn.bypass.gamemodeonjoin")) {
+                    return;
+                } else {
                     if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
-                        if (BasicEventsPW.getGM().contains(p.getWorld().getName())) {
+                        if (!BasicEventsPW.getGM().contains(p.getWorld().getName())) {
                             return;
                         }
                     }
-                } else {
-                    return;
                 }
             } else {
                 if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
-                    if (BasicEventsPW.getGM().contains(p.getWorld().getName())) {
+                    if (!BasicEventsPW.getGM().contains(p.getWorld().getName())) {
                         return;
                     }
                 }
@@ -320,33 +320,11 @@ public class OjPlayerOption {
     public static void onGamemodePO(Player p) {
         int gm = OnJoinConfig.getConfig().getInt("Change-Gamemode.Value");
 
-        if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Enable")) {
-            if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Bypass-With-Permission")) {
-                if (!p.hasPermission("hawn.bypass.gamemodeonjoin")) {
-                    if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
-                        if (BasicEventsPW.getGM().contains(p.getWorld().getName())) {
-                            return;
-                        }
-                    }
-                } else {
-                    return;
-                }
-            } else {
-                if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
-                    if (BasicEventsPW.getGM().contains(p.getWorld().getName())) {
-                        return;
-                    }
-                }
-            }
-        } else {
-            return;
-        }
-        
         if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Gamemode-On-Join.Enable") && p.hasPlayedBefore()) {
             if (p.hasPermission("Hawn.onjoin.keepgamemode")) {
 
                 int gmstock = 0;
-                gmstock = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOGamemode(p));
+                gmstock = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOGamemode(p));
 
                 if (gmstock == 0) {
                     p.setGameMode(GameMode.SURVIVAL);
@@ -369,6 +347,28 @@ public class OjPlayerOption {
                 }
             }
         } else {
+            if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Enable")) {
+                if (OnJoinConfig.getConfig().getBoolean("Change-Gamemode.Bypass-With-Permission")) {
+                    if (!p.hasPermission("hawn.bypass.gamemodeonjoin")) {
+                        if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
+                            if (!BasicEventsPW.getGM().contains(p.getWorld().getName())) {
+                                return;
+                            }
+                        }
+                    } else {
+                        return;
+                    }
+                } else {
+                    if (!OnJoinConfig.getConfig().getBoolean("Change-Gamemode.World.All_World")) {
+                        if (!BasicEventsPW.getGM().contains(p.getWorld().getName())) {
+                            return;
+                        }
+                    }
+                }
+            } else {
+                return;
+            }
+
             if (gm == 0) {
                 p.setGameMode(GameMode.SURVIVAL);
             } else if (gm == 1) {
