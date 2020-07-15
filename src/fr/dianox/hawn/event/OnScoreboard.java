@@ -89,7 +89,7 @@ public class OnScoreboard implements Listener {
 					Main.getInstance().getScoreManager().writeInt(sb, "updater.text", null);
 				}
 
-				BukkitTask TaskName = new ScoreTask(Main.getInstance(), Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
+				BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
 						Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
 
 				Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
@@ -110,7 +110,7 @@ public class OnScoreboard implements Listener {
 							Main.getInstance().getScoreManager().writeInt(s, "updater.text", null);
 						}
 
-						BukkitTask TaskName = new ScoreTask(Main.getInstance(), Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
+						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
 								Main.getInstance().getScoreManager().getFile(s).getInt("updater.scoreboard"));
 
 						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
@@ -133,7 +133,7 @@ public class OnScoreboard implements Listener {
 							Main.getInstance().getScoreManager().writeInt(s, "updater.text", null);
 						}
 
-						BukkitTask TaskName = new ScoreTask(Main.getInstance(), Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
+						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
 								Main.getInstance().getScoreManager().getFile(s).getInt("updater.scoreboard"));
 
 						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());

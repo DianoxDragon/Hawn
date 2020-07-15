@@ -18,7 +18,9 @@ public class EventManager {
 		damageEventList.clear();
 		for (String s : ProtectionPlayerConfig.getConfig().getStringList("AntiDamage-Custom.Entity.Options.Damage-Type-List")) {
 			if (s.equals("Entity")) continue;
-			damageEventList.add(EntityDamageEvent.DamageCause.valueOf(s));
+			try {
+				damageEventList.add(EntityDamageEvent.DamageCause.valueOf(s));
+			} catch (Exception ignored) {}
 		}
 	}
 

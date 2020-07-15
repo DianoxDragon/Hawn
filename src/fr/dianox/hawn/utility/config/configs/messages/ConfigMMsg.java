@@ -1,12 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
-import java.io.File;
-import java.io.IOException;
-
+import fr.dianox.hawn.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import fr.dianox.hawn.Main;
+import java.io.File;
+import java.io.IOException;
 
 public class ConfigMMsg {
 	
@@ -220,14 +219,14 @@ public class ConfigMMsg {
             Config.set("Warp.Tp.Self.Enable", true);
             Config.set("Warp.Tp.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the warp &e%warp%"}));
             Config.set("Warp.Tp.Self-Delay.Enable", true);
-            Config.set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command"}));
+            Config.set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before being teleported"}));
             
             Config.set("Warp.Tp.Other.Enable", true);
             Config.set("Warp.Tp.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You have been teleported to the warp &e%warp%&7 by &b%player%"}));
             Config.set("Warp.Tp.Other-Sender.Enable", true);
             Config.set("Warp.Tp.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You teleported &b%target%&7 to the warp&e %warp%"}));
             Config.set("Warp.Tp.Other-Sender-Delay.Enable", true);
-            Config.set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
+            Config.set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before this player is teleported"}));
             
             Config.set("Warp.List.Enable", true);
             Config.set("Warp.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bWarpList :&e %warplist%"}));
@@ -384,9 +383,9 @@ public class ConfigMMsg {
              * Spawn stuff
              */
             Config.set("Spawn.Tp.Self-Delay.Enable", true);
-            Config.set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command"}));
+            Config.set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before being teleported"}));
             Config.set("Spawn.Tp.Other-Sender-Delay.Enable", true);
-            Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before to be able to execute the command for this player"}));
+            Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%second%&c second(s)&7 before this player is teleported"}));
             
             Config.set("Spawn.List.Enable", true);
             Config.set("Spawn.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bSpawnlist :&e %spawnlist%"}));

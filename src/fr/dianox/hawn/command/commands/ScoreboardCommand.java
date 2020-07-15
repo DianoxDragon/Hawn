@@ -174,7 +174,7 @@ public class ScoreboardCommand extends BukkitCommand {
 							Main.getInstance().getScoreManager().writeInt(perm, "updater.text", null);
 						}
 
-						BukkitTask TaskName = new ScoreTask(Main.getInstance(), Main.getInstance().getScoreManager(), boardnew, p).runTaskTimer(Main.getInstance(), 0,
+						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), boardnew, p).runTaskTimer(Main.getInstance(), 0,
 								Main.getInstance().getScoreManager().getFile(perm).getInt("updater.scoreboard"));
 
 						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());

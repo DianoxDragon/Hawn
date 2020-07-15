@@ -45,7 +45,7 @@ public class HelpCommand extends BukkitCommand {
 								String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 								
 								if (!p.hasPermission("hawn.command.help."+defaultCHelp)) {
-									String Permission = "hawn.command.help"+defaultCHelp;
+									String Permission = "hawn.command.help."+defaultCHelp;
 									MessageUtils.MessageNoPermission(p, Permission);
 									return true;
 								}
@@ -79,7 +79,7 @@ public class HelpCommand extends BukkitCommand {
 									return true;
 								}
 								if (!p.hasPermission("hawn.command.help."+defaultCHelp)) {
-									String Permission = "hawn.command.help"+defaultCHelp;
+									String Permission = "hawn.command.help."+defaultCHelp;
 									MessageUtils.MessageNoPermission(p, Permission);
 									return true;
 								}
@@ -110,7 +110,7 @@ public class HelpCommand extends BukkitCommand {
 											return true;
 										}
 										if (!p.hasPermission("hawn.command.help."+args[0])) {
-											String Permission = "hawn.command.help"+args[0];
+											String Permission = "hawn.command.help."+args[0];
 											MessageUtils.MessageNoPermission(p, Permission);
 											return true;
 										}
@@ -147,7 +147,7 @@ public class HelpCommand extends BukkitCommand {
 										String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 										
 										if (!p.hasPermission("hawn.command.help."+defaultCHelp)) {
-											String Permission = "hawn.command.help"+defaultCHelp;
+											String Permission = "hawn.command.help."+defaultCHelp;
 											MessageUtils.MessageNoPermission(p, Permission);
 											return true;
 										}
@@ -192,7 +192,7 @@ public class HelpCommand extends BukkitCommand {
 											return true;
 										}
 										if (!p.hasPermission("hawn.command.help."+args[0])) {
-											String Permission = "hawn.command.help"+args[0];
+											String Permission = "hawn.command.help."+args[0];
 											MessageUtils.MessageNoPermission(p, Permission);
 											return true;
 										}
@@ -232,7 +232,7 @@ public class HelpCommand extends BukkitCommand {
 											return true;
 										}
 										if (!p.hasPermission("hawn.command.help."+args[0])) {
-											String Permission = "hawn.command.help"+args[0];
+											String Permission = "hawn.command.help."+args[0];
 											MessageUtils.MessageNoPermission(p, Permission);
 											return true;
 										}
