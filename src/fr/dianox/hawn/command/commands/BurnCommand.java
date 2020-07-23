@@ -10,6 +10,9 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.BurnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BurnCommand extends BukkitCommand {
 	
 	private String GeneralPermission = "hawn.command.burn";
@@ -19,6 +22,23 @@ public class BurnCommand extends BukkitCommand {
 		 this.description = "Burn a player";
 		 this.usageMessage = "/burn <player> <duration>";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {
@@ -37,7 +57,7 @@ public class BurnCommand extends BukkitCommand {
 					 return true;
 				 }
 
-				 target.setFireTicks(Integer.valueOf(args[1]) * 20);
+				 target.setFireTicks(Integer.parseInt(args[1]) * 20);
 					 
 				 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 					 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
@@ -85,7 +105,7 @@ public class BurnCommand extends BukkitCommand {
 				 return true;
 			 }
 
-			 target.setFireTicks(Integer.valueOf(args[1]) * 20);
+			 target.setFireTicks(Integer.parseInt(args[1]) * 20);
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {

@@ -1,17 +1,17 @@
 package fr.dianox.hawn.command.commands;
 
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
-
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.config.configs.WarpListConfig;
 import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
-
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class SetWarpCommand extends BukkitCommand {
 	
@@ -24,6 +24,11 @@ public class SetWarpCommand extends BukkitCommand {
 		super(name);
 		this.description = "Creates a new warp";
         this.usageMessage = "/setwarp <warp> [w:world1,world2 etc.]";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 
 	@Override

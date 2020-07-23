@@ -1,16 +1,17 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.WarpListConfig;
-import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DelWarpCommand extends BukkitCommand {
 	
@@ -24,6 +25,17 @@ public class DelWarpCommand extends BukkitCommand {
 		this.description = "Deletes the specified warp";
         this.usageMessage = "/delwarp <warp>";
 	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+		}
+
+		return null;
+	}
+
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {

@@ -1,30 +1,29 @@
 package fr.dianox.hawn.utility.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-
 import fr.dianox.hawn.utility.config.configs.commands.OptionPlayerConfigCommand;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
+import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerEventsPW {
 
-    public static List < String > worlds_playeroption_join = new ArrayList < String > ();
-    public static List < String > worlds_item_drop = new ArrayList < String > ();
-    public static List < String > worlds_item_pickup = new ArrayList < String > ();
-    public static List < String > worlds_item_move = new ArrayList < String > ();
-    public static List < String > worlds_item_damageitem = new ArrayList < String > ();
-    public static List < String > worlds_fun_doublejump = new ArrayList < String > ();
-    public static List < String > worlds_respawncji = new ArrayList < String > ();
-    public static List < String > worlds_death_message = new ArrayList < String > ();
-    public static List < String > worlds_respawn = new ArrayList < String > ();
-    public static List < String > worlds_force_selected_slot = new ArrayList < String > ();
-    public static List < String > worlds_item_clearondrop = new ArrayList < String > ();
-    public static List < String > worlds_block_off_hand = new ArrayList < String > ();
-    public static List < String > worlds_block_mount = new ArrayList < String > ();
+    public static List < String > worlds_playeroption_join = new ArrayList <> ();
+    public static List < String > worlds_item_drop = new ArrayList <> ();
+    public static List < String > worlds_item_pickup = new ArrayList<>();
+    public static List < String > worlds_item_move = new ArrayList<>();
+    public static List < String > worlds_item_damageitem = new ArrayList<>();
+    public static List < String > worlds_fun_doublejump = new ArrayList<>();
+    public static List < String > worlds_respawncji = new ArrayList<>();
+    public static List < String > worlds_death_message = new ArrayList<>();
+    public static List < String > worlds_respawn = new ArrayList<>();
+    public static List < String > worlds_force_selected_slot = new ArrayList<>();
+    public static List < String > worlds_item_clearondrop = new ArrayList<>();
+    public static List < String > worlds_block_off_hand = new ArrayList<>();
+    public static List < String > worlds_block_mount = new ArrayList<>();
 
     public static void setWBlockOffHand() {
         if (PlayerEventsConfig.getConfig().getBoolean("Block-Off-Hand.Enable") && !PlayerEventsConfig.getConfig().getBoolean("Block-Off-Hand.World.All_World")) {

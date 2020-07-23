@@ -12,6 +12,8 @@ import fr.dianox.hawn.utility.config.configs.commands.SuicideCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.List;
+
 public class SuicideCommand extends BukkitCommand {
 	
 	private String GeneralPermission = "hawn.command.suicide";
@@ -19,8 +21,13 @@ public class SuicideCommand extends BukkitCommand {
 	public SuicideCommand(String name) {
 		 super(name);
 		 this.description = "Kill yourself";
-		 this.usageMessage = "/suicide <player>";
+		 this.usageMessage = "/suicide";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {

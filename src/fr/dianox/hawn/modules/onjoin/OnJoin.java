@@ -2,6 +2,7 @@ package fr.dianox.hawn.modules.onjoin;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
+import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
@@ -45,7 +46,13 @@ public class OnJoin implements Listener {
         
         String uuid = p.getUniqueId().toString();
 
-        String date = String.valueOf(OtherUtils.getDate() + ", " + OtherUtils.getTime());
+        if (Setup.needsetup) {
+        	if (p.hasPermission("hawn.setup")) {
+        		return;
+	        }
+		}
+
+        String date = OtherUtils.getDate() + ", " + OtherUtils.getTime();
 
         // Yaml
         // Player info
@@ -177,68 +184,68 @@ public class OnJoin implements Listener {
 
         // Blindness
         if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Enable")) {
-            if (!OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.World.All_World")) {
-                if (OnJoinPW.getWblindess().contains(p.getWorld().getName())) {
-                    if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Use_Permission")) {
-                        if (p.hasPermission("hawn.onjoin.potion.blindness")) {
-                            int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
-                            int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                            p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
-                        }
-                    } else {
-                        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
-                        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
-                    }
-                }
-            } else {
-                if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Use_Permission")) {
-                    if (p.hasPermission("hawn.onjoin.potion.blindness")) {
-                        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
-                        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
-                    }
-                } else {
-                    int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
-                    int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
-                    p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
-                }
-            }
+	        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.World.All_World")) {
+		        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Use_Permission")) {
+			        if (p.hasPermission("hawn.onjoin.potion.blindness")) {
+				        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
+				        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
+				        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
+			        }
+		        } else {
+			        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
+			        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
+			        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
+		        }
+	        } else {
+		        if (OnJoinPW.getWblindess().contains(p.getWorld().getName())) {
+			        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.BLINDNESS.Use_Permission")) {
+				        if (p.hasPermission("hawn.onjoin.potion.blindness")) {
+					        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
+					        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
+					        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
+				        }
+			        } else {
+				        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Duration-Second") * 20;
+				        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.BLINDNESS.Amplifier");
+				        p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.parsePotionEffectType(), duration, amplifier));
+			        }
+		        }
+	        }
         }
 
         // Jump
         if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Enable")) {
-            if (!OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.World.All_World")) {
-                if (OnJoinPW.getWjump().contains(p.getWorld().getName())) {
-                    if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Use_Permission")) {
-                        if (p.hasPermission("hawn.onjoin.potion.jump")) {
-                            int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
-                            int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                            p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
-                            OjPlayerOption.onJumpBoost(p, duration);
-                        }
-                    } else {
-                        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
-                        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
-                        OjPlayerOption.onJumpBoost(p, duration);
-                    }
-                }
-            } else {
-                if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Use_Permission")) {
-                    if (p.hasPermission("hawn.onjoin.potion.jump")) {
-                        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
-                        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
-                        OjPlayerOption.onJumpBoost(p, duration);
-                    }
-                } else {
-                    int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
-                    int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
-                    p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
-                    OjPlayerOption.onJumpBoost(p, duration);
-                }
-            }
+	        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.World.All_World")) {
+		        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Use_Permission")) {
+			        if (p.hasPermission("hawn.onjoin.potion.jump")) {
+				        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
+				        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
+				        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
+				        OjPlayerOption.onJumpBoost(p, duration);
+			        }
+		        } else {
+			        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
+			        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
+			        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
+			        OjPlayerOption.onJumpBoost(p, duration);
+		        }
+	        } else {
+		        if (OnJoinPW.getWjump().contains(p.getWorld().getName())) {
+			        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Use_Permission")) {
+				        if (p.hasPermission("hawn.onjoin.potion.jump")) {
+					        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
+					        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
+					        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
+					        OjPlayerOption.onJumpBoost(p, duration);
+				        }
+			        } else {
+				        int duration = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Duration-Second") * 20;
+				        int amplifier = OnJoinConfig.getConfig().getInt("Potion-Effect.JUMP.Amplifier");
+				        p.addPotionEffect(new PotionEffect(XPotion.JUMP.parsePotionEffectType(), duration, amplifier));
+				        OjPlayerOption.onJumpBoost(p, duration);
+			        }
+		        }
+	        }
         }
 
         OjPlayerOption.PO(p);
@@ -659,7 +666,7 @@ public class OnJoin implements Listener {
 
             String FoodValue = String.valueOf(OnJoinConfig.getConfig().getInt("Restore.Food.Value"));
 
-            p.setFoodLevel(Integer.valueOf(FoodValue));
+            p.setFoodLevel(Integer.parseInt(FoodValue));
         }
     }
 
@@ -694,13 +701,13 @@ public class OnJoin implements Listener {
 
                         String XPValueLvl = String.valueOf(OnJoinConfig.getConfig().getInt("XP.Options.Level.Value"));
 
-                        p.setLevel(Integer.valueOf(XPValueLvl));
+                        p.setLevel(Integer.parseInt(XPValueLvl));
                     }
                 } else {
 
                     String XPValueLvl = String.valueOf(OnJoinConfig.getConfig().getInt("XP.Options.Level.Value"));
 
-                    p.setLevel(Integer.valueOf(XPValueLvl));
+                    p.setLevel(Integer.parseInt(XPValueLvl));
                 }
             }
         }

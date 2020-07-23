@@ -1,25 +1,24 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
-
 public class WorldPW {
 
-    public static List < String > worlds_weather = new ArrayList < String > ();
-    public static List < String > worlds_ThunderChange = new ArrayList < String > ();
-    public static List < String > worlds_LightningStrike = new ArrayList < String > ();
-    public static List < String > worlds_burn_block = new ArrayList < String > ();
-    public static List < String > worlds_explosions = new ArrayList < String > ();
-    public static List < String > worlds_LeaveDecay = new ArrayList < String > ();
-    public static List < String > worlds_firespread = new ArrayList < String > ();
-    public static List < String > worlds_BlockFade = new ArrayList < String > ();
-    public static List < String > worlds_spawning_mob_animals = new ArrayList < String > ();
-    public static List < String > worlds_shears = new ArrayList < String > ();
-    public static List < String > worlds_edtp = new ArrayList < String > ();
+    public static List < String > worlds_weather = new ArrayList<>();
+    public static List < String > worlds_ThunderChange = new ArrayList<>();
+    public static List < String > worlds_LightningStrike = new ArrayList<>();
+    public static List < String > worlds_burn_block = new ArrayList<>();
+    public static List < String > worlds_explosions = new ArrayList<>();
+    public static List < String > worlds_LeaveDecay = new ArrayList<>();
+    public static List < String > worlds_firespread = new ArrayList<>();
+    public static List < String > worlds_BlockFade = new ArrayList<>();
+    public static List < String > worlds_spawning_mob_animals = new ArrayList<>();
+    public static List < String > worlds_shears = new ArrayList<>();
+    public static List < String > worlds_edtp = new ArrayList<>();
 
     // WEATHER
     public static void setWGetWorldServerDisableWeather() {

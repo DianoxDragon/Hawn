@@ -1,27 +1,26 @@
 package fr.dianox.hawn.utility.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
 import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
 import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
+import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasicEventsPW {
 
-    public static List < String > voidtp_world = new ArrayList < String > ();
-    public static List < String > gm_world = new ArrayList < String > ();
-    public static List < String > kgm_world = new ArrayList < String > ();
-    public static List < String > worlds_kFood = new ArrayList < String > ();
-    public static List < String > worlds_kANTIDAMAGE = new ArrayList < String > ();
-    public static List < String > worlds_autobroadcast = new ArrayList < String > ();
-    public static List < String > worlds_autobroadcast_title = new ArrayList < String > ();
-    public static List < String > worlds_autobroadcast_ab = new ArrayList < String > ();
-    public static List < String > worlds_autobroadcast_bb = new ArrayList < String > ();
+    public static List < String > voidtp_world = new ArrayList <> ();
+    public static List < String > gm_world = new ArrayList <> ();
+    public static List < String > kgm_world = new ArrayList <> ();
+    public static List < String > worlds_kFood = new ArrayList <> ();
+    public static List < String > worlds_kANTIDAMAGE = new ArrayList <> ();
+    public static List < String > worlds_autobroadcast = new ArrayList <> ();
+    public static List < String > worlds_autobroadcast_title = new ArrayList <> ();
+    public static List < String > worlds_autobroadcast_ab = new ArrayList <> ();
+    public static List < String > worlds_autobroadcast_bb = new ArrayList <> ();
 
     // Void TP
     public static void setWGetWorldforVOIDTP() {

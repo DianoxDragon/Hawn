@@ -1,20 +1,19 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
-
 public class ProtectionPW {
 
-    public static List < String > worlds_c_place = new ArrayList < String > ();
-    public static List < String > worlds_c_break = new ArrayList < String > ();
-    public static List < String > worlds_HagingBreakByEntity = new ArrayList < String > ();
-    public static List < String > worlds_PlayerInteractEntity_ItemFrame = new ArrayList < String > ();
-    public static List < String > worlds_PlayerInteract_Items_Blocks = new ArrayList < String > ();
-    public static List < String > worlds_buckets = new ArrayList < String > ();
+    public static List < String > worlds_c_place = new ArrayList<>();
+    public static List < String > worlds_c_break = new ArrayList<>();
+    public static List < String > worlds_HagingBreakByEntity = new ArrayList<>();
+    public static List < String > worlds_PlayerInteractEntity_ItemFrame = new ArrayList<>();
+    public static List < String > worlds_PlayerInteract_Items_Blocks = new ArrayList<>();
+    public static List < String > worlds_buckets = new ArrayList<>();
     
     public static void setWworldBukets() {
         if (ConfigGProtection.getConfig().getBoolean("Protection.Anti-Bucket-Use.Enable") && !ConfigGProtection.getConfig().getBoolean("Protection.Anti-Bucket-Use.World.All_World")) {

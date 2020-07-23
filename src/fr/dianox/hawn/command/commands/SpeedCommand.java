@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.config.configs.WarpListConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import fr.dianox.hawn.utility.config.configs.commands.SpeedCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpeedCommand extends BukkitCommand {
 	
 	private String GeneralPermission = "hawn.command.optionplayer.speed";
@@ -21,6 +25,16 @@ public class SpeedCommand extends BukkitCommand {
 		 this.description = "Change or enable/disable speed";
 		 this.usageMessage = "/speed [number]";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+		}
+
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {
@@ -72,15 +86,15 @@ public class SpeedCommand extends BukkitCommand {
                  int i = Integer.parseInt(args[0]);
 
                  ConfigPlayerGet.writeBoolean(p.getUniqueId().toString(), "player_speed.Activate", true);
-                 Float WalkSpeed = (float) Integer.valueOf(args[0]) / 10;
+                 Float WalkSpeed = (float) Integer.parseInt(args[0]) / 10;
 
-                 if (Integer.valueOf(args[0]) < 0 || Integer.valueOf(args[0]) > 10) {
+                 if (Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > 10) {
                      p.sendMessage("§c0-10");
                      return false;
                  }
 
                  p.setWalkSpeed(WalkSpeed);
-                 PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.valueOf(args[0]));
+                 PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.parseInt(args[0]));
 
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
                      for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
@@ -93,7 +107,7 @@ public class SpeedCommand extends BukkitCommand {
          } else if (args.length == 0) {
 
              String value = PlayerOptionSQLClass.GetSQLPOSpeed(p, "ACTIVATE");
-             int speedvalue = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+             int speedvalue = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
 
              if (value.equalsIgnoreCase("TRUE")) {
                  PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvalue);

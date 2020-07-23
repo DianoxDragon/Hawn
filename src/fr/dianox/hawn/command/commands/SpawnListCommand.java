@@ -1,17 +1,16 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.Iterator;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
-
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
-
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class SpawnListCommand extends BukkitCommand{
 	
@@ -24,6 +23,11 @@ public class SpawnListCommand extends BukkitCommand{
 		super(name);
 		this.description = "List all spawns";
         this.usageMessage = "/spawnlist";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 
 	@Override

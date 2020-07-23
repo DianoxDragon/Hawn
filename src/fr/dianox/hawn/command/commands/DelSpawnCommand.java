@@ -1,15 +1,17 @@
 package fr.dianox.hawn.command.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
-
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DelSpawnCommand extends BukkitCommand {
 	
@@ -17,6 +19,16 @@ public class DelSpawnCommand extends BukkitCommand {
 		super(name);
 		this.description = "Delete a spawn";
         this.usageMessage = "/delspawn <spawn>";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			return new ArrayList<>(ConfigSpawn.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+		}
+
+		return null;
 	}
 
 	@Override

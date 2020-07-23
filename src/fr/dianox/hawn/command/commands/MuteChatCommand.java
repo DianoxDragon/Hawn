@@ -15,6 +15,8 @@ import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.tasks.TaskShutdownServer;
 
+import java.util.List;
+
 public class MuteChatCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.mutechat";
@@ -26,6 +28,11 @@ public class MuteChatCommand extends BukkitCommand {
 		super(name);
 		this.description = "Mute the chat";
         this.usageMessage = "/gmute [number]";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 	
 	@Override

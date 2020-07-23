@@ -1,34 +1,33 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
-
 public class OnJoinPW {
 
-    public static List < String > motd_world = new ArrayList < String > ();
-    public static List < String > jm_world = new ArrayList < String > ();
-    public static List < String > worlds_Food = new ArrayList < String > ();
-    public static List < String > worlds_Health = new ArrayList < String > ();
-    public static List < String > worlds_inventory = new ArrayList < String > ();
-    public static List < String > worlds_clear_chat = new ArrayList < String > ();
-    public static List < String > worlds_XP_Exp = new ArrayList < String > ();
-    public static List < String > worlds_XP_Lvl = new ArrayList < String > ();
-    public static List < String > worlds_fly = new ArrayList < String > ();
-    public static List < String > world_pe_blindness = new ArrayList < String > ();
-    public static List < String > world_pe_jump = new ArrayList < String > ();
-    public static List < String > world_speed_on_join = new ArrayList < String > ();
-    public static List < String > world_fly_speed_on_join = new ArrayList < String > ();
-    public static List < String > worlds_first_join_ab = new ArrayList < String > ();
-    public static List < String > worlds_join_ab = new ArrayList < String > ();
-    public static List < String > worlds_first_join_title = new ArrayList < String > ();
-    public static List < String > worlds_join_title = new ArrayList < String > ();
-    public static List < String > worlds_sounds_join = new ArrayList < String > ();
-    public static List < String > worlds_bossbar = new ArrayList < String > ();
+    public static List < String > motd_world = new ArrayList<>();
+    public static List < String > jm_world = new ArrayList<>();
+    public static List < String > worlds_Food = new ArrayList<>();
+    public static List < String > worlds_Health = new ArrayList<>();
+    public static List < String > worlds_inventory = new ArrayList<>();
+    public static List < String > worlds_clear_chat = new ArrayList<>();
+    public static List < String > worlds_XP_Exp = new ArrayList<>();
+    public static List < String > worlds_XP_Lvl = new ArrayList<>();
+    public static List < String > worlds_fly = new ArrayList<>();
+    public static List < String > world_pe_blindness = new ArrayList<>();
+    public static List < String > world_pe_jump = new ArrayList<>();
+    public static List < String > world_speed_on_join = new ArrayList<>();
+    public static List < String > world_fly_speed_on_join = new ArrayList<>();
+    public static List < String > worlds_first_join_ab = new ArrayList<>();
+    public static List < String > worlds_join_ab = new ArrayList<>();
+    public static List < String > worlds_first_join_title = new ArrayList<>();
+    public static List < String > worlds_join_title = new ArrayList<>();
+    public static List < String > worlds_sounds_join = new ArrayList<>();
+    public static List < String > worlds_bossbar = new ArrayList<>();
 
     // BossBar
     public static void setBossBaronjoin() {

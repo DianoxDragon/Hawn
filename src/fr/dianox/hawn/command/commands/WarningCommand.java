@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Objects;
 
 public class WarningCommand extends BukkitCommand {
@@ -23,6 +24,11 @@ public class WarningCommand extends BukkitCommand {
 		super(name);
 		this.description = "Warning a message";
         this.usageMessage = "/warning <msg>";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 	
 	@Override

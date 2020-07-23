@@ -11,6 +11,9 @@ import fr.dianox.hawn.utility.config.configs.commands.IpCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IpCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.ip";
@@ -20,6 +23,23 @@ public class IpCommand extends BukkitCommand {
         this.description = "Get the ip of a player";
         this.usageMessage = "/ip <player>";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {

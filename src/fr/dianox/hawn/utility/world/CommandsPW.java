@@ -1,17 +1,16 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
-
 public class CommandsPW {
 
-    public static List < String > worlds_JoinCommands_New = new ArrayList < String > ();
-    public static List < String > worlds_JoinCommands_No_New = new ArrayList < String > ();
-    public static List < String > worlds_QuitCommands_Console = new ArrayList < String > ();
+    public static List < String > worlds_JoinCommands_New = new ArrayList <> ();
+    public static List < String > worlds_JoinCommands_No_New = new ArrayList <> ();
+    public static List < String > worlds_QuitCommands_Console = new ArrayList <> ();
 
     public static void setWGetWorldJoinCommandNew() {
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.Enable") && !ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.New.World.All_World")) {

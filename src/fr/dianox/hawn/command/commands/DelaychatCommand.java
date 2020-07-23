@@ -11,6 +11,8 @@ import fr.dianox.hawn.utility.config.configs.commands.DelayChatCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.List;
+
 public class DelaychatCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.delaychat";
@@ -21,7 +23,12 @@ public class DelaychatCommand extends BukkitCommand {
 		this.description = "Set a number to delay the chat";
         this.usageMessage = "/delaychat <delay>";
 	}
-	
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
+
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		

@@ -22,6 +22,9 @@ import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.PlayerEventsPW;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OptionCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.optionplayer.main";
@@ -30,6 +33,27 @@ public class OptionCommand extends BukkitCommand {
         super(name);
         this.description = "Access to options";
         this.usageMessage = "/option";
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+        if (args.length == 1) {
+            List<String> tab = new ArrayList<>();
+            tab.add("fly");
+            tab.add("doublejump");
+            tab.add("speed");
+            tab.add("flyspeed");
+            tab.add("jumpboost");
+            tab.add("autobc");
+            tab.add("pv");
+
+            java.util.Collections.sort(tab);
+
+            return tab;
+        }
+
+        return null;
     }
 
     @Override
@@ -299,15 +323,15 @@ public class OptionCommand extends BukkitCommand {
 						int i = Integer.parseInt(args[1]);
 						
 						ConfigPlayerGet.writeBoolean(p.getUniqueId().toString(), "player_fly_speed.Activate", true);
-						Float FloatSpeed = (float) Integer.valueOf(args[1]) / 10;
+						Float FloatSpeed = (float) Integer.parseInt(args[1]) / 10;
 						
-						if (Integer.valueOf(args[1]) < 0 || Integer.valueOf(args[1]) > 10) {
+						if (Integer.parseInt(args[1]) < 0 || Integer.parseInt(args[1]) > 10) {
 							p.sendMessage("§c0-10");
 							return false;
 						}
 						
 						p.setFlySpeed(FloatSpeed);
-						PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.valueOf(args[1]));
+						PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.parseInt(args[1]));
 						
 						if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Set.Enable")) {
 							for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Set.Messages")) {
@@ -319,7 +343,7 @@ public class OptionCommand extends BukkitCommand {
 					}
 				} else {
 					String value = PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "ACTIVATE");
-					int speedvalue = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
+					int speedvalue = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
 					
 					if (value.equalsIgnoreCase("TRUE")) {
 						PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "FALSE", speedvalue);
@@ -388,15 +412,15 @@ public class OptionCommand extends BukkitCommand {
                         int i = Integer.parseInt(args[1]);
 
                         ConfigPlayerGet.writeBoolean(p.getUniqueId().toString(), "player_speed.Activate", true);
-                        Float WalkSpeed = (float) Integer.valueOf(args[1]) / 10;
+                        Float WalkSpeed = (float) Integer.parseInt(args[1]) / 10;
 
-                        if (Integer.valueOf(args[1]) < 0 || Integer.valueOf(args[1]) > 10) {
+                        if (Integer.parseInt(args[1]) < 0 || Integer.parseInt(args[1]) > 10) {
                             p.sendMessage("§c0-10");
                             return false;
                         }
 
                         p.setWalkSpeed(WalkSpeed);
-                        PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.valueOf(args[1]));
+                        PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.parseInt(args[1]));
 
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
@@ -409,7 +433,7 @@ public class OptionCommand extends BukkitCommand {
                 } else {
 
                     String value = PlayerOptionSQLClass.GetSQLPOSpeed(p, "ACTIVATE");
-                    int speedvalue = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+                    int speedvalue = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
 
                     if (value.equalsIgnoreCase("TRUE")) {
                         PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvalue);

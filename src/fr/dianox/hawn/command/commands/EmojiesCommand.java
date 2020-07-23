@@ -36,6 +36,11 @@ public class EmojiesCommand extends BukkitCommand {
 		this.description = "Open the emoji gui";
         this.usageMessage = "/emoji";
 	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
