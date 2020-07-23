@@ -11,6 +11,9 @@ import fr.dianox.hawn.utility.config.configs.commands.EnderChestCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnderChestCommand extends BukkitCommand {
 	
 	private String GeneralPermission = "hawn.command.enderchest";
@@ -20,6 +23,23 @@ public class EnderChestCommand extends BukkitCommand {
 		 this.description = "See player's enderchest";
 		 this.usageMessage = "/ec [player]";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {

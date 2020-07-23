@@ -34,6 +34,11 @@ public class PanelAdminCommand extends BukkitCommand {
         this.usageMessage = "/<command>";
     }
 
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
+
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
 
@@ -244,7 +249,7 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (args.length != 4) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[3]);
+                        pagenumber = Integer.parseInt(args[3]);
                     }
 
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - File " + invname + pagenumber);
@@ -584,7 +589,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder commands " + pagenumber);
@@ -685,7 +690,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Cosmetics-Fun " + pagenumber);
@@ -798,7 +803,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CF-Utility " + pagenumber);
@@ -901,7 +906,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CustomJoinItem " + pagenumber);
@@ -1004,7 +1009,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Events " + pagenumber);
@@ -1106,7 +1111,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Messages " + pagenumber);
@@ -1209,7 +1214,7 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.valueOf(args[2]);
+                        pagenumber = Integer.parseInt(args[2]);
                     }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Scoreboard " + pagenumber);
@@ -1307,12 +1312,12 @@ public class PanelAdminCommand extends BukkitCommand {
                 	int maximumitem = 44;
                 	int numberitems = 0;
                 	int loopaeleminer = 0;
-                	
-                	if (args.length != 3) {
-                        pagenumber = 1;
-                    } else {
-                        pagenumber = Integer.parseInt(args[2]);
-                    }
+
+	                if (args.length == 3) {
+		                pagenumber = Integer.parseInt(args[2]);
+	                } else {
+		                pagenumber = 1;
+	                }
                 	
                     Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Tablist " + pagenumber);
 

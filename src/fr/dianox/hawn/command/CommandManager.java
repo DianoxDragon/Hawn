@@ -6,6 +6,7 @@ import fr.dianox.hawn.command.commands.specials.worldedit.CopyCommand;
 import fr.dianox.hawn.command.commands.specials.worldedit.OneCommand;
 import fr.dianox.hawn.command.commands.specials.worldedit.PasteCommand;
 import fr.dianox.hawn.command.commands.specials.worldedit.TwoCommand;
+import fr.dianox.hawn.command.commands.tab.HawnTabCompletion;
 import fr.dianox.hawn.utility.config.configs.CommandAliasesConfig;
 import fr.dianox.hawn.utility.config.configs.commands.*;
 import org.bukkit.Bukkit;
@@ -39,6 +40,7 @@ public class CommandManager {
 		}
 
 		Objects.requireNonNull(plugin.getCommand("hawn")).setExecutor(new HawnCommand());
+		Objects.requireNonNull(plugin.getCommand("hawn")).setTabCompleter(new HawnTabCompletion());
 
 		/* --------------------------- *
 		 * WORLD EDIT ALIASES COMMANDS *

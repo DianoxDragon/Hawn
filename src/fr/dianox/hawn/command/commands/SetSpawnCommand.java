@@ -1,18 +1,19 @@
 package fr.dianox.hawn.command.commands;
 
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
-
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.SpawnUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class SetSpawnCommand extends BukkitCommand {
 	
@@ -20,6 +21,11 @@ public class SetSpawnCommand extends BukkitCommand {
 		super(name);
 		this.description = "Creates a new spawn";
         this.usageMessage = "/setspawn [spawn] [d:true] [w:world1,world2 etc.]";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 
 	@Override

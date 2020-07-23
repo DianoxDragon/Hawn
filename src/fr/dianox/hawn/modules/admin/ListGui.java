@@ -51,13 +51,13 @@ public class ListGui implements Listener {
 				} else if (item.getType() == XMaterial.ARROW.parseMaterial()) {
 					if (e.getRawSlot() == 45) {
 						String backpage = inv.replace("§cList Gui - Page ", "");
-						Integer newpage = Integer.valueOf(backpage);
+						Integer newpage = Integer.parseInt(backpage);
 						newpage--;
 						
 						OpenGui(p, newpage);
 					} else if (e.getRawSlot() == 46) {
 						String backpage = inv.replace("§cList Gui - Page ", "");
-						Integer newpage = Integer.valueOf(backpage);
+						Integer newpage = Integer.parseInt(backpage);
 						newpage++;
 						
 						OpenGui(p, newpage);

@@ -12,6 +12,9 @@ import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditWarpCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.warp.editwarp";
@@ -23,6 +26,16 @@ public class EditWarpCommand extends BukkitCommand {
 		super(name);
 		this.description = "Edit the specified warp";
         this.usageMessage = "/editwarp <warp>";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+		}
+
+		return null;
 	}
 
 	@Override

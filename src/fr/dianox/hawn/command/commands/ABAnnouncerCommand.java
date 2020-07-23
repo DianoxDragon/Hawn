@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ABAnnouncerCommand extends BukkitCommand {
@@ -20,6 +21,11 @@ public class ABAnnouncerCommand extends BukkitCommand {
         this.description = "Broadcast an actionbar";
         this.usageMessage = "/bacast [msg]";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {

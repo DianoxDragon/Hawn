@@ -1,18 +1,17 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.events.PlayerWorldChangeConfigE;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.events.PlayerWorldChangeConfigE;
-
 public class ChangeWorldPW {
 
-    public static List < String > world_change_keepfly = new ArrayList < String > ();
-    public static List < String > worlds_GM_OnChangeWorld = new ArrayList < String > ();
-    public static List < String > worlds_po = new ArrayList < String > ();
-    public static List < String > worlds_commands = new ArrayList < String > ();
+    public static List < String > world_change_keepfly = new ArrayList <> ();
+    public static List < String > worlds_GM_OnChangeWorld = new ArrayList <> ();
+    public static List < String > worlds_po = new ArrayList <> ();
+    public static List < String > worlds_commands = new ArrayList <> ();
 
     // Fly
     public static void setWKEEPFLY() {

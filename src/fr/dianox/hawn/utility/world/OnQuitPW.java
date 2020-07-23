@@ -1,16 +1,15 @@
 package fr.dianox.hawn.utility.world;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import org.bukkit.Bukkit;
 
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OnQuitPW {
 
     // Quit message
-    public static List < String > qm_world = new ArrayList < String > ();
+    public static List < String > qm_world = new ArrayList <> ();
 
     public static void setGetWorldforQuitMessage() {
         if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Enable") && !ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.World.All_World")) {

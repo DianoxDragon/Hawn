@@ -1,9 +1,5 @@
 package fr.dianox.hawn.command.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
-
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -11,6 +7,11 @@ import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.config.configs.commands.FlySpeedCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class FlySpeedCommand extends BukkitCommand {
 	
@@ -21,6 +22,11 @@ public class FlySpeedCommand extends BukkitCommand {
 		 this.description = "Change or enable/disable flyspeed";
 		 this.usageMessage = "/flyspeed [number]";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {
@@ -72,15 +78,15 @@ public class FlySpeedCommand extends BukkitCommand {
 					int i = Integer.parseInt(args[0]);
 					
 					ConfigPlayerGet.writeBoolean(p.getUniqueId().toString(), "player_fly_speed.Activate", true);
-					Float FloatSpeed = (float) Integer.valueOf(args[0]) / 10;
+					Float FloatSpeed = (float) Integer.parseInt(args[0]) / 10;
 					
-					if (Integer.valueOf(args[0]) < 0 || Integer.valueOf(args[0]) > 10) {
+					if (Integer.parseInt(args[0]) < 0 || Integer.parseInt(args[0]) > 10) {
 						p.sendMessage("§c0-10");
 						return false;
 					}
 					
 					p.setFlySpeed(FloatSpeed);
-					PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.valueOf(args[0]));
+					PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.parseInt(args[0]));
 					
 					if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Set.Enable")) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Set.Messages")) {
@@ -92,7 +98,7 @@ public class FlySpeedCommand extends BukkitCommand {
 				}
 			} else if (args.length == 0) {
 				String value = PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "ACTIVATE");
-				int speedvalue = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
+				int speedvalue = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
 				
 				if (value.equalsIgnoreCase("TRUE")) {
 					PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "FALSE", speedvalue);

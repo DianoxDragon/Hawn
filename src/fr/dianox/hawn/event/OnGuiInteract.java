@@ -148,13 +148,13 @@ public class OnGuiInteract implements Listener {
                     if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder commands ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder Commands " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder commands ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder Commands " + numberfinal);
                     } else {
@@ -164,13 +164,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder Cosmetics-Fun ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder Cosmetics-Fun " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder Cosmetics-Fun ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder Cosmetics-Fun " + numberfinal);
                     } else {
@@ -180,13 +180,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder Events ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder Events " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder Events ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder Events " + numberfinal);
                     } else {
@@ -196,13 +196,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder Messages ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder Messages " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder Messages ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder Messages " + numberfinal);
                     } else {
@@ -212,13 +212,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder Tablist ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder Tablist " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder Tablist ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder Tablist " + numberfinal);
                     } else {
@@ -228,13 +228,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder CF-Utility ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder CF-Utility " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder CF-Utility ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder CF-Utility " + numberfinal);
                     } else {
@@ -244,13 +244,13 @@ public class OnGuiInteract implements Listener {
                 	if (e.getRawSlot() == 47) {
                     	String invnamenum = inv.replace("§cAP - Folder CustomJoinItem ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal++;
                 		p.performCommand("ap folder CustomJoinItem " + numberfinal);
                     } else if (e.getRawSlot() == 45) {
                     	String invnamenum = inv.replace("§cAP - Folder CustomJoinItem ", "");
                     	
-                    	Integer numberfinal = Integer.valueOf(invnamenum);
+                    	Integer numberfinal = Integer.parseInt(invnamenum);
                 		numberfinal--;
                 		p.performCommand("ap folder CustomJoinItem " + numberfinal);
                     } else {
@@ -282,13 +282,13 @@ public class OnGuiInteract implements Listener {
             if (e.getRawSlot() == 47) {
             	String invnamenum = inv.replace("§cAP - Folder Scoreboard ", "");
             	
-            	Integer numberfinal = Integer.valueOf(invnamenum);
+            	Integer numberfinal = Integer.parseInt(invnamenum);
         		numberfinal++;
         		p.performCommand("ap folder Scoreboard " + numberfinal);
             } else if (e.getRawSlot() == 45) {
             	String invnamenum = inv.replace("§cAP - Folder Scoreboard ", "");
             	
-            	Integer numberfinal = Integer.valueOf(invnamenum);
+            	Integer numberfinal = Integer.parseInt(invnamenum);
         		numberfinal--;
         		p.performCommand("ap folder Scoreboard " + numberfinal);
             }

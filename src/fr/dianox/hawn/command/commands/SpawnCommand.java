@@ -21,6 +21,9 @@ import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpawnCommand extends BukkitCommand {
 	
 	public static Integer emojis_total_enabled = 0;
@@ -29,6 +32,16 @@ public class SpawnCommand extends BukkitCommand {
 		super(name);
 		this.description = "Teleports player to the spawn";
         this.usageMessage = "/spawn or /spawn tp <player> [spawnName]";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			return new ArrayList<>(ConfigSpawn.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+		}
+
+		return null;
 	}
 	
 	@Override

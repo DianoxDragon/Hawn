@@ -13,6 +13,9 @@ import fr.dianox.hawn.utility.config.configs.commands.GamemodeCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClassicGMCommand extends BukkitCommand {
 	
 	private String GeneralPermission = "hawn.command.gamemode.self";
@@ -39,6 +42,31 @@ public class ClassicGMCommand extends BukkitCommand {
 		super(name);
 		this.description = "Easily change the gamemode";
         this.usageMessage = "/gamemode or /gm";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			tab.add("survival");
+			tab.add("creative");
+			tab.add("adventure");
+			tab.add("spectator");
+
+			return tab;
+		} else if (args.length == 2) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
 	}
 
 	@Override

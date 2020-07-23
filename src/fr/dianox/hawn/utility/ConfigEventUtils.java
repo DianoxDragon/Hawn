@@ -165,9 +165,9 @@ public class ConfigEventUtils {
             }
 
 	        if (activate) {
-		        Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title, subtitle);
+		        Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, title, subtitle);
 	        } else {
-		        Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
+		        Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, parts[1], " ");
 	        }
         } else if (event.startsWith("[send-actionbar]: ")) {
             event = event.replace("[send-actionbar]: ", "");
@@ -372,9 +372,9 @@ public class ConfigEventUtils {
 			}
 
 			if (activate) {
-				Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, title, subtitle);
+				Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, title, subtitle);
 			} else {
-				Titles.sendTitle(p, 20, Integer.valueOf(parts[0]), 75, parts[1], " ");
+				Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, parts[1], " ");
 			}
 		} else if (event.startsWith("[send-actionbar]: ")) {
 			event = event.replace("[send-actionbar]: ", "");

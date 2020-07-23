@@ -1,12 +1,14 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelpCommand extends BukkitCommand {
 		
@@ -14,6 +16,20 @@ public class HelpCommand extends BukkitCommand {
 		super(name);
 		this.description = "Help";
         this.usageMessage = "/help";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>(HelpCommandConfig.getConfig().getConfigurationSection("Help-Command.Categories").getKeys(false));
+			tab.remove("default");
+			return tab;
+		} else if (args.length == 2) {
+			return new ArrayList<>(HelpCommandConfig.getConfig().getConfigurationSection("Help-Command.Categories." + args[0]).getKeys(false));
+		}
+
+		return null;
 	}
 	
 	@SuppressWarnings("unused")
@@ -25,9 +41,7 @@ public class HelpCommand extends BukkitCommand {
 			sender.sendMessage("§cDo /bukkit:help");
 			return true;
 		}
-		
-		
-		
+
 		Player p = (Player) sender;
 		
 				if (HelpCommandConfig.getConfig().getBoolean("Help-Command.Enable")) {

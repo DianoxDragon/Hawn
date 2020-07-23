@@ -1,18 +1,18 @@
 package fr.dianox.hawn.command.commands;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.PingCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.PingCommandConfig;
-
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PingCommand extends BukkitCommand {
 
@@ -23,6 +23,23 @@ public class PingCommand extends BukkitCommand {
         super(name);
         this.description = "To know the ping";
         this.usageMessage = "/ping";
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+        if (args.length == 1) {
+            List<String> tab = new ArrayList<>();
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                tab.add(p.getName());
+            }
+
+            java.util.Collections.sort(tab);
+
+            return tab;
+        }
+
+        return null;
     }
 
     @Override

@@ -223,7 +223,7 @@ public class PlaceHolders {
         }
         
         if (str.contains("%player_max_health_rounded%")) {
-            str = str.replaceAll("%player_max_health_rounded%", String.valueOf(Integer.valueOf((int) p.getMaxHealth())));
+            str = str.replaceAll("%player_max_health_rounded%", String.valueOf((int) p.getMaxHealth()));
         }
         
         if (str.contains("%player_name%")) {

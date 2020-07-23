@@ -17,6 +17,9 @@ import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScoreboardCommand extends BukkitCommand {
 
 	String GeneralPermission = "hawn.command.scoreboard.toggle";
@@ -25,6 +28,23 @@ public class ScoreboardCommand extends BukkitCommand {
 		super(name);
 		this.description = "Toggle on or off the scoreboard";
         this.usageMessage = "/scoreboard";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			tab.add("set");
+			tab.add("list");
+			tab.add("keep");
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
 	}
 
 	@Override

@@ -1,15 +1,14 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-
 public class CjiPW {
 
-    public static List < String > worlds_general = new ArrayList < String > ();
+    public static List < String > worlds_general = new ArrayList <> ();
 
     public static void setItemPlayerGeneral() {
         if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable") && !ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {

@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ClearChatCommand extends BukkitCommand {
@@ -18,6 +20,33 @@ public class ClearChatCommand extends BukkitCommand {
 		super(name);
 		this.description = "Clear a chat";
         this.usageMessage = "/cc <a/o/c/other> <player>/[reason] [reason]";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			tab.add("a");
+			tab.add("o");
+			tab.add("c");
+			tab.add("other");
+
+			return tab;
+		} else if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("other")) {
+				List<String> tab = new ArrayList<>();
+				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+					tab.add(p.getName());
+				}
+
+				java.util.Collections.sort(tab);
+
+				return tab;
+			}
+		}
+
+		return null;
 	}
 
 	@Override

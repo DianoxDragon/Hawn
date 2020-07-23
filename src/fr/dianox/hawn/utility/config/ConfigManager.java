@@ -14,8 +14,6 @@ import fr.dianox.hawn.utility.config.configs.messages.fr_fr.*;
 import fr.dianox.hawn.utility.config.configs.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.configs.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
-import fr.dianox.hawn.utility.load.Reload;
-import fr.dianox.hawn.utility.load.WorldList;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -303,6 +301,7 @@ public class ConfigManager {
 		FRConfigMGeneral.loadConfig(plugin);
 		FRWorldManagerPanelConfig.loadConfig(plugin);
 		FRAdminAMConfig.loadConfig(plugin);
+		FRSetupLangFile.loadConfig(plugin);
 
 		// Normal
 
@@ -322,10 +321,9 @@ public class ConfigManager {
 		WorldManagerPanelConfig.loadConfig(plugin);
 		configfile.put("M-WorldMPC", "Messages/" + Main.LanguageType + "/WorldManager.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "Messages/" + Main.LanguageType + "/WorldManager.yml", "M-WorldMPC");
-
-		WorldList.setworldlist();
-
-		Reload.configlist();
+		SetupLangFile.loadConfig(plugin);
+		configfile.put("M-SetupLang", "Messages/" + Main.LanguageType + "/SetupLang.yml");
+		configfilereverse.put(plugin.getDataFolder() + "/" + "Messages/" + Main.LanguageType + "/SetupLang.yml", "M-SetupLang");
 
 		TXTmsg.onCreateInfoMsgAdminMain();
 		TXTmsg.onWriteMain();

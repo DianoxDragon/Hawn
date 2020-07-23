@@ -15,6 +15,9 @@ import fr.dianox.hawn.utility.config.configs.commands.HatCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HatCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.hat";
@@ -24,6 +27,23 @@ public class HatCommand extends BukkitCommand {
         this.description = "Put a hat to a player";
         this.usageMessage = "/hat [player]";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
     @SuppressWarnings("deprecation")
 	@Override

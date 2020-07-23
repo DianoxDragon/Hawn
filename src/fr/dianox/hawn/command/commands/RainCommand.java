@@ -10,6 +10,8 @@ import fr.dianox.hawn.utility.config.configs.commands.WeatherTimeCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.List;
+
 public class RainCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.weather.rain";
@@ -20,6 +22,11 @@ public class RainCommand extends BukkitCommand {
 		super(name);
 		this.description = "Put the rain";
         this.usageMessage = "/rain";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 
 	@Override

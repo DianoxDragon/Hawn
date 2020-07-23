@@ -1,7 +1,10 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.List;
-
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.ClearGroundItemsCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -10,11 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.ClearGroundItemsCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
+import java.util.List;
 
 public class ClearGroundItemsCommand extends BukkitCommand {
 	
@@ -25,6 +24,11 @@ public class ClearGroundItemsCommand extends BukkitCommand {
 		 this.description = "Clear all items on the ground";
 		 this.usageMessage = "/cleargrounditems";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
 	 @Override
 	 public boolean execute(CommandSender sender, String label, String[] args) {

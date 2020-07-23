@@ -11,6 +11,9 @@ import fr.dianox.hawn.utility.config.configs.commands.ExpCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.exp";
@@ -20,6 +23,33 @@ public class ExpCommand extends BukkitCommand {
         this.description = "Manage the total of experience point of a player";
         this.usageMessage = "/exp <playerName> <add/set/take/clear> <amount>";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		} else if (args.length == 2) {
+			List<String> tab = new ArrayList<>();
+			tab.add("add");
+			tab.add("set");
+			tab.add("take");
+			tab.add("clear");
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
@@ -74,7 +104,7 @@ public class ExpCommand extends BukkitCommand {
                 			return true;
                 		}
                 		
-                		int value = Integer.valueOf(args[2]);
+                		int value = Integer.parseInt(args[2]);
                 		int totalexp = target.getTotalExperience();
                 		int newxp = totalexp - value;
                 		            		
@@ -127,7 +157,7 @@ public class ExpCommand extends BukkitCommand {
                 		}
 
                 		int totalexp = target.getTotalExperience();
-                        int newxp = totalexp + Integer.valueOf(args[2]);
+                        int newxp = totalexp + Integer.parseInt(args[2]);
                         
                         float exp = calculateExp(newxp);
                         int level = calculateLevel(newxp);
@@ -163,7 +193,7 @@ public class ExpCommand extends BukkitCommand {
                 			return true;
                 		}
                 		
-                		int newxp = Integer.valueOf(args[2]);
+                		int newxp = Integer.parseInt(args[2]);
                 		
                 		float exp = calculateExp(newxp);
                 		int level = calculateLevel(newxp);
@@ -262,7 +292,7 @@ public class ExpCommand extends BukkitCommand {
             			return true;
             		}
             		
-            		int value = Integer.valueOf(args[2]);
+            		int value = Integer.parseInt(args[2]);
             		int totalexp = target.getTotalExperience();
             		int newxp = totalexp - value;
             		            		
@@ -311,7 +341,7 @@ public class ExpCommand extends BukkitCommand {
             		}
 
             		int totalexp = target.getTotalExperience();
-                    int newxp = totalexp + Integer.valueOf(args[2]);
+                    int newxp = totalexp + Integer.parseInt(args[2]);
                     
                     float exp = calculateExp(newxp);
                     int level = calculateLevel(newxp);
@@ -347,7 +377,7 @@ public class ExpCommand extends BukkitCommand {
             			return true;
             		}
             		
-            		int newxp = Integer.valueOf(args[2]);
+            		int newxp = Integer.parseInt(args[2]);
             		
             		float exp = calculateExp(newxp);
             		int level = calculateLevel(newxp);

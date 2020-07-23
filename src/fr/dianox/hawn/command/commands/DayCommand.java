@@ -9,6 +9,8 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.WeatherTimeCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.List;
+
 public class DayCommand extends BukkitCommand {
 	
 	String GeneralPermission = "hawn.command.time.day";
@@ -19,6 +21,11 @@ public class DayCommand extends BukkitCommand {
 		super(name);
 		this.description = "Put the day";
         this.usageMessage = "/day";
+	}
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
 	}
 
 	@Override

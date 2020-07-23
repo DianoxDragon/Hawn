@@ -11,6 +11,8 @@ import fr.dianox.hawn.utility.config.configs.commands.KickAllCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
+import java.util.List;
+
 public class KickAllCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.kickall";
@@ -20,6 +22,11 @@ public class KickAllCommand extends BukkitCommand {
         this.description = "Kick all players of the lobby";
         this.usageMessage = "/kickall";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {

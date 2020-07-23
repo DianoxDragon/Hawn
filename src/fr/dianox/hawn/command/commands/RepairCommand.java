@@ -12,6 +12,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Locale;
 
 public class RepairCommand extends BukkitCommand {
@@ -23,6 +24,11 @@ public class RepairCommand extends BukkitCommand {
 		 this.description = "Repair an item";
 		 this.usageMessage = "/repair";
 	 }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
 	 @SuppressWarnings("deprecation")
 	@Override

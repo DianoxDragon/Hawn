@@ -10,6 +10,7 @@ import fr.dianox.hawn.event.world.AlwaysNightTask;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.modules.Events.EventManager;
 import fr.dianox.hawn.modules.VoidTP.VoidTPManager;
+import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.modules.onjoin.OnJoin;
@@ -18,6 +19,7 @@ import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import fr.dianox.hawn.modules.serverlist.ServerListManager;
 import fr.dianox.hawn.modules.tablist.TabManager;
 import fr.dianox.hawn.modules.world.WorldManager;
+import fr.dianox.hawn.modules.world.generator.VoidGenerator;
 import fr.dianox.hawn.modules.world.protection.BlockExceptions;
 import fr.dianox.hawn.modules.world.protection.Interactables;
 import fr.dianox.hawn.utility.BossBarApi;
@@ -31,12 +33,15 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
+import fr.dianox.hawn.utility.load.Reload;
+import fr.dianox.hawn.utility.load.WorldList;
 import fr.dianox.hawn.utility.server.Tps;
 import fr.dianox.hawn.utility.server.WarnTPS;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -58,9 +63,10 @@ public class Main extends JavaPlugin implements Listener {
 	private CjiManager cjiManager;
 	private VoidTPManager voidTPManager;
 	private EventManager eventManager;
+	private Setup setup;
 	private SQL sql;
 
-	private static String versions = "1.1.4-Beta";
+	private static String versions = "1.1.5-Beta";
 	public static Boolean devbuild = false;
 	public static Integer devbuild_number = 0;
 	public static String date = "";
@@ -290,7 +296,7 @@ public class Main extends JavaPlugin implements Listener {
 	    /*
 	     * Check Worlds
 	     */
-	    worldManager = new WorldManager();
+    	worldManager = new WorldManager();
 
 	    scoreManager = new ScoreManager(this);
 
@@ -300,6 +306,11 @@ public class Main extends JavaPlugin implements Listener {
 	     * Custom join item
 	     */
 		cjiManager = new CjiManager();
+
+		setup = new Setup(this);
+
+		WorldList.setworldlist();
+		Reload.configlist();
 
 		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
 		gcs(ChatColor.BLUE+"| ");
@@ -432,6 +443,11 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
+	@Override
+	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+		return new VoidGenerator();
+	}
+
 	public BungeeApi getBungApi() {
 		return bungApi;
 	}
@@ -486,5 +502,9 @@ public class Main extends JavaPlugin implements Listener {
 
 	public EventManager getEventManager() {
 		return eventManager;
+	}
+
+	public Setup getSetup() {
+		return setup;
 	}
 }

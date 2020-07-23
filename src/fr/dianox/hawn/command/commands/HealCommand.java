@@ -11,6 +11,9 @@ import fr.dianox.hawn.utility.config.configs.commands.HealCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HealCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.heal";
@@ -19,6 +22,23 @@ public class HealCommand extends BukkitCommand {
         super(name);
         this.description = "Heal a player";
         this.usageMessage = "/heal <player>";
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+        if (args.length == 1) {
+            List<String> tab = new ArrayList<>();
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                tab.add(p.getName());
+            }
+
+            java.util.Collections.sort(tab);
+
+            return tab;
+        }
+
+        return null;
     }
 
     @SuppressWarnings("deprecation")

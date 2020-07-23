@@ -1,18 +1,17 @@
 package fr.dianox.hawn.utility.world;
 
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
+import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
-
 public class CosmeticsPW {
 
-    public static List < String > worlds_firework = new ArrayList < String > ();
-    public static List < String > worlds_ls = new ArrayList < String > ();
-    public static List < String > worlds_jumppads = new ArrayList < String > ();
+    public static List < String > worlds_firework = new ArrayList <> ();
+    public static List < String > worlds_ls = new ArrayList <> ();
+    public static List < String > worlds_jumppads = new ArrayList <> ();
 
     public static void setWGetWorldFirework() {
         if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Enable") && !ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.World.All_World")) {

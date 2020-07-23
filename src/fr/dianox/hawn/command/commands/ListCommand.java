@@ -1,18 +1,18 @@
 package fr.dianox.hawn.command.commands;
 
-import java.util.HashMap;
-
+import fr.dianox.hawn.modules.admin.ListGui;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.config.configs.commands.ListCommandConfig;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-import fr.dianox.hawn.modules.admin.ListGui;
-import fr.dianox.hawn.utility.ConfigEventUtils;
-import fr.dianox.hawn.utility.MessageUtils;
-import fr.dianox.hawn.utility.config.configs.commands.ListCommandConfig;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
+import java.util.HashMap;
+import java.util.List;
 
 public class ListCommand extends BukkitCommand {
 
@@ -24,6 +24,11 @@ public class ListCommand extends BukkitCommand {
         this.description = "Get the total number of players on the server";
         this.usageMessage = "/list [page number]";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
@@ -83,7 +88,7 @@ public class ListCommand extends BukkitCommand {
             					.replaceAll("%number%", args[0]));
             		}
             		
-            		Integer pagedemande = (Integer.valueOf(args[0]) * 10) + 1;
+            		Integer pagedemande = (Integer.parseInt(args[0]) * 10) + 1;
             		Integer pagedemandefinale = pagedemande + 10 - 1;
             		
             		while (pagedemande <= pagedemandefinale) {
@@ -163,7 +168,7 @@ public class ListCommand extends BukkitCommand {
         } else if (args.length == 1) {
         	            
         	if (ListCommandConfig.getConfig().getBoolean("List.Gui-Version")) {
-        		ListGui.OpenGui(p, Integer.valueOf(args[0]));
+        		ListGui.OpenGui(p, Integer.parseInt(args[0]));
         		return true;
         	}
         	        	
@@ -174,7 +179,7 @@ public class ListCommand extends BukkitCommand {
         			ConfigEventUtils.ExecuteEvent(p, msg.replaceAll("%number%", args[0]), "", "", false);
         		}
         		
-        		Integer pagedemande = (Integer.valueOf(args[0]) * 10) + 1;
+        		Integer pagedemande = (Integer.parseInt(args[0]) * 10) + 1;
         		Integer pagedemandefinale = pagedemande + 10 - 1;
         		
         		while (pagedemande <= pagedemandefinale) {

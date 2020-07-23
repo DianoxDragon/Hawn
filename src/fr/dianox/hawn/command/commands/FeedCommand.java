@@ -11,6 +11,9 @@ import fr.dianox.hawn.utility.config.configs.commands.FeedCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeedCommand extends BukkitCommand {
 
     String GeneralPermission = "hawn.command.feed";
@@ -20,6 +23,23 @@ public class FeedCommand extends BukkitCommand {
         this.description = "Feed a player";
         this.usageMessage = "/feed <player>";
     }
+
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+
+		if (args.length == 1) {
+			List<String> tab = new ArrayList<>();
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				tab.add(p.getName());
+			}
+
+			java.util.Collections.sort(tab);
+
+			return tab;
+		}
+
+		return null;
+	}
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {

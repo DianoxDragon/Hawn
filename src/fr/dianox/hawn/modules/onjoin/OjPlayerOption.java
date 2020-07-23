@@ -192,7 +192,7 @@ public class OjPlayerOption {
         if (OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
             if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.Speed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("Speed.Option.Priority-For-Player-Option")) {
                 if (p.hasPermission("hawn.onjoin.playeroption.speed")) {
-                    speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
+                    speedvaluepo = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE"));
                 } else {
                     PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvaluepo);
                 }
@@ -246,7 +246,7 @@ public class OjPlayerOption {
         if (OnJoinConfig.getConfig().getBoolean("FlySpeed.Option.Priority-For-Player-Option")) {
             if (PlayerOptionMainConfig.getConfig().getBoolean("Keep.FlySpeed-OnJoin.Enable") && OnJoinConfig.getConfig().getBoolean("FlySpeed.Option.Priority-For-Player-Option")) {
                 if (p.hasPermission("hawn.onjoin.playeroption.flyspeed")) {
-                    speedvaluepo = Integer.valueOf(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
+                    speedvaluepo = Integer.parseInt(PlayerOptionSQLClass.GetSQLPOFlySpeed(p, "VALUE"));
                 } else {
                     PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "FALSE", speedvaluepo);
                 }
