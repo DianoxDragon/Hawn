@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
@@ -74,7 +76,7 @@ public class PanelAdminCommand extends BukkitCommand {
 		}
         
         if (args.length == 0) {
-            Inventory inv = Bukkit.createInventory(null, 54, "§cAP");
+            Inventory inv = HawnMenu.create(54, "§cAP");
             
             inv.setItem(0, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
             inv.setItem(1, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -144,7 +146,7 @@ public class PanelAdminCommand extends BukkitCommand {
             p.openInventory(inv);
         } else if (args.length == 1) {
         	if (args[0].equalsIgnoreCase("edithawnmainmenu")) {
-        		Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Hawn edit menu");
+        		Inventory inv = HawnMenu.create(54, "§cAP - Hawn edit menu");
 
                 // Folders
                 lore.clear();
@@ -254,7 +256,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[3]);
                     }
 
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - File " + invname + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - File " + invname + pagenumber);
                     Integer number_place = 0;
 
                     Integer maximumitem = 44;
@@ -594,7 +596,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder commands " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder commands " + pagenumber);
                     
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Commands/");
                     File[] listOfFiles = folder.listFiles();
@@ -695,7 +697,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Cosmetics-Fun " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder Cosmetics-Fun " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Cosmetics-Fun/");
                     File[] listOfFiles = folder.listFiles();
@@ -808,7 +810,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CF-Utility " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder CF-Utility " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Cosmetics-Fun/Utility/");
                     File[] listOfFiles = folder.listFiles();
@@ -911,7 +913,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder CustomJoinItem " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder CustomJoinItem " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/CustomJoinItem/");
                     File[] listOfFiles = folder.listFiles();
@@ -1014,7 +1016,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Events " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder Events " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Events/");
                     File[] listOfFiles = folder.listFiles();
@@ -1116,7 +1118,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Messages " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder Messages " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Messages/" + Main.LanguageType + "/");
                     File[] listOfFiles = folder.listFiles();
@@ -1219,7 +1221,7 @@ public class PanelAdminCommand extends BukkitCommand {
                         pagenumber = Integer.parseInt(args[2]);
                     }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Scoreboard " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder Scoreboard " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Scoreboard/");
                     File[] listOfFiles = folder.listFiles();
@@ -1321,7 +1323,7 @@ public class PanelAdminCommand extends BukkitCommand {
 		                pagenumber = 1;
 	                }
                 	
-                    Inventory inv = Bukkit.createInventory(null, 54, "§cAP - Folder Tablist " + pagenumber);
+                    Inventory inv = HawnMenu.create(54, "§cAP - Folder Tablist " + pagenumber);
 
                     File folder = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "/Tablist/");
                     File[] listOfFiles = folder.listFiles();

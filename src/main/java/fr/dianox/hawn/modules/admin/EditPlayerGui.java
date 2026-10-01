@@ -1,5 +1,9 @@
 package fr.dianox.hawn.modules.admin;
 
+import fr.dianox.hawn.utility.Skulls;
+
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
@@ -280,7 +284,7 @@ public class EditPlayerGui implements Listener {
 	
 	public static void OpenGui(Player p) {
 
-		Inventory inv = Bukkit.createInventory(null, 54, "§cEdit Player - " + p.getName());
+		Inventory inv = HawnMenu.create(54, "§cEdit Player - " + p.getName());
     	    	
     	ArrayList<String> lore = new ArrayList<>();
 
@@ -453,7 +457,7 @@ public class EditPlayerGui implements Listener {
         SkullMeta iMeta = (SkullMeta) i.getItemMeta();
         iMeta.setDisplayName(name);
         iMeta.setLore(desc);
-        iMeta.setOwner(pname);
+        Skulls.setOwner(iMeta, pname);
         i.setItemMeta(iMeta);
         return i;
     }

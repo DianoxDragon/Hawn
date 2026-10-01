@@ -1,6 +1,7 @@
 package fr.dianox.hawn;
 
 import fr.dianox.hawn.modules.VoidTP.VoidTPEvent;
+import fr.dianox.hawn.utility.gui.HawnMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -39,6 +40,7 @@ public class Manager {
 	
 	public void registerEvents() {
 		PluginManager pm = Bukkit.getPluginManager();
+		pm.registerEvents(new HawnMenu.Protection(), pl);
 		pm.registerEvents(new OnJoin(), pl);
 		pm.registerEvents(new OnQuit(), pl);
 		pm.registerEvents(new BasicFeatures(), pl);

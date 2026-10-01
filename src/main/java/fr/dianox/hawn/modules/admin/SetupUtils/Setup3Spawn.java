@@ -1,5 +1,7 @@
 package fr.dianox.hawn.modules.admin.SetupUtils;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -22,7 +24,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Setup3Spawn implements Listener {
@@ -34,7 +35,7 @@ public class Setup3Spawn implements Listener {
 	public static void OpenInventory(Player p) {
 		// General Options
 		int size = 54;
-		Inventory inv = Bukkit.createInventory(null, size, name);
+		Inventory inv = HawnMenu.create(size, name);
 
 		// Inventory
 		for (int i = 0; i <= 53; i++) {
@@ -71,29 +72,17 @@ public class Setup3Spawn implements Listener {
 
 			if (e.isLeftClick()) {
 				if (e.getRawSlot() == 23) {
-					File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-					if (!file.exists()) {
-						file.createNewFile();
-					}
 					e.setCancelled(true);
-					p.closeInventory();
-					Setup.needsetup = false;
-					for (String msg1 : SetupLangFile.getConfig().getStringList("Setup.Restart-Server")) {
-						ConfigEventUtils.ExecuteEvent(p, msg1, "", "", false);
-					}
+					Setup.finish(p);
 				} else if (e.getRawSlot() == 21) {
 					e.setCancelled(true);
 					p.closeInventory();
-					p.sendMessage(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupSpawn.WARNING")));
+					for (String msg : SetupLangFile.getConfig().getStringList("SetupSpawn.WARNING")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+					}
 				} else if (e.getRawSlot() == 30) {
-					File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-					if (!file.exists()) {
-						file.createNewFile();
-					}
 					e.setCancelled(true);
-					for (String msg1 : SetupLangFile.getConfig().getStringList("Setup.Restart-Server")) {
-						ConfigEventUtils.ExecuteEvent(p, msg1, "", "", false);
-					}
+					Setup.finish(p);
 				} else {
 					e.setCancelled(true);
 				}
@@ -103,38 +92,47 @@ public class Setup3Spawn implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onCommand(PlayerCommandPreprocessEvent e) throws IOException {
+	/**
+	 * Last step: the admin creates a spawn with /setspawn (or /setlobby, /sethub) <name>,
+	 * this spawn becomes the default one and the setup ends.
+	 */
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onCommand(PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
-		String msg;
 
-		if (e.getMessage().startsWith("/setspawn") || e.getMessage().startsWith("/setlobby") || e.getMessage().startsWith("/sethub")) {
-			msg = e.getMessage().replace("/setspawn ", "");
-			msg = e.getMessage().replace("/setlobby ", "");
-			msg = e.getMessage().replace("/sethub ", "");
-
-			String[] parts = msg.split(" ");
-
-			if (ConfigSpawn.getConfig().isSet("Coordinated."+parts[0])) {
-				OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", parts[0]);
-				OnJoinConfig.saveConfigFile();
-
-				Reload.reloadconfig();
-
-				for (String msg1 : SetupLangFile.getConfig().getStringList("SetupSpawn.Spawn-Changed")) {
-					ConfigEventUtils.ExecuteEvent(p, msg1.replace("%arg 1%", parts[0]), "", "", false);
-				}
-			}
-
-			File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			for (String msg1 : SetupLangFile.getConfig().getStringList("Setup.Restart-Server")) {
-				ConfigEventUtils.ExecuteEvent(p, msg1, "", "", false);
-			}
+		if (!Setup.needsetup || !p.hasPermission("hawn.setup")) {
+			return;
 		}
+
+		String[] parts = e.getMessage().trim().split("\\s+");
+		String command = parts[0].toLowerCase();
+
+		if (!command.equals("/setspawn") && !command.equals("/setlobby") && !command.equals("/sethub")) {
+			return;
+		}
+
+		if (parts.length < 2) {
+			return;
+		}
+
+		String spawn = parts[1];
+
+		// The command is run after this event: check the spawn on the next tick
+		Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+			if (!Setup.needsetup || !ConfigSpawn.getConfig().isSet("Coordinated." + spawn)) {
+				return;
+			}
+
+			OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawn);
+			OnJoinConfig.saveConfigFile();
+
+			Setup.finish(p);
+			Reload.reloadconfig();
+
+			for (String msg1 : SetupLangFile.getConfig().getStringList("SetupSpawn.Spawn-Changed")) {
+				ConfigEventUtils.ExecuteEvent(p, msg1.replace("%arg 1%", spawn), "", "", false);
+			}
+		});
 	}
 
 }

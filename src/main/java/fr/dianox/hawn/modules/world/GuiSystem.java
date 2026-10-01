@@ -1,5 +1,7 @@
 package fr.dianox.hawn.modules.world;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.admin.SetupUtils.Setup2World;
@@ -161,15 +163,8 @@ public class GuiSystem implements Listener {
 					p.closeInventory();
 				} else if (item.getType() == XMaterial.BARRIER.parseMaterial()) {
 					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-						File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-						if (!file.exists()) {
-							try {
-								file.createNewFile();
-							} catch (Exception IOException) {}
-						}
 						e.setCancelled(true);
-						p.closeInventory();
-						Setup.needsetup = false;
+						Setup.finish(p);
 						return;
 					}
 					p.performCommand("paneladmin");
@@ -804,7 +799,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */		
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Main");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main");
 
 		String pathname = new File(".").getAbsolutePath();
 		File directory = new File(pathname);
@@ -987,7 +982,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */		
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Main 2");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main 2");
 		
 		String pathname = new File(".").getAbsolutePath();
 		File directory = new File(pathname);
@@ -1225,7 +1220,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Create world");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Create world");
 		
 		ArrayList<String> lore = new ArrayList<>();
 		
@@ -1283,7 +1278,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Generator");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Generator");
 
 		inv.setItem(12, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Generator-Page.Void-Generator").replace("&", "§"), XMaterial.ENDER_PEARL.parseMaterial()));
 
@@ -1326,7 +1321,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Delete - SURE ?!");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Delete - SURE ?!");
 		
 		inv.setItem(0, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Delete.Confirm").replace("&", "§"), XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()));
 		inv.setItem(1, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Delete.Confirm").replace("&", "§"), XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()));
@@ -1404,7 +1399,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Change World");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Change World");
 		
 		List<String> lore = new ArrayList<>();
 		
@@ -1470,7 +1465,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Ch. World - Time");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Time");
 		
 		ArrayList<String> lore = new ArrayList<>();
 		
@@ -1527,7 +1522,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Ch. World - Weather");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Weather");
 					
 		inv.setItem(11, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.ChangeWorld.Weather.Sun").replace("&", "§"), XMaterial.ENDER_PEARL.parseMaterial()));
 			
@@ -1572,7 +1567,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = Bukkit.createInventory(null, 54, "§cWorld Manager - Ch. World - Dif.");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Dif.");
 
 		inv.setItem(10, createGuiItemWL("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"), XMaterial.ENDER_PEARL.parseMaterial()));
 

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.modules.admin.SetupUtils;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -37,7 +39,7 @@ public class Setup1Language implements Listener {
 	public static void OpenInventory(Player p) {
 		// General Options
 		int size = 54;
-		Inventory inv = Bukkit.createInventory(null, size, name);
+		Inventory inv = HawnMenu.create(size, name);
 
 		// Inventory
 		File file = new File(Main.getInstance().getDataFolder(), "/Messages");
@@ -143,26 +145,21 @@ public class Setup1Language implements Listener {
 		Player p = (Player) e.getWhoClicked();
 
 		if (inv.equals(name)) {
+			e.setCancelled(true);
 			if (e.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) return;
+			// Ignore the clicks in the player's own inventory
+			if (e.getRawSlot() >= e.getView().getTopInventory().getSize()) return;
 
 			if (e.isLeftClick()) {
 				if (e.getRawSlot() == 53) {
-					File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-					if (!file.exists()) {
-						file.createNewFile();
-					}
 					e.setCancelled(true);
-					p.closeInventory();
-					Setup.needsetup = false;
-					for (String msg1 : SetupLangFile.getConfig().getStringList("Setup.Restart-Server")) {
-						ConfigEventUtils.ExecuteEvent(p, msg1, "", "", false);
-					}
+					Setup.finish(p);
 				} else if (e.getRawSlot() == 45) {
 					Setup.setupplace = 2;
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Setup2World.OpenInventory(p), 5);
 				} else if (e.getCurrentItem().getType() == XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()) {
 					e.setCancelled(true);
-				} else {
+				} else if (getlang.containsKey(e.getRawSlot())) {
 					String langtype = getlang.get(e.getRawSlot());
 					langtype = langtype.replace("§b", "");
 					ConfigGeneral.getConfig().set("Plugin.Language-Type", langtype);

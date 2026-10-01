@@ -1,5 +1,9 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Skulls;
+
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
@@ -101,7 +105,7 @@ public class EmojiesCommand extends BukkitCommand {
                 titlegui = MessageUtils.colourTheStuff(titlegui);
 
 
-                Inventory inv = Bukkit.createInventory(null, 54, titlegui);
+                Inventory inv = HawnMenu.create(54, titlegui);
 
                 // List
                     Iterator it = ChatEmojisLoad.emojislist.entrySet().iterator();
@@ -144,7 +148,7 @@ public class EmojiesCommand extends BukkitCommand {
                                     ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1);
                                     metaref1 = ref1.getItemMeta();
                                     meta = (SkullMeta) ref1.getItemMeta();
-                                    meta.setOwner(skullname);
+                                    Skulls.setOwner(meta, skullname);
                                 } else {
                                     ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
                                     metaref1 = ref1.getItemMeta();
@@ -266,7 +270,7 @@ public class EmojiesCommand extends BukkitCommand {
                             ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1);
                             metaref1 = ref1.getItemMeta();
                             meta = (SkullMeta) ref1.getItemMeta();
-                            meta.setOwner(skullname);
+                            Skulls.setOwner(meta, skullname);
                         } else {
                             ref1 = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
                             metaref1 = ref1.getItemMeta();

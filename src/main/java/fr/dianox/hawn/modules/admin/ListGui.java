@@ -1,5 +1,9 @@
 package fr.dianox.hawn.modules.admin;
 
+import fr.dianox.hawn.utility.Skulls;
+
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
@@ -93,7 +97,7 @@ public class ListGui implements Listener {
 			pagenumber = 1;
 		}
 		
-		Inventory inv = Bukkit.createInventory(null, 54, "§cList Gui - Page " + pagenumber);
+		Inventory inv = HawnMenu.create(54, "§cList Gui - Page " + pagenumber);
 		
 		if (pagenumber == 1) {
 			pagenumber--;
@@ -215,7 +219,7 @@ public class ListGui implements Listener {
         SkullMeta iMeta = (SkullMeta) i.getItemMeta();
         iMeta.setDisplayName(name);
         iMeta.setLore(desc);
-        iMeta.setOwner(pname);
+        Skulls.setOwner(iMeta, pname);
         i.setItemMeta(iMeta);
         return i;
     }

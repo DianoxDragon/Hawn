@@ -47,7 +47,7 @@ public class OnGuiInteract implements Listener {
         Player p = (Player) e.getWhoClicked();
         String Displayname;
 
-        String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
+        String titlegui = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Title");
 	    assert titlegui != null;
 	    titlegui = MessageUtils.colourTheStuff(titlegui);
 

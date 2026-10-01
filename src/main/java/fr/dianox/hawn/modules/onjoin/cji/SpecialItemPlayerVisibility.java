@@ -599,7 +599,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		} else {
 			itemmeta = item.getItemMeta();
 			meta = (SkullMeta) item.getItemMeta();
-			meta.setOwner(skullname);
+			Skulls.setOwner(meta, skullname);
 		}
 		
 		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Material.Skull-Name") && material.contains("SKULL")) {

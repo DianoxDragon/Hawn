@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Skulls;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -125,7 +127,7 @@ public class SkullCommand extends BukkitCommand {
 			 is.setDurability((short)3);
 		 }
 		 SkullMeta meta = (SkullMeta)is.getItemMeta();
-		 meta.setOwner(name);
+		 Skulls.setOwner(meta, name);
 		 is.setItemMeta(meta);
 		 return is;
 	 }

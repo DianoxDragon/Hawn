@@ -1,9 +1,10 @@
 package fr.dianox.hawn.modules.admin.SetupUtils;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.world.GuiSystem;
-import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
@@ -26,7 +27,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -38,7 +38,7 @@ public class Setup2World implements Listener {
 	public static void OpenInventory(Player p) {
 		// General Options
 		int size = 54;
-		Inventory inv = Bukkit.createInventory(null, size, name);
+		Inventory inv = HawnMenu.create(size, name);
 
 		// Inventory
 		for (int i = 0; i <= 53; i++) {
@@ -73,16 +73,8 @@ public class Setup2World implements Listener {
 
 			if (e.isLeftClick()) {
 				if (e.getRawSlot() == 23) {
-					File file = new File(Main.getInstance().getDataFolder(), "StockageInfo/Setup.lock");
-					if (!file.exists()) {
-						file.createNewFile();
-					}
 					e.setCancelled(true);
-					p.closeInventory();
-					Setup.needsetup = false;
-					for (String msg1 : SetupLangFile.getConfig().getStringList("Setup.Restart-Server")) {
-						ConfigEventUtils.ExecuteEvent(p, msg1, "", "", false);
-					}
+					Setup.finish(p);
 				} else if (e.getRawSlot() == 21) {
 					Setup.setupplace = 21;
 					e.setCancelled(true);

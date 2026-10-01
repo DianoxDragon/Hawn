@@ -1,5 +1,7 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.utility.Skulls;
+
 import fr.dianox.hawn.utility.XParse;
 
 import com.google.common.base.Strings;
@@ -332,7 +334,7 @@ public class CustomJoinItem {
 			} else {
 				itemmeta = item.getItemMeta();
 				meta = (SkullMeta) item.getItemMeta();
-				meta.setOwner(skullname);
+				Skulls.setOwner(meta, skullname);
 			}
 			
 			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") && material.contains("SKULL")) {
