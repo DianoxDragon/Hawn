@@ -1,0 +1,29 @@
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+# Old wiki addresses (the Spigot page and old forum posts still link to them)
+redirects:
+  master: README.md
+  general/untitled-1: getting-started/installation.md
+  general/features-list: README.md
+  general/commands: reference/commands.md
+  general/placeholders: reference/placeholders.md
+  general/list-damage-type: reference/values.md
+  others/tutorials: basics/message-format.md
+  others/tutorials/configuration-tricks: basics/message-format.md
+  others/tutorials/what-can-i-use-for-the-bossbar: reference/values.md
+  others/tutorials/how-to-put-a-json-message: basics/message-format.md
+  others/tutorials/add-data-value-in-emoji-for-materials: features/chat.md
+  others/tutorials/blacklist-whitelist-method-worldguard: basics/per-world-options.md
+  others/tutorials/custom-join-item: features/custom-join-items.md
+  others/tutorials/what-are-the-colors-code: basics/message-format.md
+  others/tutorials/how-to-translate-hawn: help/translating.md
+  others/troubleshooting: help/troubleshooting.md
+  others/troubleshooting/spawns-hub-lobby: help/troubleshooting.md
+  others/troubleshooting/spawns-hub-lobby/the-spawn-doesnt-exist-spawn-lobby-hub: help/troubleshooting.md
+  others/troubleshooting/hooks: integrations/hooks.md
+  others/troubleshooting/hooks/mvdwplaceholderapi: integrations/hooks.md
+  others/quick-faq: help/faq.md

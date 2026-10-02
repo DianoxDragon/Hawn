@@ -1,31 +1,62 @@
 # Table of contents
 
-* [Home page](README.md)
-* [Discord](https://discord.gg/yDPr5Gf)
-* [Spigot page](https://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/)
+* [Welcome](README.md)
 
-## General
+## Getting started
 
-* [Installation/First Run](general/untitled-1.md)
-* [Features List](general/features-list.md)
-* [Commands/Permissions](general/commands.md)
-* [Placeholders](general/placeholders.md)
-* [List Damage Type](general/list-damage-type.md)
+* [Installation](getting-started/installation.md)
+* [Welcome setup](getting-started/welcome-setup.md)
+* [Files and folders](getting-started/files.md)
+* [Updating from an older version](getting-started/updating.md)
 
-## Others
+## Configuration basics
 
-* [Tutorials](others/tutorials/README.md)
-  * [Configuration tricks](others/tutorials/configuration-tricks.md)
-  * [What can I use for the bossbar?](others/tutorials/what-can-i-use-for-the-bossbar.md)
-  * [How to put a Json message](others/tutorials/how-to-put-a-json-message.md)
-  * [Add data-value in /emoji for materials](others/tutorials/add-data-value-in-emoji-for-materials.md)
-  * [Blacklist/Whitelist method (worldguard)](others/tutorials/blacklist-whitelist-method-worldguard.md)
-  * [Custom Join Item](others/tutorials/custom-join-item.md)
-  * [What are the colors code?](others/tutorials/what-are-the-colors-code.md)
-  * [How to translate Hawn](others/tutorials/how-to-translate-hawn.md)
-* [Troubleshooting](others/troubleshooting/README.md)
-  * [Spawns/Hub/Lobby](others/troubleshooting/spawns-hub-lobby/README.md)
-    * [The spawn doesn't exist - /spawn /lobby /hub](others/troubleshooting/spawns-hub-lobby/the-spawn-doesnt-exist-spawn-lobby-hub.md)
-  * [Hooks](others/troubleshooting/hooks/README.md)
-    * [MVdWPlaceholderAPI](others/troubleshooting/hooks/mvdwplaceholderapi.md)
-* [Quick FAQ](others/quick-faq.md)
+* [Messages, colours and formatting](basics/message-format.md)
+* [Actions](basics/actions.md)
+* [Per-world options and WorldGuard](basics/per-world-options.md)
+* [Enabling, disabling and aliasing commands](basics/commands-management.md)
+
+## Features
+
+* [Spawns](features/spawns.md)
+* [Warps](features/warps.md)
+* [Join and quit](features/join-and-quit.md)
+* [Custom join items](features/custom-join-items.md)
+* [Player options](features/player-options.md)
+* [Scoreboards](features/scoreboards.md)
+* [Tab list](features/tablist.md)
+* [Server list (MOTD and slots)](features/server-list.md)
+* [Chat](features/chat.md)
+* [Auto broadcast](features/autobroadcast.md)
+* [Custom commands and /help](features/custom-commands.md)
+* [Protections](features/protections.md)
+* [World events](features/world-events.md)
+* [Lobby fun: jump pads, double jump, signs](features/lobby-fun.md)
+* [Void TP](features/void-tp.md)
+* [World change events](features/world-change.md)
+* [World manager](features/world-manager.md)
+* [Admin tools](features/admin-tools.md)
+* [Player data and MySQL](features/database.md)
+
+## Reference
+
+* [Commands](reference/commands.md)
+* [Permissions](reference/permissions.md)
+* [Placeholders](reference/placeholders.md)
+* [Values (sounds, colours, damage types...)](reference/values.md)
+
+## Integrations
+
+* [PlaceholderAPI, WorldGuard and other hooks](integrations/hooks.md)
+* [BungeeCord / Velocity](integrations/bungeecord.md)
+
+## Help
+
+* [Troubleshooting](help/troubleshooting.md)
+* [FAQ](help/faq.md)
+* [Translating Hawn](help/translating.md)
+* [Changelog](help/changelog.md)
+
+## Developers
+
+* [Building from source](developers/building.md)
