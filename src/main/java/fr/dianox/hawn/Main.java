@@ -322,16 +322,7 @@ public class Main extends JavaPlugin implements Listener {
 			gcs(ChatColor.YELLOW+"| ");
 		}
 
-		gcs(ChatColor.BLUE+"| "+ChatColor.DARK_RED+"License:"+ChatColor.RESET);
-		gcs(ChatColor.BLUE+"| ");
-		gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"YOU CAN:");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Modify the plugin");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Decompile it");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Upload it and share it");
-		gcs(ChatColor.BLUE+"| ");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RED+"YOU CAN'T:");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Claim the plugin \"hawn\" as your property");
-		gcs(ChatColor.BLUE+"| "+ChatColor.RESET+"- Use it for commercial purposes");
+		gcs(ChatColor.BLUE+"| "+ChatColor.DARK_RED+"License:"+ChatColor.RESET+" GNU GPL v3");
 		gcs(ChatColor.BLUE+"| ");
 
 		gcs(ChatColor.BLUE+"| ------------------------------------");

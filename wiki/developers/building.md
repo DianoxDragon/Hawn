@@ -50,4 +50,4 @@ The default configuration files are not resources: each file is created by a cla
 
 ## License
 
-Hawn is distributed under the MIT License, see the [`LICENSE`](https://github.com/DianoxDragon/Hawn/blob/master/LICENSE) file.
+Hawn is distributed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html), see the [`LICENSE`](https://github.com/DianoxDragon/Hawn/blob/master/LICENSE) file. You can use, modify and share Hawn, including on a commercial server, as long as any version you distribute stays under the GPL v3 with its source code.
