@@ -15,7 +15,7 @@ Replace the `<...>` parts by your own names: `hawn.command.spawn.<spawn>` become
 What a normal player usually needs on a lobby with the default configuration:
 
 ```
-hawn.command.spawn.<your spawn>        # /spawn, teleport on join and void TP
+hawn.command.spawn.<your spawn>        # /spawn and void TP (and teleport on join if Spawn-Permission is on)
 hawn.use.customjoinitem                # receive the join items
 hawn.scoreboard.<your scoreboard>      # see the scoreboard
 hawn.fun.doublejump.double             # double jump
@@ -46,16 +46,18 @@ hawn.warp.<warp>                       # each warp
 | `hawn.admin.command.nightvision`      | `/hawn nightvision`                                        |
 | `hawn.admin.command.slotview`         | `/hawn slotview`                                           |
 | `hawn.admin.command.spawnmanager`     | `/hawn spawnmanager`                                       |
+| `hawn.admin.command.hooks`            | `/hawn hooks`                                              |
 | `hawn.admin.command.maintenance`      | `/hawn maintenance`                                        |
+| `hawn.maintenance.bypass`             | Join during the maintenance without being in its whitelist (operators by default) |
 | `hawn.admin.command.urgent`           | `/hawn urgent` (the player must also be listed in `Commands/Hawn.yml`) |
-| `hawn.editplayer`                     | `/hawn editplayer`, the player list of the panel, `/hawn hooks` |
+| `hawn.editplayer`                     | `/hawn editplayer`, the player list of the panel           |
 | `hawn.editplayer.gamemode`            | Player editor: change the gamemode                         |
 | `hawn.editplayer.clearinv`            | Player editor: clear the inventory                         |
 | `hawn.editplayer.tp`                  | Player editor: teleport                                    |
 | `hawn.adminpanel`                     | `/adminpanel` (the player must also be listed in `Commands/AdminPanel.yml`) |
 | `hawn.spy.adminpanel`                 | Warned when someone changes something in the admin panel   |
 | `hawn.urgent.spy.adminpanel`          | Same, during the emergency mode                            |
-| `hawn.setup`                          | Sees the [welcome setup](../getting-started/welcome-setup.md) |
+| `hawn.setup`                          | Sees the [welcome setup](../getting-started/welcome-setup.md), `/hawn setup` |
 | `hawn.event.warn.tps`                 | Warned when the TPS is low                                 |
 | `hawn.notify.staff.commandblocker`    | Warned when someone uses a blocked command                 |
 | `hawn.antiswear.benotified`           | Warned when someone swears                                 |
@@ -65,12 +67,11 @@ hawn.warp.<warp>                       # each warp
 
 | Permission                                   | Command                                          |
 | -------------------------------------------- | ------------------------------------------------ |
-| `hawn.command.spawn.<spawn>`                 | `/spawn` to this spawn (also needed for the teleport on join and the void TP) |
+| `hawn.command.spawn.<spawn>`                 | `/spawn` to this spawn and see it in `/spawnlist` (also needed for the void TP, and for the teleport on join when `Spawn-Permission` is on) |
 | `hawn.command.spawn`                         | `/spawn`, only when `Use-Permission: true`       |
 | `hawn.command.spawn.teleportothers`          | `/spawn tp <player>`                             |
 | `hawn.command.spawn.other.bypassdelay`       | No `/spawn` delay (when `Bypass-Delay: true`)    |
 | `hawn.command.spawn.spawnlist`               | `/spawnlist`                                     |
-| `hawn.spawn.<spawn>`                         | See this spawn in `/spawnlist`                   |
 | `hawn.command.warp`                          | `/warp`                                          |
 | `hawn.warp.<warp>`                           | Use (and see) this warp                          |
 | `hawn.command.warp.others`                   | `/warp <warp> <player>`                          |

@@ -151,9 +151,30 @@ public class OjPlayerOption {
         SpecialItemPlayerVisibility.PlayerGivePlayerVisibilityItemOnJoin(p);
     }
 
+    /**
+     * Keep.JumpBoost-OnJoin: Minecraft keeps the endless effect of /option jumpboost when the player leaves,
+     * so it is given back when kept and removed (and turned off) otherwise.
+     */
+    public static void JumpBoost(Player p) {
+        if (!PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
+            return;
+        }
+
+        boolean inOptionWorld = OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")
+                || PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName());
+
+        if (PlayerOptionMainConfig.getConfig().getBoolean("General.Enable") && inOptionWorld
+                && PlayerOptionMainConfig.getConfig().getBoolean("Keep.JumpBoost-OnJoin.Enable")) {
+            p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
+        } else {
+            PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "FALSE");
+            p.removePotionEffect(XPotion.JUMP_BOOST.get());
+        }
+    }
+
     public static void onJumpBoost(Player p, Integer duration) {
-        if (OptionPlayerConfigCommand.getConfig().getBoolean("Chat.Clear.Enable")) {
-            if (!OptionPlayerConfigCommand.getConfig().getBoolean("Chat.Clear.World.All_World")) {
+        if (PlayerOptionMainConfig.getConfig().getBoolean("General.Enable") && PlayerOptionMainConfig.getConfig().getBoolean("Keep.JumpBoost-OnJoin.Enable")) {
+            if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
                 if (PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
                     if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
                         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {

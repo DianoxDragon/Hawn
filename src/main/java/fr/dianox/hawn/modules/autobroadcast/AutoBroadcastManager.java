@@ -5,8 +5,10 @@ import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast;
 import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_AB;
 import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_BossBar;
 import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_Title;
+import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
@@ -15,21 +17,68 @@ import java.util.Iterator;
 public class AutoBroadcastManager {
 	
 	public AutoBroadcastManager() {
-		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable")) {
+		// A list of messages removed from the file: that type is not started (it was an error)
+		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Enable") && hasMessages("Config.Messages")) {
 			StartAB();
 		}
 
-		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable")) {
+		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Action-Bar.Enable") && hasMessages("Config.Action-Bar")) {
 			StartActionAB();
 		}
 
-		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable")) {
+		if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.Enable") && hasMessages("Config.Titles")) {
 			StartTitleAB();
 		}
 
-		if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
+		if (AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable") && hasMessages("Config.BossBar")) {
 			StartBossAB();
 		}
+	}
+
+	private static boolean hasMessages(String path) {
+		return AutoBroadcastConfig.getConfig().getConfigurationSection(path + ".messages") != null;
+	}
+
+	private static final String[] TASKS = {"B_AB", "AB_AB", "T_AB", "BB_AB"};
+
+	/**
+	 * /hawn reload: the auto broadcast is started again with the new AutoBroadcast.yml
+	 * (turning a type off or changing its messages and interval no longer needs a restart)
+	 */
+	public static void restart() {
+		boolean bossBarWasOn = Main.tasklist.containsKey("BB_AB");
+
+		for (String key : TASKS) {
+			Integer id = Main.tasklist.remove(key);
+			if (id != null) {
+				Bukkit.getScheduler().cancelTask(id);
+			}
+		}
+
+		Main.autobroadcast.clear();
+		Main.autobroadcast_ab.clear();
+		Main.autobroadcast_titles.clear();
+		Main.autobroadcast_bb.clear();
+		Main.autobroadcast_total = 0;
+		Main.autobroadcast_total_ab = 0;
+		Main.autobroadcast_total_titles = 0;
+		Main.autobroadcast_total_bb = 0;
+		Main.curMsg = 0;
+		Main.curMsg_ab = 0;
+		Main.curMsg_titles = 0;
+		Main.curMsg_bb = 0;
+
+		// The boss bar of the auto broadcast stays on screen: removed when that type is turned off
+		// (not the boss bar of the join, players in BBBlock)
+		if (bossBarWasOn && !AutoBroadcastConfig.getConfig().getBoolean("Config.BossBar.Enable")) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				if (!BossBarApi.BBBlock.contains(p)) {
+					BossBarApi.deletebar(p);
+				}
+			}
+		}
+
+		new AutoBroadcastManager();
 	}
 	
 	/*

@@ -43,6 +43,37 @@ import java.util.Objects;
 public class GuiSystem implements Listener {
 	
 	public static List<File> fileList = new ArrayList<>();
+
+	// Loaded worlds without a folder of their own in the world container (recent Paper: world/dimensions/...)
+	private static final java.util.Set<File> loadedOnly = new java.util.HashSet<>();
+
+	// The world folders of the world container, then the loaded worlds that are not one of them
+	private static void listWorlds(File directory) {
+		fileList.clear();
+		loadedOnly.clear();
+		getFileList(directory);
+
+		java.util.Set<String> names = new java.util.HashSet<>();
+		for (File f : fileList) {
+			if (checkIfIsWorld(f)) {
+				names.add(f.getName());
+			}
+		}
+
+		for (World w : Bukkit.getWorlds()) {
+			if (!names.contains(w.getName())) {
+				File entry = new File(directory, w.getName());
+				fileList.add(entry);
+				loadedOnly.add(entry);
+			}
+		}
+	}
+
+	// The folder used by a world: its own folder when it is loaded (it may be elsewhere), else the folder of that name
+	private static File folderOf(File directory, String worldname) {
+		World w = Bukkit.getWorld(worldname);
+		return w != null ? w.getWorldFolder() : new File(directory, worldname);
+	}
 	private static final List<Player> plistincreation = new ArrayList<>();
 	private static final HashMap<Player, String> pchoosegenerator = new HashMap<>();
 	private static final HashMap<Player, String> worlddeletion = new HashMap<>();
@@ -63,15 +94,23 @@ public class GuiSystem implements Listener {
 		 * Check the needed to avoid bugs
 		 */
 		if (e.getSlotType() == SlotType.OUTSIDE) return;
-		if (e.getCurrentItem() == null) return;
-		
+
 		/*
 		 * Implement first variables
 		 */
 		String inv = e.getWhoClicked().getOpenInventory().getTitle();
 		Player p = (Player) e.getWhoClicked();
-		
+
 		String titlegui = "§cWorld Manager";
+
+		if (!inv.startsWith(titlegui)) return;
+
+		// A menu: nothing can be taken or put, even when the click does nothing
+		e.setCancelled(true);
+
+		// An empty slot, or the inventory of the player
+		if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR
+				|| e.getClickedInventory() != e.getView().getTopInventory()) return;
 		
 		/*
 		 * Manage the gui
@@ -395,20 +434,9 @@ public class GuiSystem implements Listener {
 			if (item.getType() == XMaterial.BARRIER.parseMaterial()) {
 				PageCreateWorld(p, worldname, generator);
 			} else if (e.getRawSlot() == 12) {
-				p.getOpenInventory().setItem(12,
-						createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Generator-Page.Void-Generator").replace("&", "§"),
-								XMaterial.ENDER_EYE.parseMaterial()));
-
-				p.getOpenInventory().setItem(14,
-						createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Generator-Page.Custom-Generator").replace("&", "§"),
-								XMaterial.ENDER_PEARL.parseMaterial()));
-
-				ArrayList<String> lore = new ArrayList<>();
-
-				lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name").replace("&", "§") + " §e" + worldname);
-				lore.add("§chvg");
-
-				p.getOpenInventory().setItem(51, createGuiItem(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Page.Back").replace("&", "§"), lore, XMaterial.BARRIER.parseMaterial()));
+				// The void generator is chosen: back to the world creation page with it (the choice was only kept by the "back" item before)
+				PageCreateWorld(p, worldname, "hvg");
+				return;
 			} else if (e.getRawSlot() == 14) {
 				pchoosegenerator.put(p, worldname);
 				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Choose-A-Generator")) {
@@ -441,47 +469,39 @@ public class GuiSystem implements Listener {
 				if (worlddeletion.containsKey(p)) {
 					String worldname = worlddeletion.get(p);
 					
-					if (Bukkit.getWorld(worldname) != null) {
-						File folder = new File(Objects.requireNonNull(Bukkit.getServer().getWorld(worldname)).getWorldFolder().getPath());
-		    			World world = Bukkit.getServer().getWorld(worldname);
-						assert world != null;
-						if (!world.getPlayers().isEmpty()) {
-		    				List<Player> list = world.getPlayers();
-							for (Player player : list) {
-								List<World> tpList = Bukkit.getServer().getWorlds();
-								World spawn = tpList.get(0);
-								player.teleport(spawn.getSpawnLocation());
+					if (WorldDeletion.isProtected(worldname)) {
+						for (String msg: WorldDeletion.message("Error.Protected-World", "%prefix% &cThe world &e%arg1% &ccan't be deleted: the server needs it")) {
+							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Error.Protected-World", "GuiSystem", false);
+						}
+					} else if (Bukkit.getWorld(worldname) != null) {
+						if (WorldDeletion.delete(Bukkit.getWorld(worldname))) {
+							ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
+							ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
+							ConfigWorldGeneral.saveConfigFile();
+
+							for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
+								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
 							}
-		    			}
-		    			
-		    			Bukkit.getServer().unloadWorld(worldname, true);
-		    			deleteDirectory(folder);
-		    			
-		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
-		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
-		        		ConfigWorldGeneral.saveConfigFile();
-		    			
-		        		for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
-		                    ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
-		                }
-
+						} else {
+							for (String msg: WorldDeletion.message("Error.Unload-Failed", "%prefix% &cThe world &e%arg1% &ccould not be unloaded: nothing was deleted")) {
+								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Error.Unload-Failed", "GuiSystem", false);
+							}
+						}
 					} else {
-						String pathname = new File(".").getAbsolutePath();
-						File directory = new File(Bukkit.getWorldContainer(), worldname);
-		    			deleteDirectory(directory);
-		    			
-		    			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
-		                    ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
-		                }
-		    			
-		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
-		    			ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
-		        		ConfigWorldGeneral.saveConfigFile();
+						// Not loaded: only its folder
+						WorldDeletion.deleteFolder(new File(Bukkit.getWorldContainer(), worldname));
 
+						for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
+							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
+						}
+
+						ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
+						ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
+						ConfigWorldGeneral.saveConfigFile();
 					}
 					FirstPage(p);
 				} else {
-					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.Error.Mystery")) {
+					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.Error-Mystery")) {
 	                    ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Delete.Error.Mystery", "GuiSystem", false);
 	                }
 				}
@@ -801,10 +821,9 @@ public class GuiSystem implements Listener {
 		 */		
 		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main");
 
-		String pathname = new File(".").getAbsolutePath();
-		File directory = new File(pathname);
-		fileList.clear();
-		getFileList(directory);
+		// The folder of the worlds (--world-container), not always the folder of the server
+		File directory = Bukkit.getWorldContainer();
+		listWorlds(directory);
 		
 		// Decimals to calculate folder size
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -826,7 +845,7 @@ public class GuiSystem implements Listener {
 				continue;
 			}
 			
-			if (checkIfIsWorld(directorfile)) {
+			if (checkIfIsWorld(directorfile) || loadedOnly.contains(directorfile)) {
 				// Get folder name and size
 				String worldname = directorfile.getName();
 				
@@ -834,7 +853,7 @@ public class GuiSystem implements Listener {
 				float check = (float) 0123456789.0;
 				
 				try {
-					size = StringUtils.sizeOfDirectory(new File(directory, worldname));
+					size = StringUtils.sizeOfDirectory(folderOf(directory, worldname));
 					size =  Float.parseFloat(format.format(size/1024/1024));
 				} catch (NoClassDefFoundError ignored) {}
 				
@@ -984,10 +1003,9 @@ public class GuiSystem implements Listener {
 		 */		
 		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main 2");
 		
-		String pathname = new File(".").getAbsolutePath();
-		File directory = new File(pathname);
-		fileList.clear();
-		getFileList(directory);
+		// The folder of the worlds (--world-container), not always the folder of the server
+		File directory = Bukkit.getWorldContainer();
+		listWorlds(directory);
 		
 		// Decimals to calculate folder size
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -1002,7 +1020,7 @@ public class GuiSystem implements Listener {
 		 * The gui overall
 		 */
 		for (File directorfile : fileList) {
-			if (checkIfIsWorld(directorfile)) {
+			if (checkIfIsWorld(directorfile) || loadedOnly.contains(directorfile)) {
 	
 				if (checkmax < 35) {
 					checkmax++;
@@ -1012,7 +1030,7 @@ public class GuiSystem implements Listener {
 				// Get folder name and size
 				String worldname = directorfile.getName();
 				
-				float size = StringUtils.sizeOfDirectory(new File(directory, worldname));
+				float size = StringUtils.sizeOfDirectory(folderOf(directory, worldname));
 				size =  Float.parseFloat(format.format(size/1024/1024));
 				
 				if (Bukkit.getWorld(worldname) != null) {
@@ -1172,10 +1190,11 @@ public class GuiSystem implements Listener {
 		Player p = e.getPlayer();
 
 		plistincreation.remove(p);
+		pchoosegenerator.remove(p);
 
 		worlddeletion.remove(p);
 	}
-	
+
 	@EventHandler
 	private static void getnameechecktwo(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -1658,17 +1677,4 @@ public class GuiSystem implements Listener {
         return i;
     }
 	
-	private static void deleteDirectory(File path) {
-    	if (path.exists()) {
-    		File[] files = path.listFiles();
-    		for (int i = 0; i < Objects.requireNonNull(files).length; i++) {
-    			if (files[i].isDirectory()) {
-    				deleteDirectory(files[i]);
-    			} else {
-    				files[i].delete();
-    			} 
-    		} 
-    	}
-		path.delete();
-	}
 }

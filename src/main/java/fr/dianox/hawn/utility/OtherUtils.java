@@ -283,7 +283,7 @@ public class OtherUtils {
 	}
 	
 	public static void Fireworkmethod(Player p, String firework) {		
-        for (int i = 1; i < FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Amount"); i++) {
+        for (int i = 0; i < FireworkListCUtility.getConfig().getInt("Firework-List." + firework +".Options.Amount"); i++) {
             ArrayList < Color > colors = new ArrayList < Color > ();
             ArrayList < Color > fade = new ArrayList < Color > ();
             List < String > lore = FireworkListCUtility.getConfig().getStringList("Firework-List." + firework +".Options.Colors");

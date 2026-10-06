@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,21 +50,17 @@ public class WarningCommandConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Warning.Enable", true);
-            Config.set("Warning.Disable-Message", true);
-            Config.set("Warning.Sounds.Enabled", true);
-            Config.set("Warning.Sounds.Sound", "NOTE_PIANO");
-            Config.set("Warning.Sounds.Volume", 10);
-            Config.set("Warning.Sounds.Pitch", 1);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("Warning.Enable", true);
+        Config.set("Warning.Disable-Message", true);
+        Config.set("Warning.Sounds.Enabled", true);
+        Config.set("Warning.Sounds.Sound", "NOTE_PIANO");
+        Config.set("Warning.Sounds.Volume", 10);
+        Config.set("Warning.Sounds.Pitch", 1);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

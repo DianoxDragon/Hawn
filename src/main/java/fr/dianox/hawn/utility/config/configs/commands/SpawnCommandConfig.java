@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,42 +50,38 @@ public class SpawnCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Commands.Spawn.Use-Permission", false);
-            Config.set("Commands.Spawn.CustomSpawn.Enable", false);
-            Config.set("Commands.Spawn.CustomSpawn.Spawn", "CHANGE ME");
-            
-            Config.set("Commands.Spawn.Delay.Self.Enable", true);
-            Config.set("Commands.Spawn.Delay.Self.Delay-Seconds", 5);
-            Config.set("Commands.Spawn.Delay.Self.Bypass-Delay", false);
-            
-            Config.set("Commands.Spawn.Delay.Other.Enable", true);
-            Config.set("Commands.Spawn.Delay.Other.Delay-Seconds", 5);
-            Config.set("Commands.Spawn.Delay.Other.Bypass-Delay", false);
+        Config.set("Commands.Spawn.Use-Permission", false);
+        Config.set("Commands.Spawn.CustomSpawn.Enable", false);
+        Config.set("Commands.Spawn.CustomSpawn.Spawn", "CHANGE ME");
 
-            Config.set("Commands.Spawn.Delay.Cancel-Tp-On.Any-movements", true);
-            Config.set("Commands.Spawn.Delay.Cancel-Tp-On.On-Damages", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("SetSpawn.Enable", true);
-            Config.set("SetSpawn.Disable-Message", true);
-            Config.set("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("DelSpawn.Enable", true);
-            Config.set("DelSpawn.Disable-Message", true);
-            Config.set("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("SpawnList.Enable", true);
-            Config.set("SpawnList.Disable-Message", true);
-            Config.set("SpawnList.DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("Commands.Spawn.Delay.Self.Enable", true);
+        Config.set("Commands.Spawn.Delay.Self.Delay-Seconds", 5);
+        Config.set("Commands.Spawn.Delay.Self.Bypass-Delay", false);
 
-            saveConfigFile();
+        Config.set("Commands.Spawn.Delay.Other.Enable", true);
+        Config.set("Commands.Spawn.Delay.Other.Delay-Seconds", 5);
+        Config.set("Commands.Spawn.Delay.Other.Bypass-Delay", false);
 
-        }
+        Config.set("Commands.Spawn.Delay.Cancel-Tp-On.Any-movements", true);
+        Config.set("Commands.Spawn.Delay.Cancel-Tp-On.On-Damages", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("SetSpawn.Enable", true);
+        Config.set("SetSpawn.Disable-Message", true);
+        Config.set("SetSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("DelSpawn.Enable", true);
+        Config.set("DelSpawn.Disable-Message", true);
+        Config.set("DelSpawn.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("SpawnList.Enable", true);
+        Config.set("SpawnList.Disable-Message", true);
+        Config.set("SpawnList.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

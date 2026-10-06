@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import fr.dianox.hawn.Main;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -49,20 +51,18 @@ public class ConfigMAdmin {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {}
-                        
-            /* -------------- *
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
+
+        /* -------------- *
 			 * SPAWN COMMANDS *
 			 * -------------- */
-            Config.set("Error.Console.Not-A-Player", java.util.Arrays.asList("&cYou are not a player"));
-            Config.set("Error.Command.Hawn", java.util.Arrays.asList("&cError, Try to do /hawn"));
-            Config.set("Error.Command.Delspawn", java.util.Arrays.asList("&c/hawn delspawn <spawn>"));
-            Config.set("Error.Command.Name-already-exist", java.util.Arrays.asList("&cThe name already exist"));
-            Config.set("Error.Argument-Missing", java.util.Arrays.asList("&cI'm sorry, but there must be one or two arguments missing."));
-            Config.set("Error.No-Spawn", java.util.Arrays.asList("&cSpawn doesn't exist"));
+        Config.set("Error.Console.Not-A-Player", java.util.Arrays.asList("&cYou are not a player"));
+        Config.set("Error.Command.Hawn", java.util.Arrays.asList("&cError, Try to do /hawn"));
+        Config.set("Error.Command.Delspawn", java.util.Arrays.asList("&c/hawn delspawn <spawn>"));
+        Config.set("Error.Command.Name-already-exist", java.util.Arrays.asList("&cThe name already exist"));
+        Config.set("Error.Argument-Missing", java.util.Arrays.asList("&cI'm sorry, but there must be one or two arguments missing."));
+        Config.set("Error.No-Spawn", java.util.Arrays.asList("&cSpawn doesn't exist"));
 
 	        /* ------------ *
 	         * HELP COMMAND *
@@ -143,10 +143,10 @@ public class ConfigMAdmin {
 	        Config.set("Command.Help.Option", "For main player's options");
 	        Config.set("Command.Help.Hworld", "Manage world system");
 
-            /* ----------------- *
+        /* ----------------- *
 			 * COMMANDS COMMANDS *
 			 * ----------------- */
-            Config.set("Command.Server-Info.General", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+        Config.set("Command.Server-Info.General", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
 		            "",
 		            "     &l>> &e&o&lServer information (All)",
 		            "        &3created by Dianox",
@@ -174,8 +174,8 @@ public class ConfigMAdmin {
 		            "&8Bar-[%bardisk%&8]",
 		            "",
 		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
-            
-            Config.set("Command.Server-Info.Memory", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+
+        Config.set("Command.Server-Info.Memory", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
 		            "",
 		            "     &l>> &e&o&lServer information (Memory)",
 		            "",
@@ -185,8 +185,8 @@ public class ConfigMAdmin {
 		            "&8Bar-[%barmemory%&8]",
 		            "",
 		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
-            
-            Config.set("Command.Server-Info.CPU", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+
+        Config.set("Command.Server-Info.CPU", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
 		            "",
 		            "     &l>> &e&o&lServer information (CPU)",
 		            "",
@@ -196,8 +196,8 @@ public class ConfigMAdmin {
 		            "&8Bar-[%barcpu%&8]",
 		            "",
 		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
-            
-            Config.set("Command.Server-Info.Disk", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+
+        Config.set("Command.Server-Info.Disk", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
 		            "",
 		            "     &l>> &e&o&lServer information (Disk)",
 		            "",
@@ -207,8 +207,8 @@ public class ConfigMAdmin {
 		            "&8Bar-[%bardisk%&8]",
 		            "",
 		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
-            
-            Config.set("Command.Server-Info.Server", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
+
+        Config.set("Command.Server-Info.Server", java.util.Arrays.asList("&8//&7&m---------------&r&8\\\\ &3[&bHawn&3] &8//&7&m---------------&r&8\\\\",
 		            "",
 		            "     &l>> &e&o&lServer information (Server)",
 		            "",
@@ -220,66 +220,72 @@ public class ConfigMAdmin {
 		            "&7&lServer version&r&8:&r %serverversion%",
 		            "",
 		            "&8\\\\&7&m---------------&r&8// &3[&bHawn&3] &8\\\\&7&m---------------&r&8//"));
-            
-            Config.set("Command.Server-Info.Tps", java.util.Arrays.asList("  &8→ &6&lTps&8: &r%tps%"));
-            
-            Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn version (created by Dianox)&8: &r%gethawnversion%"));
-            
-            Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under 15, done something to improve the stability of your Lobby"));
-            Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under 5, your server may shut down, done /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
-            
-            /* --------------- *
-             * RELOAD COMMANDS *
-             * --------------- */
-            Config.set("Command.Reload", java.util.Arrays.asList("&aReloaded configuration"));
 
-            Config.set("Command.Build-Bypass.On", java.util.Arrays.asList("&bYou can now bypass all the build restriction"));
-            Config.set("Command.Build-Bypass.Off", java.util.Arrays.asList("&cYou can no longer bypass all the build restriction"));
+        Config.set("Command.Server-Info.Tps", java.util.Arrays.asList("  &8→ &6&lTps&8: &r%tps%"));
+
+        Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn version (created by Dianox)&8: &r%gethawnversion%"));
+
+        Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under 15, done something to improve the stability of your Lobby"));
+        Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under 5, your server may shut down, done /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
+
+        /* --------------- *
+         * RELOAD COMMANDS *
+         * --------------- */
+        Config.set("Command.Reload", java.util.Arrays.asList("&aReloaded configuration"));
+
+        Config.set("Command.Build-Bypass.On", java.util.Arrays.asList("&bYou can now bypass all the build restriction"));
+        Config.set("Command.Build-Bypass.Off", java.util.Arrays.asList("&cYou can no longer bypass all the build restriction"));
 
 
-            /*
-             * Vanish
-             */
-            Config.set("Vanish.Vanish-On.Enable", true);
-            Config.set("Vanish.Vanish-On.Messages", java.util.Arrays.asList("&7[ %player% is now vanished ]"));
-            
-            Config.set("Vanish.Vanish-Off.Enable", true);
-            Config.set("Vanish.Vanish-Off.Messages", java.util.Arrays.asList("&7[ %player% is now no longer vanished ]"));
-            Config.set("Vanish.Vanish-On-Others", java.util.Arrays.asList("&7[ %target% is now vanished by %player% ]"));
-            Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList("&7[ %target% is now no longer vanished by %player% ]"));
+        /*
+         * Vanish
+         */
+        Config.set("Vanish.Vanish-On.Enable", true);
+        Config.set("Vanish.Vanish-On.Messages", java.util.Arrays.asList("&7[ %player% is now vanished ]"));
 
-            Config.set("Maintenance.On", java.util.Arrays.asList("%prefix% &7You &aenabled&7 the maintenance"));
-            Config.set("Maintenance.Off", java.util.Arrays.asList("%prefix% &7You &cdisabled&7 the maintenance"));
-            Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(" &4* &cThe maintenance is &eon&4 *"));
-            Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(" &4* &cThe maintenance is &eoff&4 *"));
+        Config.set("Vanish.Vanish-Off.Enable", true);
+        Config.set("Vanish.Vanish-Off.Messages", java.util.Arrays.asList("&7[ %player% is now no longer vanished ]"));
+        Config.set("Vanish.Vanish-On-Others", java.util.Arrays.asList("&7[ %target% is now vanished by %player% ]"));
+        Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList("&7[ %target% is now no longer vanished by %player% ]"));
 
-            Config.set("Urgent-mode.On", java.util.Arrays.asList("%prefix% &7You &aenabled&7 the urgent mode"));
-            Config.set("Urgent-mode.Off", java.util.Arrays.asList("%prefix% &7You &cdisabled&7 the urgent mode"));
-            Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(" &4* &cThe urgent mode is &eon&4 *"));
-            Config.set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(" &4* &cThe urgent mode is &eoff&4 *"));
-            Config.set("Urgent-mode.Zip", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c&cA backup of Hawn has been made"));
-            Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cError, you need to be on the console to disable the urgent mode"));
-            Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c&cSorry but you can't use the command"));
-            Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cA modification has been detected by %player% on the admin panel",
+        Config.set("Maintenance.On", java.util.Arrays.asList("%prefix% &7You &aenabled&7 the maintenance"));
+        Config.set("Maintenance.Off", java.util.Arrays.asList("%prefix% &7You &cdisabled&7 the maintenance"));
+        Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(" &4* &cThe maintenance is &eon&4 *"));
+        Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(" &4* &cThe maintenance is &eoff&4 *"));
+
+        Config.set("Urgent-mode.On", java.util.Arrays.asList("%prefix% &7You &aenabled&7 the urgent mode"));
+        Config.set("Urgent-mode.Off", java.util.Arrays.asList("%prefix% &7You &cdisabled&7 the urgent mode"));
+        Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(" &4* &cThe urgent mode is &eon&4 *"));
+        Config.set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(" &4* &cThe urgent mode is &eoff&4 *"));
+        Config.set("Urgent-mode.Zip", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c&cA backup of Hawn has been made"));
+        Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cError, you need to be on the console to disable the urgent mode"));
+        Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c&cSorry but you can't use the command"));
+        Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cA modification has been detected by %player% on the admin panel",
 		            "%arg1% in the file %arg2%"));
-            Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cAll plugins have been disabled"));
-            Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &7All plugins have been &aenabled",
+        Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cAll plugins have been disabled"));
+        Config.set("Urgent-mode.Ops-Removed", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c%arg1% operator(s) removed until the end of the urgent mode"));
+        Config.set("Urgent-mode.Ops-Restored", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &7%arg1% operator(s) given back"));
+        Config.set("Urgent-mode.Lockdown-Command", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cThe server is in urgent mode: the commands are disabled"));
+        Config.set("Urgent-mode.Lockdown-Chat", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cThe server is in urgent mode: the chat is disabled"));
+        Config.set("Urgent-mode.Zip-Failed", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cThe backup failed, see the console"));
+        Config.set("Urgent-mode.Console-Only", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cThe urgent mode can only be started from the console"));
+        Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &7All plugins have been &aenabled",
 		            "&ePlease, a restart is needed to avoid any problems"));
 
-            Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList("%prefix% &e%player% tried to do this command: &b%arg1%"));
-            
-            Config.set("Command.SlotView.On", java.util.Arrays.asList("%prefix% &7You can now &asee&7 every slot of a gui or an inventory when you click on it"));
-            Config.set("Command.SlotView.Off", java.util.Arrays.asList("%prefix% &7The SlotView is &cdisabled"));
-            
-            Config.set("Command.IP", java.util.Arrays.asList("%prefix% &7The player's ip is: &e%getplayerip%"));
-            
-            Config.set("Command.Kickall", java.util.Arrays.asList("%prefix% &7All player has been kick"));
-            
-            Config.set("Command.ClearGroundItems", java.util.Arrays.asList("%prefix% &7All items have been cleared"));
-            
-            Config.set("Command.ClearMobs", java.util.Arrays.asList("%prefix% &7All mobs have been cleared"));
+        Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList("%prefix% &e%player% tried to do this command: &b%arg1%"));
 
-            Config.set("Command.CheckAccount", java.util.Arrays.asList("",
+        Config.set("Command.SlotView.On", java.util.Arrays.asList("%prefix% &7You can now &asee&7 every slot of a gui or an inventory when you click on it"));
+        Config.set("Command.SlotView.Off", java.util.Arrays.asList("%prefix% &7The SlotView is &cdisabled"));
+
+        Config.set("Command.IP", java.util.Arrays.asList("%prefix% &7The player's ip is: &e%getplayerip%"));
+
+        Config.set("Command.Kickall", java.util.Arrays.asList("%prefix% &7All player has been kick"));
+
+        Config.set("Command.ClearGroundItems", java.util.Arrays.asList("%prefix% &7All items have been cleared"));
+
+        Config.set("Command.ClearMobs", java.util.Arrays.asList("%prefix% &7All mobs have been cleared"));
+
+        Config.set("Command.CheckAccount", java.util.Arrays.asList("",
 		            "  &8→ &r&lPlayer info for&8:&r &b%target%",
 		            "&7&lJoin date&r&8:&e %hawn_player_join_date%",
 		            "&7&lFirst join date&r&8:&e %hawn_player_first_join_date%",
@@ -297,65 +303,63 @@ public class ConfigMAdmin {
 		            "",
 		            "&7&lGamemode: &e%gm_number%",
 		            ""));
-            
-            // List
-            
-            Config.set("Command.List.Part-One", java.util.Arrays.asList("§8//§7§m---------------§r§8\\\\ §3[§bList§3] §8//§7§m---------------§r§8\\\\",
+
+        // List
+
+        Config.set("Command.List.Part-One", java.util.Arrays.asList("§8//§7§m---------------§r§8\\\\ §3[§bList§3] §8//§7§m---------------§r§8\\\\",
 		            " ",
 		            "  &8→ &6&lPage %number%",
 		            " "));
-            
-            Config.set("Command.List.Part-Two", java.util.Arrays.asList("§8\\\\§7§m---------------§r§8// §3[§bList§3] §8\\\\§7§m---------------§r§8//"));
-            
-            Config.set("Command.List.Gui.Other.Page.Next", "&bNext");
-            Config.set("Command.List.Gui.Other.Page.Back", "&bPrevious");
-            Config.set("Command.List.Gui.Other.Back.PanelAdmin", "&c&lBack to the panel admin");
-            Config.set("Command.List.Gui.Player.Survival", "&cSURVIVAL");
-            Config.set("Command.List.Gui.Player.Spectator", "&eSPECTATOR");
-            Config.set("Command.List.Gui.Player.Creative", "&6CREATIVE");
-            Config.set("Command.List.Gui.Player.Adventure", "&aADVENTURE");
-            Config.set("Command.List.Gui.Player.Gamemode", "&7Gamemode: ");
-            Config.set("Command.List.Gui.Player.World", "&7World: &e");
-            Config.set("Command.List.Gui.Player.LeftClick", "&eLeft-Click&7 to edit the player");
-            
-            // EDIT PLAYER
-            
-            Config.set("Command.EditPlayer.Gui.Gamemode.LeftClick", "&eLeft-Click&7 to edit the player's gamemode");
-            Config.set("Command.EditPlayer.Gui.Gamemode.Survival", "&cSURVIVAL");
-            Config.set("Command.EditPlayer.Gui.Gamemode.Spectator", "&eSPECTATOR");
-            Config.set("Command.EditPlayer.Gui.Gamemode.Creative", "&6CREATIVE");
-            Config.set("Command.EditPlayer.Gui.Gamemode.Adventure", "&aADVENTURE");
-            
-            Config.set("Command.EditPlayer.Gui.ClearInv.LeftClick", "&eLeft-Click&7 to clear the player's inventory/armor");
-            Config.set("Command.EditPlayer.Gui.ClearInv.Item-Name", "&6Clear inventory");
-            
-            Config.set("Command.EditPlayer.Gui.Teleport.LeftClick", "&eLeft-Click&7 to be teleported to be the player");
-            Config.set("Command.EditPlayer.Gui.Teleport.Item-Name", "&6Teleport to this player");
-            
-            Config.set("Command.EditPlayer.Gui.MoreSoon.Item-Name", "More soon");
-            
-            Config.set("Command.EditPlayer.Gui.BackToPlayerList.Item-Name", "&cBack to player list");
-            
-            //
-            
-            Config.set("Command.No-Clip.Enable", java.util.Arrays.asList("%prefix% &7The No clip is &aenabled"));
-            
-            Config.set("Command.No-Clip.Disable", java.util.Arrays.asList("%prefix% &7The No clip is &cdisabled"));
-            
-            Config.set("Command.NightVision", java.util.Arrays.asList("%prefix% &7You can see in the night"));
-            
-            /* -------------- *
+
+        Config.set("Command.List.Part-Two", java.util.Arrays.asList("§8\\\\§7§m---------------§r§8// §3[§bList§3] §8\\\\§7§m---------------§r§8//"));
+
+        Config.set("Command.List.Gui.Other.Page.Next", "&bNext");
+        Config.set("Command.List.Gui.Other.Page.Back", "&bPrevious");
+        Config.set("Command.List.Gui.Other.Back.PanelAdmin", "&c&lBack to the panel admin");
+        Config.set("Command.List.Gui.Player.Survival", "&cSURVIVAL");
+        Config.set("Command.List.Gui.Player.Spectator", "&eSPECTATOR");
+        Config.set("Command.List.Gui.Player.Creative", "&6CREATIVE");
+        Config.set("Command.List.Gui.Player.Adventure", "&aADVENTURE");
+        Config.set("Command.List.Gui.Player.Gamemode", "&7Gamemode: ");
+        Config.set("Command.List.Gui.Player.World", "&7World: &e");
+        Config.set("Command.List.Gui.Player.LeftClick", "&eLeft-Click&7 to edit the player");
+
+        // EDIT PLAYER
+
+        Config.set("Command.EditPlayer.Gui.Gamemode.LeftClick", "&eLeft-Click&7 to edit the player's gamemode");
+        Config.set("Command.EditPlayer.Gui.Gamemode.Survival", "&cSURVIVAL");
+        Config.set("Command.EditPlayer.Gui.Gamemode.Spectator", "&eSPECTATOR");
+        Config.set("Command.EditPlayer.Gui.Gamemode.Creative", "&6CREATIVE");
+        Config.set("Command.EditPlayer.Gui.Gamemode.Adventure", "&aADVENTURE");
+
+        Config.set("Command.EditPlayer.Gui.ClearInv.LeftClick", "&eLeft-Click&7 to clear the player's inventory/armor");
+        Config.set("Command.EditPlayer.Gui.ClearInv.Item-Name", "&6Clear inventory");
+
+        Config.set("Command.EditPlayer.Gui.Teleport.LeftClick", "&eLeft-Click&7 to be teleported to be the player");
+        Config.set("Command.EditPlayer.Gui.Teleport.Item-Name", "&6Teleport to this player");
+
+        Config.set("Command.EditPlayer.Gui.MoreSoon.Item-Name", "More soon");
+
+        Config.set("Command.EditPlayer.Gui.BackToPlayerList.Item-Name", "&cBack to player list");
+
+        //
+
+        Config.set("Command.No-Clip.Enable", java.util.Arrays.asList("%prefix% &7The No clip is &aenabled"));
+
+        Config.set("Command.No-Clip.Disable", java.util.Arrays.asList("%prefix% &7The No clip is &cdisabled"));
+
+        Config.set("Command.NightVision", java.util.Arrays.asList("%prefix% &7You can see in the night"));
+
+        /* -------------- *
 			 * SPAWN COMMANDS *
 			 * -------------- */
-            Config.set("Command.Spawn.Spawn-Set.Default", java.util.Arrays.asList("&cYou have not put a name for this spawn, an automatic name has been chosen",
+        Config.set("Command.Spawn.Spawn-Set.Default", java.util.Arrays.asList("&cYou have not put a name for this spawn, an automatic name has been chosen",
 		            "§eSpawn set on behalf of %spawnName%"));
-            
-            Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList("§eSpawn set on behalf of %spawnName%"));
-            
-            Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList("&bThe spawn &e%spawn%&b has been deleted"));
-            
-            saveConfigFile();
 
-        }
+        Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList("§eSpawn set on behalf of %spawnName%"));
+
+        Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList("&bThe spawn &e%spawn%&b has been deleted"));
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

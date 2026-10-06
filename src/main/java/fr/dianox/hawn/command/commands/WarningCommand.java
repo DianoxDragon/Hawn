@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -7,7 +9,6 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.WarningCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -23,13 +24,14 @@ public class WarningCommand extends BukkitCommand {
 	
 	public WarningCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Warning a message";
         this.usageMessage = "/warning <msg>";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 	
 	@Override
@@ -58,9 +60,8 @@ public class WarningCommand extends BukkitCommand {
 			msgbc = args[0] + " " + msgbc;
 			
 			for (String msg: ConfigMMsg.getConfig().getStringList("Warning")) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", msgbc)));
 				MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
-				ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", msgbc), "", "");
+				ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "");
 			}
 			
 			if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
@@ -119,9 +120,8 @@ public class WarningCommand extends BukkitCommand {
 		msgbc = args[0] + " " + msgbc;
 		
 		for (String msg: ConfigMMsg.getConfig().getStringList("Warning")) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", msgbc)));
 			MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
-			ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", msgbc), "", "", p, true);
+			ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "", p, true);
 		}
 		
 		if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {

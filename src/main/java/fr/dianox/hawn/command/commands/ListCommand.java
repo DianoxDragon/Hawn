@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -21,13 +23,14 @@ public class ListCommand extends BukkitCommand {
     
     public ListCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Get the total number of players on the server";
         this.usageMessage = "/list [page number]";
     }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
     @Override
@@ -176,7 +179,7 @@ public class ListCommand extends BukkitCommand {
         		p.performCommand("list");
         	} else {
         		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-One")) {
-        			ConfigEventUtils.ExecuteEvent(p, msg.replace("%number%", args[0]), "", "", false);
+        			ConfigEventUtils.ExecuteEvent(p, msg.replace("%number%", ConfigEventUtils.noAction(args[0])), "", "", false);
         		}
         		
         		Integer pagedemande = (Integer.parseInt(args[0]) * 10) + 1;

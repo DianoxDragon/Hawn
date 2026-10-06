@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -48,28 +50,24 @@ public class PlayerOptionMainConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {}
-            
-            Config.set("General.Enable", true);
-            
-            // Keep states
-            Config.set("Keep.Gamemode-On-Join.Enable", false);
-            Config.set("Keep.Vanish-On-Join.Enable", false);
-            Config.set("Keep.PlayerVisibility-OnJoin.Enable", false);
-            Config.set("Keep.Speed-OnJoin.Enable", false);
-            Config.set("Keep.FlySpeed-OnJoin.Enable", false);
-            Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
-            Config.set("Keep.JumpBoost-OnJoin.Enable", false);
-            Config.set("TP.Last-Position-On-Join.Enable", false);
-            
-            Config.set("Options.Flying.Put-boots", true);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("General.Enable", true);
+
+        // Keep states
+        Config.set("Keep.Gamemode-On-Join.Enable", false);
+        Config.set("Keep.Vanish-On-Join.Enable", false);
+        Config.set("Keep.PlayerVisibility-OnJoin.Enable", false);
+        Config.set("Keep.Speed-OnJoin.Enable", false);
+        Config.set("Keep.FlySpeed-OnJoin.Enable", false);
+        Config.set("Keep.DoubleJump-Fly-OnJoin.Enable", false);
+        Config.set("Keep.JumpBoost-OnJoin.Enable", true);
+        Config.set("TP.Last-Position-On-Join.Enable", false);
+
+        Config.set("Options.Flying.Put-boots", true);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

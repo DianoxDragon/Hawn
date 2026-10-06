@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.ClearChatCommandConfig;
@@ -24,29 +26,13 @@ public class ClearChatCommand extends BukkitCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			tab.add("a");
-			tab.add("o");
-			tab.add("c");
-			tab.add("other");
-
-			return tab;
-		} else if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("other")) {
-				List<String> tab = new ArrayList<>();
-				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					tab.add(p.getName());
-				}
-
-				java.util.Collections.sort(tab);
-
-				return tab;
-			}
+			return Tab.of(args, "a", "o", "c", "other");
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("other")) {
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -89,7 +75,7 @@ public class ClearChatCommand extends BukkitCommand {
 					if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Message-Clear")) {
 						for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Anonymously")) {
 							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replace("%reason%", msg)));
-							ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replace("%reason%", msg), "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "");
 							MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
 						}
 					}
@@ -118,7 +104,7 @@ public class ClearChatCommand extends BukkitCommand {
                     if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Message-Clear")) {
                     	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Normal")) {
                     		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replace("%reason%", msg).replace("%player%", "console")));
-                    		ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replace("%reason%", msg), "", "");
+                    		ConfigEventUtils.ExecuteEventAllPlayersConsole(ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "");
 							MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
                     	}
                     }
@@ -156,11 +142,11 @@ public class ClearChatCommand extends BukkitCommand {
 					}
 
 					for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
-                    	ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", msg), "", "", false);
+                    	ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
                     	MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
                     }
                     for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
-                    	ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", msg), "", "", false);
+                    	ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
                     	MessageUtils.ConsoleMessages(ms2.replace("%reason%", msg));
                     }
 				}
@@ -228,7 +214,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Anonymous.Message-Clear")) {
 	                        	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Anonymously")) {
 	                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replace("%reason%", msg)));
-	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replace("%reason%", msg), "", "", p, true);
+	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", p, true);
 	    							MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
 	                        	}
 	                        }
@@ -272,7 +258,7 @@ public class ClearChatCommand extends BukkitCommand {
 	                        if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Normal.Message-Clear")) {
 	                        	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Normal")) {
 	                        		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', ms1.replace("%reason%", msg)));
-	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replace("%reason%", msg), "", "", p, true);
+	                        		ConfigEventUtils.ExecuteEventAllPlayers(ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", p, true);
 	    							MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
 	                        	}
 	                        }
@@ -351,11 +337,11 @@ public class ClearChatCommand extends BukkitCommand {
 	                    }
 
 	                    for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
-                    		ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", msg), "", "", false);
+                    		ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
                         	MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
                     	}
                     	for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
-                    		ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", msg), "", "", false);
+                    		ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
                         	MessageUtils.ConsoleMessages(ms2.replace("%reason%", msg));
                     	}
                     	

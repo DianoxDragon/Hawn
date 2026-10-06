@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.customjoinitem;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,25 +50,21 @@ public class SpecialCjiFunGun {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("FunGun.Enable", true);
-            Config.set("FunGun.Option.Item-Delay.Enable", true);
-            Config.set("FunGun.Option.Item-Delay.Delay", 5);
-            
-            Config.set("FunGun.Item.Title", "&6FunGun");
-            Config.set("FunGun.Item.Lore", java.util.Arrays.asList(new String[] {
-                    " ",
-                    "&c&lAaaaaahhhh"
-                }));
-            Config.set("FunGun.Item.Material.Amount", 1);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("FunGun.Enable", true);
+        Config.set("FunGun.Option.Item-Delay.Enable", true);
+        Config.set("FunGun.Option.Item-Delay.Delay", 5);
+
+        Config.set("FunGun.Item.Title", "&6FunGun");
+        Config.set("FunGun.Item.Lore", java.util.Arrays.asList(new String[] {
+                " ",
+                "&c&lAaaaaahhhh"
+            }));
+        Config.set("FunGun.Item.Material.Amount", 1);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

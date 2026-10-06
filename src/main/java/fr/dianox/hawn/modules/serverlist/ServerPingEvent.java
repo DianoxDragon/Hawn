@@ -6,6 +6,7 @@ import fr.dianox.hawn.utility.PlaceHolders;
 import fr.dianox.hawn.utility.config.configs.ServerListConfig;
 import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -110,46 +111,45 @@ public class ServerPingEvent implements Listener {
 		}
 	}
 	
+	/**
+	 * Whitelist of the maintenance ("Maintenance") or of the emergency mode ("Urgent-mode").
+	 * The names are compared without case (a UUID works too). The maintenance has a bypass permission,
+	 * not the emergency mode: it is made for a hacked staff account.
+	 */
+	public static boolean canJoin(Player p, String mode) {
+		if (mode.equals("Maintenance") && p.hasPermission("hawn.maintenance.bypass")) {
+			return true;
+		}
+
+		for (String name: HawnCommandConfig.getConfig().getStringList(mode + ".whitelist")) {
+			if (name.equalsIgnoreCase(p.getName()) || name.equalsIgnoreCase(p.getUniqueId().toString())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static String kickMessage(Player p, String mode) {
+		List<String> lines = HawnCommandConfig.getConfig().getStringList(mode + ".Kick-Message");
+		String message = lines.isEmpty() ? HawnCommandConfig.getConfig().getString(mode + ".Kick-Message", "") : String.join("\n", lines);
+
+		message = MessageUtils.colourTheStuff(message);
+		return PlaceHolders.ReplaceMainplaceholderP(message, p);
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void login(PlayerLoginEvent e) {
 		
 		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
-			List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
-			if (!whitelist.contains(e.getPlayer().getName())) {
-				String message = "";
-				Boolean bool = false;
-				for (String str: HawnCommandConfig.getConfig().getStringList("Urgent-mode.Kick-Message")) {
-					if (bool) {
-						message = message + "\n" + str;
-					} else {
-						message = str;
-						bool = true;
-					}
-				}
-				message = MessageUtils.colourTheStuff(message);
-				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
-				
-				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+			if (!canJoin(e.getPlayer(), "Urgent-mode")) {
+				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, kickMessage(e.getPlayer(), "Urgent-mode"));
 			}
 		}
 		
 		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")) {
-			List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
-			if (!whitelist.contains(e.getPlayer().getName())) {
-				String message = "";
-				Boolean bool = false;
-				for (String str: HawnCommandConfig.getConfig().getStringList("Maintenance.Kick-Message")) {
-					if (bool) {
-						message = message + "\n" + str;
-					} else {
-						message = str;
-						bool = true;
-					}
-				}
-				message = MessageUtils.colourTheStuff(message);
-				message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
-				
-				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+			if (!canJoin(e.getPlayer(), "Maintenance")) {
+				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, kickMessage(e.getPlayer(), "Maintenance"));
 			}
 		}
 		

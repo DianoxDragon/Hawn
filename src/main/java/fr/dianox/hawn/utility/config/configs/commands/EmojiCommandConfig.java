@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,18 +50,14 @@ public class EmojiCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Emoji.Enable", true);
-            Config.set("Emoji.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        Config.set("Emoji.Enable", true);
+        Config.set("Emoji.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -1,6 +1,9 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.modules.world.GuiSystem;
+import fr.dianox.hawn.modules.world.WorldDeletion;
 import fr.dianox.hawn.modules.world.generator.VoidGenerator;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -25,54 +28,39 @@ public class WorldCommand extends BukkitCommand {
 
     public WorldCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Manage world system";
         this.usageMessage = "/hw <argument> <argument two> etc.";
     }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
-    	if (args.length == 1) {
-    		List<String> tab =  new ArrayList<>();
-    		tab.add("list");
-		    tab.add("info");
-		    tab.add("tp");
-		    tab.add("delete");
-		    tab.add("create");
-		    tab.add("import");
-		    tab.add("unload");
-		    return tab;
-	    } if (args.length == 2) {
-    		if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove")
-				    || args[0].equalsIgnoreCase("unload")) {
-			    List<String> tab =  new ArrayList<>();
-			    List<World> worldList = Bukkit.getServer().getWorlds();
-			    for (int i = 0; i < Bukkit.getServer().getWorlds().size(); i++) {
-				    String name = worldList.get(i).getName();
-				    tab.add(name);
-			    }
-			    return tab;
-		    }
-		} else if (args.length == 3) {
-			if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import")) {
-				List<String> tab =  new ArrayList<>();
-				tab.add("normal");
-				tab.add("the_end");
-				tab.add("nether");
-				return tab;
-			}
-		} else if (args.length == 4) {
-    		if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import")) {
-    			List<String> tab =  new ArrayList<>();
-    			tab.add("flat");
-    			tab.add("amplified");
-    			tab.add("large_biomes");
-			    tab.add("g:hvg");
-    			return tab;
-    		}
+		if (!sender.hasPermission(GeneralPermission)) {
+			return Tab.none();
 		}
 
-		return null;
+		if (args.length == 1) {
+			return Tab.of(args, "list", "info", "tp", "delete", "create", "import", "unload");
+		} else if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove")
+					|| args[0].equalsIgnoreCase("unload")) {
+				List<String> worlds = new ArrayList<>();
+				for (World world : Bukkit.getWorlds()) {
+					worlds.add(world.getName());
+				}
+				return Tab.of(args, worlds);
+			}
+		} else if (args.length == 3) {
+			if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import")) {
+				return Tab.of(args, "normal", "the_end", "nether");
+			}
+		} else if (args.length == 4) {
+			if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("import")) {
+				return Tab.of(args, "flat", "amplified", "large_biomes", "g:hvg");
+			}
+		}
+
+		return Tab.none();
 	}
 
 	@Override
@@ -173,7 +161,7 @@ public class WorldCommand extends BukkitCommand {
 		                p.teleport(location);
 
 		                for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
-			                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+			                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                }
 	                }
                 }
@@ -196,26 +184,36 @@ public class WorldCommand extends BukkitCommand {
         		}
 
         		if (Bukkit.getWorld(worldname) != null) {
-        			File folder = new File(Bukkit.getServer().getWorld(worldname).getWorldFolder().getPath());
         			World world = Bukkit.getServer().getWorld(worldname);
-        			if (!world.getPlayers().isEmpty()) {
-        				List<Player> list = world.getPlayers();
-				        for (Player plist : list) {
-					        List<World> tpList = Bukkit.getServer().getWorlds();
-					        World spawn = tpList.get(0);
-					        plist.teleport(spawn.getSpawnLocation());
-				        }
+
+        			if (WorldDeletion.isProtected(world.getName())) {
+        				for (String msg: WorldDeletion.message("Error.Protected-World", "%prefix% &cThe world &e%arg1% &ccan't be deleted: the server needs it")) {
+        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        				}
+        				return true;
+        			}
+
+        			// No undo: the command is typed a second time with "confirm"
+        			if (args.length < 3 || !args[2].equalsIgnoreCase("confirm")) {
+        				for (String msg: WorldDeletion.message("Gui.Delete.Confirm-Command", "%prefix% &cThis deletes the world &e%arg1% &cand its folder, with no undo. Type &e/hw delete %arg1% confirm &cto do it")) {
+        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        				}
+        				return true;
+        			}
+
+        			if (!WorldDeletion.delete(world)) {
+        				for (String msg: WorldDeletion.message("Error.Unload-Failed", "%prefix% &cThe world &e%arg1% &ccould not be unloaded: nothing was deleted")) {
+        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        				}
+        				return true;
         			}
 
         			ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", null);
         			ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
 	        		ConfigWorldGeneral.saveConfigFile();
 
-        			Bukkit.getServer().unloadWorld(worldname, true);
-        			deleteDirectory(folder);
-
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
-	                    ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+	                    ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 	                }
         		} else {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Not-Exist")) {
@@ -260,7 +258,7 @@ public class WorldCommand extends BukkitCommand {
 						if (worldnamecheck.equals(worldname)) {
 
 							for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                    }
 
 							return false;
@@ -300,12 +298,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 		        			} else {
 		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 			                    }
 		        			}
 	        			} else {
 	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                    }
 
 	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL));
@@ -315,7 +313,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 	                    }
 	        		} else if (args[2].equalsIgnoreCase("end") || args[2].equalsIgnoreCase("the_end")) {
 	        			if (args.length >= 4) {
@@ -348,12 +346,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 		        			} else {
 		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 			                    }
 		        			}
 	        			} else {
 	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                    }
 
 	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END));
@@ -363,7 +361,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 	                    }
 	        		} else if (args[2].equalsIgnoreCase("nether")) {
 	        			if (args.length >= 4) {
@@ -396,12 +394,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 		        			} else {
 		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 			                    }
 		        			}
 	        			} else {
 	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-	        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+	        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                    }
 
 	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER));
@@ -411,7 +409,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+	        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 	                    }
 	        		}
 
@@ -419,7 +417,7 @@ public class WorldCommand extends BukkitCommand {
 	        		ConfigWorldGeneral.saveConfigFile();
         		} else {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
                     }
         		}
         	} else if (args[0].equalsIgnoreCase("import")) {
@@ -464,7 +462,7 @@ public class WorldCommand extends BukkitCommand {
 				        } else if (worldnamecheck.equals(worldname)) {
 
 					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					        }
 
 					        return false;
@@ -474,7 +472,7 @@ public class WorldCommand extends BukkitCommand {
 
 				if (!check) {
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Not-Exist")) {
-						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					}
 
 					return false;
@@ -516,12 +514,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 					        } else {
 						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 						        }
 					        }
 				        } else {
 					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					        }
 
 					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL));
@@ -531,7 +529,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 				        }
 			        } else if (args[2].equalsIgnoreCase("end") || args[2].equalsIgnoreCase("the_end")) {
 				        if (args.length >= 4) {
@@ -564,12 +562,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 					        } else {
 						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 						        }
 					        }
 				        } else {
 					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					        }
 
 					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END));
@@ -579,7 +577,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 				        }
 			        } else if (args[2].equalsIgnoreCase("nether")) {
 				        if (args.length >= 4) {
@@ -612,12 +610,12 @@ public class WorldCommand extends BukkitCommand {
 						        ConfigWorldGeneral.saveConfigFile();
 					        } else {
 						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 						        }
 					        }
 				        } else {
 					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					        }
 
 					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER));
@@ -627,7 +625,7 @@ public class WorldCommand extends BukkitCommand {
 				        ConfigWorldGeneral.saveConfigFile();
 
 				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 				        }
 			        }
 
@@ -637,7 +635,7 @@ public class WorldCommand extends BukkitCommand {
 			        Bukkit.getServer().createWorld((new WorldCreator(worldname)));
 
 			        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-				        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+				        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 			        }
 		        }
         	} else if (args[0].equalsIgnoreCase("unload")) {
@@ -669,7 +667,7 @@ public class WorldCommand extends BukkitCommand {
         			Bukkit.getServer().unloadWorld(worldname, true);
 
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Unload")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "", "", false);
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
                     }
 
         		} else {
@@ -683,19 +681,6 @@ public class WorldCommand extends BukkitCommand {
         return true;
     }
     
-    private static boolean deleteDirectory(File path) {
-    	if (path.exists()) {
-    		File[] files = path.listFiles();
-		    for (File file : files) {
-			    if (file.isDirectory()) {
-				    deleteDirectory(file);
-			    } else {
-				    file.delete();
-			    }
-		    }
-    	} 
-    	return path.delete();
-    }
     
     public static boolean checkIfIsWorld(File worldFolder) {
 		if (worldFolder.isDirectory()) {

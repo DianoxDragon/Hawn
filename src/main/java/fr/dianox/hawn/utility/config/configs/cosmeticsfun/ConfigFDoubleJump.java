@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,26 +50,22 @@ public class ConfigFDoubleJump {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("DoubleJump.Enable", true);
-            Config.set("DoubleJump.Double.Enable", true);
-            Config.set("DoubleJump.Double.Use_Permission", true);
-            Config.set("DoubleJump.Double.Sounds.Enable", true);
-            Config.set("DoubleJump.Double.Sounds.Sound", "NOTE_PIANO");
-            Config.set("DoubleJump.Double.Sounds.Volume", 10);
-            Config.set("DoubleJump.Double.Sounds.Pitch", 1);
-            Config.set("DoubleJump.Double.World.All_World", false);
-            Config.set("DoubleJump.Double.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-                }));
-            
-            saveConfigFile();
+        Config.set("DoubleJump.Enable", true);
+        Config.set("DoubleJump.Double.Enable", true);
+        Config.set("DoubleJump.Double.Use_Permission", true);
+        Config.set("DoubleJump.Double.Sounds.Enable", true);
+        Config.set("DoubleJump.Double.Sounds.Sound", "NOTE_PIANO");
+        Config.set("DoubleJump.Double.Sounds.Volume", 10);
+        Config.set("DoubleJump.Double.Sounds.Pitch", 1);
+        Config.set("DoubleJump.Double.World.All_World", false);
+        Config.set("DoubleJump.Double.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+            }));
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

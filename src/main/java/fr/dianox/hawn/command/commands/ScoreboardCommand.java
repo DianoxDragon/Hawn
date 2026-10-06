@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.event.OnScoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.ScoreTask;
@@ -26,25 +28,27 @@ public class ScoreboardCommand extends BukkitCommand {
 	
 	public ScoreboardCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Toggle on or off the scoreboard";
         this.usageMessage = "/scoreboard";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			tab.add("set");
-			tab.add("list");
-			tab.add("keep");
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.of(args, "set", "list", "keep");
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("set") && Main.getInstance().getScoreManager() != null) {
+			// Only the scoreboards the player can use (hawn.scoreboard.<name>)
+			List<String> boards = new ArrayList<>();
+			for (String board : Main.getInstance().getScoreManager().scoreacess.keySet()) {
+				if (sender.hasPermission("hawn.scoreboard." + board)) {
+					boards.add(board);
+				}
+			}
+			return Tab.of(args, boards);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -155,7 +159,7 @@ public class ScoreboardCommand extends BukkitCommand {
 					if (!Main.getInstance().getScoreManager().scoreacess.containsKey(perm)) {
 						if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Error-Changes.Enable")) {
 							for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Error-Changes.Messages")) {
-								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", args[1]), "", "", false);
+								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
 							}
 						}
 						return true;
@@ -205,7 +209,7 @@ public class ScoreboardCommand extends BukkitCommand {
 
 					if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Changes.Enable")) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Changes.Messages")) {
-							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", args[1]), "", "", false);
+							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
 						}
 					}
 				} else {

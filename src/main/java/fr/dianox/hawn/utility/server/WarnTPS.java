@@ -11,25 +11,38 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
 public class WarnTPS {
 
+		private static long lastWarning = 0L;
+		private static long lastCritical = 0L;
+
 		public static void runWarnSystemTask(Main plugin) {
 			
 			new BukkitRunnable() {
 	
 				public void run() {
 					double ticks = Tps.getTPS();
-					if (ticks <= 15.0D) {
-						onPrevient();
-					} else if (ticks <= 5.0D) {
-						onCritique();
-						Bukkit.getServer().savePlayers();
-						for (World world : Bukkit.getWorlds()) {
-				            world.save();
+					long now = System.currentTimeMillis();
+
+					// At most one warning (and one emergency save) per minute, not every 3 seconds
+					if (ticks <= 5.0D) {
+						if (now - lastCritical >= 60000L) {
+							lastCritical = now;
+							onCritique();
+							Bukkit.getServer().savePlayers();
+							for (World world : Bukkit.getWorlds()) {
+					            world.save();
+							}
+						}
+					} else if (ticks <= 15.0D) {
+						if (now - lastWarning >= 60000L) {
+							lastWarning = now;
+							onPrevient();
 						}
 					}
 					
 				}
 				
-			}.runTaskTimerAsynchronously(plugin, 40L, 60L);
+			// On the main thread: the saves and the actions of the messages need it
+			}.runTaskTimer(plugin, 40L, 60L);
 			
 		}
 		

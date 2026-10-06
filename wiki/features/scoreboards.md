@@ -8,6 +8,8 @@ description: >-
 
 Hawn shows a sidebar scoreboard to the players. You can create as many scoreboards as you want: each one is a file in `plugins/Hawn/Scoreboard/`, with its own worlds and its own permission. They are animated and flicker-free (Hawn uses [FastBoard](https://github.com/MrMicky-FR/FastBoard)).
 
+To turn off all the scoreboards, set `Scoreboard.Enable: false` in `Scoreboard-General.yml` and restart the server.
+
 ## Who sees which scoreboard?
 
 When a player joins or changes world, Hawn looks at the scoreboard files and picks the first one that:

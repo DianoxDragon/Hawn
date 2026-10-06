@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,19 +50,15 @@ public class FeedCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Feed.Enable", true);
-            Config.set("Feed.Others.Enable", false);
-            Config.set("Feed.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("Feed.Enable", true);
+        Config.set("Feed.Others.Enable", false);
+        Config.set("Feed.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

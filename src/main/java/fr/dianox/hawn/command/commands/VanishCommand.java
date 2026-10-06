@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -23,25 +25,20 @@ public class VanishCommand extends BukkitCommand {
 	
 	public VanishCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Vanish a player";
         this.usageMessage = "/vanish [msg]";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			List<String> options = Tab.players(sender, args);
+			options.addAll(Tab.of(args, "list"));
+			return options;
 		}
 
-		return null;
+		return Tab.none();
 	}
 	
 	@SuppressWarnings("deprecation")

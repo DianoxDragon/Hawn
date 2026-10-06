@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import com.cryptomorin.xseries.XMaterial;
@@ -77,7 +78,7 @@ public class SpecialIteLobbyBow implements Listener {
 		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
-			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
+			if (JoinItemTag.is(e.getCurrentItem(), JoinItemTag.LOBBYBOW) && e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
 				if (e.getCurrentItem().getType() == XMaterial.BOW.parseMaterial()) {
 					e.setCancelled(true);
 				}
@@ -124,7 +125,12 @@ public class SpecialIteLobbyBow implements Listener {
 				 } else {
 					 item = p.getInventory().getItemInHand();
 				 }
-								 
+
+				// Only an arrow of the lobby bow teleports (any bow did)
+				if (!JoinItemTag.is(item, JoinItemTag.LOBBYBOW)) {
+					return;
+				}
+
 				item.setDurability((short) 0);
 				Location destination = arrow.getLocation();
 				destination.setPitch(p.getLocation().getPitch());
@@ -180,7 +186,7 @@ public class SpecialIteLobbyBow implements Listener {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
 							if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
-								if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.LOBBYBOW) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
 									if (p.getInventory().getItemInMainHand().getType() == XMaterial.BOW.parseMaterial()) {
 										if(storedItem.containsKey(p)) return;
 										int slot = p.getInventory().getSize() - 10;
@@ -197,7 +203,7 @@ public class SpecialIteLobbyBow implements Listener {
 				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
 						if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
-							if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+							if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.LOBBYBOW) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
 								if (p.getItemInHand().getType() == XMaterial.BOW.parseMaterial()) {
 									if(storedItem.containsKey(p)) return;
 									int slot = p.getInventory().getSize() - 10;
@@ -235,6 +241,12 @@ public class SpecialIteLobbyBow implements Listener {
 		}
 	}
 	
+	// The item put aside for the arrow is given back when the player leaves
+	@EventHandler
+	public void onQuit(org.bukkit.event.player.PlayerQuitEvent e) {
+		returnItem(e.getPlayer());
+	}
+
 	private void returnItem(Player p) {
 		if (storedItem.containsKey(p.getPlayer())) {
 			int slot = p.getInventory().getSize() - 10;
@@ -335,6 +347,7 @@ public class SpecialIteLobbyBow implements Listener {
 			
 		item.setItemMeta(itemmeta);
 		
+		JoinItemTag.tag(item, JoinItemTag.LOBBYBOW);
 		p.getInventory().setItem(slot, item);
 	}
 	

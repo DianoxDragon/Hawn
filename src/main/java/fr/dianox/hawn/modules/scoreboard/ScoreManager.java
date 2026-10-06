@@ -3,6 +3,7 @@ package fr.dianox.hawn.modules.scoreboard;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.event.OnScoreboard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.AnimationTask;
+import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.Scroller;
 import org.bukkit.Bukkit;
@@ -18,11 +19,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreManager {
 
-	private YamlConfiguration cfg;
+	// Each scoreboard file is read once, not at every refresh of every player
+	private final Map<String, YamlConfiguration> files = new ConcurrentHashMap<>();
 
 	public HashMap<String, String> scoreacess = new HashMap<>();
 	public HashMap<String, List<String>> worldscore = new HashMap<>();
@@ -39,6 +43,8 @@ public class ScoreManager {
 	public List<Integer> alltasks = new ArrayList<>();
 
 	public ScoreManager(Main plugin) {
+		if (!ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) return;
+
 		File fo = new File(plugin.getDataFolder().getAbsolutePath() + "/Scoreboard/");
 
 		if (fo.listFiles() == null) return;
@@ -139,14 +145,22 @@ public class ScoreManager {
 	Get score information
 	 */
 	public YamlConfiguration getFile(String file) {
-		File f = new File(Main.getInstance().getDataFolder(), "Scoreboard/" + file + ".yml");
-		cfg = YamlConfiguration.loadConfiguration(f);
-		return cfg;
+		return files.computeIfAbsent(file, name ->
+				YamlConfiguration.loadConfiguration(new File(Main.getInstance().getDataFolder(), "Scoreboard/" + name + ".yml")));
+	}
+
+	/**
+	 * /hawn reload: the scoreboard files are read again.
+	 */
+	public void reloadFiles() {
+		files.clear();
+		// The lists can be shorter now: the animations start again from their first line
+		animationtab.replaceAll((key, line) -> 0);
 	}
 
 	public void writeInt(String file, String link, Integer i) {
 		File f = new File(Main.getInstance().getDataFolder(), "Scoreboard/" + file + ".yml");
-		cfg = YamlConfiguration.loadConfiguration(f);
+		YamlConfiguration cfg = getFile(file);
 		cfg.set(link, i);
 
 		try {

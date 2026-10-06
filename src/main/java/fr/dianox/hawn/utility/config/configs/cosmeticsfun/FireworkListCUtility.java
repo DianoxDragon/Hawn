@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,45 +50,41 @@ public class FireworkListCUtility {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Firework-List.Firework1.Options.Amount", 2);
-            Config.set("Firework-List.Firework1.Options.Height", 3);
-            Config.set("Firework-List.Firework1.Options.Flicker", false);
-            Config.set("Firework-List.Firework1.Options.Trail", false);
-            Config.set("Firework-List.Firework1.Options.Type", "BALL");
-            Config.set("Firework-List.Firework1.Options.Instant-explode", false);
-            Config.set("Firework-List.Firework1.Options.Power", 3);
-            Config.set("Firework-List.Firework1.Options.Colors", java.util.Arrays.asList(new String[] {
-                    "YELLOW",
-                    "RED"
-                }));
-            Config.set("Firework-List.Firework1.Options.Fade", java.util.Arrays.asList(new String[] {
-                    "BLUE",
-                    "WHITE"
-                }));
-            
-            Config.set("Firework-List.Firework2.Options.Amount", 2);
-            Config.set("Firework-List.Firework2.Options.Height", 3);
-            Config.set("Firework-List.Firework2.Options.Flicker", false);
-            Config.set("Firework-List.Firework2.Options.Trail", false);
-            Config.set("Firework-List.Firework2.Options.Type", "BALL");
-            Config.set("Firework-List.Firework2.Options.Instant-explode", true);
-            Config.set("Firework-List.Firework2.Options.Power", 1);
-            Config.set("Firework-List.Firework2.Options.Colors", java.util.Arrays.asList(new String[] {
-                    "YELLOW",
-                    "BLUE"
-                }));
-            Config.set("Firework-List.Firework1.Options.Fade", java.util.Arrays.asList(new String[] {
-                    "GREEN",
-                    "RED"
-                }));
-            
-            saveConfigFile();
+        Config.set("Firework-List.Firework1.Options.Amount", 2);
+        Config.set("Firework-List.Firework1.Options.Height", 3);
+        Config.set("Firework-List.Firework1.Options.Flicker", false);
+        Config.set("Firework-List.Firework1.Options.Trail", false);
+        Config.set("Firework-List.Firework1.Options.Type", "BALL");
+        Config.set("Firework-List.Firework1.Options.Instant-explode", false);
+        Config.set("Firework-List.Firework1.Options.Power", 3);
+        Config.set("Firework-List.Firework1.Options.Colors", java.util.Arrays.asList(new String[] {
+                "YELLOW",
+                "RED"
+            }));
+        Config.set("Firework-List.Firework1.Options.Fade", java.util.Arrays.asList(new String[] {
+                "BLUE",
+                "WHITE"
+            }));
 
-        }
+        Config.set("Firework-List.Firework2.Options.Amount", 2);
+        Config.set("Firework-List.Firework2.Options.Height", 3);
+        Config.set("Firework-List.Firework2.Options.Flicker", false);
+        Config.set("Firework-List.Firework2.Options.Trail", false);
+        Config.set("Firework-List.Firework2.Options.Type", "BALL");
+        Config.set("Firework-List.Firework2.Options.Instant-explode", true);
+        Config.set("Firework-List.Firework2.Options.Power", 1);
+        Config.set("Firework-List.Firework2.Options.Colors", java.util.Arrays.asList(new String[] {
+                "YELLOW",
+                "BLUE"
+            }));
+        Config.set("Firework-List.Firework1.Options.Fade", java.util.Arrays.asList(new String[] {
+                "GREEN",
+                "RED"
+            }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config, "Firework-List");
     }
 }

@@ -53,7 +53,7 @@ Hawn asks you to **restart the server** so that every module picks up the new se
 The setup is never shown again, even after a restart: Hawn creates the file `plugins/Hawn/StockageInfo/Setup.lock`.
 
 {% hint style="info" %}
-**Want to run the setup again?** Stop the server, delete `plugins/Hawn/StockageInfo/Setup.lock` and start the server.
+**Want to run the setup again?** Since Hawn 1.3, type `/hawn setup`: it opens the setup from the first step.
 {% endhint %}
 
 Don't forget the spawn permission: to be teleported to the spawn `lobby`, players need `hawn.command.spawn.lobby`. See [Spawns](../features/spawns.md#permissions).

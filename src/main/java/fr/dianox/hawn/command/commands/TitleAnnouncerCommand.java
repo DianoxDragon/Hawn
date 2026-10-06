@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.utility.*;
@@ -19,13 +21,14 @@ public class TitleAnnouncerCommand extends BukkitCommand {
 
     public TitleAnnouncerCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Broadcast a title";
         this.usageMessage = "/btcast [msg]";
     }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
     @Override

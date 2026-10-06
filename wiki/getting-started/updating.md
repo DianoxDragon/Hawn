@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, especially from 1.1.x to 1.2.
+description: What to check when you update Hawn, from 1.1.x to 1.2 and from 1.2 to 1.3.
 ---
 
 # Updating from an older version
@@ -11,7 +11,20 @@ description: What to check when you update Hawn, especially from 1.1.x to 1.2.
 3. Replace the old Hawn jar by the new one in `plugins`.
 4. Start the server.
 
-Your configuration files are kept: Hawn only creates the files that don't exist yet.
+Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## From 1.2 to 1.3
+
+Your files are kept and completed with the new options. Check these changes of behaviour:
+
+* **Teleport on join**: `hawn.command.spawn.<spawn>` is not needed anymore to be teleported to the spawn when joining. To keep the old behaviour, set `Event.OnJoin.Spawn-Permission.Enable: true` in `Events/OnJoin.yml`. See [Spawns](../features/spawns.md#teleport-on-join).
+* **IP of the players**: not saved anymore, and the saved IP of each player is erased at their next join. To keep saving it, set `Plugin.Players.Save-IP: true` in `general.yml`. See [Player data and MySQL](../features/database.md#ip-of-the-players).
+* **Commands**: the commands a player can't use are hidden from them (they get "Unknown command" instead of the Hawn "no permission" message). To show them again, set `Plugin.Commands.Hide-Without-Permission: false` in `general.yml` and restart.
+* **Join items**: they are recognised by a hidden tag. The items given by 1.2 do nothing until the player joins again and gets new ones.
+* **Emergency mode**: it now removes the operator status and locks the commands and the chat. Read [Admin tools](../features/admin-tools.md) before using it.
+* **MySQL**: at the first start, the old tables are copied as `<table>_before_1_3` and cleaned of their duplicates. Delete the copies once everything works.
+
+See the [changelog](../help/changelog.md) for everything else.
 
 ## From 1.1.x to 1.2
 

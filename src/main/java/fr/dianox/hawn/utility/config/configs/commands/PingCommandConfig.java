@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,22 +50,18 @@ public class PingCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Ping.Self.Enable", true);
-            Config.set("Ping.Self.Use_Permission", false);
-            Config.set("Ping.Self.Disable-Message", true);
-            Config.set("Ping.Other.Enable", true);
-            Config.set("Ping.Other.Use_Permission", false);
-            Config.set("Ping.Other.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("Ping.Self.Enable", true);
+        Config.set("Ping.Self.Use_Permission", false);
+        Config.set("Ping.Self.Disable-Message", true);
+        Config.set("Ping.Other.Enable", true);
+        Config.set("Ping.Other.Use_Permission", false);
+        Config.set("Ping.Other.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            saveConfigFile();
-
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

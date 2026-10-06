@@ -75,7 +75,7 @@ Keep:
   DoubleJump-Fly-OnJoin:
     Enable: false
   JumpBoost-OnJoin:
-    Enable: false
+    Enable: true
 TP:
   Last-Position-On-Join:
     Enable: false
@@ -91,11 +91,13 @@ Options:
 | `Speed-OnJoin`             | Their walk speed.                                                    | `hawn.onjoin.playeroption.speed`           |
 | `FlySpeed-OnJoin`          | Their fly speed.                                                     | `hawn.onjoin.playeroption.flyspeed`        |
 | `DoubleJump-Fly-OnJoin`    | Fly or double jump.                                                  | —                                          |
-| `TP.Last-Position-On-Join` | They are teleported back where they left instead of the spawn.       | `hawn.betweenservers.tplastposition`       |
+| `PlayerVisibility-OnJoin`  | Whether they hid the other players (same as `OnJoin-Priority-For-Player-Option` of the [player visibility item](custom-join-items.md#player-visibility-special-hideplayers)). | — |
+| `JumpBoost-OnJoin`         | Their jump boost (`/option jumpboost`). When `false`, the jump boost is removed and turned off when they join. | — |
+| `TP.Last-Position-On-Join` | They are teleported back where they left instead of the spawn (to the spawn if that world doesn't exist anymore). | `hawn.betweenservers.tplastposition`       |
 
 `General.Enable: false` turns off the whole restoration: only the speeds of `Events/OnJoin.yml` are applied.
 
-The jump boost is always restored when the player had it on. The player visibility is restored by the [player visibility item](custom-join-items.md#player-visibility-special-hideplayers) (`OnJoin-Priority-For-Player-Option`). The `PlayerVisibility-OnJoin` and `JumpBoost-OnJoin` keys of this file are not used.
+`JumpBoost-OnJoin` is `true` in new configurations. A configuration generated before Hawn 1.3 has `false`: set it to `true` to keep the jump boost of your players.
 
 `Options.Flying.Put-boots`: players with `hawn.fun.boots.flying` get a pair of diamond boots while they fly (just for fun, they are removed when landing).
 

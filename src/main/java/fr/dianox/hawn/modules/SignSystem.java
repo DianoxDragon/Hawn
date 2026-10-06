@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
-import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.SignListCUtility;
 import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
 import net.md_5.bungee.api.ChatColor;
@@ -63,12 +63,7 @@ public class SignSystem implements Listener {
 		Block b = e.getClickedBlock();
 		
 		try {
-			if (b.getType() != XMaterial.OAK_SIGN.parseMaterial() && b.getType() != XMaterial.OAK_WALL_SIGN.parseMaterial() &&
-					b.getType() != XMaterial.ACACIA_SIGN.parseMaterial() && b.getType() != XMaterial.ACACIA_WALL_SIGN.parseMaterial() &&
-					b.getType() != XMaterial.BIRCH_SIGN.parseMaterial() && b.getType() != XMaterial.BIRCH_WALL_SIGN.parseMaterial() &&
-					b.getType() != XMaterial.DARK_OAK_SIGN.parseMaterial() && b.getType() != XMaterial.DARK_OAK_WALL_SIGN.parseMaterial() &&
-					b.getType() != XMaterial.JUNGLE_SIGN.parseMaterial() && b.getType() != XMaterial.JUNGLE_WALL_SIGN.parseMaterial() &&
-					b.getType() != XMaterial.SPRUCE_SIGN.parseMaterial() && b.getType() != XMaterial.SPRUCE_WALL_SIGN.parseMaterial()) {
+			if (!isSign(b.getType())) {
 				return;
 			}
 			
@@ -126,12 +121,7 @@ public class SignSystem implements Listener {
 		if (OtherFeaturesConfig.getConfig().getBoolean("SignSystem.Enable")) {
 			Location l = b.getLocation();
 			
-			if (b.getType() == XMaterial.OAK_SIGN.parseMaterial() || b.getType() == XMaterial.OAK_WALL_SIGN.parseMaterial() ||
-					b.getType() == XMaterial.ACACIA_SIGN.parseMaterial() || b.getType() == XMaterial.ACACIA_WALL_SIGN.parseMaterial() ||
-					b.getType() == XMaterial.BIRCH_SIGN.parseMaterial() || b.getType() == XMaterial.BIRCH_WALL_SIGN.parseMaterial() ||
-					b.getType() == XMaterial.DARK_OAK_SIGN.parseMaterial() || b.getType() == XMaterial.DARK_OAK_WALL_SIGN.parseMaterial() ||
-					b.getType() == XMaterial.JUNGLE_SIGN.parseMaterial() || b.getType() == XMaterial.JUNGLE_WALL_SIGN.parseMaterial() ||
-					b.getType() == XMaterial.SPRUCE_SIGN.parseMaterial() || b.getType() == XMaterial.SPRUCE_WALL_SIGN.parseMaterial()) {
+			if (isSign(b.getType())) {
 				if (SignListCUtility.getConfig().isSet("Signs." + l.getWorld().getName()  + "." + l.getBlockX() + "." + l.getBlockY() + "." + l.getBlockZ())) {
 					if (!p.hasPermission("hawn.sign.delete")) {
 						e.setCancelled(true);
@@ -145,4 +135,9 @@ public class SignSystem implements Listener {
 		}
 	}
 
+
+	// Every kind of sign: all the woods, wall signs and hanging signs
+	private static boolean isSign(Material type) {
+		return type.name().endsWith("_SIGN");
+	}
 }

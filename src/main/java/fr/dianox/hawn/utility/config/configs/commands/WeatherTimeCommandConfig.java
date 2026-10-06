@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -49,36 +51,32 @@ public class WeatherTimeCommandConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Weather.Set.Sun.Enable", true);
-            Config.set("Weather.Set.Sun.Disable-Message", true);
-            Config.set("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("Weather.Set.Rain.Enable", true);
-            Config.set("Weather.Set.Rain.Disable-Message", true);
-            Config.set("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("Weather.Set.Thunder.Enable", true);
-            Config.set("Weather.Set.Thunder.Disable-Message", true);
-            Config.set("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("Time.Set.Day.Enable", true);
-            Config.set("Time.Set.Day.Value", 0);
-            Config.set("Time.Set.Day.Disable-Message", true);
-            Config.set("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("Time.Set.Night.Enable", true);
-            Config.set("Time.Set.Night.Value", 16000);
-            Config.set("Time.Set.Night.Disable-Message", true);
-            Config.set("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        Config.set("Weather.Set.Sun.Enable", true);
+        Config.set("Weather.Set.Sun.Disable-Message", true);
+        Config.set("Weather.Set.Sun.DISABLE_THE_COMMAND_COMPLETELY", false);
 
-        }
+        Config.set("Weather.Set.Rain.Enable", true);
+        Config.set("Weather.Set.Rain.Disable-Message", true);
+        Config.set("Weather.Set.Rain.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("Weather.Set.Thunder.Enable", true);
+        Config.set("Weather.Set.Thunder.Disable-Message", true);
+        Config.set("Weather.Set.Thunder.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("Time.Set.Day.Enable", true);
+        Config.set("Time.Set.Day.Value", 0);
+        Config.set("Time.Set.Day.Disable-Message", true);
+        Config.set("Time.Set.Day.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("Time.Set.Night.Enable", true);
+        Config.set("Time.Set.Night.Value", 16000);
+        Config.set("Time.Set.Night.Disable-Message", true);
+        Config.set("Time.Set.Night.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,33 +50,29 @@ public class TitleAnnouncerConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Title-Announcer.Enable", true);
-            Config.set("Title-Announcer.Title.FadeIn", 20);
-            Config.set("Title-Announcer.Title.Stay", 75);
-            Config.set("Title-Announcer.Title.FadeOut", 20);
-            Config.set("Title-Announcer.Disable-Message", true);
-            
-            Config.set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
-            
-            Config.set("Title-Announcer.Options.Firework.Enable", true);
-            Config.set("Title-Announcer.Options.Firework.Firework-List", java.util.Arrays.asList(new String[] {
-                    "[FWLU]: Firework2"
-            }));
-            
-            Config.set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
-            Config.set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
-            Config.set("Title-Announcer.Options.Sound-For-All-Players.Volume", 1);
-            Config.set("Title-Announcer.Options.Sound-For-All-Players.Pitch", 1);
-            
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("Title-Announcer.Enable", true);
+        Config.set("Title-Announcer.Title.FadeIn", 20);
+        Config.set("Title-Announcer.Title.Stay", 75);
+        Config.set("Title-Announcer.Title.FadeOut", 20);
+        Config.set("Title-Announcer.Disable-Message", true);
 
-            saveConfigFile();
+        Config.set("Title-Announcer.Options.Write-In-The-Chat-The-Announce", false);
 
-        }
+        Config.set("Title-Announcer.Options.Firework.Enable", true);
+        Config.set("Title-Announcer.Options.Firework.Firework-List", java.util.Arrays.asList(new String[] {
+                "[FWLU]: Firework2"
+        }));
+
+        Config.set("Title-Announcer.Options.Sound-For-All-Players.Enable", true);
+        Config.set("Title-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
+        Config.set("Title-Announcer.Options.Sound-For-All-Players.Volume", 1);
+        Config.set("Title-Announcer.Options.Sound-For-All-Players.Pitch", 1);
+
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

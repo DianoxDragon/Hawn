@@ -82,7 +82,7 @@ The Emojis-List file is saved in UTF-8. If your emojis show as `?`, check that y
 
 ## Mentions
 
-Write `@PlayerName` in the chat to mention someone.
+Write `@PlayerName` in the chat to mention someone. Only the players who receive the message can be mentioned: a muted player (by Hawn or another plugin such as LiteBans) or a message sent in a chat channel stays where it is.
 
 ```yaml
 Chat-Mention:

@@ -152,6 +152,34 @@ public class Interactables {
 			if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options.SWEET_BERRY_BUSH")) {
 				interactables.add(XMaterial.SWEET_BERRY_BUSH.parseMaterial());
 			}
+
+			// Woods added after this list: protected unless their option is set to false
+			for (String wood : new String[] {"CRIMSON", "WARPED", "MANGROVE", "CHERRY", "BAMBOO", "PALE_OAK"}) {
+				for (String type : new String[] {"_DOOR", "_FENCE_GATE", "_TRAPDOOR"}) {
+					if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options." + wood + type, true)) {
+						addIfExists(wood + type);
+					}
+				}
+			}
+
+			// One option for the 8 copper doors (oxidation and waxed variants), one for the 8 copper trapdoors
+			for (String type : new String[] {"COPPER_DOOR", "COPPER_TRAPDOOR"}) {
+				if (ConfigGProtection.getConfig().getBoolean("Protection.PlayerInteract-Items-Blocks.Options." + type, true)) {
+					for (String waxed : new String[] {"", "WAXED_"}) {
+						for (String state : new String[] {"", "EXPOSED_", "WEATHERED_", "OXIDIZED_"}) {
+							addIfExists(waxed + state + type);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// The material does not exist on the older versions of Minecraft
+	private void addIfExists(String name) {
+		Material material = Material.matchMaterial(name);
+		if (material != null) {
+			interactables.add(material);
 		}
 	}
 

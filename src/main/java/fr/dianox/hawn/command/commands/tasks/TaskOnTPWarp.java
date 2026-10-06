@@ -39,7 +39,7 @@ public class TaskOnTPWarp extends BukkitRunnable {
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self.Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", tp), "", "", false);
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(tp)), "", "", false);
 				}
 			}
 

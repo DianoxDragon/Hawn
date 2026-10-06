@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.Skulls;
 
 import org.bukkit.Bukkit;
@@ -27,25 +29,18 @@ public class SkullCommand extends BukkitCommand {
 
 	public SkullCommand(String name) {
 		 super(name);
+		 Tab.hideWithoutPermission(this, GeneralPermission);
 		 this.description = "Get player skull";
 		 this.usageMessage = "/skull [player]";
 	 }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	 @Override

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.events;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -49,50 +51,46 @@ public class ConfigGJoinQuitCommand {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("JoinCommand.Enable", true);
-            Config.set("JoinCommand.Options.New.Enable", false);
-            Config.set("JoinCommand.Options.New.Commands",java.util.Arrays.asList(new String[] {
-            		"This message is sent from the JoinQuitCommand module."
-            }));
-            Config.set("JoinCommand.Options.New.World.All_World", false);
-            Config.set("JoinCommand.Options.New.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            
-            Config.set("JoinCommand.Options.No-New.Enable", true);
-            Config.set("JoinCommand.Options.No-New.Commands",java.util.Arrays.asList(new String[] {
-            		"-----------------------------------------------------",
-            		"&7&lThese messages are sent from the JoinQuitCommand module \\/\\/\\/",
-            		"<world>world</world> <perm>serer</perm> [command-player]: test",
-                    "[ping]",
-                    "You can configurate as you want this part",
-                    "-----------------------------------------------------"
-            }));
-            Config.set("JoinCommand.Options.No-New.World.All_World", false);
-            Config.set("JoinCommand.Options.No-New.World.Worlds", java.util.Arrays.asList(new String[] {
-            		"world",
-                    "world_nether"
-            }));
-            
-            Config.set("QuitCommand.Enable", false);
-            Config.set("QuitCommand.Commands",java.util.Arrays.asList(new String[] {
-            		"you can execute one or a lot of commands here with %player%"
-            }));
-            Config.set("QuitCommand.World.All_World", false);
-            Config.set("QuitCommand.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
+        Config.set("JoinCommand.Enable", true);
+        Config.set("JoinCommand.Options.New.Enable", false);
+        Config.set("JoinCommand.Options.New.Commands",java.util.Arrays.asList(new String[] {
+        		"This message is sent from the JoinQuitCommand module."
+        }));
+        Config.set("JoinCommand.Options.New.World.All_World", false);
+        Config.set("JoinCommand.Options.New.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
 
-            saveConfigFile();
+        Config.set("JoinCommand.Options.No-New.Enable", true);
+        Config.set("JoinCommand.Options.No-New.Commands",java.util.Arrays.asList(new String[] {
+        		"-----------------------------------------------------",
+        		"&7&lThese messages are sent from the JoinQuitCommand module \\/\\/\\/",
+        		"<world>world</world> <perm>serer</perm> [command-player]: test",
+                "[ping]",
+                "You can configurate as you want this part",
+                "-----------------------------------------------------"
+        }));
+        Config.set("JoinCommand.Options.No-New.World.All_World", false);
+        Config.set("JoinCommand.Options.No-New.World.Worlds", java.util.Arrays.asList(new String[] {
+        		"world",
+                "world_nether"
+        }));
 
-        }
+        Config.set("QuitCommand.Enable", false);
+        Config.set("QuitCommand.Commands",java.util.Arrays.asList(new String[] {
+        		"you can execute one or a lot of commands here with %player%"
+        }));
+        Config.set("QuitCommand.World.All_World", false);
+        Config.set("QuitCommand.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

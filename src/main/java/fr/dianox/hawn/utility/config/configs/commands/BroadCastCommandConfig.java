@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,21 +50,17 @@ public class BroadCastCommandConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Broadcast.Enable", true);
-            Config.set("Broadcast.Disable-Message", true);
-            Config.set("Broadcast.Sounds.Enabled", true);
-            Config.set("Broadcast.Sounds.Sound", "NOTE_PIANO");
-            Config.set("Broadcast.Sounds.Volume", 10);
-            Config.set("Broadcast.Sounds.Pitch", 1);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("Broadcast.Enable", true);
+        Config.set("Broadcast.Disable-Message", true);
+        Config.set("Broadcast.Sounds.Enabled", true);
+        Config.set("Broadcast.Sounds.Sound", "NOTE_PIANO");
+        Config.set("Broadcast.Sounds.Volume", 10);
+        Config.set("Broadcast.Sounds.Pitch", 1);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

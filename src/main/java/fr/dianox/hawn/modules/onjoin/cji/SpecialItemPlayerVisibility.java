@@ -4,8 +4,10 @@ import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
@@ -83,7 +85,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			Check2 = MessageUtils.colourTheStuff(Check2);
 			
 			try {
-				if (item.getItemMeta().getDisplayName().contains(Check1)) {
+				if (JoinItemTag.is(item, JoinItemTag.HIDEPLAYERS) && item.getItemMeta().getDisplayName().contains(Check1)) {
 					if (item.getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 							if (PlayerVisibility.Cooling().contains(p)) {
@@ -105,7 +107,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 							e.setCancelled(true);
 						}
 					}
-				} else if (item.getItemMeta().getDisplayName().contains(Check2)) {
+				} else if (JoinItemTag.is(item, JoinItemTag.HIDEPLAYERS) && item.getItemMeta().getDisplayName().contains(Check2)) {
 					if (item.getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
 						e.setCancelled(true);
 						if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
@@ -180,7 +182,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 							Check2 = MessageUtils.colourTheStuff(Check2);
 							
 							try {
-							if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+							if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.HIDEPLAYERS) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
 								if (p.getInventory().getItemInMainHand().getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
 									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 										if (PlayerVisibility.Cooling().contains(p)) {
@@ -201,7 +203,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 										e.setCancelled(true);
 									}
 								}
-							} else if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check2)) {
+							} else if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.HIDEPLAYERS) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check2)) {
 								if (p.getInventory().getItemInMainHand().getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
 									if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 										if (PlayerVisibility.Cooling().contains(p)) {
@@ -250,7 +252,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 						Check2 = MessageUtils.colourTheStuff(Check2);
 						
 						try {
-						if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+						if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.HIDEPLAYERS) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
 							if (p.getItemInHand().getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Material.Material"), "custom join item - special item - pv")) {
 								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 									if (PlayerVisibility.Cooling().contains(p)) {
@@ -271,7 +273,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 									e.setCancelled(true);
 								}
 							}
-						} else if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check2)) {
+						} else if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.HIDEPLAYERS) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check2)) {
 							if (p.getItemInHand().getType() == XParse.material(SpecialCjiHidePlayers.getConfig().getString("PV.ON.Material.Material"), "custom join item - special item - pv")) {
 								if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 									if (PlayerVisibility.Cooling().contains(p)) {
@@ -345,6 +347,15 @@ public class SpecialItemPlayerVisibility implements Listener {
 		PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
 	}
 	
+	/**
+	 * The choice of the player is restored on join with PV.Option.OnJoin-Priority-For-Player-Option
+	 * or with Keep.PlayerVisibility-OnJoin of Player-Option-General.yml.
+	 */
+	private static boolean keepPlayerChoice() {
+		return SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")
+				|| PlayerOptionMainConfig.getConfig().getBoolean("Keep.PlayerVisibility-OnJoin.Enable");
+	}
+
 	public static void PlayerGivePlayerVisibilityItemOnJoincji(Player p, Integer slot) {
 		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
 			return;
@@ -367,7 +378,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			}
 		}
 
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+		if (keepPlayerChoice()) {
 			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
 
 			CreateItem(p, ! value.equalsIgnoreCase("FALSE"), slot);
@@ -388,7 +399,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			}
 		}
 
-		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.OnJoin-Priority-For-Player-Option")) {
+		if (keepPlayerChoice()) {
 			String value = PlayerOptionSQLClass.getValueMysqlYaml(p);
 
 			if (value.equalsIgnoreCase("FALSE")) {
@@ -624,6 +635,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			item.setItemMeta(itemmeta);
 		}
 		
+		JoinItemTag.tag(item, JoinItemTag.HIDEPLAYERS);
 		p.getInventory().setItem(slot, item);
 	}
 }

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.config.configs.WarpListConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -22,18 +24,18 @@ public class SpeedCommand extends BukkitCommand {
 
 	public SpeedCommand(String name) {
 		 super(name);
+		 Tab.hideWithoutPermission(this, GeneralPermission);
 		 this.description = "Change or enable/disable speed";
 		 this.usageMessage = "/speed [number]";
 	 }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			return Tab.range(args, 0, 10);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	 @Override
@@ -98,7 +100,7 @@ public class SpeedCommand extends BukkitCommand {
 
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
                      for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
-                         ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", args[0]), "", "", false);
+                         ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[0])), "", "", false);
                      }
                  }
              } catch (NumberFormatException e) {

@@ -72,7 +72,7 @@ Custom-Join-Item:
 | -------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
 | `Material`     | yes\*    | The item. Old and new names are accepted, see [Materials](../reference/values.md#materials).                 |
 | `Slot`         | yes      | Inventory slot: `0`–`8` is the hotbar, `9`–`35` the rest of the inventory.                                   |
-| `Title`        | no       | Display name. Colours and placeholders work.                                                                 |
+| `Title`        | no       | Display name. Colours and placeholders work. The items are recognised by a hidden tag, not by their name: a copy renamed on an anvil does nothing. |
 | `Lore`         | no       | Lines under the name. Colours and placeholders work.                                                         |
 | `Amount`       | no       | Number of items (default 1).                                                                                 |
 | `Skull-Name`   | no       | With a player head material: the owner of the head. `%player%` = the player's own head.                     |

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -19,13 +21,18 @@ public class FlySpeedCommand extends BukkitCommand {
 
 	public FlySpeedCommand(String name) {
 		 super(name);
+		 Tab.hideWithoutPermission(this, GeneralPermission);
 		 this.description = "Change or enable/disable flyspeed";
 		 this.usageMessage = "/flyspeed [number]";
 	 }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		if (args.length == 1) {
+			return Tab.range(args, 0, 10);
+		}
+
+		return Tab.none();
 	}
 
 	 @Override

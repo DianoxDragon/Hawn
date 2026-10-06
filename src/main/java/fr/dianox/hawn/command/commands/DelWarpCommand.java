@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.WarpListConfig;
@@ -22,18 +24,18 @@ public class DelWarpCommand extends BukkitCommand {
 	
 	public DelWarpCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Deletes the specified warp";
         this.usageMessage = "/delwarp <warp>";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			return Tab.keys(WarpListConfig.getConfig(), "Coordinated", args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 
@@ -143,7 +145,7 @@ public class DelWarpCommand extends BukkitCommand {
 
 			if (ConfigMMsg.getConfig().getBoolean(msg_warp_delete+"Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList(msg_warp_delete+"Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]), "", "", false);
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])), "", "", false);
 				}
 			}
 		} else {

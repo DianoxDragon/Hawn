@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.2.0"
+version = "1.3.0-Beta"
 
 repositories {
     mavenCentral()
@@ -71,6 +71,8 @@ tasks {
 
     processResources {
         filteringCharset = "UTF-8"
+        // Without it, Gradle keeps the old plugin.yml when only the version changes
+        inputs.property("version", project.version)
         filesMatching("plugin.yml") {
             expand("version" to project.version)
         }

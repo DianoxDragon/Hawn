@@ -78,7 +78,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + getac + "' ", "player_fly_speed");
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_fly_speed");
 
                     value = String.valueOf(getva);
                 } else if (method.equalsIgnoreCase("ACTIVATE")) {
@@ -172,7 +172,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + getac + "' ", "player_speed");
+                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_speed");
 
                     value = String.valueOf(getva);
                 } else if (method.equalsIgnoreCase("ACTIVATE")) {
@@ -677,7 +677,7 @@ public class PlayerOptionSQLClass {
 
         if (Main.getInstance().getSql().useyamllistplayer) {
 
-            value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.gamemode_stat"));
+            value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.gamemode_state"));
 
         } else {
             if (!SQL.tableExists("player_gamemode")) {
@@ -690,7 +690,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_gamemode", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
 
-                value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.gamemode_stat"));
+                value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.gamemode_state"));
                 SQL.insertData("player, player_UUID, gamemode_state",
                     " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_gamemode");
             }

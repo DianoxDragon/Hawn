@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,38 +50,34 @@ public class ConfigGCos {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Cosmetics.Firework.Enable", true);
-            Config.set("Cosmetics.Firework.Bypass", false);
-            
-            Config.set("Cosmetics.Firework.Options.First-Join-Only", false);
-            Config.set("Cosmetics.Firework.Options.Firework-List", java.util.Arrays.asList(new String[] {
-                    "[FWLU]: Firework1"
+        Config.set("Cosmetics.Firework.Enable", true);
+        Config.set("Cosmetics.Firework.Bypass", false);
+
+        Config.set("Cosmetics.Firework.Options.First-Join-Only", false);
+        Config.set("Cosmetics.Firework.Options.Firework-List", java.util.Arrays.asList(new String[] {
+                "[FWLU]: Firework1"
+        }));
+
+        Config.set("Cosmetics.Firework.World.All_World", false);
+        Config.set("Cosmetics.Firework.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
             }));
-            
-            Config.set("Cosmetics.Firework.World.All_World", false);
-            Config.set("Cosmetics.Firework.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-                }));
-            
-            Config.set("Cosmetics.Lightning-Strike.Enable", true);
-            Config.set("Cosmetics.Lightning-Strike.Bypass", false);
-            Config.set("Cosmetics.Lightning-Strike.Options.First-Join-Only", false);
-            Config.set("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes", 3);
 
-            Config.set("Cosmetics.Lightning-Strike.World.All_World", false);
-            Config.set("Cosmetics.Lightning-Strike.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-                }));
-            
-            saveConfigFile();
+        Config.set("Cosmetics.Lightning-Strike.Enable", true);
+        Config.set("Cosmetics.Lightning-Strike.Bypass", false);
+        Config.set("Cosmetics.Lightning-Strike.Options.First-Join-Only", false);
+        Config.set("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes", 3);
 
-        }
+        Config.set("Cosmetics.Lightning-Strike.World.All_World", false);
+        Config.set("Cosmetics.Lightning-Strike.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+            }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

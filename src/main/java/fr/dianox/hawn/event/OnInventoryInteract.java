@@ -6,6 +6,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
@@ -126,16 +127,8 @@ public class OnInventoryInteract implements Listener {
 									}
 								}
 								
-								// CLASSIC ITEMS + 1.9
-								String Check1 = ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Title");
-								
-								if (Check1.startsWith("&f")) {
-									Check1 = Check1.substring(2, Check1.length());
-								}
-								
-								Check1 = MessageUtils.colourTheStuff(Check1);
-								
-								if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+								// The item given for this slot (a renamed copy has no tag)
+								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 									if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
 										if (p.getInventory().getItemInMainHand().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Material"), "Custom Join Item")) {
 											for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
@@ -186,16 +179,8 @@ public class OnInventoryInteract implements Listener {
 								}
 							}
 
-							// CLASSIC ITEMS 1.8
-							String Check1 = ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Title");
-							
-							if (Check1.startsWith("&f")) {
-								Check1 = Check1.substring(2, Check1.length());
-							}
-							
-							Check1 = MessageUtils.colourTheStuff(Check1);
-							
-							if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+							// The item given for this slot (a renamed copy has no tag)
+							if (JoinItemTag.is(p.getItemInHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 								if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
 									if (p.getItemInHand().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Material"), "Custom Join Item")) {
 										for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
@@ -282,7 +267,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"))) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.helmet")) {
@@ -307,7 +292,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"))) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.chestplate")) {
@@ -332,7 +317,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"))) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.leggings")) {
@@ -357,7 +342,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material"))) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.boots")) {
@@ -384,15 +369,8 @@ public class OnInventoryInteract implements Listener {
 							 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 								 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()))) {
 									 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Special-Items")) {
-										 String Check1 = ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Title");
-										 
-										 if (Check1.startsWith("&f")) {
-											 Check1 = Check1.substring(2, Check1.length());
-										 }
-											
-										 Check1 = MessageUtils.colourTheStuff(Check1);
-										 									 
-										 if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
+										 // The item given for this slot (a renamed copy has no tag)
+										 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 											 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
 												 if (e.getCurrentItem().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Material"), "Custom Join Item")) {
 													 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
@@ -413,15 +391,8 @@ public class OnInventoryInteract implements Listener {
 								 }
 							 } else {
 								 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Special-Items")) {
-									 String Check1 = ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Title");
-									 
-									 if (Check1.startsWith("&f")) {
-										 Check1 = Check1.substring(2, Check1.length());
-									 }
-										
-									 Check1 = MessageUtils.colourTheStuff(Check1);
-									 
-									 if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
+									 // The item given for this slot (a renamed copy has no tag)
+									 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 										 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
 											 if (e.getCurrentItem().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Material"), "Custom Join Item")) {
 												 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {

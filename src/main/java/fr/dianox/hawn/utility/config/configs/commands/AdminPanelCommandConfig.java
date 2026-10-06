@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,20 +50,16 @@ public class AdminPanelCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("General-Options.List-Of-People-Can-Use-The-Panel", java.util.Arrays.asList(new String[] {
-            		"Dianox"
-            }));
-            
-            Config.set("General-Options.Warn-when-people-make-change", true);
+        Config.set("General-Options.List-Of-People-Can-Use-The-Panel", java.util.Arrays.asList(new String[] {
+        		"Dianox"
+        }));
 
-            saveConfigFile();
+        Config.set("General-Options.Warn-when-people-make-change", true);
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

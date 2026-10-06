@@ -29,6 +29,8 @@ import java.util.UUID;
 public class Setup implements Listener {
 
 	private static Plugin pl;
+	private static Setup instance;
+	private static boolean listenersRegistered = false;
 	public static boolean needsetup = false;
 	public static int setupplace = 1;
 
@@ -38,6 +40,7 @@ public class Setup implements Listener {
 
 	public Setup(Plugin plugin) {
 		pl = plugin;
+		instance = this;
 
 		// Detect if the plugin needs to be setup
 		File file = new File(pl.getDataFolder(), "StockageInfo/Setup.lock");
@@ -47,10 +50,7 @@ public class Setup implements Listener {
 		}
 
 		if (needsetup) {
-			Bukkit.getPluginManager().registerEvents(this, pl);
-			Bukkit.getPluginManager().registerEvents(new Setup1Language(), pl);
-			Bukkit.getPluginManager().registerEvents(new Setup2World(), pl);
-			Bukkit.getPluginManager().registerEvents(new Setup3Spawn(), pl);
+			registerListeners();
 
 			// Also starts the setup for the players who become operator while they are online
 			detectionTask = Bukkit.getScheduler().runTaskTimer(pl, () -> {
@@ -61,6 +61,32 @@ public class Setup implements Listener {
 				}
 			}, 40L, 40L);
 		}
+	}
+
+	private static void registerListeners() {
+		if (listenersRegistered) {
+			return;
+		}
+
+		listenersRegistered = true;
+		Bukkit.getPluginManager().registerEvents(instance, pl);
+		Bukkit.getPluginManager().registerEvents(new Setup1Language(), pl);
+		Bukkit.getPluginManager().registerEvents(new Setup2World(), pl);
+		Bukkit.getPluginManager().registerEvents(new Setup3Spawn(), pl);
+	}
+
+	/**
+	 * /hawn setup: opens the setup for this player, from the first step when it was already done.
+	 */
+	public static void open(Player p) {
+		if (!needsetup) {
+			needsetup = true;
+			setupplace = 1;
+			registerListeners();
+		}
+
+		inSetup.add(p.getUniqueId());
+		openCurrentStep(p);
 	}
 
 	private static void start(Player p) {

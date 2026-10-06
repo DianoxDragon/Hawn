@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
 import fr.dianox.hawn.utility.Skulls;
+import fr.dianox.hawn.utility.JoinItemTag;
 
 import fr.dianox.hawn.utility.XParse;
 
@@ -302,6 +303,7 @@ public class CustomJoinItem {
 			}
 			
 			item.setItemMeta(metabook);
+			JoinItemTag.tag(item, path_item);
 			p.getInventory().setItem(slot, item);
 			
 			return;
@@ -375,6 +377,8 @@ public class CustomJoinItem {
 				item.setItemMeta(itemmeta);
 			}
 		
+		JoinItemTag.tag(item, path_item);
+
 		if (specialvalue.contentEquals("Helmet")) {
 			p.getInventory().setHelmet(item);
 		} else if (specialvalue.contentEquals("Chestplate")) {

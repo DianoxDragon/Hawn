@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -48,14 +50,12 @@ public class ConfigSpawn {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            saveConfigFile();
 
-        }
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

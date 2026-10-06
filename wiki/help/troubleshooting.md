@@ -12,7 +12,7 @@ No default spawn has been chosen yet. Stand where you want it and type `/setspaw
 
 ### "You don't have the permission hawn.command.spawn.<name>"
 
-Every spawn has its own permission, even when `Use-Permission` is `false`. Give `hawn.command.spawn.<name>` to your players (for example `hawn.command.spawn.lobby`). This permission is also needed for the teleport on join and the void TP.
+Every spawn has its own permission, even when `Use-Permission` is `false`. Give `hawn.command.spawn.<name>` to your players (for example `hawn.command.spawn.lobby`). This permission is also needed for the void TP, and for the teleport on join when `Event.OnJoin.Spawn-Permission.Enable` is `true`.
 
 ### "The spawn doesn't exist" with /spawn, /hub or /lobby
 
@@ -24,7 +24,7 @@ Every spawn has its own permission, even when `Use-Permission` is `false`. Give 
 ### Players are not teleported to the spawn when they join
 
 * `Events/OnJoin.yml` → `Event.OnJoin.Tp-To-Spawn` must be `true`.
-* Players need `hawn.command.spawn.<spawn>`.
+* If `Event.OnJoin.Spawn-Permission.Enable` is `true`, players need `hawn.command.spawn.<spawn>`.
 * If `Player-Option-General.yml` → `TP.Last-Position-On-Join` is enabled, players with `hawn.betweenservers.tplastposition` go back to their last position instead.
 * Another plugin may teleport players after Hawn (Essentials `spawn-on-join`, Multiverse...). Disable the teleport in the other plugin.
 

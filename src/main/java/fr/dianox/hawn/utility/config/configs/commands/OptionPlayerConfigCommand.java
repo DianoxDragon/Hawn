@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,24 +50,20 @@ public class OptionPlayerConfigCommand {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("PlayerOption.Enable", true);
-            Config.set("PlayerOption.Disable-Message", true);
-            Config.set("PlayerOption.Option.Jumpboost.Value", 2);
-            Config.set("PlayerOption.World.All_World", false);
-            Config.set("PlayerOption.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            saveConfigFile();
+        Config.set("PlayerOption.Enable", true);
+        Config.set("PlayerOption.Disable-Message", true);
+        Config.set("PlayerOption.Option.Jumpboost.Value", 2);
+        Config.set("PlayerOption.World.All_World", false);
+        Config.set("PlayerOption.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

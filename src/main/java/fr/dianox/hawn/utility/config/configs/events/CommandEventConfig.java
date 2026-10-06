@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.events;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -49,44 +51,40 @@ public class CommandEventConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Block-Commands.Enable", true);
-            Config.set("Block-Commands.Bypass", true);
-            Config.set("Block-Commands.Message-Enable", true);
-            Config.set("Block-Commands.Message", java.util.Arrays.asList(new String[] {"&cSorry... But ! You're noob"}));
-            Config.set("Block-Commands.Options.Face-Guardian-1-13-1-14", true);
-            Config.set("Block-Commands.Options.Notify-Staff", true);
-            Config.set("Block-Commands.List", java.util.Arrays.asList(new String[] {
-                    "/pl",
-                    "/plugins",
-                    "/bukkit:pl",
-                    "/bukkit:plugins",
-                    "/bukkit:ver",
-                    "/ver",
-                    "/version",
-                    "/icanhasbukkit",
-                    "/info",
-                    "/essentials:help",
-                    "/ehelp",
-                    "/minecraft:help",
-                    "/bukkit:help",
-                    "/bukkit:?",
-                    "/bukkit:version",
-                    "/seed",
-                    "/minecraft:me",
-                    "/me",
-                    "/about",
-                    "/bukkit:about",
-                    "/eabout"
-                }));
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("Block-Commands.Enable", true);
+        Config.set("Block-Commands.Bypass", true);
+        Config.set("Block-Commands.Message-Enable", true);
+        Config.set("Block-Commands.Message", java.util.Arrays.asList(new String[] {"&cSorry... But ! You're noob"}));
+        Config.set("Block-Commands.Options.Face-Guardian-1-13-1-14", true);
+        Config.set("Block-Commands.Options.Notify-Staff", true);
+        Config.set("Block-Commands.List", java.util.Arrays.asList(new String[] {
+                "/pl",
+                "/plugins",
+                "/bukkit:pl",
+                "/bukkit:plugins",
+                "/bukkit:ver",
+                "/ver",
+                "/version",
+                "/icanhasbukkit",
+                "/info",
+                "/essentials:help",
+                "/ehelp",
+                "/minecraft:help",
+                "/bukkit:help",
+                "/bukkit:?",
+                "/bukkit:version",
+                "/seed",
+                "/minecraft:me",
+                "/me",
+                "/about",
+                "/bukkit:about",
+                "/eabout"
+            }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,19 +50,15 @@ public class PasteCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("P.Enable", true);
-            Config.set("P.Command", "/paste");
-            Config.set("p.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("P.Enable", true);
+        Config.set("P.Command", "/paste");
+        Config.set("p.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            saveConfigFile();
-
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

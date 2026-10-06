@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,44 +50,41 @@ public class ConfigGLP {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("JumpPads.Enable", true);
-            
-            Config.set("JumpPads.Options.Block", "REDSTONE_BLOCK");
-            Config.set("JumpPads.Options.Plate", "GOLD_PLATE");
-            Config.set("JumpPads.Options.Height", 1);
-            Config.set("JumpPads.Options.Length", 3);
-            
-            Config.set("JumpPads.Sounds.Enable", true);
-            Config.set("JumpPads.Sounds.Play-for-all-players", true);
-            Config.set("JumpPads.Sounds.Sound", "NOTE_PIANO");
-            Config.set("JumpPads.Sounds.Volume", 10);
-            Config.set("JumpPads.Sounds.Pitch", 1);
-            
-            Config.set("JumpPads.Effect.Enable", true);
-            Config.set("JumpPads.Effect.Effect", "ENDER_SIGNAL");
-            Config.set("JumpPads.Effect.Pitch", 10);
-            
-            Config.set("JumpPads.Send-Message.Enable", true);
-            Config.set("JumpPads.Send-Message.Messages", java.util.Arrays.asList(new String[] {
-                    "%prefix% &eWhoosh!"
-            }));
-            
-            Config.set("JumpPads.Cooldown.Enable", true);
-            Config.set("JumpPads.Cooldown.Ticks", 60);
-            
-            Config.set("JumpPads.World.All_World", false);
-            Config.set("JumpPads.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
+        Config.set("JumpPads.Enable", true);
+        Config.set("JumpPads.Use_Permission", false);
 
-            saveConfigFile();
+        Config.set("JumpPads.Options.Block", "REDSTONE_BLOCK");
+        Config.set("JumpPads.Options.Plate", "GOLD_PLATE");
+        Config.set("JumpPads.Options.Height", 1);
+        Config.set("JumpPads.Options.Length", 3);
 
-        }
+        Config.set("JumpPads.Sounds.Enable", true);
+        Config.set("JumpPads.Sounds.Play-for-all-players", true);
+        Config.set("JumpPads.Sounds.Sound", "NOTE_PIANO");
+        Config.set("JumpPads.Sounds.Volume", 10);
+        Config.set("JumpPads.Sounds.Pitch", 1);
+
+        Config.set("JumpPads.Effect.Enable", true);
+        Config.set("JumpPads.Effect.Effect", "ENDER_SIGNAL");
+        Config.set("JumpPads.Effect.Pitch", 10);
+
+        Config.set("JumpPads.Send-Message.Enable", true);
+        Config.set("JumpPads.Send-Message.Messages", java.util.Arrays.asList(new String[] {
+                "%prefix% &eWhoosh!"
+        }));
+
+        Config.set("JumpPads.Cooldown.Enable", true);
+        Config.set("JumpPads.Cooldown.Ticks", 60);
+
+        Config.set("JumpPads.World.All_World", false);
+        Config.set("JumpPads.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

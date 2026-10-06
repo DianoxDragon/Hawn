@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,19 +50,15 @@ public class OneCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("1.Enable", true);
-            Config.set("1.Command", "/pos1");
-            Config.set("1.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("1.Enable", true);
+        Config.set("1.Command", "/pos1");
+        Config.set("1.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            saveConfigFile();
-
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

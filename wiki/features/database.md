@@ -6,7 +6,22 @@ description: >-
 
 # Player data and MySQL
 
-Hawn stores some information about each player: name, UUID, IP, first and last join date, number of connections, last position, gamemode, vanish state, chosen scoreboard and [player options](player-options.md).
+Hawn stores some information about each player: name, UUID, first and last join date, number of connections, last position, gamemode, vanish state, chosen scoreboard and [player options](player-options.md). The IP only when you ask for it, see below.
+
+## IP of the players
+
+The IP of the players is personal data (GDPR): Hawn doesn't keep it by default. `general.yml`:
+
+```yaml
+Plugin:
+  Players:
+    Save-IP: false
+```
+
+* `false` (default): the IP is not written in the player data (YAML or MySQL), and the one written by an older version is erased at the next join of the player.
+* `true`: the IP is written at every join, as before 1.3.
+
+`/ip <player>`, `/checkaccount` and the `%player_ip%` placeholder still work in both cases: they read the IP of the online player, not the saved one.
 
 ## YAML (default)
 
@@ -39,7 +54,7 @@ At startup the console shows `The plugin will now use MySQL as method for inform
 
 | Table                               | Content                                 |
 | ----------------------------------- | --------------------------------------- |
-| `player_info`                       | Name, UUID, join dates, IP              |
+| `player_info`                       | Name, UUID, join dates, IP (if `Save-IP`) |
 | `player_option_number_connections`  | Number of connections                   |
 | `player_last_position`              | Last position                           |
 | `player_gamemode`                   | Last gamemode                           |
@@ -48,8 +63,14 @@ At startup the console shows `The plugin will now use MySQL as method for inform
 | `player_option_fly`, `player_option_doublejump`, `player_option_jumpboost`, `player_option_pv`, `player_option_autobc` | Player options |
 | `player_option_keep_sb`             | Chosen scoreboard                       |
 
+Each table has one row per player (primary key on `player_UUID`). The data of a player is loaded before they join and written in the background, so the database never slows the server down. If the connection is lost, Hawn reopens it by itself.
+
+{% hint style="info" %}
+**Coming from Hawn 1.2?** At the first start, Hawn adds the primary key to its old tables and removes the duplicate rows. Each old table is kept as `<table>_before_1_3` (for example `player_gamemode_before_1_3`): delete these copies once you have checked that everything works.
+{% endhint %}
+
 {% hint style="warning" %}
-If the connection fails, Hawn falls back to YAML and says why in the console (`SQLException`, `ClassNotFoundException`...). Check the host, the port, the user rights and that the database exists.
+If the connection fails at startup, Hawn falls back to YAML and says why in the console. Check the host, the port, the user rights and that the database exists.
 {% endhint %}
 
 ## What is restored on join

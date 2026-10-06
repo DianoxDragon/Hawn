@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
@@ -76,7 +77,7 @@ public class SpecialIteFunGun implements Listener {
 		Check1 = MessageUtils.colourTheStuff(Check1);
 		
 		try {
-			if (e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
+			if (JoinItemTag.is(e.getCurrentItem(), JoinItemTag.FUNGUN) && e.getCurrentItem().getItemMeta().getDisplayName().contains(Check1)) {
 				if (e.getCurrentItem().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
 					e.setCancelled(true);
 				}
@@ -173,7 +174,7 @@ public class SpecialIteFunGun implements Listener {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
 							if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-FunGun")) {
-								if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.FUNGUN) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
 									if (p.getInventory().getItemInMainHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
 										if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
 											if (Cooling.contains(p)) {
@@ -218,7 +219,7 @@ public class SpecialIteFunGun implements Listener {
 				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
 						if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-FunGun")) {
-							if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+							if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.FUNGUN) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
 								if (p.getItemInHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
 									if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
 										if (Cooling.contains(p)) {
@@ -353,6 +354,7 @@ public class SpecialIteFunGun implements Listener {
 			
 		item.setItemMeta(itemmeta);
 		
+		JoinItemTag.tag(item, JoinItemTag.FUNGUN);
 		p.getInventory().setItem(slot, item);
 	}
 	

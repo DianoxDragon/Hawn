@@ -19,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -45,6 +46,8 @@ public class FunFeatures implements Listener {
 	public static List<Player> incooldownjumppads = new ArrayList<Player>();;
 	public static HashMap<Player, ItemStack> boots = new HashMap<Player, ItemStack>();
 	public static List<Player> player_list_dbenable = new ArrayList<Player>();
+	// Players allowed to fly only to make the double jump
+	public static java.util.Set<java.util.UUID> doubleJumpFlight = java.util.concurrent.ConcurrentHashMap.newKeySet();
 	
 	@EventHandler
 	public void onSign(SignChangeEvent e) {
@@ -200,11 +203,13 @@ public class FunFeatures implements Listener {
 					return;
 				}
 				
-				if (p.hasPermission("hawn.fun.doublejump.double")) {		
+				if (p.hasPermission("hawn.fun.doublejump.double") && canDoubleJumpHere(p)) {
 					if (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
 						player_list_dbenable.remove(p);
-						p.setAllowFlight(true);
+						allowDoubleJumpFlight(p);
 					}
+				} else {
+					stopDoubleJumpFlight(p);
 				}
 			}
 		}
@@ -212,7 +217,7 @@ public class FunFeatures implements Listener {
 		@EventHandler
 		public void onInfiniteJump(PlayerToggleFlightEvent e) {
 			Player p = e.getPlayer();
-			
+
 			if (FlyCommand.player_list_flyc.contains(p)) {
 				if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
 					FlyCommand.player_list_flyc.remove(p);
@@ -221,145 +226,96 @@ public class FunFeatures implements Listener {
 				}
 				return;
 			}
-			
+
 			if (player_list_dbenable.contains(p)) {
 				return;
 			}
-			
+
 			if (Main.indj.contains(p)) {
 				return;
 			}
-			
+
 			if (ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_fly.Activate") || !ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_doublejump.Activate")) {
 				return;
 			}
-			
+
 			if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
 				return;
 			}
-			
-			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
-				if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
-					if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
-						if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-							if (p.hasPermission("hawn.fun.doublejump.double")) {			
-								player_list_dbenable.add(p);
 
-								e.setCancelled(true);
-								
-								p.setAllowFlight(false);
-							    p.setFlying(false);
-							    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
-							    p.setFallDistance(-999.0F);
-							    
-							    Main.indj.add(p);
-							    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-									@Override
-									public void run() {
-										Main.indj.remove(p);
-									}
-
-								}, 20);
-							    
-							    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
-							    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
-					            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
-					            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-					            	p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
-							    }
-							}
-						} else {
-							player_list_dbenable.add(p);
-							
-							
-							e.setCancelled(true);
-							
-							p.setAllowFlight(false);
-						    p.setFlying(false);
-						    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
-						    p.setFallDistance(-999.0F);
-						    
-						    Main.indj.add(p);
-						    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-								@Override
-								public void run() {
-									Main.indj.remove(p);
-								}
-
-							}, 20);
-						    
-						    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
-						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
-				            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
-				            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-				            	p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
-						    }
-						}
-						
-					}
-				} else {
-					if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-						if (p.hasPermission("hawn.fun.doublejump.double")) {
-							player_list_dbenable.add(p);
-							
-							
-							e.setCancelled(true);
-							
-							p.setAllowFlight(false);
-						    p.setFlying(false);
-						    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
-						    p.setFallDistance(-999.0F);
-						    
-						    Main.indj.add(p);
-						    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-								@Override
-								public void run() {
-									Main.indj.remove(p);
-								}
-
-							}, 20);
-						    
-						    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
-						    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
-				            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
-				            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-				            	p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
-						    }
-						}
-					} else {
-						player_list_dbenable.add(p);
-						
-						e.setCancelled(true);
-						
-						p.setAllowFlight(false);
-					    p.setFlying(false);
-					    p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
-					    p.setFallDistance(-999.0F);
-					    
-					    Main.indj.add(p);
-					    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-							@Override
-							public void run() {
-								Main.indj.remove(p);
-							}
-
-						}, 20);
-					    
-					    if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
-					    	String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
-			            	int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
-			            	int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
-			            	p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
-					    }
-					}
+			if (!canDoubleJumpHere(p)) {
+				// The flight was only given for the double jump: no flying where it is not allowed
+				if (doubleJumpFlight.contains(p.getUniqueId())) {
+					e.setCancelled(true);
+					stopDoubleJumpFlight(p);
 				}
+				return;
+			}
+
+			player_list_dbenable.add(p);
+
+			e.setCancelled(true);
+
+			p.setAllowFlight(false);
+			p.setFlying(false);
+			p.setVelocity(p.getLocation().getDirection().multiply(1.5D).setY(1));
+			p.setFallDistance(-999.0F);
+
+			Main.indj.add(p);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.indj.remove(p), 20);
+
+			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
+				String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
+				int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
+				int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
+				p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 			}
 		}
-		
+
+		@EventHandler
+		public void onQuitDoubleJump(PlayerQuitEvent e) {
+			doubleJumpFlight.remove(e.getPlayer().getUniqueId());
+		}
+
+		/**
+		 * The double jump is enabled, allowed in the world of the player, and the player has its permission when needed.
+		 */
+		public static boolean canDoubleJumpHere(Player p) {
+			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
+				return false;
+			}
+
+			if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World") && !PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
+				return false;
+			}
+
+			return !ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission") || p.hasPermission("hawn.fun.doublejump.double");
+		}
+
+		/**
+		 * Lets the player fly to make the double jump, and remembers that this flight comes from the double jump.
+		 */
+		public static void allowDoubleJumpFlight(Player p) {
+			doubleJumpFlight.add(p.getUniqueId());
+			p.setAllowFlight(true);
+		}
+
+		/**
+		 * Takes back the flight given for the double jump (never a flight given by /fly, the fly option or another plugin).
+		 */
+		public static void stopDoubleJumpFlight(Player p) {
+			if (!doubleJumpFlight.remove(p.getUniqueId())) {
+				return;
+			}
+
+			if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR || FlyCommand.player_list_flyc.contains(p)) {
+				return;
+			}
+
+			p.setFlying(false);
+			p.setAllowFlight(false);
+		}
+
 		@SuppressWarnings("deprecation")
 		public void onLPmethod(Player p) {
 			Main.getInstance();

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,20 +50,16 @@ public class HealCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Heal.Enable", true);
-            Config.set("Heal.Option.Feed", true);
-            Config.set("Heal.Others.Enable", false);
-            Config.set("Heal.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("Heal.Enable", true);
+        Config.set("Heal.Option.Feed", true);
+        Config.set("Heal.Others.Enable", false);
+        Config.set("Heal.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

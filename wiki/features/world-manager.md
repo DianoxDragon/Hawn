@@ -12,7 +12,7 @@ Hawn has a small world manager, enough for a lobby server: create an empty world
 
 `/hw` (or `/hworld`) opens the menu. It is also available from the [admin panel](admin-tools.md#admin-panel).
 
-* Every loaded world is shown (sapling for the overworlds, netherrack for the nethers, end stone for the ends). World folders that are not loaded are shown as red glass panes: load them with `/hw import <name>`.
+* Every loaded world is shown (sapling for the overworlds, netherrack for the nethers, end stone for the ends). World folders that are not loaded are shown as red glass panes: load them with `/hw import <name>`. The folders are looked for in the folder of the worlds (`--world-container` if the server uses it).
 * **Left-click**: join the world.
 * **Right-click**: change the time, the weather and the difficulty of the world.
 * **Shift + right-click**: delete the world (a confirmation is asked).
@@ -29,7 +29,7 @@ Hawn has a small world manager, enough for a lobby server: create an empty world
 | `/hw create <name> [environment] [type]`        | `hawn.command.world.create`   | Creates a world.                               |
 | `/hw import <name> [environment] [type]`        | `hawn.command.world.import`   | Loads a world folder copied on the server.     |
 | `/hw unload <world>`                            | `hawn.command.world.unload`   | Unloads a world.                               |
-| `/hw delete <world>`                            | `hawn.command.world.delete`   | Deletes a world **and its folder**.            |
+| `/hw delete <world> confirm`                    | `hawn.command.world.delete`   | Deletes a world **and its folder**. Without `confirm`, Hawn only says what will be deleted. |
 
 `hawn.command.world.*` gives every sub-command.
 
@@ -45,7 +45,7 @@ Hawn has a small world manager, enough for a lobby server: create an empty world
 World names can only contain letters, numbers and `_`.
 
 {% hint style="danger" %}
-`/hw delete` removes the world folder from the disk. There is no undo: make a backup first.
+`/hw delete` removes the world folder from the disk. There is no undo: make a backup first. The main world, its nether and its end can't be deleted, and nothing is deleted if the world can't be unloaded.
 {% endhint %}
 
 ### Menu permissions

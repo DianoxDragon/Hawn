@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -30,18 +32,21 @@ public class WarpCommand extends BukkitCommand {
 	
 	public WarpCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Warp to the specified location";
 		this.usageMessage = "/warp <warp> [player]";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			// Only the warps the player can go to (hawn.warp.<warp>)
+			return Tab.keys(WarpListConfig.getConfig(), "Coordinated", args, warp -> sender.hasPermission("hawn.warp." + warp));
+		} else if (args.length == 2) {
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -80,7 +85,7 @@ public class WarpCommand extends BukkitCommand {
 
 					if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other.Messages")) {
-							ConfigEventUtils.ExecuteEvent(target, msg.replace("%warp%", args[0]).replace("%player%", "console"), "", "", false);
+							ConfigEventUtils.ExecuteEvent(target, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%player%", "console"), "", "", false);
 						}
 					}
 
@@ -149,7 +154,7 @@ public class WarpCommand extends BukkitCommand {
 
 							if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self-Delay.Enable")) {
 								for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self-Delay.Messages")) {
-									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
+									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
 								}
 							}
 							
@@ -181,7 +186,7 @@ public class WarpCommand extends BukkitCommand {
 
 						if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self-Delay.Enable")) {
 							for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self-Delay.Messages")) {
-								ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
+								ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
 							}
 						}
 						
@@ -235,7 +240,7 @@ public class WarpCommand extends BukkitCommand {
 
 								if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender-Delay.Enable")) {
 									for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
-										ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
+										ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
 
@@ -266,7 +271,7 @@ public class WarpCommand extends BukkitCommand {
 
 							if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender-Delay.Enable")) {
 								for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
-									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
+									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
 								}
 							}
 

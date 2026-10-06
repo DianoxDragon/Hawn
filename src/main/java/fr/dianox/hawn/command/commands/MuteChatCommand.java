@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -26,13 +28,14 @@ public class MuteChatCommand extends BukkitCommand {
 	
 	public MuteChatCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Mute the chat";
         this.usageMessage = "/gmute [number]";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 	
 	@Override
@@ -66,7 +69,7 @@ public class MuteChatCommand extends BukkitCommand {
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "console").replace("%minutes%", args[0])));
 					MessageUtils.ConsoleMessages(msg.replace("%player%", "console").replace("%minutes%", args[0]));
-					ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console").replace("%minutes%", args[0]),
+					ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console").replace("%minutes%", ConfigEventUtils.noAction(args[0])),
 							"", "");
 				}
 				
@@ -127,7 +130,7 @@ public class MuteChatCommand extends BukkitCommand {
 		} else {
 			for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 				MessageUtils.ConsoleMessages(msg.replace("%minutes%", args[0]));
-				ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%minutes%", args[0]), "", "", p, true);
+				ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%minutes%", ConfigEventUtils.noAction(args[0])), "", "", p, true);
 			}
 			
 			MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);

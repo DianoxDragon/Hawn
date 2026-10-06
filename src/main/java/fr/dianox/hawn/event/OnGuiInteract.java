@@ -8,7 +8,7 @@ import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.ServerListConfig;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
 import fr.dianox.hawn.utility.config.configs.messages.AdminPanelConfig;
@@ -388,7 +388,7 @@ public class OnGuiInteract implements Listener {
 	    String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
 	    p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
 
-	    if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+	    if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 		    for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 			    if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
 				    for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
@@ -443,7 +443,7 @@ public class OnGuiInteract implements Listener {
 		String invnamenum = inv.replace("§cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
 		p.performCommand("ap edit file " + cfinuse + " " + invnamenum);
 
-		if (ServerListConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 			for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 				if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
 					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {

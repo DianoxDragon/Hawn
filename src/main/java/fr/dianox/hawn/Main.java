@@ -1,5 +1,7 @@
 package fr.dianox.hawn;
 
+import fr.dianox.hawn.utility.ConfigPlayerGet;
+
 import fr.dianox.hawn.command.CommandManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.command.commands.HawnCommand;
@@ -175,6 +177,7 @@ public class Main extends JavaPlugin implements Listener {
 		// MYSQL
 
 		sql = new SQL(this);
+		ConfigPlayerGet.start(this);
 
 		hooksManager = new HooksManager(this);
 
@@ -334,6 +337,9 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable() {
 		super.onDisable();
+
+		ConfigPlayerGet.shutdown();
+		SQL.close();
 
 		fileconfiglist.clear();
 

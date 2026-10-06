@@ -39,13 +39,13 @@ public class TaskOnTpOthersWarp extends BukkitRunnable {
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", tp).replace("%target%", other.getName()), "", "", false);
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(tp)).replace("%target%", other.getName()), "", "", false);
 				}
 			}
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other.Messages")) {
-					ConfigEventUtils.ExecuteEvent(other, msg.replace("%warp%", tp).replace("%player%", p.getName()), "", "", false);
+					ConfigEventUtils.ExecuteEvent(other, msg.replace("%warp%", ConfigEventUtils.noAction(tp)).replace("%player%", p.getName()), "", "", false);
 				}
 			}
 

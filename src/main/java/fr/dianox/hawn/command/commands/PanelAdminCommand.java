@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.gui.HawnMenu;
 
 import fr.dianox.hawn.utility.XParse;
@@ -40,7 +42,7 @@ public class PanelAdminCommand extends BukkitCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
     @Override

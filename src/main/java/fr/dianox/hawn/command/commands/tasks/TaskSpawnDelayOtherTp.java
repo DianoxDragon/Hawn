@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands.tasks;
 
+import fr.dianox.hawn.utility.SpawnGroups;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -75,23 +76,23 @@ public class TaskSpawnDelayOtherTp extends BukkitRunnable {
 			}
 		} else {
 			// If the value of the config is CHANGE ME by default
-			if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+			if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
 				p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
 			} else {
 				// If the spawn is not set
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
 					MessageUtils.MessageNoSpawn(p);
 					return;
 				}
 				// If player don't have the permission
-				if (!p.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-					String Permission = "hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+				if (!p.hasPermission("hawn.command.spawn."+SpawnGroups.defaultSpawn(p))) {
+					String Permission = "hawn.command.spawn."+SpawnGroups.defaultSpawn(p);
 					MessageUtils.MessageNoPermission(p, Permission);
 					return;
 				}
 				
 				// Teleport
-				SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+				SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
 				
 				// Messages
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {

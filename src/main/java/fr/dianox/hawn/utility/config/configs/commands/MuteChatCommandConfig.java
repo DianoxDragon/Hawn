@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,20 +50,16 @@ public class MuteChatCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("MuteChat.Enable", true);
-            Config.set("MuteChat.Mute.Enable", false);
-            Config.set("MuteChat.Mute.Bypass", false);
-            Config.set("MuteChat.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            saveConfigFile();
+        Config.set("MuteChat.Enable", true);
+        Config.set("MuteChat.Mute.Enable", false);
+        Config.set("MuteChat.Mute.Bypass", false);
+        Config.set("MuteChat.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

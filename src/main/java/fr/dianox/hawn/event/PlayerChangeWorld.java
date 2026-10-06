@@ -156,7 +156,9 @@ public class PlayerChangeWorld implements Listener {
                         		}
                     		}
                     		
-                    		p.setAllowFlight(true);
+                    		if (FunFeatures.canDoubleJumpHere(p)) {
+                    			FunFeatures.allowDoubleJumpFlight(p);
+                    		}
                 			p.setFlying(false);
                 			
                 			if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Reset-settings-on-world-change")) {
@@ -234,7 +236,9 @@ public class PlayerChangeWorld implements Listener {
                         		}
                     		}
                     		
-                    		p.setAllowFlight(true);
+                    		if (FunFeatures.canDoubleJumpHere(p)) {
+                    			FunFeatures.allowDoubleJumpFlight(p);
+                    		}
                 			p.setFlying(false);
                 			
                 			if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Reset-settings-on-world-change")) {
@@ -313,7 +317,9 @@ public class PlayerChangeWorld implements Listener {
                     		}
                 		}
                 		
-                		p.setAllowFlight(true);
+                		if (FunFeatures.canDoubleJumpHere(p)) {
+                			FunFeatures.allowDoubleJumpFlight(p);
+                		}
             			p.setFlying(false);
             			
             			if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Reset-settings-on-world-change")) {

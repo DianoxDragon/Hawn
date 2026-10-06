@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -49,20 +51,16 @@ public class VanishCommandConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Vanish.Enable", true);
-            Config.set("Vanish.Disable-Message", true);
-            Config.set("Vanish.Action-Bar-If-Vanished", true);
-            Config.set("Vanish.Action-Bar.Message-blinking", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("Vanish.Enable", true);
+        Config.set("Vanish.Disable-Message", true);
+        Config.set("Vanish.Action-Bar-If-Vanished", true);
+        Config.set("Vanish.Action-Bar.Message-blinking", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
 
-            saveConfigFile();
-
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -45,7 +45,7 @@ VoidTP:
 **Since 1.18 the overworld goes down to Y = -64.** With `TP-y: 0`, players exploring caves below Y 0 are teleported to the spawn. On a normal overworld, use `TP-y: -70`. On a void or flat lobby, `0` is fine.
 {% endhint %}
 
-The spawn is the `Custom-Spawn` if enabled, else the default spawn (`Events/OnJoin.yml` → `Spawn.DefaultSpawn`). As for `/spawn`, the player needs **`hawn.command.spawn.<spawn>`**, see [Spawns](spawns.md#permissions).
+The spawn is the `Custom-Spawn` if enabled, else the default spawn (`Events/OnJoin.yml` → `Spawn.DefaultSpawn`), or the spawn given to the player when the [spawn groups](spawns.md#spreading-the-players-between-several-spawns) are on. As for `/spawn`, the player needs **`hawn.command.spawn.<spawn>`**, see [Spawns](spawns.md#permissions). (This is not the case of the teleport on join, unless `Spawn-Permission` is on.)
 
 `Execute-Commands` runs [actions](../basics/actions.md) after the teleport.
 

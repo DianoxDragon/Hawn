@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -49,47 +51,43 @@ public class GamemodeCommandConfig {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Gamemode.Enable", true);
-            Config.set("Gamemode.Disable-Message", true);
-            
-            Config.set("Gamemode.Options.Quick-Mode-Change.Enable", true);
-            Config.set("Gamemode.Options.Quick-Mode-Change.Default-Mode", 0);
-            Config.set("Gamemode.Options.Quick-Mode-Change.Mode1", 0);
-            Config.set("Gamemode.Options.Quick-Mode-Change.Mode2", 1);
-            
-            Config.set("Gamemode.Options.Hawn-Build-Mode.Enable", false);
-            Config.set("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too", true);
-            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0", false);
-            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1", true);
-            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2", false);
-            Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3", false);
-            
-            Config.set("Gamemode.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("gms.Enable", true);
-            Config.set("gms.Disable-Message", true);
-            Config.set("gms.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("gmc.Enable", true);
-            Config.set("gmc.Disable-Message", true);
-            Config.set("gmc.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("gma.Enable", true);
-            Config.set("gma.Disable-Message", true);
-            Config.set("gma.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            Config.set("gmsp.Enable", true);
-            Config.set("gmsp.Disable-Message", true);
-            Config.set("gmsp.DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        Config.set("Gamemode.Enable", true);
+        Config.set("Gamemode.Disable-Message", true);
 
-        }
+        Config.set("Gamemode.Options.Quick-Mode-Change.Enable", true);
+        Config.set("Gamemode.Options.Quick-Mode-Change.Default-Mode", 0);
+        Config.set("Gamemode.Options.Quick-Mode-Change.Mode1", 0);
+        Config.set("Gamemode.Options.Quick-Mode-Change.Mode2", 1);
+
+        Config.set("Gamemode.Options.Hawn-Build-Mode.Enable", false);
+        Config.set("Gamemode.Options.Hawn-Build-Mode.Change-For-Others-Too", true);
+        Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-0", false);
+        Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-1", true);
+        Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-2", false);
+        Config.set("Gamemode.Options.Hawn-Build-Mode.When-Enter-Into.Gamemode-3", false);
+
+        Config.set("Gamemode.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("gms.Enable", true);
+        Config.set("gms.Disable-Message", true);
+        Config.set("gms.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("gmc.Enable", true);
+        Config.set("gmc.Disable-Message", true);
+        Config.set("gmc.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("gma.Enable", true);
+        Config.set("gma.Disable-Message", true);
+        Config.set("gma.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config.set("gmsp.Enable", true);
+        Config.set("gmsp.Disable-Message", true);
+        Config.set("gmsp.DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

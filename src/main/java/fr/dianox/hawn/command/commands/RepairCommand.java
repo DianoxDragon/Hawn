@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -21,13 +23,14 @@ public class RepairCommand extends BukkitCommand {
 
 	public RepairCommand(String name) {
 		 super(name);
+		 Tab.hideWithoutPermission(this, GeneralPermission);
 		 this.description = "Repair an item";
 		 this.usageMessage = "/repair";
 	 }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
 	 @SuppressWarnings("deprecation")

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.Skulls;
 
 import fr.dianox.hawn.utility.gui.HawnMenu;
@@ -38,13 +40,14 @@ public class EmojiesCommand extends BukkitCommand {
 	
 	public EmojiesCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Open the emoji gui";
         this.usageMessage = "/emoji";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -156,7 +159,7 @@ public class EmojiesCommand extends BukkitCommand {
                             } else {
 
                             	if (EmojisListCUtility.getConfig().isSet("Emojis-list." + string + ".Gui.Data-value")) {
-                        			ref1 = new ItemStack(XParse.material(EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material"), "Emojis-list." + string + ".Gui.Material"), 1, (short) OnChatConfig.getConfig().getInt("Chat-Emoji-Player.Emojis-list." + string + ".Gui.Data-value"));
+                        			ref1 = new ItemStack(XParse.material(EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material"), "Emojis-list." + string + ".Gui.Material"), 1, (short) EmojisListCUtility.getConfig().getInt("Emojis-list." + string + ".Gui.Data-value"));
                         		} else {
                         			ref1 = new ItemStack(XParse.material(EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material"), "Emojis-list." + string + ".Gui.Material"));
                         		}

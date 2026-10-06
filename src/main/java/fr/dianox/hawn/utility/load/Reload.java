@@ -1,6 +1,7 @@
 package fr.dianox.hawn.utility.load;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.OnCommandEvent;
@@ -62,8 +63,12 @@ public class Reload {
 		TitleAnnouncerConfig.reloadConfig();
 		ClearInvCommandConfig.reloadConfig();
 		AutoBroadcastConfig.reloadConfig();
+		AutoBroadcastManager.restart();
 		EmojiCommandConfig.reloadConfig();
 		ScoreboardMainConfig.reloadConfig();
+		if (Main.getInstance().getScoreManager() != null) {
+			Main.getInstance().getScoreManager().reloadFiles();
+		}
 		PlayerOptionMainConfig.reloadConfig();
 		PlayerWorldChangeConfigE.reloadConfig();
 		ScoreboardCommandConfig.reloadConfig();
@@ -131,9 +136,14 @@ public class Reload {
 			if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 				Bukkit.getConsoleSender().sendMessage("| Please note that to remove the PlaceHolderAPI support, you must restart the server");
 				Bukkit.getConsoleSender().sendMessage("| The plugin supports fast removal, but does not guarantee a return to normal with a hawn reload");
-				ConfigGeneral.getConfig().set("Plugin.Use.PlaceholderAPI", false);
+				ConfigGeneral.getConfig().set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
 				ConfigGeneral.saveConfigFile();
 			}
+		}
+
+		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable") && !Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+			ConfigGeneral.getConfig().set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
+			ConfigGeneral.saveConfigFile();
 		}
 				
 		Main.getInstance().getVoidTPManager().load();
@@ -153,27 +163,9 @@ public class Reload {
 				}
 			}
 			
-			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
-	        	if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
-	        		if (PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
-	        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-	        				if (p.hasPermission("hawn.fun.doublejump.double")) {
-	        					p.setAllowFlight(true);
-	        				}
-	        			} else {
-	        				p.setAllowFlight(true);
-	        			}
-	        		}
-	        	} else {
-	        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
-	    				if (p.hasPermission("hawn.fun.doublejump.double")) {
-	    					p.setAllowFlight(true);
-	    				}
-	    			} else {
-	    				p.setAllowFlight(true);
-	    			}
-	        	} 	
-	        }
+			if (FunFeatures.canDoubleJumpHere(p)) {
+				FunFeatures.allowDoubleJumpFlight(p);
+			}
 		}
 		
 		Main.getInstance().getInteractables().load();

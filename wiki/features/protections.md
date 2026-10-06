@@ -93,7 +93,7 @@ Death:
       Teleport-Spawn: true        # teleport to a spawn after respawning
       Custom-Spawn:
         Enable: true
-        Spawn: CHANGE ME          # the spawn to use, else the default spawn
+        Spawn: CHANGE ME          # the spawn to use, else the default spawn (or the spawn of the player's group)
       World: ...
       Regive-Hawn-Custom-Join-Items:
         Enable: true              # give the join items back
@@ -201,6 +201,8 @@ Anti-break also protects armour stands from being hit.
 ```
 
 In `PlayerInteract-Items-Blocks.Options`, set a block to `false` to allow it (for example the buttons of your parkour). The list contains chests, doors, gates, trapdoors, furnaces, anvils, beds, buttons, levers, hoppers, droppers, dispensers, note blocks, comparators, beacons, brewing stands, enchanting tables, minecarts, boats and sweet berry bushes.
+
+The doors, fence gates and trapdoors of the newer woods (`CRIMSON_`, `WARPED_`, `MANGROVE_`, `CHERRY_`, `BAMBOO_`, `PALE_OAK_`) and the copper doors and trapdoors (`COPPER_DOOR`, `COPPER_TRAPDOOR`: one option for all their oxidation and waxed variants) are protected even when they are missing from your file. Add them with `false` to allow them.
 
 {% hint style="warning" %}
 Only the blocks already present in `Options` are supported: adding a new line has no effect. Wood types that came after 1.14 (crimson, warped, mangrove, cherry, bamboo, pale oak) and copper doors are not in the list. Protect them with WorldGuard if needed.

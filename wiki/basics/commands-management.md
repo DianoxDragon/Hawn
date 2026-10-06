@@ -34,6 +34,23 @@ Some files contain several commands, each with its own options: `Spawn.yml` (`/s
 
 The message sent for a disabled command is `Error.Command-Disable` in `Messages/<language>/Messages.yml`.
 
+## Hide the commands a player can't use
+
+`general.yml`:
+
+```yaml
+Plugin:
+  Commands:
+    Hide-Without-Permission: true
+```
+
+* `true` (default): a command that needs a permission (`/gmc`, `/kickall`, `/hw`, `/broadcast`...) is hidden from the players who don't have it: it is not in their list of commands nor in their tab completion. If they type it anyway, the server answers "Unknown or incomplete command".
+* `false`: every command is shown to everyone, and a player without the permission gets the Hawn "no permission" message.
+
+A restart is needed after changing it. The commands whose permission depends on your configuration (`/spawn`, `/ping`, `/cc`, `/help`, `/hawn`...) are always shown.
+
+The tab completion of the arguments follows the permissions too: `/spawn` and `/warp` only suggest the spawns and warps the player can go to, `/scoreboard set` the scoreboards they can use.
+
 ## Aliases
 
 `command-aliases.yml` lists the extra names of every command:
@@ -103,8 +120,8 @@ Block-Commands:
   - ...
 ```
 
-{% hint style="warning" %}
-The comparison is done on the **whole command line** (case does not matter). `/pl` is blocked, but `/pl Hawn` is not. Add every variant you want to block.
+{% hint style="info" %}
+Hawn compares the **command**, not the whole line: case, extra spaces and arguments do not matter, and the `plugin:` prefix is removed. `/pl` also blocks `/PL`, `/pl Hawn` and `/bukkit:pl`, but not `/plugins`. An entry with several words (`/gamemode creative`) blocks the commands that start with these words. The blocked commands are also hidden from the tab completion.
 {% endhint %}
 
 The message sent to the staff is `Command-Blocker.Notify-Staff` in `Messages/<language>/Admin.yml`. The `Message` lines support [actions](actions.md).

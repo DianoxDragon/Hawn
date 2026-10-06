@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.events;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,30 +50,26 @@ public class OtherFeaturesConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("ColorSign.Enable", true);
-            Config.set("ColorSign.World.All_World", false);
-            Config.set("ColorSign.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            
-            Config.set("EmojiSign.Enable", true);
-            Config.set("EmojiSign.World.All_World", false);
-            Config.set("EmojiSign.World.Worlds", java.util.Arrays.asList(new String[] {
-                    "world",
-                    "world_nether"
-            }));
-            
-            Config.set("SignSystem.Enable", true);
-            
-            saveConfigFile();
+        Config.set("ColorSign.Enable", true);
+        Config.set("ColorSign.World.All_World", false);
+        Config.set("ColorSign.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
 
-        }
+        Config.set("EmojiSign.Enable", true);
+        Config.set("EmojiSign.World.All_World", false);
+        Config.set("EmojiSign.World.Worlds", java.util.Arrays.asList(new String[] {
+                "world",
+                "world_nether"
+        }));
+
+        Config.set("SignSystem.Enable", true);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
@@ -17,18 +19,18 @@ public class DelSpawnCommand extends BukkitCommand {
 	
 	public DelSpawnCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, "hawn.admin;hawn.admin.*");
 		this.description = "Delete a spawn";
         this.usageMessage = "/delspawn <spawn>";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(ConfigSpawn.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			return Tab.keys(ConfigSpawn.getConfig(), "Coordinated", args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -129,7 +131,7 @@ public class DelSpawnCommand extends BukkitCommand {
 			ConfigSpawn.saveConfigFile();
 			
 			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-				ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", args[0]), "", "", false);
+				ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", ConfigEventUtils.noAction(args[0])), "", "", false);
 			}
 		} else {
 			for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Delspawn")) {

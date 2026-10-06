@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.customjoinitem;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,46 +50,42 @@ public class SpecialCjiHidePlayers {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("PV.Enable", true);
-            Config.set("PV.Option.OnJoin-ShowPlayers", true);
-            Config.set("PV.Option.OnJoin-Priority-For-Player-Option", true);
-            Config.set("PV.Option.Item-Delay.Enable", true);
-            Config.set("PV.Option.Item-Delay.Delay", 5);
-            Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", true);
-            Config.set("PV.Option.Inventory-Click.Show-Messages", true);
-            Config.set("PV.Option.Inventory-Click.Sounds.Enable", true);
-            Config.set("PV.Option.Inventory-Click.Sounds.Sound", "NOTE_PIANO");
-            Config.set("PV.Option.Inventory-Click.Sounds.Volume", 10);
-            Config.set("PV.Option.Inventory-Click.Sounds.Pitch", 1);
-            Config.set("PV.Option.Interact-With-Item.Sounds.Enable", true);
-            Config.set("PV.Option.Interact-With-Item.Sounds.Sound", "NOTE_PIANO");
-            Config.set("PV.Option.Interact-With-Item.Sounds.Volume", 10);
-            Config.set("PV.Option.Interact-With-Item.Sounds.Pitch", 1);
-            Config.set("PV.OFF.Title", "&6Invisible player &8→ §cDisabled");
-            Config.set("PV.OFF.Lore", java.util.Arrays.asList(new String[] {
-                    " ",
-                    "&c&lRight click to hide players"
-                }));
-            Config.set("PV.OFF.Material.Material", "CLOCK");
-            Config.set("PV.OFF.Material.Amount", 1);
-            Config.set("PV.OFF.Material.Data-value", "0");
-            Config.set("PV.ON.Title", "&6Invisible player &8→ §aEnabled");
-            Config.set("PV.ON.Lore", java.util.Arrays.asList(new String[] {
-                    " ",
-                    "&a&lRight click to show players"
-                }));
-            Config.set("PV.ON.Material.Material", "CLOCK");
-            Config.set("PV.ON.Material.Amount", 1);
-            Config.set("PV.ON.Material.Data-value", "0");
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            saveConfigFile();
+        Config.set("PV.Enable", true);
+        Config.set("PV.Option.OnJoin-ShowPlayers", true);
+        Config.set("PV.Option.OnJoin-Priority-For-Player-Option", true);
+        Config.set("PV.Option.Item-Delay.Enable", true);
+        Config.set("PV.Option.Item-Delay.Delay", 5);
+        Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", true);
+        Config.set("PV.Option.Inventory-Click.Show-Messages", true);
+        Config.set("PV.Option.Inventory-Click.Sounds.Enable", true);
+        Config.set("PV.Option.Inventory-Click.Sounds.Sound", "NOTE_PIANO");
+        Config.set("PV.Option.Inventory-Click.Sounds.Volume", 10);
+        Config.set("PV.Option.Inventory-Click.Sounds.Pitch", 1);
+        Config.set("PV.Option.Interact-With-Item.Sounds.Enable", true);
+        Config.set("PV.Option.Interact-With-Item.Sounds.Sound", "NOTE_PIANO");
+        Config.set("PV.Option.Interact-With-Item.Sounds.Volume", 10);
+        Config.set("PV.Option.Interact-With-Item.Sounds.Pitch", 1);
+        Config.set("PV.OFF.Title", "&6Invisible player &8→ §cDisabled");
+        Config.set("PV.OFF.Lore", java.util.Arrays.asList(new String[] {
+                " ",
+                "&c&lRight click to hide players"
+            }));
+        Config.set("PV.OFF.Material.Material", "CLOCK");
+        Config.set("PV.OFF.Material.Amount", 1);
+        Config.set("PV.OFF.Material.Data-value", "0");
+        Config.set("PV.ON.Title", "&6Invisible player &8→ §aEnabled");
+        Config.set("PV.ON.Lore", java.util.Arrays.asList(new String[] {
+                " ",
+                "&a&lRight click to show players"
+            }));
+        Config.set("PV.ON.Material.Material", "CLOCK");
+        Config.set("PV.ON.Material.Amount", 1);
+        Config.set("PV.ON.Material.Data-value", "0");
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -51,6 +51,8 @@ public class Manager {
 		pm.registerEvents(new OnCommandEvent(), pl);
 		pm.registerEvents(new OnChatEvent(), pl);
 		pm.registerEvents(new ServerPingEvent(), pl);
+		pm.registerEvents(new fr.dianox.hawn.modules.admin.UrgentMode(), pl);
+		pm.registerEvents(new fr.dianox.hawn.utility.SpawnGroups(), pl);
 		pm.registerEvents(new OnGuiInteract(), pl);
 		pm.registerEvents(new OnScoreboard(), pl);
 		pm.registerEvents(new PlayerChangeWorld(), pl);

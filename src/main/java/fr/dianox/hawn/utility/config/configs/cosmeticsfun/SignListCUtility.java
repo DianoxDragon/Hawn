@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,32 +50,28 @@ public class SignListCUtility {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Sign-List.FW1.Text", java.util.Arrays.asList(new String[] {
-                    "&eThis is a sign",
-                    "----------",
-                    " ",
-                    "MAGIC"
-                }));
-            
-            Config.set("Sign-List.FW1.Event", java.util.Arrays.asList(new String[] {
-                    "&bDefault",
-                    "Events works like the customcommand module"
-                }));
-            
-            Config.set("Sign-List.FW2.Text", java.util.Arrays.asList(new String[] {
-                    "&cThis is a sign",
-                    "----------",
-                    " ",
-                    "MAGIC 2"
-                }));
-            
-            saveConfigFile();
+        Config.set("Sign-List.FW1.Text", java.util.Arrays.asList(new String[] {
+                "&eThis is a sign",
+                "----------",
+                " ",
+                "MAGIC"
+            }));
 
-        }
+        Config.set("Sign-List.FW1.Event", java.util.Arrays.asList(new String[] {
+                "&bDefault",
+                "Events works like the customcommand module"
+            }));
+
+        Config.set("Sign-List.FW2.Text", java.util.Arrays.asList(new String[] {
+                "&cThis is a sign",
+                "----------",
+                " ",
+                "MAGIC 2"
+            }));
+
+        Config = ConfigDefaults.apply(file, loaded, Config, "Sign-List");
     }
 }

@@ -17,87 +17,58 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class OnCommandEvent implements Listener {
 
 	public static List<String> cooldowncommands = new ArrayList<String>();
 	
-    @EventHandler(priority = EventPriority.HIGHEST)
+    // A command already cancelled (urgent mode, another plugin) is not intercepted: /help would run it again
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
         
-        if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
-            if (e.getMessage().startsWith("/help") || e.getMessage().startsWith("/?")) {
-                e.setCancelled(true);
-                p.performCommand(e.getMessage().replace("/", ""));
+        if (isBlocked(p, e.getMessage())) {
+            e.setCancelled(true);
+
+            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
+                if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
+                    p.spawnParticle(XParticle.ELDER_GUARDIAN.get(), p.getLocation(), 1);
+                    p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
+                }
             }
+
+            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
+                for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                    if (all.hasPermission("hawn.notify.staff.commandblocker")) {
+                        for (String str: ConfigMAdmin.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
+                            ConfigEventUtils.ExecuteEvent(all, str.replace("%player%", p.getName()).replace("%arg1%", ConfigEventUtils.noAction(e.getMessage())), "", "", false);
+                        }
+                    }
+                }
+            }
+
+            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Message-Enable")) {
+                for (String msg: CommandEventConfig.getConfig().getStringList("Block-Commands.Message")) {
+                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                }
+            }
+
+            return;
         }
 
-        if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Enable")) {
-            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Bypass")) {
-                if (!p.hasPermission("hawn.event.bypass.blockcommands")) {
-                    for (String i: CommandEventConfig.getConfig().getStringList("Block-Commands.List")) {
-                        if (e.getMessage().equalsIgnoreCase(i)) {
-                            e.setCancelled(true);
-                            
-                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                            	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
-                            		p.spawnParticle(XParticle.ELDER_GUARDIAN.get(), p.getLocation(), 1);
-                            		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
-                            	}
-                            }
-                            
-                            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
-                            	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                            		if (all.hasPermission("hawn.notify.staff.commandblocker")) {
-                            			for (String str: ConfigMAdmin.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
-                            				  ConfigEventUtils.ExecuteEvent(p, str.replace("%player%", p.getName()).replace("%arg1%", e.getMessage()), "", "", false);
-                            			}
-                            		}
-                            	}
-                            }
-                            
-                            if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Message-Enable")) {
-                                for (String msg: CommandEventConfig.getConfig().getStringList("Block-Commands.Message")) {
-                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (String i: CommandEventConfig.getConfig().getStringList("Block-Commands.List")) {
-                    if (e.getMessage().equalsIgnoreCase(i)) {
-                        e.setCancelled(true);
-                        
-                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                        	if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Face-Guardian-1-13-1-14")) {
-                        		p.spawnParticle(XParticle.ELDER_GUARDIAN.get(), p.getLocation(), 1);
-                        		p.playSound(p.getLocation(), XSound.ENTITY_ELDER_GUARDIAN_CURSE.parseSound(), 1, 1);
-                        	}
-                        }
-                        
-                        if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
-                        	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                        		if (all.hasPermission("hawn.notify.staff.commandblocker")) {
-                        			for (String str: ConfigMAdmin.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
-                        				ConfigEventUtils.ExecuteEvent(p, str.replace("%player%", p.getName()).replace("%arg1%", e.getMessage()), "", "", false);
-                        			}
-                        		}
-                        	}
-                        }
-                        
-                        if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Message-Enable")) {
-                            for (String msg: CommandEventConfig.getConfig().getStringList("Block-Commands.Message")) {
-                                ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                            }
-                        }
-                    }
-                }
+        if (!HelpCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
+            // Only /help and /?, not /helpop or /helpme, and the / of the arguments are kept
+            String label = e.getMessage().split(" ", 2)[0].toLowerCase(Locale.ROOT);
+
+            if (label.equals("/help") || label.equals("/?")) {
+                e.setCancelled(true);
+                p.performCommand(e.getMessage().substring(1));
             }
         }
 
@@ -212,5 +183,72 @@ public class OnCommandEvent implements Listener {
     	for (String msg: CustomCommandConfig.getConfig().getStringList("commands." + string + ".message")) {
     		ConfigEventUtils.ExecuteEvent(p, msg, "CustomCommand", string, false);
     	}
+    }
+
+    // The blocked commands are also hidden from the tab completion
+    @EventHandler
+    public void onCommandSend(PlayerCommandSendEvent e) {
+        if (!blockerAppliesTo(e.getPlayer())) {
+            return;
+        }
+
+        e.getCommands().removeIf(label -> matchesBlockList("/" + label));
+    }
+
+    private static boolean blockerAppliesTo(Player p) {
+        if (!CommandEventConfig.getConfig().getBoolean("Block-Commands.Enable")) {
+            return false;
+        }
+
+        return !CommandEventConfig.getConfig().getBoolean("Block-Commands.Bypass") || !p.hasPermission("hawn.event.bypass.blockcommands");
+    }
+
+    private static boolean isBlocked(Player p, String message) {
+        return blockerAppliesTo(p) && matchesBlockList(message);
+    }
+
+    /**
+     * Compares the command typed with each entry of Block-Commands.List, without case, extra spaces nor arguments:
+     * "/pl", "/PL x" and "/pl " match "/pl". "/bukkit:pl" matches too: the "plugin:" prefix of the command is removed.
+     * An entry with several words ("/gamemode creative") blocks the commands that start with these words.
+     */
+    private static boolean matchesBlockList(String message) {
+        String typed = normalize(message);
+        if (typed.isEmpty()) {
+            return false;
+        }
+
+        String withoutPrefix = typed;
+        int space = typed.indexOf(' ');
+        String label = space == -1 ? typed : typed.substring(0, space);
+        int colon = label.indexOf(':');
+        if (colon != -1) {
+            withoutPrefix = "/" + typed.substring(colon + 1);
+        }
+
+        for (String entry : CommandEventConfig.getConfig().getStringList("Block-Commands.List")) {
+            String blocked = normalize(entry);
+            if (blocked.isEmpty()) {
+                continue;
+            }
+
+            if (startsWithCommand(typed, blocked) || startsWithCommand(withoutPrefix, blocked)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean startsWithCommand(String typed, String blocked) {
+        return typed.equals(blocked) || typed.startsWith(blocked + " ");
+    }
+
+    private static String normalize(String command) {
+        String result = command.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
+        if (!result.isEmpty() && !result.startsWith("/")) {
+            result = "/" + result;
+        }
+        return result;
     }
 }

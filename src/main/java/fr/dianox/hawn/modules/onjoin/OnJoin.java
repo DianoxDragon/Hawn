@@ -11,8 +11,6 @@ import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
-import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.events.ConfigGJoinQuitCommand;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
@@ -57,17 +55,20 @@ public class OnJoin implements Listener {
 
         String date = OtherUtils.getDate() + ", " + OtherUtils.getTime();
 
+        // The IP is only kept when general.yml asks for it (Plugin.Players.Save-IP), otherwise the stored one is erased
+        String ip = ConfigGeneral.getConfig().getBoolean("Plugin.Players.Save-IP") ? p.getAddress().getHostString() : null;
+
         // Yaml
         // Player info
 	    if (ConfigPlayerGet.getFile(uuid).isSet("player_info.player_name")) {
 		    ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
 		    ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
-		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", ip);
 	    } else {
 		    ConfigPlayerGet.writeString(uuid, "player_info.player_name", p.getName());
 		    ConfigPlayerGet.writeString(uuid, "player_info.join_date", String.valueOf(date));
 		    ConfigPlayerGet.writeString(uuid, "player_info.first_join", String.valueOf(date));
-		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", String.valueOf(p.getAddress().getHostString()));
+		    ConfigPlayerGet.writeString(uuid, "player_info.player_ip", ip);
 	    }
 
         // MYSQL
@@ -86,20 +87,20 @@ public class OnJoin implements Listener {
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
                             SQL.set("player_info", "join_date", "" + date + "", "player_UUID", "" + p.getUniqueId() + "");
                             SQL.set("player_info", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                            SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
+                            SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     } else {
                         SQL.createTable("player_info", "player TEXT, player_UUID TEXT, join_date TEXT, first_join TEXT, player_ip TEXT");
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
                             SQL.set("player_info", "join_date", "" + date + "", "player_UUID", "" + p.getUniqueId() + "");
                             SQL.set("player_info", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                            SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
+                            SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     }
                 } else {
@@ -107,20 +108,20 @@ public class OnJoin implements Listener {
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
                             SQL.set("player_info", "join_date", "" + date + "", "player_UUID", "" + p.getUniqueId() + "");
                             SQL.set("player_info", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                            SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
+                            SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     } else {
                         SQL.createTable("player_info", "player TEXT, player_UUID TEXT, join_date TEXT, first_join TEXT, player_ip TEXT");
                         if (SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_info")) {
                             SQL.set("player_info", "join_date", "" + date + "", "player_UUID", "" + p.getUniqueId() + "");
                             SQL.set("player_info", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
-                            SQL.set("player_info", "player_ip", "" + p.getAddress().getHostString() + "", "player_UUID", "" + p.getUniqueId() + "");
+                            SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + p.getAddress().getHostString() + "', '" + p.getAddress().getHostString() + "' ", "player_info");
+                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     }
                 }
@@ -144,10 +145,15 @@ public class OnJoin implements Listener {
                     double x = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.X");
                     double y = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.Y");
                     double z = ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.Z");
-                    float yaw = ConfigPlayerGet.getFile(uuid).getInt("player_last_position.YAW");
-                    float pitch = ConfigPlayerGet.getFile(uuid).getInt("player_last_position.PITCH");
+                    float yaw = (float) ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.YAW");
+                    float pitch = (float) ConfigPlayerGet.getFile(uuid).getDouble("player_last_position.PITCH");
 
-                    p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                    // The world was deleted or renamed: the spawn instead
+                    if (w == null) {
+                        TPSPAWNnormalevent(p);
+                    } else {
+                        p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                    }
                 } else {
                     TPSPAWNnormalevent(p);
                 }
@@ -161,7 +167,11 @@ public class OnJoin implements Listener {
                         float yaw = SQL.getInfoFloat("player_last_position", "YAW", "" + p.getUniqueId() + "");
                         float pitch = SQL.getInfoFloat("player_last_position", "PITCH", "" + p.getUniqueId() + "");
 
-                        p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                        if (w == null) {
+                            TPSPAWNnormalevent(p);
+                        } else {
+                            p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                        }
                     } else {
                         TPSPAWNnormalevent(p);
                     }
@@ -217,6 +227,8 @@ public class OnJoin implements Listener {
         }
 
         // Jump
+        OjPlayerOption.JumpBoost(p);
+
         if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Enable")) {
 	        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.World.All_World")) {
 		        if (OnJoinConfig.getConfig().getBoolean("Potion-Effect.JUMP.Use_Permission")) {
@@ -646,9 +658,10 @@ public class OnJoin implements Listener {
                 }
             }
 
-            String HealthValue = String.valueOf(OnJoinConfig.getConfig().getDouble("Restore.Health.Value"));
+            // A value above the max health of the player (or under 0) throws an error
+            double health = OnJoinConfig.getConfig().getDouble("Restore.Health.Value");
 
-            p.setHealth(Double.valueOf(HealthValue));
+            p.setHealth(Math.max(0, Math.min(health, p.getMaxHealth())));
         }
     }
 
@@ -743,7 +756,7 @@ public class OnJoin implements Listener {
     private void ChatClear(Player p) {
         if (OnJoinConfig.getConfig().getBoolean("Chat.Clear.Enable")) {
 
-            if (!ConfigCJIGeneral.getConfig().getBoolean("Chat.Clear.World.All_World")) {
+            if (!OnJoinConfig.getConfig().getBoolean("Chat.Clear.World.All_World")) {
                 if (!OnJoinPW.getWClearChat().contains(p.getWorld().getName())) {
                     return;
                 }
@@ -807,7 +820,7 @@ public class OnJoin implements Listener {
 
     public void SoundMethodOnJoin(Player p) {
         if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Sounds.Enable")) {
-            if (!ConfigGCos.getConfig().getBoolean("Event.OnJoin.Sounds.World.All_World")) {
+            if (!OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Sounds.World.All_World")) {
                 if (OnJoinPW.getWSoundsJoin().contains(p.getWorld().getName())) {
                     String sound = OnJoinConfig.getConfig().getString("Event.OnJoin.Sounds.Sound");
                     int volume = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Volume");
@@ -822,6 +835,20 @@ public class OnJoin implements Listener {
             }
 
         }
+    }
+
+    /**
+     * Event.OnJoin.Spawn-Permission: when it is on, only the players with hawn.command.spawn.&lt;spawn&gt; are teleported on join,
+     * the others stay where they are. Off (the default), every player is teleported.
+     */
+    public static boolean mayTeleportOnJoin(Player p, String spawn) {
+        if (!OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Spawn-Permission.Enable") || p.hasPermission("hawn.command.spawn." + spawn)) {
+            return true;
+        }
+        if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Spawn-Permission.No-Permission-Message")) {
+            MessageUtils.MessageNoPermission(p, "hawn.command.spawn." + spawn);
+        }
+        return false;
     }
 
     public void TPSPAWNnormalevent(Player p) {
@@ -856,10 +883,7 @@ public class OnJoin implements Listener {
                             if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                 MessageUtils.MessageNoSpawn(p);
                             } else {
-                                if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
-                                    String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn");
-                                    MessageUtils.MessageNoPermission(p, Permission);
-                                } else {
+                                if (mayTeleportOnJoin(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                     SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
@@ -874,17 +898,14 @@ public class OnJoin implements Listener {
                             }
                         }
                     } else {
-                        if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+                        if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
                             p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
                         } else {
-                            if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+                            if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                 MessageUtils.MessageNoSpawn(p);
                             } else {
-                                if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-                                    String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
-                                    MessageUtils.MessageNoPermission(p, Permission);
-                                } else {
-                                    SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+                                if (mayTeleportOnJoin(p, SpawnGroups.defaultSpawn(p))) {
+                                    SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                             for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
@@ -907,10 +928,7 @@ public class OnJoin implements Listener {
                         if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                             MessageUtils.MessageNoSpawn(p);
                         } else {
-                            if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
-                                String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn");
-                                MessageUtils.MessageNoPermission(p, Permission);
-                            } else {
+                            if (mayTeleportOnJoin(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                 SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
@@ -925,17 +943,14 @@ public class OnJoin implements Listener {
                         }
                     }
                 } else {
-                    if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+                    if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
                         p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
                     } else {
-                        if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+                        if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                             MessageUtils.MessageNoSpawn(p);
                         } else {
-                            if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-                                String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
-                                MessageUtils.MessageNoPermission(p, Permission);
-                            } else {
-                                SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+                            if (mayTeleportOnJoin(p, SpawnGroups.defaultSpawn(p))) {
+                                SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                         for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
@@ -1001,10 +1016,7 @@ public class OnJoin implements Listener {
                                     if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                         MessageUtils.MessageNoSpawn(p);
                                     } else {
-                                        if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
-                                            String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn");
-                                            MessageUtils.MessageNoPermission(p, Permission);
-                                        } else {
+                                        if (mayTeleportOnJoin(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                             SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
@@ -1019,17 +1031,14 @@ public class OnJoin implements Listener {
                                     }
                                 }
                             } else {
-                                if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+                                if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
                                     p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
                                 } else {
-                                    if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+                                    if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                         MessageUtils.MessageNoSpawn(p);
                                     } else {
-                                        if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-                                            String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
-                                            MessageUtils.MessageNoPermission(p, Permission);
-                                        } else {
-                                            SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+                                        if (mayTeleportOnJoin(p, SpawnGroups.defaultSpawn(p))) {
+                                            SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                     for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
@@ -1052,10 +1061,7 @@ public class OnJoin implements Listener {
                                 if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                     MessageUtils.MessageNoSpawn(p);
                                 } else {
-                                    if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
-                                        String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn");
-                                        MessageUtils.MessageNoPermission(p, Permission);
-                                    } else {
+                                    if (mayTeleportOnJoin(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                         SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
@@ -1070,17 +1076,14 @@ public class OnJoin implements Listener {
                                 }
                             }
                         } else {
-                            if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+                            if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
                                 p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
                             } else {
-                                if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+                                if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                     MessageUtils.MessageNoSpawn(p);
                                 } else {
-                                    if (!p.hasPermission("hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-                                        String Permission = "hawn.command.spawn." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
-                                        MessageUtils.MessageNoPermission(p, Permission);
-                                    } else {
-                                        SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+                                    if (mayTeleportOnJoin(p, SpawnGroups.defaultSpawn(p))) {
+                                        SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
                                                 for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -48,18 +50,14 @@ public class ScoreboardMainConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {}
-            
-            // Configuration
-            
-            Config.set("Scoreboard.Enable", true);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        // Configuration
+
+        Config.set("Scoreboard.Enable", true);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

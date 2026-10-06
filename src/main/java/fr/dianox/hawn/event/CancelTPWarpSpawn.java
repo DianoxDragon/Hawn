@@ -17,6 +17,12 @@ public class CancelTPWarpSpawn implements Listener {
 	
 	@EventHandler
 	public void onAnyMovements(PlayerMoveEvent e) {
+		// Turning the head is not a movement: only a change of block cancels the teleport
+		if (e.getTo() == null || (e.getFrom().getBlockX() == e.getTo().getBlockX() && e.getFrom().getBlockY() == e.getTo().getBlockY()
+				&& e.getFrom().getBlockZ() == e.getTo().getBlockZ())) {
+			return;
+		}
+
 		Player p = e.getPlayer();
 		
 		cancelTPWarpSpawn(p);

@@ -46,6 +46,14 @@ Every feature has an `Enable` (or `Disable`) option in its file. To limit it to 
 
 <details>
 
+<summary>How do I turn off the automatic announcements?</summary>
+
+They come from the [auto broadcast](../features/autobroadcast.md), in `AutoBroadcast.yml`. Set `Enable: false` in each section you don't want (`Messages`, `Titles`, `Action-Bar`, `BossBar`), then type `/hawn reload`. A player can also hide them for themself with `/option autobc`.
+
+</details>
+
+<details>
+
 <summary>Why can my players not use /spawn?</summary>
 
 They need `hawn.command.spawn.<spawn name>`. See [Spawns](../features/spawns.md#permissions).

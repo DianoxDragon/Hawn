@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -7,7 +9,6 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.BroadCastCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -24,13 +25,14 @@ public class BroadCastCommand extends BukkitCommand {
 	
 	public BroadCastCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Broadcast a message";
         this.usageMessage = "/broadcast <msg>";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -68,8 +70,7 @@ public class BroadCastCommand extends BukkitCommand {
 					int check = 0;
 					while (check < partlenght) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", parts[check])));
-							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", parts[check]), "", "");
+							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(parts[check])), "", "");
 							MessageUtils.ConsoleMessages(msg.replace("%broadcast%", parts[check]));
 						}
 						
@@ -77,8 +78,7 @@ public class BroadCastCommand extends BukkitCommand {
 					}
 				} else {
 					for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", msgbc)));
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", msgbc), "", "");
+						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "");
 						MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
 					}
 				}
@@ -150,8 +150,7 @@ public class BroadCastCommand extends BukkitCommand {
 						int check = 0;
 						while (check < partlenght) {
 							for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-								Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", parts[check])));
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", parts[check]), "", "", p, true);
+								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(parts[check])), "", "", p, true);
 								MessageUtils.ConsoleMessages(msg.replace("%broadcast%", parts[check]));
 							}
 							
@@ -159,8 +158,7 @@ public class BroadCastCommand extends BukkitCommand {
 						}
 					} else {
 						for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-							Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%broadcast%", msgbc)));
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", msgbc), "", "", p, true);
+							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "", p, true);
 							MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
 						}
 					}

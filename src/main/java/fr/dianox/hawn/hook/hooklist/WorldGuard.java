@@ -60,4 +60,23 @@ public class WorldGuard {
 		return sb.toString();
 	}
 
+	/**
+	 * WorldGuard saves the IDs in lower case: "Spawn" in a config is the region "spawn"
+	 */
+	public boolean isInRegion(Location loc, String name) {
+		if (!available || name == null) {
+			return false;
+		}
+
+		RegionQuery query = com.sk89q.worldguard.WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+
+		for (ProtectedRegion region : query.getApplicableRegions(BukkitAdapter.adapt(loc)).getRegions()) {
+			if (region.getId().equalsIgnoreCase(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }

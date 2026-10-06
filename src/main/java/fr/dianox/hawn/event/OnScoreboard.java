@@ -4,6 +4,7 @@ import fr.dianox.hawn.Main;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.ScoreTask;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
+import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
 import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -68,6 +69,10 @@ public class OnScoreboard implements Listener {
 	}
 
 	public static void createNewScore(Player p, String world) {
+		if (!ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) {
+			return;
+		}
+
 		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(p, "keepsb");
 
 		if (Main.getInstance().getScoreManager().getNoScore().contains(p)) {

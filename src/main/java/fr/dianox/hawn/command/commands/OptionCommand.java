@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import com.cryptomorin.xseries.XPotion;
 
 import org.bukkit.Bukkit;
@@ -33,29 +35,20 @@ public class OptionCommand extends BukkitCommand {
 
     public OptionCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Access to options";
         this.usageMessage = "/option";
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
         if (args.length == 1) {
-            List<String> tab = new ArrayList<>();
-            tab.add("fly");
-            tab.add("doublejump");
-            tab.add("speed");
-            tab.add("flyspeed");
-            tab.add("jumpboost");
-            tab.add("autobc");
-            tab.add("pv");
-
-            java.util.Collections.sort(tab);
-
-            return tab;
+            return Tab.of(args, "fly", "doublejump", "speed", "flyspeed", "jumpboost", "autobc", "pv");
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase("speed") || args[0].equalsIgnoreCase("flyspeed") || args[0].equalsIgnoreCase("fs"))) {
+            return Tab.range(args, 0, 10);
         }
 
-        return null;
+        return Tab.none();
     }
 
     @Override
@@ -426,7 +419,7 @@ public class OptionCommand extends BukkitCommand {
 
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
-                                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", args[1]), "", "", false);
+                                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
                             }
                         }
                     } catch (NumberFormatException e) {

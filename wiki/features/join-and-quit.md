@@ -280,7 +280,7 @@ Restore:
     World: ...
   Health:
     Enable: true
-    Value: 20.0              # 20 = 10 hearts
+    Value: 20.0              # 20 = 10 hearts, at most the max health of the player
     Bypass-With-Permission: false   # hawn.bypass.healthrestore
     World: ...
 XP:

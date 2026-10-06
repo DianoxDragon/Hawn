@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,26 +50,22 @@ public class ActionbarAnnouncerConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("ActionBar-Announcer.Enable", true);
-            Config.set("ActionBar-Announcer.Action-Bar.Stay", 75);
-            Config.set("ActionBar-Announcer.Disable-Message", true);
-            
-            Config.set("ActionBar-Announcer.Options.Write-In-The-Chat-The-Announce", false);
-            
-            Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Enable", true);
-            Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
-            Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Volume", 1);
-            Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch", 1);
-            
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+        Config.set("ActionBar-Announcer.Enable", true);
+        Config.set("ActionBar-Announcer.Action-Bar.Stay", 75);
+        Config.set("ActionBar-Announcer.Disable-Message", true);
 
-            saveConfigFile();
+        Config.set("ActionBar-Announcer.Options.Write-In-The-Chat-The-Announce", false);
 
-        }
+        Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Enable", true);
+        Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Sound", "BLOCK_NOTE_HARP");
+        Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Volume", 1);
+        Config.set("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch", 1);
+
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 }

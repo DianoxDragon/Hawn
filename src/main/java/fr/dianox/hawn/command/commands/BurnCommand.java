@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -19,25 +21,18 @@ public class BurnCommand extends BukkitCommand {
 
 	public BurnCommand(String name) {
 		 super(name);
+		 Tab.hideWithoutPermission(this, GeneralPermission);
 		 this.description = "Burn a player";
 		 this.usageMessage = "/burn <player> <duration>";
 	 }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	 @Override
@@ -67,7 +62,7 @@ public class BurnCommand extends BukkitCommand {
 				 
 				 if (ConfigMMsg.getConfig().getBoolean("Burn.Target.Enable")) {
 					 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Target.Messages")) {
-						 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%duration%", args[1]), "", "", false);
+						 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 					 }
 				 }
 			 } else {
@@ -109,13 +104,13 @@ public class BurnCommand extends BukkitCommand {
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
-					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%duration%", args[1]), "", "", false);
+					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 				 }
 			 }
 			 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Target.Enable")) {
 				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Target.Messages")) {
-					 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%duration%", args[1]), "", "", false);
+					 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 				 }
 			 }
 		 } else {

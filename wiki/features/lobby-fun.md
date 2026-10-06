@@ -43,7 +43,7 @@ JumpPads:
     - world
 ```
 
-You can add `Use_Permission: true` under `JumpPads:` to reserve the jump pads to players with `hawn.fun.jumppads`. The cooldown message is `LaunchPad.Cant-Use-Cooldown` in `Messages.yml`.
+Set `Use_Permission: true` under `JumpPads:` to reserve the jump pads to players with `hawn.fun.jumppads` (add the line yourself if your file was generated before Hawn 1.3). The cooldown message is `LaunchPad.Cant-Use-Cooldown` in `Messages.yml`.
 
 ## Double jump
 
@@ -119,7 +119,7 @@ Sign-List:
 Breaking a sign of the system needs `hawn.sign.delete`.
 
 {% hint style="warning" %}
-The sign system works with the oak, spruce, birch, jungle, acacia and dark oak signs (standing or on a wall). Other sign types are not detected.
+The sign system works with every sign: all the woods, standing, on a wall or hanging.
 {% endhint %}
 
 ## Fireworks

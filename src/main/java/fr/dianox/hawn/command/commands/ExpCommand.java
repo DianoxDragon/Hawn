@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -20,35 +22,20 @@ public class ExpCommand extends BukkitCommand {
 
     public ExpCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Manage the total of experience point of a player";
         this.usageMessage = "/exp <playerName> <add/set/take/clear> <amount>";
     }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.players(sender, args);
 		} else if (args.length == 2) {
-			List<String> tab = new ArrayList<>();
-			tab.add("add");
-			tab.add("set");
-			tab.add("take");
-			tab.add("clear");
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.of(args, "add", "set", "take", "clear");
 		}
 
-		return null;
+		return Tab.none();
 	}
 
     @Override
@@ -182,7 +169,7 @@ public class ExpCommand extends BukkitCommand {
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Target.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Target.Messages")) {
-                            	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", args[2]), "", "", false);
+                            	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                             }
                         }
             		} else if (args[1].equals("set")) {
@@ -218,7 +205,7 @@ public class ExpCommand extends BukkitCommand {
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Target.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Target.Messages")) {
-                            	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", args[2]), "", "", false);
+                            	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                             }
                         }
             		} else {
@@ -360,13 +347,13 @@ public class ExpCommand extends BukkitCommand {
                     
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Sender.Enable")) {
                         for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Sender.Messages")) {
-                        	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", args[2]), "", "", false);
+                        	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
             	    
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Target.Enable")) {
                         for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Target.Messages")) {
-                        	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", args[2]), "", "", false);
+                        	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
         		} else if (args[1].equals("set")) {
@@ -396,13 +383,13 @@ public class ExpCommand extends BukkitCommand {
             		
             		if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Sender.Enable")) {
                         for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Sender.Messages")) {
-                        	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", args[2]), "", "", false);
+                        	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
             	    
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Target.Enable")) {
                         for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Target.Messages")) {
-                        	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", args[2]), "", "", false);
+                        	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
         		} else {

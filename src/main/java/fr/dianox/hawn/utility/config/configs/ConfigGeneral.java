@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,19 +50,23 @@ public class ConfigGeneral {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Plugin.Update.Check-Update", true);
-            Config.set("Plugin.Date-Format", "dd-MM-yyyy");
-            Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
-            Config.set("Plugin.Tps.Warn-system", true);
-            
-            Config.set("Plugin.Language-Type", "en_US");
+        Config.set("Plugin.Update.Check-Update", true);
+        Config.set("Plugin.Date-Format", "dd-MM-yyyy");
+        Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
+        Config.set("Plugin.Tps.Warn-system", true);
 
-            // Hooks
+        Config.set("Plugin.Language-Type", "en_US");
+
+        // false: the IP of the players is not written in their data (YAML or MySQL), and the one already written is erased at their next join
+        Config.set("Plugin.Players.Save-IP", false);
+
+        // true: the commands are hidden from the players who don't have their permission (restart needed)
+        Config.set("Plugin.Commands.Hide-Without-Permission", true);
+
+        // Hooks
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option", false);
 	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
@@ -79,9 +85,7 @@ public class ConfigGeneral {
 	        Config.set("Plugin.Use.MYSQL.Port", 3306);
 	        Config.set("Plugin.Use.MYSQL.Use-SSL", false);
 
-            saveConfigFile();
-
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

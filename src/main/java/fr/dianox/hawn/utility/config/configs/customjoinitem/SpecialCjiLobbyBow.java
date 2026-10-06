@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.customjoinitem;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,23 +50,19 @@ public class SpecialCjiLobbyBow {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("LobbyBow.Enable", true);
-            
-            Config.set("LobbyBow.Item.Title", "&6Lobby bow");
-            Config.set("LobbyBow.Item.Lore", java.util.Arrays.asList(new String[] {
-                    " ",
-                    "&c&lAaaaaahhhh"
-                }));
-            Config.set("LobbyBow.Item.Material.Amount", 1);
-            
-            saveConfigFile();
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-        }
+        Config.set("LobbyBow.Enable", true);
+
+        Config.set("LobbyBow.Item.Title", "&6Lobby bow");
+        Config.set("LobbyBow.Item.Lore", java.util.Arrays.asList(new String[] {
+                " ",
+                "&c&lAaaaaahhhh"
+            }));
+        Config.set("LobbyBow.Item.Material.Amount", 1);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.cosmeticsfun;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,32 +50,27 @@ public class BookListConfiguration {
     }
 
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
-            
-            Config.set("Book-List.Book1.Title", "The best book!");
-            Config.set("Book-List.Book1.Author", "Dianox");
-            Config.set("Book-List.Book1.page1.page", java.util.Arrays.asList(new String[] {
-                    "One: Learn how to configure Hawn",
-                    "Two: it's just a simple page"
-                }));
-            Config.set("Book-List.Book1.page2owo.page", java.util.Arrays.asList(new String[] {
-                    "Another page wow"
-                }));
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("Book-List.Book2.Title", "&bThe best book!");
-            Config.set("Book-List.Book2.Author", "Dianox");
-            Config.set("Book-List.Book2.page1.page", java.util.Arrays.asList(new String[] {
-                    "The same book with another page",
-                    "mmh..",
-                    "a single page"
-                }));
+        Config.set("Book-List.Book1.Title", "The best book!");
+        Config.set("Book-List.Book1.Author", "Dianox");
+        Config.set("Book-List.Book1.page1.page", java.util.Arrays.asList(new String[] {
+                "One: Learn how to configure Hawn",
+                "Two: it's just a simple page"
+            }));
+        Config.set("Book-List.Book1.page2owo.page", java.util.Arrays.asList(new String[] {
+                "Another page wow"
+            }));
 
-            
-            saveConfigFile();
+        Config.set("Book-List.Book2.Title", "&bThe best book!");
+        Config.set("Book-List.Book2.Author", "Dianox");
+        Config.set("Book-List.Book2.page1.page", java.util.Arrays.asList(new String[] {
+                "The same book with another page",
+                "mmh..",
+                "a single page"
+            }));
 
-        }
+        Config = ConfigDefaults.apply(file, loaded, Config, "Book-List");
     }
 }

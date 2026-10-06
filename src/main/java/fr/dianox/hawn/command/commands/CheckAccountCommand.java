@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -23,25 +25,18 @@ public class CheckAccountCommand extends BukkitCommand {
 
     public CheckAccountCommand(String name) {
         super(name);
+        Tab.hideWithoutPermission(this, GeneralPermission);
         this.description = "Get some informations about the player";
         this.usageMessage = "/checka <player>";
     }
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
     @Override

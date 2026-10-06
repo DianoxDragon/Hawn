@@ -34,9 +34,9 @@ Config:
       - world
 ```
 
-{% hint style="warning" %}
-The auto broadcast is loaded at startup: **restart** the server after adding messages or changing an interval.
-{% endhint %}
+`/hawn reload` applies the changes of `AutoBroadcast.yml` (a section turned on or off, new messages, a new interval) without a restart.
+
+In a new configuration, the chat messages are on and the titles, the action bar and the boss bar are off.
 
 ## Chat messages
 
@@ -86,7 +86,7 @@ The auto broadcast is loaded at startup: **restart** the server after adding mes
 
 ```yaml
   Titles:
-    Enable: true
+    Enable: false
     Random: false
     Interval: 1200
     Use-Permission-To-Get-Messages: false
@@ -121,7 +121,7 @@ The auto broadcast is loaded at startup: **restart** the server after adding mes
 
 ```yaml
   Action-Bar:
-    Enable: true
+    Enable: false
     Random: false
     Interval: 600
     Use-Permission-To-Get-Messages: false

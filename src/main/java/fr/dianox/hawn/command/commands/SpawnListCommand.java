@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
@@ -21,13 +23,14 @@ public class SpawnListCommand extends BukkitCommand{
 	
 	public SpawnListCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "List all spawns";
         this.usageMessage = "/spawnlist";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -104,7 +107,7 @@ public class SpawnListCommand extends BukkitCommand{
 				while (iterator.hasNext()) {
 					String string = (String)iterator.next();
 					
-					if (p.hasPermission("hawn.spawn."+string)) {
+					if (p.hasPermission("hawn.command.spawn."+string)) {
 						if (firstword == true) {
 							spawnlist = String.valueOf(string);
 							firstword = false;

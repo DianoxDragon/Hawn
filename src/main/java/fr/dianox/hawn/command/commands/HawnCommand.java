@@ -1,7 +1,10 @@
 package fr.dianox.hawn.command.commands;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.modules.serverlist.ServerPingEvent;
 import fr.dianox.hawn.modules.admin.EditPlayerGui;
+import fr.dianox.hawn.modules.admin.Setup;
+import fr.dianox.hawn.modules.admin.UrgentMode;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
@@ -33,7 +36,6 @@ import java.util.zip.ZipOutputStream;
 
 public class HawnCommand implements CommandExecutor {
 
-	private final List<String> fileList = new ArrayList<>();
 	public static List<Player> slotview = new ArrayList<>();
 	public static List<Player> noclip = new ArrayList<>();
 
@@ -88,86 +90,11 @@ public class HawnCommand implements CommandExecutor {
 					Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
 				}
 			} else if (args[0].equalsIgnoreCase("urgent")) {
-				if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
-
-					HawnCommandConfig.getConfig().set("Urgent-mode.Enable", false);
-
-					HawnCommandConfig.saveConfigFile();
-
-					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-						List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
-
-						for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-
-							String check = plugin.getName();
-
-							if (!plugincheck.contains(check)) {
-								if (!plugin.isEnabled()) {
-									Bukkit.getPluginManager().enablePlugin(plugin);
-								}
-							}
-						}
-
-						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins")) {
-							MessageUtils.ConsoleMessages(msg);
-						}
-					}
-
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Off")) {
-						MessageUtils.ConsoleMessages(msg);
-					}
-
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.Off")) {
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
-						MessageUtils.ConsoleMessages(msg);
-					}
-
+				// The console turns it on, and is the only one that can turn it off
+				if (UrgentMode.isOn()) {
+					UrgentMode.stop(sender);
 				} else {
-					HawnCommandConfig.getConfig().set("Urgent-mode.Enable", true);
-
-					HawnCommandConfig.saveConfigFile();
-
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.On")) {
-						MessageUtils.ConsoleMessages(msg);
-					}
-
-					List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
-
-					for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
-						if (!whitelist.contains(ps.getName())) {
-							String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
-							message = MessageUtils.colourTheStuff(message);
-							message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
-
-							ps.kickPlayer(message);
-						}
-					}
-
-					Zip(false, null);
-
-					if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-						List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
-
-						for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-
-							String check = plugin.getName();
-
-							if (!plugincheck.contains(check)) {
-								if (plugin.isEnabled()) {
-									Bukkit.getPluginManager().disablePlugin(plugin);
-								}
-							}
-						}
-
-						for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
-							MessageUtils.ConsoleMessages(msg);
-						}
-					}
-
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
-						MessageUtils.ConsoleMessages(msg);
-					}
+					UrgentMode.start(sender);
 				}
 			} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder") || args[0].equalsIgnoreCase("parse")) {
 				if (args.length == 1) {
@@ -180,6 +107,14 @@ public class HawnCommand implements CommandExecutor {
 					MessageUtils.ConsoleMessages(msg);
 				}
 			} else if (args[0].equalsIgnoreCase("spawnmanager")) {
+				if (args.length < 2) {
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+						MessageUtils.ConsoleMessages(msg);
+					}
+
+					return false;
+				}
+
 				if (args[1].equalsIgnoreCase("remove")) {
 					if (args.length == 2) {
 						for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
@@ -263,15 +198,9 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ConsoleMessages(msg);
 					}
 
-					List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
-
 					for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
-						if (!whitelist.contains(ps.getName())) {
-							String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
-							message = MessageUtils.colourTheStuff(message);
-							message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
-
-							ps.kickPlayer(message);
+						if (!ServerPingEvent.canJoin(ps, "Maintenance")) {
+							ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance"));
 						}
 					}
 
@@ -346,7 +275,7 @@ public class HawnCommand implements CommandExecutor {
 				sender.sendMessage("");
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
 					|| args[0].equalsIgnoreCase("nightvision") || args[0].equalsIgnoreCase("noclip")
-					|| args[0].equalsIgnoreCase("slotview")) {
+					|| args[0].equalsIgnoreCase("slotview") || args[0].equalsIgnoreCase("setup")) {
 				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Console.Not-A-Player")) {
 					MessageUtils.ConsoleMessages(msg);
 				}
@@ -487,6 +416,14 @@ public class HawnCommand implements CommandExecutor {
 				return false;
 			}
 
+			if (args.length < 2) {
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+
+				return false;
+			}
+
 			if (args[1].equalsIgnoreCase("remove")) {
 				if (args.length == 2) {
 					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
@@ -518,7 +455,7 @@ public class HawnCommand implements CommandExecutor {
 				ConfigSpawn.saveConfigFile();
 
 				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", args[2]), "", "", false);
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", ConfigEventUtils.noAction(args[2])), "", "", false);
 				}
 			} else if (args[1].equalsIgnoreCase("setspawn")) {
 				if (args.length == 2) {
@@ -577,11 +514,7 @@ public class HawnCommand implements CommandExecutor {
 		// Urgent
 		} else if (args[0].equalsIgnoreCase("urgent")) {
 			if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Use-It-Only-On-The-Console")) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Hawn")) {
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
-					MessageUtils.ConsoleMessages(msg);
-				}
-
+				UrgentMode.consoleOnly(p);
 				return true;
 			}
 
@@ -590,65 +523,19 @@ public class HawnCommand implements CommandExecutor {
 				return false;
 			}
 
-			List<String> whitelistuse = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Can-Use-Urgent-Mode");
-			if (!whitelistuse.contains(p.getName())) {
+			if (!UrgentMode.canUse(p)) {
 				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-cant-use-the-command")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 				return true;
 			}
 
-			if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
+			if (UrgentMode.isOn()) {
 				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-Disable")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
-				HawnCommandConfig.getConfig().set("Urgent-mode.Enable", true);
-
-				HawnCommandConfig.saveConfigFile();
-
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.On")) {
-					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-				}
-
-				List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Urgent-mode.whitelist");
-
-				for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
-					if (!whitelist.contains(ps.getName())) {
-						String message = HawnCommandConfig.getConfig().getString("Urgent-mode.Kick-Message");
-						message = MessageUtils.colourTheStuff(message);
-						message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
-
-						ps.kickPlayer(message);
-					}
-				}
-
-				Zip(true, p);
-
-				if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Plugin-desactivation.Disable-All-Plugins-When-Enabled")) {
-					List<String> plugincheck = HawnCommandConfig.getConfig().getStringList("Urgent-mode.Plugin-desactivation.Plugin-Ignored");
-
-					for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-
-						String check = plugin.getName();
-
-						if (!plugincheck.contains(check)) {
-							if (plugin.isEnabled()) {
-								Bukkit.getPluginManager().disablePlugin(plugin);
-							}
-						}
-					}
-
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Disabled-Plugin-function")) {
-						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-						MessageUtils.ConsoleMessages(msg);
-					}
-				}
-
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On")) {
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
-					MessageUtils.ConsoleMessages(msg);
-				}
+				UrgentMode.start(p);
 			}
 		// Reload
 		} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
@@ -687,6 +574,14 @@ public class HawnCommand implements CommandExecutor {
 				return true;
 			}
 
+			if (args.length < 2) {
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+
+				return true;
+			}
+
 			Player target = Bukkit.getServer().getPlayer(args[1]);
 
 			if (target == null) {
@@ -695,10 +590,18 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			EditPlayerGui.OpenGui(target);
+		// Open the setup again
+		} else if (args[0].equalsIgnoreCase("setup")) {
+			if (!p.hasPermission("hawn.setup") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.setup");
+				return true;
+			}
+
+			Setup.open(p);
 		// Check hooks
 		} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
-			if (!p.hasPermission("hawn.editplayer") && !permissionunlocked) {
-				MessageUtils.MessageNoPermission(p, "hawn.editplayer");
+			if (!p.hasPermission("hawn.admin.command.hooks") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.admin.command.hooks");
 				return true;
 			}
 
@@ -850,15 +753,9 @@ public class HawnCommand implements CommandExecutor {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
-				List<String> whitelist = HawnCommandConfig.getConfig().getStringList("Maintenance.whitelist");
-
 				for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
-					if (!whitelist.contains(ps.getName())) {
-						String message = HawnCommandConfig.getConfig().getString("Maintenance.Kick-Message");
-						message = MessageUtils.colourTheStuff(message);
-						message = PlaceHolders.ReplaceMainplaceholderP(message, ps);
-
-						ps.kickPlayer(message);
+					if (!ServerPingEvent.canJoin(ps, "Maintenance")) {
+						ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance"));
 					}
 				}
 
@@ -979,87 +876,6 @@ public class HawnCommand implements CommandExecutor {
 		}
 
 		return page;
-	}
-
-	private void Zip(boolean b, Player p) {
-
-		String pathname = new File(".").getAbsolutePath();
-		String zipFile = Main.getInstance().getDataFolder().getAbsolutePath() + "-save-1.zip";
-
-		File directory = new File(pathname);
-		getFileList(directory);
-
-		File checkname = new File(zipFile);
-
-		int number = 1;
-
-		while (checkname.exists()) {
-			number++;
-			zipFile = Main.getInstance().getDataFolder().getAbsolutePath() + "-save-"+ number +".zip";
-			checkname = new File(zipFile);
-		}
-
-		try (FileOutputStream fos = new FileOutputStream(zipFile); ZipOutputStream zos = new ZipOutputStream(fos)) {
-
-			for (String filePath : fileList) {
-				System.out.println("Compressing: " + filePath);
-
-				// Creates a zip entry.
-				String name = filePath.substring(
-						directory.getAbsolutePath().length() + 1,
-						filePath.length());
-
-				ZipEntry zipEntry = new ZipEntry(name);
-				zos.putNextEntry(zipEntry);
-
-				// Read file content and write to zip output stream.
-				try (FileInputStream fis = new FileInputStream(filePath)) {
-					byte[] buffer = new byte[1024];
-					int length;
-					while ((length = fis.read(buffer)) > 0) {
-						zos.write(buffer, 0, length);
-					}
-
-					// Close the zip entry.
-					zos.closeEntry();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-			System.out.println("Compression done ");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		fileList.clear();
-
-		for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Zip")) {
-			if (b) {
-				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
-				MessageUtils.ConsoleMessages(msg);
-			}
-			MessageUtils.ConsoleMessages(msg);
-		}
-	}
-
-	/**
-	 * Get files list from the directory recursive to the sub directory.
-	 */
-	private void getFileList(File directory) {
-		File[] files = directory.listFiles();
-		if (files != null && files.length > 0) {
-			for (File file : files) {
-				if (file.isFile()) {
-					if (file.getAbsolutePath().contains("\\.\\cache\\")) continue;
-					if (file.getAbsolutePath().contains("\\.\\dumps\\")) continue;
-
-					fileList.add(file.getAbsolutePath());
-				} else {
-					getFileList(file);
-				}
-			}
-		}
 	}
 
 }

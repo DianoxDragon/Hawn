@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -24,18 +26,18 @@ public class EditWarpCommand extends BukkitCommand {
 	
 	public EditWarpCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Edit the specified warp";
         this.usageMessage = "/editwarp <warp>";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(WarpListConfig.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			return Tab.keys(WarpListConfig.getConfig(), "Coordinated", args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override
@@ -110,7 +112,7 @@ public class EditWarpCommand extends BukkitCommand {
 
 			if (ConfigMMsg.getConfig().getBoolean(msg_warp_edited+"Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList(msg_warp_edited+"Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", args[0]), "", "", false);
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])), "", "", false);
 				}
 			}
 		} else {

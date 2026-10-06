@@ -14,6 +14,23 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 
 public class ConfigEventUtils {
+
+	/**
+	 * Text typed by a player (a broadcast, a reason, a name...) put in a message line must stay a message:
+	 * ExecuteEvent reads the actions ([command-console]:, json:, <perm>...) at the start of the line.
+	 * A colour reset in front of the text breaks these prefixes and does not show.
+	 */
+	public static String noAction(String text) {
+		if (text == null) {
+			return "";
+		}
+
+		String start = text.trim();
+		if (start.startsWith("[") || start.startsWith("<") || start.regionMatches(true, 0, "json:", 0, 5)) {
+			return "\u00A7r" + text;
+		}
+		return text;
+	}
 	
 	public static void ExecuteEvent(Player p, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
 		String perm;

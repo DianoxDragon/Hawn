@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -40,33 +42,20 @@ public class ClassicGMCommand extends BukkitCommand {
 	
 	public ClassicGMCommand(String name) {
 		super(name);
+		Tab.hideWithoutPermission(this, GeneralPermission);
 		this.description = "Easily change the gamemode";
         this.usageMessage = "/gamemode or /gm";
 	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>();
-			tab.add("survival");
-			tab.add("creative");
-			tab.add("adventure");
-			tab.add("spectator");
-
-			return tab;
+			return Tab.of(args, "survival", "creative", "adventure", "spectator");
 		} else if (args.length == 2) {
-			List<String> tab = new ArrayList<>();
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-				tab.add(p.getName());
-			}
-
-			java.util.Collections.sort(tab);
-
-			return tab;
+			return Tab.players(sender, args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 
 	@Override

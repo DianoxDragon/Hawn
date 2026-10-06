@@ -1,5 +1,8 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
+import fr.dianox.hawn.utility.SpawnGroups;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -36,12 +39,20 @@ public class SpawnCommand extends BukkitCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			return new ArrayList<>(ConfigSpawn.getConfig().getConfigurationSection("Coordinated").getKeys(false));
+			// Only the spawns the player can go to (hawn.command.spawn.<spawn>)
+			List<String> options = Tab.keys(ConfigSpawn.getConfig(), "Coordinated", args, spawn -> sender.hasPermission("hawn.command.spawn." + spawn));
+			if (sender.hasPermission("hawn.command.spawn.teleportothers")) {
+				options.addAll(Tab.of(args, "tp"));
+			}
+			return options;
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("tp")) {
+			return Tab.players(sender, args);
+		} else if (args.length == 3 && args[0].equalsIgnoreCase("tp")) {
+			return Tab.keys(ConfigSpawn.getConfig(), "Coordinated", args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 	
 	@Override
@@ -92,7 +103,7 @@ public class SpawnCommand extends BukkitCommand {
 									}
 								}
 							} else {
-								if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+								if (SpawnGroups.defaultSpawn(target).contentEquals("CHANGE ME")) {
 									String Lineerror = "Spawn.DefaultSpawn";
 									String Fileerror = "Events/OnJoin.yml";
 									if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
@@ -101,7 +112,7 @@ public class SpawnCommand extends BukkitCommand {
 										}
 									}
 								} else {
-									if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+									if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(target))) {
 										if (ConfigMMsg.getConfig().getBoolean("Error.No-Spawn.Enable")) {
 											for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Spawn.Messages")) {
 												MessageUtils.ConsoleMessages(msg);
@@ -109,7 +120,7 @@ public class SpawnCommand extends BukkitCommand {
 										}
 										return true;
 									}
-									SpawnUtils.teleportToSpawn(target, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+									SpawnUtils.teleportToSpawn(target, SpawnGroups.defaultSpawn(target));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 										MessageUtils.ConsoleMessages(msg);
 									}
@@ -465,7 +476,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 			}
 		} else {
-			if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+			if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
 				String Lineerror = "Spawn.DefaultSpawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
@@ -474,16 +485,16 @@ public class SpawnCommand extends BukkitCommand {
 					}
 				}
 			} else {
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
 					MessageUtils.MessageNoSpawn(p);
 					return;
 				}
-				if (!p.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-					String Permission = "hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+				if (!p.hasPermission("hawn.command.spawn."+SpawnGroups.defaultSpawn(p))) {
+					String Permission = "hawn.command.spawn."+SpawnGroups.defaultSpawn(p);
 					MessageUtils.MessageNoPermission(p, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+				SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
@@ -586,7 +597,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 			}
 		} else {
-			if (OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn").contentEquals("CHANGE ME")) {
+			if (SpawnGroups.defaultSpawn(sender).contentEquals("CHANGE ME")) {
 				String Lineerror = "Spawn.DefaultSpawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
@@ -595,16 +606,16 @@ public class SpawnCommand extends BukkitCommand {
 					}
 				}
 			} else {
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(sender))) {
 					MessageUtils.MessageNoSpawn(sender);
 					return;
 				}
-				if (!sender.hasPermission("hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
-					String Permission = "hawn.command.spawn."+OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+				if (!sender.hasPermission("hawn.command.spawn."+SpawnGroups.defaultSpawn(sender))) {
+					String Permission = "hawn.command.spawn."+SpawnGroups.defaultSpawn(sender);
 					MessageUtils.MessageNoPermission(sender, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(sender, OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"));
+				SpawnUtils.teleportToSpawn(sender, SpawnGroups.defaultSpawn(sender));
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
 				}

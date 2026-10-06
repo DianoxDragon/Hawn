@@ -1,5 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.command.commands.tab.Tab;
+
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
@@ -20,16 +22,13 @@ public class HelpCommand extends BukkitCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
 		if (args.length == 1) {
-			List<String> tab = new ArrayList<>(HelpCommandConfig.getConfig().getConfigurationSection("Help-Command.Categories").getKeys(false));
-			tab.remove("default");
-			return tab;
+			return Tab.keys(HelpCommandConfig.getConfig(), "Help-Command.Categories", args, category -> !category.equals("default"));
 		} else if (args.length == 2) {
-			return new ArrayList<>(HelpCommandConfig.getConfig().getConfigurationSection("Help-Command.Categories." + args[0]).getKeys(false));
+			return Tab.keys(HelpCommandConfig.getConfig(), "Help-Command.Categories." + args[0], args);
 		}
 
-		return null;
+		return Tab.none();
 	}
 	
 	@SuppressWarnings("unused")

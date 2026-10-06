@@ -4,6 +4,7 @@ import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.*;
+import fr.dianox.hawn.utility.SpawnGroups;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
@@ -18,6 +19,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class VoidTPEvent implements Listener {
+
+	// A player under the limit moves many times per second: an error is shown once every 6 seconds
+	private static void warnOnce(Player p, Runnable message) {
+		if (Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
+			return;
+		}
+
+		message.run();
+		Main.getInstance().getVoidTPManager().getAntispam().add(p);
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+	}
 
 	// VoidTP
 	@EventHandler
@@ -48,8 +60,25 @@ public class VoidTPEvent implements Listener {
 			}
 		}
 
+		// 21: the height first, nothing to check (and no error to show) above the limit
+		String perWorld = "VoidTP.Options.VoidTP-Per-World.World-List." + p.getWorld().getName();
+		int limit = multiworld && VoidTPConfig.getConfig().isSet(perWorld + ".TP-y")
+				? VoidTPConfig.getConfig().getInt(perWorld + ".TP-y")
+				: VoidTPConfig.getConfig().getInt("VoidTP.Options.TP-y");
+
+		if (p.getLocation().getY() > limit) {
+			return;
+		}
+
+		// 22: "VoidTP: false" for this world, no teleport and no message, sound or command either
+		if (multiworld && VoidTPConfig.getConfig().isSet(perWorld + ".VoidTP") && !VoidTPConfig.getConfig().getBoolean(perWorld + ".VoidTP")) {
+			return;
+		}
+
 		Location loc = p.getLocation();
 		String spawn;
+		// The default spawn: replaced by the spawn of the group (Spawn.Spawn-Group) only when the player really falls
+		boolean defaultSpawn = false;
 		String w = p.getWorld().getName();
 		int getYConfig;
 
@@ -76,7 +105,7 @@ public class VoidTPEvent implements Listener {
 						if (ConfigSpawn.getConfig().isSet("Coordinated." + VoidTPConfig.getConfig().getString("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Custom-Spawn.Spawn"))) {
 							spawn = VoidTPConfig.getConfig().getString("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Custom-Spawn.Spawn");
 						} else {
-							MessageUtils.MessageNoSpawn(p);
+							warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 							return;
 						}
 					}
@@ -102,7 +131,7 @@ public class VoidTPEvent implements Listener {
 							if (ConfigSpawn.getConfig().isSet("Coordinated." + VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn"))) {
 								spawn = VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn");
 							} else {
-								MessageUtils.MessageNoSpawn(p);
+								warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 								return;
 							}
 						}
@@ -126,8 +155,9 @@ public class VoidTPEvent implements Listener {
 						} else {
 							if (ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
 								spawn = OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+								defaultSpawn = true;
 							} else {
-								MessageUtils.MessageNoSpawn(p);
+								warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 								return;
 							}
 						}
@@ -157,7 +187,7 @@ public class VoidTPEvent implements Listener {
 						if (ConfigSpawn.getConfig().isSet("Coordinated." + VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn"))) {
 							spawn = VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn");
 						} else {
-							MessageUtils.MessageNoSpawn(p);
+							warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 							return;
 						}
 					}
@@ -181,8 +211,9 @@ public class VoidTPEvent implements Listener {
 					} else {
 						if (ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
 							spawn = OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+							defaultSpawn = true;
 						} else {
-							MessageUtils.MessageNoSpawn(p);
+							warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 							return;
 						}
 					}
@@ -212,7 +243,7 @@ public class VoidTPEvent implements Listener {
 					if (ConfigSpawn.getConfig().isSet("Coordinated." + VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn"))) {
 						spawn = VoidTPConfig.getConfig().getString("VoidTP.Custom-Spawn.Spawn");
 					} else {
-						MessageUtils.MessageNoSpawn(p);
+						warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 						return;
 					}
 				}
@@ -236,8 +267,9 @@ public class VoidTPEvent implements Listener {
 				} else {
 					if (ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn"))) {
 						spawn = OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
+						defaultSpawn = true;
 					} else {
-						MessageUtils.MessageNoSpawn(p);
+						warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 						return;
 					}
 				}
@@ -248,9 +280,13 @@ public class VoidTPEvent implements Listener {
 
 		if (loc.getY() <= getYConfig) {
 
+			if (defaultSpawn) {
+				spawn = SpawnGroups.defaultSpawn(p);
+			}
+
 			if (!p.hasPermission("hawn.command.spawn." + spawn)) {
 				String Permission = "hawn.command.spawn." + spawn;
-				MessageUtils.MessageNoPermission(p, Permission);
+				warnOnce(p, () -> MessageUtils.MessageNoPermission(p, Permission));
 				return;
 			}
 

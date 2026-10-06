@@ -8,6 +8,10 @@ Hawn splits its configuration into many small files: one per feature, one per co
 
 {% hint style="info" %}
 Missing files are recreated with their default values at startup. To reset a file, stop the server, delete it and start the server again.
+
+Missing **options** are added too, at startup and on `/hawn reload`: the new options of an update, or an option deleted by mistake, come back with their default value (the console lists them). Your values are never changed, and the lists you fill yourself (custom commands, auto broadcast messages, join items, emojis, books, signs, fireworks, help pages, animations, per-world and per-group messages...) are never refilled: a deleted example stays deleted. A file with a YAML error is left as it is (the console says so).
+
+Each file starts with a comment that gives the page of this wiki that explains it.
 {% endhint %}
 
 ## Overview
@@ -50,7 +54,7 @@ plugins/Hawn/
 | `AutoBroadcast.yml`         | The four auto broadcasts.                                                                                       | [Auto broadcast](../features/autobroadcast.md)         |
 | `ServerList.yml`            | MOTD, fake slots, joining a full server, anti world downloader kick message.                                    | [Server list](../features/server-list.md)              |
 | `Player-Option-General.yml` | Options kept when a player reconnects (gamemode, vanish, speed, fly...), last position, flying boots.            | [Player options](../features/player-options.md)        |
-| `Scoreboard-General.yml`    | Internal: remembers that the default scoreboards were generated.                                                 | [Scoreboards](../features/scoreboards.md)              |
+| `Scoreboard-General.yml`    | `Scoreboard.Enable: false` turns off every scoreboard (restart needed). Also remembers that the default scoreboards were generated. | [Scoreboards](../features/scoreboards.md)              |
 
 ## Commands/
 
@@ -130,7 +134,7 @@ See [Translating Hawn](../help/translating.md).
 
 Written by Hawn, you don't need to edit it.
 
-* `YamlPlayer/<uuid>.yml`: player data (name, IP, join dates, options, last position...) when MySQL is not used. See [Player data and MySQL](../features/database.md).
+* `YamlPlayer/<uuid>.yml`: player data (name, join dates, options, last position, IP if `Save-IP` is on...) when MySQL is not used. See [Player data and MySQL](../features/database.md).
 * `Setup.lock`: created when the [welcome setup](welcome-setup.md) is finished. Delete it to run the setup again.
 
 ## Applying your changes
@@ -139,7 +143,6 @@ Written by Hawn, you don't need to edit it.
 
 * enabling, disabling or aliasing commands (`DISABLE_THE_COMMAND_COMPLETELY`, `command-aliases.yml`);
 * new scoreboard files, or changes to the worlds of a scoreboard;
-* the auto broadcast (new messages, intervals);
 * the always day / always night tasks;
 * removing a hook (PlaceholderAPI...).
 

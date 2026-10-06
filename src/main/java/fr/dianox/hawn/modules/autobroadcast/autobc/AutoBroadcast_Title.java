@@ -74,10 +74,9 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 			}
 			
 			// Check world
-			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")) {
-				if (!BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
-					continue;
-				}
+			if (!AutoBroadcastConfig.getConfig().getBoolean("Config.Titles.World.All_World")
+					&& !BasicEventsPW.getAutoBroadcast_title().contains(p.getWorld().getName())) {
+				continue;
 			}
 			
 			// Event

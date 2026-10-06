@@ -78,10 +78,9 @@ public class AutoBroadcast extends BukkitRunnable {
 			}
 			
 			// Check world
-			if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")) {
-				if (!BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
-					continue;
-				}
+			if (!AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.World.All_World")
+					&& !BasicEventsPW.getAutoBroadcast().contains(p.getWorld().getName())) {
+				continue;
 			}
 			
 			// Event

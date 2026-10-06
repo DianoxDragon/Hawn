@@ -13,6 +13,36 @@ import fr.dianox.hawn.utility.server.Tps;
 
 public class PlaceHolders {
 
+	// Every %bungee_<server>% of the line, not only the first one
+	private static String replaceBungeeServers(String str) {
+		int start = str.indexOf("%bungee_");
+
+		while (start >= 0) {
+			int end = str.indexOf('%', start + 8);
+			if (end < 0) {
+				break;
+			}
+
+			String server = str.substring(start + 8, end);
+			Integer count = Main.getInstance().getBungApi().PlayerCountVar.get(server);
+			String value = String.valueOf(count == null ? 0 : count);
+
+			str = str.substring(0, start) + value + str.substring(end + 1);
+			start = str.indexOf("%bungee_", start + value.length());
+		}
+
+		return str;
+	}
+
+	// No cooldown (the player has not used the item yet): 0, not an error
+	private static long secondsLeft(Long usedAt, int delay) {
+		if (usedAt == null) {
+			return 0;
+		}
+
+		return Math.max(0, usedAt / 1000L + delay - System.currentTimeMillis() / 1000L);
+	}
+
 	@SuppressWarnings("deprecation")
 	public static String ReplaceMainplaceholderP(String str, Player p) {
 
@@ -24,16 +54,7 @@ public class PlaceHolders {
             }
         }
 
-        if (str.contains("%bungee_") && str.contains("%")) {
-            String server;
-            server = StringUtils.substringBetween(str, "%bungee_", "%");
-
-            if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
-                str = str.replaceAll("%bungee_" + server + "%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get(server)));
-            } else {
-                str = str.replaceAll("%bungee_" + server + "%", "0");
-            }
-        }
+        str = replaceBungeeServers(str);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -60,23 +81,11 @@ public class PlaceHolders {
         }
 
         if (str.contains("%timedelaypvcji%")) {
-        	long secondsLeft = 0;
-        	try {
-        		secondsLeft = Main.hiderCooldowns.get(p) / 1000L + SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
-        	} catch (Exception e) {
-        		Bukkit.getConsoleSender().sendMessage("§cThe compass, well something does not work actually, please reload the server");
-        	}
-            str = str.replace("%timedelaypvcji%", String.valueOf(secondsLeft));
+            str = str.replace("%timedelaypvcji%", String.valueOf(secondsLeft(Main.hiderCooldowns.get(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay"))));
         }
         
         if (str.contains("%timedelayfunguncji%")) {
-        	long secondsLeft = 0;
-        	try {
-        		secondsLeft = Main.fungunCooldowns.get(p) / 1000L + SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay") - System.currentTimeMillis() / 1000L;
-        	} catch (Exception e) {
-        		Bukkit.getConsoleSender().sendMessage("§cThe fungun, well something does not work actually, please reload the server");
-        	}
-            str = str.replace("%timedelayfunguncji%", String.valueOf(secondsLeft));
+            str = str.replace("%timedelayfunguncji%", String.valueOf(secondsLeft(Main.fungunCooldowns.get(p), SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay"))));
         }
 
         if (str.contains("%barmemory%")) {
@@ -261,16 +270,7 @@ public class PlaceHolders {
             }
         }
 
-        if (str.contains("%bungee_") && str.contains("%")) {
-            String server;
-            server = StringUtils.substringBetween(str, "%bungee_", "%");
-
-            if (Main.getInstance().getBungApi().PlayerCountVar.containsKey(server)) {
-                str = str.replaceAll("%bungee_" + server + "%", String.valueOf(Main.getInstance().getBungApi().PlayerCountVar.get(server)));
-            } else {
-                str = str.replaceAll("%bungee_" + server + "%", "0");
-            }
-        }
+        str = replaceBungeeServers(str);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));

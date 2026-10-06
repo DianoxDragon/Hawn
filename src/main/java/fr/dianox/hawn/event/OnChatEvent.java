@@ -15,6 +15,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -31,7 +32,9 @@ public class OnChatEvent implements Listener {
     List <String> cooling = new ArrayList<>();
 
     @SuppressWarnings("rawtypes")
-	@EventHandler
+	// HIGH and ignoreCancelled: the mutes of the other plugins (LiteBans...) are already applied,
+	// otherwise the mentions below would send the message of a muted player
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent e) {
         final String name = e.getPlayer().getName();
         Player p = e.getPlayer();
@@ -42,14 +45,16 @@ public class OnChatEvent implements Listener {
                 if (!p.hasPermission("hawn.event.chat.bypass.mutechat")) {
                     e.setCancelled(true);
                     for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                        runSync(() -> ConfigEventUtils.ExecuteEvent(p, msg, "", "", false));
                     }
+                    return;
                 }
             } else {
                 e.setCancelled(true);
                 for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Can-t-Speak")) {
-                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                    runSync(() -> ConfigEventUtils.ExecuteEvent(p, msg, "", "", false));
                 }
+                return;
             }
         }
 
@@ -59,8 +64,9 @@ public class OnChatEvent implements Listener {
                     if (cooling.contains(name)) {
                         e.setCancelled(true);
                         for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
-                            ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                            runSync(() -> ConfigEventUtils.ExecuteEvent(p, msg, "", "", false));
                         }
+                        return;
                     } else {
                         cooling.add(name);
 
@@ -71,8 +77,9 @@ public class OnChatEvent implements Listener {
                 if (cooling.contains(name)) {
                     e.setCancelled(true);
                     for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
-                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                        runSync(() -> ConfigEventUtils.ExecuteEvent(p, msg, "", "", false));
                     }
+                    return;
                 } else {
                     cooling.add(name);
 
@@ -303,14 +310,14 @@ public class OnChatEvent implements Listener {
             boolean disable = false;
 
             if (p.hasPermission("hawn.chat.can.mention") && original.contains("@")) {
-            	for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+            	for (Player all: new ArrayList<>(e.getRecipients())) {
             		if (original.contains("@" + all.getName())) {
             			if (original.contains("@" + p.getName()) && !OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Self-Mention.Enable")) {
             				p.sendMessage(String.format(e.getFormat(), p.getDisplayName(), original));
             				continue;
             			}
 
-            			Mentionned(all, p);
+            			runSync(() -> Mentionned(all, p));
             			if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Chat-Highlight.Enable")) {
             				String msgadd;
             				String highlights = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Chat-Highlight.Highlighting");
@@ -346,8 +353,8 @@ public class OnChatEvent implements Listener {
 				    for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
 					    if (p1.hasPermission("hawn.antiswear.benotified")) {
 						    for (String msg: ConfigMMsg.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
-							    String message = msg.replace("%player%", p.getName()).replace("%message%", e.getMessage());
-							    ConfigEventUtils.ExecuteEvent(p1, message, "", "", false);
+							    String message = msg.replace("%player%", p.getName()).replace("%message%", ConfigEventUtils.noAction(e.getMessage()));
+							    runSync(() -> ConfigEventUtils.ExecuteEvent(p1, message, "", "", false));
 						    }
 					    }
 
@@ -361,6 +368,15 @@ public class OnChatEvent implements Listener {
 	    }
 
 	    return original;
+    }
+
+    // The chat runs outside the main thread: the actions (commands, sounds, titles...) go back to it
+    private static void runSync(Runnable task) {
+        if (Bukkit.isPrimaryThread()) {
+            task.run();
+        } else {
+            Bukkit.getScheduler().runTask(Main.getInstance(), task);
+        }
     }
 
     private void Mentionned(Player p, Player sender) {
@@ -421,7 +437,7 @@ public class OnChatEvent implements Listener {
             if (OnChatConfig.getConfig().getBoolean("Chat-Mention.Mentionned.Sound.Enable")) {
                 String sound = OnChatConfig.getConfig().getString("Chat-Mention.Mentionned.Sound.Sound");
                 int volume = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sound.Volume");
-                int pitch = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sounds.Pitch");
+                int pitch = OnChatConfig.getConfig().getInt("Chat-Mention.Mentionned.Sound.Pitch");
                 p.playSound(p.getLocation(), XParse.sound(sound, "Chat-Mention.Mentionned.Sound.Sound"), volume, pitch);
             }
         }, 10);

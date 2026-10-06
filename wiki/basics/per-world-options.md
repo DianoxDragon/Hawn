@@ -70,7 +70,7 @@ WorldGuard:
 ```
 
 * `Enable`: use the regions for this feature.
-* `Regions`: the WorldGuard region names.
+* `Regions`: the WorldGuard region names. The case doesn't matter (WorldGuard saves the names in lower case: `Spawn` is the region `spawn`).
 * `Method`:
   * **`WHITELIST`**: the protection applies **only inside** the listed regions.
   * **`BLACKLIST`**: the protection applies **everywhere except** inside the listed regions.

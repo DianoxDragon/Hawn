@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility.config.configs.commands;
 
+import fr.dianox.hawn.utility.config.ConfigDefaults;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,23 +50,19 @@ public class DelayChatCommandConfig {
     }
     
     private static void create() {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {}
+        YamlConfiguration loaded = Config;
+        Config = new YamlConfiguration();
 
-            Config.set("DelayChat.Enable", true);
-            
-            Config.set("DelayChat.Delay.Enable", true);
-            Config.set("DelayChat.Delay.Delay_By_Default", 3);
-            Config.set("DelayChat.Delay.Bypass", true);
+        Config.set("DelayChat.Enable", true);
 
-            Config.set("DelayChat.Disable-Message", true);
-            Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
-            
-            saveConfigFile();
+        Config.set("DelayChat.Delay.Enable", true);
+        Config.set("DelayChat.Delay.Delay_By_Default", 3);
+        Config.set("DelayChat.Delay.Bypass", true);
 
-        }
+        Config.set("DelayChat.Disable-Message", true);
+        Config.set("DISABLE_THE_COMMAND_COMPLETELY", false);
+
+        Config = ConfigDefaults.apply(file, loaded, Config);
     }
 
 }

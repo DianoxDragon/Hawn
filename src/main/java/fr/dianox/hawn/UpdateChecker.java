@@ -44,7 +44,8 @@ public class UpdateChecker {
 	}
 
 	/**
-	 * Compares versions number by number ("1.1.5-Beta" < "1.2.0"), ignoring the suffixes.
+	 * Compares versions number by number ("1.1.5-Beta" < "1.2.0"). With the same numbers, a release is newer
+	 * than a beta ("1.3.0" > "1.3.0-Beta"), so the beta testers are told when the release is out.
 	 */
 	static boolean isNewer(String remote, String current) {
 		int[] r = parse(remote);
@@ -56,7 +57,11 @@ public class UpdateChecker {
 			if (a != b) return a > b;
 		}
 
-		return false;
+		return hasSuffix(current) && !hasSuffix(remote);
+	}
+
+	private static boolean hasSuffix(String version) {
+		return !version.trim().matches("[0-9.]*");
 	}
 
 	private static int[] parse(String version) {
