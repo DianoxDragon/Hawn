@@ -9,7 +9,7 @@ description: Hawn is an all-in-one hub / lobby plugin for Spigot and Paper serve
 Hawn turns a fresh server into a ready-to-use lobby: spawns, join messages, items in the hotbar, scoreboards, tab list, protections, jump pads, a world manager and much more. Almost everything is optional and can be configured per world.
 
 {% hint style="info" %}
-This wiki documents **Hawn 1.2**. If you are coming from 1.1.x or older, read [Updating from an older version](getting-started/updating.md) first.
+This wiki documents **Hawn 1.3 BETA**. If you are coming from 1.2 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
 {% endhint %}
 
 ## Download
@@ -30,7 +30,7 @@ Optional integrations: [PlaceholderAPI, WorldGuard 7+, MVdWPlaceholderAPI and Ba
 ## What Hawn can do
 
 <table data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody>
-<tr><td><strong>Spawns and warps</strong></td><td>Unlimited named spawns, a default spawn, a first-join spawn, a VIP spawn, warps, teleport delays.</td><td><a href="features/spawns.md">spawns.md</a></td></tr>
+<tr><td><strong>Spawns and warps</strong></td><td>Unlimited named spawns, a default spawn, a first-join spawn, a VIP spawn, spawn groups to spread the players, warps, teleport delays.</td><td><a href="features/spawns.md">spawns.md</a></td></tr>
 <tr><td><strong>Join and quit</strong></td><td>Messages per group or per world, MOTD, titles, action bar, boss bar, fireworks, sounds, potion effects, commands.</td><td><a href="features/join-and-quit.md">join-and-quit.md</a></td></tr>
 <tr><td><strong>Custom join items</strong></td><td>Server selector, player heads, books, armour, a "hide players" item, a lobby bow and a fun gun.</td><td><a href="features/custom-join-items.md">custom-join-items.md</a></td></tr>
 <tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards (per world and per permission) and an animated tab list.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
@@ -50,5 +50,5 @@ And also: [custom commands](features/custom-commands.md) with a fully custom `/h
 3. Give your players the [permissions](reference/permissions.md) they need. **Hawn does not give any permission by default.**
 
 {% hint style="success" %}
-Something is missing or wrong in this wiki? Tell us on the Discord server linked on the Spigot page.
+Something is missing or wrong in this wiki? Open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues).
 {% endhint %}

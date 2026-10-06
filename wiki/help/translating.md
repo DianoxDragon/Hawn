@@ -37,4 +37,4 @@ The welcome setup shows a flag for the folders whose name starts with `fr`, `en_
 
 ## Share your translation
 
-Translated Hawn into your language? Share it on the Discord server: it can be added to the next versions.
+Translated Hawn into your language? Share it in an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues): it can be added to the next versions.
