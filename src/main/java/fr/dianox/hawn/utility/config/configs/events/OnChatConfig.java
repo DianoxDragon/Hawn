@@ -131,7 +131,40 @@ public class OnChatConfig {
                 " "
             }));
 
-        Config = ConfigDefaults.apply(file, loaded, Config);
+        /*
+         * CHAT FORMAT
+         */
+
+        // AUTO: used when no known chat plugin is installed, and a chat plugin that changes the format after Hawn wins.
+        // true: always used, over the other plugins. false: never used.
+        Config.set("Chat-Format.Enable", "AUTO");
+        Config.set("Chat-Format.Format", "&7%player% &8» &f%message%");
+
+        /*
+         * ANTI SPAM
+         */
+
+        Config.set("Anti-Spam.Enable", true);
+        Config.set("Anti-Spam.Bypass", true);
+        Config.set("Anti-Spam.Repeat.Enable", true);
+        Config.set("Anti-Spam.Repeat.Seconds", 30);
+        Config.set("Anti-Spam.Caps.Enable", true);
+        Config.set("Anti-Spam.Caps.Min-Letters", 6);
+        Config.set("Anti-Spam.Caps.Max-Percent", 70);
+        Config.set("Anti-Spam.Caps.Block", false);
+
+        /*
+         * CHAT PER GROUP OF WORLDS
+         */
+
+        // The players only see the messages of their group of worlds. A group can set any option of this file
+        // for itself (Chat-Format.Format, Anti-Swear.List...), plus Mute and Chat-Delay.
+        Config.set("Per-World-Chat.Enable", false);
+        Config.set("Per-World-Chat.Groups.main.Worlds", java.util.Arrays.asList(new String[] {"world"}));
+        Config.set("Per-World-Chat.Groups.nether_end.Worlds", java.util.Arrays.asList(new String[] {"world_nether", "world_the_end"}));
+        Config.set("Per-World-Chat.Groups.nether_end.Chat-Format.Format", "&c[Nether] &7%player% &8» &f%message%");
+
+        Config = ConfigDefaults.apply(file, loaded, Config, "Per-World-Chat.Groups");
     }
 
 }

@@ -266,8 +266,8 @@ public class FunFeatures implements Listener {
 
 			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 				String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
-				int volume = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Volume");
-				int pitch = ConfigFDoubleJump.getConfig().getInt("DoubleJump.Double.Sounds.Pitch");
+				float volume = (float) ConfigFDoubleJump.getConfig().getDouble("DoubleJump.Double.Sounds.Volume");
+				float pitch = (float) ConfigFDoubleJump.getConfig().getDouble("DoubleJump.Double.Sounds.Pitch");
 				p.playSound(p.getLocation(), XParse.sound(sound, "DoubleJump.Double.Sounds.Sound"), volume, pitch);
 			}
 		}
@@ -352,8 +352,8 @@ public class FunFeatures implements Listener {
 					p.setFallDistance(-999.0F);
 					
 					String sound = ConfigGLP.getConfig().getString("JumpPads.Sounds.Sound");
-					int volume = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Volume");
-					int pitch = ConfigGLP.getConfig().getInt("JumpPads.Sounds.Pitch");
+					float volume = (float) ConfigGLP.getConfig().getDouble("JumpPads.Sounds.Volume");
+					float pitch = (float) ConfigGLP.getConfig().getDouble("JumpPads.Sounds.Pitch");
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Enable")) {
 						if (ConfigGLP.getConfig().getBoolean("JumpPads.Sounds.Play-for-all-players")) {
 							for (Player all: Bukkit.getServer().getOnlinePlayers()) {

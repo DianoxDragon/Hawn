@@ -1,5 +1,6 @@
 package fr.dianox.hawn;
 
+import fr.dianox.hawn.event.PlatformEvents;
 import fr.dianox.hawn.modules.VoidTP.VoidTPEvent;
 import fr.dianox.hawn.utility.gui.HawnMenu;
 import org.bukkit.Bukkit;
@@ -9,7 +10,6 @@ import fr.dianox.hawn.event.BasicFeatures;
 import fr.dianox.hawn.event.CancelTPWarpSpawn;
 import fr.dianox.hawn.event.FunFeatures;
 import fr.dianox.hawn.event.MountListener;
-import fr.dianox.hawn.event.OnChatEvent;
 import fr.dianox.hawn.event.OnCommandEvent;
 import fr.dianox.hawn.event.OnGuiInteract;
 import fr.dianox.hawn.event.OnInventoryInteract;
@@ -45,12 +45,14 @@ public class Manager {
 		pm.registerEvents(new OnQuit(), pl);
 		pm.registerEvents(new BasicFeatures(), pl);
 		pm.registerEvents(new ProtectionsEventWorld(), pl);
+		pm.registerEvents(new fr.dianox.hawn.event.ProtectionsExtra(), pl);
 		pm.registerEvents(new FunFeatures(), pl);
 		pm.registerEvents(new WorldEvent(), pl);
 		pm.registerEvents(new PlayerEvents(), pl);
 		pm.registerEvents(new OnCommandEvent(), pl);
-		pm.registerEvents(new OnChatEvent(), pl);
 		pm.registerEvents(new ServerPingEvent(), pl);
+		// Chat and join: the new Paper events when the server has them
+		PlatformEvents.register(pl);
 		pm.registerEvents(new fr.dianox.hawn.modules.admin.UrgentMode(), pl);
 		pm.registerEvents(new fr.dianox.hawn.utility.SpawnGroups(), pl);
 		pm.registerEvents(new OnGuiInteract(), pl);

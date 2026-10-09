@@ -57,10 +57,10 @@ public class FRAdminAMConfig {
 			 * SPAWN COMMANDS *
 			 * -------------- */
         Config.set("Error.Console.Not-A-Player", java.util.Arrays.asList("&cVous n'êtes pas un joueur"));
-        Config.set("Error.Command.Hawn", java.util.Arrays.asList("&cErreur, Essayez de faire /hawn"));
+        Config.set("Error.Command.Hawn", java.util.Arrays.asList("&cErreur, essayez /hawn"));
         Config.set("Error.Command.Delspawn", java.util.Arrays.asList("&c/hawn delspawn <spawn>"));
         Config.set("Error.Command.Name-already-exist", java.util.Arrays.asList("&cLe nom existe déjà"));
-        Config.set("Error.Argument-Missing", java.util.Arrays.asList("&cJe suis désolé, mais il doit manquer un ou deux arguments"));
+        Config.set("Error.Argument-Missing", java.util.Arrays.asList("&cIl manque un ou plusieurs arguments"));
         Config.set("Error.No-Spawn", java.util.Arrays.asList("&cLe spawn n'existe pas"));
 
 	        /* ------------ *
@@ -68,79 +68,79 @@ public class FRAdminAMConfig {
 	         * ------------ */
 
 	        Config.set("Command.Help.Hawn-SpawnManager", "Gérer le spawn");
-	        Config.set("Command.Help.Hawn-Reload", "Recharger quelques fichiers de configuration");
+	        Config.set("Command.Help.Hawn-Reload", "Recharger les fichiers de configuration");
 	        Config.set("Command.Help.Hawn-Version", "Voir la version du plugin");
 	        Config.set("Command.Help.Hawn-Tps", "Voir le TPS du serveur");
 	        Config.set("Command.Help.Hawn-Info", "Voir les infos du serveur");
-	        Config.set("Command.Help.Hawn-Build", "Pour contourner la protection à titre temporaire");
-	        Config.set("Command.Help.Hawn-Hooks", "Pour vérifier les sous-dépendances du plugin, si elles sont activées");
-	        Config.set("Command.Help.Hawn-Urgent", "Pour utiliser le mode urgent");
-	        Config.set("Command.Help.Hawn-Maintenance", "Pour utiliser le mode de maintenance");
+	        Config.set("Command.Help.Hawn-Build", "Contourner temporairement les protections");
+	        Config.set("Command.Help.Hawn-Hooks", "Voir les plugins liés (hooks) détectés");
+	        Config.set("Command.Help.Hawn-Urgent", "Activer le mode d'urgence");
+	        Config.set("Command.Help.Hawn-Maintenance", "Activer ou désactiver la maintenance");
 	        Config.set("Command.Help.Hawn-Donors", "Voir ceux qui ont fait des dons pour le plugin");
-	        Config.set("Command.Help.Hawn-About", "Montrez juste quelques informations");
-	        Config.set("Command.Help.Hawn-Parse", "Voir ce que rapporte un placeholder");
+	        Config.set("Command.Help.Hawn-About", "Quelques informations sur Hawn");
+	        Config.set("Command.Help.Hawn-Parse", "Voir la valeur d'un placeholder");
 	        Config.set("Command.Help.Hawn-NightVision", "Voir dans l'obscurité");
-	        Config.set("Command.Help.Hawn-NoClip", "Traverser les blocs tout en restant créatif");
-	        Config.set("Command.Help.Hawn-SlotView", "Voir le numéro du créneau en cliquant dessus");
+	        Config.set("Command.Help.Hawn-NoClip", "Traverser les blocs en restant en créatif");
+	        Config.set("Command.Help.Hawn-SlotView", "Voir le numéro d'un slot en cliquant dessus");
 	        Config.set("Command.Help.Hawn-EditPlayer", "Modifier un joueur");
-	        Config.set("Command.Help.Hawn-Setup", "Paramétrez votre configuration de Hawn pour la première fois");
+	        Config.set("Command.Help.Hawn-Setup", "Lancer la configuration de départ de Hawn");
 	        Config.set("Command.Help.Broadcast", "Diffuser un message");
 	        Config.set("Command.Help.Warning", "Diffuser un avertissement");
-	        Config.set("Command.Help.Broadcast-Title", "Diffuser un message de titre");
-	        Config.set("Command.Help.Broadcast-ActionBar", "Diffuser un message de la barre d'action");
+	        Config.set("Command.Help.Broadcast-Title", "Diffuser un titre");
+	        Config.set("Command.Help.Broadcast-ActionBar", "Diffuser un message dans la barre d'action");
 	        Config.set("Command.Help.AdminPanel", "Accès au panel d'administration");
 	        Config.set("Command.Help.CheckAccount", "Vérifier un joueur");
-	        Config.set("Command.Help.ClearInv", "Réinitialiser l'inv. du joueur");
+	        Config.set("Command.Help.ClearInv", "Vider l'inventaire d'un joueur");
 	        Config.set("Command.Help.InvSee", "Voir l'inventaire d'un joueur");
 	        Config.set("Command.Help.Ip", "Voir l'IP d'un joueur");
-	        Config.set("Command.Help.List", "Obtenez la liste des joueurs dans le hall d'entrée");
+	        Config.set("Command.Help.List", "Voir la liste des joueurs du lobby");
 	        Config.set("Command.Help.Spawn", "Aller au spawn");
-	        Config.set("Command.Help.Spawn-Tp", "Tp un joueur à un spawn");
+	        Config.set("Command.Help.Spawn-Tp", "Téléporter un joueur à un spawn");
 	        Config.set("Command.Help.DelSpawn", "Enlever un spawn");
-	        Config.set("Command.Help.SpawnList", "Voir la liste des spawn");
+	        Config.set("Command.Help.SpawnList", "Voir la liste des spawns");
 	        Config.set("Command.Help.SetSpawn", "Définir un spawn");
-	        Config.set("Command.Help.SetWarp", "Mettre en place un warp");
+	        Config.set("Command.Help.SetWarp", "Créer un warp");
 	        Config.set("Command.Help.Warp", "Aller au warp");
 	        Config.set("Command.Help.WarpList", "Voir la liste des warps");
 	        Config.set("Command.Help.DelWarp", "Supprimer un warp");
 	        Config.set("Command.Help.EditWarp", "Modifier l'emplacement du warp");
 	        Config.set("Command.Help.Sun", "Dégager le temps");
-	        Config.set("Command.Help.Rain", "Pour faire pleuvoir le monde");
+	        Config.set("Command.Help.Rain", "Faire pleuvoir");
 	        Config.set("Command.Help.Thunder", "Si vous aimez le mauvais temps");
 	        Config.set("Command.Help.Day", "Mettre le jour");
 	        Config.set("Command.Help.Night", "Mettre la nuit");
-	        Config.set("Command.Help.Fly", "Mettre le mode de vol");
+	        Config.set("Command.Help.Fly", "Activer ou désactiver le vol");
 	        Config.set("Command.Help.FlySpeed", "Modifier la vitesse de vol d'un joueur");
 	        Config.set("Command.Help.Speed", "Modifier ou activer/désactiver la vitesse");
 	        Config.set("Command.Help.Heal", "Guérir un joueur");
 	        Config.set("Command.Help.Feed", "Nourrir un joueur");
 	        Config.set("Command.Help.Ping", "Montrer le ping d'un joueur");
 	        Config.set("Command.Help.Vanish", "Faire disparaître un joueur");
-	        Config.set("Command.Help.Gamemode", "Régler le gamemode d'un joueur");
+	        Config.set("Command.Help.Gamemode", "Changer le mode de jeu d'un joueur");
 	        Config.set("Command.Help.Burn", "Brûler un joueur");
 	        Config.set("Command.Help.Cleargrounditems", "Enlever les items au sol");
 	        Config.set("Command.Help.Clearmobs", "Supprimer les mobs");
-	        Config.set("Command.Help.EnderChest", "Ouvrir l'EnderChest");
+	        Config.set("Command.Help.EnderChest", "Ouvrir le coffre de l'Ender");
 	        Config.set("Command.Help.Exp", "Modifier l'exp du joueur");
 	        Config.set("Command.Help.Getpos", "Obtenir la localisation d'un joueur");
 	        Config.set("Command.Help.Hat", "Prendre un chapeau");
 	        Config.set("Command.Help.Kickall", "Virer tout le monde");
 	        Config.set("Command.Help.Repair", "Réparer un item");
-	        Config.set("Command.Help.Skull", "Prenez la tête d'un joueur");
-	        Config.set("Command.Help.Suicide", "Tuez-vous");
+	        Config.set("Command.Help.Skull", "Obtenir la tête d'un joueur");
+	        Config.set("Command.Help.Suicide", "Se suicider");
 	        Config.set("Command.Help.Workbench", "Ouvrir l'établi du joueur");
-	        Config.set("Command.Help.ClearChat", "Montrez l'aide du clearchat");
+	        Config.set("Command.Help.ClearChat", "Voir l'aide de /clearchat");
 	        Config.set("Command.Help.DelayChat", "Retarder le chat");
-	        Config.set("Command.Help.Gmute", "Mettez le chat en sourdine");
+	        Config.set("Command.Help.Gmute", "Couper le chat");
 	        Config.set("Command.Help.Help", "Afficher l'aide personnalisée, si elle est activée");
-	        Config.set("Command.Help.Gotop", "Allez au bloc le plus élevé de votre position");
-	        Config.set("Command.Help.Emoji", "Voir le gui des emojis");
-	        Config.set("Command.Help.Scoreboard", "Affichage ou non du du scoreboard");
-	        Config.set("Command.Help.Scoreboard-Set", "Pour modifier le scoreboard actuel");
-	        Config.set("Command.Help.Scoreboard-Keep", "Gardez le scoreboard entre les serveurs");
+	        Config.set("Command.Help.Gotop", "Aller au bloc le plus haut de votre position");
+	        Config.set("Command.Help.Emoji", "Voir le menu des emojis");
+	        Config.set("Command.Help.Scoreboard", "Afficher ou cacher le scoreboard");
+	        Config.set("Command.Help.Scoreboard-Set", "Changer de scoreboard");
+	        Config.set("Command.Help.Scoreboard-Keep", "Garder le scoreboard choisi");
 	        Config.set("Command.Help.Scoreboard-List", "Voir tous les scoreboards enregistrés");
-	        Config.set("Command.Help.Option", "Pour les options du joueur principal");
-	        Config.set("Command.Help.Hworld", "Gérer le système de monde");
+	        Config.set("Command.Help.Option", "Les options du joueur");
+	        Config.set("Command.Help.Hworld", "Gérer les mondes");
 
         /* ----------------- *
 			 * COMMANDS COMMANDS *
@@ -225,7 +225,7 @@ public class FRAdminAMConfig {
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lVersion de Hawn (créé par Dianox)&8: &r%gethawnversion%"));
 
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cVos TPS sont à moins de 15, faites quelque chose pour améliorer la stabilité de votre Lobby"));
-        Config.set("TPS.Check.5", java.util.Arrays.asList("&cVos TPS sont à moins de 5, votre serveur peut s'éteindre, fait /stop pour éviter tout problème.", "&cETAT CRITIQUE DU SERVEUR"));
+        Config.set("TPS.Check.5", java.util.Arrays.asList("&cVos TPS sont à moins de 5, votre serveur peut s'arrêter, faites /stop pour éviter tout problème.", "&cETAT CRITIQUE DU SERVEUR"));
 
 
         /* -------------- *
@@ -236,7 +236,7 @@ public class FRAdminAMConfig {
 
         Config.set("Command.Spawn.Spawn-Set.Other", java.util.Arrays.asList("§eLe spawn a été placé sous le nom de %spawnName%"));
 
-        Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList("&bLe spawn &e%spawn%&b a été supprimée"));
+        Config.set("Command.Del.Spawn-Delete", java.util.Arrays.asList("&bLe spawn &e%spawn%&b a été supprimé"));
 
         /* --------------- *
          * RELOAD COMMANDS *
@@ -244,7 +244,7 @@ public class FRAdminAMConfig {
         Config.set("Command.Reload", java.util.Arrays.asList("&aConfiguration rechargée"));
 
         Config.set("Command.Build-Bypass.On", java.util.Arrays.asList("&bVous pouvez maintenant contourner toutes les restrictions de construction"));
-        Config.set("Command.Build-Bypass.Off", java.util.Arrays.asList("&cVous ne pouvez plus contourner toutes les restrictions de construction"));
+        Config.set("Command.Build-Bypass.Off", java.util.Arrays.asList("&cVous ne contournez plus les restrictions de construction"));
 
         /*
          * Vanish
@@ -255,20 +255,20 @@ public class FRAdminAMConfig {
         Config.set("Vanish.Vanish-Off.Messages", java.util.Arrays.asList("&7[ %player% n'est plus vanish ]"));
 
         Config.set("Vanish.Vanish-On-Others", java.util.Arrays.asList("&7[ %target% a été vanish par %player% ]"));
-        Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList("&7[ %target% n'est plus vanish par %player% ]"));
+        Config.set("Vanish.Vanish-Off-Others", java.util.Arrays.asList("&7[ %target% n'est plus vanish (par %player%) ]"));
 
-        Config.set("Maintenance.On", java.util.Arrays.asList("%prefix% &7Tu as &aactivé&7 la maintenance"));
-        Config.set("Maintenance.Off", java.util.Arrays.asList("%prefix% &7Tu as &cactivé&7 la maintenance"));
-        Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(" &4* &cLa maintenance est &eactif&4 *"));
-        Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(" &4* &cLa maintenance est &einactif&4 *"));
+        Config.set("Maintenance.On", java.util.Arrays.asList("%prefix% &7Vous avez &aactivé&7 la maintenance"));
+        Config.set("Maintenance.Off", java.util.Arrays.asList("%prefix% &7Vous avez &cdésactivé&7 la maintenance"));
+        Config.set("Maintenance.Broadcast.On", java.util.Arrays.asList(" &4* &cLa maintenance est &eactive&4 *"));
+        Config.set("Maintenance.Broadcast.Off", java.util.Arrays.asList(" &4* &cLa maintenance est &einactive&4 *"));
 
-        Config.set("Urgent-mode.On", java.util.Arrays.asList("%prefix% &7Tu as &aactivé&7 le mode d'urgence"));
-        Config.set("Urgent-mode.Off", java.util.Arrays.asList("%prefix% &7Tu as &cdésactivé&7 le mode d'urgence"));
+        Config.set("Urgent-mode.On", java.util.Arrays.asList("%prefix% &7Vous avez &aactivé&7 le mode d'urgence"));
+        Config.set("Urgent-mode.Off", java.util.Arrays.asList("%prefix% &7Vous avez &cdésactivé&7 le mode d'urgence"));
         Config.set("Urgent-mode.Broadcast.On", java.util.Arrays.asList(" &4* &cLe mode d'urgence est &eactif&4 *"));
         Config.set("Urgent-mode.Broadcast.Off", java.util.Arrays.asList(" &4* &cLe mode d'urgence est &einactif&4 *"));
-        Config.set("Urgent-mode.Zip", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &c&cUne sauvegarde de Hawn a été faite"));
+        Config.set("Urgent-mode.Zip", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cUne sauvegarde de Hawn a été faite"));
         Config.set("Urgent-mode.Error-Disable", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cErreur, vous devez être sur la console pour désactiver le mode urgent"));
-        Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cDésolé mais vous ne pouvez pas utiliser la commande"));
+        Config.set("Urgent-mode.Error-cant-use-the-command", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cDésolé, mais vous ne pouvez pas utiliser la commande"));
         Config.set("Urgent-mode.Hawn-Watch-Panel-Admin", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cUne modification a été détectée par %player% sur le panneau d'administration",
 		            "%arg1% dans le fichier %arg2%"));
         Config.set("Urgent-mode.Disabled-Plugin-function", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cTous les plugins ont été désactivés"));
@@ -279,20 +279,20 @@ public class FRAdminAMConfig {
         Config.set("Urgent-mode.Zip-Failed", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cLa sauvegarde a échoué, voir la console"));
         Config.set("Urgent-mode.Console-Only", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &cLe mode d'urgence ne peut être lancé que depuis la console"));
         Config.set("Urgent-mode.Back-To-Normal-For-All-Plugins", java.util.Arrays.asList("&8[&eHawn-Urgent&8] &7Tous les plugins ont été &aactivés",
-		            "&eS'il vous plaît, un redémarrage est nécessaire pour éviter tout problème"));
+		            "&eUn redémarrage est conseillé pour éviter tout problème"));
 
         Config.set("Command-Blocker.Notify-Staff", java.util.Arrays.asList("%prefix% &e%player%&7 a essayé d'utiliser la commande : &b%arg1%"));
 
-        Config.set("Command.SlotView.On", java.util.Arrays.asList("%prefix% &7Vous pouvez maintenant voir quel slot vous avez cliqué sur votre inventaire etc."));
+        Config.set("Command.SlotView.On", java.util.Arrays.asList("%prefix% &7Vous voyez maintenant le numéro des slots sur lesquels vous cliquez"));
         Config.set("Command.SlotView.Off", java.util.Arrays.asList("%prefix% &7Le SlotView est &cdésactivé"));
 
-        Config.set("Command.IP", java.util.Arrays.asList("%prefix% &7L'ip du joueur est: &e%getplayerip%"));
+        Config.set("Command.IP", java.util.Arrays.asList("%prefix% &7L'IP du joueur est : &e%getplayerip%"));
 
-        Config.set("Command.Kickall", java.util.Arrays.asList("%prefix% &7Tous les joueurs ont été kick du serveur"));
+        Config.set("Command.Kickall", java.util.Arrays.asList("%prefix% &7Tous les joueurs ont été expulsés du serveur"));
 
         Config.set("Command.ClearGroundItems", java.util.Arrays.asList("%prefix% &7Tous les objets ont été effacés"));
 
-        Config.set("Command.ClearMobs", java.util.Arrays.asList("%prefix% &7Toutes les monstres ont été éliminés"));
+        Config.set("Command.ClearMobs", java.util.Arrays.asList("%prefix% &7Tous les monstres ont été éliminés"));
 
         Config.set("Command.CheckAccount", java.util.Arrays.asList("",
 		            "  &8→ &r&lInfos joueur pour&8:&r &b%target%",
@@ -325,27 +325,27 @@ public class FRAdminAMConfig {
         Config.set("Command.List.Gui.Other.Back.PanelAdmin", "&c&lRetour au panel admin");
         Config.set("Command.List.Gui.Player.Survival", "&cSURVIE");
         Config.set("Command.List.Gui.Player.Spectator", "&eSPECTATEUR");
-        Config.set("Command.List.Gui.Player.Creative", "&6CREATIF");
+        Config.set("Command.List.Gui.Player.Creative", "&6CRÉATIF");
         Config.set("Command.List.Gui.Player.Adventure", "&aAVENTURE");
         Config.set("Command.List.Gui.Player.Gamemode", "&7Gamemode: ");
         Config.set("Command.List.Gui.Player.World", "&7Monde: &e");
-        Config.set("Command.List.Gui.Player.LeftClick", "&eClique gauche&7 pour gérer le joueur");
+        Config.set("Command.List.Gui.Player.LeftClick", "&eClic gauche&7 pour gérer le joueur");
 
         // EDIT PLAYER
 
-        Config.set("Command.EditPlayer.Gui.Gamemode.LeftClick", "&eClique gauche&7 pour changer le gamemode du joueur");
+        Config.set("Command.EditPlayer.Gui.Gamemode.LeftClick", "&eClic gauche&7 pour changer le gamemode du joueur");
         Config.set("Command.EditPlayer.Gui.Gamemode.Survival", "&cSURVIE");
         Config.set("Command.EditPlayer.Gui.Gamemode.Spectator", "&eSPECTATEUR");
-        Config.set("Command.EditPlayer.Gui.Gamemode.Creative", "&6CREATIF");
+        Config.set("Command.EditPlayer.Gui.Gamemode.Creative", "&6CRÉATIF");
         Config.set("Command.EditPlayer.Gui.Gamemode.Adventure", "&aAVENTURE");
 
-        Config.set("Command.EditPlayer.Gui.ClearInv.LeftClick", "&eClique gauche&7 pour vider l'inventaire/armure du joueur");
+        Config.set("Command.EditPlayer.Gui.ClearInv.LeftClick", "&eClic gauche&7 pour vider l'inventaire/armure du joueur");
         Config.set("Command.EditPlayer.Gui.ClearInv.Item-Name", "&6Vider l'inventaire");
 
-        Config.set("Command.EditPlayer.Gui.Teleport.LeftClick", "&eClique gauche&7 pour être téléporté au joueur");
+        Config.set("Command.EditPlayer.Gui.Teleport.LeftClick", "&eClic gauche&7 pour être téléporté au joueur");
         Config.set("Command.EditPlayer.Gui.Teleport.Item-Name", "&6Se téléporter à ce joueur");
 
-        Config.set("Command.EditPlayer.Gui.MoreSoon.Item-Name", "Bien plus bientôt...");
+        Config.set("Command.EditPlayer.Gui.MoreSoon.Item-Name", "Bientôt plus...");
 
         Config.set("Command.EditPlayer.Gui.BackToPlayerList.Item-Name", "&cRetour à la liste des joueurs");
 
@@ -357,6 +357,9 @@ public class FRAdminAMConfig {
 
         Config.set("Command.NightVision", java.util.Arrays.asList("%prefix% &7Vous pouvez voir dans le noir"));
 
+        YamlConfiguration defaults = Config;
         Config = ConfigDefaults.apply(file, loaded, Config);
+        // The French corrected in 1.4, in the files that still have the old texts
+        ConfigDefaults.replaceOldDefaults(file, Config, defaults, FrenchFixes.ADMINAMCONFIG);
     }
 }

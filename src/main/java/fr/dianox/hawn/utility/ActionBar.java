@@ -17,7 +17,11 @@ public final class ActionBar {
 
     public static void sendActionBar(Player player, String message) {
         if (player == null || !player.isOnline()) return;
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message == null ? "" : message));
+        if (RichText.isRich(message)) {
+            RichText.actionBar(player, message);
+            return;
+        }
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message == null ? "" : MessageUtils.plain(message)));
     }
 
     public static void sendPlayersActionBar(String message) {

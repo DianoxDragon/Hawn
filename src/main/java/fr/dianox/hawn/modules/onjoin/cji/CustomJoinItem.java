@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.Skulls;
 import fr.dianox.hawn.utility.JoinItemTag;
 
@@ -10,7 +11,6 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import com.cryptomorin.xseries.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.BookListConfiguration;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.world.CjiPW;
@@ -174,13 +174,10 @@ public class CustomJoinItem {
 			
 			String pretitle = ConfigCJIGeneral.getConfig().getString(path_item + "Title");
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
             }
 
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-            	pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
-            }
             
             pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 			
@@ -192,13 +189,10 @@ public class CustomJoinItem {
 		if (ConfigCJIGeneral.getConfig().isSet(path_item + "Lore")) {
 			for (String loremsg: ConfigCJIGeneral.getConfig().getStringList(path_item + "Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+				if (HooksManager.papi()) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 	            }
 
-	            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-	            	loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
-	            }
 	            
 	            loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 				
@@ -242,13 +236,10 @@ public class CustomJoinItem {
 			
 			booktitle = PlaceHolders.ReplaceMainplaceholderP(booktitle, p);
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				booktitle = PlaceholderAPI.setPlaceholders(p, booktitle);
 			}
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				booktitle = PlaceHolders.BattleLevelPO(booktitle, p);
-			}
 			
 			booktitle = MessageUtils.colourTheStuff(booktitle);
 			
@@ -276,13 +267,10 @@ public class CustomJoinItem {
 					
 					s = PlaceHolders.ReplaceMainplaceholderP(s, p);
 					
-					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+					if (HooksManager.papi()) {
 						s = PlaceholderAPI.setPlaceholders(p, s);
 					}
 					
-					if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-						s = PlaceHolders.BattleLevelPO(s, p);
-					}
 					
 					if (!check) {
 						page = s;

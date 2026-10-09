@@ -1,5 +1,6 @@
 package fr.dianox.hawn.event;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
@@ -7,7 +8,6 @@ import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
@@ -62,7 +62,7 @@ public class OnGuiInteract implements Listener {
 	            assert Displayname != null;
 	            Displayname = MessageUtils.colourTheStuff(Displayname);
 
-                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                if (HooksManager.papi()) {
                     Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                 }
 

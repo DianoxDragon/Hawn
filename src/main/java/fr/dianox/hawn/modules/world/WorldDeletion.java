@@ -7,13 +7,19 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * World deletion of the world manager (/hw delete and the menu).
  */
 public class WorldDeletion {
+
+	// The folders deleted outside the main thread, until they are gone
+	private static final Set<String> deleting = ConcurrentHashMap.newKeySet();
 
 	/**
 	 * The main world, its nether and its end can't be deleted: the server needs them.
@@ -52,14 +58,49 @@ public class WorldDeletion {
 	}
 
 	/**
-	 * Deletes a folder (an unloaded world) outside the main thread.
+	 * Deletes a folder (an unloaded world) outside the main thread, then refreshes the world manager menus.
 	 */
 	public static void deleteFolder(File folder) {
+		String path = path(folder);
+		deleting.add(path);
+
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			if (!deleteDirectory(folder)) {
 				Main.getInstance().getLogger().warning("Could not delete the whole folder " + folder.getPath());
 			}
+
+			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+				deleting.remove(path);
+				refreshMenus();
+			});
 		});
+	}
+
+	/**
+	 * A folder still being deleted: the menu doesn't show it as a world.
+	 */
+	public static boolean isDeleting(File folder) {
+		return !deleting.isEmpty() && deleting.contains(path(folder));
+	}
+
+	// The players who look at the list of the worlds see it without the deleted one
+	private static void refreshMenus() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			String title = player.getOpenInventory().getTitle();
+			if (title.equals("§cWorld Manager - Main")) {
+				GuiSystem.FirstPage(player);
+			} else if (title.equals("§cWorld Manager - Main 2")) {
+				GuiSystem.Exceptionnalsecondpage(player);
+			}
+		}
+	}
+
+	private static String path(File f) {
+		try {
+			return f.getCanonicalPath();
+		} catch (IOException e) {
+			return f.getAbsolutePath();
+		}
 	}
 
 	private static boolean deleteDirectory(File path) {

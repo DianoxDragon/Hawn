@@ -56,14 +56,14 @@ public class FRConfigMMsg {
         /*
          * Chat stuff
          */
-        Config.set("ClearChat.No-Reason", "il n'y a aucune raison");
-        Config.set("ClearChat.Anonymously", java.util.Arrays.asList(new String[] {" &4&l* &cLe chat a été effacé parce que %reason% &4&l*"}));
-        Config.set("ClearChat.Normal", java.util.Arrays.asList(new String[] {" &4&l* &cLe chat a été effacé par &6%player%&c parce que %reason% &4&l*"}));
-        Config.set("ClearChat.Own", java.util.Arrays.asList(new String[] {"%prefix% &7Votre chat a été effacé &e%player%"}));
-        Config.set("ClearChat.Other.Target", java.util.Arrays.asList(new String[] {"%prefix% &7Votre chat a été effacé &e%target%"}));
+        Config.set("ClearChat.No-Reason", "aucune");
+        Config.set("ClearChat.Anonymously", java.util.Arrays.asList(new String[] {" &4&l* &cLe chat a été effacé &7(raison : %reason%&7) &4&l*"}));
+        Config.set("ClearChat.Normal", java.util.Arrays.asList(new String[] {" &4&l* &cLe chat a été effacé par &6%player% &7(raison : %reason%&7) &4&l*"}));
+        Config.set("ClearChat.Own", java.util.Arrays.asList(new String[] {"%prefix% &e%player%&7, votre chat a été effacé"}));
+        Config.set("ClearChat.Other.Target", java.util.Arrays.asList(new String[] {"%prefix% &e%target%&7, votre chat a été effacé"}));
         Config.set("ClearChat.Other.Sender", java.util.Arrays.asList(new String[] {"%prefix% &7Le chat de &e%player%&7 a été effacé"}));
 
-        Config.set("MuteChat.Can-t-Speak", java.util.Arrays.asList(new String[] {"%prefix% &cTu ne peux pas parler, parce que le chat est verrouillé"}));
+        Config.set("MuteChat.Can-t-Speak", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas parler : le chat est verrouillé"}));
         Config.set("MuteChat.Admin.On", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cLe chat a été verrouillé par &6%player% &4&m&l-<-=->-"}));
         Config.set("MuteChat.Admin.On-Time", java.util.Arrays.asList(new String[] {" &4&m&l-<-=->-&r &cLe chat a été verrouillé par &6%player%&c pour &6%minutes% minutes &4&m&l-<-=->-"}));
         Config.set("MuteChat.Admin.Off", java.util.Arrays.asList(new String[] {" &3&m&l->-=-<-&r &bLe chat a été &adéverrouillé&b par &e%player% &3&m&l->-=-<-"}));
@@ -71,10 +71,10 @@ public class FRConfigMMsg {
         Config.set("Ping.Self", java.util.Arrays.asList(new String[] {"%prefix% &7Votre ping est de &e%ping%&7 ms"}));
         Config.set("Ping.Other", java.util.Arrays.asList(new String[] {"%prefix% &7Le ping de &b%target%&7 est de &e%ping%&7 ms"}));
 
-        Config.set("ChatDelay.Delay", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas parler, le chat est retardé de &6%DELAY%&c seconde(s)"}));
+        Config.set("ChatDelay.Delay", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas encore parler : attendez &6%DELAY%&c seconde(s) entre deux messages"}));
         Config.set("ChatDelay.Admin.Set", java.util.Arrays.asList(new String[] {"%prefix% &7Le délai du chat a été fixé à &e%DELAY%&7 seconde(s)", 
-        		"          &7&oN'oubliez pas d'éditer cette valeur dans la configuration", 
-        		"          &7&oLa valeur n'est valide que si le serveur ne s'arrête pas"}));
+        		"          &7&oN'oubliez pas de modifier cette valeur dans la configuration", 
+        		"          &7&oSinon, elle est perdue au prochain redémarrage"}));
         Config.set("ChatDelay.Admin.Removed", java.util.Arrays.asList(new String[] {"%prefix% &7Le délai du chat a été &cdésactivé"}));
 
         Config.set("Broadcast", java.util.Arrays.asList(new String[] {"&8[&eBroadcast&8]&r %broadcast%"}));
@@ -83,16 +83,16 @@ public class FRConfigMMsg {
          * Weather and Time
          */
         Config.set("Weather.Set.Sun.Enable", true);
-        Config.set("Weather.Set.Sun.Message", java.util.Arrays.asList(new String[] {"%prefix% &7La pluie et l'orage ont été enlevés, &evive le soleil&7!"}));
+        Config.set("Weather.Set.Sun.Message", java.util.Arrays.asList(new String[] {"%prefix% &7La pluie et l'orage ont été enlevés, &evive le soleil &7!"}));
         Config.set("Weather.Set.Rain.Enable", true);
-        Config.set("Weather.Set.Rain.Message", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as mis la &bpluie dans ce monde&7, &bfaites attention de ne pas vous mouiller&7!"}));
+        Config.set("Weather.Set.Rain.Message", java.util.Arrays.asList(new String[] {"%prefix% &7La &bpluie&7 tombe sur ce monde, &battention à ne pas vous mouiller &7!"}));
         Config.set("Weather.Set.Thunder.Enable", true);
-        Config.set("Weather.Set.Thunder.Message", java.util.Arrays.asList(new String[] {"%prefix% &6&k!!!!&7 &eL'&eorage est un signe de désastre&7... &eAttention à ne pas être électrocuté &6&k!!!!"}));
+        Config.set("Weather.Set.Thunder.Message", java.util.Arrays.asList(new String[] {"%prefix% &6&k!!!!&7 &eL'orage gronde&7... &eAttention à ne pas être foudroyé &6&k!!!!"}));
 
         Config.set("Time.Set.Day.Enable", true);
         Config.set("Time.Set.Day.Message", java.util.Arrays.asList(new String[] {"%prefix% &7C'est le &ematin&7, l'heure d'aller à l'école"}));
         Config.set("Time.Set.Night.Enable", true);
-        Config.set("Time.Set.Night.Message", java.util.Arrays.asList(new String[] {"%prefix% &f&lIl fait sombre dehors. Attention, la nuit est sombre et pleine de terreur!"}));
+        Config.set("Time.Set.Night.Message", java.util.Arrays.asList(new String[] {"%prefix% &f&lLa nuit tombe. Attention, la nuit est sombre et pleine de terreurs !"}));
 
         /*
          * FLY COMMANDS
@@ -133,13 +133,13 @@ public class FRConfigMMsg {
         Config.set("Gamemode.Other.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre mode de jeu a été défini sur le mode &espectateur&7 par &b%player%"}));
 
         Config.set("Gamemode.Other-Sender.Survival.Enable", true);
-        Config.set("Gamemode.Other-Sender.Survival.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7a été défini sur le mode &esurvive"}));
+        Config.set("Gamemode.Other-Sender.Survival.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7 a été défini sur le mode &esurvie"}));
         Config.set("Gamemode.Other-Sender.Creative.Enable", true);
-        Config.set("Gamemode.Other-Sender.Creative.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7a été défini sur le mode &ecréatif"}));
+        Config.set("Gamemode.Other-Sender.Creative.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7 a été défini sur le mode &ecréatif"}));
         Config.set("Gamemode.Other-Sender.Adventure.Enable", true);
-        Config.set("Gamemode.Other-Sender.Adventure.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7a été défini sur le mode &eaventure"}));
+        Config.set("Gamemode.Other-Sender.Adventure.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7 a été défini sur le mode &eaventure"}));
         Config.set("Gamemode.Other-Sender.Spectator.Enable", true);
-        Config.set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7a été défini sur le mode &espectateur"}));
+        Config.set("Gamemode.Other-Sender.Spectator.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le mode de jeu du joueur &b%player%&7 a été défini sur le mode &espectateur"}));
 
         Config.set("Gamemode.Error.Alread-In-The-Good-GM.Enable", true);
         Config.set("Gamemode.Error.Alread-In-The-Good-GM.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous êtes déjà dans le bon mode de jeu"}));
@@ -179,17 +179,17 @@ public class FRConfigMMsg {
 			 * ------------------- */
 
         Config.set("EnderChest.Self.Enable", true);
-        Config.set("EnderChest.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert votre enderchest"}));
+        Config.set("EnderChest.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert votre coffre de l'Ender"}));
 
         Config.set("EnderChest.Other-Sender.Enable", true);
-        Config.set("EnderChest.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert l'enderchest de &e%target%"}));
+        Config.set("EnderChest.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert le coffre de l'Ender de &e%target%"}));
 
         /* --------------- *
 			 * INVSEE COMMANDS *
 			 * --------------- */
 
         Config.set("InvSee.Other-Sender.Enable", true);
-        Config.set("InvSee.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7vous avez ouvert l'inventaire de &e%target%"}));
+        Config.set("InvSee.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert l'inventaire de &e%target%"}));
 
         /* ------------------- *
 			 * SCOREBOARD COMMANDS *
@@ -210,7 +210,7 @@ public class FRConfigMMsg {
         Config.set("Scoreboard.Keep-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous ne &cconserverez&7 plus ce scoreboard"}));
 
         Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Enable", true);
-        Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous n'avez pas d'autorisation, pour aucun scoreboard"}));
+        Config.set("Scoreboard.Error-No-Perm-For-Any-Score.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous n'avez la permission d'aucun scoreboard"}));
 
         /* ------------- *
 			 * WARP COMMANDS *
@@ -218,23 +218,23 @@ public class FRConfigMMsg {
         Config.set("Warp.Tp.Self.Enable", true);
         Config.set("Warp.Tp.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez été téléporté au warp &e%warp%"}));
         Config.set("Warp.Tp.Self-Delay.Enable", true);
-        Config.set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît, attendez &4&l%second%&c seconde(s)&7 avant d'être téléporté"}));
+        Config.set("Warp.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%second%&c seconde(s)&7 avant d'être téléporté"}));
 
         Config.set("Warp.Tp.Other.Enable", true);
-        Config.set("Warp.Tp.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez été téléporté au &e%warp%&7 par &b%player%"}));
+        Config.set("Warp.Tp.Other.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez été téléporté au warp &e%warp%&7 par &b%player%"}));
         Config.set("Warp.Tp.Other-Sender.Enable", true);
-        Config.set("Warp.Tp.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as téléporté &b%target%&7 au warp&e %warp%"}));
+        Config.set("Warp.Tp.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez téléporté &b%target%&7 au warp &e%warp%"}));
         Config.set("Warp.Tp.Other-Sender-Delay.Enable", true);
-        Config.set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît, attendez &4&l%second%&c seconde(s)&7 avant que ce joueur soit téléporté"}));
+        Config.set("Warp.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%second%&c seconde(s)&7 avant que ce joueur soit téléporté"}));
 
         Config.set("Warp.List.Enable", true);
         Config.set("Warp.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bListe des warps :&e %warplist%"}));
 
         Config.set("Warp.No-Warp.Enable", true);
-        Config.set("Warp.No-Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis désolé, mais il n'y a pas de warp"}));
+        Config.set("Warp.No-Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cIl n'y a aucun warp"}));
 
         Config.set("Warp.Set.Warp-Set.Enable", true);
-        Config.set("Warp.Set.Warp-Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La warp a été créée avec le nom &e%arg%"}));
+        Config.set("Warp.Set.Warp-Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le warp &e%arg%&7 a été créé"}));
         Config.set("Warp.Set.Warp-Already-Exist.Enable", true);
         Config.set("Warp.Set.Warp-Already-Exist.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe nom existe déjà"}));
 
@@ -244,14 +244,14 @@ public class FRConfigMMsg {
         Config.set("Warp.Del.Warp-Delete.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le warp &e%warp%&7 a été &csupprimé"}));
 
         Config.set("Warp.Edit.Warp-Edited.Enable", true);
-        Config.set("Warp.Edit.Warp-Edited.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La nouvelle position du warp &e%warp% a été placé"}));
+        Config.set("Warp.Edit.Warp-Edited.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La position du warp &e%warp%&7 a été mise à jour"}));
 
         /* ---------------- *
 			 * SUICIDE COMMANDS *
 			 * ---------------- */
 
         Config.set("Suicide.Self.Enable", true);
-        Config.set("Suicide.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu t'es suicidé"}));
+        Config.set("Suicide.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous vous êtes suicidé"}));
 
         Config.set("Suicide.Broadcast.Enable", true);
         Config.set("Suicide.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&7%player% a dit au revoir au monde entier"}));
@@ -264,28 +264,28 @@ public class FRConfigMMsg {
         Config.set("Repair.Repaired.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7L'objet &e%item% &7a été réparé"}));
 
         Config.set("Repair.Can-t-Repair.Enable", true);
-        Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous ne pouvez pas réparer cette objet"}));
+        Config.set("Repair.Can-t-Repair.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous ne pouvez pas réparer cet objet"}));
 
         /* ------------ *
 			 * EXP COMMANDS *
 			 * ------------ */
 
         Config.set("Exp.Add.Sender.Enable", true);
-        Config.set("Exp.Add.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7a été ajouté au nombre total de points d'expérience à &b%target%"}));
+        Config.set("Exp.Add.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7points d'expérience ont été ajoutés à &b%target%"}));
         Config.set("Exp.Add.Target.Enable", true);
-        Config.set("Exp.Add.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7a été ajouté au nombre total de vos points d'expérience"}));
+        Config.set("Exp.Add.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%number_exp% &7points d'expérience vous ont été ajoutés"}));
 
         Config.set("Exp.Set.Sender.Enable", true);
-        Config.set("Exp.Set.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le nombre total de points d'expérienc &b%target%&7a été défini sur &e%number_exp%"}));
+        Config.set("Exp.Set.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Les points d'expérience de &b%target%&7 ont été définis à &e%number_exp%"}));
         Config.set("Exp.Set.Target.Enable", true);
-        Config.set("Exp.Set.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le total de vos points d'expérience a été défini à &e%number_exp%"}));
+        Config.set("Exp.Set.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vos points d'expérience ont été définis à &e%number_exp%"}));
 
         Config.set("Exp.Take.Sender.Enable", true);
         Config.set("Exp.Take.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7 a perdu &e%number_exp%&7 points d'expérience"}));
         Config.set("Exp.Take.Target.Enable", true);
-        Config.set("Exp.Take.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as perdu &e%number_exp%&7 points d'expérience"}));
+        Config.set("Exp.Take.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez perdu &e%number_exp%&7 points d'expérience"}));
         Config.set("Exp.Take.Sender-Error.Enable", true);
-        Config.set("Exp.Take.Sender-Error.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas prendre plus de &6%target_exp_points%&c points d'expérience pour le joueur &e%target%"}));
+        Config.set("Exp.Take.Sender-Error.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous ne pouvez pas prendre plus de &6%target_exp_points%&c points d'expérience au joueur &e%target%"}));
 
         Config.set("Exp.Clear.Sender.Enable", true);
         Config.set("Exp.Clear.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &b%target%&7 a maintenant 0 point d'expérience"}));
@@ -296,10 +296,10 @@ public class FRConfigMMsg {
 			 * WORKBENCH COMMANDS *
 			 * ------------------ */
         Config.set("WorkBench.Self.Enable", true);
-        Config.set("WorkBench.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as ouvert ton établi"}));
+        Config.set("WorkBench.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert votre établi"}));
 
         Config.set("WorkBench.Target.Enable", true);
-        Config.set("WorkBench.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Ton établi a été ouvert par &e%player%"}));
+        Config.set("WorkBench.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre établi a été ouvert par &e%player%"}));
         Config.set("WorkBench.Sender.Enable", true);
         Config.set("WorkBench.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez ouvert l'établi de &e%target%&7"}));
 
@@ -307,47 +307,47 @@ public class FRConfigMMsg {
 			 * BURN COMMANDS *
 			 * ------------- */
         Config.set("Burn.Target.Enable", true);
-        Config.set("Burn.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu es en train de brûler à cause de &e%player%&7 pendant &b%duration%&7 secondes"}));
+        Config.set("Burn.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous brûlez à cause de &e%player%&7 pendant &b%duration%&7 secondes"}));
         Config.set("Burn.Sender.Enable", true);
-        Config.set("Burn.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu es en train de brûler &e%target%&7 pendant &b%duration%&7 secondes"}));
+        Config.set("Burn.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous faites brûler &e%target%&7 pendant &b%duration%&7 secondes"}));
 
         /* -------------- *
 			 * SKULL COMMANDS *
 			 * -------------- */
         Config.set("Skull.Self.Enable", true);
-        Config.set("Skull.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as eu ta propre tête"}));
+        Config.set("Skull.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez obtenu votre propre tête"}));
 
         Config.set("Skull.Sender.Enable", true);
-        Config.set("Skull.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tu as eu la tête de &e%target%"}));
+        Config.set("Skull.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez obtenu la tête de &e%target%"}));
 
         /*
          * Hat
          */
         Config.set("Hat.Self.Set.Enable", true);
-        Config.set("Hat.Self.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Le nouveau chapeau a été mis"}));
+        Config.set("Hat.Self.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Votre nouveau chapeau a été mis"}));
         Config.set("Hat.Self.Removed.Enable", true);
-        Config.set("Hat.Self.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Le chapeau a été supprimé"}));
+        Config.set("Hat.Self.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Votre chapeau a été retiré"}));
 
         Config.set("Hat.Other-Target.Set.Enable", true);
-        Config.set("Hat.Other-Target.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Tu as reçu un nouveau chapeau de &e%player%"}));
+        Config.set("Hat.Other-Target.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Vous avez reçu un nouveau chapeau de &e%player%"}));
         Config.set("Hat.Other-Target.Removed.Enable", true);
-        Config.set("Hat.Other-Target.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Ton chapeau t'a été retiré par &e%player%"}));
+        Config.set("Hat.Other-Target.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Votre chapeau vous a été retiré par &e%player%"}));
 
         Config.set("Hat.Other-Sender.Set.Enable", true);
         Config.set("Hat.Other-Sender.Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Vous avez mis un nouveau chapeau pour &e%target%"}));
         Config.set("Hat.Other-Sender.Removed.Enable", true);
-        Config.set("Hat.Other-Sender.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Tu as supprimé le chapeau de &e%target%"}));
+        Config.set("Hat.Other-Sender.Removed.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &7Vous avez retiré le chapeau de &e%target%"}));
 
         Config.set("Hat.Error.No-Hat-Can-Be-Set.Enable", true);
-        Config.set("Hat.Error.No-Hat-Can-Be-Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé mais tu ne peux pas mettre de nouveau chapeau"}));
+        Config.set("Hat.Error.No-Hat-Can-Be-Set.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé, mais vous ne pouvez pas mettre ce chapeau"}));
         Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Enable", true);
-        Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé mais vous ne pouvez par supprimer ce chapeau, c'est vide"}));
+        Config.set("Hat.Error.Need-Have-NoEmpty-Helmet.Messages", java.util.Arrays.asList(new String[] {"&7%prefix% &cDésolé, mais vous n'avez pas de chapeau à retirer"}));
 
         /*
          * GetPos
          */
         Config.set("GetPos.Enable", true);
-        Config.set("GetPos.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La position du joueur est: &e%X% %Y% %Z%&7 dans le monde&b %world%"}));
+        Config.set("GetPos.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La position du joueur est : &e%X% %Y% %Z%&7 dans le monde &b%world%"}));
 
         /*
          * Vanish stuff
@@ -359,38 +359,38 @@ public class FRConfigMMsg {
         /*Config.set("Vanish.Self-Still.Enable", true);
         Config.set("Vanish.Self-Still.Messages", java.util.Arrays.asList(new String[] {"&bVanish is still enabled"}));*/
         Config.set("Vanish.Other-Target.Enable", true);
-        Config.set("Vanish.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish a été &aactivé&7 par&e %player%"}));
+        Config.set("Vanish.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish a été &aactivé&7 par &e%player%"}));
         Config.set("Vanish.Other-Target-Disabled.Enable", true);
-        Config.set("Vanish.Other-Target-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish a été &cdésactivé&7 par&e %player%"}));
+        Config.set("Vanish.Other-Target-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish a été &cdésactivé&7 par &e%player%"}));
         Config.set("Vanish.Other-Sender.Enable", true);
-        Config.set("Vanish.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish du joueur &b%target%&7 a été &aactivé&7 par&e %player%"}));
+        Config.set("Vanish.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish du joueur &b%target%&7 a été &aactivé&7 par &e%player%"}));
         Config.set("Vanish.Other-Sender-Disabled.Enable", true);
-        Config.set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish du joueur &b%target%&7 a été &cdésactivé&7 par&e %player%"}));
+        Config.set("Vanish.Other-Sender-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le vanish du joueur &b%target%&7 a été &cdésactivé&7 par &e%player%"}));
         Config.set("Vanish.Action-Bar", java.util.Arrays.asList(new String[] {"&aVous êtes en vanish"}));
 
         /*
          * Clear inv stuff
          */
         Config.set("ClearInv.Self.Enable", true);
-        Config.set("ClearInv.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre inventaire a été nettoyé"}));
+        Config.set("ClearInv.Self.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre inventaire a été vidé"}));
         Config.set("ClearInv.Other-Target.Enable", true);
-        Config.set("ClearInv.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre inventaire a été nettoyé par &e%player%"}));
+        Config.set("ClearInv.Other-Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre inventaire a été vidé par &e%player%"}));
         Config.set("ClearInv.Other-Sender.Enable", true);
-        Config.set("ClearInv.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7L'inventaire du joueur &e%target%&7 a été nettoyé"}));
+        Config.set("ClearInv.Other-Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7L'inventaire du joueur &e%target%&7 a été vidé"}));
 
         /*
          * Spawn stuff
          */
         Config.set("Spawn.Tp.Self-Delay.Enable", true);
-        Config.set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît, attendez &4&l%second%&c seconde(s)&7 avant d'être téléporté"}));
+        Config.set("Spawn.Tp.Self-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%second%&c seconde(s)&7 avant d'être téléporté"}));
         Config.set("Spawn.Tp.Other-Sender-Delay.Enable", true);
-        Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît, attendez &4&l%second%&c seconde(s)&7 avant que ce joueur soit téléporté"}));
+        Config.set("Spawn.Tp.Other-Sender-Delay.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%second%&c seconde(s)&7 avant que ce joueur soit téléporté"}));
 
         Config.set("Spawn.List.Enable", true);
         Config.set("Spawn.List.Messages", java.util.Arrays.asList(new String[] {"%prefix% &bListe des spawns :&e %spawnlist%"}));
 
         Config.set("Spawn.No-Spawn.Enable", true);
-        Config.set("Spawn.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis désolé, mais il n'y a pas de spawn"}));
+        Config.set("Spawn.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cIl n'y a aucun spawn"}));
 
         /*
          * Warning stuff
@@ -406,19 +406,21 @@ public class FRConfigMMsg {
          * EVENTS
          */
 
-        Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh non, vous avez essayé d'atteindre le vide"}));
+        Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh non, vous êtes tombé dans le vide"}));
         Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7a dit &e%message%"}));
+        Config.set("Anti-Spam.Repeat", java.util.Arrays.asList(new String[] {"%prefix% &cN'envoyez pas deux fois le même message"}));
+        Config.set("Anti-Spam.Caps", java.util.Arrays.asList(new String[] {"%prefix% &cTrop de majuscules dans votre message"}));
 
         Config.set("LaunchPad.Cant-Use-Cooldown.Enable", true);
-        Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Désolé, mais actuellement vous ne pouvez pas utiliser les launchpads"}));
+        Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous ne pouvez pas encore réutiliser les launchpads"}));
 
         Config.set("Cancel-Tp.Warp.Enable", true);
-        Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &cdésactivé"}));
+        Config.set("Cancel-Tp.Warp.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Téléportation &cannulée"}));
         Config.set("Cancel-Tp.Spawn.Enable", true);
-        Config.set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Tp &cdésactivé"}));
+        Config.set("Cancel-Tp.Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Téléportation &cannulée"}));
 
         Config.set("Custom-Join-Item.Error.FunGun.Time.Enable", true);
-        Config.set("Custom-Join-Item.Error.FunGun.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît , veuillez patienter &4&l%timedelayfunguncji% &c&lseconde(s)&7!"}));
+        Config.set("Custom-Join-Item.Error.FunGun.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%timedelayfunguncji% &c&lseconde(s) &7!"}));
 
         /*
          * PO
@@ -428,9 +430,9 @@ public class FRConfigMMsg {
         Config.set("PlayerOption.Help.Messages", java.util.Arrays.asList(new String[] {
         		"&8//&7&m---------------&r&8\\\\ &3[&bPlayerOption&3] &8//&7&m---------------&r&8\\\\",
         		"",
-        		"     &l>> &e&o&lAide sur l'option des joueurs",
+        		"     &l>> &e&o&lAide des options des joueurs",
         		"",
-        		" &8>> &7/option fly - &eDéfinir le mode de vol",
+        		" &8>> &7/option fly - &eActiver ou désactiver le vol",
         		" &8>> &7/option doublejump - &eActiver ou désactiver le double saut",
         		" &8>> &7/option speed - &eActiver ou désactiver la modification de vitesse",
         		" &8>> &7/option jumpboost - &eActiver ou désactiver le jumpboost",
@@ -445,16 +447,16 @@ public class FRConfigMMsg {
         Config.set("PlayerOption.DoubleJump.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre double saut a été &cdésactivé"}));
 
         Config.set("PlayerOption.Speed.Enable.Enable", true);
-        Config.set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre modification de vitesse a été &aactivé"}));
+        Config.set("PlayerOption.Speed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre modification de vitesse a été &aactivée"}));
         Config.set("PlayerOption.Speed.Disable.Enable", true);
-        Config.set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre modification de vitesse a été &cdésactivé"}));
+        Config.set("PlayerOption.Speed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre modification de vitesse a été &cdésactivée"}));
         Config.set("PlayerOption.Speed.Set.Enable", true);
         Config.set("PlayerOption.Speed.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse a été réglée sur &e%arg1%"}));
 
         Config.set("PlayerOption.FlySpeed.Enable.Enable", true);
-        Config.set("PlayerOption.FlySpeed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse de vol a été &aactivé"}));
+        Config.set("PlayerOption.FlySpeed.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse de vol a été &aactivée"}));
         Config.set("PlayerOption.FlySpeed.Disable.Enable", true);
-        Config.set("PlayerOption.FlySpeed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse de vol a été &cdésactivé"}));
+        Config.set("PlayerOption.FlySpeed.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse de vol a été &cdésactivée"}));
         Config.set("PlayerOption.FlySpeed.Set.Enable", true);
         Config.set("PlayerOption.FlySpeed.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre vitesse de vol a été réglée sur &e%arg1%"}));
 
@@ -464,9 +466,9 @@ public class FRConfigMMsg {
         Config.set("PlayerOption.JumpBoost.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Votre jumpboost a été &cdésactivé"}));
 
         Config.set("PlayerOption.AutoBroadcast.Enable.Enable", true);
-        Config.set("PlayerOption.AutoBroadcast.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La visibilité de l'autobroadcast a été &aactivé"}));
+        Config.set("PlayerOption.AutoBroadcast.Enable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La visibilité de l'autobroadcast a été &aactivée"}));
         Config.set("PlayerOption.AutoBroadcast.Disable.Enable", true);
-        Config.set("PlayerOption.AutoBroadcast.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La visibilité de l'autobroadcast a été &cdésactivé"}));
+        Config.set("PlayerOption.AutoBroadcast.Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La visibilité de l'autobroadcast a été &cdésactivée"}));
 
         Config.set("PlayerOption.PlayerVisibility.ON.Enable", true);
         Config.set("PlayerOption.PlayerVisibility.ON.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Pouf ! Les joueurs sont partis"}));
@@ -476,14 +478,14 @@ public class FRConfigMMsg {
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe double saut est désactivé dans &6Cosmetics-Fun/DoubleJump.yml"}));
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
-        Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe double saut n'est pas permis dans ce monde"}));
+        Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe double saut n'est pas autorisé dans ce monde"}));
 
         Config.set("PlayerOption.Error.Option-Disabled.Enable", true);
-        Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous avez désactivé cette option, donc, vous ne pouvez pas gérer toutes les options"}));
+        Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cCette option est désactivée, vous ne pouvez pas la modifier"}));
         //Config.set("PlayerOption.Error.Option-Already-Set.Enable", Boolean.valueOf(true));
         //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cCette option est déjà définie ou est la même"}));
         Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", true);
-        Config.set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7S'il vous plaît , veuillez patienter &4&l%timedelaypvcji% &c&lseconde(s)&7!"}));
+        Config.set("PlayerOption.Error.Player-Visibility.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%timedelaypvcji% &c&lseconde(s) &7!"}));
 
         Config.set("PlayerOption.Error.Not-Enable-In-A-World.Enable", true);
         Config.set("PlayerOption.Error.Not-Enable-In-A-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLes options des joueurs ne sont pas activées dans ce monde"}));
@@ -496,7 +498,7 @@ public class FRConfigMMsg {
         Config.set("Error.No-Permissions.Enable", true);
         Config.set("Error.No-Permissions.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, mais vous n'avez pas la permission : %noperm%"}));
         Config.set("Error.No-Spawn.Enable", true);
-        Config.set("Error.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa spawn n'existe pas"}));
+        Config.set("Error.No-Spawn.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe spawn n'existe pas"}));
         Config.set("Error.Change-Me.Enable", true);
         Config.set("Error.Change-Me.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous devez changer le spawn/warp/etc. sur &6%arg1%&c dans &e%arg2%"}));
         Config.set("Error.No-Players.Enable", true);
@@ -510,7 +512,7 @@ public class FRConfigMMsg {
         Config.set("Error.Command-Disable.Enable", true);
         Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, cette commande est désactivée"}));
         Config.set("Error.Argument-Missing.Enable", true);
-        Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe suis désolé, mais il doit manquer un ou deux arguments"}));
+        Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cIl manque un ou plusieurs arguments"}));
         Config.set("Error.Not-A-Player.Enable", true);
         Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVous n'êtes pas un joueur"}));
 
@@ -519,9 +521,12 @@ public class FRConfigMMsg {
          */
 
         Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas placer de bloc ici !"}));
-        Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez casser de bloc ici !"}));
+        Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas casser de bloc ici !"}));
 
+        YamlConfiguration defaults = Config;
         Config = ConfigDefaults.apply(file, loaded, Config);
+        // The French corrected in 1.4, in the files that still have the old texts
+        ConfigDefaults.replaceOldDefaults(file, Config, defaults, FrenchFixes.CONFIGMMSG);
     }
 
 }

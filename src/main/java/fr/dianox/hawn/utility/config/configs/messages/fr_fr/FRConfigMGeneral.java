@@ -64,9 +64,9 @@ public class FRConfigMGeneral {
         Config.set("General.On-join.Join-Message.Per-Group.Options.Enable", true);
         Config.set("General.On-join.Join-Message.Per-Group.Options.Disable-Any-Messages-On-Join", false);
         Config.set("General.On-join.Join-Message.Per-Group.Groups.Owner", java.util.Arrays.asList(new String[] {
-                "&cS'IL VOUS PLAÎT, SOUHAITEZ LA BIENVENUE à un fondateur"}));
+                "&cSouhaitez la bienvenue à un fondateur !"}));
         Config.set("General.On-join.Join-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
-                "nombre illimité de groupes bien sûr"}));
+                "Autant de groupes que vous voulez"}));
 
         Config.set("General.On-join.Join-Message.Per-World.Options.Enable", false);
         Config.set("General.On-join.Join-Message.Per-World.Options.Disable-Any-Other-Messages-On-Join", false);
@@ -91,9 +91,9 @@ public class FRConfigMGeneral {
         Config.set("General.On-Quit.Quit-Message.Per-Group.Options.Enable", true);
         Config.set("General.On-Quit.Quit-Message.Per-Group.Options.Disable-Any-Messages-On-Quit", true);
         Config.set("General.On-Quit.Quit-Message.Per-Group.Groups.Owner", java.util.Arrays.asList(new String[] {
-        		"&cS'IL VOUS PLAÎT DITE AU REVOIR à un fondateur"}));
+        		"&cDites au revoir à un fondateur !"}));
         Config.set("General.On-Quit.Quit-Message.Per-Group.Groups.Admin", java.util.Arrays.asList(new String[] {
-        		"nombre illimité de groupes bien sûr"}));
+        		"Autant de groupes que vous voulez"}));
 
         Config.set("General.On-Quit.Quit-Message.Per-World.Options.Enable", false);
         Config.set("General.On-Quit.Quit-Message.Per-World.Options.Disable-Any-Other-Messages-On-Quit", false);
@@ -140,10 +140,13 @@ public class FRConfigMGeneral {
         Config.set("Spawn.Teleport.Enable", true);
         Config.set("Spawn.Teleport.Enable-For-On-Join", false);
         Config.set("Spawn.Teleport.Messages", java.util.Arrays.asList(new String[] {"&7Téléportation..."}));
-        Config.set("Spawn.Teleport-By-Player.Messages", java.util.Arrays.asList(new String[] {"&7Téléporté par quelqu'un..."}));
+        Config.set("Spawn.Teleport-By-Player.Messages", java.util.Arrays.asList(new String[] {"&7Vous avez été téléporté par quelqu'un..."}));
         Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7%target% a été téléporté..."}));
 
+        YamlConfiguration defaults = Config;
         Config = ConfigDefaults.apply(file, loaded, Config, "General.On-join.Join-Message.Per-Group.Groups", "General.On-join.Join-Message.Per-World.Worlds", "General.On-Quit.Quit-Message.Per-Group.Groups", "General.On-Quit.Quit-Message.Per-World.Worlds", "Spawn.On-join.Per-World.Worlds");
+        // The French corrected in 1.4, in the files that still have the old texts
+        ConfigDefaults.replaceOldDefaults(file, Config, defaults, FrenchFixes.CONFIGMGENERAL);
     }
 
 }

@@ -35,6 +35,30 @@ public final class WorldFolders {
 	}
 
 	/**
+	 * A world of this name: loaded, a world folder of the world container, or (Paper 26.x) a dimension of the main world.
+	 */
+	public static boolean exists(String name) {
+		for (World w : Bukkit.getWorlds()) {
+			if (w.getName().equalsIgnoreCase(name)) return true;
+		}
+		return GuiSystem.checkIfIsWorld(new File(Bukkit.getWorldContainer(), name)) || dimension(name) != null;
+	}
+
+	/**
+	 * Paper 26.x keeps the created worlds in the folder of the main world: world/dimensions/minecraft/<name>. Null when there is none.
+	 */
+	public static File dimension(String name) {
+		if (Bukkit.getWorlds().isEmpty()) return null;
+
+		File dimensions = new File(root(Bukkit.getWorlds().get(0)), "dimensions" + File.separator + "minecraft");
+		for (String folder : new String[] {name, name.toLowerCase(java.util.Locale.ROOT)}) {
+			File f = new File(dimensions, folder);
+			if (f.isDirectory()) return f;
+		}
+		return null;
+	}
+
+	/**
 	 * What deleting this world removes: its own world folder, or only its dimension folder when it is stored
 	 * inside the folder of the main world (deleting the root would delete the main world).
 	 */

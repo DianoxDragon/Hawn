@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.utility.Skulls;
@@ -12,7 +13,6 @@ import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.commands.EmojiCommandConfig;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.EmojisListCUtility;
 import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
@@ -136,7 +136,7 @@ public class EmojiesCommand extends BukkitCommand {
                     	Displayname = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Title");
                     	Displayname = MessageUtils.colourTheStuff(Displayname);
 
-                    	if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                    	if (HooksManager.papi()) {
                             Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                         }
                     	
@@ -179,7 +179,7 @@ public class EmojiesCommand extends BukkitCommand {
                                         for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
                                             loremsg = MessageUtils.colourTheStuff(loremsg);
 
-                                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                            if (HooksManager.papi()) {
                                                 loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                             }
 
@@ -203,7 +203,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                                         for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
                                             loremsg = MessageUtils.colourTheStuff(loremsg);
-                                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                            if (HooksManager.papi()) {
                                                 loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                             }
 
@@ -229,7 +229,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                                     for (String loremsg: EmojisListCUtility.getConfig().getStringList("Emojis-list." + string + ".Gui.Lore")) {
                                         loremsg = MessageUtils.colourTheStuff(loremsg);
-                                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                        if (HooksManager.papi()) {
                                             loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                         }
 
@@ -258,7 +258,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                     Displayname = OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Title");
                     Displayname = MessageUtils.colourTheStuff(Displayname);
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                    if (HooksManager.papi()) {
                         Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                     }
 
@@ -299,7 +299,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                                 for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
                                     loremsg = MessageUtils.colourTheStuff(loremsg);
-                                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                    if (HooksManager.papi()) {
                                         loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                     }
 
@@ -320,7 +320,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                                 for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
                                     loremsg = MessageUtils.colourTheStuff(loremsg);
-                                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                    if (HooksManager.papi()) {
                                         loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                     }
 
@@ -343,7 +343,7 @@ public class EmojiesCommand extends BukkitCommand {
 
                             for (String loremsg: OnChatConfig.getConfig().getStringList("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Lore")) {
                                 loremsg = MessageUtils.colourTheStuff(loremsg);
-                                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                if (HooksManager.papi()) {
                                     loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
                                 }
 

@@ -79,6 +79,7 @@ public class SetupLangFile {
 		Config.set("SetupSpawn.Spawn-Changed", Collections.singletonList("%prefix% &7Default spawn changed to %arg 1%"));
 
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Please restart the server"));
+		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6You are still in the setup &7(&e/hawn setup &7to open it again)"));
 
 		Config = ConfigDefaults.apply(file, loaded, Config);
 	}

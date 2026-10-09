@@ -59,6 +59,24 @@ public final class ConfigDefaults {
 
     private ConfigDefaults() {}
 
+    // For the startup report: what happened to the files since reset()
+    private static final java.util.Set<String> files = new java.util.HashSet<>();
+    private static int optionsAdded = 0;
+    private static int commented = 0;
+    private static final List<String> yamlErrors = new ArrayList<>();
+
+    public static void reset() {
+        files.clear();
+        optionsAdded = 0;
+        commented = 0;
+        yamlErrors.clear();
+    }
+
+    public static int files() { return files.size(); }
+    public static int optionsAdded() { return optionsAdded; }
+    public static int commented() { return commented; }
+    public static List<String> yamlErrors() { return yamlErrors; }
+
     /**
      * @param file        the file
      * @param loaded      the content of the file, as loaded
@@ -69,9 +87,11 @@ public final class ConfigDefaults {
      */
     public static YamlConfiguration apply(File file, YamlConfiguration loaded, YamlConfiguration defaults, String... collections) {
         String name = relativeName(file);
+        files.add(name);
 
         if (!file.exists()) {
             defaults.options().header(header(name));
+            ConfigComments.comment(name, defaults, defaults);
             save(defaults, file);
             return defaults;
         }
@@ -82,6 +102,7 @@ public final class ConfigDefaults {
                 new YamlConfiguration().load(file);
             } catch (IOException | InvalidConfigurationException e) {
                 Bukkit.getLogger().warning("[Hawn] " + name + " can't be read (YAML error), its missing options were not added: " + e.getMessage());
+                if (!yamlErrors.contains(name)) yamlErrors.add(name);
                 return loaded;
             }
         }
@@ -95,15 +116,80 @@ public final class ConfigDefaults {
             added.add(path);
         }
 
-        if (!added.isEmpty()) {
+        // 1.18.1+: a comment above the options that have none (the new ones, and all of them the first time)
+        boolean commented = ConfigComments.comment(name, loaded, defaults);
+        if (commented) ConfigDefaults.commented++;
+        optionsAdded += added.size();
+
+        if (!added.isEmpty() || commented) {
             if (loaded.options().header() == null || loaded.options().header().isEmpty()) {
                 loaded.options().header(header(name));
             }
             save(loaded, file);
+        }
+
+        if (!added.isEmpty()) {
             Bukkit.getLogger().info("[Hawn] " + name + ": " + added.size() + " missing option(s) added: "
                 + String.join(", ", added.size() > 10 ? added.subList(0, 10) : added) + (added.size() > 10 ? "..." : ""));
         }
         return loaded;
+    }
+
+    /**
+     * Default texts corrected by a new version: an option that still has the old default text gets the new one,
+     * an option changed by the owner is kept.
+     * @param config   the configuration, as returned by apply
+     * @param defaults the default values
+     * @param changes  {old part, new part} of the texts, in the order they were changed
+     */
+    public static void replaceOldDefaults(File file, YamlConfiguration config, YamlConfiguration defaults, String[][] changes) {
+        List<String> updated = new ArrayList<>();
+
+        for (String path : defaults.getKeys(true)) {
+            Object now = defaults.get(path);
+            Object current = config.get(path);
+            if (current == null || current.equals(now)) continue;
+
+            if (now instanceof String && current instanceof String) {
+                if (fixed((String) current, changes).equals(now)) {
+                    config.set(path, now);
+                    updated.add(path);
+                }
+            } else if (now instanceof List && current instanceof List && ((List<?>) now).size() == ((List<?>) current).size()) {
+                List<?> news = (List<?>) now;
+                List<?> currents = (List<?>) current;
+                boolean same = true;
+                for (int i = 0; i < news.size() && same; i++) {
+                    same = fixed(String.valueOf(currents.get(i)), changes).equals(String.valueOf(news.get(i)));
+                }
+                if (same) {
+                    config.set(path, now);
+                    updated.add(path);
+                }
+            }
+        }
+
+        if (!updated.isEmpty()) {
+            save(config, file);
+            Bukkit.getLogger().info("[Hawn] " + relativeName(file) + ": " + updated.size() + " default text(s) corrected");
+        }
+    }
+
+    // The text with the corrections: the old default text becomes the new one
+    private static String fixed(String text, String[][] changes) {
+        for (String[] change : changes) {
+            String anchor = change.length > 2 ? change[2] : "";
+            if (anchor.equals("whole")) {
+                if (text.equals(change[0])) text = change[1];
+            } else if (anchor.equals("end")) {
+                if (text.endsWith(change[0])) text = text.substring(0, text.length() - change[0].length()) + change[1];
+            } else if (anchor.equals("start")) {
+                if (text.startsWith(change[0])) text = change[1] + text.substring(change[0].length());
+            } else {
+                text = text.replace(change[0], change[1]);
+            }
+        }
+        return text;
     }
 
     private static boolean inCollection(YamlConfiguration loaded, String path, String[] collections) {

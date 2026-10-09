@@ -97,8 +97,8 @@ public class TitleAnnouncerCommand extends BukkitCommand {
              */
             if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Sound-For-All-Players.Enable")) {
     	        String sound = TitleAnnouncerConfig.getConfig().getString("Title-Announcer.Options.Sound-For-All-Players.Sound");
-    	        int volume = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Volume");
-    	        int pitch = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Pitch");
+    	        float volume = (float) TitleAnnouncerConfig.getConfig().getDouble("Title-Announcer.Options.Sound-For-All-Players.Volume");
+    	        float pitch = (float) TitleAnnouncerConfig.getConfig().getDouble("Title-Announcer.Options.Sound-For-All-Players.Pitch");
     	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
     	        	all.playSound(all.getLocation(), XParse.sound(sound, "Title-Announcer.Options.Sound-For-All-Players.Sound"), volume, pitch);
     	        }
@@ -217,8 +217,8 @@ public class TitleAnnouncerCommand extends BukkitCommand {
          */
         if (TitleAnnouncerConfig.getConfig().getBoolean("Title-Announcer.Options.Sound-For-All-Players.Enable")) {
 	        String sound = TitleAnnouncerConfig.getConfig().getString("Title-Announcer.Options.Sound-For-All-Players.Sound");
-	        int volume = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Volume");
-	        int pitch = TitleAnnouncerConfig.getConfig().getInt("Title-Announcer.Options.Sound-For-All-Players.Pitch");
+	        float volume = (float) TitleAnnouncerConfig.getConfig().getDouble("Title-Announcer.Options.Sound-For-All-Players.Volume");
+	        float pitch = (float) TitleAnnouncerConfig.getConfig().getDouble("Title-Announcer.Options.Sound-For-All-Players.Pitch");
 	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 	        	all.playSound(all.getLocation(), XParse.sound(sound, "Title-Announcer.Options.Sound-For-All-Players.Sound"), volume, pitch);
 	        }

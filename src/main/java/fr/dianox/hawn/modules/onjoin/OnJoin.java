@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.onjoin;
 
+import fr.dianox.hawn.hook.HooksManager;
 import com.cryptomorin.xseries.XPotion;
 import fr.dianox.hawn.utility.XParse;
 
@@ -292,7 +293,7 @@ public class OnJoin implements Listener {
                         if (!OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.World.All_World")) {
                             if (OnJoinPW.getWJoinab().contains(p.getWorld().getName())) {
                                 String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                                if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                                if (HooksManager.papi()) {
                                     actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                                 }
 
@@ -304,7 +305,7 @@ public class OnJoin implements Listener {
                             }
                         } else {
                             String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                            if (HooksManager.papi()) {
                                 actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                             }
 
@@ -319,7 +320,7 @@ public class OnJoin implements Listener {
                     if (!OnJoinConfig.getConfig().getBoolean("Action-Bar.First-Join.World.All_World")) {
                         if (OnJoinPW.getWFirstJoinab().contains(p.getWorld().getName())) {
                             String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
-                            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                            if (HooksManager.papi()) {
                                 actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                             }
 
@@ -331,7 +332,7 @@ public class OnJoin implements Listener {
                         }
                     } else {
                         String actionbarFirstjoin = OnJoinConfig.getConfig().getString("Action-Bar.First-Join.Message");
-                        if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                        if (HooksManager.papi()) {
                             actionbarFirstjoin = PlaceholderAPI.setPlaceholders(p, actionbarFirstjoin);
                         }
 
@@ -345,7 +346,7 @@ public class OnJoin implements Listener {
             } else {
                 if (OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.Enable")) {
                     String actionbarjoin = OnJoinConfig.getConfig().getString("Action-Bar.Join.Message");
-                    if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+                    if (HooksManager.papi()) {
                         actionbarjoin = PlaceholderAPI.setPlaceholders(p, actionbarjoin);
                     }
 
@@ -823,14 +824,14 @@ public class OnJoin implements Listener {
             if (!OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Sounds.World.All_World")) {
                 if (OnJoinPW.getWSoundsJoin().contains(p.getWorld().getName())) {
                     String sound = OnJoinConfig.getConfig().getString("Event.OnJoin.Sounds.Sound");
-                    int volume = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Volume");
-                    int pitch = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Pitch");
+                    float volume = (float) OnJoinConfig.getConfig().getDouble("Event.OnJoin.Sounds.Volume");
+                    float pitch = (float) OnJoinConfig.getConfig().getDouble("Event.OnJoin.Sounds.Pitch");
                     p.playSound(p.getLocation(), XParse.sound(sound, "Event.OnJoin.Sounds.Sound"), volume, pitch);
                 }
             } else {
                 String sound = OnJoinConfig.getConfig().getString("Event.OnJoin.Sounds.Sound");
-                int volume = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Volume");
-                int pitch = OnJoinConfig.getConfig().getInt("Event.OnJoin.Sounds.Pitch");
+                float volume = (float) OnJoinConfig.getConfig().getDouble("Event.OnJoin.Sounds.Volume");
+                float pitch = (float) OnJoinConfig.getConfig().getDouble("Event.OnJoin.Sounds.Pitch");
                 p.playSound(p.getLocation(), XParse.sound(sound, "Event.OnJoin.Sounds.Sound"), volume, pitch);
             }
 

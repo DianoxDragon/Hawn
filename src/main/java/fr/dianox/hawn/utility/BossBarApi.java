@@ -1,6 +1,6 @@
 package fr.dianox.hawn.utility;
 
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.hook.HooksManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -58,14 +58,11 @@ public class BossBarApi {
 			return "";
 		}
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+		if (HooksManager.papi()) {
 			if (PlaceholderAPI.containsPlaceholders(title))
 				title = PlaceholderAPI.setPlaceholders(p, title);
 		}
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-			title = PlaceHolders.BattleLevelPO(title, p);
-		}
 
 		title = PlaceHolders.ReplaceMainplaceholderP(title, p);
 

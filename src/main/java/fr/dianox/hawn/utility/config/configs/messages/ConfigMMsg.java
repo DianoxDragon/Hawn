@@ -413,6 +413,8 @@ public class ConfigMMsg {
 
         Config.set("Teleport.VoidTP", java.util.Arrays.asList(new String[] {"%prefix% &7Oh no, you tried to reach the void"}));
         Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7said &e%message%"}));
+        Config.set("Anti-Spam.Repeat", java.util.Arrays.asList(new String[] {"%prefix% &cDon't send the same message again"}));
+        Config.set("Anti-Spam.Caps", java.util.Arrays.asList(new String[] {"%prefix% &cToo many capital letters in your message"}));
 
         Config.set("LaunchPad.Cant-Use-Cooldown.Enable", true);
         Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Sorry but you can't use the launchpad for now"}));

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.serverlist.ServerPingEvent;
 import fr.dianox.hawn.modules.admin.EditPlayerGui;
@@ -8,7 +9,6 @@ import fr.dianox.hawn.modules.admin.UrgentMode;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
@@ -251,26 +251,20 @@ public class HawnCommand implements CommandExecutor {
 				}
 			} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
 				sender.sendMessage("");
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+				if (HooksManager.papi()) {
 					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
 				} else {
 					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 				}
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+				if (HooksManager.mvdw()) {
 					sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
 				} else {
 					sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
 				}
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+				if (HooksManager.worldGuard()) {
 					sender.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
 				} else {
 					sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
-				}
-				sender.sendMessage("");
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-					sender.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
-				} else {
-					sender.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");
 				}
 				sender.sendMessage("");
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
@@ -606,26 +600,20 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			p.sendMessage("");
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
 			} else {
 				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
 			} else {
 				p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+			if (HooksManager.worldGuard()) {
 				p.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
 			} else {
 				p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
-			}
-			p.sendMessage("");
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				p.sendMessage("  §8→ §6§lBattleLevels§8: §a§l✔");
-			} else {
-				p.sendMessage("  §8→ §6§lBattleLevels§8: §c§l✗");
 			}
 			p.sendMessage("");
 		// info

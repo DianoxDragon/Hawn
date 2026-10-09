@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.3.0-Beta"
+version = "1.4.0-Beta"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,13 @@ val stubs: SourceSet = sourceSets.create("stubs")
 // Newest server API, only used by the "checkLatestApi" task
 val latestApi: Configuration = configurations.create("latestApi")
 
+// Listeners of the new Paper events (chat, connection), compiled against the Paper API and shipped in the jar.
+// Hawn loads them only on a Paper server that has these events; Spigot keeps the Bukkit ones.
+val paper: SourceSet = sourceSets.create("paper")
+configurations.named(paper.compileClasspathConfigurationName) {
+    attributes { attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 25) }
+}
+
 dependencies {
     // Oldest supported API: the plugin runs from 1.16.5 up to the latest releases.
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
@@ -34,6 +41,13 @@ dependencies {
     compileOnly("com.sk89q.worldedit:worldedit-core:7.2.0") { isTransitive = false }
 
     latestApi("io.papermc.paper:paper-api:26.3.build.141-beta")
+
+    "paperCompileOnly"("io.papermc.paper:paper-api:26.3.build.141-beta")
+    "paperCompileOnly"(sourceSets.main.get().output)
+
+
+    // Permissions of a player who is not connected yet (new Paper connection event)
+    compileOnly("net.luckperms:api:5.4")
 
     // Shaded & relocated
     implementation("com.github.cryptomorin:XSeries:13.7.1")
@@ -69,6 +83,12 @@ tasks {
         options.compilerArgs.add("-Xlint:-options")
     }
 
+    // The Paper API is newer bytecode: a recent JDK reads it. The classes only run on 1.17.1+ (Java 16+), most on a recent Paper
+    named<JavaCompile>("compilePaperJava") {
+        javaCompiler.set(project.javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of(25)) })
+        options.release.set(16)
+    }
+
     processResources {
         filteringCharset = "UTF-8"
         // Without it, Gradle keeps the old plugin.yml when only the version changes
@@ -79,6 +99,7 @@ tasks {
     }
 
     shadowJar {
+        from(paper.output)
         archiveClassifier.set("")
         archiveFileName.set("Hawn-${project.version}.jar")
         val base = "fr.dianox.hawn.libs"

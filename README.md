@@ -14,7 +14,7 @@ A plugin hub/lobby
 The plugin does not use any NMS code anymore: everything goes through the Bukkit/Spigot API,
 so the same jar works on every supported version.
 
-Optional hooks: PlaceholderAPI, WorldGuard 7+, MVdWPlaceholderAPI, BattleLevels.
+Optional hooks: PlaceholderAPI, WorldGuard 7+, MVdWPlaceholderAPI.
 
 ## Building
 
@@ -24,7 +24,8 @@ Only a JDK 17+ is needed, Gradle is downloaded by the wrapper.
 ./gradlew build
 ```
 
-The plugin jar is created in `build/libs/Hawn-<version>.jar`.
+The plugin jar is created in `build/libs/Hawn-<version>.jar`. The Paper part of the plugin (`src/paper`: the Paper chat
+and connection events, MiniMessage) is compiled against the Paper API with a JDK 25, downloaded automatically.
 
 To check that the code still compiles against the newest Paper API (a JDK 25 is downloaded automatically):
 

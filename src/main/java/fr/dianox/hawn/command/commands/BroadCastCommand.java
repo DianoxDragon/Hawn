@@ -86,8 +86,8 @@ public class BroadCastCommand extends BukkitCommand {
 				if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {
                     for (Player player: Bukkit.getServer().getOnlinePlayers()) {
                         String sound = BroadCastCommandConfig.getConfig().getString("Broadcast.Sounds.Sound");
-                        int volume = BroadCastCommandConfig.getConfig().getInt("Broadcast.Sounds.Volume");
-                        int pitch = BroadCastCommandConfig.getConfig().getInt("Broadcast.Sounds.Pitch");
+                        float volume = (float) BroadCastCommandConfig.getConfig().getDouble("Broadcast.Sounds.Volume");
+                        float pitch = (float) BroadCastCommandConfig.getConfig().getDouble("Broadcast.Sounds.Pitch");
                         player.playSound(player.getLocation(), XParse.sound(sound, "Broadcast.Sounds.Sound"), volume, pitch);
                     }
 				
@@ -166,8 +166,8 @@ public class BroadCastCommand extends BukkitCommand {
 					if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {
 	                    for (Player player: Bukkit.getServer().getOnlinePlayers()) {
 	                        String sound = BroadCastCommandConfig.getConfig().getString("Broadcast.Sounds.Sound");
-	                        int volume = BroadCastCommandConfig.getConfig().getInt("Broadcast.Sounds.Volume");
-	                        int pitch = BroadCastCommandConfig.getConfig().getInt("Broadcast.Sounds.Pitch");
+	                        float volume = (float) BroadCastCommandConfig.getConfig().getDouble("Broadcast.Sounds.Volume");
+	                        float pitch = (float) BroadCastCommandConfig.getConfig().getDouble("Broadcast.Sounds.Pitch");
 	                        player.playSound(player.getLocation(), XParse.sound(sound, "Broadcast.Sounds.Sound"), volume, pitch);
 	                    }
 					}

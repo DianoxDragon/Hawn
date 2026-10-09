@@ -14,8 +14,8 @@ public class SpawnUtils {
             double x = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".X");
             double y = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Y");
             double z = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Z");
-            float yaw = ConfigSpawn.getConfig().getInt("Coordinated."+str+".Yaw");
-            float pitch = ConfigSpawn.getConfig().getInt("Coordinated."+str+".Pitch");
+            float yaw = (float) ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Yaw");
+            float pitch = (float) ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Pitch");
 
             player.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
         } catch (Exception e) {

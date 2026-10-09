@@ -72,8 +72,8 @@ public class WarpCommand extends BukkitCommand {
 					double x = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".X");
 					double y = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Y");
 					double z = WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Z");
-					float yaw = WarpListConfig.getConfig().getInt("Coordinated." + args[0] + ".Yaw");
-					float pitch = WarpListConfig.getConfig().getInt("Coordinated." + args[0] + ".Pitch");
+					float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Yaw");
+					float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Pitch");
 
 					target.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
@@ -314,8 +314,8 @@ public class WarpCommand extends BukkitCommand {
 			double x = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".X");
 			double y = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Y");
 			double z = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Z");
-			float yaw = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Yaw");
-			float pitch = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Pitch");
+			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
+			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
 			sender.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
@@ -340,8 +340,8 @@ public class WarpCommand extends BukkitCommand {
 			double x = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".X");
 			double y = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Y");
 			double z = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Z");
-			float yaw = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Yaw");
-			float pitch = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Pitch");
+			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
+			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
 			other.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
 

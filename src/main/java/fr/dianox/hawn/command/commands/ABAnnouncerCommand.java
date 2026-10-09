@@ -69,8 +69,8 @@ public class ABAnnouncerCommand extends BukkitCommand {
              */
             if (ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Options.Sound-For-All-Players.Enable")) {
     	        String sound = ActionbarAnnouncerConfig.getConfig().getString("ActionBar-Announcer.Options.Sound-For-All-Players.Sound");
-    	        int volume = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Volume");
-    	        int pitch = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch");
+    	        float volume = (float) ActionbarAnnouncerConfig.getConfig().getDouble("ActionBar-Announcer.Options.Sound-For-All-Players.Volume");
+    	        float pitch = (float) ActionbarAnnouncerConfig.getConfig().getDouble("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch");
     	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
     	        	all.playSound(all.getLocation(), XParse.sound(sound, "ActionBar-Announcer.Options.Sound-For-All-Players.Sound"), volume, pitch);
     	        }
@@ -139,8 +139,8 @@ public class ABAnnouncerCommand extends BukkitCommand {
          */
         if (ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Options.Sound-For-All-Players.Enable")) {
 	        String sound = ActionbarAnnouncerConfig.getConfig().getString("ActionBar-Announcer.Options.Sound-For-All-Players.Sound");
-	        int volume = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Volume");
-	        int pitch = ActionbarAnnouncerConfig.getConfig().getInt("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch");
+	        float volume = (float) ActionbarAnnouncerConfig.getConfig().getDouble("ActionBar-Announcer.Options.Sound-For-All-Players.Volume");
+	        float pitch = (float) ActionbarAnnouncerConfig.getConfig().getDouble("ActionBar-Announcer.Options.Sound-For-All-Players.Pitch");
 	        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 	        	all.playSound(all.getLocation(), XParse.sound(sound, "ActionBar-Announcer.Options.Sound-For-All-Players.Sound"), volume, pitch);
 	        }

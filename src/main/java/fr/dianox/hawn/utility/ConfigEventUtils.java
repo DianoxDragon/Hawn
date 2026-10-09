@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -8,7 +9,6 @@ import org.bukkit.potion.PotionEffect;
 
 import fr.dianox.hawn.command.commands.WarpCommand;
 import fr.dianox.hawn.event.OnCommandEvent;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -24,6 +24,9 @@ public class ConfigEventUtils {
 		if (text == null) {
 			return "";
 		}
+
+		// Nor a MiniMessage tag (a <click> in a broadcast...): the "<" is shown, never read
+		text = text.replace('<', RichText.LT);
 
 		String start = text.trim();
 		if (start.startsWith("[") || start.startsWith("<") || start.regionMatches(true, 0, "json:", 0, 5)) {
@@ -52,6 +55,15 @@ public class ConfigEventUtils {
             if (!p.hasPermission(perm)) {
             	return;
             }
+        }
+
+        // [delay[ticks]]: and [chance[percent]]: in front of the line
+        if (Actions.prefix(p, event, rest -> ExecuteEvent(p, rest, Informatif, AdditionalMessageError, Console))) {
+        	return;
+        }
+
+        if (Actions.run(p, event, AdditionalMessageError)) {
+        	return;
         }
         
         if (event.startsWith("[command-player]: ")) {
@@ -116,14 +128,11 @@ public class ConfigEventUtils {
             event = MessageUtils.colourTheStuff(event);
 
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-            	event = PlaceHolders.BattleLevelPO(event, p);
             }
             
             boolean activate = false;
@@ -152,14 +161,11 @@ public class ConfigEventUtils {
             event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-            	event = PlaceHolders.BattleLevelPO(event, p);
             }
             
             String[] parts = event.split("]]: ");
@@ -190,14 +196,11 @@ public class ConfigEventUtils {
             event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-            	event = PlaceHolders.BattleLevelPO(event, p);
             }
 
             ActionBar.sendActionBar(p, event);
@@ -206,14 +209,11 @@ public class ConfigEventUtils {
             event = MessageUtils.colourTheStuff(event);
             
             event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
             	event = PlaceholderAPI.setPlaceholders(p, event);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
             	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-            	event = PlaceHolders.BattleLevelPO(event, p);
             }
             
             String[] parts = event.split("]]: ");
@@ -259,6 +259,14 @@ public class ConfigEventUtils {
 			if (!p.hasPermission(perm)) {
 				return;
 			}
+		}
+
+		if (Actions.prefix(p, event, rest -> ExecuteEventTargetPlaceHolder(p, target, rest, Informatif, AdditionalMessageError, Console))) {
+			return;
+		}
+
+		if (Actions.run(p, event, AdditionalMessageError)) {
+			return;
 		}
 
 		if (event.startsWith("[command-player]: ")) {
@@ -323,14 +331,11 @@ public class ConfigEventUtils {
 			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				event = PlaceholderAPI.setPlaceholders(target, event);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				event = PlaceHolders.BattleLevelPO(event, target);
 			}
 
 			boolean activate = false;
@@ -359,14 +364,11 @@ public class ConfigEventUtils {
 			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				event = PlaceholderAPI.setPlaceholders(target, event);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				event = PlaceHolders.BattleLevelPO(event, target);
 			}
 
 			String[] parts = event.split("]]: ");
@@ -397,14 +399,11 @@ public class ConfigEventUtils {
 			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				event = PlaceholderAPI.setPlaceholders(target, event);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				event = PlaceHolders.BattleLevelPO(event, target);
 			}
 
 			ActionBar.sendActionBar(p, event);
@@ -413,14 +412,11 @@ public class ConfigEventUtils {
 			event = MessageUtils.colourTheStuff(event);
 
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				event = PlaceholderAPI.setPlaceholders(target, event);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				event = PlaceHolders.BattleLevelPO(event, target);
 			}
 
 			String[] parts = event.split("]]: ");
@@ -431,14 +427,11 @@ public class ConfigEventUtils {
 			p.playSound(p.getLocation(), XParse.sound(event, AdditionalMessageError), 1, 1);
 		} else {
 			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				event = PlaceholderAPI.setPlaceholders(target, event);
 			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+			if (HooksManager.mvdw()) {
 				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				event = PlaceHolders.BattleLevelPO(event, target);
 			}
 
 			if (Console) {

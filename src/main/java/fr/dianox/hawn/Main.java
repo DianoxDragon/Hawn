@@ -21,7 +21,7 @@ import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import fr.dianox.hawn.modules.serverlist.ServerListManager;
 import fr.dianox.hawn.modules.tablist.TabManager;
 import fr.dianox.hawn.modules.world.WorldManager;
-import fr.dianox.hawn.modules.world.generator.VoidGenerator;
+import fr.dianox.hawn.modules.world.generator.Generators;
 import fr.dianox.hawn.modules.world.protection.BlockExceptions;
 import fr.dianox.hawn.modules.world.protection.Interactables;
 import fr.dianox.hawn.utility.BossBarApi;
@@ -39,6 +39,7 @@ import fr.dianox.hawn.utility.load.Reload;
 import fr.dianox.hawn.utility.load.WorldList;
 import fr.dianox.hawn.utility.server.Tps;
 import fr.dianox.hawn.utility.server.WarnTPS;
+import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -114,6 +115,7 @@ public class Main extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		long start = System.nanoTime();
 
 		versions = getDescription().getVersion();
 
@@ -148,10 +150,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		versionUtils = new VersionUtils();
 
+		fr.dianox.hawn.utility.config.ConfigDefaults.reset();
 	    configManager = new ConfigManager(this);
-		
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Configurations files loaded");
-		gcs(ChatColor.BLUE+"| ");
 
 	    try {
 		    new CommandManager(this);
@@ -171,8 +171,6 @@ public class Main extends JavaPlugin implements Listener {
 
 		eventManager = new EventManager();
 
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Events loaded");
-		gcs(ChatColor.BLUE+"| ");
 
 		// MYSQL
 
@@ -305,33 +303,8 @@ public class Main extends JavaPlugin implements Listener {
 		WorldList.setworldlist();
 		Reload.configlist();
 
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The last remaining things to be loaded have been loaded");
-		gcs(ChatColor.BLUE+"| ");
-
-		// Check version
-		gcs(ChatColor.BLUE+"| "+ChatColor.YELLOW+"This server is running on " + versionUtils.getVersionsS());
-		gcs(ChatColor.BLUE+"| ");
-
-		// Warning
-		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
-			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly and make a double jump");
-			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
-			gcs(ChatColor.YELLOW+"| ");
-		}
-		
-		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Enable") && WorldEventConfig.getConfig().getBoolean("World.Weather.Disable.LightningStrike.Disable")) {
-			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You enabled the lightning strike on join, but, the anti lightning strike is enabled too");
-			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Lightning strikes on join will not work");
-			gcs(ChatColor.YELLOW+"| ");
-		}
-
-		gcs(ChatColor.BLUE+"| "+ChatColor.DARK_RED+"License:"+ChatColor.RESET+" GNU GPL v3");
-		gcs(ChatColor.BLUE+"| ");
-
-		gcs(ChatColor.BLUE+"| ------------------------------------");
-		gcs(ChatColor.BLUE+"| ");
-		gcs(ChatColor.BLUE+"| "+ChatColor.GREEN+"Hawn ready !");
-		gcs(ChatColor.BLUE+"| ");
+		// Server, hooks, storage, what is loaded, what is on, the options that contradict each other
+		fr.dianox.hawn.utility.StartupReport.print(start);
 	}
 
 	@Override
@@ -343,9 +316,16 @@ public class Main extends JavaPlugin implements Listener {
 
 		fileconfiglist.clear();
 
-		for (Player p : Bukkit.getOnlinePlayers()) {
-            p.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
+		// Only the sidebar shown by Hawn is removed: the scoreboard of the players (teams, other plugins) is kept
+		if (scoreManager != null) {
+			for (FastBoard board : scoreManager.playerboard.values()) {
+				try {
+					if (!board.isDeleted()) board.delete();
+				} catch (Exception ignored) {}
+			}
+		}
 
+		for (Player p : Bukkit.getOnlinePlayers()) {
             try {
             	BossBarApi.deletebar(p);
             } catch (Exception ignored) {}
@@ -433,7 +413,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-		return new VoidGenerator();
+		return Generators.voidGenerator();
 	}
 
 	public BungeeApi getBungApi() {

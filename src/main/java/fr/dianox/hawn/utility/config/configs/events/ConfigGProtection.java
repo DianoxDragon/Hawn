@@ -107,6 +107,13 @@ public class ConfigGProtection {
                 "world",
                 "world_nether"
             }));
+        // Since 1.4
+        protection("Armor-Stand", true, true);       // take or put an item, hit it
+        protection("Hanging-Place", true, true);     // place an item frame or a painting
+        protection("Explosion-Blocks", true, false); // the blocks broken by an explosion
+        protection("Liquid-Flow", false, false);     // water and lava that flow
+        protection("Anti-Trample", true, true);      // farmland trampled by players and mobs
+
         Config.set("Protection.PlayerInteractEntity-ItemFrame.Enable", true);
         Config.set("Protection.PlayerInteractEntity-ItemFrame.Bypass", true);
         Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Enable", false);
@@ -216,6 +223,20 @@ public class ConfigGProtection {
         }));
 
         Config = ConfigDefaults.apply(file, loaded, Config, "Protection.PlayerInteract-Items-Blocks.Options");
+    }
+
+    // A protection of ProtectionsExtra: the same options as the others (Bypass only when a player does it)
+    private static void protection(String name, boolean enable, boolean bypass) {
+        String path = "Protection." + name + ".";
+        Config.set(path + "Enable", enable);
+        if (bypass) {
+            Config.set(path + "Bypass", true);
+        }
+        Config.set(path + "WorldGuard.Enable", false);
+        Config.set(path + "WorldGuard.Method", "WHITELIST");
+        Config.set(path + "WorldGuard.Regions", java.util.Arrays.asList("region1", "whatyouwant"));
+        Config.set(path + "World.All_World", false);
+        Config.set(path + "World.Worlds", java.util.Arrays.asList("world", "world_nether"));
     }
 
 }

@@ -11,11 +11,9 @@ public class MVdWPlaceholderAPI {
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Keep-The-Option")
 				&& ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
 				Bukkit.getConsoleSender().sendMessage("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
 				Bukkit.getConsoleSender().sendMessage("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 			} else {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"MVdWPlaceholderAPI detected");
 				Bukkit.getConsoleSender().sendMessage("| "+ChatColor.YELLOW+"MAKE SURE you have at LEAST one of the Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames..");
 				Bukkit.getConsoleSender().sendMessage("| "+ChatColor.YELLOW+"Otherwise, you will get a good spam in the console");
 				ConfigGeneral.getConfig().set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", true);

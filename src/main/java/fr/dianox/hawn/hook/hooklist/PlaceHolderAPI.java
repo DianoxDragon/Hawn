@@ -11,11 +11,9 @@ public class PlaceHolderAPI {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option")
 				&& ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 			} else {
 				ConfigGeneral.getConfig().set("Plugin.Use.Hook.PlaceholderAPI.Enable", true);
 				ConfigGeneral.saveConfigFile();
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"PlaceHolderAPI detected");
 			}
 		} else {
 			if (!ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option")) {

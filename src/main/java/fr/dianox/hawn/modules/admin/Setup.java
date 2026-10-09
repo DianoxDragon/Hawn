@@ -6,13 +6,17 @@ import fr.dianox.hawn.modules.admin.SetupUtils.Setup2World;
 import fr.dianox.hawn.modules.admin.SetupUtils.Setup3Spawn;
 import fr.dianox.hawn.modules.world.GuiSystem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.XParse;
 import fr.dianox.hawn.utility.config.configs.messages.SetupLangFile;
 import com.cryptomorin.xseries.XPotion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -36,6 +40,13 @@ public class Setup implements Listener {
 
 	// Admins to whom the setup has already been shown during this session
 	private static final Set<UUID> inSetup = new HashSet<>();
+
+	// A click is being handled: a menu closed now is closed by Hawn (next step, chat, setspawn...), not by Escape
+	private static final Set<UUID> clicking = new HashSet<>();
+
+	// The Escape message: a check waiting, and the time of the last message
+	private static final Set<UUID> escapeCheck = new HashSet<>();
+	private static final java.util.Map<UUID, Long> lastWarning = new java.util.HashMap<>();
 	private static BukkitTask detectionTask;
 
 	public Setup(Plugin plugin) {
@@ -158,11 +169,46 @@ public class Setup implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 		inSetup.remove(e.getPlayer().getUniqueId());
+		clicking.remove(e.getPlayer().getUniqueId());
+		escapeCheck.remove(e.getPlayer().getUniqueId());
+		lastWarning.remove(e.getPlayer().getUniqueId());
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onClickStart(InventoryClickEvent e) {
+		clicking.add(e.getWhoClicked().getUniqueId());
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onClickEnd(InventoryClickEvent e) {
+		clicking.remove(e.getWhoClicked().getUniqueId());
 	}
 
 	@EventHandler
 	public void onInventory(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
+
+		// Escape on a menu of the setup: a message and a sound, if no other menu opens after it
+		String title = e.getView().getTitle();
+		boolean setupMenu = title.startsWith("\u00a7cHawn Setup") || (setupplace == 21 && title.startsWith("\u00a7cWorld Manager"));
+		// One check at a time, and one message per second: a menu can be closed several times in a row (reopened by a move...)
+		if (needsetup && setupMenu && p.hasPermission("hawn.setup") && !clicking.contains(p.getUniqueId()) && escapeCheck.add(p.getUniqueId())) {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+				escapeCheck.remove(p.getUniqueId());
+				Long last = lastWarning.get(p.getUniqueId());
+				if (last != null && System.currentTimeMillis() - last < 1000) return;
+
+				if (needsetup && p.isOnline() && p.getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
+					lastWarning.put(p.getUniqueId(), System.currentTimeMillis());
+					for (String msg : SetupLangFile.getConfig().getStringList("Setup.Still-In-Setup")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+					}
+					try {
+						p.playSound(p.getLocation(), XParse.sound("BLOCK_NOTE_BLOCK_BASS", "Setup"), 0.8f, 0.8f);
+					} catch (Exception ignored) {}
+				}
+			}, 2);
+		}
 
 		if (needsetup && p.hasPermission("hawn.setup") && (setupplace == 1 || setupplace == 2)) {
 			// The inventory is also closed when the player leaves or when the setup ends

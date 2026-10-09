@@ -370,45 +370,5 @@ public class PlaceHolders {
 
         return str;
     }
-    
-    // BattleLevels has no public Maven repository: its API is called by reflection.
-    private static final String[][] BATTLELEVELS_PLACEHOLDERS = {
-            {"level", "getLevel"}, {"score", "getScore"}, {"bar", "getProgressBar"},
-            {"topstreak", "getTopKillstreak"}, {"killstreak", "getKillstreak"}, {"kills", "getKills"},
-            {"deaths", "getDeaths"}, {"kdr", "getKdr"}, {"booster", "getBoosterInMinutes"},
-            {"boosterenabled", "hasBooster"}, {"globalbooster", "getGlobalBoosterInMinutes"},
-            {"globalboosterenabled", "isGlobalBoosterEnabled"}, {"neededfornext", "getNeededForNext"},
-            {"neededfornextremaining", "getNeededForNextRemaining"}
-    };
-
-    public static String BattleLevelPO(String str, Player p) {
-        if (!str.contains("%h_battlelevels_")) {
-            return str;
-        }
-
-        for (String[] placeholder : BATTLELEVELS_PLACEHOLDERS) {
-            String key = "%h_battlelevels_" + placeholder[0] + "%";
-            if (str.contains(key)) {
-                str = str.replace(key, callBattleLevels(placeholder[1], p));
-            }
-        }
-
-        return str;
-    }
-
-    private static String callBattleLevels(String method, Player p) {
-        try {
-            Class<?> api = Class.forName("me.robin.battlelevels.api.BattleLevelsAPI");
-            Object result;
-            if (method.startsWith("getGlobal") || method.equals("isGlobalBoosterEnabled")) {
-                result = api.getMethod(method).invoke(null);
-            } else {
-                result = api.getMethod(method, java.util.UUID.class).invoke(null, p.getUniqueId());
-            }
-            return String.valueOf(result);
-        } catch (ReflectiveOperationException | LinkageError e) {
-            return "";
-        }
-    }
 
 }

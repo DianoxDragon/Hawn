@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility.load;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
 import fr.dianox.hawn.command.commands.FlyCommand;
@@ -132,20 +133,9 @@ public class Reload {
 		
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), Main::UpdateCheckReload);
 		
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
-			if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				Bukkit.getConsoleSender().sendMessage("| Please note that to remove the PlaceHolderAPI support, you must restart the server");
-				Bukkit.getConsoleSender().sendMessage("| The plugin supports fast removal, but does not guarantee a return to normal with a hawn reload");
-				ConfigGeneral.getConfig().set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
-				ConfigGeneral.saveConfigFile();
-			}
-		}
+		HooksManager.reload();
+		fr.dianox.hawn.modules.chat.ChatFormat.reload();
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable") && !Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			ConfigGeneral.getConfig().set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
-			ConfigGeneral.saveConfigFile();
-		}
-				
 		Main.getInstance().getVoidTPManager().load();
 		Main.getInstance().getEventManager().loaddamageEvent();
 		
@@ -175,12 +165,6 @@ public class Reload {
 		FunFeatures.incooldownjumppads.clear();
 		Main.avoidtitles.clear();
 		
-		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable") && OnJoinConfig.getConfig().getBoolean("Fly.Enable")) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| "+ChatColor.GOLD+"Please note that if a player can both fly, or make a double jump");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| "+ChatColor.GOLD+"It can cause problems");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| ");
-		}
-
 		Main.indj.clear();
 		
 		Main.getInstance().getTabManager().stop();
@@ -196,6 +180,9 @@ public class Reload {
 		Main.getInstance().getTabManager().start(Main.getInstance());
 
 		Main.getInstance().getBlockExceptions().load();
+
+		// The same warnings as at startup
+		fr.dianox.hawn.utility.StartupReport.printWarnings();
 	}
 
 }

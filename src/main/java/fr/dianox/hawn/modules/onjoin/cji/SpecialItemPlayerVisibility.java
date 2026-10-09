@@ -1,12 +1,12 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.hook.HooksManager;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.*;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
@@ -495,8 +495,8 @@ public class SpecialItemPlayerVisibility implements Listener {
 	// Sound
 	public void soundInventoryClickPVOJI(Player p) {
 		String sound = SpecialCjiHidePlayers.getConfig().getString("PV.Option.Inventory-Click.Sounds.Sound");
-		int volume = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Inventory-Click.Sounds.Volume");
-		int pitch = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Inventory-Click.Sounds.Pitch");
+		float volume = (float) SpecialCjiHidePlayers.getConfig().getDouble("PV.Option.Inventory-Click.Sounds.Volume");
+		float pitch = (float) SpecialCjiHidePlayers.getConfig().getDouble("PV.Option.Inventory-Click.Sounds.Pitch");
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Inventory-Click.Sounds.Enable")) {
 			p.playSound(p.getLocation(), XParse.sound(sound, "PV.Option.Inventory-Click.Sounds.Sound"), volume, pitch);
 			
@@ -505,8 +505,8 @@ public class SpecialItemPlayerVisibility implements Listener {
 	
 	public void soundInteractPVOJI(Player p) {
 		String sound = SpecialCjiHidePlayers.getConfig().getString("PV.Option.Interact-With-Item.Sounds.Sound");
-		int volume = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Interact-With-Item.Sounds.Volume");
-		int pitch = SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Interact-With-Item.Sounds.Pitch");
+		float volume = (float) SpecialCjiHidePlayers.getConfig().getDouble("PV.Option.Interact-With-Item.Sounds.Volume");
+		float pitch = (float) SpecialCjiHidePlayers.getConfig().getDouble("PV.Option.Interact-With-Item.Sounds.Pitch");
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Interact-With-Item.Sounds.Enable")) {
 			p.playSound(p.getLocation(), XParse.sound(sound, "PV.Option.Interact-With-Item.Sounds.Sound"), volume, pitch);
 		}
@@ -535,13 +535,10 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Title")) {
 			String pretitle = SpecialCjiHidePlayers.getConfig().getString("PV."+onoroff+".Title");
 				
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
 			}
 	
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
-			}
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
@@ -559,13 +556,10 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().isSet("PV."+onoroff+".Lore")) {
 			for (String loremsg: SpecialCjiHidePlayers.getConfig().getStringList("PV."+onoroff+".Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+				if (HooksManager.papi()) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 				}
 
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
-				}
 		            
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					

@@ -57,6 +57,9 @@ public class VoidTPConfig {
         Config.set("VoidTP.Options.TP-y", 0);
 
         Config.set("VoidTP.Options.Bypass-With-Permission", true);
+        // false: every player falling in the void is teleported. true: only those with hawn.command.spawn.<spawn>
+        Config.set("VoidTP.Options.Spawn-Permission.Enable", false);
+        Config.set("VoidTP.Options.Spawn-Permission.No-Permission-Message", true);
 
         Config.set("VoidTP.Options.Message.Custom", true);
         Config.set("VoidTP.Options.Message.Disable", false);

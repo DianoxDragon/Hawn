@@ -67,8 +67,8 @@ public class WarningCommand extends BukkitCommand {
 			if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
 	            for (Player player: Bukkit.getServer().getOnlinePlayers()) {
 	                String sound = WarningCommandConfig.getConfig().getString("Warning.Sounds.Sound");
-	                int volume = WarningCommandConfig.getConfig().getInt("Warning.Sounds.Volume");
-	                int pitch = WarningCommandConfig.getConfig().getInt("Warning.Sounds.Pitch");
+	                float volume = (float) WarningCommandConfig.getConfig().getDouble("Warning.Sounds.Volume");
+	                float pitch = (float) WarningCommandConfig.getConfig().getDouble("Warning.Sounds.Pitch");
 	                player.playSound(player.getLocation(), XParse.sound(sound, "Warning.Sounds.Sound"), volume, pitch);
 	            }
 			}
@@ -127,8 +127,8 @@ public class WarningCommand extends BukkitCommand {
 		if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
             for (Player player: Bukkit.getServer().getOnlinePlayers()) {
                 String sound = WarningCommandConfig.getConfig().getString("Warning.Sounds.Sound");
-                int volume = WarningCommandConfig.getConfig().getInt("Warning.Sounds.Volume");
-                int pitch = WarningCommandConfig.getConfig().getInt("Warning.Sounds.Pitch");
+                float volume = (float) WarningCommandConfig.getConfig().getDouble("Warning.Sounds.Volume");
+                float pitch = (float) WarningCommandConfig.getConfig().getDouble("Warning.Sounds.Pitch");
                 player.playSound(player.getLocation(), XParse.sound(sound, "Warning.Sounds.Sound"), volume, pitch);
             }
 		}

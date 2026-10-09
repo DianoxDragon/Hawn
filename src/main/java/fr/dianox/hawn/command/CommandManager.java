@@ -713,8 +713,6 @@ public class CommandManager {
 			}
 		}
 
-		Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"Commands loaded");
-		Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ");
 	}
 
 

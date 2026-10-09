@@ -284,9 +284,12 @@ public class VoidTPEvent implements Listener {
 				spawn = SpawnGroups.defaultSpawn(p);
 			}
 
-			if (!p.hasPermission("hawn.command.spawn." + spawn)) {
-				String Permission = "hawn.command.spawn." + spawn;
-				warnOnce(p, () -> MessageUtils.MessageNoPermission(p, Permission));
+			// VoidTP.Options.Spawn-Permission: like the spawn on join, the permission of the spawn can be asked or not
+			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Spawn-Permission.Enable") && !p.hasPermission("hawn.command.spawn." + spawn)) {
+				if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Spawn-Permission.No-Permission-Message")) {
+					String Permission = "hawn.command.spawn." + spawn;
+					warnOnce(p, () -> MessageUtils.MessageNoPermission(p, Permission));
+				}
 				return;
 			}
 
@@ -318,8 +321,8 @@ public class VoidTPEvent implements Listener {
 
 			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Sounds.Enable")) {
 				String sound = VoidTPConfig.getConfig().getString("VoidTP.Options.Sounds.Sound");
-				int volume = VoidTPConfig.getConfig().getInt("VoidTP.Options.Sounds.Volume");
-				int pitch = VoidTPConfig.getConfig().getInt("VoidTP.Options.Sounds.Pitch");
+				float volume = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Volume");
+				float pitch = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Pitch");
 				p.playSound(p.getLocation(), XParse.sound(sound, "VoidTP.Options.Sounds.Sound"), volume, pitch);
 			}
 

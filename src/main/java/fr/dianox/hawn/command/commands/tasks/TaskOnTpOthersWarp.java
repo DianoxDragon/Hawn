@@ -32,8 +32,8 @@ public class TaskOnTpOthersWarp extends BukkitRunnable {
 			double x = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".X");
 			double y = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Y");
 			double z = WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Z");
-			float yaw = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Yaw");
-			float pitch = WarpListConfig.getConfig().getInt("Coordinated." + tp + ".Pitch");
+			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
+			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
 			other.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
 

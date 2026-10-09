@@ -1,53 +1,50 @@
 package fr.dianox.hawn.modules.tablist.tab;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.StringUtils;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
-import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainTablist extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		String header = "";
-		String footer = "";
-
-		if (TablistConfig.getConfig().getBoolean("Tablist.header.enabled")) {
-			header = build(TablistConfig.getConfig().getStringList("Tablist.header.message"));
-		}
-
-		if (TablistConfig.getConfig().getBoolean("Tablist.footer.enabled")) {
-			footer = build(TablistConfig.getConfig().getStringList("Tablist.footer.message"));
-		}
-
-		Main.getInstance().getTabManager().hea = header;
-		Main.getInstance().getTabManager().foo = footer;
+		// Each header and footer is built once per refresh, then the placeholders are set per player
+		Map<TablistLayout, String[]> built = new HashMap<>();
 
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-			p.setPlayerListHeaderFooter(applyPlaceholders(header, p), applyPlaceholders(footer, p));
+			String[] text = built.computeIfAbsent(Main.getInstance().getTabManager().getLayout(p),
+					layout -> new String[] {build(layout, layout.getHeader()), build(layout, layout.getFooter())});
+
+			p.setPlayerListHeaderFooter(applyPlaceholders(text[0], p), applyPlaceholders(text[1], p));
 		}
 	}
 
-	private static String build(List<String> lines) {
+	// The lines, with the current frame of each {anim_name} (the animations of the tab list, else those of Tablist.yml)
+	private static String build(TablistLayout layout, List<String> lines) {
 		StringBuilder sb = new StringBuilder();
 
 		for (String s : lines) {
-			if (s.contains("{anim_")) {
-				String anim = StringUtils.substringBetween(s, "{anim_", "}");
-				if (anim != null && TablistConfig.getConfig().isSet("Animations." + anim + ".text")) {
-					Integer frame = Main.getInstance().getTabManager().animationtab.get(anim);
-					List<String> frames = TablistConfig.getConfig().getStringList("Animations." + anim + ".text");
-					if (frame != null && frame < frames.size()) {
-						s = s.replace("{anim_" + anim + "}", frames.get(frame));
-					}
+			int start = s.indexOf("{anim_");
+			while (start >= 0) {
+				int end = s.indexOf('}', start);
+				if (end < 0) break;
+
+				String anim = s.substring(start + 6, end);
+				String frame = Main.getInstance().getTabManager().frame(layout, anim);
+				if (frame != null) {
+					s = s.substring(0, start) + frame + s.substring(end + 1);
+					start = s.indexOf("{anim_", start + frame.length());
+				} else {
+					start = s.indexOf("{anim_", end);
 				}
 			}
 
@@ -61,13 +58,10 @@ public class MainTablist extends BukkitRunnable {
 	private static String applyPlaceholders(String text, Player p) {
 		text = PlaceHolders.ReplaceMainplaceholderP(text, p);
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+		if (HooksManager.papi()) {
 			text = PlaceholderAPI.setPlaceholders(p, text);
 		}
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-			text = PlaceHolders.BattleLevelPO(text, p);
-		}
 
 		return text;
 	}

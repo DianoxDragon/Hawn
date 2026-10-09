@@ -105,9 +105,6 @@ public class ScoreManager {
 				} catch (Exception ignored) {}
 
 				BukkitTask TaskScoreName = new AnimationTask("TITLESCORENAME", filename, this).runTaskTimer(plugin, 0, getFile(filename).getInt("updater.title"));
-
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.GRAY+"Loaded the scoreboard : " + ChatColor.GREEN + f.getName() + ChatColor.GRAY
-						+ " with the permission : " + ChatColor.GREEN + "hawn.scoreboard." + filename);
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| "+ChatColor.GOLD+"The file : "+ f.getName() + "is not accepted. Accepted only '.yml' files (YAML)");
 			}

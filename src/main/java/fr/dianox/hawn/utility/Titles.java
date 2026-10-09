@@ -1,7 +1,7 @@
 package fr.dianox.hawn.utility;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -35,8 +35,13 @@ public final class Titles {
 			return;
 		}
 
+		if (RichText.isRich(title) || RichText.isRich(subtitle)) {
+			RichText.title(player, title, subtitle, fadeIn, stay, fadeOut);
+			return;
+		}
+
 		// A subtitle is only displayed along with a title
-		player.sendTitle(title == null ? "" : title, subtitle, fadeIn, stay, fadeOut);
+		player.sendTitle(title == null ? "" : MessageUtils.plain(title), MessageUtils.plain(subtitle), fadeIn, stay, fadeOut);
 	}
 
 	private static String format(String text, Player player) {
@@ -46,13 +51,10 @@ public final class Titles {
 
 		text = PlaceHolders.ReplaceMainplaceholderP(text, player);
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+		if (HooksManager.papi()) {
 			text = PlaceholderAPI.setPlaceholders(player, text);
 		}
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-			text = PlaceHolders.BattleLevelPO(text, player);
-		}
 
 		text = MessageUtils.colourTheStuff(text);
 		return text.replace("%player%", player.getDisplayName());

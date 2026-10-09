@@ -1,11 +1,11 @@
 package fr.dianox.hawn.modules.autobroadcast.autobc;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -74,13 +74,10 @@ public class AutoBroadcast_AB extends BukkitRunnable {
 			// >> Format
 			message = PlaceHolders.ReplaceMainplaceholderP(message, p);
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				message = PlaceholderAPI.setPlaceholders(p, message);
 			}
 			
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				message = PlaceHolders.BattleLevelPO(message, p);
-			}
 			
 			message = MessageUtils.colourTheStuff(message);
 			

@@ -1,12 +1,12 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.hook.HooksManager;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.*;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
@@ -301,13 +301,10 @@ public class SpecialIteFunGun implements Listener {
 		if (SpecialCjiFunGun.getConfig().isSet("FunGun.Item.Title")) {
 			String pretitle = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
 				
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
 			}
 	
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
-			}
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
@@ -323,13 +320,10 @@ public class SpecialIteFunGun implements Listener {
 		if (SpecialCjiFunGun.getConfig().isSet("FunGun.Item.Lore")) {
 			for (String loremsg: SpecialCjiFunGun.getConfig().getStringList("FunGun.Item.Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+				if (HooksManager.papi()) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 				}
 
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
-				}
 		        
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					

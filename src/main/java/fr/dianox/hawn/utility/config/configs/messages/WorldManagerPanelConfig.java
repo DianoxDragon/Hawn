@@ -89,6 +89,18 @@ public class WorldManagerPanelConfig {
         Config.set("Gui.Delete.Confirm-Command", java.util.Arrays.asList("%prefix% &cThis deletes the world &e%arg1% &cand its folder, with no undo. Type &e/hw delete %arg1% confirm &cto do it"));
         Config.set("Error.Protected-World", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccan't be deleted: the server needs it"));
         Config.set("Error.Unload-Failed", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccould not be unloaded: nothing was deleted"));
+        Config.set("Gui.Default-World.Changed", java.util.Arrays.asList("%prefix% &e%arg1% &7is now the default world: it replaces &e%arg2% &7in &e%arg3% &7option(s) of &e%arg4% &7file(s)"));
+        Config.set("Gui.Default-World.Already", java.util.Arrays.asList("%prefix% &e%arg1% &7is already the default world"));
+        Config.set("Gui.Default-World.Shift-Click", java.util.Arrays.asList("%prefix% &eShift + click &7to make &e%arg1% &7the default world"));
+        Config.set("Gui.Default-World.Conflict", java.util.Arrays.asList("%prefix% &6%arg1%: &e%arg2% &6already had its own options, the ones of &e%arg3% &6are kept beside them"));
+        Config.set("Gui.Default-World.Spawn-Elsewhere", java.util.Arrays.asList("%prefix% &6The default spawn &e%arg1% &6is still in &e%arg2%&6: create one in the new world with &e/setspawn"));
+        Config.set("Gui.Default-World.Yaml-Error", java.util.Arrays.asList("%prefix% &c%arg1% has a YAML error: it was not changed"));
+        Config.set("Command.Default-World.Current", java.util.Arrays.asList("%prefix% &7The default world is &e%arg1% &7(&e/hw default <world> &7to change it)"));
+        Config.set("Error.Default-World", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &cis the default world of Hawn: choose another default world first"));
+        Config.set("Gui.Other.Default-World.Title", "&6Default world");
+        Config.set("Gui.Other.Default-World.Current", java.util.Arrays.asList("&7This is the default world of Hawn:", "&7the one written in the world lists", "&7of the configuration files"));
+        Config.set("Gui.Other.Default-World.Change", java.util.Arrays.asList("&7Now: &e%arg1%", "&eShift + click&7 to make this world", "&7the default one: it replaces &e%arg1%", "&7in the world lists of the files"));
+        Config.set("Gui.Other.Main.Default-World", "&6Default world");
 
         Config.set("Gui.Delete.Error-Mystery", java.util.Arrays.asList("%prefix% &cSomething strange has happened... nothing's happening, it's an error, just ignore it..."));
 
@@ -114,6 +126,21 @@ public class WorldManagerPanelConfig {
         Config.set("Gui.Other.Generator", "&7Generator");
         Config.set("Gui.Other.Generator-Page.Void-Generator", "&7Void-Generator");
         Config.set("Gui.Other.Generator-Page.Custom-Generator", "&7Type your own generator");
+        // Since 1.4
+        Config.set("Gui.Create.Failed", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccould not be created, see the console"));
+        Config.set("Gui.Modify-World.Nothing-Selected", java.util.Arrays.asList("%prefix% &7Click a choice first, then the sign"));
+        Config.set("Gui.Other.Generator-Default", "&7Default");
+        Config.set("Gui.Other.Generator-Help", java.util.Arrays.asList("&8Left click: default or void", "&8Right click: type a generator in the chat"));
+        Config.set("Gui.Other.Info.Title", "&eInformation");
+        Config.set("Gui.Other.Info.Players", "&7Players:");
+        Config.set("Gui.Other.Info.Environment", "&7Environment:");
+        Config.set("Gui.Other.Info.Generator", "&7Generator:");
+        Config.set("Gui.Other.Info.Chunks", "&7Loaded chunks:");
+        Config.set("Gui.Other.Info.Entities", "&7Entities:");
+        Config.set("Gui.Other.Info.Spawn", "&7Spawn:");
+        Config.set("Gui.Other.Info.Time", "&7Time:");
+        Config.set("Gui.Other.Info.PvP", "&7PvP:");
+        Config.set("Gui.Other.Info.Seed", "&7Seed:");
         Config.set("Gui.Other.WorldType.World-Type", "&7World type:");
         Config.set("Gui.Other.WorldType.Nether", "&cNETHER");
         Config.set("Gui.Other.WorldType.The_End", "&5THE_END");

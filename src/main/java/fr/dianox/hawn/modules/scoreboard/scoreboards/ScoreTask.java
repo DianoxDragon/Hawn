@@ -1,11 +1,11 @@
 package fr.dianox.hawn.modules.scoreboard.scoreboards;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.mrmicky.fastboard.FastBoard;
 
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import me.clip.placeholderapi.PlaceholderAPI;
 import fr.dianox.hawn.utility.StringUtils;
 import org.bukkit.entity.Player;
@@ -48,11 +48,8 @@ public class ScoreTask extends BukkitRunnable {
 		try {
 			title = MessageUtils.colourTheStuff(title);
 			title = PlaceHolders.ReplaceMainplaceholderP(title, p);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				title = PlaceholderAPI.setPlaceholders(p, title);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				title = PlaceHolders.BattleLevelPO(title, p);
 			}
 		} catch (Exception ignored) {}
 		board.updateTitle(title);
@@ -84,11 +81,8 @@ public class ScoreTask extends BukkitRunnable {
 			s = MessageUtils.colourTheStuff(s);
 
 			s = PlaceHolders.ReplaceMainplaceholderP(s, p);
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				s = PlaceholderAPI.setPlaceholders(p, s);
-			}
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				s = PlaceHolders.BattleLevelPO(s, p);
 			}
 
 			lines.add(s);

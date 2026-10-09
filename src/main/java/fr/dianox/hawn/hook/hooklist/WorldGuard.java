@@ -24,7 +24,6 @@ public class WorldGuard {
 			try {
 				Class.forName("com.sk89q.worldguard.WorldGuard");
 				available = true;
-				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"WorldGuard detected");
 			} catch (ClassNotFoundException e) {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.RED+"WorldGuard 7+ is required, the region features are disabled");
 			}

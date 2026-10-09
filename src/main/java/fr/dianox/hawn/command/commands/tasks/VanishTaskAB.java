@@ -1,9 +1,9 @@
 package fr.dianox.hawn.command.commands.tasks;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.ActionBar;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
@@ -28,10 +28,10 @@ public class VanishTaskAB extends BukkitRunnable {
 		String str = ConfigMMsg.getConfig().getString("Vanish.Action-Bar");
 		str = MessageUtils.colourTheStuff(str);
 		str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+		if (HooksManager.papi()) {
 			str = PlaceholderAPI.setPlaceholders(p, str);
 		}
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+		if (HooksManager.mvdw()) {
 			str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
 		}
 		str = str.substring(1, str.length() - 1);

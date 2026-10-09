@@ -152,13 +152,13 @@ public class FRAdminPanelConfig {
         Config.set("Special.Item.Notice.Name", "&aRemarque");
         Config.set("Special.Item.Notice.Lore", java.util.Arrays.asList(new String[] {
         		" ", 
-        		"§eActuellement, je ne peux pas mettre tous les", 
-        		"§efichiers de configuration ici. Si vous voulez",
-        		"§eéditer tout ce qui manque, veuillez le faire manuellement",
+        		"§ePour l'instant, tous les fichiers de", 
+        		"§econfiguration ne sont pas ici. Pour",
+        		"§eles autres, modifiez les fichiers à la main",
         		}));
 
         Config.set("Error.Edit-Files", java.util.Arrays.asList(new String[] {
-        		"&cCe fichier... ne semble pas pouvoir être modifié..",
+        		"&cCe fichier ne peut pas être modifié ici",
         		"&cFaites-le manuellement"
         		}));
         Config.set("Error.Edit-Empty", java.util.Arrays.asList(new String[] {
@@ -166,14 +166,17 @@ public class FRAdminPanelConfig {
         		}));
 
         Config.set("Error.Not-listed", java.util.Arrays.asList(new String[] {
-        		"%prefix% Désolé mais vous n'êtes pas listé pour utiliser la commande (fichiers de configuration)"
+        		"%prefix% Désolé, mais vous n'êtes pas dans la liste des joueurs autorisés à modifier les fichiers de configuration"
         		}));
 
         Config.set("Warning.Hawn-Watch-Panel-Admin", java.util.Arrays.asList(new String[] {
-        		"%prefix% &7Une modification a été détecté par &e%player%&7 sur le panel admin",
-                "%prefix% &e%arg1%&7 dans le fichier&b %arg2%"
+        		"%prefix% &7Une modification a été détectée par &e%player%&7 sur le panel admin",
+                "%prefix% &e%arg1%&7 dans le fichier &b%arg2%"
         		}));
 
+        YamlConfiguration defaults = Config;
         Config = ConfigDefaults.apply(file, loaded, Config);
+        // The French corrected in 1.4, in the files that still have the old texts
+        ConfigDefaults.replaceOldDefaults(file, Config, defaults, FrenchFixes.ADMINPANELCONFIG);
     }
 }

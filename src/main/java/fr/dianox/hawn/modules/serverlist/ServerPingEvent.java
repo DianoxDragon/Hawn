@@ -15,6 +15,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class ServerPingEvent implements Listener {
 
@@ -112,17 +113,27 @@ public class ServerPingEvent implements Listener {
 	}
 	
 	/**
+	 * What a player can do on join, asked by the login listener (Spigot) or by the Paper connection listener,
+	 * which has no Player yet.
+	 */
+	public interface Joining {
+		UUID uuid();
+		String name();
+		boolean hasPermission(String permission);
+	}
+
+	/**
 	 * Whitelist of the maintenance ("Maintenance") or of the emergency mode ("Urgent-mode").
 	 * The names are compared without case (a UUID works too). The maintenance has a bypass permission,
 	 * not the emergency mode: it is made for a hacked staff account.
 	 */
-	public static boolean canJoin(Player p, String mode) {
+	public static boolean canJoin(Joining p, String mode) {
 		if (mode.equals("Maintenance") && p.hasPermission("hawn.maintenance.bypass")) {
 			return true;
 		}
 
 		for (String name: HawnCommandConfig.getConfig().getStringList(mode + ".whitelist")) {
-			if (name.equalsIgnoreCase(p.getName()) || name.equalsIgnoreCase(p.getUniqueId().toString())) {
+			if (name.equalsIgnoreCase(p.name()) || name.equalsIgnoreCase(p.uuid().toString())) {
 				return true;
 			}
 		}
@@ -130,48 +141,93 @@ public class ServerPingEvent implements Listener {
 		return false;
 	}
 
-	public static String kickMessage(Player p, String mode) {
-		List<String> lines = HawnCommandConfig.getConfig().getStringList(mode + ".Kick-Message");
-		String message = lines.isEmpty() ? HawnCommandConfig.getConfig().getString(mode + ".Kick-Message", "") : String.join("\n", lines);
-
-		message = MessageUtils.colourTheStuff(message);
-		return PlaceHolders.ReplaceMainplaceholderP(message, p);
+	public static boolean canJoin(Player p, String mode) {
+		return canJoin(joining(p), mode);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void login(PlayerLoginEvent e) {
-		
-		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
-			if (!canJoin(e.getPlayer(), "Urgent-mode")) {
-				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, kickMessage(e.getPlayer(), "Urgent-mode"));
-			}
+	public static Joining joining(Player p) {
+		return new Joining() {
+			public UUID uuid() { return p.getUniqueId(); }
+			public String name() { return p.getName(); }
+			public boolean hasPermission(String permission) { return p.hasPermission(permission); }
+		};
+	}
+
+	public static String kickMessage(Player p, String mode) {
+		return PlaceHolders.ReplaceMainplaceholderP(kickText(mode), p);
+	}
+
+	// Before the join: only the name of the player and the server placeholders
+	public static String kickMessage(String name, String mode) {
+		return PlaceHolders.ReplaceMainplaceholderC(kickText(mode).replace("%player%", name));
+	}
+
+	private static String kickText(String mode) {
+		List<String> lines = HawnCommandConfig.getConfig().getStringList(mode + ".Kick-Message");
+		String message = lines.isEmpty() ? HawnCommandConfig.getConfig().getString(mode + ".Kick-Message", "") : String.join("\n", lines);
+		return MessageUtils.colourTheStuff(message);
+	}
+
+	/**
+	 * The emergency mode and the maintenance.
+	 * @return the kick message, or null when the player can join
+	 */
+	public static String closedFor(Joining p) {
+		String kick = null;
+
+		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable") && !canJoin(p, "Urgent-mode")) {
+			kick = kickMessage(p.name(), "Urgent-mode");
 		}
-		
-		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")) {
-			if (!canJoin(e.getPlayer(), "Maintenance")) {
-				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, kickMessage(e.getPlayer(), "Maintenance"));
-			}
+
+		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable") && !canJoin(p, "Maintenance")) {
+			kick = kickMessage(p.name(), "Maintenance");
 		}
-		
-		if (ServerListConfig.getConfig().getBoolean("On-Join.Player-With-Permission-Join-Full-Server")) {
+
+		return kick;
+	}
+
+	/**
+	 * The server is full: true when the player can join anyway (option on and hawn.join.full).
+	 */
+	public static boolean canJoinFull(Joining p) {
+		return ServerListConfig.getConfig().getBoolean("On-Join.Player-With-Permission-Join-Full-Server") && p.hasPermission("hawn.join.full");
+	}
+
+	// The message of On-Join.Message, or null to keep the one of the server
+	public static String fullMessage(String name) {
+		if (!ServerListConfig.getConfig().getBoolean("On-Join.Player-With-Permission-Join-Full-Server")) {
+			return null;
+		}
+
+		String message = String.join("\n", ServerListConfig.getConfig().getStringList("On-Join.Message"));
+		message = MessageUtils.colourTheStuff(message);
+		return PlaceHolders.ReplaceMainplaceholderC(message.replace("%player%", name));
+	}
+
+	/**
+	 * The join on Spigot (and on a Paper without the new connection event). On a recent Paper, PaperLogin does the same.
+	 */
+	@SuppressWarnings("deprecation")
+	public static class SpigotLogin implements Listener {
+
+		@EventHandler(priority = EventPriority.HIGHEST)
+		public void login(PlayerLoginEvent e) {
+			Joining p = joining(e.getPlayer());
+
+			String kick = closedFor(p);
+			if (kick != null) {
+				e.disallow(PlayerLoginEvent.Result.KICK_OTHER, kick);
+				return;
+			}
+
 			if (e.getResult().equals(PlayerLoginEvent.Result.KICK_FULL)) {
-				if (e.getPlayer().hasPermission("hawn.join.full")) {
+				if (canJoinFull(p)) {
 					e.allow();
 				} else {
-					String message = "";
-					Boolean bool = false;
-					for (String str: ServerListConfig.getConfig().getStringList("On-Join.Message")) {
-						if (bool) {
-							message = message + "\n" + str;
-						} else {
-							message = str;
-							bool = true;
-						}
+					String message = fullMessage(p.name());
+					if (message != null) {
+						e.setKickMessage(message);
 					}
-					message = MessageUtils.colourTheStuff(message);
-					message = PlaceHolders.ReplaceMainplaceholderP(message, e.getPlayer());
-					
-					e.setKickMessage(message);
 				}
 			}
 		}

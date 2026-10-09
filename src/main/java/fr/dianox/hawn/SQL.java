@@ -112,8 +112,6 @@ public class SQL {
             }.runTaskTimerAsynchronously(plugin, 6000L, 6000L);
         } else {
             useyamllistplayer = true;
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information (MySQL not enabled)");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ");
         }
     }
 
@@ -125,11 +123,6 @@ public class SQL {
         try {
             connect();
             useyamllistplayer = false;
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ------------------------------------");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use MySQL as method for information");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| ------------------------------------");
         } catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Connect Error: " + e.getMessage());
             Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE+"| "+ChatColor.YELLOW+"The plugin will now use YAML as method for information");

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility.config.configs;
 
+import fr.dianox.hawn.modules.world.DefaultWorld;
 import fr.dianox.hawn.utility.config.ConfigDefaults;
 
 import java.io.File;
@@ -60,6 +61,9 @@ public class ConfigGeneral {
 
         Config.set("Plugin.Language-Type", "en_US");
 
+        // The world written in the "Worlds" lists of the files: the world manager replaces it there when another world becomes the default one
+        Config.set(DefaultWorld.PATH, loaded.isSet(DefaultWorld.PATH) ? loaded.getString(DefaultWorld.PATH) : DefaultWorld.guess(pl.getDataFolder()));
+
         // false: the IP of the players is not written in their data (YAML or MySQL), and the one already written is erased at their next join
         Config.set("Plugin.Players.Save-IP", false);
 
@@ -73,8 +77,6 @@ public class ConfigGeneral {
 	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Keep-The-Option", false);
 	        Config.set("Plugin.Use.Hook.WorldGuard.Enable", false);
 	        Config.set("Plugin.Use.Hook.WorldGuard.Keep-The-Option", false);
-	        Config.set("Plugin.Use.Hook.BattleLevels.Enable", false);
-	        Config.set("Plugin.Use.Hook.BattleLevels.Keep-The-Option", false);
 
 	        // MySQL
 	        Config.set("Plugin.Use.MYSQL.Enable", false);

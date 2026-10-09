@@ -361,8 +361,8 @@ public class PanelAdminCommand extends BukkitCommand {
                                     String x = String.valueOf(cfg.getDouble("Coordinated." + string + ".X"));
                                     String y = String.valueOf(cfg.getDouble("Coordinated." + string + ".Y"));
                                     String z = String.valueOf(cfg.getDouble("Coordinated." + string + ".Z"));
-                                    String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
-                                    String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
+                                    String yaw = String.valueOf(cfg.getDouble("Coordinated." + string + ".Yaw"));
+                                    String pitch = String.valueOf(cfg.getDouble("Coordinated." + string + ".Pitch"));
 
                                     lore.clear();
                                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
@@ -384,8 +384,8 @@ public class PanelAdminCommand extends BukkitCommand {
                                     String x = String.valueOf(cfg.getDouble("Coordinated." + string + ".X"));
                                     String y = String.valueOf(cfg.getDouble("Coordinated." + string + ".Y"));
                                     String z = String.valueOf(cfg.getDouble("Coordinated." + string + ".Z"));
-                                    String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
-                                    String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
+                                    String yaw = String.valueOf(cfg.getDouble("Coordinated." + string + ".Yaw"));
+                                    String pitch = String.valueOf(cfg.getDouble("Coordinated." + string + ".Pitch"));
                                     
                                     lore.clear();
                                 	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {
@@ -478,8 +478,8 @@ public class PanelAdminCommand extends BukkitCommand {
                                         String x = String.valueOf(cfg.getDouble("Coordinated." + string + ".X"));
                                         String y = String.valueOf(cfg.getDouble("Coordinated." + string + ".Y"));
                                         String z = String.valueOf(cfg.getDouble("Coordinated." + string + ".Z"));
-                                        String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
-                                        String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
+                                        String yaw = String.valueOf(cfg.getDouble("Coordinated." + string + ".Yaw"));
+                                        String pitch = String.valueOf(cfg.getDouble("Coordinated." + string + ".Pitch"));
 
                                         lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.WarpList.Lore")) {
@@ -501,8 +501,8 @@ public class PanelAdminCommand extends BukkitCommand {
                                         String x = String.valueOf(cfg.getDouble("Coordinated." + string + ".X"));
                                         String y = String.valueOf(cfg.getDouble("Coordinated." + string + ".Y"));
                                         String z = String.valueOf(cfg.getDouble("Coordinated." + string + ".Z"));
-                                        String yaw = String.valueOf(cfg.getInt("Coordinated." + string + ".Yaw"));
-                                        String pitch = String.valueOf(cfg.getInt("Coordinated." + string + ".Pitch"));
+                                        String yaw = String.valueOf(cfg.getDouble("Coordinated." + string + ".Yaw"));
+                                        String pitch = String.valueOf(cfg.getDouble("Coordinated." + string + ".Pitch"));
 
                                         lore.clear();
                                     	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Special.SpawnList.Lore")) {

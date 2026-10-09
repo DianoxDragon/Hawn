@@ -1,10 +1,11 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.modules.world.DefaultWorld;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.modules.world.GuiSystem;
 import fr.dianox.hawn.modules.world.WorldDeletion;
-import fr.dianox.hawn.modules.world.generator.VoidGenerator;
+import fr.dianox.hawn.modules.world.generator.Generators;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
@@ -40,10 +41,10 @@ public class WorldCommand extends BukkitCommand {
 		}
 
 		if (args.length == 1) {
-			return Tab.of(args, "list", "info", "tp", "delete", "create", "import", "unload");
+			return Tab.of(args, "list", "info", "tp", "delete", "create", "import", "unload", "default");
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove")
-					|| args[0].equalsIgnoreCase("unload")) {
+					|| args[0].equalsIgnoreCase("unload") || args[0].equalsIgnoreCase("default")) {
 				List<String> worlds = new ArrayList<>();
 				for (World world : Bukkit.getWorlds()) {
 					worlds.add(world.getName());
@@ -68,6 +69,9 @@ public class WorldCommand extends BukkitCommand {
 
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
+            if (args.length >= 1 && args[0].equalsIgnoreCase("default")) {
+                setDefault(sender, args);
+            }
             return true;
         }
 
@@ -193,6 +197,13 @@ public class WorldCommand extends BukkitCommand {
         				return true;
         			}
 
+        			if (DefaultWorld.is(world.getName())) {
+        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.Default-World")) {
+        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        				}
+        				return true;
+        			}
+
         			// No undo: the command is typed a second time with "confirm"
         			if (args.length < 3 || !args[2].equalsIgnoreCase("confirm")) {
         				for (String msg: WorldDeletion.message("Gui.Delete.Confirm-Command", "%prefix% &cThis deletes the world &e%arg1% &cand its folder, with no undo. Type &e/hw delete %arg1% confirm &cto do it")) {
@@ -220,6 +231,13 @@ public class WorldCommand extends BukkitCommand {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
         		}
+        	} else if (args[0].equalsIgnoreCase("default")) {
+        		if (!p.hasPermission("hawn.command.world.setdefault") && !p.hasPermission("hawn.command.world.*")) {
+        			MessageUtils.MessageNoPermission(p, "hawn.command.world.setdefault");
+        			return true;
+        		}
+
+        		setDefault(p, args);
         	} else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("add")) {
         		if (!p.hasPermission("hawn.command.world.create") && !p.hasPermission("hawn.command.world.*")) {
 					MessageUtils.MessageNoPermission(p, "hawn.command.world.create");
@@ -238,32 +256,19 @@ public class WorldCommand extends BukkitCommand {
         			return true;
         		}
 
-        		if (worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
+        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
 					return true;
 				}
 
-        		fileList.clear();
-
-        		String pathname = new File(".").getAbsolutePath();
-        		File directory = new File(pathname);
-        		getFileList(directory);
-
-				for (File directorfile : fileList) {
-					if (checkIfIsWorld(directorfile)) {
-						String worldnamecheck = directorfile.getName();
-
-						if (worldnamecheck.equals(worldname)) {
-
-							for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-		                    }
-
-							return false;
-						}
-					}
+        		// Loaded, in the folder of the worlds, or a dimension of the main world (Paper 26.x)
+        		if (fr.dianox.hawn.modules.world.WorldFolders.exists(worldname)) {
+        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        			}
+        			return true;
         		}
 
         		if (args.length >= 3) {
@@ -274,7 +279,7 @@ public class WorldCommand extends BukkitCommand {
 					        	worldgenerator = worldgenerator.replace("g:", "");
 
 					        	if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(worldgenerator));
 						        }
@@ -322,7 +327,7 @@ public class WorldCommand extends BukkitCommand {
 						        worldgenerator = worldgenerator.replace("g:", "");
 
 						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(worldgenerator));
 						        }
@@ -370,7 +375,7 @@ public class WorldCommand extends BukkitCommand {
 						        worldgenerator = worldgenerator.replace("g:", "");
 
 						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(worldgenerator));
 						        }
@@ -438,37 +443,21 @@ public class WorldCommand extends BukkitCommand {
         			return true;
         		}
 
-        		if (worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
+        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
 					return true;
 				}
 
-        		boolean check = false;
-
-		        fileList.clear();
-
-		        String pathname = new File(".").getAbsolutePath();
-		        File directory = new File(pathname);
-		        getFileList(directory);
-
-		        for (File directorfile : fileList) {
-			        if (checkIfIsWorld(directorfile)) {
-				        String worldnamecheck = directorfile.getName();
-
-				        if (worldnamecheck.equals(worldname) && Bukkit.getWorld(worldname) == null) {
-				        	check = true;
-				        } else if (worldnamecheck.equals(worldname)) {
-
-					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-					        }
-
-					        return false;
-				        }
+		        if (Bukkit.getWorld(worldname) != null) {
+			        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
+				        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 			        }
+			        return true;
 		        }
+
+		        boolean check = checkIfIsWorld(new File(Bukkit.getWorldContainer(), worldname)) || fr.dianox.hawn.modules.world.WorldFolders.dimension(worldname) != null;
 
 				if (!check) {
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Not-Exist")) {
@@ -490,7 +479,7 @@ public class WorldCommand extends BukkitCommand {
 						        worldgenerator = worldgenerator.replace("g:", "");
 
 						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(worldgenerator));
 						        }
@@ -538,7 +527,7 @@ public class WorldCommand extends BukkitCommand {
 						        worldgenerator = worldgenerator.replace("g:", "");
 
 						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(worldgenerator));
 						        }
@@ -586,7 +575,7 @@ public class WorldCommand extends BukkitCommand {
 						        worldgenerator = worldgenerator.replace("g:", "");
 
 						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(new VoidGenerator()));
+							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(Generators.voidGenerator()));
 						        } else {
 							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(worldgenerator));
 						        }
@@ -656,7 +645,7 @@ public class WorldCommand extends BukkitCommand {
         			return true;
         		}
 
-        		if (worldname.contains("\\(") || worldname.contains("\\)") || worldname.contains("§")) {
+        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
@@ -682,6 +671,27 @@ public class WorldCommand extends BukkitCommand {
     }
     
     
+    // /hw default: shows the default world, or makes a loaded world the default one
+    private static void setDefault(CommandSender sender, String[] args) {
+    	if (args.length < 2) {
+    		DefaultWorld.say(sender, "Command.Default-World.Current", DefaultWorld.get());
+    		return;
+    	}
+
+    	World world = null;
+    	for (World w : Bukkit.getWorlds()) {
+    		if (w.getName().equalsIgnoreCase(args[1])) world = w;
+    	}
+
+    	if (world == null) {
+    		DefaultWorld.say(sender, "Error.World-Not-Exist", args[1]);
+    	} else if (DefaultWorld.is(world.getName())) {
+    		DefaultWorld.say(sender, "Gui.Default-World.Already", world.getName());
+    	} else {
+    		DefaultWorld.apply(sender, world.getName());
+    	}
+    }
+
     public static boolean checkIfIsWorld(File worldFolder) {
 		if (worldFolder.isDirectory()) {
 			File[] files = worldFolder.listFiles((file, name) -> name.toLowerCase().endsWith(".dat"));

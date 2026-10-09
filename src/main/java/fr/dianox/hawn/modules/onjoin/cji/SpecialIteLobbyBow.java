@@ -1,11 +1,11 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import com.cryptomorin.xseries.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.world.CjiPW;
@@ -294,13 +294,10 @@ public class SpecialIteLobbyBow implements Listener {
 		if (SpecialCjiLobbyBow.getConfig().isSet("LobbyBow.Item.Title")) {
 			String pretitle = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
 				
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+			if (HooksManager.papi()) {
 				pretitle = PlaceholderAPI.setPlaceholders(p, pretitle);
 			}
 	
-			if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-				pretitle = PlaceHolders.BattleLevelPO(pretitle, p);
-			}
 	            
 			pretitle = PlaceHolders.ReplaceMainplaceholderP(pretitle, p);
 				
@@ -316,13 +313,10 @@ public class SpecialIteLobbyBow implements Listener {
 		if (SpecialCjiLobbyBow.getConfig().isSet("LobbyBow.Item.Lore")) {
 			for (String loremsg: SpecialCjiLobbyBow.getConfig().getStringList("LobbyBow.Item.Lore")) {
 				
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+				if (HooksManager.papi()) {
 					loremsg = PlaceholderAPI.setPlaceholders(p, loremsg);
 				}
 
-				if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-					loremsg = PlaceHolders.BattleLevelPO(loremsg, p);
-				}
 		        
 				loremsg = PlaceHolders.ReplaceMainplaceholderP(loremsg, p);
 					

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.event;
 
+import fr.dianox.hawn.hook.HooksManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ItemFrame;
@@ -19,7 +20,6 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 
 import com.cryptomorin.xseries.XMaterial;
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.ProtectionPW;
@@ -46,7 +46,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -79,7 +79,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -115,7 +115,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -148,7 +148,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -199,7 +199,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -232,7 +232,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -268,7 +268,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -301,7 +301,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -382,7 +382,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlockPlaced().getLocation(), s)) {
@@ -434,7 +434,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlockPlaced().getLocation(), s)) {
@@ -489,7 +489,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlockPlaced().getLocation(), s)) {
@@ -541,7 +541,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlockPlaced().getLocation(), s)) {
@@ -621,7 +621,7 @@ public class ProtectionsEventWorld implements Listener {
                                     /*
                                      * WorldGuard
                                      */
-                                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(wgLocation, s)) {
@@ -677,7 +677,7 @@ public class ProtectionsEventWorld implements Listener {
                                 /*
                                  * WorldGuard
                                  */
-                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                             if (Main.getInstance().getHooksManager().getWg().isInRegion(wgLocation, s)) {
@@ -736,7 +736,7 @@ public class ProtectionsEventWorld implements Listener {
                                 /*
                                  * WorldGuard
                                  */
-                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                             if (Main.getInstance().getHooksManager().getWg().isInRegion(wgLocation, s)) {
@@ -792,7 +792,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(wgLocation, s)) {
@@ -894,7 +894,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlock().getLocation(), s)) {
@@ -946,7 +946,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlock().getLocation(), s)) {
@@ -1001,7 +1001,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlock().getLocation(), s)) {
@@ -1053,7 +1053,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getBlock().getLocation(), s)) {
@@ -1109,7 +1109,15 @@ public class ProtectionsEventWorld implements Listener {
     public void onHanging(HangingBreakByEntityEvent e) {
     	    	
         path_wg = "Protection.HagingBreakByEntity.";
-                
+
+        // An arrow, a mob, an explosion...: no player, no bypass (it threw a ClassCastException)
+        if (!(e.getRemover() instanceof Player)) {
+            if (ProtectionsExtra.protects(path_wg, e.getEntity().getLocation(), null, null)) {
+                e.setCancelled(true);
+            }
+            return;
+        }
+
         Player p = (Player) e.getRemover();
         
 		if (Main.buildbypasscommand.contains(p)) {
@@ -1124,7 +1132,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -1157,7 +1165,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -1193,7 +1201,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -1226,7 +1234,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(p.getLocation(), s)) {
@@ -1278,7 +1286,7 @@ public class ProtectionsEventWorld implements Listener {
                                 /*
                                  * WorldGuard
                                  */
-                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                                if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                     if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                         for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                             if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getRightClicked().getLocation(), s)) {
@@ -1313,7 +1321,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getRightClicked().getLocation(), s)) {
@@ -1351,7 +1359,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getRightClicked().getLocation(), s)) {
@@ -1386,7 +1394,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getRightClicked().getLocation(), s)) {
@@ -1443,7 +1451,7 @@ public class ProtectionsEventWorld implements Listener {
                             /*
                              * WorldGuard
                              */
-                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                            if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                                 if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                     for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                         if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getClickedBlock().getLocation(), s)) {
@@ -1495,7 +1503,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getClickedBlock().getLocation(), s)) {
@@ -1550,7 +1558,7 @@ public class ProtectionsEventWorld implements Listener {
                         /*
                          * WorldGuard
                          */
-                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                        if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                             if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                                 for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                     if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getClickedBlock().getLocation(), s)) {
@@ -1602,7 +1610,7 @@ public class ProtectionsEventWorld implements Listener {
                     /*
                      * WorldGuard
                      */
-                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")) {
+                    if (ConfigGProtection.getConfig().getBoolean(path_wg + "WorldGuard.Enable") && HooksManager.worldGuard()) {
                         if (ConfigGProtection.getConfig().getString(path_wg + "WorldGuard.Method").equalsIgnoreCase("WHITELIST")) {
                             for (String s: ConfigGProtection.getConfig().getStringList(path_wg + "WorldGuard.Regions")) {
                                 if (Main.getInstance().getHooksManager().getWg().isInRegion(e.getClickedBlock().getLocation(), s)) {

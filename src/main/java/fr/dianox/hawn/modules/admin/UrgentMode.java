@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -349,16 +348,18 @@ public class UrgentMode implements Listener {
 		tell(e.getPlayer(), messages("Urgent-mode.Lockdown-Command", "&8[&eHawn-Urgent&8] &cThe server is in urgent mode: the commands are disabled"), "");
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onChat(AsyncPlayerChatEvent e) {
+	/**
+	 * Called by the chat listener (Spigot or Paper) before the other plugins.
+	 * @return true when the message is blocked
+	 */
+	public static boolean blockChat(Player p) {
 		if (!isOn() || !cfg().getBoolean(PATH + "Lockdown.Block-Chat", true)) {
-			return;
+			return false;
 		}
 
-		e.setCancelled(true);
-		Player p = e.getPlayer();
 		List<String> lines = messages("Urgent-mode.Lockdown-Chat", "&8[&eHawn-Urgent&8] &cThe server is in urgent mode: the chat is disabled");
 		Bukkit.getScheduler().runTask(Main.getInstance(), () -> tell(p, lines, ""));
+		return true;
 	}
 
 	/* ------------------------------------------------------------------ log and alert */

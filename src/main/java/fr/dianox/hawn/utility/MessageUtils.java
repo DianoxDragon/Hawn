@@ -1,12 +1,13 @@
 package fr.dianox.hawn.utility;
 
-import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
@@ -22,27 +23,21 @@ public class MessageUtils {
 
             str = str.replace("json:", "");
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, p);
-            }
-            BaseComponent[] bc = ComponentSerializer.parse(str);
+            BaseComponent[] bc = ComponentSerializer.parse(plain(str));
             p.spigot().sendMessage(bc);
         } else {
 
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, p);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             str = colourTheStuff(str);
@@ -51,25 +46,40 @@ public class MessageUtils {
                 sendCenteredMessage(p, str);
                 return;
             }
-            
-            p.sendMessage(str);
+
+            send(p, str);
         }
+    }
+
+    /**
+     * Sends a coloured text: MiniMessage on Paper when it has tags, the legacy text otherwise.
+     */
+    public static void send(CommandSender to, String str) {
+        if (RichText.isRich(str)) {
+            RichText.send(to, str);
+        } else {
+            to.sendMessage(plain(str));
+        }
+    }
+
+    /**
+     * The text as shown: the "<" typed by a player (see ConfigEventUtils#noAction) comes back.
+     */
+    public static String plain(String str) {
+        return str == null ? null : str.replace(RichText.LT, '<');
     }
 
 	public static void ClassicMessagesConsoleSupport(String str, Player p) {
         if (str.startsWith("json:")) {
             str = str.replace("json:", "");
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, p);
-            }
-            BaseComponent[] bc = ComponentSerializer.parse(str);
+            BaseComponent[] bc = ComponentSerializer.parse(plain(str));
             p.spigot().sendMessage(bc);
 
             StringBuilder sb = new StringBuilder();
@@ -79,14 +89,11 @@ public class MessageUtils {
 
             Bukkit.getConsoleSender().sendMessage(sb.toString());
         } else {
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")) {
+            if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")) {
+            if (HooksManager.mvdw()) {
                 str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
-            }
-            if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.BattleLevels.Enable")) {
-                str = PlaceHolders.BattleLevelPO(str, p);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             str = colourTheStuff(str);
@@ -96,11 +103,11 @@ public class MessageUtils {
                     sendCenteredMessage(p1, str);
                 }
                 str = str.replace("<--center-->", "");
-                Bukkit.getConsoleSender().sendMessage(str);
+                Bukkit.getConsoleSender().sendMessage(plain(str));
                 return;
             }
 
-            p.sendMessage(str);
+            send(p, str);
         }
     }
 
@@ -110,7 +117,7 @@ public class MessageUtils {
             str = PlaceHolders.ReplaceMainplaceholderC(str);
             str = colourTheStuff(str);
 
-            BaseComponent[] bc = ComponentSerializer.parse(str);
+            BaseComponent[] bc = ComponentSerializer.parse(plain(str));
 
             StringBuilder sb = new StringBuilder();
             for (BaseComponent b: bc) {
@@ -122,7 +129,7 @@ public class MessageUtils {
             str = PlaceHolders.ReplaceMainplaceholderC(str);
             str = colourTheStuff(str);
 
-            Bukkit.getConsoleSender().sendMessage(str);
+            send(Bukkit.getConsoleSender(), str);
         }
     }
 
@@ -135,7 +142,7 @@ public class MessageUtils {
         if (message == null || message.equals("")) player.sendMessage("");
         message = colourTheStuff(message);
 
-        message = message.replace("<--center-->", "");
+        message = plain(message.replace("<--center-->", ""));
 
         int messagePxSize = 0;
         boolean previousCode = false;
