@@ -9,7 +9,7 @@ description: Hawn is an all-in-one hub / lobby plugin for Spigot and Paper serve
 Hawn turns a fresh server into a ready-to-use lobby: spawns, join messages, items in the hotbar, scoreboards, tab list, protections, jump pads, a world manager and much more. Almost everything is optional and can be configured per world.
 
 {% hint style="info" %}
-This wiki documents **Hawn 1.3 BETA**. If you are coming from 1.2 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
+This wiki documents **Hawn 1.4 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
 {% endhint %}
 
 ## Download
@@ -34,10 +34,10 @@ Optional integrations: [PlaceholderAPI, WorldGuard 7+ and MVdWPlaceholderAPI](in
 <tr><td><strong>Join and quit</strong></td><td>Messages per group or per world, MOTD, titles, action bar, boss bar, fireworks, sounds, potion effects, commands.</td><td><a href="features/join-and-quit.md">join-and-quit.md</a></td></tr>
 <tr><td><strong>Custom join items</strong></td><td>Server selector, player heads, books, armour, a "hide players" item, a lobby bow and a fun gun.</td><td><a href="features/custom-join-items.md">custom-join-items.md</a></td></tr>
 <tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards and tab lists, per world and per permission.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
-<tr><td><strong>Chat</strong></td><td>Colours, hex colours, emojis, mentions, anti-swear, global mute, chat delay, clear chat.</td><td><a href="features/chat.md">chat.md</a></td></tr>
+<tr><td><strong>Chat</strong></td><td>Chat format, colours, hex colours, MiniMessage, emojis, mentions, anti-spam, anti-swear, chat per group of worlds, global mute, chat delay, clear chat.</td><td><a href="features/chat.md">chat.md</a></td></tr>
 <tr><td><strong>Protections</strong></td><td>No build, no damage, no drops, no hunger, no weather, no explosions... with WorldGuard region support.</td><td><a href="features/protections.md">protections.md</a></td></tr>
 <tr><td><strong>Lobby fun</strong></td><td>Jump pads, double jump, coloured signs and clickable "action" signs.</td><td><a href="features/lobby-fun.md">lobby-fun.md</a></td></tr>
-<tr><td><strong>World manager</strong></td><td>Create, import, unload, delete and edit worlds from a menu, with a built-in void generator.</td><td><a href="features/world-manager.md">world-manager.md</a></td></tr>
+<tr><td><strong>World manager</strong></td><td>Create, import, unload, delete and edit worlds from a menu, choose the default world, with a built-in void generator.</td><td><a href="features/world-manager.md">world-manager.md</a></td></tr>
 <tr><td><strong>Admin tools</strong></td><td>Admin panel, player editor, maintenance mode, emergency mode, build bypass, no-clip.</td><td><a href="features/admin-tools.md">admin-tools.md</a></td></tr>
 </tbody></table>
 

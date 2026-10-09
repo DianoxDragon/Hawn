@@ -43,7 +43,7 @@ JumpPads:
     - world
 ```
 
-Set `Use_Permission: true` under `JumpPads:` to reserve the jump pads to players with `hawn.fun.jumppads` (add the line yourself if your file was generated before Hawn 1.3). The cooldown message is `LaunchPad.Cant-Use-Cooldown` in `Messages.yml`.
+Set `Use_Permission: true` under `JumpPads:` to reserve the jump pads to players with `hawn.fun.jumppads`. The cooldown message is `LaunchPad.Cant-Use-Cooldown` in `Messages.yml`.
 
 ## Double jump
 

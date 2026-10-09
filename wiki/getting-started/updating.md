@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, from 1.1.x to 1.2 and from 1.2 to 1.3.
+description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3 and from 1.3 to 1.4.
 ---
 
 # Updating from an older version
@@ -12,6 +12,22 @@ description: What to check when you update Hawn, from 1.1.x to 1.2 and from 1.2 
 4. Start the server.
 
 Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## From 1.3 to 1.4
+
+Your files are kept and completed with the new options. Check these changes:
+
+* **Tab lists**: the custom tab lists of `Tablist/Tablist.yml` (`Custom-Tablists`) are moved to one file each in the `Tablist` folder at the first start, like the scoreboards. Two examples are created turned off (`staff.yml`, `nether.yml`). See [Tab list](../features/tablist.md).
+* **Chat format**: `Chat-Format` (`Events/Chat.yml`) is `AUTO`: Hawn formats the chat only when no known chat plugin is installed (EssentialsChat, LPC...). `false` never formats it. See [Chat](../features/chat.md#chat-format).
+* **Void TP**: every player falling in the void is teleported, `hawn.command.spawn.<spawn>` is not needed anymore. `VoidTP.Options.Spawn-Permission.Enable: true` (`Events/VoidTP.yml`) brings the old behaviour back.
+* **Paper 1.21.7+**: `hawn.maintenance.bypass` and `hawn.join.full` are read from LuckPerms when a player joins. With another permission plugin, only the operators have them (the whitelists still work).
+* **Default world**: Hawn now knows the world written in the world lists of the files (`general.yml` → `Plugin.Default-World`). At the first start it takes the world the most written in your lists: check it in the startup console (`Default world:`). See [The default world](../features/world-manager.md#the-default-world).
+* **Configuration files**: on 1.18.1+, a comment is written above each option at the first start (your values and your own comments are kept). The French messages you never changed are corrected.
+* **BattleLevels**: the hook is removed, its placeholders are not replaced anymore.
+
+The startup console now lists the options that contradict each other: read it once after the update.
+
+See the [changelog](../help/changelog.md) for everything else.
 
 ## From 1.2 to 1.3
 
