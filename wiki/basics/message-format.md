@@ -79,6 +79,22 @@ JSON generators such as [minecraft.tools](https://minecraft.tools/en/tellraw.php
 
 Placeholders work inside JSON. `&` colour codes and `<--center-->` do not: use the JSON `"color"` field or `§` codes instead.
 
+## MiniMessage (Paper)
+
+Since Hawn 1.4, on **Paper 1.19.1 or newer**, the messages, titles and action bars of Hawn can use the [MiniMessage](https://docs.advntr.dev/minimessage/format.html) tags: gradients, rainbows, hover texts, clicks... A line with at least one tag is read by MiniMessage, and you can still mix it with `&` codes and hex colours.
+
+```yaml
+- '<gradient:#FF8800:#3BD1C4>Welcome on the server</gradient>'
+- '&7Join our <hover:show_text:"Open the link"><click:open_url:https://discord.com/>&bDiscord</click></hover>'
+- '<rainbow>Rainbow text</rainbow> &8| &7Type <click:run_command:/spawn><gold>/spawn</gold></click>'
+- '[send-title]: <gradient:red:blue>NEW SEASON</gradient> //n &7Starts today'
+```
+
+* On Spigot, and on Paper older than 1.19.1, nothing changes: the tags stay as text, use `json:` lines for clicks and hover texts there.
+* A `&` colour code ends the bold, italic... like it always did, without closing a hover or a click around it.
+* Lines with `<--center-->` and `json:` lines are not read by MiniMessage.
+* What a player types (a `/broadcast` text, a reason, a warp name...) is never read as tags: a player can't add a click to a message.
+
 ## A line for some players only
 
 ### Per permission

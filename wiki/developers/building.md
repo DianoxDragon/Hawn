@@ -42,8 +42,10 @@ This compiles Hawn against the newest Paper API (a JDK 25 is downloaded automati
 | `src/main/java/fr/dianox/hawn/event`        | Event listeners (join, chat, protections...)           |
 | `src/main/java/fr/dianox/hawn/modules`      | Features (join items, scoreboard, tab, world manager, setup...) |
 | `src/main/java/fr/dianox/hawn/utility/config` | Configuration files and their default values         |
-| `src/main/java/fr/dianox/hawn/hook`         | PlaceholderAPI, WorldGuard, MVdW, BattleLevels         |
+| `src/main/java/fr/dianox/hawn/hook`         | PlaceholderAPI, WorldGuard, MVdW                       |
 | `src/stubs`                                 | Compile-time stubs for plugins without a Maven repository (not shipped) |
+| `src/paper`                                 | Listeners of the Paper events and MiniMessage, compiled against the Paper API, loaded only on Paper (shipped) |
+| `src/main/resources/config-comments.txt`    | The comments written above the options of the configuration files (1.18.1+) |
 | `wiki`                                      | This wiki (synchronised with GitBook)                  |
 
 The default configuration files are not resources: each file is created by a class of `utility/config/configs` (`Config.set(...)` calls) the first time Hawn starts.

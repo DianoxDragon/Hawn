@@ -25,7 +25,7 @@ Hawn is available on its Spigot page: [Hawn - Hub/Lobby Management](https://www.
 
 Hawn does not use NMS code anymore, everything goes through the Bukkit/Spigot API, so the same jar works on every supported version.
 
-Optional integrations: [PlaceholderAPI, WorldGuard 7+, MVdWPlaceholderAPI and BattleLevels](integrations/hooks.md), plus [BungeeCord/Velocity](integrations/bungeecord.md) for server switching.
+Optional integrations: [PlaceholderAPI, WorldGuard 7+ and MVdWPlaceholderAPI](integrations/hooks.md), plus [BungeeCord/Velocity](integrations/bungeecord.md) for server switching.
 
 ## What Hawn can do
 
@@ -33,7 +33,7 @@ Optional integrations: [PlaceholderAPI, WorldGuard 7+, MVdWPlaceholderAPI and Ba
 <tr><td><strong>Spawns and warps</strong></td><td>Unlimited named spawns, a default spawn, a first-join spawn, a VIP spawn, spawn groups to spread the players, warps, teleport delays.</td><td><a href="features/spawns.md">spawns.md</a></td></tr>
 <tr><td><strong>Join and quit</strong></td><td>Messages per group or per world, MOTD, titles, action bar, boss bar, fireworks, sounds, potion effects, commands.</td><td><a href="features/join-and-quit.md">join-and-quit.md</a></td></tr>
 <tr><td><strong>Custom join items</strong></td><td>Server selector, player heads, books, armour, a "hide players" item, a lobby bow and a fun gun.</td><td><a href="features/custom-join-items.md">custom-join-items.md</a></td></tr>
-<tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards (per world and per permission) and an animated tab list.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
+<tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards and tab lists, per world and per permission.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
 <tr><td><strong>Chat</strong></td><td>Colours, hex colours, emojis, mentions, anti-swear, global mute, chat delay, clear chat.</td><td><a href="features/chat.md">chat.md</a></td></tr>
 <tr><td><strong>Protections</strong></td><td>No build, no damage, no drops, no hunger, no weather, no explosions... with WorldGuard region support.</td><td><a href="features/protections.md">protections.md</a></td></tr>
 <tr><td><strong>Lobby fun</strong></td><td>Jump pads, double jump, coloured signs and clickable "action" signs.</td><td><a href="features/lobby-fun.md">lobby-fun.md</a></td></tr>

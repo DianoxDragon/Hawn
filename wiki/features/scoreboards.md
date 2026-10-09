@@ -22,12 +22,6 @@ For the two default files, the permissions are:
 * `hawn.scoreboard.scoreboard.default`
 * `hawn.scoreboard.scoreboard.worldnetherbecausewelikethat`
 
-The console lists every loaded scoreboard and its permission at startup:
-
-```
-| Loaded the scoreboard : scoreboard.default.yml with the permission : hawn.scoreboard.scoreboard.default
-```
-
 {% hint style="info" %}
 To avoid long permissions, rename the files: `lobby.yml` → `hawn.scoreboard.lobby`. **Restart** the server after adding, renaming or removing a file.
 {% endhint %}

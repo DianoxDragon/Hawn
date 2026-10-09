@@ -205,8 +205,31 @@ In `PlayerInteract-Items-Blocks.Options`, set a block to `false` to allow it (fo
 The doors, fence gates and trapdoors of the newer woods (`CRIMSON_`, `WARPED_`, `MANGROVE_`, `CHERRY_`, `BAMBOO_`, `PALE_OAK_`) and the copper doors and trapdoors (`COPPER_DOOR`, `COPPER_TRAPDOOR`: one option for all their oxidation and waxed variants) are protected even when they are missing from your file. Add them with `false` to allow them.
 
 {% hint style="warning" %}
-Only the blocks already present in `Options` are supported: adding a new line has no effect. Wood types that came after 1.14 (crimson, warped, mangrove, cherry, bamboo, pale oak) and copper doors are not in the list. Protect them with WorldGuard if needed.
+Only the blocks already present in `Options` (and the newer doors above) are supported: adding another block has no effect.
 {% endhint %}
+
+### More protections
+
+Since Hawn 1.4, also in `Events/ProtectionWorld.yml`, with the same `WorldGuard` and `World` options as the others:
+
+```yaml
+Protection:
+  Armor-Stand:                    # take or put an item on an armor stand, hit it (by hand or with an arrow)
+    Enable: true
+    Bypass: true                  # hawn.bypass.armorstand
+  Hanging-Place:                  # place an item frame or a painting
+    Enable: true
+    Bypass: true                  # hawn.bypass.hangingplace
+  Explosion-Blocks:               # the blocks broken by TNT, creepers, beds... (the explosion itself still happens)
+    Enable: true
+  Liquid-Flow:                    # water and lava don't flow
+    Enable: false
+  Anti-Trample:                   # farmland trampled by the players and the mobs
+    Enable: true
+    Bypass: true                  # hawn.bypass.trample
+```
+
+`Liquid-Flow` is off by default: turned on, it also stops the water of your fountains and the lava of your decorations from flowing again when a block changes next to them.
 
 ### Weather, fire, explosions...
 

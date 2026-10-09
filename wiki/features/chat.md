@@ -1,12 +1,73 @@
 ---
 description: >-
-  Colours and hex colours in the chat, emojis, mentions, anti-swear, global
-  mute, chat delay and clear chat.
+  Chat format, chat per group of worlds, colours and hex colours, emojis,
+  mentions, anti-swear, anti-spam, global mute, chat delay and clear chat.
 ---
 
 # Chat
 
 Most chat options are in `Events/Chat.yml`. The chat commands have their own files in `Commands/`.
+
+## Chat format
+
+Since Hawn 1.4, Hawn can give the chat its format: a prefix, the name, a separator and the message.
+
+```yaml
+Chat-Format:
+  Enable: AUTO
+  Format: '&7%player% &8» &f%message%'
+```
+
+`%message%` is where the message goes. Every [placeholder](../reference/placeholders.md) works, with PlaceholderAPI too: `'%luckperms_prefix%%player% &8» &f%message%'` shows the rank of the player (LuckPerms and the `luckperms` expansion of PlaceholderAPI). `%player_displayname%` is the name given by the other plugins (nickname...). On Paper 1.19.1+, the format can use [MiniMessage](../basics/message-format.md#minimessage-paper).
+
+| `Enable` | What Hawn does |
+| -------- | -------------- |
+| `AUTO` (default) | Uses its format, unless a known chat plugin is installed (EssentialsChat, ChatControl, VentureChat, LPC, DeluxeChat, CarbonChat...). A chat plugin that changes the format after Hawn wins, and the console says it once. |
+| `true` | Always uses its format, after the other plugins. |
+| `false` | Never changes the format: the server or your chat plugin keeps it. |
+
+## Chat per group of worlds
+
+With `Per-World-Chat.Enable: true`, the players only see the messages of the players in the same group of worlds. The worlds in no group talk together.
+
+```yaml
+Per-World-Chat:
+  Enable: false
+  Groups:
+    main:
+      Worlds:
+      - world
+    nether_end:
+      Worlds:
+      - world_nether
+      - world_the_end
+      Chat-Format:
+        Format: '&c[Nether] &7%player% &8» &f%message%'
+```
+
+A group can change any option of this page for itself: write it in the group, with the same path as in `Events/Chat.yml`. What the group doesn't set comes from the rest of the file. For example:
+
+```yaml
+    minigames:
+      Worlds:
+      - minigames
+      Chat-Format:
+        Format: '&a[Games] &7%player% &8» &f%message%'
+      Anti-Swear:
+        List:                     # this list replaces the main one in the group
+        - noob
+      Chat-Mention:
+        Enable: false
+      Anti-Spam:
+        Caps:
+          Enable: false
+      Mute: false                 # true: nobody talks in this group (except hawn.event.chat.bypass.mutechat)
+      Chat-Delay:                 # its own delay instead of the one of /delaychat
+        Enable: true
+        Seconds: 10
+```
+
+The welcome setup writes the lobby world in the `main` group. The groups are yours: Hawn never adds them back if you delete them.
 
 ## Colours in the chat
 
@@ -120,9 +181,7 @@ Chat-Mention:
 
 The player who writes the message needs `hawn.chat.can.mention`. `%sender%` is the player who mentioned, `%player%` the mentioned player.
 
-{% hint style="warning" %}
-With `Chat-Highlight` enabled, Hawn sends the chat message itself (so that each player sees their own highlight). Chat format plugins that rely on the chat event may then show the message differently for mentions.
-{% endhint %}
+With `Chat-Highlight` enabled, the mentioned player gets their own copy of the message, with the format of the chat; the other players get the normal message.
 
 ## Anti-swear
 
@@ -141,6 +200,26 @@ Anti-Swear:
 ```
 
 Every word of `List` found in a message (upper or lower case) is replaced by `Message`. The warning sent to the staff is `Anti-Swear.Notify-Staff` in `Messages/<language>/Messages.yml` (`%player%`, `%message%`).
+
+## Anti-spam
+
+Since Hawn 1.4:
+
+```yaml
+Anti-Spam:
+  Enable: true
+  Bypass: true                    # hawn.bypass.antispam is not checked
+  Repeat:
+    Enable: true
+    Seconds: 30                   # the same message can't be sent again during 30 seconds
+  Caps:
+    Enable: true
+    Min-Letters: 6                # shorter messages are not checked
+    Max-Percent: 70               # above 70 % of capital letters...
+    Block: false                  # ...the message is put in lower case (true: it is not sent)
+```
+
+The same message means the same letters and numbers: the colours, the upper case, the spaces and the punctuation don't count. The mentions (`@Name`) are kept as typed. The messages are `Anti-Spam.Repeat` and `Anti-Spam.Caps` in `Messages/<language>/Messages.yml`.
 
 ## Global mute
 
@@ -172,7 +251,7 @@ DelayChat:
     Bypass: true         # hawn.event.chat.bypass.chatdelay has no delay
 ```
 
-`%DELAY%` shows the current delay.
+`%DELAY%` shows the current delay. A [group of worlds](#chat-per-group-of-worlds) can have its own delay with `Chat-Delay`.
 
 ## Clear chat
 

@@ -26,7 +26,7 @@ Every folder found in `plugins/Hawn/Messages/` is shown as a banner (`en_US` and
 
 Click **Yes, let's choose a world**: the [world manager](../features/world-manager.md) menu opens. **Left-click** the world that will be your lobby.
 
-This world is written in every `World.Worlds` list of the configuration (join messages, protections, scoreboards, join items, void TP...), so all the lobby features apply to it. You can change these lists later, see [Per-world options](../basics/per-world-options.md).
+This world takes the place of `world` in every `World.Worlds` list of the configuration (join messages, protections, scoreboards, join items, void TP...), so all the lobby features apply to it. The other worlds of the lists (the nether, the end...) are kept. It becomes the [default world](../features/world-manager.md#the-default-world) (`general.yml` → `Plugin.Default-World`): to use another lobby world later, choose it in the world manager and Hawn replaces it everywhere. You can also change these lists by hand, see [Per-world options](../basics/per-world-options.md).
 
 {% hint style="warning" %}
 Don't move while the world list is open: moving closes and reopens the menu.
@@ -45,6 +45,8 @@ Click **Yes, let's create a spawn**, the menu closes. Go where you want your spa
 For example `/setspawn lobby`. This spawn becomes the default spawn (`Events/OnJoin.yml` → `Spawn.DefaultSpawn`) and the setup ends. `/setlobby` and `/sethub` work too.
 
 You can also click **Yes, let's continue** to end the setup without creating a spawn.
+
+If you close a menu of the setup with Escape, Hawn reminds you that the setup isn't finished (a message and a sound). `/hawn setup` opens it again.
 
 ## After the setup
 

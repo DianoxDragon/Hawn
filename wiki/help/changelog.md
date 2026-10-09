@@ -4,6 +4,52 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4 BETA
+
+### New
+
+* Chat format (`Chat-Format` in `Events/Chat.yml`): prefix, name and message, with the placeholders (`%luckperms_prefix%`...). `Enable: AUTO` by default: used when no known chat plugin is installed (EssentialsChat, ChatControl, LPC...), and a chat plugin that changes the format after Hawn wins (the console says it once); `true` forces it, `false` turns it off. See [Chat format](../features/chat.md#chat-format).
+* Anti-spam (`Anti-Spam`): the same message can't be sent again within 30 seconds, and a message with too many capital letters is put in lower case (or blocked). Bypass: `hawn.bypass.antispam`. See [Anti-spam](../features/chat.md#anti-spam).
+* Chat per group of worlds (`Per-World-Chat`, off by default): the players only see the messages of their group of worlds, and each group can change any chat option for itself (format, mentions, emojis, anti-swear, colours, anti-spam), plus its own mute and delay. See [Chat per group of worlds](../features/chat.md#chat-per-group-of-worlds).
+* A comment above each option of the configuration files, on 1.18.1+ servers: it says what the option does. They are added to your files at the first start of 1.4, your values and your own comments are kept. Nothing changes on 1.16 and 1.17. See [Files and folders](../getting-started/files.md).
+* New actions: `[delay[ticks]]:` and `[chance[percent]]:` in front of any line, `[broadcast]: <message>`, `[sound]: <sound> [volume] [pitch]` and `[title[in,stay,out]]: <title> //n <subtitle>`. See [Actions](../basics/actions.md).
+* The volume and the pitch of every sound option accept decimals (`1.5`); they were read as whole numbers.
+* New protections in `Events/ProtectionWorld.yml`, with the same options as the others (worlds, WorldGuard regions, bypass): `Armor-Stand` (take or put an item on an armor stand, hit it), `Hanging-Place` (place an item frame or a painting), `Explosion-Blocks` (the blocks broken by an explosion), `Liquid-Flow` (water and lava that flow, off by default) and `Anti-Trample` (farmland trampled by players and mobs). See [Protections](../features/protections.md#more-protections).
+* World manager: the default world. Shift + click the nether star in the menu of a world: it replaces the old default world in the world lists of every file (join messages, protections, scoreboards, tab lists, void TP...), the options set for the old world only are moved to it, and the files are read again. The default world is saved in `general.yml` (`Plugin.Default-World`), shown at startup, and can't be deleted. `/hw default [world]` does the same, also from the console. Permission `hawn.command.world.setdefault`. See [The default world](../features/world-manager.md#the-default-world).
+* Welcome setup: closing a menu with Escape says that the setup isn't finished, with a sound.
+* World manager: the creation of a world fits in one page (the generator is chosen on it), every click gives an answer (sound, message), and the menu of each world shows its information (players, type, generator, chunks, entities, spawn, time, PvP, seed). A world that can't be created says so, instead of "created". See [World manager](../features/world-manager.md).
+* MiniMessage on Paper 1.19.1+: the messages, titles and action bars can use gradients, hover texts, clicks... (`<gradient:red:blue>`, `<hover:show_text:'...'>`, `<click:run_command:/spawn>`), mixed with the `&` codes and hex colours. Nothing changes on Spigot. A text typed by a player is never read as tags. See [MiniMessage](../basics/message-format.md#minimessage-paper).
+* Tab lists per world and per permission, like the scoreboards: every file of the `Tablist` folder is a tab list, with its worlds, a priority, `permission: true` to be seen only with `hawn.tablist.<file name>`, its own header, footer and animations; a missing header or footer is the one of `Tablist.yml`, which stays the default tab list for the players who match none of them. Two examples (`staff.yml`, `nether.yml`) are created once with `enable: false`, so nothing changes until you turn one on. See [Tab list](../features/tablist.md#per-world-and-per-permission).
+
+### Performance
+
+* The hooks (PlaceholderAPI, MVdWPlaceholderAPI, WorldGuard) are checked at startup and on `/hawn reload`, instead of reading `general.yml` for every message, item or scoreboard line.
+
+### Changes
+
+* Startup: the console says on what Hawn runs (Paper or Bukkit events, MiniMessage), the hooks used, the storage and the language, what is loaded (scoreboards, tab lists, spawns, warps, join items, custom commands, emojis), what happened to the files, the time it took, and what is on (maintenance, emergency mode, chat per world, chat format left to a chat plugin). It also warns about the options that contradict each other: a spawn on join, a spawn group or a void TP without spawn, a void TP spawn below the void TP height, always day and always night in the same world, a world in two chat groups, an anti-swear that does nothing, tab list files while the tab list is off, scoreboards on without any file, a hook kept on without its plugin...
+* Void TP: every player falling in the void is teleported to the spawn; `hawn.command.spawn.<spawn>` is not needed anymore. `VoidTP.Options.Spawn-Permission.Enable: true` (`Events/VoidTP.yml`) brings the old behaviour back. See [Void TP](../features/void-tp.md).
+* On Paper 1.19.1+, the chat goes through the Paper chat event (`AsyncChatEvent`), and on Paper 1.21.7+ the join checks (maintenance, emergency mode, full server) through the new connection event: Paper no longer warns about Hawn listening to the `PlayerLoginEvent`. Spigot keeps the Bukkit events.
+* On Paper 1.21.7+, `hawn.maintenance.bypass` and `hawn.join.full` are read from LuckPerms at join, since the player doesn't exist yet; with another permission plugin, only the operators have them (the whitelists still work). The kick messages of the maintenance and of the emergency mode only replace `%player%` and the server placeholders.
+* The BattleLevels hook is removed (the plugin is abandoned): the `%h_battlelevels_...%` placeholders are not replaced anymore, and its options are removed from `general.yml` at the first start.
+
+### Fixes
+
+* The void generator uses the generator API of 1.17.1+ on these versions.
+* French messages (`Messages/fr_FR/`): 184 texts corrected (spelling, agreement, "tu" and "vous" mixed, `/hawn maintenance` said "activé" when turning it off...). The messages you never changed are updated in your files at the first start; the ones you changed are kept.
+* Mentions: `@Bot` doesn't mention `BotAdmin` anymore, only the whole name counts.
+* On Paper, the chat message of another plugin (with its clicks or hover texts) is kept when Hawn has nothing to change in it.
+* An item frame or a painting broken by an arrow, a mob or an explosion threw an error and was not protected.
+* Spawns and warps: the angle of the camera (yaw and pitch) was rounded to a whole degree when teleporting.
+* Mentions: the highlighted message is only sent again to the mentioned player. Before, Hawn cancelled the message and sent it itself to everybody, which skipped the format and the logging of the other chat plugins.
+* When the server stops, Hawn only removes its own sidebar. Before, it gave a new empty scoreboard to every player, which removed the scoreboard and the teams of the other plugins.
+* Welcome setup: the world chosen replaced every list of worlds by itself alone (the nether and the end were removed from them). It now takes the place of `world` and the other worlds are kept.
+* `/hw create`, `/hw import` and the creation menu looked for the existing worlds in the server folder only: on Paper 26.x (or with `--world-container`), a world that already existed was "created" again. The creation menu didn't check at all.
+* World names: the check against parentheses never worked (`te(st)` was accepted).
+* `/hawn reload` shows the same warnings as the startup (options that contradict each other), instead of the old fly and double jump message.
+* Paper 26.x: the worlds created with the world manager (kept in `world/dimensions/minecraft/`) were not loaded again after a restart.
+* World manager: a world deleted from the menu was still listed when the menu opened again (its folder was not deleted yet). It is hidden at once, and the open menus are refreshed when the folder is gone.
+
 ## 1.3 BETA
 
 ### Security

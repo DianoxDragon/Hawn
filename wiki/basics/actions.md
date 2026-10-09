@@ -63,6 +63,8 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 | `[send-title[<ticks>]]: <title>//n<subtitle>` | Same, but stays `<ticks>` ticks on the screen.                                 |
 | `[send-actionbar]: <message>`        | Sends a message in the action bar.                                                      |
 | `[send-actionbar[<ticks>]]: <message>` | Same, but keeps it `<ticks>` ticks on the screen.                                     |
+| `[title]: <title>//n<subtitle>`      | Since Hawn 1.4. Sends a title with the fades of Minecraft: fade in 10 ticks, stay 70 ticks, fade out 20 ticks. |
+| `[title[<in>,<stay>,<out>]]: <title>//n<subtitle>` | Since Hawn 1.4. Sends a title with your fade in, stay and fade out, in ticks. |
 
 20 ticks = 1 second.
 
@@ -70,20 +72,23 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 - '[send-title]: &6&lWELCOME //n &7Have fun %player%'
 - '[send-title[60]]: &cOnly 3 seconds'
 - '[send-actionbar[100]]: &eThis stays 5 seconds'
+- '[title[5,40,10]]: &a&lGO! //n &7Fast fade in, 2 seconds on the screen'
 ```
 
 ### Sounds, effects and fireworks
 
 | Action                              | What it does                                                                                   |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `[sounds]: <sound>`                 | Plays a sound to the player. See [sound names](../reference/values.md#sounds).                 |
+| `[sound]: <sound> [volume] [pitch]` | Since Hawn 1.4. Plays a sound to the player, with an optional volume and pitch (decimals work: `0.5`, `1.5`; `1` by default). See [sound names](../reference/values.md#sounds). |
+| `[sounds]: <sound>`                 | The same (the name of the action before 1.4); it also accepts the volume and the pitch now.    |
 | `[effect[<amplifier>]]: <effect>`   | Gives a potion effect for an unlimited time. `0` = level I, `1` = level II...                  |
 | `[effectclear]: <effect>`           | Removes one potion effect.                                                                     |
 | `[effectclearall]`                  | Removes every potion effect.                                                                   |
 | `[FWLU]: <firework>`                | Launches a firework defined in `Cosmetics-Fun/Utility/Firework-List.yml`. See [Fireworks](../features/lobby-fun.md#fireworks). |
 
 ```yaml
-- '[sounds]: BLOCK_NOTE_BLOCK_PLING'
+- '[sound]: BLOCK_NOTE_BLOCK_PLING'
+- '[sound]: ENTITY_PLAYER_LEVELUP 0.5 1.8'
 - '[effect[1]]: SPEED'
 - '[effectclear]: SPEED'
 - '[FWLU]: Firework1'
@@ -98,6 +103,30 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 | `[gamemode-adventure]` | Puts the player in adventure.                 |
 | `[gamemode-spectator]` | Puts the player in spectator.                 |
 | `[ping]`               | Sends the player their ping (message `Ping.Self` of `Messages.yml`). |
+
+### Broadcast
+
+| Action                   | What it does |
+| ------------------------ | ------------ |
+| `[broadcast]: <message>` | Since Hawn 1.4. Sends the message to every online player and to the console. The placeholders are those of the player who runs the action: `[broadcast]: &e%player% &7found the secret!` |
+
+## Delay and chance
+
+Since Hawn 1.4, two prefixes go in front of any line (message or action):
+
+| Prefix                 | What it does |
+| ---------------------- | ------------ |
+| `[delay[<ticks>]]: `   | Runs the rest of the line `<ticks>` ticks later (20 ticks = 1 second). The other lines don't wait. |
+| `[chance[<percent>]]: `| Runs the rest of the line `<percent>` % of the time (decimals work: `[chance[0.5]]:` is one time out of 200). |
+
+```yaml
+- '&7Opening the chest...'
+- '[delay[40]]: [sound]: BLOCK_CHEST_OPEN'
+- '[delay[40]]: [chance[10]]: [broadcast]: &6%player% &efound a rare item!'
+- '[delay[40]]: &7Nothing this time.'
+```
+
+Each line has its own delay, counted from the moment the list is read: write the same delay on every line that must wait. They can be chained in any order, after `<world>` and `<perm>`.
 
 ## Combining with permissions and worlds
 

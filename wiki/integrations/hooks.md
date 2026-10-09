@@ -1,5 +1,5 @@
 ---
-description: How Hawn works with PlaceholderAPI, WorldGuard, MVdWPlaceholderAPI and BattleLevels.
+description: How Hawn works with PlaceholderAPI, WorldGuard and MVdWPlaceholderAPI.
 ---
 
 # PlaceholderAPI, WorldGuard and other hooks
@@ -23,15 +23,12 @@ Plugin:
       WorldGuard:
         Enable: false
         Keep-The-Option: false
-      BattleLevels:
-        Enable: false
-        Keep-The-Option: false
 ```
 
 * When the plugin is installed, Hawn sets `Enable` to `true` and uses it.
 * When the plugin is not installed, Hawn sets `Enable` back to `false`, unless `Keep-The-Option` is `true`.
 
-You don't need to edit these lines yourself. To stop using a hook, remove the plugin and **restart** the server.
+You don't need to edit these lines yourself. To stop using a hook, remove the plugin and **restart** the server. The hooks are checked at startup and on `/hawn reload`, not at every message.
 
 ## PlaceholderAPI
 
@@ -52,10 +49,6 @@ Adds the MVdW placeholders (`{onlineplayers}`...) to Hawn messages.
 {% hint style="warning" %}
 MVdWPlaceholderAPI only works when at least one premium plugin of Maximvdw (FeatherBoard, AnimatedNames...) is installed. Without one, it spams the console. In that case, remove MVdWPlaceholderAPI.
 {% endhint %}
-
-## BattleLevels
-
-Adds the `%h_battlelevels_...%` placeholders, see [Placeholders](../reference/placeholders.md#battlelevels).
 
 ## WorldEdit
 

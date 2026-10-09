@@ -48,7 +48,6 @@ These plugins are not needed, but Hawn uses them when they are installed:
 | [WorldGuard](https://enginehub.org/worldguard) **7+**                     | Protections enabled or disabled per region.                           |
 | WorldEdit                                                                | Needed by the `/1`, `/2`, `/c`, `/p` shortcuts.                       |
 | MVdWPlaceholderAPI                                                       | MVdW placeholders.                                                    |
-| BattleLevels                                                             | `%h_battlelevels_...%` placeholders.                                  |
 
 Hawn detects them by itself at startup. You can check what was detected with `/hawn hooks`. More details: [Hooks](../integrations/hooks.md).
 

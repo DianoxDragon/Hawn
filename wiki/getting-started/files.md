@@ -11,14 +11,14 @@ Missing files are recreated with their default values at startup. To reset a fil
 
 Missing **options** are added too, at startup and on `/hawn reload`: the new options of an update, or an option deleted by mistake, come back with their default value (the console lists them). Your values are never changed, and the lists you fill yourself (custom commands, auto broadcast messages, join items, emojis, books, signs, fireworks, help pages, animations, per-world and per-group messages...) are never refilled: a deleted example stays deleted. A file with a YAML error is left as it is (the console says so).
 
-Each file starts with a comment that gives the page of this wiki that explains it.
+Each file starts with a comment that gives the page of this wiki that explains it. Since Hawn 1.4, on servers 1.18.1 and newer, each option also has a comment above it that says what it does (added to your files at the first start; your own comments are kept). On 1.16 and 1.17, Minecraft can't write comments: only the first one is there.
 {% endhint %}
 
 ## Overview
 
 ```
 plugins/Hawn/
-├── general.yml                 Main options: language, update check, hooks, MySQL
+├── general.yml                 Main options: language, default world, update check, hooks, MySQL
 ├── spawn.yml                   Your spawns (written by /setspawn)
 ├── warplist.yml                Your warps (written by /setwarp)
 ├── World-List.yml              Worlds created or imported with the world manager
@@ -34,7 +34,7 @@ plugins/Hawn/
 │   └── Utility/                Lists: fireworks, books, emojis, signs
 ├── CustomJoinItem/             Items given on join and the special items
 ├── Scoreboard/                 One file per scoreboard
-├── Tablist/                    Tab list header, footer and animations
+├── Tablist/                    The default tab list (Tablist.yml), then one file per other tab list
 ├── Messages/                   Every message, one folder per language
 │   ├── en_US/
 │   └── fr_FR/
@@ -45,7 +45,7 @@ plugins/Hawn/
 
 | File                        | Content                                                                                                         | Page                                                   |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `general.yml`               | Update check, date format (`dd-MM-yyyy`), 12/24 hours format, TPS warning, language, hooks, MySQL.              | [Hooks](../integrations/hooks.md), [MySQL](../features/database.md) |
+| `general.yml`               | Update check, date format (`dd-MM-yyyy`), 12/24 hours format, TPS warning, language, default world, hooks, MySQL. | [Hooks](../integrations/hooks.md), [MySQL](../features/database.md) |
 | `spawn.yml`                 | Spawn coordinates. Written by `/setspawn`, `/delspawn`.                                                          | [Spawns](../features/spawns.md)                        |
 | `warplist.yml`              | Warp coordinates. Written by `/setwarp`, `/editwarp`, `/delwarp`.                                                | [Warps](../features/warps.md)                          |
 | `World-List.yml`            | Worlds created/imported with `/hw`, loaded again at every start.                                                 | [World manager](../features/world-manager.md)          |
@@ -113,7 +113,7 @@ See [Custom join items](../features/custom-join-items.md).
 ## Scoreboard/ and Tablist/
 
 * `Scoreboard/` contains one file per scoreboard. Two are created the first time: `scoreboard.default.yml` and `scoreboard.worldnetherbecausewelikethat.yml`. See [Scoreboards](../features/scoreboards.md).
-* `Tablist/Tablist.yml` contains the header, the footer and the animations. See [Tab list](../features/tablist.md).
+* `Tablist/Tablist.yml` contains the general options, the default header and footer, and the animations. Every other file of `Tablist/` is a tab list for some worlds or permissions (two examples, `staff.yml` and `nether.yml`, are created once). See [Tab list](../features/tablist.md).
 
 ## Messages/
 

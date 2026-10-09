@@ -12,6 +12,9 @@ VoidTP:
   Options:
     TP-y: 0                         # teleport when the player is at or below this Y
     Bypass-With-Permission: true    # hawn.bypass.voidtp is not teleported
+    Spawn-Permission:
+      Enable: false                 # true = only the players with hawn.command.spawn.<spawn> are teleported
+      No-Permission-Message: true   # with Enable: true, the others get the "no permission" message
     Message:
       Custom: true                  # true = Teleport.VoidTP of Messages.yml, false = the normal teleport message
       Disable: false                # true = no message
@@ -45,7 +48,7 @@ VoidTP:
 **Since 1.18 the overworld goes down to Y = -64.** With `TP-y: 0`, players exploring caves below Y 0 are teleported to the spawn. On a normal overworld, use `TP-y: -70`. On a void or flat lobby, `0` is fine.
 {% endhint %}
 
-The spawn is the `Custom-Spawn` if enabled, else the default spawn (`Events/OnJoin.yml` → `Spawn.DefaultSpawn`), or the spawn given to the player when the [spawn groups](spawns.md#spreading-the-players-between-several-spawns) are on. As for `/spawn`, the player needs **`hawn.command.spawn.<spawn>`**, see [Spawns](spawns.md#permissions). (This is not the case of the teleport on join, unless `Spawn-Permission` is on.)
+The spawn is the `Custom-Spawn` if enabled, else the default spawn (`Events/OnJoin.yml` → `Spawn.DefaultSpawn`), or the spawn given to the player when the [spawn groups](spawns.md#spreading-the-players-between-several-spawns) are on. Since Hawn 1.4, every player is teleported, like the teleport on join. With `Spawn-Permission.Enable: true`, the player needs **`hawn.command.spawn.<spawn>`** as for `/spawn` (see [Spawns](spawns.md#permissions)), which was the behaviour before 1.4.
 
 `Execute-Commands` runs [actions](../basics/actions.md) after the teleport.
 

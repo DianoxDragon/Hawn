@@ -24,7 +24,7 @@ No, Hawn is made for Spigot and Paper.
 
 <summary>Do I need other plugins?</summary>
 
-No. PlaceholderAPI, WorldGuard, WorldEdit, MVdWPlaceholderAPI and BattleLevels are optional. See [Hooks](../integrations/hooks.md).
+No. PlaceholderAPI, WorldGuard, WorldEdit and MVdWPlaceholderAPI are optional. See [Hooks](../integrations/hooks.md).
 
 </details>
 

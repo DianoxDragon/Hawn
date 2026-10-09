@@ -94,6 +94,10 @@ With `Warn-when-people-make-change: true`, players with `hawn.spy.adminpanel` ar
 
 The players with `hawn.maintenance.bypass` (the operators by default) can always join. In the whitelists of the maintenance and of the emergency mode, the case of the names doesn't matter, and a UUID works too.
 
+{% hint style="info" %}
+On Paper 1.21.7 and newer, Hawn checks the join before the player exists (the new connection event of Paper). The permissions `hawn.maintenance.bypass` and `hawn.join.full` are then read from LuckPerms; with another permission plugin, only the operators have them. Use the whitelist for the other players.
+{% endhint %}
+
 `Commands/Hawn.yml`:
 
 ```yaml

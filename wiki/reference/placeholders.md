@@ -68,12 +68,6 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%timedelaypvcji%`       | Seconds before the player visibility item can be used again |
 | `%timedelayfunguncji%`   | Seconds before the fun gun can be used again            |
 
-## BattleLevels
-
-With the [BattleLevels](../integrations/hooks.md#battlelevels) hook:
-
-`%h_battlelevels_level%`, `%h_battlelevels_score%`, `%h_battlelevels_bar%`, `%h_battlelevels_topstreak%`, `%h_battlelevels_killstreak%`, `%h_battlelevels_kills%`, `%h_battlelevels_deaths%`, `%h_battlelevels_kdr%`, `%h_battlelevels_booster%`, `%h_battlelevels_boosterenabled%`, `%h_battlelevels_globalbooster%`, `%h_battlelevels_globalboosterenabled%`, `%h_battlelevels_neededfornext%`, `%h_battlelevels_neededfornextremaining%`
-
 ## Where player placeholders don't work
 
 Some texts are not linked to a player, only the server placeholders work there:

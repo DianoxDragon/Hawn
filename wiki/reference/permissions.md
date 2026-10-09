@@ -85,6 +85,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.command.world.*`                       | Every `/hw` sub-command                          |
 | `hawn.command.world.list` / `.info` / `.tp` / `.create` / `.import` / `.unload` / `.delete` | `/hw list`, `info`, `tp`, `create`, `import`, `unload`, `delete` |
 | `hawn.command.world.modifymain` / `.modifytime` / `.modifyweather` / `.modifydifficulty` | World settings in the menu |
+| `hawn.command.world.setdefault`              | Make a world the [default world](../features/world-manager.md#the-default-world) in the menu |
 | `hawn.command.broadcast`                     | `/broadcast`                                     |
 | `hawn.command.warning`                       | `/warning`                                       |
 | `hawn.command.titleannouncer`                | `/titleannouncer`                                |
@@ -200,6 +201,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.use.chatcolor.chat.code.<code>`        | One code (when `Per-Color-Permission: true`)        |
 | `hawn.use.chatcolor.chat.hex`                | Hex colours                                         |
 | `hawn.bypass.antiswear`                      | Not filtered by the anti-swear                      |
+| `hawn.bypass.antispam`                       | Not checked by the anti-spam (repeated messages, capital letters) |
 | `hawn.event.chat.bypass.mutechat`            | Can talk when the chat is muted                     |
 | `hawn.event.chat.bypass.chatdelay`           | No chat delay                                       |
 | `hawn.event.bypass.blockcommands`            | Can use blocked commands                            |
@@ -225,6 +227,9 @@ Only when `Use-Permission-To-Get-Messages: true`:
 | `hawn.bypass.HagingBreakByEntity`                  | Paintings / item frames protection         |
 | `hawn.bypass.PlayerInteractEntity`                 | Item frame content protection              |
 | `hawn.bypass.protection.buckets`                   | Anti-bucket                                |
+| `hawn.bypass.armorstand`                     | Can use and hit the armor stands (`Armor-Stand`)    |
+| `hawn.bypass.hangingplace`                   | Can place item frames and paintings (`Hanging-Place`) |
+| `hawn.bypass.trample`                        | Can trample the farmland (`Anti-Trample`)           |
 | `hawn.bypass.world.event.shears`                   | No-shears                                  |
 | `hawn.bypass.antidamage`                           | Anti-damage                                |
 | `hawn.bypass.foodkeep`                             | No hunger                                  |
@@ -247,3 +252,9 @@ Most bypass permissions only work when the `Bypass` (or `Bypass-With-Permission`
 | Permission                     | Description                                         |
 | ------------------------------ | --------------------------------------------------- |
 | `hawn.scoreboard.<file name>`  | Sees this scoreboard, for example `hawn.scoreboard.scoreboard.default` |
+
+## Tab list
+
+| Permission                     | Description                                         |
+| ------------------------------ | --------------------------------------------------- |
+| `hawn.tablist.<file name>` | Sees the tab list of `Tablist/<file name>.yml` when it has `permission: true`, for example `hawn.tablist.staff`. Since Hawn 1.4, see [Tab list](../features/tablist.md#per-world-and-per-permission) |

@@ -16,7 +16,7 @@ Every command can be disabled or aliased, see [Commands management](../basics/co
 | ------------------------------------------ | ------------------------------------------------- | -------------------------------------------------- |
 | `/hawn [help] [page]`                      | `hawn.admin`                                      | Main admin command. All its sub-commands are on the [Admin tools](../features/admin-tools.md#hawn) page. |
 | `/adminpanel` · `/ap` `/pa` `/paneladmin`  | `hawn.adminpanel` + listed in `Commands/AdminPanel.yml` | Opens the [admin panel](../features/admin-tools.md#admin-panel). |
-| `/hw` · `/hworld`                          | `hawn.command.world.general`                      | [World manager](../features/world-manager.md).     |
+| `/hw` · `/hworld`                          | `hawn.command.world.general`                      | [World manager](../features/world-manager.md). `/hw default [world]` shows or changes the default world (also from the console). |
 | `/checkaccount <player>` · `/checka`       | `hawn.command.checkaccount`                       | Shows the stored information of a player.          |
 | `/kickall`                                 | `hawn.command.kickall`                            | Kicks every player (except `hawn.command.bypass.kickall`). |
 
