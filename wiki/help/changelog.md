@@ -4,6 +4,15 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.1 BETA
+
+### Fixes
+
+* `/gmute <minutes>` stopped the server at the end of the minutes, instead of opening the chat again. The chat is now opened again, even if the one who muted it has left, and `/gmute abc` asks for a number instead of an error.
+* Vanish (`/v`): a vanished player was shown again to a player who joined (by the player hider item, on by default), who used the player hider item, `/option` or who changed world, and to every player who joined with `Keep.Vanish-On-Join.Enable: true`. The vanished players stay hidden now.
+* Admin panel (`/ap`): its buttons (stop, reload, save the server...) only work in the menu opened by Hawn, and only for the players who can still open it (`hawn.adminpanel` and `List-Of-People-Can-Use-The-Panel`); otherwise the menu closes. Before, a menu of another plugin with the same title was enough.
+* `/hawn editplayer <player>` and the player list of the admin panel opened the menu for the chosen player instead of the one who asked for it.
+
 ## 1.4 BETA
 
 ### New

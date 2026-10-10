@@ -67,7 +67,15 @@ public class EditPlayerGui implements Listener {
 			ItemStack item = e.getCurrentItem();
 			
 			Player target = Bukkit.getServer().getPlayer(inv.replace("§cEdit Player - ", ""));
-			
+
+			// The player left while the menu was open
+			if (target == null) {
+				e.setCancelled(true);
+				p.closeInventory();
+				MessageUtils.PlayerDoesntExist(p);
+				return;
+			}
+
 			if (e.isLeftClick()) {
 				if (item.getType() == XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()) {
 					e.setCancelled(true);
@@ -282,7 +290,10 @@ public class EditPlayerGui implements Listener {
 		}
 	}
 	
-	public static void OpenGui(Player p) {
+	/**
+	 * Opens the menu of the player p for the viewer (it was opened for p before 1.4.1).
+	 */
+	public static void OpenGui(Player viewer, Player p) {
 
 		Inventory inv = HawnMenu.create(54, "§cEdit Player - " + p.getName());
     	    	
@@ -357,8 +368,8 @@ public class EditPlayerGui implements Listener {
 
         inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-		
-		p.openInventory(inv);
+
+		viewer.openInventory(inv);
 	}
 
 	public static ItemStack createGuiItemWL(String name, Material mat) {

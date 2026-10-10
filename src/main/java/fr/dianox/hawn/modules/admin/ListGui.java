@@ -77,7 +77,12 @@ public class ListGui implements Listener {
 							String pname = item.getItemMeta().getDisplayName();
 							pname = pname.replace("§b", "");
 							
-							EditPlayerGui.OpenGui(Bukkit.getPlayer(pname));
+							Player target = Bukkit.getPlayer(pname);
+							if (target == null) {
+								MessageUtils.PlayerDoesntExist(p);
+							} else {
+								EditPlayerGui.OpenGui(p, target);
+							}
 						} catch (Exception ignored) {}
 					}
 				}

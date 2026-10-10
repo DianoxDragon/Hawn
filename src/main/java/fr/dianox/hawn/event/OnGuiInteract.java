@@ -4,7 +4,9 @@ import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.command.commands.PanelAdminCommand;
 import fr.dianox.hawn.modules.admin.ListGui;
+import fr.dianox.hawn.utility.gui.HawnMenu;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
@@ -51,8 +53,20 @@ public class OnGuiInteract implements Listener {
 	    assert titlegui != null;
 	    titlegui = MessageUtils.colourTheStuff(titlegui);
 
-        
-        
+        // The admin panel can stop or reload the server: only the menus opened by Hawn (not another plugin's menu
+        // with the same title), and only for the players who can still open it
+        if (!inv.equals(titlegui) && inv.startsWith("§cAP")) {
+            if (!HawnMenu.isMenu(e.getView().getTopInventory())) {
+                return;
+            }
+
+            if (!PanelAdminCommand.canUse(p)) {
+                e.setCancelled(true);
+                p.closeInventory();
+                return;
+            }
+        }
+
         if (inv.equals(titlegui)) {
             ItemStack clickedItem = e.getCurrentItem();
             

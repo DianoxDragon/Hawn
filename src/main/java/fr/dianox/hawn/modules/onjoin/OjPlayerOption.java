@@ -546,19 +546,13 @@ public class OjPlayerOption {
                     }
                 }
 
+                // The players vanished before this one joined stay hidden from them (they were shown before 1.4.1)
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                    if (VanishCommand.player_list_vanish.contains(all)) {
-                        if (VanishCommand.player_list_vanish.contains(all)) {
-                            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                                p.showPlayer(Main.getInstance(), all);
-                            } else {
-                                p.showPlayer(all);
-                            }
-
-                            if (Main.TaskVanishAB.containsKey(p)) {
-                                Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
-                                Main.TaskVanishAB.remove(p);
-                            }
+                    if (all != p && VanishCommand.player_list_vanish.contains(all)) {
+                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
+                            p.hidePlayer(Main.getInstance(), all);
+                        } else {
+                            p.hidePlayer(all);
                         }
                     }
                 }

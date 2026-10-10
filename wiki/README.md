@@ -9,7 +9,7 @@ description: Hawn is an all-in-one hub / lobby plugin for Spigot and Paper serve
 Hawn turns a fresh server into a ready-to-use lobby: spawns, join messages, items in the hotbar, scoreboards, tab list, protections, jump pads, a world manager and much more. Almost everything is optional and can be configured per world.
 
 {% hint style="info" %}
-This wiki documents **Hawn 1.4 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
+This wiki documents **Hawn 1.4.1 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
 {% endhint %}
 
 ## Download

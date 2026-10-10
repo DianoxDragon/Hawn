@@ -45,6 +45,18 @@ public class PanelAdminCommand extends BukkitCommand {
 		return Tab.none();
 	}
 
+    /**
+     * The panel can stop or reload the server: hawn.adminpanel and General-Options.List-Of-People-Can-Use-The-Panel,
+     * checked when it opens and at every click.
+     */
+    public static boolean canUse(Player p) {
+        return p.hasPermission("hawn.adminpanel") && isListed(p);
+    }
+
+    private static boolean isListed(Player p) {
+        return AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel").contains(p.getName());
+    }
+
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
 
@@ -66,9 +78,7 @@ public class PanelAdminCommand extends BukkitCommand {
             return true;
         }
 
-        List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
-		
-		if (!whitelistuse.contains(p.getName())) {
+		if (!isListed(p)) {
 			
 			for (String msg: AdminPanelConfig.getConfig().getStringList("Error.Not-listed")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);

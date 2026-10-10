@@ -583,7 +583,7 @@ public class HawnCommand implements CommandExecutor {
 				return true;
 			}
 
-			EditPlayerGui.OpenGui(target);
+			EditPlayerGui.OpenGui(p, target);
 		// Open the setup again
 		} else if (args[0].equalsIgnoreCase("setup")) {
 			if (!p.hasPermission("hawn.setup") && !permissionunlocked) {

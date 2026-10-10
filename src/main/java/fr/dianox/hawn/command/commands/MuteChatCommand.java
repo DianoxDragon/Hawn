@@ -15,7 +15,6 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.tasks.TaskShutdownServer;
 
 import java.util.List;
 
@@ -66,21 +65,26 @@ public class MuteChatCommand extends BukkitCommand {
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 				}
 			} else {
+				int minutes = minutes(args[0]);
+				if (minutes <= 0) {
+					if (ConfigMMsg.getConfig().getBoolean("Error.Use-Number.Enable")) {
+						for (String msg: ConfigMMsg.getConfig().getStringList("Error.Use-Number.Messages")) {
+							MessageUtils.ConsoleMessages(msg);
+						}
+					}
+					return true;
+				}
+
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "console").replace("%minutes%", args[0])));
 					MessageUtils.ConsoleMessages(msg.replace("%player%", "console").replace("%minutes%", args[0]));
 					ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console").replace("%minutes%", ConfigEventUtils.noAction(args[0])),
 							"", "");
 				}
-				
+
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
-				
-				int time = (Integer.parseInt(args[0]) * 60) * 20;
-				
-				BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), time);
-				
-				taskrunning = true;
-				tasknumber = task.getTaskId();
+
+				unmuteIn(minutes, null);
 			}
 		    return true;
 		    
@@ -128,23 +132,45 @@ public class MuteChatCommand extends BukkitCommand {
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 			}
 		} else {
+			int minutes = minutes(args[0]);
+			if (minutes <= 0) {
+				MessageUtils.UseNumber(p);
+				return true;
+			}
+
 			for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 				MessageUtils.ConsoleMessages(msg.replace("%minutes%", args[0]));
 				ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%minutes%", ConfigEventUtils.noAction(args[0])), "", "", p, true);
 			}
-			
+
 			MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
-			
-			int time = (Integer.parseInt(args[0]) * 60) * 20;
-			
-			BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), time);
-			
-			taskrunning = true;
-			tasknumber = task.getTaskId();
+
+			unmuteIn(minutes, p);
 		}
-		
-		
+
+
 		return true;
+	}
+
+	// The number of minutes typed, -1 when it is not a number
+	private static int minutes(String text) {
+		try {
+			return Integer.parseInt(text.trim());
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	// The chat is opened again after these minutes (it shut the server down before 1.4.1)
+	private static void unmuteIn(int minutes, Player by) {
+		if (taskrunning) {
+			Bukkit.getScheduler().cancelTask(tasknumber);
+		}
+
+		BukkitTask task = new MuteChatTask(by).runTaskLater(Main.getInstance(), minutes * 60L * 20L);
+
+		taskrunning = true;
+		tasknumber = task.getTaskId();
 	}
 
 }
