@@ -68,7 +68,8 @@ public final class StartupReport {
 					: "Bukkit events")
 				+ " - MiniMessage " + yes(PlatformEvents.isMiniMessage()));
 		say(LINE + ChatColor.YELLOW + "Hooks: " + hook("PlaceholderAPI", HooksManager.papi()) + ChatColor.GRAY + " - "
-				+ hook("WorldGuard", HooksManager.worldGuard()) + ChatColor.GRAY + " - " + hook("MVdWPlaceholderAPI", HooksManager.mvdw()));
+				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard())
+				+ ChatColor.GRAY + " - " + hook("MVdWPlaceholderAPI", HooksManager.mvdw()));
 		boolean mysql = ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable");
 		boolean yaml = hawn.getSql() == null || hawn.getSql().useyamllistplayer;
 		say(LINE + ChatColor.YELLOW + "Storage: " + ChatColor.WHITE + (yaml ? "YAML" : "MySQL")
@@ -244,6 +245,13 @@ public final class StartupReport {
 			if (existing < 2) {
 				warnings.add("Spawn group on with " + existing + " existing spawn: there is nothing to spread the players between");
 			}
+		}
+
+		// Spawns whose world was deleted or renamed: nobody can be teleported there
+		java.util.Set<String> withoutWorld = SpawnUtils.spawnsWithoutWorld();
+		if (!withoutWorld.isEmpty()) {
+			warnings.add("The world of " + (withoutWorld.size() == 1 ? "the spawn " : "the spawns ") + String.join(", ", withoutWorld)
+					+ " doesn't exist: nobody can be teleported there. Create the world again, or delete the spawn with /delspawn");
 		}
 
 		// Void TP: a spawn under the height of the void TP sends the players back into the void, again and again

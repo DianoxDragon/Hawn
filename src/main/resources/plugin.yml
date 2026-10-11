@@ -4,7 +4,7 @@ author: Dianox
 main: fr.dianox.hawn.Main
 api-version: '1.16'
 load: POSTWORLD
-softdepend: [PlaceholderAPI, WorldGuard, WorldEdit, MVdWPlaceholderAPI]
+softdepend: [PlaceholderAPI, LuckPerms, WorldGuard, WorldEdit, MVdWPlaceholderAPI]
 commands:
   hawn:
     description: Main menu for admins.

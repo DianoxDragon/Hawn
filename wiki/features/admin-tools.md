@@ -185,6 +185,23 @@ The vanish state can be kept when the player reconnects, see [Player options](pl
 
 With `general.yml` → `Plugin.Tps.Warn-system: true`, players with `hawn.event.warn.tps` receive a warning when the TPS drops to 15 or below (messages `TPS.Check` of `Admin.yml`).
 
+## Update check
+
+Hawn looks for a new version on Spigot at startup, then every 6 hours. When one is out, the console says it, and the players with `hawn.admin` are told when they join, with a link to the Spigot page.
+
+```yaml
+# general.yml
+Plugin:
+  Update:
+    Check-Update: true
+    Notify-Admins: true
+```
+
+* `Check-Update: false`: Hawn never looks for a new version.
+* `Notify-Admins: false`: only the console is told (since Hawn 1.4.2).
+
+The message is `Update.Notify-Admins.Messages` in `Messages/<language>/General.yml`, with `%new_version%` and `%current_version%`.
+
 ## Other staff commands
 
 `/checkaccount`, `/invsee`, `/ec`, `/ip`, `/getpos`, `/kickall`, `/clearinv`, `/cleargrounditems`, `/clearmobs`, `/broadcast`, `/warning`... see the full list in [Commands](../reference/commands.md).

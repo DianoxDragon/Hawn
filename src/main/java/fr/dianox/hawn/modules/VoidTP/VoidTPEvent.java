@@ -293,16 +293,11 @@ public class VoidTPEvent implements Listener {
 				return;
 			}
 
-			if (multiworld) {
-				if (VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".VoidTP")) {
-					if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".VoidTP")) {
-						SpawnUtils.teleportToSpawn(p, spawn);
-					}
-				} else {
-					SpawnUtils.teleportToSpawn(p, spawn);
-				}
-			} else {
-				SpawnUtils.teleportToSpawn(p, spawn);
+			// 59: the world of the spawn is deleted or unloaded, no message, sound or command for a teleport that didn't happen
+			// ("VoidTP: false" for this world already stopped above)
+			if (!SpawnUtils.teleportToSpawn(p, spawn, false)) {
+				warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
+				return;
 			}
 
 			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {

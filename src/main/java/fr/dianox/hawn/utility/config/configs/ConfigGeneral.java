@@ -55,6 +55,7 @@ public class ConfigGeneral {
         Config = new YamlConfiguration();
 
         Config.set("Plugin.Update.Check-Update", true);
+        Config.set("Plugin.Update.Notify-Admins", true);
         Config.set("Plugin.Date-Format", "dd-MM-yyyy");
         Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
         Config.set("Plugin.Tps.Warn-system", true);

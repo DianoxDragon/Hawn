@@ -27,15 +27,19 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) {
-			/*
-			 * If the player is null or not online
-			 * Cancel the task and stop the execution of the class
-			 */
-            p = null;
-            cancel();
-            return;
-        }
+		// 50: done, refused or failed, the player teleported is no longer waiting
+		try {
+			teleport();
+		} finally {
+			Main.endTeleportDelay(other);
+		}
+	}
+
+	private void teleport() {
+		// The sender or the player teleported has left
+		if (!p.isOnline() || !other.isOnline()) {
+			return;
+		}
 		
 		/*
 		 * Then execute the code
@@ -58,7 +62,7 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 		
 		// Messages
 		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+			ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", other.getName()), "", "", false);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -66,9 +70,6 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 			}
 		}
 		
-		Main.player_spawnwarpdelay.remove(other.getUniqueId());
-		Main.inspawnd.remove(p);
-		Main.inwarpd.remove(p);
 	}
 
 }

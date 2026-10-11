@@ -131,6 +131,9 @@ public class OnJoin implements Listener {
             }
         }
 
+        // A new version of Hawn is out: the admins are told
+        Main.notifyUpdate(p);
+
         // Clear chat
         ChatClear(p);
 
@@ -138,8 +141,10 @@ public class OnJoin implements Listener {
         ForceSelectedSlot(p);
 
         // JOIN TP SPAWN
-        if (p.hasPlayedBefore() && PlayerOptionMainConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") || SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
-            if (Main.getInstance().getSql().useyamllistplayer) {
+        // 60: MySQL is only asked when it is used: down, it would be called again on the main thread at every join
+        boolean useYaml = Main.getInstance().getSql().useyamllistplayer;
+        if (p.hasPlayedBefore() && PlayerOptionMainConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (useYaml ? ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") : SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
+            if (useYaml) {
                 if (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World")) {
 
                     World w = Bukkit.getServer().getWorld(ConfigPlayerGet.getFile(uuid).getString("player_last_position.World"));

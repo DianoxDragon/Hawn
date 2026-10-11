@@ -1,8 +1,8 @@
 ---
-description: How Hawn works with PlaceholderAPI, WorldGuard and MVdWPlaceholderAPI.
+description: How Hawn works with PlaceholderAPI, LuckPerms, WorldGuard and MVdWPlaceholderAPI.
 ---
 
-# PlaceholderAPI, WorldGuard and other hooks
+# PlaceholderAPI, LuckPerms, WorldGuard and other hooks
 
 Hawn detects the supported plugins by itself at startup. `/hawn hooks` shows what was detected (✔ or ✗).
 
@@ -35,6 +35,16 @@ You don't need to edit these lines yourself. To stop using a hook, remove the pl
 [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) adds thousands of placeholders (`%luckperms_prefix%`, `%vault_eco_balance%`, `%server_online%`...). With PlaceholderAPI installed, you can use them everywhere in Hawn: messages, scoreboards, tab list, join items, titles...
 
 Don't forget to download the expansions you use: `/papi ecloud download <expansion>` then `/papi reload`.
+
+## LuckPerms
+
+[LuckPerms](https://luckperms.net/) is optional, but it is the permission plugin Hawn is tested with, and Hawn uses it directly in one case:
+
+* **Paper 1.21.7 and newer**: the maintenance bypass (`hawn.maintenance.bypass`) and the full server bypass (`hawn.join.full`) are checked before the player exists. Hawn reads them from LuckPerms. With another permission plugin, only the operators have them (the whitelists still work). See [Maintenance mode](../features/admin-tools.md#maintenance-mode).
+
+Everything else only needs a permission plugin, whichever it is. To show the ranks of LuckPerms in Hawn texts (chat format, scoreboards, tab list...), install PlaceholderAPI and its `luckperms` expansion, then use `%luckperms_prefix%` and `%luckperms_suffix%`.
+
+Wildcards such as `hawn.emoji.*` work with LuckPerms.
 
 ## WorldGuard
 

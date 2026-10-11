@@ -78,6 +78,11 @@ public class HooksManager {
 		return worldGuard;
 	}
 
+	// Not a hook of general.yml: its API is only read when it is there (the permissions checked before a player exists, Paper 1.21.7+)
+	public static boolean luckPerms() {
+		return Bukkit.getPluginManager().isPluginEnabled("LuckPerms");
+	}
+
 	public PlaceHolderAPI getPapi() {
 		return papiHook;
 	}

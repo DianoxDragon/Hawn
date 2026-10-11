@@ -26,15 +26,18 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) {
-			/*
-			 * If the player is null or not online
-			 * Cancel the task and stop the execution of the class
-			 */
-            p = null;
-            cancel();
-            return;
-        }
+		// 50: done, refused or failed, the player teleported is no longer waiting
+		try {
+			teleport();
+		} finally {
+			Main.endTeleportDelay(p);
+		}
+	}
+
+	private void teleport() {
+		if (!p.isOnline()) {
+			return;
+		}
 		
 		/*
 		 * Then execute the code
@@ -46,8 +49,7 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
-					String Permission = "hawn.command.spawn."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn");
-					MessageUtils.MessageNoPermission(p, Permission);
+					MessageUtils.MessageNoSpawn(p);
 					return;
 				}
 				
@@ -98,12 +100,6 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 			}
 		}
 		
-		if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-			Main.player_spawnwarpdelay.remove(p.getUniqueId());
-		}
-		
-		Main.inspawnd.remove(p);
-		Main.inwarpd.remove(p);
 	}
 
 }

@@ -266,6 +266,7 @@ public class HawnCommand implements CommandExecutor {
 				} else {
 					sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 				}
+				sender.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
 				sender.sendMessage("");
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
 					|| args[0].equalsIgnoreCase("nightvision") || args[0].equalsIgnoreCase("noclip")
@@ -615,6 +616,7 @@ public class HawnCommand implements CommandExecutor {
 			} else {
 				p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			}
+			p.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
 			p.sendMessage("");
 		// info
 		} else if (args[0].equalsIgnoreCase("info")) {

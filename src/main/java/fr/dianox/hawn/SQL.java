@@ -32,6 +32,8 @@ public class SQL {
     private static ExecutorService async;
 
     private static final Object NULL = new Object();
+    // When the last reconnection failed
+    private static volatile long failedAt = 0;
     // Names (lower case) of the tables with a player_UUID column, null until they are known
     private static volatile Set<String> playerTables;
     // Online players: uuid -> table (lower case) -> row (column in lower case -> value or NULL); no entry = no row
@@ -56,9 +58,9 @@ public class SQL {
             if (host == null || username == null || password == null || database == null) {
                 url = null;
             } else if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Use-SSL")) {
-                url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+                url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?connectTimeout=5000";
             } else {
-                url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false";
+                url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false&connectTimeout=5000";
             }
 
             async = Executors.newSingleThreadExecutor(r -> {
@@ -151,6 +153,12 @@ public class SQL {
             return false;
         }
 
+        // 60: the database is down, the main thread doesn't try again at every call (the server would freeze each time);
+        // the MySQL thread and the check every 5 minutes still do
+        if (Bukkit.isPrimaryThread() && System.currentTimeMillis() - failedAt < 60000L) {
+            return false;
+        }
+
         try {
             if (connection != null) {
                 connection.close();
@@ -163,6 +171,7 @@ public class SQL {
             return true;
         } catch (Exception e) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "MySQL Reconnect Error: " + e.getMessage());
+            failedAt = System.currentTimeMillis();
             return false;
         }
     }

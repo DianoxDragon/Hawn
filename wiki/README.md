@@ -9,7 +9,7 @@ description: Hawn is an all-in-one hub / lobby plugin for Spigot and Paper serve
 Hawn turns a fresh server into a ready-to-use lobby: spawns, join messages, items in the hotbar, scoreboards, tab list, protections, jump pads, a world manager and much more. Almost everything is optional and can be configured per world.
 
 {% hint style="info" %}
-This wiki documents **Hawn 1.4.1 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
+This wiki documents **Hawn 1.4.2 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
 {% endhint %}
 
 ## Download
@@ -25,7 +25,7 @@ Hawn is available on its Spigot page: [Hawn - Hub/Lobby Management](https://www.
 
 Hawn does not use NMS code anymore, everything goes through the Bukkit/Spigot API, so the same jar works on every supported version.
 
-Optional integrations: [PlaceholderAPI, WorldGuard 7+ and MVdWPlaceholderAPI](integrations/hooks.md), plus [BungeeCord/Velocity](integrations/bungeecord.md) for server switching.
+Optional integrations: [PlaceholderAPI, LuckPerms, WorldGuard 7+ and MVdWPlaceholderAPI](integrations/hooks.md), plus [BungeeCord/Velocity](integrations/bungeecord.md) for server switching.
 
 ## What Hawn can do
 

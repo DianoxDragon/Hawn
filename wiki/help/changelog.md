@@ -4,6 +4,23 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.2 BETA
+
+### New
+
+* Update check: when a new version is out, the players with `hawn.admin` are told when they join, with a link to the Spigot page. Hawn also looks again every 6 hours, not only at startup. `Plugin.Update.Notify-Admins` in `general.yml` turns the message off. See [Update check](../features/admin-tools.md#update-check).
+* Startup and `/hawn reload` warn about the spawns whose world doesn't exist anymore.
+* LuckPerms is declared as an optional dependency, and shown by `/hawn hooks` and at startup. See [LuckPerms](../integrations/hooks.md#luckperms).
+
+### Fixes
+
+* `/spawn tp <player>` teleported the one who typed the command instead of the player, with the default spawn (and with a spawn group, the spawn was chosen for the wrong player). Now the player is teleported, with or without the delay.
+* After `/spawn tp <player>` or `/warp <warp> <player>` with a delay, the player who was teleported got "Tp cancelled" at the first step. The same after a teleport that failed (spawn missing, no permission).
+* `/spawn tp <player>` announced the delay of `/spawn` (`Delay.Self`) instead of its own (`Delay.Other`), and the message to the sender showed its own name instead of the player teleported.
+* Void TP to a spawn whose world was deleted or unloaded: at every step under the limit, the void TP message, sound and commands were run and the console was warned, without any teleport. Now the player is told once every 6 seconds, the console once.
+* MySQL enabled but unreachable: a join could try to reconnect on the main thread and freeze the server. A lost connection is now tried again at most once a minute from the main thread, with a 5 seconds connection timeout.
+* `/spawn` with a delay and a custom spawn that doesn't exist said "no permission" instead of "the spawn doesn't exist".
+
 ## 1.4.1 BETA
 
 ### Fixes

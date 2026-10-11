@@ -28,6 +28,8 @@ import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.BungeeApi;
 import fr.dianox.hawn.utility.OtherUtils;
 import fr.dianox.hawn.utility.VersionUtils;
+import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.config.ConfigManager;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
@@ -97,6 +99,13 @@ public class Main extends JavaPlugin implements Listener {
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<>();
 	public static List<Player> inwarpd = new ArrayList<>();
 	public static List<Player> inspawnd = new ArrayList<>();
+
+	// A /spawn or /warp delay is over (teleported, cancelled or failed): moving no longer says "teleport cancelled"
+	public static void endTeleportDelay(Player p) {
+		player_spawnwarpdelay.remove(p.getUniqueId());
+		inspawnd.remove(p);
+		inwarpd.remove(p);
+	}
 
     public static List<Player> buildbypasscommand = new ArrayList<>();
     public static List<Player> avoidtitles = new ArrayList<>();
@@ -371,6 +380,15 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 
+		// Again every 6 hours: a server that runs for days still learns that a new version is out
+		Bukkit.getScheduler().runTaskTimerAsynchronously(getInstance(), () -> {
+			boolean before = updateAvailable();
+			UpdateCheckReload();
+			if (!before && updateAvailable()) {
+				gcs(ChatColor.YELLOW+"[Hawn] "+ChatColor.RED+"A new version of Hawn is available: " + ChatColor.YELLOW + UpdateChecker.new_number_version + ChatColor.RED +" (you are on " + ChatColor.GOLD + versions + ChatColor.RED + ")");
+			}
+		}, 6 * 60 * 60 * 20L, 6 * 60 * 60 * 20L);
+
 		if (!ConfigGeneral.getConfig().getBoolean("Plugin.Update.Check-Update")) {
 			return;
 		}
@@ -409,6 +427,28 @@ public class Main extends JavaPlugin implements Listener {
 				getInstance().getLogger().warning("Could not check for updates: " + e.getMessage());
 			}
 		}
+	}
+
+	public static boolean updateAvailable() {
+		return "§cOld Version detected".equals(UpToDate);
+	}
+
+	/**
+	 * A new version is out: the admins are told when they join (Plugin.Update.Notify-Admins), after the join messages.
+	 */
+	public static void notifyUpdate(Player p) {
+		if (!updateAvailable() || !p.hasPermission("hawn.admin") || !ConfigGeneral.getConfig().getBoolean("Plugin.Update.Notify-Admins")) {
+			return;
+		}
+
+		Bukkit.getScheduler().runTaskLater(getInstance(), () -> {
+			if (!p.isOnline()) {
+				return;
+			}
+			for (String msg : ConfigMGeneral.getConfig().getStringList("Update.Notify-Admins.Messages")) {
+				ConfigEventUtils.ExecuteEvent(p, msg.replace("%new_version%", UpdateChecker.new_number_version).replace("%current_version%", versions), "", "", false);
+			}
+		}, 60L);
 	}
 
 	@Override

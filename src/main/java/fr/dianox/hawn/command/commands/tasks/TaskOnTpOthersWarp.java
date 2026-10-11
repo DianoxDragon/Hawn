@@ -21,11 +21,19 @@ public class TaskOnTpOthersWarp extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (p == null || !p.isOnline()) {
-            p = null;
-            cancel();
-            return;
-        }
+		// 50: done, refused or failed, the player teleported is no longer waiting
+		try {
+			teleport();
+		} finally {
+			Main.endTeleportDelay(other);
+		}
+	}
+
+	private void teleport() {
+		// The sender or the player teleported has left
+		if (!p.isOnline() || !other.isOnline()) {
+			return;
+		}
 		
 		try {
 			org.bukkit.World w = org.bukkit.Bukkit.getServer().getWorld(WarpListConfig.getConfig().getString("Coordinated." + tp + ".World"));
@@ -57,9 +65,6 @@ public class TaskOnTpOthersWarp extends BukkitRunnable {
 			}
 		}
 		
-		Main.player_spawnwarpdelay.remove(other.getUniqueId());
-		Main.inspawnd.remove(p);
-		Main.inwarpd.remove(p);
 	}
 
 

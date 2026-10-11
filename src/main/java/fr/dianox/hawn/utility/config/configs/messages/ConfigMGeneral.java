@@ -144,6 +144,9 @@ public class ConfigMGeneral {
         Config.set("Spawn.Teleport.Messages", java.util.Arrays.asList(new String[] {"&7Teleport..."}));
         Config.set("Spawn.Teleport-By-Player.Messages", java.util.Arrays.asList(new String[] {"&7Teleported by someone..."}));
         Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7Teleported %target%..."}));
+        Config.set("Update.Notify-Admins.Messages", java.util.Arrays.asList(new String[] {
+        		"%prefix% &eA new version of Hawn is out: &6%new_version% &7(you have %current_version%)",
+        		"json:{\"text\":\"§b» Download it on Spigot\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Open the page of Hawn\"}}"}));
 
         Config = ConfigDefaults.apply(file, loaded, Config, "General.On-join.Join-Message.Per-Group.Groups", "General.On-join.Join-Message.Per-World.Worlds", "General.On-Quit.Quit-Message.Per-Group.Groups", "General.On-Quit.Quit-Message.Per-World.Worlds", "Spawn.On-join.Per-World.Worlds");
     }

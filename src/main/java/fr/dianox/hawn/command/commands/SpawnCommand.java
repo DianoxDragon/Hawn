@@ -94,7 +94,7 @@ public class SpawnCommand extends BukkitCommand {
 									}
 									SpawnUtils.teleportToSpawn(target, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-										MessageUtils.ConsoleMessages(msg);
+										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -122,7 +122,7 @@ public class SpawnCommand extends BukkitCommand {
 									}
 									SpawnUtils.teleportToSpawn(target, SpawnGroups.defaultSpawn(target));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-										MessageUtils.ConsoleMessages(msg);
+										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -142,7 +142,7 @@ public class SpawnCommand extends BukkitCommand {
 							}
 							SpawnUtils.teleportToSpawn(target, args[2]);
 							for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-								MessageUtils.ConsoleMessages(msg);
+								MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 							}
 							if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 								for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -340,7 +340,7 @@ public class SpawnCommand extends BukkitCommand {
 								} else {
 									if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
 										for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
-											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
+											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 										}
 									}
 									
@@ -361,7 +361,7 @@ public class SpawnCommand extends BukkitCommand {
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
 									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
-										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
+										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
 								
@@ -390,7 +390,7 @@ public class SpawnCommand extends BukkitCommand {
 								} else {
 									if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
 										for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
-											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
+											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 										}
 									}
 									
@@ -411,7 +411,7 @@ public class SpawnCommand extends BukkitCommand {
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
 									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
-										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
+										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
 								
@@ -557,7 +557,7 @@ public class SpawnCommand extends BukkitCommand {
 		}
 		SpawnUtils.teleportToSpawn(other, tp);
 		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-			ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
+			ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -588,7 +588,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 				SpawnUtils.teleportToSpawn(other, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
+					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
@@ -597,7 +597,10 @@ public class SpawnCommand extends BukkitCommand {
 				}
 			}
 		} else {
-			if (SpawnGroups.defaultSpawn(sender).contentEquals("CHANGE ME")) {
+			// 49: the default spawn (and the spawn of the group) of the player teleported, not of the sender
+			String spawn = SpawnGroups.defaultSpawn(other);
+
+			if (spawn.contentEquals("CHANGE ME")) {
 				String Lineerror = "Spawn.DefaultSpawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
@@ -606,18 +609,18 @@ public class SpawnCommand extends BukkitCommand {
 					}
 				}
 			} else {
-				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(sender))) {
+				if (!ConfigSpawn.getConfig().isSet("Coordinated."+spawn)) {
 					MessageUtils.MessageNoSpawn(sender);
 					return;
 				}
-				if (!sender.hasPermission("hawn.command.spawn."+SpawnGroups.defaultSpawn(sender))) {
-					String Permission = "hawn.command.spawn."+SpawnGroups.defaultSpawn(sender);
+				if (!sender.hasPermission("hawn.command.spawn."+spawn)) {
+					String Permission = "hawn.command.spawn."+spawn;
 					MessageUtils.MessageNoPermission(sender, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(sender, SpawnGroups.defaultSpawn(sender));
+				SpawnUtils.teleportToSpawn(other, spawn);
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
-					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
+					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
