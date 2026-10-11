@@ -88,12 +88,9 @@ public class GoTopCommand extends BukkitCommand {
                 }
             }
         } else {
+            // The permission is what allows /gotop <player> (Gotop.Others.Enable was never in the file)
             if (p.hasPermission("hawn.command.gotop.other")) {
-                if (GoTopCommandConfig.getConfig().getBoolean("Gotop.Others.Enable")) {
-                    p.sendMessage("§c/gotop or §c/gotop [player]");
-                } else {
-                    p.sendMessage("§c/gotop");
-                }
+                p.sendMessage("§c/gotop or §c/gotop [player]");
             } else {
                 p.sendMessage("§c/gotop");
             }

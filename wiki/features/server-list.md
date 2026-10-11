@@ -89,8 +89,11 @@ Players using a World Downloader mod are kicked with:
 
 ```yaml
 Anti-WDL:
+  Enable: true
   Kick-Message:
   - '&cSorry you use a world downloader'
 ```
+
+`Enable: false` lets the world downloaders in (since Hawn 1.4.3).
 
 Players with `hawn.antiwdl.bypass` are not kicked. This catches the mods that announce themselves to the server, not every possible downloader.

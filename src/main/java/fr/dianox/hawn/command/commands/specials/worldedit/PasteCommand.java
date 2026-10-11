@@ -34,7 +34,7 @@ public class PasteCommand extends BukkitCommand {
         Player p = (Player) sender;
 
         if (!PasteCommandConfig.getConfig().getBoolean("P.Enable")) {
-            if (PasteCommandConfig.getConfig().getBoolean("P.Disable-Message")) {
+            if (PasteCommandConfig.getConfig().getBoolean("p.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
                     for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);

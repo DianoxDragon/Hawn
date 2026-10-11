@@ -173,6 +173,7 @@ Options.Flying.Put-boots = true: the players with hawn.fun.boots.flying get diam
 Slots.One-Slot-Free = true: the server list always shows one free slot (online players + 1)
 Slots.Fake-Max-Player.Number = The maximum number of players shown in the server list
 On-Join.Player-With-Permission-Join-Full-Server = true: the players with hawn.join.full can join a full server
+Anti-WDL.Enable = true: the players who use World Downloader are kicked (bypass: hawn.antiwdl.bypass)
 Anti-WDL.Kick-Message = The kick message of the players who use World Downloader
 ActionBar-Announcer.Options.Write-In-The-Chat-The-Announce = true: the announce is also written in the chat
 Title-Announcer.Options.Write-In-The-Chat-The-Announce = true: the announce is also written in the chat

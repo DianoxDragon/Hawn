@@ -666,7 +666,7 @@ public class PlayerEvents implements Listener {
                     }
         		}
         	} else {
-        		if (PlayerEventsConfig.getConfig().getBoolean("Server.Items.Clear-Drops-On-Death.Bypass")) {
+        		if (PlayerEventsConfig.getConfig().getBoolean("Items.Clear-Drops-On-Death.Bypass")) {
                     if (!p.hasPermission("hawn.event.death.bypass.cleardrop")) {
                         if ((e.getEntity() instanceof Player)) {
                             e.getDrops().clear();

@@ -1,15 +1,20 @@
 package fr.dianox.hawn.utility;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.DelaychatCommand;
 import fr.dianox.hawn.command.commands.PingCommand;
+import fr.dianox.hawn.command.commands.VanishCommand;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.server.Tps;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceHolders {
 
@@ -29,6 +34,67 @@ public class PlaceHolders {
 
 			str = str.substring(0, start) + value + str.substring(end + 1);
 			start = str.indexOf("%bungee_", start + value.length());
+		}
+
+		return str;
+	}
+
+	// The vanished players are not counted: the counter would give them away
+	private static long visible(java.util.Collection<? extends Player> players) {
+		long count = 0;
+		for (Player player : players) {
+			if (!VanishCommand.player_list_vanish.contains(player)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	// %online%, %max_players%, %staff_online%, %online_<world>% and, with a player, %player_world_online%
+	private static String replaceOnline(String str, Player p) {
+		if (!str.contains("%online") && !str.contains("%max_players%") && !str.contains("%staff_online%") && !str.contains("%player_world_online%")) {
+			return str;
+		}
+
+		if (str.contains("%online%")) {
+			str = str.replace("%online%", String.valueOf(visible(Bukkit.getOnlinePlayers())));
+		}
+
+		if (str.contains("%max_players%")) {
+			str = str.replace("%max_players%", String.valueOf(Bukkit.getMaxPlayers()));
+		}
+
+		if (str.contains("%staff_online%")) {
+			List<Player> staff = new ArrayList<>();
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (player.hasPermission("hawn.staff")) {
+					staff.add(player);
+				}
+			}
+			str = str.replace("%staff_online%", String.valueOf(visible(staff)));
+		}
+
+		if (p != null && str.contains("%player_world_online%")) {
+			str = str.replace("%player_world_online%", String.valueOf(visible(p.getWorld().getPlayers())));
+		}
+
+		// Every %online_<world>% of the line; an unknown world stays as it is written
+		int start = str.indexOf("%online_");
+		while (start >= 0) {
+			int end = str.indexOf('%', start + 8);
+			if (end < 0) {
+				break;
+			}
+
+			World world = Bukkit.getWorld(str.substring(start + 8, end));
+			if (world == null) {
+				start = str.indexOf("%online_", end + 1);
+				continue;
+			}
+
+			String value = String.valueOf(visible(world.getPlayers()));
+			str = str.substring(0, start) + value + str.substring(end + 1);
+			start = str.indexOf("%online_", start + value.length());
 		}
 
 		return str;
@@ -55,6 +121,7 @@ public class PlaceHolders {
         }
 
         str = replaceBungeeServers(str);
+        str = replaceOnline(str, p);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -271,6 +338,7 @@ public class PlaceHolders {
         }
 
         str = replaceBungeeServers(str);
+        str = replaceOnline(str, null);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));

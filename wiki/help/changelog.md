@@ -4,6 +4,27 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.3 BETA
+
+### New
+
+* Placeholders for the number of players: `%online%`, `%max_players%`, `%online_<world>%`, `%player_world_online%` and `%staff_online%` (players with `hawn.staff`). The vanished players are not counted. The default scoreboard and tab list show `%online%/%max_players%` (new installations). See [Placeholders](../reference/placeholders.md#server).
+* `Anti-WDL.Enable` in `ServerList.yml`: the anti world downloader can be turned off. See [Anti world downloader](../features/server-list.md#anti-world-downloader).
+
+### Fixes
+
+* `hawn.staff.seevanished` only received the vanish messages: the staff didn't see the vanished players, as the wiki said. Now they do, after a `/vanish`, when they join, with the player hider item and `/option`.
+* Every join: the staff received "<player> is now vanished" for the player who joined, once per vanished player and once per player hiding the others, and the player who joined could get the "you are vanished" action bar.
+* `General.On-Quit.Quit-Message.Just-Simply-Disable-All-Quit-Messages` did nothing.
+* `Cancel-Tp-On.On-Damages` (`/spawn` and `/warp`) was never read: a damage cancelled the teleport according to `Any-movements`.
+* `/cc other <player>`: `ClearChat.Other.Message-Clear` was never read, the message for the sender was sent to the player (with their own name), and the reason started with the name of the player.
+* Join and quit messages per world with `Only-Broadcast-Messages-In-The-World: true`: they were sent to everyone, several times. Now they are sent once, only to the players of the world.
+* `Items.Clear-Drops-On-Death.Bypass` was ignored with `All_World: true`.
+* `Chat-Emoji-Player.Emojis-list.Option.Gui.Enable: false` didn't stop `/emoji` from opening its menu.
+* Messages never shown: `/setspawn` on a name already taken, `/delspawn` without a name, `/sun` from the console, `/skull <player>` for the player whose skull was taken (new `Skull.Target`, off by default), the "command disabled" message of `/p`.
+* Join items with `Material: PLAYER_HEAD` and `Skull-Name` (the example of the wiki) gave a Steve head.
+* With `Use_Permission_Per_Item: true`, every click in an inventory sent a debug message (`hawn.use.cji.item.null`).
+
 ## 1.4.2 BETA
 
 ### New

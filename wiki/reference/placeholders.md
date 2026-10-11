@@ -42,6 +42,11 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 
 | Placeholder             | Value                                         |
 | ----------------------- | --------------------------------------------- |
+| `%online%`              | Players online (since Hawn 1.4.3)             |
+| `%max_players%`         | Maximum number of players                     |
+| `%online_<world>%`      | Players in a world, for example `%online_world_nether%` |
+| `%player_world_online%` | Players in the world of the player            |
+| `%staff_online%`        | Players online with `hawn.staff`              |
 | `%tps%`                 | Server TPS                                    |
 | `%gettime%`             | Current time (12 or 24 hours, see `general.yml`) |
 | `%getdate%`             | Current date (format of `general.yml`)        |
@@ -67,6 +72,10 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%DELAY%`                | Current [chat delay](../features/chat.md#chat-delay)    |
 | `%timedelaypvcji%`       | Seconds before the player visibility item can be used again |
 | `%timedelayfunguncji%`   | Seconds before the fun gun can be used again            |
+
+{% hint style="info" %}
+The vanished players are not counted by `%online%`, `%online_<world>%`, `%player_world_online%` and `%staff_online%`: the number would give them away. A world that doesn't exist leaves `%online_<world>%` as it is written.
+{% endhint %}
 
 ## Where player placeholders don't work
 

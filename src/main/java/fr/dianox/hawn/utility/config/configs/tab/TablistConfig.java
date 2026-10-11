@@ -133,6 +133,7 @@ public class TablistConfig {
 
         Config.set("Animations.maininformations.refresh-time-ticks", 60);
         Config.set("Animations.maininformations.text", java.util.Arrays.asList(new String[] {
+        		"&7Online&8: &e%online%&7/&e%max_players%",
         		"&7Time&8: &e%gettime%",
         		"&e%player_x% %player_y% %player_z%"
         		}));

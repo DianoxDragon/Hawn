@@ -25,7 +25,7 @@ public class CancelTPWarpSpawn implements Listener {
 
 		Player p = e.getPlayer();
 		
-		cancelTPWarpSpawn(p);
+		cancelTPWarpSpawn(p, "Any-movements");
 	}
 	
 	@EventHandler
@@ -33,12 +33,13 @@ public class CancelTPWarpSpawn implements Listener {
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
 			
-			cancelTPWarpSpawn(p);
+			// 63: the damages follow their own option (Cancel-Tp-On.On-Damages), not the one of the movements
+			cancelTPWarpSpawn(p, "On-Damages");
 		}
 	}
 
-	private void cancelTPWarpSpawn(Player p) {
-		if (Main.inwarpd.contains(p) && WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.Delay.Cancel-Tp-On.Any-movements")) {
+	private void cancelTPWarpSpawn(Player p, String cause) {
+		if (Main.inwarpd.contains(p) && WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.Delay.Cancel-Tp-On." + cause)) {
 			if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
 				Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 				Main.player_spawnwarpdelay.remove(p.getUniqueId());
@@ -52,7 +53,7 @@ public class CancelTPWarpSpawn implements Listener {
 
 			Main.inspawnd.remove(p);
 			Main.inwarpd.remove(p);
-		} else if (Main.inspawnd.contains(p) && SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.Delay.Cancel-Tp-On.Any-movements")) {
+		} else if (Main.inspawnd.contains(p) && SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.Delay.Cancel-Tp-On." + cause)) {
 			if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
 				Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 				Main.player_spawnwarpdelay.remove(p.getUniqueId());

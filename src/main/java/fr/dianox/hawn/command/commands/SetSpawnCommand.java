@@ -264,7 +264,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		            	OnJoinConfig.saveConfigFile();
 	                }
 				} else {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Name-already-exist")) {
+					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Name-already-exist")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}

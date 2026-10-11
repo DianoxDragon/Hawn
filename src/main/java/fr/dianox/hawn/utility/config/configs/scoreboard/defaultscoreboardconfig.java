@@ -92,6 +92,8 @@ public class defaultscoreboardconfig {
             		"&7Your latency",
             		"&e%ping% ms",
             		" ",
+            		"&7Online: &e%online%&7/&e%max_players%",
+            		" ",
             		"{SC_info}",
             		" ",
             		"&7Thanks to use &e&lHawn"

@@ -62,6 +62,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.notify.staff.commandblocker`    | Warned when someone uses a blocked command                 |
 | `hawn.antiswear.benotified`           | Warned when someone swears                                 |
 | `hawn.staff.seevanished`              | Sees vanished players                                      |
+| `hawn.staff`                          | Counted by `%staff_online%`                                |
 
 ## Commands
 

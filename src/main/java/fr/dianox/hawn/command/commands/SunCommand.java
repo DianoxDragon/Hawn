@@ -37,7 +37,7 @@ public class SunCommand extends BukkitCommand {
 		
 		// >>> Executed by the console
 		if(!(sender instanceof Player)) {
-			if (ConfigMMsg.getConfig().getBoolean("Erdror.Not-A-Player.Enable")) {
+			if (ConfigMMsg.getConfig().getBoolean("Error.Not-A-Player.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Not-A-Player.Messages")) {
 					MessageUtils.ConsoleMessages(msg);
 				}

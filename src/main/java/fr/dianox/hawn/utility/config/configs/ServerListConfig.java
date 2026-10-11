@@ -62,6 +62,7 @@ public class ServerListConfig {
         Config.set("On-Join.Message", java.util.Arrays.asList("&cThe multi line",
 		            "&bworks like that %player%"));
 
+        Config.set("Anti-WDL.Enable", true);
         Config.set("Anti-WDL.Kick-Message", Collections.singletonList("&cSorry you use a world downloader"));
 
         Config.set("Motd.Classic.Enable", true);

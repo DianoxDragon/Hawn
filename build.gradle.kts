@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.4.2-Beta"
+version = "1.4.3-Beta"
 
 repositories {
     mavenCentral()

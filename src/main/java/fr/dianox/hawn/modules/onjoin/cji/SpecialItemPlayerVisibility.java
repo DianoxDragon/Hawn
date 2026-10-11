@@ -59,8 +59,9 @@ public class SpecialItemPlayerVisibility implements Listener {
 			}
 			
 			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-				if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()))) {
-					p.sendMessage("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()));
+				// 53: only for a slot with a join item, and without the debug message sent at every click
+				String joinItem = CustomJoinItem.itemcjislotname.get(e.getSlot());
+				if (joinItem != null && !p.hasPermission("hawn.use.cji.item." + joinItem)) {
 					return;
 				}
 			}

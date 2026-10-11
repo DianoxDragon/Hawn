@@ -156,6 +156,9 @@ public class CustomJoinItem {
 		} else {
 			material = ConfigCJIGeneral.getConfig().getString(path_item + "Material");
 		}
+
+		// 51: PLAYER_HEAD (the name of the wiki) as well as the old SKULL_ITEM
+		boolean head = material != null && (material.toUpperCase().contains("SKULL") || material.toUpperCase().contains("PLAYER_HEAD"));
 		
 		if (specialvalue.contentEquals("no")) {
 			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Slot")) {
@@ -296,7 +299,7 @@ public class CustomJoinItem {
 			
 			return;
 		} else {
-			if (material.contains("SKULL")) {
+			if (head) {
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name")) {
 					if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 						item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), amount);
@@ -319,7 +322,7 @@ public class CustomJoinItem {
 			}
 		}
 		
-			if (!ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") || !material.contains("SKULL")) {
+			if (!ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") || !head) {
 				itemmeta = item.getItemMeta();
 			} else {
 				itemmeta = item.getItemMeta();
@@ -327,7 +330,7 @@ public class CustomJoinItem {
 				Skulls.setOwner(meta, skullname);
 			}
 			
-			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") && material.contains("SKULL")) {
+			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name") && head) {
 				if (!title.contentEquals("thistitleinsnotforuseorsomethingelse")) {
 					meta.setDisplayName(title);
 				}

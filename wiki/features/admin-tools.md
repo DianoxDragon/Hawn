@@ -167,7 +167,7 @@ Disabling plugins while the server runs can make them lose data, so `Disable-All
 | `/vanish <player>`   | `hawn.command.vanish.others`   | Vanishes another player.          |
 | `/vanish list`       | `hawn.command.vanish`          | Lists the vanished players.       |
 
-* `hawn.staff.seevanished`: still sees the vanished players.
+* `hawn.staff.seevanished`: still sees the vanished players (after a `/vanish`, when joining, with the player hider item and `/option`), and is told when someone vanishes. The operators have it.
 * `hawn.command.vanish.actionbar`: shows a "you are vanished" action bar while vanished.
 
 ```yaml

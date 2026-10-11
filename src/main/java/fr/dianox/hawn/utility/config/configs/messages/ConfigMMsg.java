@@ -320,6 +320,8 @@ public class ConfigMMsg {
 
         Config.set("Skull.Sender.Enable", true);
         Config.set("Skull.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7You got the &e%target%&7's skull"}));
+        Config.set("Skull.Target.Enable", false);
+        Config.set("Skull.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%player%&7 took your skull"}));
 
         /*
          * Hat

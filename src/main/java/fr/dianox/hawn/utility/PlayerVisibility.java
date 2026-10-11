@@ -24,7 +24,7 @@ public class PlayerVisibility {
 	@SuppressWarnings("deprecation")
 	public static void showPlayer(Player p) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (VanishCommand.player_list_vanish.contains(player)) {
+			if (VanishCommand.player_list_vanish.contains(player) && !VanishCommand.seesVanished(p)) {
 				continue;
 			}
 

@@ -319,6 +319,8 @@ public class FRConfigMMsg {
 
         Config.set("Skull.Sender.Enable", true);
         Config.set("Skull.Sender.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous avez obtenu la tête de &e%target%"}));
+        Config.set("Skull.Target.Enable", false);
+        Config.set("Skull.Target.Messages", java.util.Arrays.asList(new String[] {"%prefix% &e%player%&7 a pris votre tête"}));
 
         /*
          * Hat

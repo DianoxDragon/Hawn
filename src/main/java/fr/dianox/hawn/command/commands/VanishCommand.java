@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VanishCommand extends BukkitCommand {
+
+	/**
+	 * hawn.staff.seevanished: this player still sees the vanished players (/vanish, join, player hider, /option...).
+	 */
+	public static boolean seesVanished(Player viewer) {
+		return viewer.hasPermission("hawn.staff.seevanished");
+	}
 	
 	String GeneralPermission = "hawn.command.vanish";
 	public static List<Player> player_list_vanish = new ArrayList<Player>();
@@ -97,6 +104,10 @@ public class VanishCommand extends BukkitCommand {
 					}
 				} else {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+						// hawn.staff.seevanished: the staff still sees the vanished players
+						if (seesVanished(all)) {
+							continue;
+						}
 						if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 							all.hidePlayer(Main.getInstance(), target);
 						} else {
@@ -208,6 +219,10 @@ public class VanishCommand extends BukkitCommand {
 							}
 						} else {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+								// hawn.staff.seevanished: the staff still sees the vanished players
+								if (seesVanished(all)) {
+									continue;
+								}
 								if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 									all.hidePlayer(Main.getInstance(), p);
 								} else {
@@ -296,6 +311,10 @@ public class VanishCommand extends BukkitCommand {
 								}
 							} else {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+									// hawn.staff.seevanished: the staff still sees the vanished players
+									if (seesVanished(all)) {
+										continue;
+									}
 									if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
 										all.hidePlayer(Main.getInstance(), target);
 									} else {

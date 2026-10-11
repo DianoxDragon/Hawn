@@ -3,6 +3,7 @@ package fr.dianox.hawn.modules.onjoin;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.world.OnJoinPW;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -82,6 +83,21 @@ public class OJMessages {
 		
 	}
 	
+	/**
+	 * The lines of a world (join or quit): to everyone, or only to the players of the world, and to the console if asked.
+	 */
+	public static void sendWorldLines(Player p, String path, boolean onlyWorld, boolean console, String tag) {
+		for (String line : ConfigMGeneral.getConfig().getStringList(path)) {
+			String msg = line.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName());
+			if (console) {
+				ConfigEventUtils.ExecuteEvent(p, msg, path, tag + "STRICTSCONSOLE", true);
+			}
+			for (Player all : onlyWorld ? p.getWorld().getPlayers() : new java.util.ArrayList<Player>(Bukkit.getOnlinePlayers())) {
+				ConfigEventUtils.ExecuteEventTargetPlaceHolder(all, p, msg, path, tag, false);
+			}
+		}
+	}
+
 	private static void sendPerWorldMessage(Player p, PlayerJoinEvent e) {
 		if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-World.Options.Disable-Any-Other-Messages-On-Join")) {
 			e.setJoinMessage("");
@@ -109,37 +125,10 @@ public class OJMessages {
 
 			for (String string : ConfigMGeneral.getConfig().getConfigurationSection("General.On-join.Join-Message.Per-World.Worlds").getKeys(false)) {
 				if (p.getLocation().getWorld().getName().equalsIgnoreCase(string)) {
-					if (p.hasPermission("hawn.on-join.custom-message-per-world." + string)) {
-						if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World")) {
-							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-World.Worlds.", "OJMessages", p, true);
-							}
-						}
-
-						if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()),
-										"General.On-join.Join-Message.Per-World.Worlds.", "OJMessagesSTRICTSCONSOLE", true);
-							}
-						} else {
-							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-World.Worlds.", "OJMessages", p, true);
-							}
-						}
-
-					} else {
-						if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-World.Worlds.", "OJMessagesSTRICTSCONSOLE", true);
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-World.Worlds.", "OJMessages", p, true);
-							}
-						} else {
-							for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-World.Worlds." + string)) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-World.Worlds.", "OJMessages", p, true);
-							}
-						}
-
-					}
+					// 65: the lines of this world, sent once, only to the players of the world with Only-Broadcast-Messages-In-The-World
+					sendWorldLines(p, "General.On-join.Join-Message.Per-World.Worlds." + string,
+							ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-World.Options.Only-Broadcast-Messages-In-The-World"),
+							ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console"), "OJMessages");
 					break;
 				}
 			}

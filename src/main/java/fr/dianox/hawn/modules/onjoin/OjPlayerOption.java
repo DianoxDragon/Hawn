@@ -404,6 +404,8 @@ public class OjPlayerOption {
         }
     }
 
+    // 52: a player who joins hides the vanished players; the staff is not told that this player is vanished, and they get no
+    // "you are vanished" action bar (that was sent once per vanished player and per player hiding the others)
     @SuppressWarnings("deprecation")
     private static void vanishnull(Player p) {
         if (!VanishCommandConfig.getConfig().getBoolean("DISABLE_THE_COMMAND_COMPLETELY")) {
@@ -412,43 +414,13 @@ public class OjPlayerOption {
             }
 
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                if (VanishCommand.player_list_vanish.contains(all)) {
+                if (VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                     if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                         p.hidePlayer(Main.getInstance(), all);
                     } else {
                         p.hidePlayer(all);
                     }
 
-                    for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
-                        if (p1.hasPermission("hawn.staff.seevanished")) {
-                        	if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-	                            for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
-	                                ConfigEventUtils.ExecuteEvent(p1, s.replace("%player%", p.getName()), "Vanish.Vanish-On.Enable", "OjPlayerOption", false);
-	                            }
-                        	}
-                        }
-                    }
-
-                    if (Main.TaskVanishAB.containsKey(p)) {
-                        Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
-                        Main.TaskVanishAB.remove(p);
-                    }
-
-                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                        public void run() {
-                            if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
-                                if (p.hasPermission("hawn.command.vanish.actionbar")) {
-                                    BukkitTask task = null;
-                                    if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-                                        task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
-                                    } else {
-                                        task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 20);
-                                    }
-                                    Main.TaskVanishAB.put(p, task.getTaskId());
-                                }
-                            }
-                        }
-                    }, 20 * 5);
                 }
             }
         }
@@ -462,15 +434,6 @@ public class OjPlayerOption {
                         all.hidePlayer(p);
                     }
 
-                    for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
-                        if (p1.hasPermission("hawn.staff.seevanished")) {
-                        	if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-	                            for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
-	                                ConfigEventUtils.ExecuteEvent(p1, s.replace("%player%", p.getName()), "Vanish.Vanish-On.Enable", "OjPlayerOption", false);
-	                            }
-                        	}
-                        }
-                    }
                 }
             }
         }
@@ -483,6 +446,9 @@ public class OjPlayerOption {
                 if (p.hasPermission("hawn.betweenservers.keepvanish")) {
                     if (PlayerOptionSQLClass.GetSQLPOVanish(p).equalsIgnoreCase("TRUE")) {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
+                            if (VanishCommand.seesVanished(all)) {
+                                continue;
+                            }
                             if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                                 all.hidePlayer(Main.getInstance(), p);
                             } else {
@@ -548,7 +514,7 @@ public class OjPlayerOption {
 
                 // The players vanished before this one joined stay hidden from them (they were shown before 1.4.1)
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                    if (all != p && VanishCommand.player_list_vanish.contains(all)) {
+                    if (all != p && VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                         if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                             p.hidePlayer(Main.getInstance(), all);
                         } else {
@@ -562,43 +528,13 @@ public class OjPlayerOption {
                 }
 
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                    if (VanishCommand.player_list_vanish.contains(all)) {
+                    if (VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                         if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                             p.hidePlayer(Main.getInstance(), all);
                         } else {
                             p.hidePlayer(all);
                         }
 
-                        for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
-                            if (p1.hasPermission("hawn.staff.seevanished")) {
-                            	if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-    	                            for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
-    	                                ConfigEventUtils.ExecuteEvent(p1, s.replace("%player%", p.getName()), "Vanish.Vanish-On.Enable", "OjPlayerOption", false);
-    	                            }
-                            	}
-                            }
-                        }
-
-                        if (Main.TaskVanishAB.containsKey(p)) {
-                            Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
-                            Main.TaskVanishAB.remove(p);
-                        }
-
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                            public void run() {
-                                if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
-                                    if (p.hasPermission("hawn.command.vanish.actionbar")) {
-                                        BukkitTask task = null;
-                                        if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-                                            task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
-                                        } else {
-                                            task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 20);
-                                        }
-                                        Main.TaskVanishAB.put(p, task.getTaskId());
-                                    }
-                                }
-                            }
-                        }, 20 * 5);
                     }
                 }
 
@@ -613,15 +549,6 @@ public class OjPlayerOption {
                             all.hidePlayer(p);
                         }
 
-                        for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
-                            if (p1.hasPermission("hawn.staff.seevanished")) {
-                            	if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-    	                            for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
-    	                                ConfigEventUtils.ExecuteEvent(p1, s.replace("%player%", p.getName()), "Vanish.Vanish-On.Enable", "OjPlayerOption", false);
-    	                            }
-                            	}
-                            }
-                        }
                     }
                 }
             }

@@ -96,6 +96,16 @@ public class EmojiesCommand extends BukkitCommand {
 			return true;
 		}
 		
+		// 67: the emoji menu turned off (Events/Chat.yml)
+		if (!OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Option.Gui.Enable")) {
+			if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
+				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+			}
+			return true;
+		}
+
 		if (OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Option.Gui.Use_Permission")) {
 			if (!p.hasPermission(GeneralPermission)) {
 				MessageUtils.MessageNoPermission(p, GeneralPermission);

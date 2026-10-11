@@ -10,6 +10,11 @@ public class PluginChannelListener implements PluginMessageListener {
     @Override
     public synchronized void onPluginMessageReceived(String channel, Player p, byte[] data) {
     	if (channel.equals("WDL|INIT") || channel.equals("wdl:init")) {
+    		// Anti-WDL.Enable false (ServerList.yml): the world downloaders are allowed
+    		if (!ServerListConfig.getConfig().getBoolean("Anti-WDL.Enable", true)) {
+    			return;
+    		}
+
     		if (!p.hasPermission("hawn.antiwdl.bypass")) {
 			    StringBuilder message = new StringBuilder();
 			    boolean bool = false;

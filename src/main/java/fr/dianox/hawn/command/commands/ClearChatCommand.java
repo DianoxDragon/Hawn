@@ -129,25 +129,19 @@ public class ClearChatCommand extends BukkitCommand {
                         target.sendMessage(" ");
                     }
                     
-                    String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
+                    // The reason: the words after the name of the player
+                    String msg = args.length > 2 ? String.join(" ", java.util.Arrays.copyOfRange(args, 2, args.length)) : ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
 
-					if (!args[1].isEmpty()) {
-						msg = "";
-						for (int i = 1; i < args.length; i++) {
-							if (!Objects.equals(msg, "")) {
-								msg = msg + " ";
-							}
-							msg = msg + args[i];
-						}
-					}
-
-					for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
-                    	ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
-                    	MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
-                    }
-                    for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
-                    	ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
-                    	MessageUtils.ConsoleMessages(ms2.replace("%reason%", msg));
+                    // 64: Message-Clear false, the chat is cleared without any message
+                    if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Message-Clear")) {
+                    	for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
+                    		String line = ms1.replace("%player%", target.getName()).replace("%target%", target.getName());
+                    		MessageUtils.ConsoleMessages(line.replace("%reason%", msg));
+                    	}
+                    	for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
+                    		ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
+                    		MessageUtils.ConsoleMessages(ms2.replace("%target%", target.getName()).replace("%reason%", msg));
+                    	}
                     }
 				}
 			
@@ -324,25 +318,19 @@ public class ClearChatCommand extends BukkitCommand {
                     		target.sendMessage(" ");
                     	}
 	                        
-                    	String msg = ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
+                    	// The reason: the words after the name of the player
+                    	String msg = args.length > 2 ? String.join(" ", java.util.Arrays.copyOfRange(args, 2, args.length)) : ConfigMMsg.getConfig().getString("ClearChat.No-Reason");
 
-	                    if (!args[1].isEmpty()) {
-		                    msg = "";
-		                    for (int i = 1; i < args.length; i++) {
-			                    if (!Objects.equals(msg, "")) {
-				                    msg = msg + " ";
-			                    }
-			                    msg = msg + args[i];
-		                    }
-	                    }
-
-	                    for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
-                    		ConfigEventUtils.ExecuteEvent(target, ms1.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
-                        	MessageUtils.ConsoleMessages(ms1.replace("%reason%", msg));
-                    	}
-                    	for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
-                    		ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
-                        	MessageUtils.ConsoleMessages(ms2.replace("%reason%", msg));
+                    	// 64: Message-Clear false, the chat is cleared without any message
+                    	if (ClearChatCommandConfig.getConfig().getBoolean("ClearChat.Other.Message-Clear")) {
+                    		for (String ms1: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Sender")) {
+                    			String line = ms1.replace("%player%", target.getName()).replace("%target%", target.getName());
+                    			ConfigEventUtils.ExecuteEvent(p, line.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
+                    		}
+                    		for (String ms2: ConfigMMsg.getConfig().getStringList("ClearChat.Other.Target")) {
+                    			ConfigEventUtils.ExecuteEvent(target, ms2.replace("%reason%", ConfigEventUtils.noAction(msg)), "", "", false);
+                    			MessageUtils.ConsoleMessages(ms2.replace("%target%", target.getName()).replace("%reason%", msg));
+                    		}
                     	}
                     	
                     } else {
