@@ -85,14 +85,7 @@ public class WorldDeletion {
 
 	// The players who look at the list of the worlds see it without the deleted one
 	private static void refreshMenus() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			String title = player.getOpenInventory().getTitle();
-			if (title.equals("§cWorld Manager - Main")) {
-				GuiSystem.FirstPage(player);
-			} else if (title.equals("§cWorld Manager - Main 2")) {
-				GuiSystem.Exceptionnalsecondpage(player);
-			}
-		}
+		GuiSystem.refreshWorldPages();
 	}
 
 	private static String path(File f) {

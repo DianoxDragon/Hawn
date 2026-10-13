@@ -8,6 +8,9 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.DelaychatCommand;
 import fr.dianox.hawn.command.commands.PingCommand;
 import fr.dianox.hawn.command.commands.VanishCommand;
+import fr.dianox.hawn.modules.onjoin.JoinNumbers;
+import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
+import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
@@ -100,6 +103,100 @@ public class PlaceHolders {
 		return str;
 	}
 
+	private static String yesNo(boolean value) {
+		return ConfigMGeneral.getConfig().getString(value ? "Placeholders.Yes" : "Placeholders.No", value ? "&ayes" : "&cno");
+	}
+
+	private static String unknown() {
+		return ConfigMGeneral.getConfig().getString("Placeholders.Unknown", "?");
+	}
+
+	// The /option choices of the player, as Hawn uses them (the player file)
+	private static final String[][] OPTIONS = {
+		{"fly", "player_option_fly.Activate", "false"},
+		{"doublejump", "player_option_doublejump.Activate", "false"},
+		{"speed", "player_speed.Activate", "false"},
+		{"flyspeed", "player_fly_speed.Activate", "false"},
+		{"jumpboost", "player_option_jumpboost.Activate", "false"},
+		{"autobc", "player_option_autobc.Activate", "true"},
+		{"pv", "player_option_pv.Activate", "false"},
+	};
+
+	// %player_gamemode%, %player_vanished%, %player_flying%, %player_option_<option>%, %player_join_number%, %player_connections%
+	private static String replacePlayerState(String str, Player p) {
+		if (!str.contains("%player_")) {
+			return str;
+		}
+
+		if (str.contains("%player_gamemode%")) {
+			str = str.replace("%player_gamemode%", p.getGameMode().name().toLowerCase(java.util.Locale.ROOT));
+		}
+
+		if (str.contains("%player_vanished%")) {
+			str = str.replace("%player_vanished%", yesNo(VanishCommand.player_list_vanish.contains(p)));
+		}
+
+		if (str.contains("%player_flying%")) {
+			str = str.replace("%player_flying%", yesNo(p.isFlying()));
+		}
+
+		if (str.contains("%player_option_")) {
+			for (String[] option : OPTIONS) {
+				String placeholder = "%player_option_" + option[0] + "%";
+				if (str.contains(placeholder)) {
+					str = str.replace(placeholder, yesNo(ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean(option[1], Boolean.parseBoolean(option[2]))));
+				}
+			}
+		}
+
+		if (str.contains("%player_join_number%")) {
+			Integer number = JoinNumbers.number(p);
+			str = str.replace("%player_join_number%", number == null ? unknown() : String.valueOf(number));
+		}
+
+		if (str.contains("%player_connections%")) {
+			str = str.replace("%player_connections%", String.valueOf(ConfigPlayerGet.getFile(p.getUniqueId().toString()).getInt("player_option_number_connections.number")));
+		}
+
+		return str;
+	}
+
+	// %unique_players%, %server_uptime%, %chat_muted%, %maintenance%
+	private static String replaceServerState(String str) {
+		if (str.contains("%unique_players%")) {
+			int unique = JoinNumbers.unique();
+			str = str.replace("%unique_players%", unique < 0 ? unknown() : String.valueOf(unique));
+		}
+
+		if (str.contains("%server_uptime%")) {
+			str = str.replace("%server_uptime%", uptime());
+		}
+
+		if (str.contains("%chat_muted%")) {
+			str = str.replace("%chat_muted%", yesNo(MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")));
+		}
+
+		if (str.contains("%maintenance%")) {
+			str = str.replace("%maintenance%", yesNo(HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")));
+		}
+
+		return str;
+	}
+
+	// 2d 5h 12m, 3h 4m, 7m: the time since the start of the server
+	private static String uptime() {
+		long minutes = java.lang.management.ManagementFactory.getRuntimeMXBean().getUptime() / 60000L;
+		long days = minutes / 1440;
+		long hours = minutes / 60 % 24;
+
+		if (days > 0) {
+			return days + "d " + hours + "h " + minutes % 60 + "m";
+		} else if (hours > 0) {
+			return hours + "h " + minutes % 60 + "m";
+		}
+		return minutes + "m";
+	}
+
 	// No cooldown (the player has not used the item yet): 0, not an error
 	private static long secondsLeft(Long usedAt, int delay) {
 		if (usedAt == null) {
@@ -122,6 +219,8 @@ public class PlaceHolders {
 
         str = replaceBungeeServers(str);
         str = replaceOnline(str, p);
+        str = replacePlayerState(str, p);
+        str = replaceServerState(str);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
@@ -339,6 +438,7 @@ public class PlaceHolders {
 
         str = replaceBungeeServers(str);
         str = replaceOnline(str, null);
+        str = replaceServerState(str);
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));

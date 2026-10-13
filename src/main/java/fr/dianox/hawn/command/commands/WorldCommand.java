@@ -5,6 +5,7 @@ import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.modules.world.GuiSystem;
 import fr.dianox.hawn.modules.world.WorldDeletion;
+import fr.dianox.hawn.modules.world.WorldFolders;
 import fr.dianox.hawn.modules.world.generator.Generators;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class WorldCommand extends BukkitCommand {
 
@@ -245,18 +247,17 @@ public class WorldCommand extends BukkitCommand {
 					return true;
 				}
 
-        		String worldname;
-
-        		if (args.length > 1) {
-        			worldname = args[1];
-        		} else {
+        		if (args.length < 2) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldNameNotTyped")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
         			return true;
         		}
 
-        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
+        		String worldname = args[1];
+
+        		// Letters, numbers, _ and -: nothing that could leave the folder of the worlds
+        		if (!WorldFolders.validName(worldname)) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
@@ -264,167 +265,22 @@ public class WorldCommand extends BukkitCommand {
 				}
 
         		// Loaded, in the folder of the worlds, or a dimension of the main world (Paper 26.x)
-        		if (fr.dianox.hawn.modules.world.WorldFolders.exists(worldname)) {
+        		if (WorldFolders.exists(worldname)) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Already-Exist")) {
         				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
         			}
         			return true;
         		}
 
-        		if (args.length >= 3) {
-	        		if (args[2].equalsIgnoreCase("normal")) {
-	        			if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-					        	String worldgenerator = args[3];
-					        	worldgenerator = worldgenerator.replace("g:", "");
-
-					        	if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("amplified")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else {
-		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-			                    }
-		        			}
-	        			} else {
-	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-		                    }
-
-	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL));
-	        			}
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "normal");
-				        ConfigWorldGeneral.saveConfigFile();
-
-	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-	                    }
-	        		} else if (args[2].equalsIgnoreCase("end") || args[2].equalsIgnoreCase("the_end")) {
-	        			if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-						        String worldgenerator = args[3];
-						        worldgenerator = worldgenerator.replace("g:", "");
-
-						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("amplified")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else {
-		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-			                    }
-		        			}
-	        			} else {
-	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-		                    }
-
-	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END));
-	        			}
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "the_end");
-				        ConfigWorldGeneral.saveConfigFile();
-
-	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-	                    }
-	        		} else if (args[2].equalsIgnoreCase("nether")) {
-	        			if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-						        String worldgenerator = args[3];
-						        worldgenerator = worldgenerator.replace("g:", "");
-
-						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("amplified")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-		        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-		        			} else {
-		        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-			                        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-			                    }
-		        			}
-	        			} else {
-	        				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-	        					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-		                    }
-
-	        				Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER));
-	        			}
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "nether");
-				        ConfigWorldGeneral.saveConfigFile();
-
-	        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Created")) {
-	        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-	                    }
-	        		}
-
-	        		ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", true);
-	        		ConfigWorldGeneral.saveConfigFile();
-        		} else {
+        		// The environment is needed to create a world
+        		if (args.length < 3) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
         				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
                     }
+        			return true;
         		}
+
+        		createOrImport(p, worldname, args, false);
         	} else if (args[0].equalsIgnoreCase("import")) {
         		if (!p.hasPermission("hawn.command.world.import") && !p.hasPermission("hawn.command.world.*")) {
 					MessageUtils.MessageNoPermission(p, "hawn.command.world.import");
@@ -432,18 +288,16 @@ public class WorldCommand extends BukkitCommand {
 					return true;
 				}
 
-        		String worldname;
-
-        		if (args.length > 1) {
-        			worldname = args[1];
-        		} else {
+        		if (args.length < 2) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldNameNotTyped")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
         			return true;
         		}
 
-        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
+        		String worldname = args[1];
+
+        		if (!WorldFolders.validImportName(worldname)) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
@@ -457,176 +311,17 @@ public class WorldCommand extends BukkitCommand {
 			        return true;
 		        }
 
-		        boolean check = checkIfIsWorld(new File(Bukkit.getWorldContainer(), worldname)) || fr.dianox.hawn.modules.world.WorldFolders.dimension(worldname) != null;
+		        boolean check = checkIfIsWorld(new File(Bukkit.getWorldContainer(), worldname)) || WorldFolders.dimension(worldname) != null;
 
 				if (!check) {
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Not-Exist")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 					}
 
-					return false;
+					return true;
 				}
 
-		        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.Importing-A-World")) {
-			        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-		        }
-
-		        if (args.length >= 3) {
-			        if (args[2].equalsIgnoreCase("normal")) {
-				        if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-						        String worldgenerator = args[3];
-						        worldgenerator = worldgenerator.replace("g:", "");
-
-						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("amplified")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else {
-						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-						        }
-					        }
-				        } else {
-					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-					        }
-
-					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NORMAL));
-				        }
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "normal");
-				        ConfigWorldGeneral.saveConfigFile();
-
-				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-				        }
-			        } else if (args[2].equalsIgnoreCase("end") || args[2].equalsIgnoreCase("the_end")) {
-				        if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-						        String worldgenerator = args[3];
-						        worldgenerator = worldgenerator.replace("g:", "");
-
-						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("amplified")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else {
-						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-						        }
-					        }
-				        } else {
-					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-					        }
-
-					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.THE_END));
-				        }
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "the_end");
-				        ConfigWorldGeneral.saveConfigFile();
-
-				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-				        }
-			        } else if (args[2].equalsIgnoreCase("nether")) {
-				        if (args.length >= 4) {
-					        if (args[3].startsWith("g:")) {
-						        String worldgenerator = args[3];
-						        worldgenerator = worldgenerator.replace("g:", "");
-
-						        if (worldgenerator.equalsIgnoreCase("hvg")) {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(Generators.voidGenerator()));
-						        } else {
-							        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).generator(worldgenerator));
-						        }
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Generator", worldgenerator);
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("flat")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.FLAT));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "flat");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("amplified")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.AMPLIFIED));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "amplified");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else if (args[3].equalsIgnoreCase("large_biomes") || args[3].equalsIgnoreCase("largebiomes")) {
-						        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER).type(WorldType.LARGE_BIOMES));
-
-						        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Type", "large_biomes");
-						        ConfigWorldGeneral.saveConfigFile();
-					        } else {
-						        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
-							        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-						        }
-					        }
-				        } else {
-					        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Creating-The-World")) {
-						        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-					        }
-
-					        Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(Environment.NETHER));
-				        }
-
-				        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Environment", "nether");
-				        ConfigWorldGeneral.saveConfigFile();
-
-				        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-					        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-				        }
-			        }
-
-			        ConfigWorldGeneral.getConfig().set("World-List." + worldname + ".Load", true);
-			        ConfigWorldGeneral.saveConfigFile();
-		        } else {
-			        Bukkit.getServer().createWorld((new WorldCreator(worldname)));
-
-			        for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.World-Loaded")) {
-				        ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-			        }
-		        }
+		        createOrImport(p, worldname, args, true);
         	} else if (args[0].equalsIgnoreCase("unload")) {
         		if (!p.hasPermission("hawn.command.world.unload") && !p.hasPermission("hawn.command.world.*")) {
 					MessageUtils.MessageNoPermission(p, "hawn.command.world.unload");
@@ -634,34 +329,37 @@ public class WorldCommand extends BukkitCommand {
 					return true;
 				}
 
-        		String worldname;
-
-        		if (args.length > 1) {
-        			worldname = args[1];
-        		} else {
+        		if (args.length < 2) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldNameNotTyped")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
         			return true;
         		}
 
-        		if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
-        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
-                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                    }
-					return true;
-				}
+        		String worldname = args[1];
+        		World world = Bukkit.getWorld(worldname);
 
-        		if (Bukkit.getWorld(worldname) != null) {
-        			Bukkit.getServer().unloadWorld(worldname, true);
-
-        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Unload")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-                    }
-
-        		} else {
+        		if (world == null) {
         			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Command.Unload.Error")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                    }
+        		} else if (WorldDeletion.isProtected(world.getName())) {
+        			// The main world, its nether and its end: the same refusals as /hw delete
+        			for (String msg: WorldDeletion.message("Error.Unload-Protected", "%prefix% &cThe world &e%arg1% &ccan't be unloaded: the server needs it")) {
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        			}
+        		} else if (DefaultWorld.is(world.getName())) {
+        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.Default-World")) {
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        			}
+        		} else if (!Bukkit.getServer().unloadWorld(world, true)) {
+        			// Bukkit refuses while players are in the world
+        			for (String msg: WorldDeletion.message("Command.Unload.Failed", "%prefix% &cThe world &e%arg1% &ccould not be unloaded: no player must be in it")) {
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+        			}
+        		} else {
+        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Unload")) {
+        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
                     }
         		}
         	}
@@ -671,6 +369,101 @@ public class WorldCommand extends BukkitCommand {
     }
     
     
+    /**
+     * /hw create and /hw import: &lt;world&gt; [normal/nether/end] [flat/amplified/large_biomes/g:&lt;generator&gt;].
+     * A wrong argument stops everything: no world, nothing written in Worlds.yml. A world created or imported is
+     * loaded again at each start (Load: true).
+     */
+    private static void createOrImport(Player p, String worldname, String[] args, boolean importing) {
+    	Environment environment = Environment.NORMAL;
+    	if (args.length >= 3) {
+    		environment = environment(args[2]);
+    	}
+
+    	WorldCreator creator = environment == null ? null : new WorldCreator(worldname).environment(environment);
+    	String type = null;
+    	String generator = null;
+
+    	if (creator != null && args.length >= 4) {
+    		if (args[3].toLowerCase(Locale.ROOT).startsWith("g:") && args[3].length() > 2) {
+    			generator = args[3].substring(2);
+    			if (generator.equalsIgnoreCase("hvg")) {
+    				creator.generator(Generators.voidGenerator());
+    			} else {
+    				creator.generator(generator);
+    			}
+    		} else {
+    			type = args[3].toLowerCase(Locale.ROOT).replace("largebiomes", "large_biomes");
+    			WorldType worldType = worldType(type);
+    			if (worldType == null) {
+    				creator = null;
+    			} else {
+    				creator.type(worldType);
+    			}
+    		}
+    	}
+
+    	if (creator == null) {
+    		for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldCreation")) {
+    			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+    		}
+    		return;
+    	}
+
+    	for (String msg: WorldManagerPanelConfig.getConfig().getStringList(importing ? "Gui.Import.Importing-A-World" : "Gui.Create.Creating-The-World")) {
+    		ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+    	}
+
+    	World world;
+    	try {
+    		world = Bukkit.getServer().createWorld(creator);
+    	} catch (Exception e) {
+    		Bukkit.getLogger().warning("[Hawn] The world " + worldname + " could not be " + (importing ? "imported" : "created") + ": " + e);
+    		world = null;
+    	}
+
+    	if (world == null) {
+    		for (String msg: WorldDeletion.message("Gui.Create.Failed", "%prefix% &cThe world &e%arg1% &ccould not be created, see the console")) {
+    			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+    		}
+    		return;
+    	}
+
+    	String path = "World-List." + worldname;
+    	ConfigWorldGeneral.getConfig().set(path + ".Load", true);
+    	ConfigWorldGeneral.getConfig().set(path + ".Environment", world.getEnvironment() == Environment.NETHER ? "nether"
+    			: world.getEnvironment() == Environment.THE_END ? "the_end" : "normal");
+    	ConfigWorldGeneral.getConfig().set(path + ".Type", generator == null ? type : null);
+    	ConfigWorldGeneral.getConfig().set(path + ".Generator", generator);
+    	ConfigWorldGeneral.saveConfigFile();
+
+    	for (String msg: WorldManagerPanelConfig.getConfig().getStringList(importing ? "Gui.Import.World-Loaded" : "Gui.Create.World-Created")) {
+    		ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
+    	}
+    }
+
+    // normal, nether, end or the_end; null for another word
+    private static Environment environment(String name) {
+    	switch (name.toLowerCase(Locale.ROOT)) {
+    		case "normal": return Environment.NORMAL;
+    		case "nether": return Environment.NETHER;
+    		case "end":
+    		case "the_end": return Environment.THE_END;
+    		default: return null;
+    	}
+    }
+
+    // flat, amplified, large_biomes or normal; null for another word
+    private static WorldType worldType(String name) {
+    	switch (name) {
+    		case "normal": return WorldType.NORMAL;
+    		case "flat": return WorldType.FLAT;
+    		case "amplified": return WorldType.AMPLIFIED;
+    		case "large_biomes": return WorldType.LARGE_BIOMES;
+    		default: return null;
+    	}
+    }
+
     // /hw default: shows the default world, or makes a loaded world the default one
     private static void setDefault(CommandSender sender, String[] args) {
     	if (args.length < 2) {

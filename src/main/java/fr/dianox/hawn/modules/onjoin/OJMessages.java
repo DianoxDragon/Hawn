@@ -36,7 +36,7 @@ public class OJMessages {
 		/*
 		 * Here the main code
 		 */
-		if (p.hasPlayedBefore()) {			
+		if (!JoinNumbers.isFirstJoin(p)) {			
 			if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Per-World.Options.Enable")) {
 				sendPerWorldMessage(p, e);
 			} else if (!ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.World.All_World")) {
@@ -188,7 +188,7 @@ public class OJMessages {
 	 */
 	
 	public static void onMOTD(Player p) {
-		if (p.hasPlayedBefore()) {
+		if (!JoinNumbers.isFirstJoin(p)) {
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.Per-World.Options.Enable")) {
 				sendPerWorldMessageMotd(p);
 			} else {
@@ -230,7 +230,7 @@ public class OJMessages {
 	
 	private static void sendPerWorldMessageMotd(Player p) {
 		if (!ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.Per-World.Options.Disable-All-The-Others-Motd")) {
-			if (p.hasPlayedBefore()) {
+			if (!JoinNumbers.isFirstJoin(p)) {
 				onMethodMOTDMainMessages(p);
 			} else {
 				onMethodMOTDFJ(p);
@@ -257,7 +257,7 @@ public class OJMessages {
 	 */
 	
 	public static void onBroadcastFJ(Player p) {
-		if (!p.hasPlayedBefore()) {
+		if (JoinNumbers.isFirstJoin(p)) {
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Enable")) {
 	            if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console")) {
 	                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {

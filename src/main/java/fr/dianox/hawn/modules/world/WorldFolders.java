@@ -45,6 +45,21 @@ public final class WorldFolders {
 	}
 
 	/**
+	 * A name for a new world: letters, numbers, _ and -, 64 characters at most. Nothing that could leave the folder
+	 * of the worlds (/, .., \) nor break the menus (§, spaces).
+	 */
+	public static boolean validName(String name) {
+		return name != null && name.matches("[A-Za-z0-9_-]{1,64}");
+	}
+
+	/**
+	 * A world folder to import: the same, with dots too (world.old), but never at the start.
+	 */
+	public static boolean validImportName(String name) {
+		return name != null && name.matches("[A-Za-z0-9_-][A-Za-z0-9_.-]{0,63}") && !name.contains("..");
+	}
+
+	/**
 	 * Paper 26.x keeps the created worlds in the folder of the main world: world/dimensions/minecraft/<name>. Null when there is none.
 	 */
 	public static File dimension(String name) {

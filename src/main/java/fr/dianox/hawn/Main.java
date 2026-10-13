@@ -185,6 +185,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		sql = new SQL(this);
 		ConfigPlayerGet.start(this);
+		fr.dianox.hawn.modules.onjoin.JoinNumbers.start(this);
 
 		hooksManager = new HooksManager(this);
 
@@ -320,6 +321,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void onDisable() {
 		super.onDisable();
 
+		fr.dianox.hawn.modules.onjoin.JoinNumbers.stop();
 		ConfigPlayerGet.shutdown();
 		SQL.close();
 

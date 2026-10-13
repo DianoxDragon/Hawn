@@ -62,6 +62,7 @@ At startup the console shows `The plugin will now use MySQL as method for inform
 | `player_speed`, `player_fly_speed`  | Speed options                           |
 | `player_option_fly`, `player_option_doublejump`, `player_option_jumpboost`, `player_option_pv`, `player_option_autobc` | Player options |
 | `player_option_keep_sb`             | Chosen scoreboard                       |
+| `hawn_join_order`                   | The order of arrival of the players (since Hawn 1.4.4) |
 
 Each table has one row per player (primary key on `player_UUID`). The data of a player is loaded before they join and written in the background, so the database never slows the server down. If the connection is lost, Hawn reopens it by itself.
 
@@ -72,6 +73,23 @@ Each table has one row per player (primary key on `player_UUID`). The data of a 
 {% hint style="warning" %}
 If the connection fails at startup, Hawn falls back to YAML and says why in the console. Check the host, the port, the user rights and that the database exists.
 {% endhint %}
+
+## Several servers on one database
+
+With several servers (lobbies behind BungeeCord or Velocity) on the same database:
+
+* **The first join** happens once for the whole network: the first join broadcast, MOTD, title, action bar, sound, fireworks... and the first join spawn only happen on the first server the player joins. On the next servers, they are a returning player. Since Hawn 1.4.4; set `First-Join-On-The-Network: false` to go back to one first join per server.
+* **`%player_join_number%` and `%unique_players%`** count the players of the network, see [Order of arrival](../reference/placeholders.md#order-of-arrival). The database gives the numbers, so two servers never give the same one.
+* A table created by one server (the first time a player uses an option, for example) is found by the others without a restart (since Hawn 1.4.4).
+
+```yaml
+Plugin:
+  Use:
+    MYSQL:
+      First-Join-On-The-Network: true
+```
+
+When the database can't be reached, a player still joins: their first join is then decided by this server only, and their number shows `?` until their next join. If the connection already failed at startup, Hawn uses YAML until the next restart and the numbers show `?`.
 
 ## What is restored on join
 

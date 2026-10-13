@@ -19,7 +19,7 @@ When a player joins, Hawn can do a lot of things. Each of them has its own `Enab
 | Teleport to the spawn                  | see [Spawns](spawns.md#teleport-on-join)     |
 
 {% hint style="info" %}
-"New player" or "first join" means a player who never played on **this** server before.
+"New player" or "first join" means a player who never played on **this** server before. With [MySQL](database.md#several-servers-on-one-database), since Hawn 1.4.4: who never played on any server of the network.
 {% endhint %}
 
 ## Join messages
@@ -131,7 +131,7 @@ Still in `Spawn.On-join`:
         Enable: true
         Broadcast-To-The-Console: true
         Messages:
-        - '&eWelcome %player% to the server'
+        - '&eWelcome %player% to the server &7(player #%player_join_number%)'
       Motd:
         Enable: true
         Both-Motd: false
@@ -139,7 +139,7 @@ Still in `Spawn.On-join`:
         - '&cWelcome %player%'
 ```
 
-* `Broadcast`: a message sent to everyone when a new player joins.
+* `Broadcast`: a message sent to everyone when a new player joins. `%player_join_number%` is their [order of arrival](../reference/placeholders.md#order-of-arrival) (in the default message since Hawn 1.4.4).
 * `Motd`: a private message for the new player. With `Both-Motd: true` they also receive the normal MOTD.
 
 To send new players to a different spawn, see `FirstJoin-Spawn` on the [Spawns](spawns.md#the-default-spawn) page.

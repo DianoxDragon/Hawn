@@ -143,7 +143,7 @@ public class OnJoin implements Listener {
         // JOIN TP SPAWN
         // 60: MySQL is only asked when it is used: down, it would be called again on the main thread at every join
         boolean useYaml = Main.getInstance().getSql().useyamllistplayer;
-        if (p.hasPlayedBefore() && PlayerOptionMainConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (useYaml ? ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") : SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
+        if (!JoinNumbers.isFirstJoin(p) && PlayerOptionMainConfig.getConfig().getBoolean("TP.Last-Position-On-Join.Enable") && p.hasPermission("hawn.betweenservers.tplastposition") && (useYaml ? ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World") : SQL.exists("player_UUID", "" + p.getUniqueId() + "", "player_last_position"))) {
             if (useYaml) {
                 if (ConfigPlayerGet.getFile(uuid).isSet("player_last_position.World")) {
 
@@ -293,7 +293,7 @@ public class OnJoin implements Listener {
 
         if (OnJoinConfig.getConfig().getBoolean("Action-Bar.Enable")) {
             if (OnJoinConfig.getConfig().getBoolean("Action-Bar.First-Join.Enable")) {
-                if (p.hasPlayedBefore()) {
+                if (!JoinNumbers.isFirstJoin(p)) {
                     if (OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.Enable")) {
                         if (!OnJoinConfig.getConfig().getBoolean("Action-Bar.Join.World.All_World")) {
                             if (OnJoinPW.getWJoinab().contains(p.getWorld().getName())) {
@@ -366,7 +366,7 @@ public class OnJoin implements Listener {
 
         // Join Command
         if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Enable")) {
-            if (p.hasPlayedBefore()) {
+            if (!JoinNumbers.isFirstJoin(p)) {
                 if (ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.Enable")) {
                     if (!ConfigGJoinQuitCommand.getConfig().getBoolean("JoinCommand.Options.No-New.World.All_World")) {
                         if (CommandsPW.getWJoinCommandNoNew().contains(p.getWorld().getName())) {
@@ -416,7 +416,7 @@ public class OnJoin implements Listener {
             if (OnJoinConfig.getConfig().getBoolean("Title.First-Join.Enable")) {
                 if (!OnJoinConfig.getConfig().getBoolean("Title.First-Join.World.All_World")) {
                     if (OnJoinPW.getWFirstJoinTitle().contains(p.getWorld().getName())) {
-                        if (p.hasPlayedBefore()) {
+                        if (!JoinNumbers.isFirstJoin(p)) {
                             Titlemethod(p);
                         } else {
                         	
@@ -438,7 +438,7 @@ public class OnJoin implements Listener {
                         }
                     }
                 } else {
-                    if (p.hasPlayedBefore()) {
+                    if (!JoinNumbers.isFirstJoin(p)) {
                         Titlemethod(p);
                     } else {
                     	
@@ -471,7 +471,7 @@ public class OnJoin implements Listener {
         	if (!OnJoinConfig.getConfig().getBoolean("Boss-Bar.World.All_World")) {
                 if (OnJoinPW.getBB().contains(p.getWorld().getName())) {
                 	if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Enable")) {
-            			if (p.hasPlayedBefore()) {
+            			if (!JoinNumbers.isFirstJoin(p)) {
             				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
             					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
             						BossBarApi.BBBlock.add(p);
@@ -519,7 +519,7 @@ public class OnJoin implements Listener {
                 }
         	} else {
         		if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.First-Join.Enable")) {
-        			if (p.hasPlayedBefore()) {
+        			if (!JoinNumbers.isFirstJoin(p)) {
         				if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Enable")) {
         					if (OnJoinConfig.getConfig().getBoolean("Boss-Bar.Join.Time.Keep-Bar")) {
         						BossBarApi.BBBlock.add(p);
@@ -858,7 +858,7 @@ public class OnJoin implements Listener {
     }
 
     public void TPSPAWNnormalevent(Player p) {
-        if (p.hasPlayedBefore()) {
+        if (!JoinNumbers.isFirstJoin(p)) {
             if (!OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Tp-To-Spawn")) return;
 
             if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Custom-Group-Join.VIP.Enable")) {

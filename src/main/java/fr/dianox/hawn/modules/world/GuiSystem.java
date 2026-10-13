@@ -74,9 +74,10 @@ public class GuiSystem implements Listener {
 		World w = Bukkit.getWorld(worldname);
 		return w != null ? w.getWorldFolder() : new File(directory, worldname);
 	}
-	private static final List<Player> plistincreation = new ArrayList<>();
-	private static final HashMap<Player, String> pchoosegenerator = new HashMap<>();
-	private static final HashMap<Player, String> worlddeletion = new HashMap<>();
+	// The players typing the name of a world, or its generator (the world name), in the chat: read by the chat thread too
+	private static final java.util.Set<java.util.UUID> plistincreation = java.util.concurrent.ConcurrentHashMap.newKeySet();
+	private static final java.util.Map<java.util.UUID, String> pchoosegenerator = new java.util.concurrent.ConcurrentHashMap<>();
+	private static final HashMap<java.util.UUID, String> worlddeletion = new HashMap<>();
 	
 	/*
 	 * Interact with the manager
@@ -132,19 +133,10 @@ public class GuiSystem implements Listener {
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.Importing-With-A-Command")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Import.Importing-With-A-Command", "GuiSystem", false);
                     }
-				} else if (item.getType() == XMaterial.OAK_SAPLING.parseMaterial() || item.getType() == XMaterial.NETHERRACK.parseMaterial()
-						|| item.getType() == XMaterial.END_STONE.parseMaterial()) {
+				} else if (worldOf(e, false) != null) {
+					String worldname = worldOf(e, false);
+
 					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-						String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
-						worldname = worldname.replace("§a§l", "");
-
-						if (worldname.contains(" ") || worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
-							for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
-								ConfigEventUtils.ExecuteEvent(p, msg, "Error.NotGoodName", "GuiSystem", false);
-							}
-							return;
-						}
-
 						for (String msg: SetupLangFile.getConfig().getStringList("SetupWorld.World-Changed")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", worldname), "SetupWorld.World-Changed", "GuiSystem", false);
 						}
@@ -158,25 +150,12 @@ public class GuiSystem implements Listener {
 						
 						return;
 					} else {
-						
-						String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
-						worldname = worldname.replace("§a§l", "");
-						
-						if (worldname.contains(" ") || worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
-							for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
-		                        ConfigEventUtils.ExecuteEvent(p, msg, "Error.NotGoodName", "GuiSystem", false);
-		                    }
-							return;
-						}
-
 						if (p.getWorld().getName().equals(worldname)) {
 							for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Error-Tp")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Tp.Error-Tp", "GuiSystem", false);
 							}
 						} else {
-							World world = Bukkit.getWorld(worldname);
-							assert world != null;
-							Location location = world.getSpawnLocation();
+							Location location = Bukkit.getWorld(worldname).getSpawnLocation();
 							p.teleport(location);
 							for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Tp.Success", "GuiSystem", false);
@@ -190,7 +169,7 @@ public class GuiSystem implements Listener {
 						return;
 					}
 					
-					plistincreation.add(p);
+					plistincreation.add(p.getUniqueId());
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Choose-A-Name")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Create.Choose-A-Name", "GuiSystem", false);
                     }
@@ -210,39 +189,38 @@ public class GuiSystem implements Listener {
 					}
 					p.performCommand("paneladmin");
 				} else if (item.getType() == XMaterial.ARROW.parseMaterial()) {
+					int page = pageOf(inv);
 					if (e.getRawSlot() == 45) {
-						Exceptionnalsecondpage(p);
-					} else {
-						FirstPage(p);
+						WorldsPage(p, page + 1);
+					} else if (e.getRawSlot() == 46 && page > 0) {
+						WorldsPage(p, page - 1);
 					}
 				}
 			} else if (e.isRightClick() && e.isShiftClick()) {
+				// A world, loaded or not: the panes, the arrows... do nothing
+				String worldname = worldOf(e, true);
+				if (worldname == null) return;
+
 				if (!p.hasPermission("hawn.command.world.delete") && !p.hasPermission("hawn.command.world.*")) {
 					MessageUtils.MessageNoPermission(p, "hawn.command.world.delete");
-					
+
 					return;
 				}
-				
-				String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
-				worldname = worldname.replace("§a§l", "");
-				worldname = worldname.replace("§c§l", "");
 
-				worlddeletion.remove(p);
-				
-				worlddeletion.put(p, worldname);
-								
+				worlddeletion.put(p.getUniqueId(), worldname);
+
 				SUREPAGEDELETE(p);
 			} else if (e.isRightClick()) {
+				// Only a loaded world has settings
+				String worldname = worldOf(e, false);
+				if (worldname == null) return;
+
 				if (!p.hasPermission("hawn.command.world.modifymain") && !p.hasPermission("hawn.command.world.*")) {
 					MessageUtils.MessageNoPermission(p, "hawn.command.world.modifymain");
-					
+
 					return;
 				}
-				
-				String worldname = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
-				worldname = worldname.replace("§a§l", "");
-				worldname = worldname.replace("§c§l", "");
-				
+
 				ModifyWorldMainPage(p, worldname);
 			}
 			
@@ -296,7 +274,7 @@ public class GuiSystem implements Listener {
 					worldname = worldname.replace("§7" + Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name")).replace("&", "§") + " §e", "");
 					worldname = worldname.replace(" ", "_");
 
-					pchoosegenerator.put(p, worldname);
+					pchoosegenerator.put(p.getUniqueId(), worldname);
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.Choose-A-Generator")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Create.Choose-A-Generator", "GuiSystem", false);
 					}
@@ -333,7 +311,7 @@ public class GuiSystem implements Listener {
 				worldname = worldname.replace("§7" + Objects.requireNonNull(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name")).replace("&", "§") + " §e", "");
 				worldname = worldname.replace(" ", "_");
 
-				if (worldname.contains("(") || worldname.contains(")") || worldname.contains("§")) {
+				if (!WorldFolders.validName(worldname)) {
 					for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "Error.NotGoodName", "GuiSystem", false);
 					}
@@ -452,10 +430,10 @@ public class GuiSystem implements Listener {
 			if (item.getType() == XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()) {
 				FirstPage(p);
 
-				worlddeletion.remove(p);
+				worlddeletion.remove(p.getUniqueId());
 			} else if (item.getType() == XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()) {
-				if (worlddeletion.containsKey(p)) {
-					String worldname = worlddeletion.get(p);
+				if (worlddeletion.containsKey(p.getUniqueId())) {
+					String worldname = worlddeletion.remove(p.getUniqueId());
 					
 					if (WorldDeletion.isProtected(worldname)) {
 						for (String msg: WorldDeletion.message("Error.Protected-World", "%prefix% &cThe world &e%arg1% &ccan't be deleted: the server needs it")) {
@@ -658,19 +636,19 @@ public class GuiSystem implements Listener {
 				worldname = worldname.replace(" ", "_");
 				
 				if (p.getOpenInventory().getItem(11).getType() == XMaterial.ENDER_EYE.parseMaterial()) {
-					Bukkit.getWorld(worldname).setTime(16000L);
+					Bukkit.getWorld(worldname).setTime(18000L); // 00:00
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Modify-World.Time-Changed")) {
 	                    ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Modify-World.Time-Changed", "GuiSystem", false);
 	                }
 					ModifyWorldMainPage(p, worldname);
 				} else if (p.getOpenInventory().getItem(13).getType() == XMaterial.ENDER_EYE.parseMaterial()) {
-					Bukkit.getWorld(worldname).setTime(6000L);
+					Bukkit.getWorld(worldname).setTime(6000L); // 12:00
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Modify-World.Time-Changed")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Modify-World.Time-Changed", "GuiSystem", false);
 	                }
 					ModifyWorldMainPage(p, worldname);
 				} else if (p.getOpenInventory().getItem(15).getType() == XMaterial.ENDER_EYE.parseMaterial()) {
-					Bukkit.getWorld(worldname).setTime(11000L);
+					Bukkit.getWorld(worldname).setTime(12000L); // 18:00
 					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Modify-World.Time-Changed")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Modify-World.Time-Changed", "GuiSystem", false);
 	                }
@@ -839,165 +817,104 @@ public class GuiSystem implements Listener {
 	 *  DEDICATED TO CREATE THE PAGES
 	 * -------------------------------
 	 */
+	// The worlds of a page of the list, the bar below
+	private static final int PER_PAGE = 36;
+
 	public static void FirstPage(Player p) {
+		WorldsPage(p, 0);
+	}
 
-		/*
-		 * TODO:
-		 * Change lore with permission
-		 * Add messages config
-		 * Add more permissions... and act with it
-		 */
+	/**
+	 * A page of the world list (0 = the first one), 36 worlds per page.
+	 */
+	public static void WorldsPage(Player p, int page) {
+		Inventory inv = HawnMenu.create(54, pageTitle(page));
+		fillWorldsPage(p, inv, page);
+		p.openInventory(inv);
+	}
 
-		/*
-		 * Basics
-		 */		
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main");
+	private static String pageTitle(int page) {
+		return page <= 0 ? "§cWorld Manager - Main" : "§cWorld Manager - Main " + (page + 1);
+	}
+
+	/**
+	 * The page of the world list shown with this title, -1 for another menu.
+	 */
+	public static int pageOf(String title) {
+		if (title.equals("§cWorld Manager - Main")) return 0;
+		if (title.startsWith("§cWorld Manager - Main ")) {
+			try {
+				return Integer.parseInt(title.substring("§cWorld Manager - Main ".length()).trim()) - 1;
+			} catch (NumberFormatException e) {
+				return -1;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * The players who look at the world list see it again, without reopening it (the sizes computed, a world deleted).
+	 */
+	public static void refreshWorldPages() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			int page = pageOf(player.getOpenInventory().getTitle());
+			if (page >= 0) {
+				fillWorldsPage(player, player.getOpenInventory().getTopInventory(), page);
+			}
+		}
+	}
+
+	private static void fillWorldsPage(Player p, Inventory inv, int page) {
 
 		// The folder of the worlds (--world-container), not always the folder of the server
 		File directory = Bukkit.getWorldContainer();
 		listWorlds(directory);
-		
-		// Decimals to calculate folder size
-		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-		symbols.setDecimalSeparator('.');
-		DecimalFormat format = new DecimalFormat("0.##");
-		format.setDecimalFormatSymbols(symbols);
-		
-		int numberslot = 0;
-		int checkmax = 0;
-		boolean higher = false;
-		
-		/*
-		 * The gui overall
-		 */
-		for (File directorfile : fileList) {
-			
-			if (checkmax > 35) {
-				higher = true;
-				continue;
-			}
-			
-			if (checkIfIsWorld(directorfile) || loadedOnly.contains(directorfile)) {
-				// Get folder name and size
-				String worldname = directorfile.getName();
-				
-				float size = (float) 0123456789.0;
-				float check = (float) 0123456789.0;
-				
-				try {
-					size = StringUtils.sizeOfDirectory(folderOf(directory, worldname));
-					size =  Float.parseFloat(format.format(size/1024/1024));
-				} catch (NoClassDefFoundError ignored) {}
-				
-				if (Bukkit.getWorld(worldname) != null) {
-					
-					List<String> lore = new ArrayList<>();
 
-					if (DefaultWorld.is(worldname)) {
-						lore.add(text("Gui.Other.Main.Default-World", "&6Default world"));
-					}
-					lore.add(" ");
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-						lore.add(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Line-1")));
-					} else {
-						lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-One").replace("&", "§"));
-						lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Two").replace("&", "§"));
-					}
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
-					lore.add(" ");
-					lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Players") + " §e" + Bukkit.getWorld(worldname).getPlayers().size());
-					if (size != check) {
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " §e" + size + "MB");
-					}
-					
-					if (Bukkit.getWorld(worldname).getEnvironment() == Environment.NORMAL) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Normal").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.OAK_SAPLING.parseMaterial()));
-					} else if (Bukkit.getWorld(worldname).getEnvironment() == Environment.NETHER) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Nether").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.NETHERRACK.parseMaterial()));
-					} else if (Bukkit.getWorld(worldname).getEnvironment() == Environment.THE_END) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " " + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.The_End").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.END_STONE.parseMaterial()));
-					}
-					
-					numberslot++;
-				} else {
-					
-					List<String> lore = new ArrayList<>();
-										
-					lore.add(" ");
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
-					lore.add(" ");
-					lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " §e" + size + "MB");
-					lore.add(" ");
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Four").replace("&", "§"));
-					
-					inv.setItem(numberslot, createGuiItem("§c§l" + worldname, (ArrayList<String>) lore, XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()));
-					numberslot++;
-				}
-				
-				checkmax++;
+		List<String> worlds = new ArrayList<>();
+		for (File directorfile : fileList) {
+			if (checkIfIsWorld(directorfile) || loadedOnly.contains(directorfile)) {
+				worlds.add(directorfile.getName());
 			}
 		}
-		
 		fileList.clear();
-		
-        inv.setItem(36, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(38, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(39, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(40, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(41, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(42, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(43, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(44, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial())); 
-        
-		if (higher) {
+
+		// The sizes not known yet are computed outside the main thread, then the page is shown again
+		List<File> outdated = new ArrayList<>();
+
+		for (int slot = 0; slot < PER_PAGE; slot++) {
+			int index = page * PER_PAGE + slot;
+
+			if (index >= worlds.size()) {
+				inv.setItem(slot, null);
+				continue;
+			}
+
+			String worldname = worlds.get(index);
+			File folder = folderOf(directory, worldname);
+			if (WorldSizes.outdated(folder)) {
+				outdated.add(folder);
+			}
+
+			inv.setItem(slot, worldItem(p, worldname, WorldSizes.get(folder)));
+		}
+
+		for (int slot = 36; slot <= 44; slot++) {
+			inv.setItem(slot, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		}
+
+		if ((page + 1) * PER_PAGE < worlds.size()) {
 			inv.setItem(45, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Page.Next").replace("&", "§"), XMaterial.ARROW.parseMaterial()));
 		} else {
 			inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 		}
-        
-        inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        
-        inv.setItem(47, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Create-a-new-world").replace("&", "§"), XMaterial.STONE_HOE.parseMaterial()));
+
+		if (page > 0) {
+			inv.setItem(46, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Page.Back").replace("&", "§"), XMaterial.ARROW.parseMaterial()));
+		} else {
+			inv.setItem(46, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		}
+
+		inv.setItem(47, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Create-a-new-world").replace("&", "§"), XMaterial.STONE_HOE.parseMaterial()));
 
 		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
 			inv.setItem(48, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Done")), XMaterial.EMERALD_BLOCK.parseMaterial()));
@@ -1005,193 +922,113 @@ public class GuiSystem implements Listener {
 			inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 		}
 
-        inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        
-        List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
+		inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
-        if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-	        inv.setItem(51, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Close-Inventory")), XMaterial.BARRIER.parseMaterial()));
-        } else if (p.hasPermission("hawn.adminpanel") && whitelistuse.contains(p.getName())) {
-        	inv.setItem(51, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Back.PanelAdmin").replace("&", "§"), XMaterial.BARRIER.parseMaterial()));
-        } else {
-        	inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        }
-        
-        inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(53, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-		
-		p.openInventory(inv);
-	}
-	
-	public static void Exceptionnalsecondpage(Player p) {
-		
-		/*
-		 * TODO:
-		 * Change lore with permission
-		 * Add messages config
-		 * Add more permissions... and act with it
-		 */
-		
-		/*
-		 * Basics
-		 */		
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Main 2");
-		
-		// The folder of the worlds (--world-container), not always the folder of the server
-		File directory = Bukkit.getWorldContainer();
-		listWorlds(directory);
-		
-		// Decimals to calculate folder size
-		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-		symbols.setDecimalSeparator('.');
-		DecimalFormat format = new DecimalFormat("0.##");
-		format.setDecimalFormatSymbols(symbols);
-		
-		int numberslot = 0;
-		int checkmax = 0;
-		
-		/*
-		 * The gui overall
-		 */
-		for (File directorfile : fileList) {
-			if (checkIfIsWorld(directorfile) || loadedOnly.contains(directorfile)) {
-	
-				if (checkmax < 35) {
-					checkmax++;
-					continue;
-				}
-				
-				// Get folder name and size
-				String worldname = directorfile.getName();
-				
-				float size = StringUtils.sizeOfDirectory(folderOf(directory, worldname));
-				size =  Float.parseFloat(format.format(size/1024/1024));
-				
-				if (Bukkit.getWorld(worldname) != null) {
-					
-					List<String> lore = new ArrayList<>();
-
-					if (DefaultWorld.is(worldname)) {
-						lore.add(text("Gui.Other.Main.Default-World", "&6Default world"));
-					}
-					lore.add(" ");
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-						lore.add(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Line-1")));
-					} else {
-						lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-One").replace("&", "§"));
-						lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Two").replace("&", "§"));
-					}
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
-					lore.add(" ");
-					lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Players") + " §e" + Bukkit.getWorld(worldname).getPlayers().size());
-					lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " §e" + size + "MB");
-					
-					if (Bukkit.getWorld(worldname).getEnvironment() == Environment.NORMAL) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Normal").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.OAK_SAPLING.parseMaterial()));
-					} else if (Bukkit.getWorld(worldname).getEnvironment() == Environment.NETHER) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Nether").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.NETHERRACK.parseMaterial()));
-					} else if (Bukkit.getWorld(worldname).getEnvironment() == Environment.THE_END) {
-						
-						if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.EASY) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Easy").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.HARD) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Hard").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.NORMAL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Normal").replace("&", "§"));
-						} else if (Bukkit.getWorld(worldname).getDifficulty() == Difficulty.PEACEFUL) {
-							lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"));
-						} 
-						
-						lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " " + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.The_End").replace("&", "§"));
-						
-						inv.setItem(numberslot, createGuiItem("§a§l" + worldname, (ArrayList<String>) lore, XMaterial.END_STONE.parseMaterial()));
-					}
-					
-					numberslot++;
-				} else {
-					
-					List<String> lore = new ArrayList<>();
-										
-					lore.add(" ");
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
-					lore.add(" ");
-					lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " §e" + size + "MB");
-					lore.add(" ");
-					lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Four").replace("&", "§"));
-					
-					inv.setItem(numberslot, createGuiItem("§c§l" + worldname, (ArrayList<String>) lore, XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()));
-					numberslot++;
-				}
-			}
-		}
-		
-		fileList.clear();
-		
-        inv.setItem(36, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(38, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(39, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(40, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(41, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(42, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(43, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(44, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial())); 
-        
-        inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-
-        inv.setItem(46, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Page.Back").replace("&", "§"), XMaterial.ARROW.parseMaterial()));
-                
-        inv.setItem(47, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Create-a-new-world").replace("&", "§"), XMaterial.STONE_HOE.parseMaterial()));
-
-		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
-			inv.setItem(48, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Done")), XMaterial.EMERALD_BLOCK.parseMaterial()));
-		} else {
-			inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-		}
-        inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        
-        List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
+		List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
 
 		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
 			inv.setItem(51, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Close-Inventory")), XMaterial.BARRIER.parseMaterial()));
 		} else if (p.hasPermission("hawn.adminpanel") && whitelistuse.contains(p.getName())) {
-        	inv.setItem(51, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Back.PanelAdmin").replace("&", "§"), XMaterial.BARRIER.parseMaterial()));
-        } else {
-        	inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        }
-        
-        inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(53, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-		
-		p.openInventory(inv);
+			inv.setItem(51, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Back.PanelAdmin").replace("&", "§"), XMaterial.BARRIER.parseMaterial()));
+		} else {
+			inv.setItem(51, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		}
+
+		inv.setItem(52, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		inv.setItem(53, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+
+		if (!outdated.isEmpty()) {
+			WorldSizes.compute(outdated, GuiSystem::refreshWorldPages);
+		}
+	}
+
+	// The item of a world in the list: a loaded world (its environment), or a red pane for a world folder not loaded
+	private static ItemStack worldItem(Player p, String worldname, long bytes) {
+		String size;
+		if (bytes < 0) {
+			size = text("Gui.Other.Size-Pending", "&7...");
+		} else {
+			DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+			symbols.setDecimalSeparator('.');
+			DecimalFormat format = new DecimalFormat("0.##");
+			format.setDecimalFormatSymbols(symbols);
+			size = "§e" + format.format(bytes / 1024.0 / 1024.0) + "MB";
+		}
+
+		World world = Bukkit.getWorld(worldname);
+		ArrayList<String> lore = new ArrayList<>();
+
+		if (world == null) {
+			lore.add(" ");
+			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
+			lore.add(" ");
+			lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " " + size);
+			lore.add(" ");
+			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Four").replace("&", "§"));
+
+			return createGuiItem("§c§l" + worldname, lore, XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
+		}
+
+		if (DefaultWorld.is(worldname)) {
+			lore.add(text("Gui.Other.Main.Default-World", "&6Default world"));
+		}
+		lore.add(" ");
+		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+			lore.add(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Line-1")));
+		} else {
+			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-One").replace("&", "§"));
+			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Two").replace("&", "§"));
+		}
+		lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Three").replace("&", "§"));
+		lore.add(" ");
+		lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Players") + " §e" + world.getPlayers().size());
+		lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " " + size);
+
+		String difficulty;
+		switch (world.getDifficulty()) {
+			case PEACEFUL: difficulty = "Gui.Other.Difficulty.Peaceful"; break;
+			case EASY: difficulty = "Gui.Other.Difficulty.Easy"; break;
+			case HARD: difficulty = "Gui.Other.Difficulty.Hard"; break;
+			default: difficulty = "Gui.Other.Difficulty.Normal";
+		}
+		lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty-Main") + " §e" + WorldManagerPanelConfig.getConfig().getString(difficulty).replace("&", "§"));
+
+		if (world.getEnvironment() == Environment.NETHER) {
+			lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Nether").replace("&", "§"));
+			return createGuiItem("§a§l" + worldname, lore, XMaterial.NETHERRACK.parseMaterial());
+		} else if (world.getEnvironment() == Environment.THE_END) {
+			lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " " + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.The_End").replace("&", "§"));
+			return createGuiItem("§a§l" + worldname, lore, XMaterial.END_STONE.parseMaterial());
+		}
+
+		lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Environment") + " §e" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.WorldType.Normal").replace("&", "§"));
+		return createGuiItem("§a§l" + worldname, lore, XMaterial.OAK_SAPLING.parseMaterial());
+	}
+
+	/**
+	 * The world of an item of the world list: a loaded world, or with unloaded a world folder that is not loaded.
+	 * Null for the other items (panes, arrows...) and for a world gone since the menu was opened.
+	 */
+	private static String worldOf(InventoryClickEvent e, boolean unloaded) {
+		ItemStack item = e.getCurrentItem();
+		if (e.getRawSlot() >= PER_PAGE || item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return null;
+
+		String name = item.getItemMeta().getDisplayName();
+		Material type = item.getType();
+
+		if (name.startsWith("§a§l") && (type == XMaterial.OAK_SAPLING.parseMaterial() || type == XMaterial.NETHERRACK.parseMaterial()
+				|| type == XMaterial.END_STONE.parseMaterial())) {
+			String world = name.substring(4);
+			return Bukkit.getWorld(world) != null ? world : null;
+		}
+
+		if (unloaded && name.startsWith("§c§l") && type == XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()) {
+			String world = name.substring(4);
+			return WorldFolders.exists(world) ? world : null;
+		}
+
+		return null;
 	}
 	
 	// >>>>>>>>>>>>>>>>>>>>>>> Create worlds
@@ -1201,19 +1038,36 @@ public class GuiSystem implements Listener {
 	 * @return true when the message was the name (it is not sent to the chat)
 	 */
 	public static boolean captureChat(Player p, String name) {
-		if (plistincreation.contains(p)) {
-			plistincreation.remove(p);
-			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PageCreateWorld(p, name, "NOGENERATOR"), 1);
+		// The chat thread: remove() tells at once whether the player was typing a name, even if the main thread changes the lists
+		if (plistincreation.remove(p.getUniqueId())) {
+			String worldname = name.trim().replace(" ", "_");
+
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+				if (!p.isOnline()) return;
+
+				// Letters, numbers, _ and -: the player types another name
+				if (!WorldFolders.validName(worldname)) {
+					for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Error.NotGoodName")) {
+						ConfigEventUtils.ExecuteEvent(p, msg, "Error.NotGoodName", "GuiSystem", false);
+					}
+					deny(p);
+					plistincreation.add(p.getUniqueId());
+					return;
+				}
+
+				PageCreateWorld(p, worldname, "NOGENERATOR");
+			}, 1);
 
 			return true;
-		} else if (pchoosegenerator.containsKey(p)) {
+		}
 
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-				@Override
-				public void run() {
-					PageCreateWorld(p, pchoosegenerator.get(p), name);
-					pchoosegenerator.remove(p);
+		String worldname = pchoosegenerator.remove(p.getUniqueId());
+		if (worldname != null) {
+			String generator = name.trim();
+
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+				if (p.isOnline()) {
+					PageCreateWorld(p, worldname, generator.isEmpty() || generator.contains(" ") ? "NOGENERATOR" : generator);
 				}
 			}, 1);
 
@@ -1227,19 +1081,20 @@ public class GuiSystem implements Listener {
 	private static void getnameecheckone(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 
-		plistincreation.remove(p);
-		pchoosegenerator.remove(p);
+		plistincreation.remove(p.getUniqueId());
+		pchoosegenerator.remove(p.getUniqueId());
 
-		worlddeletion.remove(p);
+		worlddeletion.remove(p.getUniqueId());
 	}
 
 	@EventHandler
 	private static void getnameechecktwo(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 
-		plistincreation.remove(p);
+		plistincreation.remove(p.getUniqueId());
+		pchoosegenerator.remove(p.getUniqueId());
 
-		worlddeletion.remove(p);
+		worlddeletion.remove(p.getUniqueId());
 	}
 	
 	@EventHandler
@@ -1250,7 +1105,7 @@ public class GuiSystem implements Listener {
 		String titlegui = "§cWorld Manager";
 		
 		if (inv.equals(titlegui + " - Delete - SURE ?!")) {
-			worlddeletion.remove(p);
+			worlddeletion.remove(p.getUniqueId());
 		}
 	}
 	
@@ -1259,14 +1114,24 @@ public class GuiSystem implements Listener {
 		Player p = e.getPlayer();
 		
 		if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-			if (plistincreation.contains(p)) {
-				plistincreation.remove(p);
-				
+			if (plistincreation.remove(p.getUniqueId())) {
 				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Create.World-Cancelled")) {
                     ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Create.World-Cancelled", "GuiSystem", false);
                 }
 				
 				e.setCancelled(true);
+				return;
+			}
+
+			// No generator typed: back to the creation page, with the default generator
+			String worldname = pchoosegenerator.remove(p.getUniqueId());
+			if (worldname != null) {
+				for (String msg: WorldDeletion.message("Gui.Create.Generator-Cancelled", "%prefix% &7No generator: the default one is kept")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Create.Generator-Cancelled", "GuiSystem", false);
+				}
+
+				e.setCancelled(true);
+				PageCreateWorld(p, worldname, "NOGENERATOR");
 			}
 		}
 	}

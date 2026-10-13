@@ -19,7 +19,7 @@ public class OjCosmetics {
                     if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
                         if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
                         	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                        		if (!p.hasPlayedBefore()) {
+                        		if (JoinNumbers.isFirstJoin(p)) {
                         			for (String s: ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Firework-List")) {
                         				if (s.startsWith("[FWLU]: ")) {
                         					
@@ -42,7 +42,7 @@ public class OjCosmetics {
                         }
                     } else {
                     	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                    		if (!p.hasPlayedBefore()) {
+                    		if (JoinNumbers.isFirstJoin(p)) {
                     			for (String s: ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Firework-List")) {
                     				if (s.startsWith("[FWLU]: ")) {
                     					
@@ -68,7 +68,7 @@ public class OjCosmetics {
                 if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Bypass")) {
                     if (!p.hasPermission("hawn.event.onjoin.bypass.firework")) {
                     	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                    		if (!p.hasPlayedBefore()) {
+                    		if (JoinNumbers.isFirstJoin(p)) {
                     			for (String s: ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Firework-List")) {
                     				if (s.startsWith("[FWLU]: ")) {
                     					
@@ -91,7 +91,7 @@ public class OjCosmetics {
                     }
                 } else {
                 	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Firework.Options.First-Join-Only")) {
-                		if (!p.hasPlayedBefore()) {
+                		if (JoinNumbers.isFirstJoin(p)) {
                 			for (String s: ConfigGCos.getConfig().getStringList("Cosmetics.Firework.Options.Firework-List")) {
                 				if (s.startsWith("[FWLU]: ")) {
                 					
@@ -124,7 +124,7 @@ public class OjCosmetics {
                 	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Bypass")) {
                 		if (!p.hasPermission("hawn.event.onjoin.bypass.lightningstrike")) {
                 			if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Options.First-Join-Only")) {
-                    			if (!p.hasPlayedBefore()) {
+                    			if (JoinNumbers.isFirstJoin(p)) {
                     				World w = p.getWorld();
                                 	
             	                	for (int i = 0; i <= ConfigGCos.getConfig().getInt("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes"); i++) {
@@ -141,7 +141,7 @@ public class OjCosmetics {
                 		}
                 	} else {
                 		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Options.First-Join-Only")) {
-                			if (!p.hasPlayedBefore()) {
+                			if (JoinNumbers.isFirstJoin(p)) {
                 				World w = p.getWorld();
                             	
         	                	for (int i = 0; i <= ConfigGCos.getConfig().getInt("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes"); i++) {
@@ -161,7 +161,7 @@ public class OjCosmetics {
             	if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Bypass")) {
             		if (!p.hasPermission("hawn.event.onjoin.bypass.lightningstrike")) {
             			if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Options.First-Join-Only")) {
-                			if (!p.hasPlayedBefore()) {
+                			if (JoinNumbers.isFirstJoin(p)) {
                 				World w = p.getWorld();
                             	
         	                	for (int i = 0; i <= ConfigGCos.getConfig().getInt("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes"); i++) {
@@ -178,7 +178,7 @@ public class OjCosmetics {
             		}
             	} else {
             		if (ConfigGCos.getConfig().getBoolean("Cosmetics.Lightning-Strike.Options.First-Join-Only")) {
-            			if (!p.hasPlayedBefore()) {
+            			if (JoinNumbers.isFirstJoin(p)) {
             				World w = p.getWorld();
                         	
     	                	for (int i = 0; i <= ConfigGCos.getConfig().getInt("Cosmetics.Lightning-Strike.Options.Number-Of-Strikes"); i++) {

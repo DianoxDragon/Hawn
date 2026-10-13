@@ -203,5 +203,7 @@ public final class FrenchFixes {
 		{"&cTu n'as pas tapé un nom de monde", "&cVous n'avez pas donné de nom de monde"},
 		{"&cVous avez manqué quelque chose dans l'écriture de la commande...", "&cIl manque quelque chose dans la commande..."},
 		{"%prefix% &cCe monde existe", "%prefix% &cCe monde existe déjà", "whole"},
+		// 1.4.4: the names of the worlds can have a -
+		{"Caractères autorisés : a-z | A-Z | 0-9 | _", "Caractères autorisés : a-z | A-Z | 0-9 | _ | -", "end"},
 	};
 }

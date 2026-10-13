@@ -87,6 +87,8 @@ public class ConfigGeneral {
 	        Config.set("Plugin.Use.MYSQL.Database", "Hawn");
 	        Config.set("Plugin.Use.MYSQL.Port", 3306);
 	        Config.set("Plugin.Use.MYSQL.Use-SSL", false);
+	        // Since 1.4.4: several servers on the same database count their players together
+	        Config.set("Plugin.Use.MYSQL.First-Join-On-The-Network", true);
 
         Config = ConfigDefaults.apply(file, loaded, Config);
     }

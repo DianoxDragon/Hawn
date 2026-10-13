@@ -131,7 +131,7 @@ public class ConfigMGeneral {
 
         Config.set("Spawn.On-join.First-Join.Broadcast.Enable", true);
         Config.set("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", true);
-        Config.set("Spawn.On-join.First-Join.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&eWelcome %player% to the server"}));
+        Config.set("Spawn.On-join.First-Join.Broadcast.Messages", java.util.Arrays.asList(new String[] {"&eWelcome %player% to the server &7(player #%player_join_number%)"}));
         Config.set("Spawn.On-join.First-Join.Motd.Enable", true);
         Config.set("Spawn.On-join.First-Join.Motd.Both-Motd", false);
         Config.set("Spawn.On-join.First-Join.Motd.Messages", java.util.Arrays.asList(new String[] {
@@ -147,6 +147,11 @@ public class ConfigMGeneral {
         Config.set("Update.Notify-Admins.Messages", java.util.Arrays.asList(new String[] {
         		"%prefix% &eA new version of Hawn is out: &6%new_version% &7(you have %current_version%)",
         		"json:{\"text\":\"§b» Download it on Spigot\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Open the page of Hawn\"}}"}));
+
+        // Since 1.4.4: the values of the yes/no placeholders (%player_vanished%...), and of a number not known yet
+        Config.set("Placeholders.Yes", "&ayes");
+        Config.set("Placeholders.No", "&cno");
+        Config.set("Placeholders.Unknown", "?");
 
         Config = ConfigDefaults.apply(file, loaded, Config, "General.On-join.Join-Message.Per-Group.Groups", "General.On-join.Join-Message.Per-World.Worlds", "General.On-Quit.Quit-Message.Per-Group.Groups", "General.On-Quit.Quit-Message.Per-World.Worlds", "Spawn.On-join.Per-World.Worlds");
     }

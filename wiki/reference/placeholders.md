@@ -36,6 +36,12 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%worldtime%`                     | Time of the player's world (ticks)           |
 | `%hawn_player_join_date%`         | Last join date                               |
 | `%hawn_player_first_join_date%`   | First join date                              |
+| `%player_join_number%`            | The order of arrival of the player: `1` for the first player of the server (since Hawn 1.4.4) |
+| `%player_connections%`            | How many times the player joined             |
+| `%player_gamemode%`               | Gamemode: `survival`, `creative`, `adventure` or `spectator` |
+| `%player_vanished%`               | Vanished ([yes or no](#yes-no-and-unknown-values)) |
+| `%player_flying%`                 | Flying right now (yes or no)                 |
+| `%player_option_<option>%`        | A choice of [`/option`](../features/player-options.md) (yes or no): `fly`, `doublejump`, `speed`, `flyspeed`, `jumpboost`, `autobc`, `pv` |
 | `%target%`                        | In some messages: the player targeted by a command |
 
 ## Server
@@ -47,6 +53,10 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%online_<world>%`      | Players in a world, for example `%online_world_nether%` |
 | `%player_world_online%` | Players in the world of the player            |
 | `%staff_online%`        | Players online with `hawn.staff`              |
+| `%unique_players%`      | Different players who ever joined (since Hawn 1.4.4) |
+| `%server_uptime%`       | Time since the start of the server: `2d 5h 12m`, `3h 4m`, `7m` |
+| `%chat_muted%`          | The chat is muted with `/gmute` (yes or no)   |
+| `%maintenance%`         | The [maintenance mode](../features/admin-tools.md#maintenance-mode) is on (yes or no) |
 | `%tps%`                 | Server TPS                                    |
 | `%gettime%`             | Current time (12 or 24 hours, see `general.yml`) |
 | `%getdate%`             | Current date (format of `general.yml`)        |
@@ -76,6 +86,26 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 {% hint style="info" %}
 The vanished players are not counted by `%online%`, `%online_<world>%`, `%player_world_online%` and `%staff_online%`: the number would give them away. A world that doesn't exist leaves `%online_<world>%` as it is written.
 {% endhint %}
+
+## Yes, no and unknown values
+
+`%player_vanished%`, `%player_flying%`, `%player_option_<option>%`, `%chat_muted%` and `%maintenance%` give `Placeholders.Yes` or `Placeholders.No` of `Messages/<language>/General.yml`, with colours if you want:
+
+```yaml
+Placeholders:
+  Yes: '&ayes'
+  No: '&cno'
+  Unknown: '?'
+```
+
+`Unknown` is shown by `%player_join_number%` and `%unique_players%` while the number can't be known (MySQL unreachable).
+
+## Order of arrival
+
+`%player_join_number%` and `%unique_players%` welcome the new players with their number, for example in the [first join broadcast](../features/join-and-quit.md#first-join): `&eWelcome %player%, you are the player #%player_join_number%`.
+
+* **Without MySQL**, each server counts its own players. The order is kept in `StockageInfo/join-order.txt`, one UUID per line. At the first start of 1.4.4, the players who already have a file are numbered in their order of arrival (their first join date).
+* **With [MySQL](../features/database.md#several-servers-on-one-database)**, the servers on the same database count together: a player has the same number on every server, and two servers never give the same number, even at the same second. The players already in the database are numbered in their order of arrival at the first start.
 
 ## Where player placeholders don't work
 

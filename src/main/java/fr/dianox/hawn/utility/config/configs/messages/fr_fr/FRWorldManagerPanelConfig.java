@@ -128,6 +128,11 @@ public class FRWorldManagerPanelConfig {
         Config.set("Gui.Other.Generator-Default", "&7Par défaut");
         Config.set("Gui.Other.Generator-Help", java.util.Arrays.asList("&8Clic gauche : par défaut ou vide", "&8Clic droit : taper un générateur dans le chat"));
         Config.set("Gui.Other.Info.Title", "&eInformations");
+        // Depuis 1.4.4
+        Config.set("Gui.Other.Size-Pending", "&7...");
+        Config.set("Gui.Create.Generator-Cancelled", java.util.Arrays.asList("%prefix% &7Aucun générateur : celui par défaut est gardé"));
+        Config.set("Error.Unload-Protected", java.util.Arrays.asList("%prefix% &cLe monde &e%arg1% &cne peut pas être déchargé : le serveur en a besoin"));
+        Config.set("Command.Unload.Failed", java.util.Arrays.asList("%prefix% &cLe monde &e%arg1% &cn'a pas pu être déchargé : aucun joueur ne doit s'y trouver"));
         Config.set("Gui.Other.Info.Players", "&7Joueurs :");
         Config.set("Gui.Other.Info.Environment", "&7Environnement :");
         Config.set("Gui.Other.Info.Generator", "&7Générateur :");
@@ -189,7 +194,7 @@ public class FRWorldManagerPanelConfig {
         Config.set("Command.Other.Type", "Type :");
 
         Config.set("Error.NotGoodName", java.util.Arrays.asList("%prefix% &cCe nom de monde n'est pas autorisé",
-		            "%prefix% &cCaractères autorisés : a-z | A-Z | 0-9 | _"));
+		            "%prefix% &cCaractères autorisés : a-z | A-Z | 0-9 | _ | -"));
 
         Config.set("Error.WorldNameNotTyped", java.util.Arrays.asList("%prefix% &cVous n'avez pas donné de nom de monde"));
 

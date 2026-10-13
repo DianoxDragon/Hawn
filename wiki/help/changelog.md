@@ -4,6 +4,28 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.4 BETA
+
+### New
+
+* Placeholders of the player: `%player_gamemode%`, `%player_vanished%`, `%player_flying%`, `%player_option_<option>%` (the choices of `/option`), `%player_connections%`. See [Placeholders](../reference/placeholders.md#player).
+* Placeholders of the server: `%server_uptime%`, `%chat_muted%`, `%maintenance%`. The yes/no values are `Placeholders.Yes` and `Placeholders.No` of `General.yml`.
+* `%player_join_number%` and `%unique_players%`: the order of arrival of the players ("you are the player #1234"). The players who already came are numbered in their order of arrival at the first start. The default first join broadcast shows it (new installations). See [Order of arrival](../reference/placeholders.md#order-of-arrival).
+* With several servers on the same MySQL database: the numbers are the ones of the network, and the first join happens once for the whole network (`Plugin.Use.MYSQL.First-Join-On-The-Network`). See [Several servers on one database](../features/database.md#several-servers-on-one-database).
+* World manager: the size of the worlds is computed in the background and kept one minute. Before, the menu read every file of every world on the main thread at each opening (and at each step of the player during the setup).
+
+### Fixes
+
+* World manager menu: a right click on something else than a loaded world (a pane, an arrow, a world not loaded) gave an error, and a shift + right click opened the delete page for a pane.
+* World manager menu: the hours were wrong: 00:00 set 22:00, and 18:00 set 17:00.
+* World manager menu: with more than 36 worlds, the 36th world was on both pages; with more than 72, the worlds went over the bar of the menu and the last ones could not be reached. The worlds are now shown 36 per page, on as many pages as needed.
+* `/hw import <world>` without an environment: the world was not loaded again at the next start.
+* `/hw create` with an unknown type: an error, then "world created", and an entry for a world that doesn't exist in `World-List.yml`.
+* `/hw unload` unloaded the main world and the default world, and said "unloaded" when the server refused (players in the world).
+* World names: `/`, `..` and the dots were accepted (`/hw create ../name` created the world outside the folder of the worlds). Now letters, numbers, `_` and `-`, in the commands and in the menu.
+* Creating a world from the menu: the generator typed in the chat could not be cancelled (the next message of the player was taken as a generator). A left click now cancels it, like for the name.
+* MySQL with several servers: a table created by one server (the first time a player used an option) was not seen by the others until their restart. They tried to create it again and to add rows that already existed: the options changed on one server could be ignored on the other.
+
 ## 1.4.3 BETA
 
 ### New

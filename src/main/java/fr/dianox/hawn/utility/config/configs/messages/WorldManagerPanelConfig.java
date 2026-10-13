@@ -141,6 +141,11 @@ public class WorldManagerPanelConfig {
         Config.set("Gui.Other.Info.Time", "&7Time:");
         Config.set("Gui.Other.Info.PvP", "&7PvP:");
         Config.set("Gui.Other.Info.Seed", "&7Seed:");
+        // Since 1.4.4
+        Config.set("Gui.Other.Size-Pending", "&7...");
+        Config.set("Gui.Create.Generator-Cancelled", java.util.Arrays.asList("%prefix% &7No generator typed: the default one is kept"));
+        Config.set("Error.Unload-Protected", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccan't be unloaded: the server needs it"));
+        Config.set("Command.Unload.Failed", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccould not be unloaded: no player must be in it"));
         Config.set("Gui.Other.WorldType.World-Type", "&7World type:");
         Config.set("Gui.Other.WorldType.Nether", "&cNETHER");
         Config.set("Gui.Other.WorldType.The_End", "&5THE_END");
@@ -192,7 +197,7 @@ public class WorldManagerPanelConfig {
         Config.set("Command.Other.Type", "Type:");
 
         Config.set("Error.NotGoodName", java.util.Arrays.asList("%prefix% &cError Hawn, world name with such a name format is not allowed",
-		            "%prefix% &cThe only name formats allowed are : a-z | A-Z | 0-9 | _"));
+		            "%prefix% &cThe only name formats allowed are : a-z | A-Z | 0-9 | _ | -"));
 
         Config.set("Error.WorldNameNotTyped", java.util.Arrays.asList("%prefix% &cYou didn't typed a world name"));
 

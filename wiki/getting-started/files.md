@@ -135,6 +135,7 @@ See [Translating Hawn](../help/translating.md).
 Written by Hawn, you don't need to edit it.
 
 * `YamlPlayer/<uuid>.yml`: player data (name, join dates, options, last position, IP if `Save-IP` is on...) when MySQL is not used. See [Player data and MySQL](../features/database.md).
+* `join-order.txt`: the order of arrival of the players, for [`%player_join_number%`](../reference/placeholders.md#order-of-arrival) (without MySQL).
 * `Setup.lock`: created when the [welcome setup](welcome-setup.md) is finished. Delete it to run the setup again.
 
 ## Applying your changes

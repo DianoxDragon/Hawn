@@ -38,8 +38,11 @@ public class SQL {
     private static volatile Set<String> playerTables;
     // Online players: uuid -> table (lower case) -> row (column in lower case -> value or NULL); no entry = no row
     private static final Map<String, Map<String, Map<String, Object>>> players = new ConcurrentHashMap<>();
+    // Online players: uuid -> the tables read for them. Another server sharing the database can create a table later:
+    // the memory knows nothing of a table it has not read, the database answers
+    private static final Map<String, Set<String>> readTables = new ConcurrentHashMap<>();
 
-    private interface SqlCall<T> {
+    public interface SqlCall<T> {
         T run(Connection c) throws SQLException;
     }
 
@@ -99,7 +102,10 @@ public class SQL {
                 @EventHandler(priority = EventPriority.MONITOR)
                 public void onQuit(PlayerQuitEvent e) {
                     String uuid = e.getPlayer().getUniqueId().toString();
-                    async(() -> players.remove(uuid));
+                    async(() -> {
+                        players.remove(uuid);
+                        readTables.remove(uuid);
+                    });
                 }
             }, plugin);
 
@@ -219,6 +225,39 @@ public class SQL {
     }
 
     /**
+     * Waits for the MySQL tasks asked before (the first connection), then tells whether MySQL is used. False when
+     * Hawn went back to YAML because the connection failed at startup. Never from the main thread.
+     */
+    public static boolean connected(long timeout) {
+        if (async == null || async.isShutdown() || Bukkit.isPrimaryThread()) {
+            return false;
+        }
+
+        try {
+            async.submit(() -> {}).get(timeout, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            return false;
+        }
+        return !Main.getInstance().getSql().useyamllistplayer;
+    }
+
+    /**
+     * Runs a query on the MySQL thread, after the waiting writes, and waits for its result (at most timeout seconds).
+     * Never from the main thread. fallback without MySQL, on an error or after the timeout.
+     */
+    public static <T> T query(SqlCall<T> sql, T fallback, long timeout) {
+        if (async == null || async.isShutdown() || url == null || Bukkit.isPrimaryThread()) {
+            return fallback;
+        }
+
+        try {
+            return async.submit(() -> call(sql, fallback)).get(timeout, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            return fallback;
+        }
+    }
+
+    /**
      * Server stop: ends the waiting writes and closes the connection.
      */
     public static void close() {
@@ -232,6 +271,7 @@ public class SQL {
         }
 
         players.clear();
+        readTables.clear();
         playerTables = null;
 
         try {
@@ -334,6 +374,9 @@ public class SQL {
         }, null);
 
         if (rows != null) {
+            Set<String> read = ConcurrentHashMap.newKeySet();
+            read.addAll(tables);
+            readTables.put(uuid, read);
             players.put(uuid, rows);
         }
     }
@@ -347,7 +390,8 @@ public class SQL {
         }
 
         Map<String, Map<String, Object>> rows = players.get(String.valueOf(uuid));
-        if (rows == null) {
+        Set<String> read = readTables.get(String.valueOf(uuid));
+        if (rows == null || read == null || !read.contains(key(table))) {
             return null;
         }
         return Optional.ofNullable(rows.get(key(table)));
@@ -395,15 +439,20 @@ public class SQL {
 
         // Every Hawn table has a player_UUID column: once they are known, no need to ask the database
         Set<String> tables = playerTables;
-        if (tables != null) {
-            return tables.contains(key(table));
+        if (tables != null && tables.contains(key(table))) {
+            return true;
         }
 
-        return call(c -> {
-            try (ResultSet rs = c.getMetaData().getTables(null, null, table, null)) {
+        // Not known: maybe created since the start by another server on the same database
+        boolean exists = call(c -> {
+            try (ResultSet rs = c.getMetaData().getTables(c.getCatalog(), null, table, null)) {
                 return rs.next();
             }
         }, false);
+        if (exists && tables != null) {
+            tables.add(key(table));
+        }
+        return exists;
     }
 
     /**
@@ -543,11 +592,17 @@ public class SQL {
      */
     public static void createTable(String table, String columns) {
         if (!tableExists(table)) {
-        	updateSQL("CREATE TABLE " + table + " (" + columns.replace("player_UUID TEXT", "player_UUID VARCHAR(36) NOT NULL PRIMARY KEY") + ");");
+            // IF NOT EXISTS: another server on the same database may create it at the same time
+        	updateSQL("CREATE TABLE IF NOT EXISTS " + table + " (" + columns.replace("player_UUID TEXT", "player_UUID VARCHAR(36) NOT NULL PRIMARY KEY") + ");");
 
             Set<String> tables = playerTables;
             if (tables != null && columns.contains("player_UUID")) {
                 tables.add(key(table));
+                // A new table: no row for the online players (unless another server wrote one meanwhile: rare, and
+                // the next join reads it)
+                for (Set<String> read : readTables.values()) {
+                    read.add(key(table));
+                }
             }
         }
     }
