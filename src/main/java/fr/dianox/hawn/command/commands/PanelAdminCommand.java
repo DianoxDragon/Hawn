@@ -217,6 +217,12 @@ public class PanelAdminCommand extends BukkitCommand {
         } else if (args.length >= 2) {
             if (args[0].equalsIgnoreCase("edit")) {
                 if (args[1].equalsIgnoreCase("file")) {
+                    // /ap edit file without a file made the command fail
+                    if (args.length < 3) {
+                        MessageUtils.ArgumentMissing(p);
+                        return true;
+                    }
+
                     String filename = "";
 
                     if (Main.getInstance().getConfigManager().configfile.containsKey(args[2])) {
@@ -265,7 +271,10 @@ public class PanelAdminCommand extends BukkitCommand {
                     if (args.length != 4) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[3]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[3], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
 
                     Inventory inv = HawnMenu.create(54, "§cAP - File " + invname + pagenumber);
@@ -605,7 +614,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder commands " + pagenumber);
@@ -706,7 +718,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder Cosmetics-Fun " + pagenumber);
@@ -819,7 +834,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder CF-Utility " + pagenumber);
@@ -922,7 +940,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder CustomJoinItem " + pagenumber);
@@ -1025,7 +1046,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder Events " + pagenumber);
@@ -1127,7 +1151,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder Messages " + pagenumber);
@@ -1230,7 +1257,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	if (args.length != 3) {
                         pagenumber = 1;
                     } else {
-                        pagenumber = Integer.parseInt(args[2]);
+                        // A page number: "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args[2], 1);
+                        if (typed == null) return true;
+                        pagenumber = typed;
                     }
                 	
                     Inventory inv = HawnMenu.create(54, "§cAP - Folder Scoreboard " + pagenumber);
@@ -1330,7 +1360,10 @@ public class PanelAdminCommand extends BukkitCommand {
                 	int loopaeleminer = 0;
 
 	                if (args.length == 3) {
-		                pagenumber = Integer.parseInt(args[2]);
+		                // A page number: "abc" made the command fail
+		                Integer typed = MessageUtils.number(sender, args[2], 1);
+		                if (typed == null) return true;
+		                pagenumber = typed;
 	                } else {
 		                pagenumber = 1;
 	                }

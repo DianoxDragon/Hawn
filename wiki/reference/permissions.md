@@ -61,6 +61,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.event.warn.tps`                 | Warned when the TPS is low                                 |
 | `hawn.notify.staff.commandblocker`    | Warned when someone uses a blocked command                 |
 | `hawn.antiswear.benotified`           | Warned when someone swears                                 |
+| `hawn.antiadvertising.benotified`     | Warned when a message is blocked by the [anti-advertising](../features/chat.md#anti-advertising) |
 | `hawn.staff.seevanished`              | Sees vanished players                                      |
 | `hawn.staff`                          | Counted by `%staff_online%`                                |
 
@@ -203,6 +204,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.use.chatcolor.chat.hex`                | Hex colours                                         |
 | `hawn.bypass.antiswear`                      | Not filtered by the anti-swear                      |
 | `hawn.bypass.antispam`                       | Not checked by the anti-spam (repeated messages, capital letters) |
+| `hawn.bypass.antiadvertising`                | Can send addresses (with `Anti-Advertising.Bypass: true`) |
 | `hawn.event.chat.bypass.mutechat`            | Can talk when the chat is muted                     |
 | `hawn.event.chat.bypass.chatdelay`           | No chat delay                                       |
 | `hawn.event.bypass.blockcommands`            | Can use blocked commands                            |

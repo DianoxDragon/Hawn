@@ -158,7 +158,7 @@ public class VanishCommand extends BukkitCommand {
 			} else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
 				Bukkit.getConsoleSender().sendMessage(player_list_vanish.toString());
 			} else {
-				Bukkit.getConsoleSender().sendMessage("Â§c/v <player> or /v list");
+				Bukkit.getConsoleSender().sendMessage("§c/v <player> or /v list");
 			}
 			
 			return true;

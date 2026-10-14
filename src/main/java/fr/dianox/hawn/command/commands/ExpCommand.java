@@ -91,7 +91,10 @@ public class ExpCommand extends BukkitCommand {
                 			return true;
                 		}
                 		
-                		int value = Integer.parseInt(args[2]);
+                		// The amount: missing or "abc" made the command fail
+                		Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+                		if (typed == null) return true;
+                		int value = typed;
                 		int totalexp = target.getTotalExperience();
                 		int newxp = totalexp - value;
                 		            		
@@ -144,7 +147,10 @@ public class ExpCommand extends BukkitCommand {
                 		}
 
                 		int totalexp = target.getTotalExperience();
-                        int newxp = totalexp + Integer.parseInt(args[2]);
+                        // The amount: missing or "abc" made the command fail
+                        Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+                        if (typed == null) return true;
+                        int newxp = totalexp + typed;
                         
                         float exp = calculateExp(newxp);
                         int level = calculateLevel(newxp);
@@ -180,7 +186,10 @@ public class ExpCommand extends BukkitCommand {
                 			return true;
                 		}
                 		
-                		int newxp = Integer.parseInt(args[2]);
+                		// The amount: missing or "abc" made the command fail
+                		Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+                		if (typed == null) return true;
+                		int newxp = typed;
                 		
                 		float exp = calculateExp(newxp);
                 		int level = calculateLevel(newxp);
@@ -279,7 +288,10 @@ public class ExpCommand extends BukkitCommand {
             			return true;
             		}
             		
-            		int value = Integer.parseInt(args[2]);
+            		// The amount: missing or "abc" made the command fail
+            		Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+            		if (typed == null) return true;
+            		int value = typed;
             		int totalexp = target.getTotalExperience();
             		int newxp = totalexp - value;
             		            		
@@ -328,7 +340,10 @@ public class ExpCommand extends BukkitCommand {
             		}
 
             		int totalexp = target.getTotalExperience();
-                    int newxp = totalexp + Integer.parseInt(args[2]);
+                    // The amount: missing or "abc" made the command fail
+                    Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+                    if (typed == null) return true;
+                    int newxp = totalexp + typed;
                     
                     float exp = calculateExp(newxp);
                     int level = calculateLevel(newxp);
@@ -364,7 +379,10 @@ public class ExpCommand extends BukkitCommand {
             			return true;
             		}
             		
-            		int newxp = Integer.parseInt(args[2]);
+            		// The amount: missing or "abc" made the command fail
+            		Integer typed = MessageUtils.number(sender, args.length > 2 ? args[2] : null, 0);
+            		if (typed == null) return true;
+            		int newxp = typed;
             		
             		float exp = calculateExp(newxp);
             		int level = calculateLevel(newxp);

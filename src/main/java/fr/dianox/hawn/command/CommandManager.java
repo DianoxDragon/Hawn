@@ -20,7 +20,8 @@ public class CommandManager {
 
 	public CommandManager(Main plugin) throws NoSuchFieldException, IllegalAccessException {
 		// Basics
-		CommandMap cm = getCommandMap();
+		// An error in a command: a message instead of "An internal error occurred", the error in the console
+		CommandMap cm = SafeCommands.guard(getCommandMap());
 
 		/*
 		 *
@@ -37,7 +38,7 @@ public class CommandManager {
 			cm.register("hworld", new WorldCommand("hworld"));
 		}
 
-		Objects.requireNonNull(plugin.getCommand("hawn")).setExecutor(new HawnCommand());
+		Objects.requireNonNull(plugin.getCommand("hawn")).setExecutor(SafeCommands.guard(new HawnCommand()));
 		Objects.requireNonNull(plugin.getCommand("hawn")).setTabCompleter(new HawnTabCompletion());
 
 		/* --------------------------- *

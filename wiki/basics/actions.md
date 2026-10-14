@@ -60,9 +60,9 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 | Action                               | What it does                                                                            |
 | ------------------------------------ | --------------------------------------------------------------------------------------- |
 | `[send-title]: <title>//n<subtitle>` | Sends a title. `//n` separates the title and the subtitle (the subtitle is optional). Fade in 20 ticks, stay 150 ticks, fade out 75 ticks. |
-| `[send-title[<ticks>]]: <title>//n<subtitle>` | Same, but stays `<ticks>` ticks on the screen.                                 |
+| `[send-title[<ticks>]]: <title>//n<subtitle>` | Same, but stays `<ticks>` ticks on the screen (150 when the number is wrong).  |
 | `[send-actionbar]: <message>`        | Sends a message in the action bar.                                                      |
-| `[send-actionbar[<ticks>]]: <message>` | Same, but keeps it `<ticks>` ticks on the screen.                                     |
+| `[send-actionbar[<ticks>]]: <message>` | Same, but keeps it `<ticks>` ticks on the screen (60 when the number is wrong).       |
 | `[title]: <title>//n<subtitle>`      | Since Hawn 1.4. Sends a title with the fades of Minecraft: fade in 10 ticks, stay 70 ticks, fade out 20 ticks. |
 | `[title[<in>,<stay>,<out>]]: <title>//n<subtitle>` | Since Hawn 1.4. Sends a title with your fade in, stay and fade out, in ticks. |
 
@@ -81,7 +81,7 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 | ----------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `[sound]: <sound> [volume] [pitch]` | Since Hawn 1.4. Plays a sound to the player, with an optional volume and pitch (decimals work: `0.5`, `1.5`; `1` by default). See [sound names](../reference/values.md#sounds). |
 | `[sounds]: <sound>`                 | The same (the name of the action before 1.4); it also accepts the volume and the pitch now.    |
-| `[effect[<amplifier>]]: <effect>`   | Gives a potion effect for an unlimited time. `0` = level I, `1` = level II...                  |
+| `[effect[<amplifier>]]: <effect>`   | Gives a potion effect for an unlimited time. `0` = level I, `1` = level II... (`0` when the amplifier is wrong) |
 | `[effectclear]: <effect>`           | Removes one potion effect.                                                                     |
 | `[effectclearall]`                  | Removes every potion effect.                                                                   |
 | `[FWLU]: <firework>`                | Launches a firework defined in `Cosmetics-Fun/Utility/Firework-List.yml`. See [Fireworks](../features/lobby-fun.md#fireworks). |

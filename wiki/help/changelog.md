@@ -4,6 +4,23 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.5 BETA
+
+### New
+
+* Anti-advertising in the chat: the IP addresses and the domain names of other servers are blocked, also hidden as `server . net` or `server(dot)com`, with a whitelist for your own addresses. Off by default: `Anti-Advertising.Enable` in `Events/Chat.yml`. See [Anti-advertising](../features/chat.md#anti-advertising).
+* A command of Hawn that fails no longer shows "An internal error occurred while attempting to perform this command". When the arguments caused it, the player gets `Error.Command-Wrong-Arguments` with the usage of the command; otherwise `Error.Command-Failed`. Both are in `Messages.yml`, and the console gets the whole error with the command typed (to report on GitHub). Every command of Hawn was tried with wrong arguments (1481 combinations): none fails.
+
+### Fixes
+
+* A wrong number or a missing argument made commands fail ("An internal error occurred"): `/burn <player> abc`, `/exp <player> add` without an amount, `/delaychat abc`, `/list abc`, the page numbers of `/ap`, `/ap edit file` without a file, `/hw tp` without a world. They now say what is wrong. `/hw tp` to a world that doesn't exist says it too.
+* Old actions written wrongly stopped the whole list of messages: `[send-title]: Title//n` without a subtitle, `[send-title[...` or `[send-actionbar[...` without `]]:` or with a wrong number, `[effect[abc]]`. They now use a default value.
+* A message blocked by the anti-spam started the chat delay: the next message of the player was refused.
+* With the emergency mode and the maintenance both on, a player who could not join got the message of the maintenance instead of the one of the emergency mode.
+* `/warp` and `/v` showed `Â` in front of their usage.
+* `/hawn parse <player> <text>` ran the actions of the text (`[gamemode-creative]` changed the game mode). The text is now only shown, and can have spaces.
+* `/hawn spawnmanager remove <spawn>` from the console said that the spawn "remove" was deleted.
+
 ## 1.4.4 BETA
 
 ### New

@@ -236,6 +236,47 @@ public class MessageUtils {
         }
     }
 
+    // > An argument is missing, for a player or the console
+    public static void ArgumentMissing(CommandSender sender) {
+        if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
+            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+                if (sender instanceof Player) {
+                    ConfigEventUtils.ExecuteEvent((Player) sender, msg, "argumentmissing", "MessageUtils", false);
+                } else {
+                    ConsoleMessages(msg);
+                }
+            }
+        }
+    }
+
+    // > Use number, for a player or the console
+    public static void UseNumber(CommandSender sender) {
+        if (sender instanceof Player) {
+            UseNumber((Player) sender);
+        } else if (ConfigMMsg.getConfig().getBoolean("Error.Use-Number.Enable")) {
+            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Use-Number.Messages")) {
+                ConsoleMessages(msg);
+            }
+        }
+    }
+
+    /**
+     * A whole number typed in a command, at least min. Null after the "Please specify a number" message
+     * when it is not one (abc, 1.5, too big...).
+     */
+    public static Integer number(CommandSender sender, String text, int min) {
+        Integer value = null;
+        try {
+            value = Integer.parseInt(text.trim());
+        } catch (NumberFormatException | NullPointerException ignored) {}
+
+        if (value == null || value < min) {
+            UseNumber(sender);
+            return null;
+        }
+        return value;
+    }
+
     /**
      * Translates the colour codes: "&a", hex colours "&#RRGGBB" and "#<RRGGBB>".
      */

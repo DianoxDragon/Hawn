@@ -417,6 +417,8 @@ public class ConfigMMsg {
         Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7said &e%message%"}));
         Config.set("Anti-Spam.Repeat", java.util.Arrays.asList(new String[] {"%prefix% &cDon't send the same message again"}));
         Config.set("Anti-Spam.Caps", java.util.Arrays.asList(new String[] {"%prefix% &cToo many capital letters in your message"}));
+        Config.set("Anti-Advertising.Blocked", java.util.Arrays.asList(new String[] {"%prefix% &cNo advertising in the chat: addresses of other servers are not allowed"}));
+        Config.set("Anti-Advertising.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eAd&8] &b%player% &7tried to send &e%message%"}));
 
         Config.set("LaunchPad.Cant-Use-Cooldown.Enable", true);
         Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Sorry but you can't use the launchpad for now"}));
@@ -525,6 +527,11 @@ public class ConfigMMsg {
         Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cPlease specify a number"}));
         Config.set("Error.Command-Disable.Enable", true);
         Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, this command is disable"}));
+        // Since 1.4.5: an error in a command (written in the console), instead of "An internal error occurred"
+        Config.set("Error.Command-Failed.Enable", true);
+        Config.set("Error.Command-Failed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThis command failed: the error is written in the console, tell an admin"}));
+        Config.set("Error.Command-Wrong-Arguments.Enable", true);
+        Config.set("Error.Command-Wrong-Arguments.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cWrong arguments. Usage: &e%usage%"}));
         Config.set("Error.Argument-Missing.Enable", true);
         Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cI'm sorry, but there must be one or two arguments missing"}));
         Config.set("Error.Not-A-Player.Enable", true);

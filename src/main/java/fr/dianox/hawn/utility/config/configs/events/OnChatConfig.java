@@ -154,6 +154,20 @@ public class OnChatConfig {
         Config.set("Anti-Spam.Caps.Block", false);
 
         /*
+         * ANTI ADVERTISING (since 1.4.5)
+         */
+
+        Config.set("Anti-Advertising.Enable", false);
+        Config.set("Anti-Advertising.Bypass", true);
+        Config.set("Anti-Advertising.Block-IP", true);
+        Config.set("Anti-Advertising.Block-Domains", true);
+        Config.set("Anti-Advertising.Notify-Staff", true);
+        Config.set("Anti-Advertising.Whitelist", java.util.Arrays.asList(new String[] {
+                "myserver.net",
+                "discord.gg/myserver"
+            }));
+
+        /*
          * CHAT PER GROUP OF WORLDS
          */
 

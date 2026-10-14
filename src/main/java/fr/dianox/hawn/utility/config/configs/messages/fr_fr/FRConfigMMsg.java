@@ -412,6 +412,8 @@ public class FRConfigMMsg {
         Config.set("Anti-Swear.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&eSwear&8] &b%player% &7a dit &e%message%"}));
         Config.set("Anti-Spam.Repeat", java.util.Arrays.asList(new String[] {"%prefix% &cN'envoyez pas deux fois le même message"}));
         Config.set("Anti-Spam.Caps", java.util.Arrays.asList(new String[] {"%prefix% &cTrop de majuscules dans votre message"}));
+        Config.set("Anti-Advertising.Blocked", java.util.Arrays.asList(new String[] {"%prefix% &cPas de publicité dans le chat : les adresses d'autres serveurs ne sont pas autorisées"}));
+        Config.set("Anti-Advertising.Notify-Staff", java.util.Arrays.asList(new String[] {"&8[&eAnti&7-&ePub&8] &b%player% &7a voulu envoyer &e%message%"}));
 
         Config.set("LaunchPad.Cant-Use-Cooldown.Enable", true);
         Config.set("LaunchPad.Cant-Use-Cooldown.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Vous ne pouvez pas encore réutiliser les launchpads"}));
@@ -513,6 +515,11 @@ public class FRConfigMMsg {
         Config.set("Error.Use-Number.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cVeuillez préciser un nombre"}));
         Config.set("Error.Command-Disable.Enable", true);
         Config.set("Error.Command-Disable.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, cette commande est désactivée"}));
+        // Depuis 1.4.5 : une erreur dans une commande (écrite dans la console), au lieu de « An internal error occurred »
+        Config.set("Error.Command-Failed.Enable", true);
+        Config.set("Error.Command-Failed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cCette commande a échoué : l'erreur est écrite dans la console, prévenez un admin"}));
+        Config.set("Error.Command-Wrong-Arguments.Enable", true);
+        Config.set("Error.Command-Wrong-Arguments.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cArguments incorrects. Utilisation : &e%usage%"}));
         Config.set("Error.Argument-Missing.Enable", true);
         Config.set("Error.Argument-Missing.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cIl manque un ou plusieurs arguments"}));
         Config.set("Error.Not-A-Player.Enable", true);

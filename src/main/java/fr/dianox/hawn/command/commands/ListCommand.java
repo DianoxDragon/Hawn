@@ -67,6 +67,9 @@ public class ListCommand extends BukkitCommand {
         			MessageUtils.ConsoleMessages(msg);
         		}
             } else if (args.length == 1) {
+            	// A page number: "abc" made the command fail
+            	if (MessageUtils.number(sender, args[0], 0) == null) return true;
+
             	if (args[0].equals("0") || args[0].equals("1")) {
             		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-One")) {
             			MessageUtils.ConsoleMessages(msg
@@ -169,7 +172,9 @@ public class ListCommand extends BukkitCommand {
     			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
     		}
         } else if (args.length == 1) {
-        	            
+        	// A page number: "abc" made the command fail
+        	if (MessageUtils.number(sender, args[0], 0) == null) return true;
+
         	if (ListCommandConfig.getConfig().getBoolean("List.Gui-Version")) {
         		ListGui.OpenGui(p, Integer.parseInt(args[0]));
         		return true;

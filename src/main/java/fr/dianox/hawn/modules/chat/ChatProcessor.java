@@ -104,12 +104,15 @@ public final class ChatProcessor {
 			}
 		}
 
-		if (muted(p, s) || delayed(p, s) || spam(p, s, text)) {
+		// The delay is only started by a message that is sent: one blocked by the anti-spam or the anti-advertising
+		// doesn't make the player wait
+		if (muted(p, s) || delayed(p, s) || spam(p, s, text) || advertising(p, s, text)) {
 			r.cancelled = true;
 			return r;
 		}
 
 		String original = caps(p, s, text);
+		startDelay(p, s);
 		String typed = original;
 
 		if (s.bool("Anti-Swear.Enable") && (!s.bool("Anti-Swear.Bypass") || !p.hasPermission("hawn.bypass.antiswear"))) {
@@ -178,8 +181,7 @@ public final class ChatProcessor {
 			return false;
 		}
 
-		String name = p.getName();
-		if (!cooling.add(name)) {
+		if (cooling.contains(p.getName())) {
 			// %DELAY% is the delay of /delaychat, the group can have its own
 			java.util.List<String> lines = new java.util.ArrayList<>();
 			for (String line : ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
@@ -189,8 +191,50 @@ public final class ChatProcessor {
 			return true;
 		}
 
-		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> cooling.remove(name), seconds * 20L);
 		return false;
+	}
+
+	// A message is sent: the player waits before the next one
+	private static void startDelay(Player p, ChatSettings s) {
+		boolean enabled = s.inGroup("Chat-Delay.Enable") ? s.bool("Chat-Delay.Enable") : DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Enable");
+		if (!enabled || DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Delay.Bypass") && p.hasPermission("hawn.event.chat.bypass.chatdelay")) {
+			return;
+		}
+
+		int seconds = s.inGroup("Chat-Delay.Seconds") ? s.integer("Chat-Delay.Seconds", DelaychatCommand.delay) : DelaychatCommand.delay;
+		String name = p.getName();
+		if (seconds > 0 && cooling.add(name)) {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> cooling.remove(name), seconds * 20L);
+		}
+	}
+
+	/* ------------------------------------------------------------------ anti advertising */
+
+	// An IP address or a domain name not in the whitelist: blocked, the staff is told
+	private static boolean advertising(Player p, ChatSettings s, String text) {
+		if (!s.bool("Anti-Advertising.Enable") || s.bool("Anti-Advertising.Bypass") && p.hasPermission("hawn.bypass.antiadvertising")) {
+			return false;
+		}
+
+		String found = AntiAdvertising.find(CODES.matcher(text).replaceAll(""), s.bool("Anti-Advertising.Block-IP"),
+				s.bool("Anti-Advertising.Block-Domains"), s.list("Anti-Advertising.Whitelist"));
+		if (found == null) {
+			return false;
+		}
+
+		tell(p, ConfigMMsg.getConfig().getStringList("Anti-Advertising.Blocked"), "");
+
+		if (s.bool("Anti-Advertising.Notify-Staff")) {
+			for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
+				if (staff.hasPermission("hawn.antiadvertising.benotified")) {
+					for (String msg : ConfigMMsg.getConfig().getStringList("Anti-Advertising.Notify-Staff")) {
+						String message = msg.replace("%player%", p.getName()).replace("%message%", ConfigEventUtils.noAction(text));
+						runSync(() -> ConfigEventUtils.ExecuteEvent(staff, message, "", "", false));
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	/* ------------------------------------------------------------------ anti spam */

@@ -173,17 +173,16 @@ public class ServerPingEvent implements Listener {
 	 * @return the kick message, or null when the player can join
 	 */
 	public static String closedFor(Joining p) {
-		String kick = null;
-
+		// The emergency mode first: with both modes on, its message is the one the player must read
 		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable") && !canJoin(p, "Urgent-mode")) {
-			kick = kickMessage(p.name(), "Urgent-mode");
+			return kickMessage(p.name(), "Urgent-mode");
 		}
 
 		if (HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable") && !canJoin(p, "Maintenance")) {
-			kick = kickMessage(p.name(), "Maintenance");
+			return kickMessage(p.name(), "Maintenance");
 		}
 
-		return kick;
+		return null;
 	}
 
 	/**

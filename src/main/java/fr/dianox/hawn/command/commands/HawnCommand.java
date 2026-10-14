@@ -101,8 +101,9 @@ public class HawnCommand implements CommandExecutor {
 					for (String msg : ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
 						MessageUtils.ConsoleMessages(msg);
 					}
-				} else if (args.length == 2) {
-					String msg = PlaceHolders.ReplaceMainplaceholderC(args[1]);
+				} else {
+					// The text can have spaces
+					String msg = PlaceHolders.ReplaceMainplaceholderC(String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length)));
 
 					MessageUtils.ConsoleMessages(msg);
 				}
@@ -146,7 +147,7 @@ public class HawnCommand implements CommandExecutor {
 					ConfigSpawn.saveConfigFile();
 
 					for (String msg : ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
-						MessageUtils.ConsoleMessages(msg.replace("%spawn%", args[1]));
+						MessageUtils.ConsoleMessages(msg.replace("%spawn%", args[2]));
 					}
 				} else if (args[1].equalsIgnoreCase("setspawn")) {
 					for (String msg : ConfigMAdmin.getConfig().getStringList("Error.Console.Not-A-Player")) {
@@ -355,7 +356,7 @@ public class HawnCommand implements CommandExecutor {
 				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
-			} else if (args.length == 3) {
+			} else {
 				String targetname;
 				if (args[1].equalsIgnoreCase("me")) {
 					targetname = p.getName();
@@ -370,8 +371,9 @@ public class HawnCommand implements CommandExecutor {
 					return false;
 				}
 
-				String msg = PlaceHolders.ReplaceMainplaceholderP(args[2], target);
-				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				// The text is shown, never run: [gamemode-creative], [command-console]... are not actions here
+				String msg = PlaceHolders.ReplaceMainplaceholderP(String.join(" ", java.util.Arrays.copyOfRange(args, 2, args.length)), target);
+				ConfigEventUtils.ExecuteEvent(p, ConfigEventUtils.noAction(msg), "", "", false);
 			}
 		// Give night vision
 		} else if (args[0].equalsIgnoreCase("nv") || args[0].equalsIgnoreCase("nightvision")) {

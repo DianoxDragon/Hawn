@@ -40,7 +40,10 @@ public class DelaychatCommand extends BukkitCommand {
 			
 			if (label.equalsIgnoreCase("delaychat") || label.equalsIgnoreCase("dchat")) {
 				if (args.length == 1) {
-					delay = Integer.parseInt(args[0]);
+					// A number of seconds: "abc" made the command fail
+					Integer typed = MessageUtils.number(sender, args[0], 0);
+					if (typed == null) return true;
+					delay = typed;
 					for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Admin.Set")) {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "CONSOLE").replace("%DELAY%", String.valueOf(DelaychatCommand.delay))));
 					}
@@ -87,7 +90,9 @@ public class DelaychatCommand extends BukkitCommand {
 		// The command
 		
 		if (args.length == 1) {
-			delay = Integer.parseInt(args[0]);
+			Integer typed = MessageUtils.number(sender, args[0], 0);
+			if (typed == null) return true;
+			delay = typed;
 			for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Admin.Set")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}

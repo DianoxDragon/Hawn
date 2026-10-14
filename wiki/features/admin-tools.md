@@ -17,7 +17,7 @@ description: >-
 | `/hawn tps`                                 | `hawn.admin.command.info`           | Exact server TPS.                                               |
 | `/hawn info [all/memory/cpu/disk/tps/server/version]` | `hawn.admin.command.info` | Memory, CPU, disk usage and server information.                 |
 | `/hawn hooks`                               | `hawn.admin.command.hooks`          | Shows which [hooks](../integrations/hooks.md) are detected.     |
-| `/hawn parse <player\|me> <placeholder>`    | `hawn.admin.command.parseholders`   | Tests a placeholder, for example `/hawn parse me %player_world%`. |
+| `/hawn parse <player\|me> <text>`           | `hawn.admin.command.parseholders`   | Tests placeholders, for example `/hawn parse me %player_world%`. The text can have spaces; it is only shown (an action like `[gamemode-creative]` is not run). |
 | `/hawn build`                               | `hawn.admin.command.bypassbuild`    | Toggles the [build mode](#build-mode).                          |
 | `/hawn noclip`                              | `hawn.admin.command.noclip`         | Toggles no-clip in creative: you go through walls (Hawn switches you to spectator while you are inside blocks). |
 | `/hawn nightvision` (`nv`)                  | `hawn.admin.command.nightvision`    | Gives you night vision.                                         |

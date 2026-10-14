@@ -221,6 +221,27 @@ Anti-Spam:
 
 The same message means the same letters and numbers: the colours, the upper case, the spaces and the punctuation don't count. The mentions (`@Name`) are kept as typed. The messages are `Anti-Spam.Repeat` and `Anti-Spam.Caps` in `Messages/<language>/Messages.yml`.
 
+## Anti-advertising
+
+Since Hawn 1.4.5, off by default. It blocks the messages with the address of another server: an IP address (`192.168.1.20:25565`) or a domain name (`play.otherserver.net`, `discord.gg/abc`), also when it is hidden with spaces or brackets (`otherserver . net`, `otherserver(dot)com`, `192 . 168 . 1 . 20`).
+
+```yaml
+# Events/Chat.yml
+Anti-Advertising:
+  Enable: false
+  Bypass: true                    # hawn.bypass.antiadvertising can send addresses
+  Block-IP: true
+  Block-Domains: true
+  Notify-Staff: true              # hawn.antiadvertising.benotified receives a warning
+  Whitelist:                      # always allowed, with their sub-domains
+  - myserver.net
+  - discord.gg/myserver
+```
+
+* The whitelist allows your own addresses: `myserver.net` allows `play.myserver.net` too, and `discord.gg/myserver` allows this invitation only (`discord.gg` alone would allow every Discord invitation).
+* A normal sentence is not taken for an address: `Fine. de rien`, `version 1.21.11` or `config.yml` go through. The domain names are recognised by their ending (`.net`, `.com`, `.fr`, `.gg`...).
+* The blocked message is not sent: the player gets `Anti-Advertising.Blocked`, the staff `Anti-Advertising.Notify-Staff` (`%player%`, `%message%`), in `Messages/<language>/Messages.yml`. It doesn't start the [chat delay](#chat-delay).
+
 ## Global mute
 
 `/globalmute` (alias `/gmute`), permission `hawn.command.mutechat`.
@@ -252,6 +273,8 @@ DelayChat:
 ```
 
 `%DELAY%` shows the current delay. A [group of worlds](#chat-per-group-of-worlds) can have its own delay with `Chat-Delay`.
+
+Only a message that is sent starts the delay: one blocked by the anti-spam or the anti-advertising doesn't make the player wait (since Hawn 1.4.5).
 
 ## Clear chat
 

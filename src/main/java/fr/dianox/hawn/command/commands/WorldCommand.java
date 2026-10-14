@@ -146,6 +146,14 @@ public class WorldCommand extends BukkitCommand {
 					return true;
 				}
 
+        		// /hw tp without a world made the command fail
+        		if (args.length < 2) {
+        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.WorldNameNotTyped")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                    }
+        			return true;
+        		}
+
         		String worldname = args[1];
 
                 List<String> stringList = new ArrayList<>();
@@ -170,6 +178,10 @@ public class WorldCommand extends BukkitCommand {
 			                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
 		                }
 	                }
+                } else {
+        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.World-Not-Exist")) {
+                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                    }
                 }
         	} else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove")) {
         		if (!p.hasPermission("hawn.command.world.delete") && !p.hasPermission("hawn.command.world.*")) {

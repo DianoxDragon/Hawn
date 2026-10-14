@@ -110,11 +110,8 @@ public class ConfigEventUtils {
             event = event.replace("[bungee]: ", "");
 	        Main.getInstance().getBungApi().ConnectOthers(event, p);
         } else if (event.startsWith("[effect[")) {
-            event = event.replace("[effect[", "");
-
-            String[] parts = event.split("]]: ");
-
-            p.addPotionEffect(new PotionEffect(XParse.potion(parts[1], AdditionalMessageError), 1999999999, Integer.parseInt(parts[0])));
+            // [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
+            effect(p, event.substring("[effect[".length()), AdditionalMessageError);
         } else if (event.startsWith("[effectclear]: ")) {
             event = event.replace("[effectclear]: ", "");
             
@@ -124,101 +121,17 @@ public class ConfigEventUtils {
                 p.removePotionEffect(effect.getType());
             }
         } else if (event.startsWith("[send-title]: ")) {
-            event = event.replace("[send-title]: ", "");
-            event = MessageUtils.colourTheStuff(event);
-
-            event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (HooksManager.papi()) {
-            	event = PlaceholderAPI.setPlaceholders(p, event);
-            }
-            if (HooksManager.mvdw()) {
-            	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            
-            boolean activate = false;
-
-            String title = "";
-            String subtitle = "";
-
-            if (event.contains("//n")) {
-                String[] parts = event.split("//n");
-                title = parts[0];
-                subtitle = parts[1];
-
-                title = title.replace("//n", "");
-                subtitle = subtitle.replace("//n", "");
-
-                activate = true;
-            }
-
-	        if (activate) {
-		        Titles.sendTitle(p, 20, 150, 75, title, subtitle);
-	        } else {
-		        Titles.sendTitle(p, 20, 150, 75, event, " ");
-	        }
+            // A title alone (no //n, or nothing after it) has a blank subtitle
+            title(p, fill(event.substring("[send-title]: ".length()), p), 150);
         } else if (event.startsWith("[send-title[")) {
-            event = event.replace("[send-title[", "");
-            event = MessageUtils.colourTheStuff(event);
-            
-            event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (HooksManager.papi()) {
-            	event = PlaceholderAPI.setPlaceholders(p, event);
-            }
-            if (HooksManager.mvdw()) {
-            	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            
-            String[] parts = event.split("]]: ");
-
-            boolean activate = false;
-
-            String title = "";
-            String subtitle = "";
-
-            if (event.contains("//n")) {
-                String[] part = parts[1].split("//n");
-                title = part[0];
-                subtitle = part[1];
-
-                title = title.replace("//n", "");
-                subtitle = subtitle.replace("//n", "");
-
-                activate = true;
-            }
-
-	        if (activate) {
-		        Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, title, subtitle);
-	        } else {
-		        Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, parts[1], " ");
-	        }
+            // [send-title[<ticks>]]: title//nsubtitle; a wrong number or a missing "]]: ": 150 ticks
+            Timed timed = timed(event.substring("[send-title[".length()), 150);
+            title(p, fill(timed.text, p), timed.number);
         } else if (event.startsWith("[send-actionbar]: ")) {
-            event = event.replace("[send-actionbar]: ", "");
-            event = MessageUtils.colourTheStuff(event);
-            
-            event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (HooksManager.papi()) {
-            	event = PlaceholderAPI.setPlaceholders(p, event);
-            }
-            if (HooksManager.mvdw()) {
-            	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-
-            ActionBar.sendActionBar(p, event);
+            ActionBar.sendActionBar(p, fill(event.substring("[send-actionbar]: ".length()), p));
         } else if (event.startsWith("[send-actionbar[")) {
-            event = event.replace("[send-actionbar[", "");
-            event = MessageUtils.colourTheStuff(event);
-            
-            event = PlaceHolders.ReplaceMainplaceholderP(event, p);
-            if (HooksManager.papi()) {
-            	event = PlaceholderAPI.setPlaceholders(p, event);
-            }
-            if (HooksManager.mvdw()) {
-            	event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, event);
-            }
-            
-            String[] parts = event.split("]]: ");
-
-            ActionBar.sendActionBar(Main.getInstance(), p, parts[1], Integer.parseInt(parts[0]));
+            Timed timed = timed(event.substring("[send-actionbar[".length()), 60);
+            ActionBar.sendActionBar(Main.getInstance(), p, fill(timed.text, p), timed.number);
         } else if (event.startsWith("[sounds]: ")) {
             event = event.replace("[sounds]: ", "");
             p.playSound(p.getLocation(), XParse.sound(event, AdditionalMessageError), 1, 1);
@@ -313,11 +226,8 @@ public class ConfigEventUtils {
 			event = event.replace("[bungee]: ", "");
 			Main.getInstance().getBungApi().ConnectOthers(event, p);
 		} else if (event.startsWith("[effect[")) {
-			event = event.replace("[effect[", "");
-
-			String[] parts = event.split("]]: ");
-
-			p.addPotionEffect(new PotionEffect(XParse.potion(parts[1], AdditionalMessageError), 1999999999, Integer.parseInt(parts[0])));
+			// [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
+			effect(p, event.substring("[effect[".length()), AdditionalMessageError);
 		} else if (event.startsWith("[effectclear]: ")) {
 			event = event.replace("[effectclear]: ", "");
 
@@ -327,101 +237,17 @@ public class ConfigEventUtils {
 				p.removePotionEffect(effect.getType());
 			}
 		} else if (event.startsWith("[send-title]: ")) {
-			event = event.replace("[send-title]: ", "");
-			event = MessageUtils.colourTheStuff(event);
-
-			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (HooksManager.papi()) {
-				event = PlaceholderAPI.setPlaceholders(target, event);
-			}
-			if (HooksManager.mvdw()) {
-				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-
-			boolean activate = false;
-
-			String title = "";
-			String subtitle = "";
-
-			if (event.contains("//n")) {
-				String[] parts = event.split("//n");
-				title = parts[0];
-				subtitle = parts[1];
-
-				title = title.replace("//n", "");
-				subtitle = subtitle.replace("//n", "");
-
-				activate = true;
-			}
-
-			if (activate) {
-				Titles.sendTitle(p, 20, 150, 75, title, subtitle);
-			} else {
-				Titles.sendTitle(p, 20, 150, 75, event, " ");
-			}
+			// A title alone (no //n, or nothing after it) has a blank subtitle
+			title(p, fill(event.substring("[send-title]: ".length()), target), 150);
 		} else if (event.startsWith("[send-title[")) {
-			event = event.replace("[send-title[", "");
-			event = MessageUtils.colourTheStuff(event);
-
-			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (HooksManager.papi()) {
-				event = PlaceholderAPI.setPlaceholders(target, event);
-			}
-			if (HooksManager.mvdw()) {
-				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-
-			String[] parts = event.split("]]: ");
-
-			boolean activate = false;
-
-			String title = "";
-			String subtitle = "";
-
-			if (event.contains("//n")) {
-				String[] part = parts[1].split("//n");
-				title = part[0];
-				subtitle = part[1];
-
-				title = title.replace("//n", "");
-				subtitle = subtitle.replace("//n", "");
-
-				activate = true;
-			}
-
-			if (activate) {
-				Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, title, subtitle);
-			} else {
-				Titles.sendTitle(p, 20, Integer.parseInt(parts[0]), 75, parts[1], " ");
-			}
+			// [send-title[<ticks>]]: title//nsubtitle; a wrong number or a missing "]]: ": 150 ticks
+			Timed timed = timed(event.substring("[send-title[".length()), 150);
+			title(p, fill(timed.text, target), timed.number);
 		} else if (event.startsWith("[send-actionbar]: ")) {
-			event = event.replace("[send-actionbar]: ", "");
-			event = MessageUtils.colourTheStuff(event);
-
-			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (HooksManager.papi()) {
-				event = PlaceholderAPI.setPlaceholders(target, event);
-			}
-			if (HooksManager.mvdw()) {
-				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-
-			ActionBar.sendActionBar(p, event);
+			ActionBar.sendActionBar(p, fill(event.substring("[send-actionbar]: ".length()), target));
 		} else if (event.startsWith("[send-actionbar[")) {
-			event = event.replace("[send-actionbar[", "");
-			event = MessageUtils.colourTheStuff(event);
-
-			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (HooksManager.papi()) {
-				event = PlaceholderAPI.setPlaceholders(target, event);
-			}
-			if (HooksManager.mvdw()) {
-				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-			}
-
-			String[] parts = event.split("]]: ");
-
-			ActionBar.sendActionBar(Main.getInstance(), p, parts[1], Integer.parseInt(parts[0]));
+			Timed timed = timed(event.substring("[send-actionbar[".length()), 60);
+			ActionBar.sendActionBar(Main.getInstance(), p, fill(timed.text, target), timed.number);
 		} else if (event.startsWith("[sounds]: ")) {
 			event = event.replace("[sounds]: ", "");
 			p.playSound(p.getLocation(), XParse.sound(event, AdditionalMessageError), 1, 1);
@@ -464,4 +290,55 @@ public class ConfigEventUtils {
 		}
 	}
 	
+	// Colours and placeholders of a title or an action bar (of who: the player, or the player the message is about)
+	private static String fill(String text, Player who) {
+		text = MessageUtils.colourTheStuff(text);
+		text = PlaceHolders.ReplaceMainplaceholderP(text, who);
+		if (HooksManager.papi()) {
+			text = PlaceholderAPI.setPlaceholders(who, text);
+		}
+		if (HooksManager.mvdw()) {
+			text = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(who, text);
+		}
+		return text;
+	}
+
+	// The number and the text of "[action[<number>]]: text"
+	private static final class Timed {
+		final int number;
+		final String text;
+
+		Timed(int number, String text) {
+			this.number = number;
+			this.text = text;
+		}
+	}
+
+	// The default number when it is missing or wrong; the whole text when "]]:" is missing
+	private static Timed timed(String rest, int byDefault) {
+		int end = rest.indexOf("]]:");
+		if (end < 0) {
+			return new Timed(byDefault, rest);
+		}
+
+		String text = rest.substring(end + 3);
+		if (text.startsWith(" ")) {
+			text = text.substring(1);
+		}
+		int number = StringUtils.toInt(rest.substring(0, end), byDefault);
+		return new Timed(number < 0 ? byDefault : number, text);
+	}
+
+	// A title, and its subtitle after //n: none, a blank subtitle
+	private static void title(Player p, String text, int stay) {
+		String[] parts = text.split("//n", 2);
+		String subtitle = parts.length > 1 && !parts[1].isEmpty() ? parts[1] : " ";
+		Titles.sendTitle(p, 20, stay, 75, parts[0], subtitle);
+	}
+
+	// [effect[<amplifier>]]: <effect>, an amplifier 0 when it is wrong
+	private static void effect(Player p, String rest, String additionalMessageError) {
+		Timed timed = timed(rest, 0);
+		p.addPotionEffect(new PotionEffect(XParse.potion(timed.text.trim(), additionalMessageError), 1999999999, Math.min(timed.number, 255)));
+	}
 }

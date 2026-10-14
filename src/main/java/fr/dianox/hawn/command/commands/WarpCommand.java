@@ -98,7 +98,7 @@ public class WarpCommand extends BukkitCommand {
 				}
 
 			} else {
-				sender.sendMessage("Â§c/warp <warp> <player>");
+				sender.sendMessage("§c/warp <warp> <player>");
 			}
 			return true;
 		}
@@ -302,7 +302,7 @@ public class WarpCommand extends BukkitCommand {
 			}
 
 		} else {
-			p.sendMessage("Â§c/warp <warp>");
+			p.sendMessage("§c/warp <warp>");
 		}
 
 		return false;

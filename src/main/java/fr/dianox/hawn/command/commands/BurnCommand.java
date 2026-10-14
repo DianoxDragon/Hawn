@@ -52,7 +52,11 @@ public class BurnCommand extends BukkitCommand {
 					 return true;
 				 }
 
-				 target.setFireTicks(Integer.parseInt(args[1]) * 20);
+				 // A number of seconds: "abc" made the command fail
+				 Integer seconds = MessageUtils.number(sender, args[1], 0);
+				 if (seconds == null) return true;
+
+				 target.setFireTicks(Math.min(seconds, 1000000) * 20);
 					 
 				 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 					 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
@@ -100,7 +104,11 @@ public class BurnCommand extends BukkitCommand {
 				 return true;
 			 }
 
-			 target.setFireTicks(Integer.parseInt(args[1]) * 20);
+			 // A number of seconds: "abc" made the command fail
+			 Integer seconds = MessageUtils.number(sender, args[1], 0);
+			 if (seconds == null) return true;
+
+			 target.setFireTicks(Math.min(seconds, 1000000) * 20);
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
