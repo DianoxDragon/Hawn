@@ -34,15 +34,16 @@ public class AutoBroadcast_BossBar extends BukkitRunnable {
 			
 			SendBossBar(msg);
 		} else {
-			if (Main.curMsg_bb <= Main.autobroadcast_total_bb) {
-				msg = String.valueOf(Main.autobroadcast_bb.get(Main.curMsg_bb));
-				
-				SendBossBar(msg);
-				
-				Main.curMsg_bb++;
-			} else {
+			// After the last message, the first one again: no turn without a message
+			if (Main.curMsg_bb > Main.autobroadcast_total_bb) {
 				Main.curMsg_bb = 0;
 			}
+
+			msg = String.valueOf(Main.autobroadcast_bb.get(Main.curMsg_bb));
+			
+			SendBossBar(msg);
+
+			Main.curMsg_bb++;
 		}
 	}
 	

@@ -114,8 +114,8 @@ public class CheckAccountCommand extends BukkitCommand {
     		}
     		
     		String ip = target.getAddress().getHostString();
-    		String joindate = ConfigPlayerGet.getFile(target.getUniqueId().toString()).getString("player_info.join_date");
-    		String firstjoin = ConfigPlayerGet.getFile(target.getUniqueId().toString()).getString("player_info.first_join");
+    		String joindate = ConfigPlayerGet.getFile(target.getUniqueId().toString()).getString("player_info.join_date", "");
+    		String firstjoin = ConfigPlayerGet.getFile(target.getUniqueId().toString()).getString("player_info.first_join", "");
     		
     		String pv = "";
     		String sp = "";
@@ -125,65 +125,70 @@ public class CheckAccountCommand extends BukkitCommand {
     		String ab = "";
     		String v = "";
     		String jb = "";
-    		String ps_number = PlayerOptionSQLClass.GetSQLPOSpeed(p, "VALUE");
-    		String ksbname = PlayerOptionSQLClass.getYmlaMysqlsb(p, "scoreboard");
+    		// The options of the target, not of the player who types the command
+    		String ps_number = PlayerOptionSQLClass.GetSQLPOSpeed(target, "VALUE");
+    		String ksbname = PlayerOptionSQLClass.getYmlaMysqlsb(target, "scoreboard");
     		
-    		String gm_number = String.valueOf(PlayerOptionSQLClass.GetSQLPOGamemode(p));
+    		String gm_number = String.valueOf(PlayerOptionSQLClass.GetSQLPOGamemode(target));
     		
-    		if (PlayerVisibility.PVPlayer.contains(p)) {
+    		if (PlayerVisibility.PVPlayer.contains(target)) {
     			pv = "§a§l✔";
     		} else {
     			pv = "§c§l✗";
     		}
     		
-    		String value0 = PlayerOptionSQLClass.GetSQLPOJumpBoost(p);
+    		String value0 = PlayerOptionSQLClass.GetSQLPOJumpBoost(target);
     		if (value0.equalsIgnoreCase("TRUE")) {
     			jb = "§a§l✔";
     		} else {
     			jb = "§c§l✗";
     		}
     		
-    		String value = PlayerOptionSQLClass.GetSQLPOSpeed(p, "ACTIVATE");
+    		String value = PlayerOptionSQLClass.GetSQLPOSpeed(target, "ACTIVATE");
     		if (value.equalsIgnoreCase("TRUE")) {
     			sp = "§a§l✔";
     		} else {
     			sp = "§c§l✗";
     		}
     		
-    		if (p.getAllowFlight() && (FlyCommand.player_list_flyc.contains(p) || ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
+    		if (target.getAllowFlight() && (FlyCommand.player_list_flyc.contains(target) || ConfigPlayerGet.getFile(target.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
     			fly = "§a§l✔";
     		} else {
     			fly = "§c§l✗";
     		}
     		
-    		String value2 = PlayerOptionSQLClass.GetSQLPODoubleJump(p);
+    		String value2 = PlayerOptionSQLClass.GetSQLPODoubleJump(target);
     		if (value2.equalsIgnoreCase("TRUE")) {
     			dj = "§a§l✔";
     		} else {
     			dj = "§c§l✗";
     		}
     		
-    		String value3 = PlayerOptionSQLClass.getYmlaMysqlsb(p, "keepsb");
+    		String value3 = PlayerOptionSQLClass.getYmlaMysqlsb(target, "keepsb");
     		if (value3.equalsIgnoreCase("TRUE")) {
     			ksb = "§a§l✔";
     		} else {
     			ksb = "§c§l✗";
     		}
     		
-    		String value4 = PlayerOptionSQLClass.GetSQLPOautobc(p);
+    		String value4 = PlayerOptionSQLClass.GetSQLPOautobc(target);
     		if (value4.equalsIgnoreCase("TRUE")) {
     			ab = "§a§l✔";
     		} else {
     			ab = "§c§l✗";
     		}
     		
-    		String value5 = PlayerOptionSQLClass.GetSQLPOVanish(p);
+    		String value5 = PlayerOptionSQLClass.GetSQLPOVanish(target);
     		if (value5.equalsIgnoreCase("TRUE")) {
     			v = "§a§l✔";
     		} else {
     			v = "§c§l✗";
     		}
     		
+    		// A player who never had a scoreboard or a speed option: empty
+    		ps_number = java.util.Objects.toString(ps_number, "");
+    		ksbname = java.util.Objects.toString(ksbname, "");
+
     		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.CheckAccount")) {
     			ConfigEventUtils.ExecuteEvent(p, msg
     					.replace("%target%", target.getName())

@@ -43,8 +43,11 @@ public class ScoreTask extends BukkitRunnable {
 
 		if (scoreboardfilename.equals("EMPTY")) return;
 
-			// Set the title
-		String title = scoreManager.getFile(scoreboardfilename).getStringList("title").get(scoreManager.animationtab.get(scoreboardfilename + "TITLESCORENAME"));
+		// Set the title (a file deleted since, or emptied, has no title: the board stays as it is)
+		List<String> titles = scoreManager.getFile(scoreboardfilename).getStringList("title");
+		if (titles.isEmpty()) return;
+		Integer frame = scoreManager.animationtab.get(scoreboardfilename + "TITLESCORENAME");
+		String title = titles.get(frame == null || frame >= titles.size() ? 0 : frame);
 		try {
 			title = MessageUtils.colourTheStuff(title);
 			title = PlaceHolders.ReplaceMainplaceholderP(title, p);
@@ -73,7 +76,8 @@ public class ScoreTask extends BukkitRunnable {
 				anim = StringUtils.substringBetween(s, "{SC_", "}");
 				if (scoreManager.getFile(scoreboardfilename).isSet("scroller." + anim + ".text")) {
 					try {
-						s = scoreManager.getScrollerText().get(scoreboardfilename + anim);
+						// Nothing before the first turn of the scroller
+						s = scoreManager.getScrollerText().getOrDefault(scoreboardfilename + anim, "");
 					} catch (Exception ignored) {}
 				}
 			}

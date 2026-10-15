@@ -47,6 +47,8 @@ public class WorldManager {
 		for (String worldname : names) {
 			if (ConfigWorldGeneral.getConfig().getBoolean("World-List." + worldname + ".Load")) {
 				if (Bukkit.getWorld(worldname) == null) {
+					WorldFolders.freeDuplicateUid(worldname);
+
 					if (ConfigWorldGeneral.getConfig().isSet("World-List." + worldname + ".Generator")) {
 						String worldgenerator = ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Generator");
 						World.Environment environment = World.Environment.NORMAL;
@@ -88,6 +90,8 @@ public class WorldManager {
 						Bukkit.getServer().createWorld((new WorldCreator(worldname).environment(environment).type(type)));
 					}
 				}
+
+				WorldFolders.fixSpawn(Bukkit.getWorld(worldname));
 			}
 		}
 	}

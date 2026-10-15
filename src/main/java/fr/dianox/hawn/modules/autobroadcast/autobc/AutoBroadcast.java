@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class AutoBroadcast extends BukkitRunnable {
 
@@ -37,15 +38,16 @@ public class AutoBroadcast extends BukkitRunnable {
 			
 			SendBroadcast(msg);
 		} else {
-			if (Main.curMsg <= Main.autobroadcast_total) {
-				msg = String.valueOf(Main.autobroadcast.get(Main.curMsg));
-				
-				SendBroadcast(msg);
-				
-				Main.curMsg++;
-			} else {
+			// After the last message, the first one again: no turn without a message
+			if (Main.curMsg > Main.autobroadcast_total) {
 				Main.curMsg = 0;
 			}
+
+			msg = String.valueOf(Main.autobroadcast.get(Main.curMsg));
+			
+			SendBroadcast(msg);
+
+			Main.curMsg++;
 		}
     }
 
@@ -83,25 +85,15 @@ public class AutoBroadcast extends BukkitRunnable {
 				continue;
 			}
 			
+			// The worlds of this message
+			if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")
+					&& !inWorlds(p.getWorld().getName(), AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list"))) {
+				continue;
+			}
+
 			// Event
 			// >> Send broadcast
-			boolean check = false;
-			
 			for (String s: newmessage) {
-				if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".world_list")) {
-                	for (String str: AutoBroadcastConfig.getConfig().getStringList("Config.Messages.messages." + msg + ".world_list")) {
-                		if (p.getWorld().getName().contains(str)) {
-                			check = true;
-                		}
-                	}
-            	} else {
-            		check = true;
-            	}
-            	
-            	if (!check) {
-            		continue;
-            	}
-
             	if (AutoBroadcastConfig.getConfig().getBoolean("Config.Messages.Options.Auto-Center")) {
 		            ConfigEventUtils.ExecuteEvent(p, s, "AUTOCENTER", "", false);
 	            } else {
@@ -120,4 +112,21 @@ public class AutoBroadcast extends BukkitRunnable {
         }
 	}
 
+	/**
+	 * The whole name: "world" is not "world_nether". A * stands for any text: "world*" is world, world_nether and world_the_end.
+	 */
+	static boolean inWorlds(String world, List<String> names) {
+		for (String name : names) {
+			if (name.contains("*")) {
+				List<String> parts = new ArrayList<>();
+				for (String part : name.split("\\*", -1)) {
+					parts.add(Pattern.quote(part));
+				}
+				if (world.matches(String.join(".*", parts))) return true;
+			} else if (world.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

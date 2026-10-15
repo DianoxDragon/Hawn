@@ -1,6 +1,7 @@
 package fr.dianox.hawn.hook;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.hook.hooklist.HawnExpansion;
 import fr.dianox.hawn.hook.hooklist.MVdWPlaceholderAPI;
 import fr.dianox.hawn.hook.hooklist.PlaceHolderAPI;
 import fr.dianox.hawn.hook.hooklist.WorldGuard;
@@ -14,6 +15,8 @@ public class HooksManager {
 	private static boolean mvdw = false;
 	private static boolean worldGuard = false;
 	private static WorldGuard wgHook;
+	// %hawn_...% for the other plugins: an Object, the class of PlaceholderAPI is only loaded when it is there
+	private static Object expansion;
 
 	private final PlaceHolderAPI papiHook;
 	private final MVdWPlaceholderAPI mdvpapi;
@@ -45,6 +48,29 @@ public class HooksManager {
 				&& Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI");
 		worldGuard = ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")
 				&& wgHook != null && wgHook.isAvailable();
+		expansion();
+	}
+
+	// Registered or removed after each reading of general.yml
+	private static void expansion() {
+		boolean wanted = papi && ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Expansion.Enable", true);
+		try {
+			if (wanted && expansion == null) {
+				HawnExpansion hawn = new HawnExpansion();
+				if (hawn.register()) {
+					expansion = hawn;
+				}
+			} else if (!wanted && expansion != null) {
+				((HawnExpansion) expansion).unregister();
+				expansion = null;
+			}
+		} catch (Throwable t) {
+			Main.getInstance().getLogger().warning("The placeholders %hawn_...% could not be given to PlaceholderAPI: " + t);
+		}
+	}
+
+	public static boolean expansionRegistered() {
+		return expansion != null;
 	}
 
 	/**

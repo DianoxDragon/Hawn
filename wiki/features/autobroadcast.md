@@ -80,7 +80,7 @@ In a new configuration, the chat messages are on and the titles, the action bar 
 * Each entry of `messages` is one announcement, with any key name.
 * The header and footer are added around every announcement.
 * Each line supports colours, placeholders, JSON, `<perm>`, `<world>` and [actions](../basics/actions.md) like `[sounds]:`.
-* `world_list` sends this announcement only to players whose world name contains one of the listed names.
+* `world_list` sends this announcement only to players in one of the listed worlds. The whole name counts: `world` is not `world_nether`. A `*` stands for any text: `world*` is `world`, `world_nether` and `world_the_end`. (Before Hawn 1.4.6, a part of the name was enough: write `world*` to keep that.)
 
 ## Titles
 

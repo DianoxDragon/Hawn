@@ -26,7 +26,7 @@ For the two default files, the permissions are:
 To avoid long permissions, rename the files: `lobby.yml` → `hawn.scoreboard.lobby`. **Restart** the server after adding, renaming or removing a file.
 {% endhint %}
 
-A player who has chosen a scoreboard with `/scoreboard set` keeps it (see below).
+A player who has chosen a scoreboard with `/scoreboard set` keeps it (see below). If that scoreboard is deleted or renamed later, the player gets the scoreboard of the world again.
 
 ## A scoreboard file
 

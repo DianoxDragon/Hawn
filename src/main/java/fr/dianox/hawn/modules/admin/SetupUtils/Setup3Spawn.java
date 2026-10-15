@@ -100,7 +100,8 @@ public class Setup3Spawn implements Listener {
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
 
-		if (!Setup.needsetup || !p.hasPermission("hawn.setup")) {
+		// Only an admin doing the setup: a spawn set by another admin meanwhile does not end it
+		if (!Setup.doingSetup(p)) {
 			return;
 		}
 

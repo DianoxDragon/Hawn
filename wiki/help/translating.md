@@ -4,7 +4,7 @@ description: Change the language of Hawn, edit the messages or create your own l
 
 # Translating Hawn
 
-Every message of Hawn is in `plugins/Hawn/Messages/<language>/`. Two languages are provided: **English** (`en_US`) and **French** (`fr_FR`).
+Every message of Hawn is in `plugins/Hawn/Messages/<language>/`. Three languages are provided: **English** (`en_US`), **French** (`fr_FR`) and **German** (`de_DE`, since Hawn 1.4.6).
 
 ## Change the language
 
@@ -24,8 +24,8 @@ To disable a message, empty its list (`[]`) or set its `Enable` to `false` when 
 
 ## Create a new language
 
-1. In `general.yml`, set `Plugin.Language-Type` to the name of your language, for example `de_DE`.
-2. Restart the server: Hawn creates `Messages/de_DE/` with the English messages.
+1. In `general.yml`, set `Plugin.Language-Type` to the name of your language, for example `es_ES`.
+2. Restart the server: Hawn creates `Messages/es_ES/` with the English messages.
 3. Translate the files of this folder.
 4. `/hawn reload` or restart to see your changes.
 
@@ -33,7 +33,7 @@ To disable a message, empty its list (`[]`) or set its `Enable` to `false` when 
 Working in a new folder is safer: if something goes wrong, set `Language-Type` back to `en_US` and everything is like before.
 {% endhint %}
 
-The welcome setup shows a flag for the folders whose name starts with `fr`, `en_US`, `en_UK`, `ge`, `el`, `es`, `fi`, `it`, `ja`, `ne` or `zh` (other languages are shown with a white banner).
+The welcome setup shows a flag for the folders whose name starts with `fr`, `en_US`, `en_UK`, `de`, `el`, `es`, `fi`, `it`, `ja`, `nl` or `zh` (other languages are shown with a white banner).
 
 ## Share your translation
 

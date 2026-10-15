@@ -87,7 +87,7 @@ public class AutoBroadcastConfig {
         Config.set("Config.Messages.messages.mymessage.message", Collections.singletonList("You are free to configure the messages as you want"));
 
         Config.set("Config.Messages.messages.specialworldmessahe.message", Collections.singletonList("You are in the nether"));
-        Config.set("Config.Messages.messages.specialworldmessahe.world_list", Collections.singletonList("You are free to configure the messages as you want"));
+        Config.set("Config.Messages.messages.specialworldmessahe.world_list", Collections.singletonList("world_nether"));
         /*
          * Auto broadcast
          * Titles

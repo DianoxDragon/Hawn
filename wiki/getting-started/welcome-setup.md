@@ -15,9 +15,11 @@ Any player with the `hawn.setup` permission (operators have it). The setup opens
 
 While an admin is in the setup, the usual join features (teleport to spawn, join items...) are skipped for them.
 
+`/hawn setup` opens the setup again later, for you only: the other admins online keep playing normally (since Hawn 1.4.6).
+
 ## Step 1: language
 
-Every folder found in `plugins/Hawn/Messages/` is shown as a banner (`en_US` and `fr_FR` by default). Click one to switch every Hawn message to that language. The choice is saved in `general.yml` → `Plugin.Language-Type`.
+Every folder found in `plugins/Hawn/Messages/` is shown as a banner (`en_US`, `fr_FR` and `de_DE` by default). Click one to switch every Hawn message to that language. The choice is saved in `general.yml` → `Plugin.Language-Type`.
 
 * **Yes continue** (emerald block): go to step 2.
 * **I don't need a setup** (barrier): end the setup now.

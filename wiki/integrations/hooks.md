@@ -34,6 +34,8 @@ You don't need to edit these lines yourself. To stop using a hook, remove the pl
 
 [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) adds thousands of placeholders (`%luckperms_prefix%`, `%vault_eco_balance%`, `%server_online%`...). With PlaceholderAPI installed, you can use them everywhere in Hawn: messages, scoreboards, tab list, join items, titles...
 
+The other way works too (since Hawn 1.4.6): the other plugins can use the placeholders of Hawn with `%hawn_<placeholder>%`, for example `%hawn_tps%` or `%hawn_player_join_number%`. See [In other plugins](../reference/placeholders.md#in-other-plugins).
+
 Don't forget to download the expansions you use: `/papi ecloud download <expansion>` then `/papi reload`.
 
 ## LuckPerms

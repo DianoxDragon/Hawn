@@ -4,6 +4,31 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.6 BETA
+
+### New
+
+* German: Hawn now comes with `Messages/de_DE` (about 600 messages), next to English and French. Choose it in the welcome setup or with `Plugin.Language-Type: de_DE` in `general.yml`. The setup now shows the German flag for it.
+* The placeholders of Hawn in the other plugins: with PlaceholderAPI, `%hawn_<placeholder>%` (`%hawn_tps%`, `%hawn_online_world_nether%`, `%hawn_player_join_number%`...) works in TAB, DeluxeMenus, holograms... Nothing to download. `%player_ip%` is kept inside Hawn by default. See [In other plugins](../reference/placeholders.md#in-other-plugins).
+* At startup and at `/hawn reload`, a warning lists the protections limited to WorldGuard regions while WorldGuard is not installed (or its hook is off): they apply in the whole worlds, as they always did.
+* `Block-Drop` in `CustomJoinItem/General.yml`: in the worlds of the join items, `ALL` (as before) blocks the drop of every item, `JOIN-ITEMS` only of the join items, `NONE` of nothing. See [Custom join items](../features/custom-join-items.md#general-options).
+* The auto broadcast: in `world_list`, `*` stands for any text (`world*`).
+
+### Fixes
+
+* A scoreboard kept with `/scoreboard keep` whose file was deleted or renamed gave an error at every refresh of the player. The player now gets the scoreboard of the world.
+* `/hawn setup` opened the setup for every admin online: the world manager opened at each step of the others, their join items, spawn and scoreboard were skipped when they joined, and a `/setspawn` of another admin ended the setup. Only the admin who opens it is in it now (at the first start of Hawn, every admin still gets it).
+* The auto broadcast in order: after the last message, one turn passed without a message.
+* The auto broadcast: `world_list` compared a part of the name: `world` also sent the message in `world_nether`. The whole name counts now (write `world*` for the old behaviour). The example message "You are in the nether" has `world_nether` in its list (new installations).
+* Every snowball thrown by a player with `hawn.use.customjoinitem` made the hearts, lava and meow of the fun gun. Only the snowballs of the fun gun do now.
+* The titles of the fun gun, the lobby bow and the player hider were read once at startup: after a change and `/hawn reload`, the items stopped working until a restart.
+* A sign of the sign system that disappeared without being broken by a player (explosion, WorldEdit, piston) stayed registered: another sign put at the same place ran its actions.
+* `%hawn_player_join_date%` and `%hawn_player_first_join_date%` gave an error for a player without dates. A scroller line `{SC_...}` of a scoreboard could give an error before its first turn.
+* A join item with a wrong leather colour (`Color: 255,0`) or a slot above 40 stopped the join of the player (the items after it were not given). They now give a warning in the console, once.
+* `/checka <player>` showed the options (fly, speed, double jump, vanish...) of the admin who typed it, not of the player checked.
+* `/hw import` of a copy of a loaded world (same `uid.dat`): Spigot refused it as a "duplicate" and kept its folder locked until a restart, so the next import failed with `AccessDeniedException`. Hawn now removes the `uid.dat` of the copy before loading it (at the import and at startup), and says it in the console.
+* Spigot 26.x: the spawn of a world imported from an older version stayed in the main world. `/hw tp` and the world manager said "teleported in the world" but sent the player to the main world, at the same coordinates. Hawn now puts the spawn back in the world itself (at startup, after an import and before a teleport), and says it in the console.
+
 ## 1.4.5 BETA
 
 ### New

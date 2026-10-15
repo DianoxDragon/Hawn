@@ -99,7 +99,7 @@ public class Setup1Language implements Listener {
 					patterns.add(new Pattern(DyeColor.WHITE, pattern("CROSS")));
 					patterns.add(new Pattern(DyeColor.RED, pattern("STRAIGHT_CROSS")));
 				}
-			} else if (lang.startsWith("ge")) {
+			} else if (lang.startsWith("de") || lang.startsWith("ge")) {
 				patterns.add(new Pattern(DyeColor.BLACK, pattern("HALF_HORIZONTAL")));
 				patterns.add(new Pattern(DyeColor.YELLOW, pattern("HALF_HORIZONTAL_BOTTOM", "HALF_HORIZONTAL_MIRROR")));
 				patterns.add(new Pattern(DyeColor.RED, pattern("STRIPE_MIDDLE")));
@@ -119,7 +119,7 @@ public class Setup1Language implements Listener {
 				patterns.add(new Pattern(DyeColor.WHITE, pattern("STRIPE_CENTER")));
 			} else if (lang.startsWith("ja")) {
 				patterns.add(new Pattern(DyeColor.RED, pattern("CIRCLE", "CIRCLE_MIDDLE")));
-			} else if (lang.startsWith("ne")) {
+			} else if (lang.startsWith("nl") || lang.startsWith("ne")) {
 				patterns.add(new Pattern(DyeColor.RED, pattern("HALF_HORIZONTAL")));
 				patterns.add(new Pattern(DyeColor.BLUE, pattern("HALF_HORIZONTAL_BOTTOM", "HALF_HORIZONTAL_MIRROR")));
 				patterns.add(new Pattern(DyeColor.WHITE, pattern("STRIPE_MIDDLE")));

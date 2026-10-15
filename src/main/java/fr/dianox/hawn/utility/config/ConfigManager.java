@@ -10,6 +10,7 @@ import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayer
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.configs.events.*;
 import fr.dianox.hawn.utility.config.configs.messages.*;
+import fr.dianox.hawn.utility.config.configs.messages.de_de.*;
 import fr.dianox.hawn.utility.config.configs.messages.fr_fr.*;
 import fr.dianox.hawn.utility.config.configs.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.configs.scoreboard.worldnetherdsc;
@@ -302,6 +303,15 @@ public class ConfigManager {
 		FRWorldManagerPanelConfig.loadConfig(plugin);
 		FRAdminAMConfig.loadConfig(plugin);
 		FRSetupLangFile.loadConfig(plugin);
+
+		// German language (since 1.4.6)
+
+		DEAdminPanelConfig.loadConfig(plugin);
+		DEConfigMMsg.loadConfig(plugin);
+		DEConfigMGeneral.loadConfig(plugin);
+		DEWorldManagerPanelConfig.loadConfig(plugin);
+		DEAdminAMConfig.loadConfig(plugin);
+		DESetupLangFile.loadConfig(plugin);
 
 		// Normal
 

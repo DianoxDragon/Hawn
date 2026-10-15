@@ -8,7 +8,7 @@ description: >-
 
 Custom join items (CJI) are the items placed in the player's inventory when they join: a compass to choose a server, their head to open a profile menu, a book with the rules... A right click on the item runs a list of [actions](../basics/actions.md).
 
-The items are locked: players can't drop them, move them or lose them.
+The items are locked: players can't drop them, move them or lose them. By default, in the worlds of the join items, players can't drop any item at all (`Block-Drop`).
 
 ## Requirements
 
@@ -25,6 +25,7 @@ Custom-Join-Item:
     Use_Permission_Per_Item: false
     Use_In_Creative_Mode_In_Any_Case: false
     Inventory-Click: true
+    Block-Drop: ALL
     World:
       All_World: false
       Worlds:
@@ -36,6 +37,7 @@ Custom-Join-Item:
 | `Use_Permission_Per_Item`           | Each item needs its own permission: `hawn.use.cji.item.<item key>` (see below).                     |
 | `Use_In_Creative_Mode_In_Any_Case`  | `false` = in creative mode, the items behave like normal items (they can be moved and dropped). `true` = they stay locked and usable in creative too. |
 | `Inventory-Click`                   | Clicking the item inside the inventory also runs its actions.                                       |
+| `Block-Drop`                        | In the worlds of the join items: `ALL` = no item can be dropped (the inventory of the lobby stays clean), `JOIN-ITEMS` = only the join items are locked, the other items can be dropped, `NONE` = nothing is blocked. Since Hawn 1.4.6 (before, always `ALL`). |
 
 ## Inventory items
 
@@ -71,7 +73,7 @@ Custom-Join-Item:
 | Key            | Required | Description                                                                                                  |
 | -------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
 | `Material`     | yes\*    | The item. Old and new names are accepted, see [Materials](../reference/values.md#materials).                 |
-| `Slot`         | yes      | Inventory slot: `0`–`8` is the hotbar, `9`–`35` the rest of the inventory.                                   |
+| `Slot`         | yes      | Inventory slot: `0`–`8` is the hotbar, `9`–`35` the rest of the inventory, `36`–`39` the armour, `40` the second hand. Another number: the item is not given, with a warning in the console. |
 | `Title`        | no       | Display name. Colours and placeholders work. The items are recognised by a hidden tag, not by their name: a copy renamed on an anvil does nothing. |
 | `Lore`         | no       | Lines under the name. Colours and placeholders work.                                                         |
 | `Amount`       | no       | Number of items (default 1).                                                                                 |
@@ -107,7 +109,7 @@ To open a menu of another plugin (DeluxeMenus, a server selector...), use `[comm
       Boots: ...
 ```
 
-The armour pieces accept the same keys as the inventory items (except `Slot`). With `Use_Permission_Per_Item`, their permissions are `hawn.use.cji.item.helmet`, `.chestplate`, `.leggings` and `.boots`.
+The armour pieces accept the same keys as the inventory items (except `Slot`). Leather armour also takes a colour: `Color: 255,0,0` (red, green, blue, from 0 to 255); a wrong colour is shown in the console and replaced by the nearest valid one. With `Use_Permission_Per_Item`, their permissions are `hawn.use.cji.item.helmet`, `.chestplate`, `.leggings` and `.boots`.
 
 ## Books
 

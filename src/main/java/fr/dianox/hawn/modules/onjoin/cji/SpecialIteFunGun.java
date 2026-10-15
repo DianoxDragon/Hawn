@@ -13,6 +13,7 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -29,14 +30,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpecialIteFunGun implements Listener {
 		
+	// Read again by /hawn reload (CjiManager.load)
 	public static String Check = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
 	private static final List<Player> Cooling = new ArrayList<>();
+	private static final NamespacedKey BALL = new NamespacedKey(Main.getInstance(), "fungun_ball");
+
+	// The five snowballs of the fun gun, marked for the hit
+	private static void shoot(Player p) {
+		for (int i = 0; i < 5; i++) {
+			p.launchProjectile(Snowball.class).getPersistentDataContainer().set(BALL, PersistentDataType.BYTE, (byte) 1);
+		}
+	}
 
 	@EventHandler
 	public void onCLickInventory(InventoryClickEvent e) {
@@ -97,6 +108,11 @@ public class SpecialIteFunGun implements Listener {
 		if (proj instanceof Snowball) {
 			
 			Snowball snowball = (Snowball) proj;
+			// Only the snowballs of the fun gun, not every snowball thrown by a player with the permission
+			if (!snowball.getPersistentDataContainer().has(BALL, PersistentDataType.BYTE)) {
+				return;
+			}
+
 			if (snowball.getShooter() instanceof Player) {
 				
 				Player p = (Player) snowball.getShooter();
@@ -187,11 +203,7 @@ public class SpecialIteFunGun implements Listener {
 											} else {
 												Cooling.add(p);
 												
-												p.launchProjectile(Snowball.class);
-												p.launchProjectile(Snowball.class);
-												p.launchProjectile(Snowball.class);
-												p.launchProjectile(Snowball.class);
-												p.launchProjectile(Snowball.class);
+												shoot(p);
 												
 												Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 													
@@ -204,11 +216,7 @@ public class SpecialIteFunGun implements Listener {
 												Main.fungunCooldowns.put(p, System.currentTimeMillis());
 											}
 										} else {
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
+											shoot(p);
 										}
 									}
 								}
@@ -232,11 +240,7 @@ public class SpecialIteFunGun implements Listener {
 										} else {
 											Cooling.add(p);
 											
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
-											p.launchProjectile(Snowball.class);
+											shoot(p);
 											
 											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
 												
@@ -249,11 +253,7 @@ public class SpecialIteFunGun implements Listener {
 											Main.fungunCooldowns.put(p, System.currentTimeMillis());
 										}
 									} else {
-										p.launchProjectile(Snowball.class);
-										p.launchProjectile(Snowball.class);
-										p.launchProjectile(Snowball.class);
-										p.launchProjectile(Snowball.class);
-										p.launchProjectile(Snowball.class);
+										shoot(p);
 									}
 								}
 							}

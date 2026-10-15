@@ -118,6 +118,8 @@ Sign-List:
 
 Breaking a sign of the system needs `hawn.sign.delete`.
 
+Hawn also marks the sign itself. If it disappears without being broken by a player (an explosion, WorldEdit, a piston) and another sign is put at the same place, that sign doesn't run the actions: Hawn forgets the place and says it in the console. The signs made before Hawn 1.4.6 are recognised by their text and marked at their first click.
+
 {% hint style="warning" %}
 The sign system works with every sign: all the woods, standing, on a wall or hanging.
 {% endhint %}

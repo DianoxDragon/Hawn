@@ -33,15 +33,16 @@ public class AutoBroadcast_Title extends BukkitRunnable  {
 			
 			SendTitle(msg);
 		} else {
-			if (Main.curMsg_titles <= Main.autobroadcast_total_titles) {
-				msg = String.valueOf(Main.autobroadcast_titles.get(Main.curMsg_titles));
-				
-				SendTitle(msg);
-				
-				Main.curMsg_titles++;
-			} else {
+			// After the last message, the first one again: no turn without a message
+			if (Main.curMsg_titles > Main.autobroadcast_total_titles) {
 				Main.curMsg_titles = 0;
 			}
+
+			msg = String.valueOf(Main.autobroadcast_titles.get(Main.curMsg_titles));
+			
+			SendTitle(msg);
+
+			Main.curMsg_titles++;
 		}
 	}
 	

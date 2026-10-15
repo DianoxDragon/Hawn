@@ -136,7 +136,7 @@ public class GuiSystem implements Listener {
 				} else if (worldOf(e, false) != null) {
 					String worldname = worldOf(e, false);
 
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+					if (Setup.inWorldStep(p)) {
 						for (String msg: SetupLangFile.getConfig().getStringList("SetupWorld.World-Changed")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", worldname), "SetupWorld.World-Changed", "GuiSystem", false);
 						}
@@ -155,6 +155,7 @@ public class GuiSystem implements Listener {
 								ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Tp.Error-Tp", "GuiSystem", false);
 							}
 						} else {
+							WorldFolders.fixSpawn(Bukkit.getWorld(worldname));
 							Location location = Bukkit.getWorld(worldname).getSpawnLocation();
 							p.teleport(location);
 							for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
@@ -174,7 +175,7 @@ public class GuiSystem implements Listener {
                         ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Create.Choose-A-Name", "GuiSystem", false);
                     }
 
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+					if (Setup.inWorldStep(p)) {
 						for (String msg: SetupLangFile.getConfig().getStringList("SetupWorld.WARNING")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "SetupWorld.WARNING", "GuiSystem", false);
 						}
@@ -182,7 +183,7 @@ public class GuiSystem implements Listener {
 
 					p.closeInventory();
 				} else if (item.getType() == XMaterial.BARRIER.parseMaterial()) {
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+					if (Setup.inWorldStep(p)) {
 						e.setCancelled(true);
 						Setup.finish(p);
 						return;
@@ -349,7 +350,7 @@ public class GuiSystem implements Listener {
 						ConfigWorldGeneral.saveConfigFile();
 					}
 
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+					if (Setup.inWorldStep(p)) {
 						for (String msg: SetupLangFile.getConfig().getStringList("SetupWorld.WARNING")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "SetupWorld.WARNING", "GuiSystem", false);
 						}
@@ -393,7 +394,7 @@ public class GuiSystem implements Listener {
 						ConfigWorldGeneral.saveConfigFile();
 					}
 
-					if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+					if (Setup.inWorldStep(p)) {
 						for (String msg: SetupLangFile.getConfig().getStringList("SetupWorld.WARNING")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "SetupWorld.WARNING", "GuiSystem", false);
 						}
@@ -916,7 +917,7 @@ public class GuiSystem implements Listener {
 
 		inv.setItem(47, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Create-a-new-world").replace("&", "§"), XMaterial.STONE_HOE.parseMaterial()));
 
-		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+		if (Setup.inWorldStep(p)) {
 			inv.setItem(48, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Done")), XMaterial.EMERALD_BLOCK.parseMaterial()));
 		} else {
 			inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
@@ -927,7 +928,7 @@ public class GuiSystem implements Listener {
 
 		List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
 
-		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+		if (Setup.inWorldStep(p)) {
 			inv.setItem(51, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Close-Inventory")), XMaterial.BARRIER.parseMaterial()));
 		} else if (p.hasPermission("hawn.adminpanel") && whitelistuse.contains(p.getName())) {
 			inv.setItem(51, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Back.PanelAdmin").replace("&", "§"), XMaterial.BARRIER.parseMaterial()));
@@ -974,7 +975,7 @@ public class GuiSystem implements Listener {
 			lore.add(text("Gui.Other.Main.Default-World", "&6Default world"));
 		}
 		lore.add(" ");
-		if (Setup.needsetup && Setup.setupplace == 21 && p.hasPermission("hawn.setup")) {
+		if (Setup.inWorldStep(p)) {
 			lore.add(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Line-1")));
 		} else {
 			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-One").replace("&", "§"));

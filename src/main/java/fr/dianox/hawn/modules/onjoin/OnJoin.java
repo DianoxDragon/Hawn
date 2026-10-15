@@ -48,10 +48,9 @@ public class OnJoin implements Listener {
         
         String uuid = p.getUniqueId().toString();
 
-        if (Setup.needsetup) {
-        	if (p.hasPermission("hawn.setup")) {
-        		return;
-	        }
+        // The admins doing the setup skip the join effects (the setup ends with a restart); the other admins get them
+        if (Setup.isInSetup(p)) {
+        	return;
 		}
 
         String date = OtherUtils.getDate() + ", " + OtherUtils.getTime();

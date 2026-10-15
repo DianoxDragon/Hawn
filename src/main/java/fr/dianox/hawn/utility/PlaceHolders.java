@@ -415,12 +415,13 @@ public class PlaceHolders {
             str = str.replace("%worldtime%", String.valueOf(p.getWorld().getTime()));
         }
         
+        // No date yet (an admin doing the setup, a join stopped before): empty
         if (str.contains("%hawn_player_first_join_date%")) {
-            str = str.replace("%hawn_player_first_join_date%", ConfigPlayerGet.getFile(p.getUniqueId().toString()).getString("player_info.first_join"));
+            str = str.replace("%hawn_player_first_join_date%", ConfigPlayerGet.getFile(p.getUniqueId().toString()).getString("player_info.first_join", ""));
         }
         
         if (str.contains("%hawn_player_join_date%")) {
-        	str = str.replace("%hawn_player_join_date%", ConfigPlayerGet.getFile(p.getUniqueId().toString()).getString("player_info.join_date"));
+        	str = str.replace("%hawn_player_join_date%", ConfigPlayerGet.getFile(p.getUniqueId().toString()).getString("player_info.join_date", ""));
         }
         
         return str;

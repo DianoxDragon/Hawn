@@ -171,6 +171,7 @@ public class WorldCommand extends BukkitCommand {
 		                }
 	                } else {
 		                World world = Bukkit.getWorld(worldname);
+		                WorldFolders.fixSpawn(world);
 		                Location location = world.getSpawnLocation();
 		                p.teleport(location);
 
@@ -426,6 +427,10 @@ public class WorldCommand extends BukkitCommand {
     		ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
     	}
 
+    	if (importing) {
+    		WorldFolders.freeDuplicateUid(worldname);
+    	}
+
     	World world;
     	try {
     		world = Bukkit.getServer().createWorld(creator);
@@ -440,6 +445,8 @@ public class WorldCommand extends BukkitCommand {
     		}
     		return;
     	}
+
+    	WorldFolders.fixSpawn(world);
 
     	String path = "World-List." + worldname;
     	ConfigWorldGeneral.getConfig().set(path + ".Load", true);

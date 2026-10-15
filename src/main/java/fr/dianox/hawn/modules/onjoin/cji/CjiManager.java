@@ -1,6 +1,9 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 
 import java.util.Objects;
 
@@ -11,10 +14,18 @@ public class CjiManager {
 	}
 
 	public void load() {
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+		// The titles of the special items, read again at each /hawn reload
+		SpecialIteFunGun.Check = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
+		SpecialIteLobbyBow.Check = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
+		SpecialItemPlayerVisibility.Check = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
+		SpecialItemPlayerVisibility.CheckTwo = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
 
-			CustomJoinItem.itemcjiname.clear();
-			CustomJoinItem.itemcjislot.clear();
+		CustomJoinItem.itemcjiname.clear();
+		CustomJoinItem.itemcjislot.clear();
+		CustomJoinItem.itemcjislotname.clear();
+		CustomJoinItem.warned.clear();
+
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 
 			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
 

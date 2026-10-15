@@ -253,7 +253,7 @@ public class HawnCommand implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("hooks") || args[0].equalsIgnoreCase("hook")) {
 				sender.sendMessage("");
 				if (HooksManager.papi()) {
-					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
+					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔" + (HooksManager.expansionRegistered() ? " §7(gives %hawn_...%)" : ""));
 				} else {
 					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 				}
@@ -604,7 +604,7 @@ public class HawnCommand implements CommandExecutor {
 
 			p.sendMessage("");
 			if (HooksManager.papi()) {
-				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔");
+				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔" + (HooksManager.expansionRegistered() ? " §7(gives %hawn_...%)" : ""));
 			} else {
 				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 			}

@@ -6,7 +6,7 @@ description: The placeholders you can use in Hawn messages, scoreboards, tab lis
 
 Placeholders are replaced by a value when the message is sent. They work in almost every Hawn text: messages, scoreboards, tab list, item names and lores, titles, boss bars...
 
-With [PlaceholderAPI](../integrations/hooks.md#placeholderapi) installed, **every PlaceholderAPI placeholder** works too (`%luckperms_prefix%`, `%vault_eco_balance%`...).
+With [PlaceholderAPI](../integrations/hooks.md#placeholderapi) installed, **every PlaceholderAPI placeholder** works too (`%luckperms_prefix%`, `%vault_eco_balance%`...), and the other plugins can use the placeholders of Hawn: see [In other plugins](#in-other-plugins).
 
 {% hint style="info" %}
 Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/hawn parse me %player_world%`.
@@ -118,6 +118,29 @@ Some texts are not linked to a player, only the server placeholders work there:
 
 Some messages have their own placeholders, written in the default message: `%sender%` (mentions), `%message%` (anti-swear), `%spawnName%`, `%arg1%`, `%minutes%`, `%noperm%`...
 
-{% hint style="warning" %}
-Hawn placeholders are only available inside Hawn. Hawn doesn't register a PlaceholderAPI expansion, so other plugins can't use `%gettime%` or `%tps%` from Hawn.
-{% endhint %}
+## In other plugins
+
+Since Hawn 1.4.6, with [PlaceholderAPI](../integrations/hooks.md#placeholderapi) installed, the other plugins (TAB, DeluxeMenus, a hologram plugin...) can use every placeholder of this page: write `%hawn_<placeholder>%`, the placeholder without its `%`.
+
+| In Hawn                          | In another plugin                    |
+| -------------------------------- | ------------------------------------ |
+| `%tps%`                          | `%hawn_tps%`                         |
+| `%online_world_nether%`          | `%hawn_online_world_nether%`         |
+| `%player_join_number%`           | `%hawn_player_join_number%`          |
+| `%server_uptime%`                | `%hawn_server_uptime%`               |
+| `%hawn_player_join_date%`        | `%hawn_player_join_date%` (the same) |
+
+Nothing to install: Hawn gives them to PlaceholderAPI itself (no `/papi ecloud download`). Without a player (a hologram of the server, the console...), only the server placeholders have a value. The options are in `general.yml`:
+
+```yaml
+Plugin:
+  Use:
+    Hook:
+      PlaceholderAPI:
+        Expansion:
+          Enable: true          # false: %hawn_...% is not given to the other plugins
+          Hidden:               # the placeholders kept inside Hawn, without the %
+          - player_ip
+```
+
+`%player_ip%` is hidden by default: a plugin that shows placeholders to other players could show it.

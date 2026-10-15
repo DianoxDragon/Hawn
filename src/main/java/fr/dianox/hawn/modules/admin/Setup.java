@@ -38,6 +38,9 @@ public class Setup implements Listener {
 	public static boolean needsetup = false;
 	public static int setupplace = 1;
 
+	// First start of Hawn (no Setup.lock): the setup is for every admin. Opened again with /hawn setup: only for this admin
+	private static boolean forEveryAdmin = false;
+
 	// Admins to whom the setup has already been shown during this session
 	private static final Set<UUID> inSetup = new HashSet<>();
 
@@ -61,6 +64,7 @@ public class Setup implements Listener {
 		}
 
 		if (needsetup) {
+			forEveryAdmin = true;
 			registerListeners();
 
 			// Also starts the setup for the players who become operator while they are online
@@ -100,6 +104,27 @@ public class Setup implements Listener {
 		openCurrentStep(p);
 	}
 
+	/**
+	 * This player is doing the setup (or will, when joining during the first one): no join effects for this player.
+	 */
+	public static boolean isInSetup(Player p) {
+		return needsetup && p.hasPermission("hawn.setup") && (forEveryAdmin || inSetup.contains(p.getUniqueId()));
+	}
+
+	/**
+	 * This admin has the setup open (an admin who joins during the first setup gets it too, a few seconds later).
+	 */
+	public static boolean doingSetup(Player p) {
+		return needsetup && inSetup.contains(p.getUniqueId());
+	}
+
+	/**
+	 * The World Manager is the step of the setup for this admin (its Done button, its messages); not for the other admins.
+	 */
+	public static boolean inWorldStep(Player p) {
+		return needsetup && setupplace == 21 && inSetup.contains(p.getUniqueId());
+	}
+
 	private static void start(Player p) {
 		inSetup.add(p.getUniqueId());
 		p.addPotionEffect(new PotionEffect(XPotion.BLINDNESS.get(), 5 * 20, 1));
@@ -132,6 +157,8 @@ public class Setup implements Listener {
 
 		// Before closing the inventory, otherwise the close event reopens the setup
 		needsetup = false;
+		forEveryAdmin = false;
+		inSetup.clear();
 
 		if (detectionTask != null) {
 			detectionTask.cancel();
@@ -161,7 +188,7 @@ public class Setup implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 
-		if (needsetup && p.hasPermission("hawn.setup")) {
+		if (needsetup && forEveryAdmin && p.hasPermission("hawn.setup")) {
 			start(p);
 		}
 	}
@@ -192,7 +219,7 @@ public class Setup implements Listener {
 		String title = e.getView().getTitle();
 		boolean setupMenu = title.startsWith("\u00a7cHawn Setup") || (setupplace == 21 && title.startsWith("\u00a7cWorld Manager"));
 		// One check at a time, and one message per second: a menu can be closed several times in a row (reopened by a move...)
-		if (needsetup && setupMenu && p.hasPermission("hawn.setup") && !clicking.contains(p.getUniqueId()) && escapeCheck.add(p.getUniqueId())) {
+		if (needsetup && setupMenu && inSetup.contains(p.getUniqueId()) && !clicking.contains(p.getUniqueId()) && escapeCheck.add(p.getUniqueId())) {
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
 				escapeCheck.remove(p.getUniqueId());
 				Long last = lastWarning.get(p.getUniqueId());
@@ -210,7 +237,8 @@ public class Setup implements Listener {
 			}, 2);
 		}
 
-		if (needsetup && p.hasPermission("hawn.setup") && (setupplace == 1 || setupplace == 2)) {
+		// Only the admins doing the setup: the others can be op too (bug 61)
+		if (needsetup && inSetup.contains(p.getUniqueId()) && (setupplace == 1 || setupplace == 2)) {
 			// The inventory is also closed when the player leaves or when the setup ends
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
 				if (needsetup && p.isOnline() && (setupplace == 1 || setupplace == 2)) {
@@ -225,7 +253,7 @@ public class Setup implements Listener {
 		Player p = e.getPlayer();
 
 		if (needsetup) {
-			if (p.hasPermission("hawn.setup")) {
+			if (inSetup.contains(p.getUniqueId())) {
 				if (setupplace == 21) {
 					if (e.getTo().getBlockX() == e.getFrom().getBlockX() && e.getTo().getBlockY() == e.getFrom().getBlockY() && e.getTo().getBlockZ() == e.getFrom().getBlockZ()) return;
 					GuiSystem.FirstPage(p);

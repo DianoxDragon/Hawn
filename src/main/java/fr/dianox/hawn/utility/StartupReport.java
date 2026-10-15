@@ -17,7 +17,10 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigFDoubleJump;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGCos;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
+import fr.dianox.hawn.utility.config.configs.events.ConfigGProtection;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
+import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
+import fr.dianox.hawn.utility.config.configs.events.ProtectionPlayerConfig;
 import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
@@ -67,7 +70,8 @@ public final class StartupReport {
 					? "Paper events (chat " + yes(PlatformEvents.isPaperChat()) + ", join " + yes(PlatformEvents.isPaperLogin()) + ")"
 					: "Bukkit events")
 				+ " - MiniMessage " + yes(PlatformEvents.isMiniMessage()));
-		say(LINE + ChatColor.YELLOW + "Hooks: " + hook("PlaceholderAPI", HooksManager.papi()) + ChatColor.GRAY + " - "
+		say(LINE + ChatColor.YELLOW + "Hooks: " + hook("PlaceholderAPI", HooksManager.papi())
+				+ (HooksManager.expansionRegistered() ? ChatColor.GRAY + " (gives %hawn_...%)" : "") + ChatColor.GRAY + " - "
 				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard())
 				+ ChatColor.GRAY + " - " + hook("MVdWPlaceholderAPI", HooksManager.mvdw()));
 		boolean mysql = ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable");
@@ -190,6 +194,8 @@ public final class StartupReport {
 		spawns(warnings);
 		chat(warnings);
 		files(warnings);
+
+		worldGuard(warnings);
 
 		// A hook kept on without its plugin
 		hookKept(warnings, "PlaceholderAPI");
@@ -320,6 +326,40 @@ public final class StartupReport {
 				warnings.add("Tablist.enable is false: " + (on > 1 ? "the " + on + " tab list files" : "the tab list file") + " turned on in the Tablist folder "
 						+ (on > 1 ? "are" : "is") + " not used");
 			}
+		}
+	}
+
+	/**
+	 * 94: a protection limited to WorldGuard regions applies everywhere when the WorldGuard hook is not used (as always):
+	 * said here, the behaviour stays the same.
+	 */
+	private static void worldGuard(List<String> warnings) {
+		if (HooksManager.worldGuard()) {
+			return;
+		}
+
+		List<String> options = new ArrayList<>();
+		Map<String, YamlConfiguration> files = new java.util.LinkedHashMap<>();
+		files.put("ProtectionWorld.yml", ConfigGProtection.getConfig());
+		files.put("ProtectionPlayer.yml", ProtectionPlayerConfig.getConfig());
+		files.put("PlayerEvents.yml", PlayerEventsConfig.getConfig());
+		files.put("WorldEvent.yml", WorldEventConfig.getConfig());
+
+		for (Map.Entry<String, YamlConfiguration> file : files.entrySet()) {
+			for (String key : file.getValue().getKeys(true)) {
+				if (!key.endsWith(".WorldGuard.Enable") || !file.getValue().getBoolean(key)) continue;
+				// Only the features turned on
+				String feature = key.substring(0, key.length() - ".WorldGuard.Enable".length());
+				if (file.getValue().isBoolean(feature + ".Enable") && !file.getValue().getBoolean(feature + ".Enable")) continue;
+				options.add(feature);
+			}
+		}
+
+		if (!options.isEmpty()) {
+			String shown = String.join(", ", options.subList(0, Math.min(3, options.size()))) + (options.size() > 3 ? " and " + (options.size() - 3) + " more" : "");
+			warnings.add(options.size() + " option(s) of Events/ are limited to WorldGuard regions (" + shown + "), but WorldGuard "
+					+ (Bukkit.getPluginManager().isPluginEnabled("WorldGuard") ? "is off in general.yml (Plugin.Use.Hook.WorldGuard)" : "is not installed")
+					+ ": they apply in the whole worlds");
 		}
 	}
 

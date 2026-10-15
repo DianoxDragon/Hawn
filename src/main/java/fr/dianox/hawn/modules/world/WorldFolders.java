@@ -1,10 +1,14 @@
 package fr.dianox.hawn.modules.world;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Folders of the worlds. On recent Paper versions, World#getWorldFolder() is the folder of the dimension
@@ -71,6 +75,53 @@ public final class WorldFolders {
 			if (f.isDirectory()) return f;
 		}
 		return null;
+	}
+
+	/**
+	 * A world folder copied from a loaded world keeps its uid.dat: Spigot then refuses to load it ("duplicate of
+	 * another world") and keeps its folder locked until the next restart. Removes that uid.dat (the server writes a
+	 * new one) and gives the name of the loaded world it came from, null when the folder has no such uid.dat.
+	 */
+	public static String freeDuplicateUid(String name) {
+		File uid = new File(new File(Bukkit.getWorldContainer(), name), "uid.dat");
+		if (!uid.isFile() || uid.length() < 16) return null;
+
+		UUID id;
+		try (DataInputStream in = new DataInputStream(new FileInputStream(uid))) {
+			id = new UUID(in.readLong(), in.readLong());
+		} catch (IOException e) {
+			return null;
+		}
+
+		for (World w : Bukkit.getWorlds()) {
+			if (w.getUID().equals(id) && !w.getName().equalsIgnoreCase(name)) {
+				if (!uid.delete()) return null;
+				Bukkit.getLogger().info("[Hawn] The world " + name + " is a copy of the world " + w.getName() + ": its uid.dat is removed so that it can be loaded");
+				return w.getName();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Spigot 26.x keeps the dimension of the spawn in level.dat, and a world converted from an older version gets
+	 * minecraft:overworld there: its getSpawnLocation() is then in the main world, and /hw tp sends the players to
+	 * the main world. Puts the spawn back in the world itself, at the same place. Never for the main world, its
+	 * nether and its end.
+	 */
+	public static void fixSpawn(World world) {
+		if (world == null || WorldDeletion.isProtected(world.getName())) return;
+
+		try {
+			Location spawn = world.getSpawnLocation();
+			if (spawn.getWorld() != null && !spawn.getWorld().equals(world)) {
+				world.setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
+				Bukkit.getLogger().info("[Hawn] The spawn of the world " + world.getName() + " was in the world " + spawn.getWorld().getName() + ": it is now in " + world.getName());
+			}
+		} catch (RuntimeException e) {
+			// The spawn points to a dimension that is not loaded
+			Bukkit.getLogger().warning("[Hawn] The spawn of the world " + world.getName() + " could not be read: " + e);
+		}
 	}
 
 	/**

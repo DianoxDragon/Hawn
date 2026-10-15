@@ -74,6 +74,8 @@ public class ConfigGeneral {
         // Hooks
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option", false);
+	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Expansion.Enable", true);
+	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Expansion.Hidden", java.util.Collections.singletonList("player_ip"));
 	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
 	        Config.set("Plugin.Use.Hook.MVdWPlaceholderAPI.Keep-The-Option", false);
 	        Config.set("Plugin.Use.Hook.WorldGuard.Enable", false);

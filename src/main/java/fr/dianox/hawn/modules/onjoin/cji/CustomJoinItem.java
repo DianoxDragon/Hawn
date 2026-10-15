@@ -163,6 +163,12 @@ public class CustomJoinItem {
 		if (specialvalue.contentEquals("no")) {
 			if (ConfigCJIGeneral.getConfig().isSet(path_item + "Slot")) {
 				slot = ConfigCJIGeneral.getConfig().getInt(path_item + "Slot");
+
+				// 0-35 the inventory, 36-39 the armor, 40 the second hand
+				if (slot < 0 || slot > 40) {
+					warnOnce(path_item + "Slot", "§cError in the configuration file: the slot " + slot + " of §e" + path_item + "§c is not between 0 and 40");
+					return;
+				}
 			} else {
 				Bukkit.getConsoleSender().sendMessage("§cError in the configuration file, you didn't set a slot number for §e" + path_item);
 				return;
@@ -352,7 +358,7 @@ public class CustomJoinItem {
 				LeatherArmorMeta leather = (LeatherArmorMeta) itemmeta;
 								
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Color")) {
-					leather.setColor(parseColor(ConfigCJIGeneral.getConfig().getString(path_item + "Color")));
+					leather.setColor(parseColor(ConfigCJIGeneral.getConfig().getString(path_item + "Color"), path_item + "Color"));
 				}
 				
 				item.setItemMeta(leather);
@@ -384,10 +390,34 @@ public class CustomJoinItem {
 		
 	}
 	
-	public static Color parseColor(String str) {
+	/**
+	 * "red,green,blue", each from 0 to 255. A missing or wrong number becomes 0 (255 above it), with a warning in the console.
+	 */
+	public static Color parseColor(String str, String path) {
         if (Strings.isNullOrEmpty(str)) return Color.BLACK;
         String[] rgb = StringUtils.deleteWhitespace(str).split(",");
-        return Color.fromRGB(StringUtils.toInt(rgb[0], 0), StringUtils.toInt(rgb[1], 0), StringUtils.toInt(rgb[2], 0));
+        int[] values = new int[3];
+        boolean wrong = rgb.length != 3;
+        for (int i = 0; i < 3; i++) {
+            int value = i < rgb.length ? StringUtils.toInt(rgb[i], -1) : -1;
+            if (value < 0 || value > 255) {
+                wrong = true;
+                value = Math.max(0, Math.min(255, value));
+            }
+            values[i] = value;
+        }
+        if (wrong) {
+            warnOnce(path, "§cError in the configuration file: §e" + path + ": " + str + "§c is not a colour red,green,blue (0 to 255 each)");
+        }
+        return Color.fromRGB(values[0], values[1], values[2]);
     }
 
+	// Once per option until the next /hawn reload, not at every join
+	static final java.util.Set<String> warned = new java.util.HashSet<>();
+
+	private static void warnOnce(String path, String message) {
+		if (warned.add(path)) {
+			Bukkit.getConsoleSender().sendMessage(message);
+		}
+	}
 }

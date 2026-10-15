@@ -41,6 +41,13 @@ public final class JoinItemTag {
 		item.setItemMeta(meta);
 	}
 
+	/**
+	 * Any item given by Hawn: a join item or a special item.
+	 */
+	public static boolean isAny(ItemStack item) {
+		return item != null && item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(key(), PersistentDataType.STRING);
+	}
+
 	public static boolean is(ItemStack item, String id) {
 		if (item == null || id == null || !item.hasItemMeta()) {
 			return false;

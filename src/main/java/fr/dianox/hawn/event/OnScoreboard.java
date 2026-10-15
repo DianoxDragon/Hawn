@@ -15,6 +15,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.List;
+
 public class OnScoreboard implements Listener {
 
 	@EventHandler
@@ -73,82 +75,50 @@ public class OnScoreboard implements Listener {
 			return;
 		}
 
-		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(p, "keepsb");
-
 		if (Main.getInstance().getScoreManager().getNoScore().contains(p)) {
 			return;
 		}
 
+		String bool = PlayerOptionSQLClass.getYmlaMysqlsb(p, "keepsb");
+
 		if (bool.equalsIgnoreCase("TRUE") && ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Option.Keep-Scoreboard-Change")) {
 			String sb = PlayerOptionSQLClass.getYmlaMysqlsb(p, "scoreboard");
 
-			if (p.hasPermission("hawn.scoreboard." + sb)) {
-				FastBoard board = new FastBoard(p);
-
-				Main.getInstance().getScoreManager().playerboard.put(p, board);
-				Main.getInstance().getScoreManager().playerscore.put(p, sb);
-
-				if (Main.getInstance().getScoreManager().getFile(sb).isSet("updater.text")) {
-					int number = Main.getInstance().getScoreManager().getFile(sb).getInt("updater.text");
-					Main.getInstance().getScoreManager().writeInt(sb, "updater.scoreboard", number);
-					Main.getInstance().getScoreManager().writeInt(sb, "updater.text", null);
+			// The kept scoreboard can have been deleted or renamed since: the scoreboard of the world instead
+			String kept = Main.getInstance().getScoreManager().scoreacess.get(sb);
+			if (kept != null && new java.io.File(kept).exists()) {
+				if (p.hasPermission("hawn.scoreboard." + sb)) {
+					start(p, sb);
 				}
-
-				BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
-						Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
-
-				Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
-			}
-		} else {
-			for (String s : Main.getInstance().getScoreManager().worldscore.keySet()) {
-				if (Main.getInstance().getScoreManager().worldscore.get(s).contains("ALLWORLDSOFCOURSE")) {
-					if (p.hasPermission("hawn.scoreboard." + s)) {
-
-						FastBoard board = new FastBoard(p);
-
-						Main.getInstance().getScoreManager().playerboard.put(p, board);
-						Main.getInstance().getScoreManager().playerscore.put(p, s);
-
-						if (Main.getInstance().getScoreManager().getFile(s).isSet("updater.text")) {
-							int number = Main.getInstance().getScoreManager().getFile(s).getInt("updater.text");
-							Main.getInstance().getScoreManager().writeInt(s, "updater.scoreboard", number);
-							Main.getInstance().getScoreManager().writeInt(s, "updater.text", null);
-						}
-
-						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
-								Main.getInstance().getScoreManager().getFile(s).getInt("updater.scoreboard"));
-
-						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
-
-						PlayerOptionSQLClass.saveSBmysqlyaml(p, s, "FALSE");
-
-						break;
-					}
-				} else if (Main.getInstance().getScoreManager().worldscore.get(s).contains(world)) {
-					if (p.hasPermission("hawn.scoreboard." + s)) {
-
-						FastBoard board = new FastBoard(p);
-
-						Main.getInstance().getScoreManager().playerboard.put(p, board);
-						Main.getInstance().getScoreManager().playerscore.put(p, s);
-
-						if (Main.getInstance().getScoreManager().getFile(s).isSet("updater.text")) {
-							int number = Main.getInstance().getScoreManager().getFile(s).getInt("updater.text");
-							Main.getInstance().getScoreManager().writeInt(s, "updater.scoreboard", number);
-							Main.getInstance().getScoreManager().writeInt(s, "updater.text", null);
-						}
-
-						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
-								Main.getInstance().getScoreManager().getFile(s).getInt("updater.scoreboard"));
-
-						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
-
-						PlayerOptionSQLClass.saveSBmysqlyaml(p, s, "FALSE");
-
-						break;
-					}
-				}
+				return;
 			}
 		}
+
+		for (String s : Main.getInstance().getScoreManager().worldscore.keySet()) {
+			List<String> worlds = Main.getInstance().getScoreManager().worldscore.get(s);
+			if ((worlds.contains("ALLWORLDSOFCOURSE") || worlds.contains(world)) && p.hasPermission("hawn.scoreboard." + s)) {
+				start(p, s);
+				PlayerOptionSQLClass.saveSBmysqlyaml(p, s, "FALSE");
+				break;
+			}
+		}
+	}
+
+	private static void start(Player p, String sb) {
+		FastBoard board = new FastBoard(p);
+
+		Main.getInstance().getScoreManager().playerboard.put(p, board);
+		Main.getInstance().getScoreManager().playerscore.put(p, sb);
+
+		if (Main.getInstance().getScoreManager().getFile(sb).isSet("updater.text")) {
+			int number = Main.getInstance().getScoreManager().getFile(sb).getInt("updater.text");
+			Main.getInstance().getScoreManager().writeInt(sb, "updater.scoreboard", number);
+			Main.getInstance().getScoreManager().writeInt(sb, "updater.text", null);
+		}
+
+		BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
+				Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
+
+		Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
 	}
 }

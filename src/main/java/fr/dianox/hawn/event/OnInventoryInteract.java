@@ -52,7 +52,13 @@ public class OnInventoryInteract implements Listener {
 			if (!p.hasPermission("hawn.use.customjoinitem")) {
 				 return;
 			}
-			
+
+			// ALL by default: the inventory of the lobby stays clean. JOIN-ITEMS: the other items can be dropped. NONE: nothing blocked
+			String mode = ConfigCJIGeneral.getConfig().getString("Custom-Join-Item.General-Option.Block-Drop", "ALL");
+			if (mode.equalsIgnoreCase("NONE") || (mode.equalsIgnoreCase("JOIN-ITEMS") && !JoinItemTag.isAny(e.getItemDrop().getItemStack()))) {
+				return;
+			}
+
 			e.setCancelled(true);
 		}
 	}
