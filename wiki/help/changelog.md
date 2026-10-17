@@ -4,6 +4,26 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.7 BETA
+
+### New
+
+* Ranks: `Ranks.yml` gives each player a rank, shown in the tab list before and after the name, and the tab list is sorted by rank (the lowest `Priority` first). A rank comes from the permission `hawn.rank.<rank>` (not given to the operators), from `Players` (given by hand), or else from the default rank. `%rank%`, `%rank_prefix%` and `%rank_suffix%` work in every text of Hawn (chat format, scoreboards...), and `%hawn_rank_prefix%` in the other plugins. On by default with three examples (owner, admin, vip); the default rank is off. With `Enable: AUTO`, Hawn leaves the tab list to TAB or NametagEdit when one of them is installed. Each world can turn the prefix or the order off. The ranks above the heads come in 1.4.8. See [Ranks](../features/ranks.md).
+* The world manager loads and unloads worlds: a left click on a world that is not loaded (red pane) loads it like `/hw import`, and the menu of a world has an Unload button. With the button and with `/hw unload`, the players in the world go to the default world first (before, `/hw unload` was refused while players were in it).
+* The thresholds of the TPS warning: `Plugin.Tps.Warning-At` and `Plugin.Tps.Critical-At` in `general.yml` (15 and 5, as before). On new installations the messages show the threshold.
+* A Discord for help and news: https://discord.gg/yeUg5mbJuz. It is in `/hawn about`, at startup, and in the update notice of the admins (new installations).
+* At startup and at `/hawn reload`, a warning when the drop protection (`Items.Drop.Disable` in `Events/PlayerEvents.yml`) and `Block-Drop` of the join items work against each other: for example `Block-Drop: NONE` while the protection still blocks every drop.
+
+### Fixes
+
+* Under 5 TPS, the TPS warning saved every world and every player while the server was already lagging. This emergency save is off by default now (`Plugin.Tps.Emergency-Save.Enable`). When it is on, the save is spread over the ticks (one world, then a few players, at each tick), and you choose what it saves (`Worlds`, `Players`).
+* The double jump sent the abilities of every player on the ground to their client at each move, up to 20 times a second per player. Now only when they change.
+* The chat per group of worlds looked for the group of every player who receives a message, at each message. The groups are now read once, and again at `/hawn reload`.
+* The default world chosen in the welcome setup or with `/hw default` didn't show in a world list already open: "Default world" stayed on the old world until the list was opened again.
+* During the welcome setup of an admin, any player who clicked the slot 48 of the world list moved the setup to the next step and got the spawn menu. This also worked on the next pages of the list.
+* A file where a whole list was missing (all the join items, all the ranks...) only got the first option of that list back. Without join items in `CustomJoinItem/General.yml`, Hawn then failed to start. The whole list is added back now, and Hawn starts without join items.
+* Paper 26.x: a world created with Hawn and then unloaded disappeared from the world list, because its folder is in the folder of the main world. It is listed now, and can be loaded or deleted from the menu.
+
 ## 1.4.6 BETA
 
 ### New

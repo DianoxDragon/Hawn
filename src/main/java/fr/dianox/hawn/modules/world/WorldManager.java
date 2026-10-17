@@ -1,11 +1,8 @@
 package fr.dianox.hawn.modules.world;
 
-import fr.dianox.hawn.modules.world.generator.Generators;
 import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
 
 import java.io.File;
 
@@ -46,52 +43,11 @@ public class WorldManager {
 
 		for (String worldname : names) {
 			if (ConfigWorldGeneral.getConfig().getBoolean("World-List." + worldname + ".Load")) {
-				if (Bukkit.getWorld(worldname) == null) {
-					WorldFolders.freeDuplicateUid(worldname);
-
-					if (ConfigWorldGeneral.getConfig().isSet("World-List." + worldname + ".Generator")) {
-						String worldgenerator = ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Generator");
-						World.Environment environment = World.Environment.NORMAL;
-
-						if (ConfigWorldGeneral.getConfig().isSet("World-List." + worldname + ".Environment")) {
-							if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Environment").equalsIgnoreCase("the_end")) {
-								environment = World.Environment.THE_END;
-							} else if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Environment").equalsIgnoreCase("nether")) {
-								environment = World.Environment.NETHER;
-							}
-						}
-
-						if (worldgenerator.equalsIgnoreCase("hvg")) {
-							Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(environment).generator(Generators.voidGenerator()));
-						} else {
-							Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(environment).generator(worldgenerator));
-						}
-					} else {
-						World.Environment environment = World.Environment.NORMAL;
-						if (ConfigWorldGeneral.getConfig().isSet("World-List." + worldname + ".Environment")) {
-							if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Environment").equalsIgnoreCase("the_end")) {
-								environment = World.Environment.THE_END;
-							} else if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Environment").equalsIgnoreCase("nether")) {
-								environment = World.Environment.NETHER;
-							}
-						}
-
-						WorldType type = WorldType.NORMAL;
-						if (ConfigWorldGeneral.getConfig().isSet("World-List." + worldname + ".Type")) {
-							if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Type").equalsIgnoreCase("flat")) {
-								type = WorldType.FLAT;
-							} else if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Type").equalsIgnoreCase("amplified")) {
-								type = WorldType.AMPLIFIED;
-							} else if (ConfigWorldGeneral.getConfig().getString("World-List." + worldname + ".Type").equalsIgnoreCase("large_biomes")) {
-								type = WorldType.LARGE_BIOMES;
-							}
-						}
-
-						Bukkit.getServer().createWorld((new WorldCreator(worldname).environment(environment).type(type)));
-					}
+				// The settings of Worlds.yml (environment, type, generator), the same code as the menu
+				World world = WorldLoading.load(worldname);
+				if (world != null) {
+					WorldFolders.fixSpawn(world);
 				}
-
-				WorldFolders.fixSpawn(Bukkit.getWorld(worldname));
 			}
 		}
 	}

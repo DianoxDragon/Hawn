@@ -224,8 +224,8 @@ public class FRAdminAMConfig {
 
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lVersion de Hawn (créé par Dianox)&8: &r%gethawnversion%"));
 
-        Config.set("TPS.Check.15", java.util.Arrays.asList("&cVos TPS sont à moins de 15, faites quelque chose pour améliorer la stabilité de votre Lobby"));
-        Config.set("TPS.Check.5", java.util.Arrays.asList("&cVos TPS sont à moins de 5, votre serveur peut s'arrêter, faites /stop pour éviter tout problème.", "&cETAT CRITIQUE DU SERVEUR"));
+        Config.set("TPS.Check.15", java.util.Arrays.asList("&cVos TPS sont à moins de %arg 1%, faites quelque chose pour améliorer la stabilité de votre Lobby"));
+        Config.set("TPS.Check.5", java.util.Arrays.asList("&cVos TPS sont à moins de %arg 1%, votre serveur peut s'arrêter, faites /stop pour éviter tout problème.", "&cETAT CRITIQUE DU SERVEUR"));
 
 
         /* -------------- *

@@ -78,8 +78,9 @@ public class Setup2World implements Listener {
 			}
 
 			e.setCancelled(true);
-		} else if (inv.equals("§cWorld Manager - Main") || inv.equals("§cWorld Manager - Main 2")) {
-			if (Setup.setupplace == 21) {
+		} else if (inv.startsWith("§cWorld Manager - Main")) {
+			// 97: only the admin doing the setup, on every page: another player who clicks there doesn't move the setup
+			if (Setup.inWorldStep(p)) {
 				if (e.getRawSlot() == 48) {
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Setup3Spawn.OpenInventory(p), 5);
 					Setup.setupplace = 3;
@@ -93,6 +94,8 @@ public class Setup2World implements Listener {
 		// in the world lists of every file: the other worlds of the lists (nether, end...) are kept
 		DefaultWorld.change(s, "world");
 		Reload.reloadconfig();
+		// 96: the list stays open, "Default world" moves to the chosen world at once
+		GuiSystem.refreshWorldPages();
 	}
 
 }

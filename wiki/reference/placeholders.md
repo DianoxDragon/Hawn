@@ -42,6 +42,7 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%player_vanished%`               | Vanished ([yes or no](#yes-no-and-unknown-values)) |
 | `%player_flying%`                 | Flying right now (yes or no)                 |
 | `%player_option_<option>%`        | A choice of [`/option`](../features/player-options.md) (yes or no): `fly`, `doublejump`, `speed`, `flyspeed`, `jumpboost`, `autobc`, `pv` |
+| `%rank%`, `%rank_prefix%`, `%rank_suffix%` | The [rank](../features/ranks.md) of the player, its prefix and its suffix (since Hawn 1.4.7) |
 | `%target%`                        | In some messages: the player targeted by a command |
 
 ## Server

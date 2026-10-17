@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility;
 
+import fr.dianox.hawn.modules.ranks.Ranks;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -221,6 +222,11 @@ public class PlaceHolders {
         str = replaceOnline(str, p);
         str = replacePlayerState(str, p);
         str = replaceServerState(str);
+
+        // Since 1.4.7: the rank of Ranks.yml
+        if (str.contains("%rank")) {
+            str = str.replace("%rank_prefix%", Ranks.prefix(p)).replace("%rank_suffix%", Ranks.suffix(p)).replace("%rank%", Ranks.rank(p));
+        }
 
         if (str.contains("%prefix%")) {
             str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));

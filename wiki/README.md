@@ -33,7 +33,7 @@ Optional integrations: [PlaceholderAPI, LuckPerms, WorldGuard 7+ and MVdWPlaceho
 <tr><td><strong>Spawns and warps</strong></td><td>Unlimited named spawns, a default spawn, a first-join spawn, a VIP spawn, spawn groups to spread the players, warps, teleport delays.</td><td><a href="features/spawns.md">spawns.md</a></td></tr>
 <tr><td><strong>Join and quit</strong></td><td>Messages per group or per world, MOTD, titles, action bar, boss bar, fireworks, sounds, potion effects, commands.</td><td><a href="features/join-and-quit.md">join-and-quit.md</a></td></tr>
 <tr><td><strong>Custom join items</strong></td><td>Server selector, player heads, books, armour, a "hide players" item, a lobby bow and a fun gun.</td><td><a href="features/custom-join-items.md">custom-join-items.md</a></td></tr>
-<tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards and tab lists, per world and per permission.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
+<tr><td><strong>Scoreboards and tab list</strong></td><td>Unlimited animated scoreboards and tab lists, per world and per permission, with ranks: a prefix before the names and the players sorted by rank.</td><td><a href="features/scoreboards.md">scoreboards.md</a></td></tr>
 <tr><td><strong>Chat</strong></td><td>Chat format, colours, hex colours, MiniMessage, emojis, mentions, anti-spam, anti-swear, chat per group of worlds, global mute, chat delay, clear chat.</td><td><a href="features/chat.md">chat.md</a></td></tr>
 <tr><td><strong>Protections</strong></td><td>No build, no damage, no drops, no hunger, no weather, no explosions... with WorldGuard region support.</td><td><a href="features/protections.md">protections.md</a></td></tr>
 <tr><td><strong>Lobby fun</strong></td><td>Jump pads, double jump, coloured signs and clickable "action" signs.</td><td><a href="features/lobby-fun.md">lobby-fun.md</a></td></tr>
@@ -50,5 +50,5 @@ And also: [custom commands](features/custom-commands.md) with a fully custom `/h
 3. Give your players the [permissions](reference/permissions.md) they need. **Hawn does not give any permission by default.**
 
 {% hint style="success" %}
-Something is missing or wrong in this wiki? Open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues).
+Something is missing or wrong in this wiki? Open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues). A question? Join the [Discord](https://discord.gg/yeUg5mbJuz).
 {% endhint %}

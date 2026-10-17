@@ -183,7 +183,25 @@ The vanish state can be kept when the player reconnects, see [Player options](pl
 
 ## TPS warning
 
-With `general.yml` → `Plugin.Tps.Warn-system: true`, players with `hawn.event.warn.tps` receive a warning when the TPS drops to 15 or below (messages `TPS.Check` of `Admin.yml`).
+With `general.yml` → `Plugin.Tps.Warn-system: true`, players with `hawn.event.warn.tps` receive a warning when the TPS drops to `Warning-At` or below (message `TPS.Check.15` of `Admin.yml`), and another one at `Critical-At` or below (`TPS.Check.5`). Each one is sent at most once a minute. `%arg 1%` in these messages is the threshold.
+
+```yaml
+# general.yml
+Plugin:
+  Tps:
+    Warn-system: true
+    Warning-At: 15
+    Critical-At: 5
+    Emergency-Save:
+      Enable: false
+      Worlds: true
+      Players: true
+      Spread: true
+```
+
+* `Emergency-Save.Enable: true`: under `Critical-At`, the worlds and the players are saved too, at most once a minute. Off by default since Hawn 1.4.7: saving while the server lags makes the lag worse.
+* `Worlds` / `Players`: what is saved.
+* `Spread: true`: one world, then a few players, at each tick, instead of everything in the same tick. Bukkit can only save on the main thread, so the save can't be asynchronous.
 
 ## Update check
 

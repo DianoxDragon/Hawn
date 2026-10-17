@@ -206,7 +206,10 @@ public class FunFeatures implements Listener {
 				if (p.hasPermission("hawn.fun.doublejump.double") && canDoubleJumpHere(p)) {
 					if (p.getLocation().subtract(0.0D, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
 						player_list_dbenable.remove(p);
-						allowDoubleJumpFlight(p);
+						// Only when it changes: setAllowFlight sends the abilities to the client at each call (every move)
+						if (!p.getAllowFlight()) {
+							allowDoubleJumpFlight(p);
+						}
 					}
 				} else {
 					stopDoubleJumpFlight(p);

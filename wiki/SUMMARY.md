@@ -25,6 +25,7 @@
 * [Player options](features/player-options.md)
 * [Scoreboards](features/scoreboards.md)
 * [Tab list](features/tablist.md)
+* [Ranks](features/ranks.md)
 * [Server list (MOTD and slots)](features/server-list.md)
 * [Chat](features/chat.md)
 * [Auto broadcast](features/autobroadcast.md)

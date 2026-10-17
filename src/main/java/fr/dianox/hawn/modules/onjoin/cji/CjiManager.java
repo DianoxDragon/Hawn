@@ -57,7 +57,9 @@ public class CjiManager {
 
 			// Give items
 
-			for (String string : Objects.requireNonNull(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")).getKeys(false)) {
+			// No item at all (the section removed): nothing to give, Hawn still starts
+			org.bukkit.configuration.ConfigurationSection inventoryItems = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items");
+			for (String string : inventoryItems == null ? java.util.Collections.<String>emptySet() : inventoryItems.getKeys(false)) {
 				String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
 
 				CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);

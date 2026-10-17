@@ -59,6 +59,13 @@ public class ConfigGeneral {
         Config.set("Plugin.Date-Format", "dd-MM-yyyy");
         Config.set("Plugin.12-Hours-Or-24-Hours-Format", 24);
         Config.set("Plugin.Tps.Warn-system", true);
+        Config.set("Plugin.Tps.Warning-At", 15);
+        Config.set("Plugin.Tps.Critical-At", 5);
+        // Off by default: saving everything while the server already lags makes it worse
+        Config.set("Plugin.Tps.Emergency-Save.Enable", false);
+        Config.set("Plugin.Tps.Emergency-Save.Worlds", true);
+        Config.set("Plugin.Tps.Emergency-Save.Players", true);
+        Config.set("Plugin.Tps.Emergency-Save.Spread", true);
 
         Config.set("Plugin.Language-Type", "en_US");
 

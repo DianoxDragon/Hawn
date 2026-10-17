@@ -110,6 +110,14 @@ Yes, every message can be changed and you can create your own language folder. S
 
 <details>
 
+<summary>Where can I get help?</summary>
+
+On the [Discord](https://discord.gg/yeUg5mbJuz) of Hawn (help, news and ideas), or with an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues) for a bug.
+
+</details>
+
+<details>
+
 <summary>Does Hawn send statistics?</summary>
 
 Hawn uses [bStats](https://bstats.org/plugin/bukkit/Hawn/4563) to count the servers using it (anonymous). You can turn it off for all your plugins in `plugins/bStats/config.yml`.

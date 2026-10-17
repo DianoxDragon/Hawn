@@ -47,6 +47,7 @@ public class Manager {
 		pm.registerEvents(new ProtectionsEventWorld(), pl);
 		pm.registerEvents(new fr.dianox.hawn.event.ProtectionsExtra(), pl);
 		pm.registerEvents(new FunFeatures(), pl);
+		pm.registerEvents(new fr.dianox.hawn.modules.ranks.Ranks(), pl);
 		pm.registerEvents(new WorldEvent(), pl);
 		pm.registerEvents(new PlayerEvents(), pl);
 		pm.registerEvents(new OnCommandEvent(), pl);

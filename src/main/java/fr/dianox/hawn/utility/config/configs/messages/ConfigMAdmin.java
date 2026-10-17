@@ -225,8 +225,8 @@ public class ConfigMAdmin {
 
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn version (created by Dianox)&8: &r%gethawnversion%"));
 
-        Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under 15, done something to improve the stability of your Lobby"));
-        Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under 5, your server may shut down, done /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
+        Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under %arg 1%, do something to improve the stability of your Lobby"));
+        Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under %arg 1%, your server may shut down, do /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
 
         /* --------------- *
          * RELOAD COMMANDS *

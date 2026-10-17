@@ -113,6 +113,16 @@ public final class ConfigComments {
 		String last = parts[parts.length - 1];
 		String parent = parts.length > 1 ? parts[parts.length - 2] : "";
 
+		// Ranks.yml: Ranks.List.<rank>.<option>, Ranks.Worlds.<world>.<function>
+		if (parts.length == 4 && parts[0].equals("Ranks") && parts[1].equals("List")) {
+			if (last.equals("Enable")) return "false: this rank is not given";
+			if (last.equals("Prefix")) return "Before the name in the tab list, and %rank_prefix% (colours and &#RRGGBB)";
+			if (last.equals("Suffix")) return "After the name in the tab list, and %rank_suffix%";
+			if (last.equals("Priority")) return "The lowest is shown first in the tab list, and wins when a player has several ranks";
+		}
+		if (parts.length == 4 && parts[0].equals("Ranks") && parts[1].equals("Worlds")) {
+			return "false: turned off for the players of this world";
+		}
 		if (path.endsWith("World.All_World")) return "true: in every world. false: only in the worlds of Worlds";
 		if (path.endsWith("World.Worlds") || last.equals("Worlds")) return "The worlds where it applies";
 		if (parent.equals("WorldGuard")) {

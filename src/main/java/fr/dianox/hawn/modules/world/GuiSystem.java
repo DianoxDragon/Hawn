@@ -65,6 +65,20 @@ public class GuiSystem implements Listener {
 				File entry = new File(directory, w.getName());
 				fileList.add(entry);
 				loadedOnly.add(entry);
+				names.add(w.getName());
+			}
+		}
+
+		// Paper 26.x: a world of Worlds.yml kept in the folder of the main world, not loaded (unloaded from the menu or /hw unload)
+		org.bukkit.configuration.ConfigurationSection list = fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral.getConfig().getConfigurationSection("World-List");
+		if (list != null) {
+			for (String name : list.getKeys(false)) {
+				if (!names.contains(name) && WorldFolders.dimension(name) != null && !WorldDeletion.isDeleting(WorldFolders.dimension(name))) {
+					File entry = new File(directory, name);
+					fileList.add(entry);
+					loadedOnly.add(entry);
+					names.add(name);
+				}
 			}
 		}
 	}
@@ -72,7 +86,10 @@ public class GuiSystem implements Listener {
 	// The folder used by a world: its own folder when it is loaded (it may be elsewhere), else the folder of that name
 	private static File folderOf(File directory, String worldname) {
 		World w = Bukkit.getWorld(worldname);
-		return w != null ? w.getWorldFolder() : new File(directory, worldname);
+		if (w != null) return w.getWorldFolder();
+		File own = new File(directory, worldname);
+		File dimension = own.isDirectory() ? null : WorldFolders.dimension(worldname);
+		return dimension != null ? dimension : own;
 	}
 	// The players typing the name of a world, or its generator (the world name), in the chat: read by the chat thread too
 	private static final java.util.Set<java.util.UUID> plistincreation = java.util.concurrent.ConcurrentHashMap.newKeySet();
@@ -130,9 +147,10 @@ public class GuiSystem implements Listener {
 						return;
 					}
 
-					for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Import.Importing-With-A-Command")) {
-                        ConfigEventUtils.ExecuteEvent(p, msg, "Gui.Import.Importing-With-A-Command", "GuiSystem", false);
-                    }
+					// A world folder not loaded: loaded like /hw import (and at each start)
+					String worldname = worldOf(e, true);
+					if (worldname == null) return;
+					WorldLoading.loadFromMenu(p, worldname);
 				} else if (worldOf(e, false) != null) {
 					String worldname = worldOf(e, false);
 
@@ -459,8 +477,10 @@ public class GuiSystem implements Listener {
 							}
 						}
 					} else {
-						// Not loaded: only its folder
-						WorldDeletion.deleteFolder(new File(Bukkit.getWorldContainer(), worldname));
+						// Not loaded: only its folder (Paper 26.x: maybe in the folder of the main world)
+						File own = new File(Bukkit.getWorldContainer(), worldname);
+						File dimension = own.isDirectory() ? null : WorldFolders.dimension(worldname);
+						WorldDeletion.deleteFolder(dimension != null ? dimension : own);
 
 						for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Delete.World-Deleted")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Delete.World-Deleted", "GuiSystem", false);
@@ -488,6 +508,19 @@ public class GuiSystem implements Listener {
 
 			if (item.getType() == XMaterial.BARRIER.parseMaterial()) {
 				FirstPage(p);
+			} else if (e.getRawSlot() == 40 && item.getType() == XMaterial.HOPPER.parseMaterial()) {
+				String worldname = p.getOpenInventory().getItem(51).getItemMeta().getLore().get(0);
+				worldname = worldname.replace("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name").replace("&", "§") + " §e", "");
+
+				if (!p.hasPermission("hawn.command.world.unload") && !p.hasPermission("hawn.command.world.*")) {
+					MessageUtils.MessageNoPermission(p, "hawn.command.world.unload");
+					deny(p);
+				} else if (WorldLoading.unload(p, worldname)) {
+					done(p);
+					FirstPage(p);
+				} else {
+					deny(p);
+				}
 			} else if (e.getRawSlot() == 31) {
 				String worldname = p.getOpenInventory().getItem(51).getItemMeta().getLore().get(0);
 				worldname = worldname.replace("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Name").replace("&", "§") + " §e", "");
@@ -967,6 +1000,7 @@ public class GuiSystem implements Listener {
 			lore.add("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Size") + " " + size);
 			lore.add(" ");
 			lore.add(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Main.Line-Four").replace("&", "§"));
+			lore.add(text("Gui.Other.Main.Line-One-Second", "&eLeft-Click&7 to load the world"));
 
 			return createGuiItem("§c§l" + worldname, lore, XMaterial.RED_STAINED_GLASS_PANE.parseMaterial());
 		}
@@ -1313,7 +1347,14 @@ public class GuiSystem implements Listener {
         inv.setItem(37, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(38, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(39, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
-        inv.setItem(40, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+        // Not the main world, its nether, its end nor the default world: the server or Hawn needs them
+        if (!WorldDeletion.isProtected(name) && !DefaultWorld.is(name)) {
+        	ArrayList<String> unloadLore = new ArrayList<>();
+        	unloadLore.add(text("Gui.Other.Unload.Lore", "&7Until the next restart: the players in it go to the default world"));
+        	inv.setItem(40, createGuiItem(text("Gui.Other.Unload.Name", "&cUnload the world"), unloadLore, XMaterial.HOPPER.parseMaterial()));
+        } else {
+        	inv.setItem(40, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+        }
         inv.setItem(41, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(42, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
         inv.setItem(43, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));

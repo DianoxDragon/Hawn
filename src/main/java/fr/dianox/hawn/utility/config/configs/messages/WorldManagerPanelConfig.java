@@ -66,6 +66,9 @@ public class WorldManagerPanelConfig {
 		            "[send-title]: &3Import done //n &7You can join this world"));
 
         Config.set("Gui.Unload", java.util.Arrays.asList("%prefix% &7The world %arg1% is now unloaded"));
+        // Since 1.4.7
+        Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7The world &e%arg1% &7was unloaded: you are now in &e%arg2%"));
+        Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccould not be loaded, see the console"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cThe teleportation failed",
@@ -180,6 +183,9 @@ public class WorldManagerPanelConfig {
         Config.set("Gui.Other.Main.Line-Two", "&eRight-Click&7 to change settings of the world");
         Config.set("Gui.Other.Main.Line-Three", "&eShift &7and &eRight-Click&7 to delete the world");
         Config.set("Gui.Other.Main.Line-Four", "&7The world is currently not loaded");
+        Config.set("Gui.Other.Main.Line-One-Second", "&eLeft-Click&7 to load the world");
+        Config.set("Gui.Other.Unload.Name", "&cUnload the world");
+        Config.set("Gui.Other.Unload.Lore", "&7Until the next restart: the players in it go to the default world");
         Config.set("Gui.Other.Page.Back", "&bPrevious");
         Config.set("Gui.Other.Page.Next", "&bNext");
         Config.set("Gui.Other.Create-a-new-world", "&f&lCreate a new world");

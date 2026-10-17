@@ -107,10 +107,17 @@ public final class ConfigDefaults {
             }
         }
 
+        // The collections the user has, before anything is added: a collection missing whole is added whole
+        // (checked after the first key added, it would look filled and only get that key)
+        List<String> present = new ArrayList<>();
+        for (String collection : collections) {
+            if (loaded.contains(collection)) present.add(collection);
+        }
+
         List<String> added = new ArrayList<>();
         for (String path : defaults.getKeys(true)) {
             if (defaults.isConfigurationSection(path) || loaded.contains(path)) continue;
-            if (inCollection(loaded, path, collections) || hiddenByValue(loaded, path)) continue;
+            if (inCollection(path, present) || hiddenByValue(loaded, path)) continue;
 
             loaded.set(path, defaults.get(path));
             added.add(path);
@@ -192,9 +199,9 @@ public final class ConfigDefaults {
         return text;
     }
 
-    private static boolean inCollection(YamlConfiguration loaded, String path, String[] collections) {
-        for (String collection : collections) {
-            if (path.startsWith(collection + ".") && loaded.contains(collection)) {
+    private static boolean inCollection(String path, List<String> present) {
+        for (String collection : present) {
+            if (path.startsWith(collection + ".")) {
                 return true;
             }
         }

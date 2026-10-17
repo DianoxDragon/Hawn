@@ -28,6 +28,7 @@ plugins/Hawn/
 ├── ServerList.yml              MOTD, slots, full server
 ├── Player-Option-General.yml   What is kept between sessions / lobbies
 ├── Scoreboard-General.yml      Internal scoreboard settings
+├── Ranks.yml                   The ranks: prefix, suffix and order of the tab list
 ├── Commands/                   One file per command (see below)
 ├── Events/                     Join, chat, protections, void TP, world events...
 ├── Cosmetics-Fun/              Join fireworks, jump pads, double jump
@@ -37,7 +38,8 @@ plugins/Hawn/
 ├── Tablist/                    The default tab list (Tablist.yml), then one file per other tab list
 ├── Messages/                   Every message, one folder per language
 │   ├── en_US/
-│   └── fr_FR/
+│   ├── fr_FR/
+│   └── de_DE/
 └── StockageInfo/               Data written by Hawn, don't edit it
 ```
 

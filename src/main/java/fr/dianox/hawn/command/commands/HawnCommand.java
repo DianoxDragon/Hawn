@@ -160,6 +160,7 @@ public class HawnCommand implements CommandExecutor {
 				sender.sendMessage("§7Author:§c Dianox");
 				sender.sendMessage("§7Plugin version:§c " + Main.getVersion());
 				sender.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
+				sender.sendMessage("§7Discord (support): §chttps://discord.gg/yeUg5mbJuz");
 				sender.sendMessage("§8§l§m-----------------------------");
 			} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
 				Reload.reloadconfig();
@@ -679,6 +680,7 @@ public class HawnCommand implements CommandExecutor {
 			p.sendMessage("§7Author:§c Dianox");
 			p.sendMessage("§7Plugin version:§c " + Main.getVersion());
 			p.sendMessage("§7Website: §chttps://www.spigotmc.org/resources/hawn-hub-lobby-management.66907/");
+			p.sendMessage("§7Discord (support): §chttps://discord.gg/yeUg5mbJuz");
 			p.sendMessage("§8§l§m-----------------------------");
 		// donors
 		} else if (args[0].equalsIgnoreCase("donor") || args[0].equalsIgnoreCase("donors")) {

@@ -8,6 +8,8 @@ import fr.dianox.hawn.modules.chat.ChatFormat;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.config.ConfigDefaults;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
+import fr.dianox.hawn.utility.server.WarnTPS;
+import fr.dianox.hawn.modules.ranks.Ranks;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
 import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
@@ -101,7 +103,7 @@ public final class StartupReport {
 		}
 		if (!warnings.isEmpty()) say(ChatColor.YELLOW + "| ");
 
-		say(LINE + ChatColor.DARK_RED + "License:" + ChatColor.RESET + " GNU GPL v3");
+		say(LINE + ChatColor.DARK_RED + "License:" + ChatColor.RESET + " GNU GPL v3" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "Support: " + ChatColor.WHITE + "https://discord.gg/yeUg5mbJuz");
 		say(LINE);
 		say(ChatColor.BLUE + "| ------------------------------------");
 		say(LINE);
@@ -133,6 +135,7 @@ public final class StartupReport {
 		parts.add(count(keys(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")), "join item"));
 		parts.add(count(keys(CustomCommandConfig.getConfig().getConfigurationSection("commands")), "custom command"));
 		parts.add(count(ChatEmojisLoad.emojislist.size(), "emoji"));
+		parts.add(!Ranks.enabled() ? "ranks off" : count(Ranks.count(), "rank") + (Ranks.tablist() ? "" : " (tab list: " + Ranks.tabPlugin() + ")"));
 		return parts;
 	}
 
@@ -194,6 +197,9 @@ public final class StartupReport {
 		spawns(warnings);
 		chat(warnings);
 		files(warnings);
+		tps(warnings);
+		drops(warnings);
+		ranks(warnings);
 
 		worldGuard(warnings);
 
@@ -326,6 +332,83 @@ public final class StartupReport {
 				warnings.add("Tablist.enable is false: " + (on > 1 ? "the " + on + " tab list files" : "the tab list file") + " turned on in the Tablist folder "
 						+ (on > 1 ? "are" : "is") + " not used");
 			}
+		}
+	}
+
+	// The worlds of an option: null for every world (All_World)
+	private static List<String> worldsOf(YamlConfiguration cfg, String path) {
+		return cfg.getBoolean(path + ".All_World") ? null : cfg.getStringList(path + ".Worlds");
+	}
+
+	// The worlds in both lists (null = every world), never null
+	private static List<String> common(List<String> a, List<String> b) {
+		if (a == null && b == null) return java.util.Collections.singletonList("every world");
+		if (a == null) return b;
+		if (b == null) return a;
+		List<String> both = new ArrayList<>();
+		for (String w : a) {
+			for (String other : b) {
+				if (w.equalsIgnoreCase(other)) both.add(w);
+			}
+		}
+		return both;
+	}
+
+	/**
+	 * Two options block the drops: the protection Items.Drop.Disable and Block-Drop of the join items. One can undo what the other is set to.
+	 */
+	private static void drops(List<String> warnings) {
+		YamlConfiguration cji = ConfigCJIGeneral.getConfig();
+		if (!cji.getBoolean("Custom-Join-Item.Enable")) {
+			return;
+		}
+
+		YamlConfiguration events = PlayerEventsConfig.getConfig();
+		String mode = cji.getString("Custom-Join-Item.General-Option.Block-Drop", "ALL").toUpperCase();
+		List<String> both = common(worldsOf(cji, "Custom-Join-Item.General-Option.World"), worldsOf(events, "Items.Drop.World"));
+
+		if (events.getBoolean("Items.Drop.Disable")) {
+			if ((mode.equals("JOIN-ITEMS") || mode.equals("NONE")) && !both.isEmpty()) {
+				warnings.add("Block-Drop is " + mode + " (CustomJoinItem/General.yml), but Items.Drop.Disable (Events/PlayerEvents.yml) still blocks every drop in "
+						+ String.join(", ", both) + ": set Items.Drop.Disable to false, or remove these worlds from its list");
+			}
+		} else if (mode.equals("ALL")) {
+			List<String> cjiWorlds = worldsOf(cji, "Custom-Join-Item.General-Option.World");
+			if (cjiWorlds != null && cjiWorlds.isEmpty()) return;
+			warnings.add("Items.Drop.Disable is false (Events/PlayerEvents.yml), but the join items still block every drop in "
+					+ (cjiWorlds == null ? "every world" : String.join(", ", cjiWorlds))
+					+ " (Block-Drop: ALL in CustomJoinItem/General.yml): JOIN-ITEMS only blocks the join items, NONE nothing");
+		}
+	}
+
+	private static void ranks(List<String> warnings) {
+		if (!Ranks.enabled()) {
+			return;
+		}
+		if (!Ranks.tablist() && Ranks.tabPlugin() != null) {
+			warnings.add("Ranks: " + Ranks.tabPlugin() + " is installed, the tab list is left to it (Ranks.yml, Enable: true to show the ranks of Hawn there); %rank_prefix% still works");
+		}
+		List<String> wrong = Ranks.unknownByHand();
+		if (!wrong.isEmpty()) {
+			warnings.add("Ranks.Players: " + String.join(", ", wrong) + " (Ranks.yml): no such rank turned on, the permissions decide");
+		}
+		String def = fr.dianox.hawn.utility.config.configs.RanksConfig.getConfig().getString("Ranks.Default-Rank", "");
+		if (def != null && !def.isEmpty() && !fr.dianox.hawn.utility.config.configs.RanksConfig.getConfig().isSet("Ranks.List." + def)) {
+			warnings.add("Ranks.Default-Rank is " + def + ", but there is no such rank in Ranks.List (Ranks.yml)");
+		}
+	}
+
+	private static void tps(List<String> warnings) {
+		YamlConfiguration general = ConfigGeneral.getConfig();
+		if (!general.getBoolean("Plugin.Tps.Warn-system")) {
+			if (general.getBoolean("Plugin.Tps.Emergency-Save.Enable")) {
+				warnings.add("Plugin.Tps.Emergency-Save is on, but Plugin.Tps.Warn-system is off (general.yml): the emergency save never runs");
+			}
+			return;
+		}
+		if (WarnTPS.criticalAt() >= WarnTPS.warningAt()) {
+			warnings.add("Plugin.Tps.Critical-At (" + WarnTPS.criticalAt() + ") is not below Plugin.Tps.Warning-At (" + WarnTPS.warningAt()
+					+ ") in general.yml: only the critical message is sent");
 		}
 	}
 

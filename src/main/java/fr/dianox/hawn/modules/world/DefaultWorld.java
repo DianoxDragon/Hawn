@@ -152,6 +152,9 @@ public class DefaultWorld {
 
 		say(sender, "Gui.Default-World.Changed", r.to, r.from, String.valueOf(r.values), String.valueOf(r.files));
 
+		// 96: the lists of worlds open (this admin, the others) show the new default world at once
+		GuiSystem.refreshWorldPages();
+
 		// The spawn of the players on join stays where it is
 		String spawn = OnJoinConfig.getConfig().getString("Spawn.DefaultSpawn");
 		String spawnWorld = spawn == null ? null : ConfigSpawn.getConfig().getString("Coordinated." + spawn + ".World");

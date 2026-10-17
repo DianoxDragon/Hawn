@@ -303,6 +303,10 @@ public class Main extends JavaPlugin implements Listener {
 
 	    tabManager = new TabManager(this);
 
+	    // Ranks.yml; one tick later, again if TAB or NametagEdit was enabled after Hawn (Enable: AUTO)
+	    fr.dianox.hawn.modules.ranks.Ranks.load();
+	    Bukkit.getScheduler().runTask(this, fr.dianox.hawn.modules.ranks.Ranks::recheckPlugins);
+
 	    /*
 	     * Custom join item
 	     */
@@ -322,6 +326,9 @@ public class Main extends JavaPlugin implements Listener {
 		super.onDisable();
 
 		fr.dianox.hawn.modules.onjoin.JoinNumbers.stop();
+		try {
+			fr.dianox.hawn.modules.ranks.Ranks.clearAll();
+		} catch (Exception ignored) {}
 		ConfigPlayerGet.shutdown();
 		SQL.close();
 

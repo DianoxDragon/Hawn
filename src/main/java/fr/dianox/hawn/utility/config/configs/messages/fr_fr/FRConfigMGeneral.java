@@ -144,7 +144,8 @@ public class FRConfigMGeneral {
         Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7%target% a été téléporté..."}));
         Config.set("Update.Notify-Admins.Messages", java.util.Arrays.asList(new String[] {
         		"%prefix% &eUne nouvelle version de Hawn est sortie : &6%new_version% &7(vous avez la %current_version%)",
-        		"json:{\"text\":\"§b» La télécharger sur Spigot\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Ouvrir la page de Hawn\"}}"}));
+        		"json:{\"text\":\"§b» La télécharger sur Spigot\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Ouvrir la page de Hawn\"}}",
+        		"json:{\"text\":\"§9» Une question ? Rejoindre le Discord\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://discord.gg/yeUg5mbJuz\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Aide, nouveautés et idées\"}}"}));
 
         // Depuis 1.4.4 : les valeurs des placeholders oui/non (%player_vanished%...), et d'un nombre pas encore connu
         Config.set("Placeholders.Yes", "&aoui");

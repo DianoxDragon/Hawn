@@ -1,6 +1,7 @@
 package fr.dianox.hawn.command.commands;
 
 import fr.dianox.hawn.modules.world.DefaultWorld;
+import fr.dianox.hawn.modules.world.WorldLoading;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.modules.world.GuiSystem;
@@ -349,32 +350,8 @@ public class WorldCommand extends BukkitCommand {
         			return true;
         		}
 
-        		String worldname = args[1];
-        		World world = Bukkit.getWorld(worldname);
-
-        		if (world == null) {
-        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Command.Unload.Error")) {
-                        ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                    }
-        		} else if (WorldDeletion.isProtected(world.getName())) {
-        			// The main world, its nether and its end: the same refusals as /hw delete
-        			for (String msg: WorldDeletion.message("Error.Unload-Protected", "%prefix% &cThe world &e%arg1% &ccan't be unloaded: the server needs it")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-        			}
-        		} else if (DefaultWorld.is(world.getName())) {
-        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.Default-World")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-        			}
-        		} else if (!Bukkit.getServer().unloadWorld(world, true)) {
-        			// Bukkit refuses while players are in the world
-        			for (String msg: WorldDeletion.message("Command.Unload.Failed", "%prefix% &cThe world &e%arg1% &ccould not be unloaded: no player must be in it")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-        			}
-        		} else {
-        			for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Gui.Unload")) {
-        				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
-                    }
-        		}
+        		// The players in it go to the default world first
+        		WorldLoading.unload(p, args[1]);
         	}
         }
 

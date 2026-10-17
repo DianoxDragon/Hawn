@@ -12,11 +12,11 @@ Hawn has a small world manager, enough for a lobby server: create an empty world
 
 `/hw` (or `/hworld`) opens the menu. It is also available from the [admin panel](admin-tools.md#admin-panel).
 
-* Every loaded world is shown (sapling for the overworlds, netherrack for the nethers, end stone for the ends). World folders that are not loaded are shown as red glass panes: load them with `/hw import <name>`. The folders are looked for in the folder of the worlds (`--world-container` if the server uses it).
+* Every loaded world is shown (sapling for the overworlds, netherrack for the nethers, end stone for the ends). World folders that are not loaded are shown as red glass panes: a **left click** loads them, like `/hw import <name>` (since Hawn 1.4.7). The folders are looked for in the folder of the worlds (`--world-container` if the server uses it); on Paper 26.x, the worlds of `World-List.yml` kept in the folder of the main world are listed too.
 * 36 worlds per page, with arrows to the next and the previous pages.
 * The size of the worlds is computed in the background (`...` while it is computed) and kept one minute: opening the menu never slows the server, even with big worlds.
 * **Left-click**: join the world.
-* **Right-click**: the menu of the world. The book at the top shows its players, environment and type, generator, loaded chunks, entities, spawn, time, PvP and seed. The other items change the time, the weather and the difficulty, and the nether star makes it the [default world](#the-default-world).
+* **Right-click**: the menu of the world. The book at the top shows its players, environment and type, generator, loaded chunks, entities, spawn, time, PvP and seed. The other items change the time, the weather and the difficulty, and the nether star makes it the [default world](#the-default-world). The hopper unloads the world until the next restart, like `/hw unload` (not shown for the main world, its nether, its end and the default world).
 * **Shift + right-click**: delete the world (a confirmation is asked). A world that is not loaded can only be deleted.
 * **Create a new world**: type the name in the chat, then everything is on one page: the environment (normal, nether, end), the world type (normal, flat, amplified, large biomes) and the generator (crafting table: left click for the default one or the Hawn void generator, right click to type the name of a generator plugin in the chat). Click the sign to create it. While Hawn waits for a name or a generator in the chat, a **left click** cancels: no world for the name, the default generator for the generator.
 
@@ -32,7 +32,7 @@ Each click gives an answer: a sound when you choose something, a message (and an
 | `/hw tp <world>`                                | `hawn.command.world.tp`       | Teleports you to a world.                      |
 | `/hw create <name> [environment] [type]`        | `hawn.command.world.create`   | Creates a world.                               |
 | `/hw import <name> [environment] [type]`        | `hawn.command.world.import`   | Loads a world folder copied on the server.     |
-| `/hw unload <world>`                            | `hawn.command.world.unload`   | Unloads a world. Not the main world, its nether, its end nor the default world; and not while players are in it. |
+| `/hw unload <world>`                            | `hawn.command.world.unload`   | Unloads a world. Not the main world, its nether, its end nor the default world. The players in it go to the default world first (since Hawn 1.4.7). |
 | `/hw delete <world> confirm`                    | `hawn.command.world.delete`   | Deletes a world **and its folder**. Without `confirm`, Hawn only says what will be deleted. |
 | `/hw default [world]`                           | `hawn.command.world.setdefault` | Shows the [default world](#the-default-world), or makes a loaded world the default one. Works from the console too. |
 
@@ -88,7 +88,7 @@ The default world can't be deleted: choose another one first.
 
 Hawn remembers the worlds in `World-List.yml`, with their environment, type and generator. The worlds marked `Load: true` are loaded again at every start, so you don't need another world plugin. On Paper 26.x, the created worlds are kept in `world/dimensions/minecraft/` and are loaded again too.
 
-A world created or imported with `/hw` is written with `Load: true`. `/hw unload` only unloads the world until the next restart. To stop loading it at startup, set its `Load` to `false`.
+A world created, imported or loaded from the menu is written with `Load: true`. `/hw unload` and the Unload button only unload the world until the next restart. To stop loading it at startup, set its `Load` to `false`.
 
 ```yaml
 World-List:

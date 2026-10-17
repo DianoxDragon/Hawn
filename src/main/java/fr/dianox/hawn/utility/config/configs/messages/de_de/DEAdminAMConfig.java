@@ -227,8 +227,8 @@ public class DEAdminAMConfig {
 
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn-Version (erstellt von Dianox)&8: &r%gethawnversion%"));
 
-        Config.set("TPS.Check.15", java.util.Arrays.asList("&cDeine TPS liegen unter 15, tu etwas für die Stabilität deiner Lobby"));
-        Config.set("TPS.Check.5", java.util.Arrays.asList("&cDeine TPS liegen unter 5, dein Server könnte abstürzen: benutze /stop, um Probleme zu vermeiden.", "&cACHTUNG: KRITISCHER ZUSTAND DES SERVERS"));
+        Config.set("TPS.Check.15", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, tu etwas für die Stabilität deiner Lobby"));
+        Config.set("TPS.Check.5", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, dein Server könnte abstürzen: benutze /stop, um Probleme zu vermeiden.", "&cACHTUNG: KRITISCHER ZUSTAND DES SERVERS"));
 
         /* --------------- *
          * RELOAD COMMANDS *

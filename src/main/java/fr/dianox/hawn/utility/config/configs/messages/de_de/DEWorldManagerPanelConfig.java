@@ -68,6 +68,9 @@ public class DEWorldManagerPanelConfig {
 		            "[send-title]: &3Import fertig //n &7Du kannst diese Welt betreten"));
 
         Config.set("Gui.Unload", java.util.Arrays.asList("%prefix% &7Die Welt %arg1% ist jetzt entladen"));
+        // Since 1.4.7
+        Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7Die Welt &e%arg1% &7wurde entladen: du bist jetzt in &e%arg2%"));
+        Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cDie Welt &e%arg1% &ckonnte nicht geladen werden, siehe Konsole"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cDie Teleportation ist fehlgeschlagen",
@@ -182,6 +185,9 @@ public class DEWorldManagerPanelConfig {
         Config.set("Gui.Other.Main.Line-Two", "&eRechtsklick&7, um die Einstellungen der Welt zu ändern");
         Config.set("Gui.Other.Main.Line-Three", "&eShift &7+ &eRechtsklick&7, um die Welt zu löschen");
         Config.set("Gui.Other.Main.Line-Four", "&7Die Welt ist gerade nicht geladen");
+        Config.set("Gui.Other.Main.Line-One-Second", "&eLinksklick&7, um die Welt zu laden");
+        Config.set("Gui.Other.Unload.Name", "&cWelt entladen");
+        Config.set("Gui.Other.Unload.Lore", "&7Bis zum nächsten Neustart: die Spieler darin kommen in die Standardwelt");
         Config.set("Gui.Other.Page.Back", "&bZurück");
         Config.set("Gui.Other.Page.Next", "&bWeiter");
         Config.set("Gui.Other.Create-a-new-world", "&f&lNeue Welt erstellen");

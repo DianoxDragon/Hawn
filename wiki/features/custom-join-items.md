@@ -37,7 +37,7 @@ Custom-Join-Item:
 | `Use_Permission_Per_Item`           | Each item needs its own permission: `hawn.use.cji.item.<item key>` (see below).                     |
 | `Use_In_Creative_Mode_In_Any_Case`  | `false` = in creative mode, the items behave like normal items (they can be moved and dropped). `true` = they stay locked and usable in creative too. |
 | `Inventory-Click`                   | Clicking the item inside the inventory also runs its actions.                                       |
-| `Block-Drop`                        | In the worlds of the join items: `ALL` = no item can be dropped (the inventory of the lobby stays clean), `JOIN-ITEMS` = only the join items are locked, the other items can be dropped, `NONE` = nothing is blocked. Since Hawn 1.4.6 (before, always `ALL`). |
+| `Block-Drop`                        | In the worlds of the join items: `ALL` = no item can be dropped (the inventory of the lobby stays clean), `JOIN-ITEMS` = only the join items are locked, the other items can be dropped, `NONE` = nothing is blocked. Since Hawn 1.4.6 (before, always `ALL`). The drop protection (`Items.Drop.Disable` in `Events/PlayerEvents.yml`) also blocks the drops: since Hawn 1.4.7, the startup report says when the two options work against each other. |
 
 ## Inventory items
 

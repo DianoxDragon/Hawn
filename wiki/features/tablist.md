@@ -8,6 +8,10 @@ description: >-
 
 Hawn adds a header and a footer to the player list, with as many animations as you want. Since Hawn 1.4, other tab lists can be shown in some worlds or to the players with a permission, one file per tab list like the scoreboards (see [Per world and per permission](#per-world-and-per-permission)).
 
+{% hint style="info" %}
+A prefix before the names, and the players sorted by rank: see [Ranks](ranks.md) (since Hawn 1.4.7).
+{% endhint %}
+
 `Tablist/Tablist.yml`:
 
 ```yaml

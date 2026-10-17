@@ -5,7 +5,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -41,17 +45,31 @@ public final class ChatSettings {
 			return null;
 		}
 
-		ConfigurationSection groups = cfg().getConfigurationSection("Per-World-Chat.Groups");
-		if (groups != null) {
-			for (String name : groups.getKeys(false)) {
-				for (String w : groups.getStringList(name + ".Worlds")) {
-					if (w.equalsIgnoreCase(world)) {
-						return name;
+		String group = groups().get(world.toLowerCase(Locale.ROOT));
+		return group == null ? OTHER_WORLDS : group;
+	}
+
+	// 72: world -> group, made once for each loaded Events/Chat.yml (a /hawn reload loads a new one), not at each message
+	private static YamlConfiguration groupsFor;
+	private static volatile Map<String, String> groups = Collections.emptyMap();
+
+	private static synchronized Map<String, String> groups() {
+		YamlConfiguration cfg = cfg();
+		if (cfg != groupsFor) {
+			Map<String, String> map = new HashMap<>();
+			ConfigurationSection section = cfg.getConfigurationSection("Per-World-Chat.Groups");
+			if (section != null) {
+				for (String name : section.getKeys(false)) {
+					for (String w : section.getStringList(name + ".Worlds")) {
+						// A world in two groups: the first one, as before (the startup report warns)
+						map.putIfAbsent(w.toLowerCase(Locale.ROOT), name);
 					}
 				}
 			}
+			groups = map;
+			groupsFor = cfg;
 		}
-		return OTHER_WORLDS;
+		return groups;
 	}
 
 	public static ChatSettings of(Player p) {

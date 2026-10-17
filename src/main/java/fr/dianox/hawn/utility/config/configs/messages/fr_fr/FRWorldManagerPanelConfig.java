@@ -63,6 +63,9 @@ public class FRWorldManagerPanelConfig {
         Config.set("Gui.Import.World-Loaded", java.util.Arrays.asList("%prefix% &7Le monde %arg1% a été chargé"));
 
         Config.set("Gui.Unload", java.util.Arrays.asList("%prefix% &7Le monde %arg1% est maintenant déchargé"));
+        // Depuis 1.4.7
+        Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7Le monde &e%arg1% &7a été déchargé : vous êtes maintenant dans &e%arg2%"));
+        Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cLe monde &e%arg1% &cn'a pas pu être chargé, voir la console"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cLa téléportation a échoué",
@@ -177,6 +180,8 @@ public class FRWorldManagerPanelConfig {
         Config.set("Gui.Other.Main.Line-Two", "&eClic droit&7 pour changer les paramètres du monde");
         Config.set("Gui.Other.Main.Line-Three", "&eShift &7+ &eclic droit&7 pour supprimer le monde");
         Config.set("Gui.Other.Main.Line-Four", "&7Le monde n'est actuellement pas chargé");
+        Config.set("Gui.Other.Unload.Name", "&cDécharger le monde");
+        Config.set("Gui.Other.Unload.Lore", "&7Jusqu'au prochain redémarrage : les joueurs qui y sont vont dans le monde par défaut");
         Config.set("Gui.Other.Page.Back", "&bPrécédent");
         Config.set("Gui.Other.Page.Next", "&bSuivant");
         Config.set("Gui.Other.Create-a-new-world", "&f&lCréer un nouveau monde");

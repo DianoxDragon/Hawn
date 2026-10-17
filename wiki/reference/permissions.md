@@ -261,3 +261,4 @@ Most bypass permissions only work when the `Bypass` (or `Bypass-With-Permission`
 | Permission                     | Description                                         |
 | ------------------------------ | --------------------------------------------------- |
 | `hawn.tablist.<file name>` | Sees the tab list of `Tablist/<file name>.yml` when it has `permission: true`, for example `hawn.tablist.staff`. Since Hawn 1.4, see [Tab list](../features/tablist.md#per-world-and-per-permission) |
+| `hawn.rank.<rank>` | Has this rank of `Ranks.yml`, for example `hawn.rank.vip`. Not given to the operators. Since Hawn 1.4.7, see [Ranks](../features/ranks.md) |

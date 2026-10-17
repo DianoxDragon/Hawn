@@ -81,6 +81,7 @@ public class Reload {
 		ConfigMAdmin.reloadConfig();
 		ConfigMMsg.reloadConfig();
 		TablistConfig.reloadConfig();
+		fr.dianox.hawn.utility.config.configs.RanksConfig.reloadConfig();
 		CommandAliasesConfig.reloadConfig();
 		WarningCommandConfig.reloadConfig();
 		AdminPanelConfig.reloadConfig();
@@ -180,6 +181,8 @@ public class Reload {
 		Main.getInstance().getTabManager().start(Main.getInstance());
 
 		Main.getInstance().getBlockExceptions().load();
+
+		fr.dianox.hawn.modules.ranks.Ranks.load();
 
 		// The same warnings as at startup
 		fr.dianox.hawn.utility.StartupReport.printWarnings();

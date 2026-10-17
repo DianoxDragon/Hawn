@@ -106,7 +106,7 @@ MVdWPlaceholderAPI needs a premium plugin of Maximvdw (FeatherBoard...). Without
 
 ## Still stuck?
 
-Open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues). Give:
+Ask on the [Discord](https://discord.gg/yeUg5mbJuz), or open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues). Give:
 
 * the Hawn version (`/hawn version`) and the server version;
 * the full error of the console, if any (use a paste site like [mclo.gs](https://mclo.gs/));

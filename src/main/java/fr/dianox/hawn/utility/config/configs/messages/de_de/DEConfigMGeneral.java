@@ -148,7 +148,8 @@ public class DEConfigMGeneral {
         Config.set("Spawn.Teleport-By-Player.Sender", java.util.Arrays.asList(new String[] {"&7%target% teleportiert..."}));
         Config.set("Update.Notify-Admins.Messages", java.util.Arrays.asList(new String[] {
         		"%prefix% &eEine neue Version von Hawn ist erschienen: &6%new_version% &7(du hast %current_version%)",
-        		"json:{\"text\":\"§b» Auf Spigot herunterladen\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Die Seite von Hawn öffnen\"}}"}));
+        		"json:{\"text\":\"§b» Auf Spigot herunterladen\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://www.spigotmc.org/resources/66907/\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Die Seite von Hawn öffnen\"}}",
+        		"json:{\"text\":\"§9» Fragen? Tritt dem Discord bei\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://discord.gg/yeUg5mbJuz\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"Hilfe, Neuigkeiten und Ideen\"}}"}));
 
         // Since 1.4.4: the values of the yes/no placeholders (%player_vanished%...), and of a number not known yet
         Config.set("Placeholders.Yes", "&aja");
