@@ -9,7 +9,7 @@ description: Hawn is an all-in-one hub / lobby plugin for Spigot and Paper serve
 Hawn turns a fresh server into a ready-to-use lobby: spawns, join messages, items in the hotbar, scoreboards, tab list, protections, jump pads, a world manager and much more. Almost everything is optional and can be configured per world.
 
 {% hint style="info" %}
-This wiki documents **Hawn 1.4.6 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
+This wiki documents **Hawn 1.4.8 BETA**. If you are coming from 1.3 or older, read [Updating from an older version](getting-started/updating.md) first: a few behaviours change.
 {% endhint %}
 
 ## Download
@@ -37,7 +37,7 @@ Optional integrations: [PlaceholderAPI, LuckPerms, WorldGuard 7+ and MVdWPlaceho
 <tr><td><strong>Chat</strong></td><td>Chat format, colours, hex colours, MiniMessage, emojis, mentions, anti-spam, anti-swear, chat per group of worlds, global mute, chat delay, clear chat.</td><td><a href="features/chat.md">chat.md</a></td></tr>
 <tr><td><strong>Protections</strong></td><td>No build, no damage, no drops, no hunger, no weather, no explosions... with WorldGuard region support.</td><td><a href="features/protections.md">protections.md</a></td></tr>
 <tr><td><strong>Lobby fun</strong></td><td>Jump pads, double jump, coloured signs and clickable "action" signs.</td><td><a href="features/lobby-fun.md">lobby-fun.md</a></td></tr>
-<tr><td><strong>World manager</strong></td><td>Create, import, unload, delete and edit worlds from a menu, choose the default world, with a built-in void generator.</td><td><a href="features/world-manager.md">world-manager.md</a></td></tr>
+<tr><td><strong>World manager</strong></td><td>Create, import, load, unload, delete and edit worlds from a menu, choose the default world, with a built-in void generator.</td><td><a href="features/world-manager.md">world-manager.md</a></td></tr>
 <tr><td><strong>Admin tools</strong></td><td>Admin panel, player editor, maintenance mode, emergency mode, build bypass, no-clip.</td><td><a href="features/admin-tools.md">admin-tools.md</a></td></tr>
 </tbody></table>
 
