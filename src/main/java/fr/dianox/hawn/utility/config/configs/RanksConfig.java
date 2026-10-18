@@ -53,12 +53,13 @@ public class RanksConfig {
 		}
 	}
 
-	private static void rank(String name, boolean enable, String prefix, String suffix, int priority) {
+	private static void rank(String name, boolean enable, String prefix, String suffix, int priority, String colour) {
 		String path = "Ranks.List." + name + ".";
 		Config.set(path + "Enable", enable);
 		Config.set(path + "Prefix", prefix);
 		Config.set(path + "Suffix", suffix);
 		Config.set(path + "Priority", priority);
+		Config.set(path + "Name-Colour", colour);
 	}
 
 	private static void create() {
@@ -71,14 +72,19 @@ public class RanksConfig {
 		Config.set("Ranks.Default-Rank", "default");
 		// The ranks given by permission are checked again every few seconds (a rank given in LuckPerms shows without a rejoin)
 		Config.set("Ranks.Refresh-Seconds", 5);
+		// Since 1.4.8: HAWN (the ranks below) or LUCKPERMS (the group, prefix, suffix and weight of LuckPerms)
+		Config.set("Ranks.Source", "HAWN");
 		Config.set("Ranks.Tablist.Enable", true);
 		Config.set("Ranks.Sorting.Enable", true);
+		// Since 1.4.8: the prefix and the suffix above the head, and the colour of the name
+		Config.set("Ranks.Above-Head.Enable", true);
+		Config.set("Ranks.Name-Colour.Enable", true);
 
 		// The permission hawn.rank.<rank> gives the rank (not given to the operators by default). The lowest Priority is shown first
-		rank("owner", true, "&4[Owner] &c", "", 1);
-		rank("admin", true, "&c[Admin] &6", "", 2);
-		rank("vip", true, "&6[VIP] &e", "", 10);
-		rank("default", false, "&7", "", 100);
+		rank("owner", true, "&4[Owner] &c", "", 1, "RED");
+		rank("admin", true, "&c[Admin] &6", "", 2, "GOLD");
+		rank("vip", true, "&6[VIP] &e", "", 10, "YELLOW");
+		rank("default", false, "&7", "", 100, "GRAY");
 
 		// <player>: <rank>, a rank given by hand, before the permissions
 		Config.set("Ranks.Players", new LinkedHashMap<String, Object>());

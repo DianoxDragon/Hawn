@@ -255,7 +255,6 @@ public class ConfigManager {
 		configfile.put("CFU-Sign-List", "Cosmetics-Fun/Utility/Sign-List.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "Cosmetics-Fun/Utility/Sign-List.yml", "CFU-Sign-List");
 
-		//NameTagConfig.loadConfig(plugin);
 		TablistConfig.loadConfig(plugin);
 		fr.dianox.hawn.utility.config.configs.RanksConfig.loadConfig(plugin);
 		configfile.put("G-CustomCommand", "CustomCommand.yml");

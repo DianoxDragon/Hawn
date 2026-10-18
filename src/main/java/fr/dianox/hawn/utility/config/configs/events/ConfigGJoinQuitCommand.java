@@ -57,7 +57,7 @@ public class ConfigGJoinQuitCommand {
         Config.set("JoinCommand.Enable", true);
         Config.set("JoinCommand.Options.New.Enable", false);
         Config.set("JoinCommand.Options.New.Commands",java.util.Arrays.asList(new String[] {
-        		"This message is sent from the JoinQuitCommand module."
+        		"&7Welcome to the server, &e%player%&7! Type &e/rules &7to read the rules"
         }));
         Config.set("JoinCommand.Options.New.World.All_World", false);
         Config.set("JoinCommand.Options.New.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -67,12 +67,11 @@ public class ConfigGJoinQuitCommand {
 
         Config.set("JoinCommand.Options.No-New.Enable", true);
         Config.set("JoinCommand.Options.No-New.Commands",java.util.Arrays.asList(new String[] {
-        		"-----------------------------------------------------",
-        		"&7&lThese messages are sent from the JoinQuitCommand module \\/\\/\\/",
-        		"<world>world</world> <perm>serer</perm> [command-player]: test",
+        		"&8&m-----------------------------------------------------",
+        		"&7Welcome back, &e%player%&7!",
                 "[ping]",
-                "You can configurate as you want this part",
-                "-----------------------------------------------------"
+        		"<perm>hawn.admin</perm> &7Admin tools: &e/hawn &7and &e/ap",
+                "&8&m-----------------------------------------------------"
         }));
         Config.set("JoinCommand.Options.No-New.World.All_World", false);
         Config.set("JoinCommand.Options.No-New.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -82,7 +81,7 @@ public class ConfigGJoinQuitCommand {
 
         Config.set("QuitCommand.Enable", false);
         Config.set("QuitCommand.Commands",java.util.Arrays.asList(new String[] {
-        		"you can execute one or a lot of commands here with %player%"
+        		"say %player% left the lobby"
         }));
         Config.set("QuitCommand.World.All_World", false);
         Config.set("QuitCommand.World.Worlds", java.util.Arrays.asList(new String[] {

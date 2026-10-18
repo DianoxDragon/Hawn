@@ -80,7 +80,7 @@ public class WorldEventConfig {
         Config.set("World.Time.Always-Night.Enable", true);
         Config.set("World.Time.Always-Night.World.All_World", false);
         Config.set("World.Time.Always-Night.World.Worlds", java.util.Arrays.asList(new String[] {
-                "worldtest"
+                "night_world"
         }));
 
         Config.set("World.Burn.Disable.Burn-Block.Disable", true);
@@ -88,7 +88,7 @@ public class WorldEventConfig {
         Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Method", "WHITELIST");
         Config.set("World.Burn.Disable.Burn-Block.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("World.Burn.Disable.Burn-Block.World.All_World", false);
         Config.set("World.Burn.Disable.Burn-Block.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -101,7 +101,7 @@ public class WorldEventConfig {
         Config.set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Method", "WHITELIST");
         Config.set("World.Burn.Disable.BlockIgnite-FireSpread.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("World.Burn.Disable.BlockIgnite-FireSpread.World.All_World", false);
         Config.set("World.Burn.Disable.BlockIgnite-FireSpread.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -114,7 +114,7 @@ public class WorldEventConfig {
         Config.set("World.Explosion.Disable.Explosion.WorldGuard.Method", "WHITELIST");
         Config.set("World.Explosion.Disable.Explosion.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("World.Explosion.Disable.Explosion.World.All_World", false);
         Config.set("World.Explosion.Disable.Explosion.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -149,7 +149,7 @@ public class WorldEventConfig {
         Config.set("No-Shears.WorldGuard.Method", "WHITELIST");
         Config.set("No-Shears.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("No-Shears.World.All_World", false);
         Config.set("No-Shears.World.Worlds", java.util.Arrays.asList(new String[] {

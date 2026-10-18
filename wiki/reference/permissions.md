@@ -47,6 +47,8 @@ hawn.warp.<warp>                       # each warp
 | `hawn.admin.command.slotview`         | `/hawn slotview`                                           |
 | `hawn.admin.command.spawnmanager`     | `/hawn spawnmanager`                                       |
 | `hawn.admin.command.hooks`            | `/hawn hooks`                                              |
+| `hawn.admin.command.debug`            | `/hawn debug` (since 1.4.8)                                |
+| `hawn.admin.command.rank`             | `/hawn rank` (since 1.4.8)                                 |
 | `hawn.admin.command.maintenance`      | `/hawn maintenance`                                        |
 | `hawn.maintenance.bypass`             | Join during the maintenance without being in its whitelist (operators by default) |
 | `hawn.admin.command.urgent`           | `/hawn urgent` (the player must also be listed in `Commands/Hawn.yml`) |

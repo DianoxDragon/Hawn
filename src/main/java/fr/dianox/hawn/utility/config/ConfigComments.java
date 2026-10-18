@@ -119,6 +119,7 @@ public final class ConfigComments {
 			if (last.equals("Prefix")) return "Before the name in the tab list, and %rank_prefix% (colours and &#RRGGBB)";
 			if (last.equals("Suffix")) return "After the name in the tab list, and %rank_suffix%";
 			if (last.equals("Priority")) return "The lowest is shown first in the tab list, and wins when a player has several ranks";
+			if (last.equals("Name-Colour")) return "The colour of the name above the head: RED, GOLD, YELLOW, GREEN, AQUA, BLUE, GRAY, WHITE... Empty: the last colour of the prefix, NONE: no colour";
 		}
 		if (parts.length == 4 && parts[0].equals("Ranks") && parts[1].equals("Worlds")) {
 			return "false: turned off for the players of this world";

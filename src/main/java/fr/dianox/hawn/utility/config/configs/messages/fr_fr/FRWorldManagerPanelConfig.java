@@ -60,7 +60,8 @@ public class FRWorldManagerPanelConfig {
         Config.set("Gui.Import.Importing-A-World", java.util.Arrays.asList("[send-title]: &cImportation commencée //n &7Veuillez patienter..."));
         Config.set("Gui.Import.Importing-With-A-Command", java.util.Arrays.asList("%prefix% &7Utilisez plutôt une commande : /hw import nomdumonde"));
 
-        Config.set("Gui.Import.World-Loaded", java.util.Arrays.asList("%prefix% &7Le monde %arg1% a été chargé"));
+        Config.set("Gui.Import.World-Loaded", java.util.Arrays.asList("%prefix% &7Le monde %arg1% a été chargé",
+                "[send-title]: &3Importation terminée //n &7Vous pouvez rejoindre ce monde"));
 
         Config.set("Gui.Unload", java.util.Arrays.asList("%prefix% &7Le monde %arg1% est maintenant déchargé"));
         // Depuis 1.4.7
@@ -79,7 +80,8 @@ public class FRWorldManagerPanelConfig {
 
         Config.set("Gui.Create.Creating-The-World", java.util.Arrays.asList("[send-title]: &cMonde en création&7..."));
 
-        Config.set("Gui.Create.World-Created", java.util.Arrays.asList("%prefix% &7Le monde &e%arg1% &7a été créé"));
+        Config.set("Gui.Create.World-Created", java.util.Arrays.asList("%prefix% &7Le monde &e%arg1% &7a été créé",
+                "[send-title]: &3Monde créé //n &7Vous pouvez rejoindre ce monde"));
 
         Config.set("Gui.Create.World-Cancelled", java.util.Arrays.asList("%prefix% &7Création du monde annulée"));
 

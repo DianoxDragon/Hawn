@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.admin;
 
+import fr.dianox.hawn.utility.gui.HawnMenu;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.SetupUtils.Setup1Language;
 import fr.dianox.hawn.modules.admin.SetupUtils.Setup2World;
@@ -131,6 +132,21 @@ public class Setup implements Listener {
 		openCurrentStep(p);
 	}
 
+	/**
+	 * Previous and Next of the menus of the setup: this step, opened a few ticks later (after the click).
+	 */
+	public static void goTo(Player p, int step) {
+		if (!doingSetup(p)) {
+			return;
+		}
+
+		setupplace = step;
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> openCurrentStep(p), 5L);
+	}
+
+	// The item of the Previous / Next buttons: a door, never an arrow (the arrows of the World Manager change its pages)
+	public static final org.bukkit.Material NAVIGATION = com.cryptomorin.xseries.XMaterial.OAK_DOOR.parseMaterial();
+
 	private static void openCurrentStep(Player p) {
 		if (!needsetup || !p.isOnline()) {
 			return;
@@ -216,8 +232,8 @@ public class Setup implements Listener {
 		Player p = (Player) e.getPlayer();
 
 		// Escape on a menu of the setup: a message and a sound, if no other menu opens after it
-		String title = e.getView().getTitle();
-		boolean setupMenu = title.startsWith("\u00a7cHawn Setup") || (setupplace == 21 && title.startsWith("\u00a7cWorld Manager"));
+		HawnMenu.Type type = HawnMenu.typeOf(e.getView());
+		boolean setupMenu = type != null && (type.isSetup() || (setupplace == 21 && type.isWorldManager()));
 		// One check at a time, and one message per second: a menu can be closed several times in a row (reopened by a move...)
 		if (needsetup && setupMenu && inSetup.contains(p.getUniqueId()) && !clicking.contains(p.getUniqueId()) && escapeCheck.add(p.getUniqueId())) {
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {

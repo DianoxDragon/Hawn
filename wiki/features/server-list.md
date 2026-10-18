@@ -16,18 +16,18 @@ Motd:
     Enable: true
     Random: true
     Main:
-      Line-1: '&cThis is a test of motd of course &7- &e%gettime%'
-      Line-2: '&eThanks to choose &lhawn'
+      Line-1: '&6&lYour Server &8- &7Lobby'
+      Line-2: '&eplay.yourserver.net &8- &7%gettime%'
     Random-List:
-      first:
-        Line-1: '&aFirst MOTD'
-        Line-2: '&eThanks to choose &lhawn'
-      second:
-        Line-1: '&eSecond MOTD'
-        Line-2: '&eThanks to choose &lhawn'
-      itsunlimited:
-        Line-1: '&bAs many as you want'
-        Line-2: '&eThanks to choose &lhawn'
+      discord:
+        Line-1: '&6&lYour Server &8- &7Lobby'
+        Line-2: '&7Join our Discord: &ediscord.gg/yourserver'
+      event:
+        Line-1: '&6&lYour Server &8- &bEvent this weekend'
+        Line-2: '&eplay.yourserver.net'
+      vote:
+        Line-1: '&6&lYour Server &8- &7Lobby'
+        Line-2: '&7Vote for us: &eyourserver.net/vote'
 ```
 
 * `Random: false`: the `Main` MOTD is always shown.

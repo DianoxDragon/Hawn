@@ -104,7 +104,9 @@ public class SignSystem implements Listener {
 					}
 				}
 			}
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {
+			fr.dianox.hawn.utility.Debug.hidden("Signs: the actions of a sign", ignored);
+		}
 	}
 
 	/**

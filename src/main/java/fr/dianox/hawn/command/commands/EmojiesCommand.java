@@ -118,7 +118,7 @@ public class EmojiesCommand extends BukkitCommand {
                 titlegui = MessageUtils.colourTheStuff(titlegui);
 
 
-                Inventory inv = HawnMenu.create(54, titlegui);
+                Inventory inv = HawnMenu.create(54, titlegui, HawnMenu.Type.EMOJIS);
 
                 // List
                     Iterator it = ChatEmojisLoad.emojislist.entrySet().iterator();

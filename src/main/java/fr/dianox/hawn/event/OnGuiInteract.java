@@ -55,11 +55,13 @@ public class OnGuiInteract implements Listener {
 
         // The admin panel can stop or reload the server: only the menus opened by Hawn (not another plugin's menu
         // with the same title), and only for the players who can still open it
-        if (!inv.equals(titlegui) && inv.startsWith("§cAP")) {
-            if (!HawnMenu.isMenu(e.getView().getTopInventory())) {
-                return;
-            }
+        // 88: the menus by their type, never by the title. The title still gives the folder, the file and the page
+        HawnMenu.Type type = HawnMenu.typeOf(e.getView());
+        if (type == null || (type != HawnMenu.Type.EMOJIS && !type.isAdminPanel())) {
+            return;
+        }
 
+        if (type.isAdminPanel()) {
             if (!PanelAdminCommand.canUse(p)) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -67,7 +69,7 @@ public class OnGuiInteract implements Listener {
             }
         }
 
-        if (inv.equals(titlegui)) {
+        if (type == HawnMenu.Type.EMOJIS) {
             ItemStack clickedItem = e.getCurrentItem();
             
             if (e.getCurrentItem().getType() == XParse.material(OnChatConfig.getConfig().getString("Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material"), "Chat-Emoji-Player.Emojis-list.Option.Gui.Close-Gui.Material")) {
@@ -89,7 +91,7 @@ public class OnGuiInteract implements Listener {
                 e.setCancelled(true);
             }
             /// ADMIN PANEL
-        } else if (inv.equals("§cAP")) {
+        } else if (type == HawnMenu.Type.ADMIN_PANEL) {
 
         	if (e.getRawSlot() == 12) {
         		for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Shutdown.Messages")) {
@@ -121,7 +123,7 @@ public class OnGuiInteract implements Listener {
                         
             e.setCancelled(true);
             // FOLDER LIST
-        } else if (inv.equals("§cAP - Hawn edit menu")) {
+        } else if (type == HawnMenu.Type.ADMIN_PANEL_EDIT) {
         	if (e.getCurrentItem().getType() == XMaterial.CHEST.parseMaterial()) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals("§cCommands")) {
                     p.performCommand("ap folder Commands");
@@ -151,10 +153,7 @@ public class OnGuiInteract implements Listener {
             }
         	
         	e.setCancelled(true);
-        } else if (inv.contains("§cAP - Folder commands") || inv.contains("§cAP - Folder Cosmetics-Fun") ||
-            inv.contains("§cAP - Folder Events") || inv.contains("§cAP - Folder Messages") ||
-            inv.contains("§cAP - Folder Tablist") || inv.contains("§cAP - Folder CF-Utility") || 
-            inv.contains("§cAP - Folder CustomJoinItem")) {
+        } else if (type == HawnMenu.Type.ADMIN_PANEL_FOLDER && !inv.contains("§cAP - Folder Scoreboard")) {
 
             if (e.getCurrentItem().getType() == XMaterial.PAPER.parseMaterial()) {
                 String name = e.getCurrentItem().getItemMeta().getDisplayName();
@@ -288,7 +287,7 @@ public class OnGuiInteract implements Listener {
             }
 
             e.setCancelled(true);
-        } else if (inv.contains("§cAP - Folder Scoreboard")) {
+        } else if (type == HawnMenu.Type.ADMIN_PANEL_FOLDER) {
             if (e.getCurrentItem().getType() == XMaterial.BARRIER.parseMaterial()) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contentEquals(AdminPanelConfig.getConfig().getString("Edit.File.Back-Menu.Name").replace("&", "§"))) {
                     p.performCommand("ap");
@@ -310,7 +309,7 @@ public class OnGuiInteract implements Listener {
             }
 
             e.setCancelled(true);
-        } else if (inv.startsWith("§cAP") && !inv.contains("AP - World")) {
+        } else if (type == HawnMenu.Type.ADMIN_PANEL_FILE) {
         	
         	String cfinuse = Main.getInstance().getConfigManager().configfileinuse.get(p);
 

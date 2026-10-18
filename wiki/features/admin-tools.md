@@ -17,10 +17,12 @@ description: >-
 | `/hawn tps`                                 | `hawn.admin.command.info`           | Exact server TPS.                                               |
 | `/hawn info [all/memory/cpu/disk/tps/server/version]` | `hawn.admin.command.info` | Memory, CPU, disk usage and server information.                 |
 | `/hawn hooks`                               | `hawn.admin.command.hooks`          | Shows which [hooks](../integrations/hooks.md) are detected.     |
+| `/hawn debug`                               | `hawn.admin.command.debug`          | The mistakes of the configuration files, the options in AUTO left to another plugin, and the errors Hawn went on without. See [Debug](#debug). |
+| `/hawn rank <set/remove/info/list>`         | `hawn.admin.command.rank`           | The [ranks](ranks.md#commands) given by hand.                    |
 | `/hawn parse <player\|me> <text>`           | `hawn.admin.command.parseholders`   | Tests placeholders, for example `/hawn parse me %player_world%`. The text can have spaces; it is only shown (an action like `[gamemode-creative]` is not run). |
 | `/hawn build`                               | `hawn.admin.command.bypassbuild`    | Toggles the [build mode](#build-mode).                          |
 | `/hawn noclip`                              | `hawn.admin.command.noclip`         | Toggles no-clip in creative: you go through walls (Hawn switches you to spectator while you are inside blocks). |
-| `/hawn nightvision` (`nv`)                  | `hawn.admin.command.nightvision`    | Gives you night vision.                                         |
+| `/hawn nightvision` (`nv`)                  | `hawn.admin.command.nightvision`    | Gives you night vision, or takes it away when you have it.     |
 | `/hawn slotview` (`sv`)                     | `hawn.admin.command.slotview`       | Shows the number of the inventory slot you click (useful for [join items](custom-join-items.md)). |
 | `/hawn editplayer <player>`                 | `hawn.editplayer`                   | Opens the [player editor](#player-editor).                      |
 | `/hawn spawnmanager <remove/setspawn> ...`  | `hawn.admin.command.spawnmanager`   | Manages the [spawns](spawns.md).                                |
@@ -29,7 +31,17 @@ description: >-
 | `/hawn urgent`                              | `hawn.admin.command.urgent`         | Turns on the [emergency mode](#emergency-mode).                 |
 | `/hawn about`, `/hawn donors`               | —                                   | About Hawn.                                                     |
 
-From the console, `/hawn` accepts `help`, `urgent`, `parse <placeholder>`, `spawnmanager remove <spawn>`, `about`, `reload`, `version`, `donors`, `maintenance`, `info`, `tps` and `hooks`.
+From the console, `/hawn` accepts `help`, `urgent`, `parse <placeholder>`, `spawnmanager remove <spawn>`, `about`, `reload`, `version`, `donors`, `maintenance`, `info`, `tps`, `hooks`, `debug` and `rank`.
+
+## Debug
+
+`/hawn debug` (since Hawn 1.4.8) reads every file of `plugins/Hawn` and lists:
+
+* the mistakes: an unknown sound, material, effect or damage type, an action written wrong (`[comand-console]:` is shown as a text), a file with a YAML error;
+* the options in `AUTO` left to another plugin, with its version (the ranks with TAB, the chat format with a chat plugin);
+* the errors Hawn went on without since the start (a broken animation of a scoreboard...), with how many times.
+
+With `Plugin.Debug: true` in `general.yml`, these errors are also written in the console with their details. A wrong sound or material is warned once in the console, not at each use; after `/hawn reload`, a value broken again is warned again.
 
 ## Build mode
 

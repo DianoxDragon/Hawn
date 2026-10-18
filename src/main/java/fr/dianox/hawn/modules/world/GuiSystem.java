@@ -116,12 +116,11 @@ public class GuiSystem implements Listener {
 		/*
 		 * Implement first variables
 		 */
-		String inv = e.getWhoClicked().getOpenInventory().getTitle();
 		Player p = (Player) e.getWhoClicked();
 
-		String titlegui = "§cWorld Manager";
-
-		if (!inv.startsWith(titlegui)) return;
+		// 88: the menus of the World Manager by their type, never by the title (a chest named like them does nothing)
+		HawnMenu.Type type = HawnMenu.typeOf(e.getView());
+		if (type == null || !type.isWorldManager()) return;
 
 		// A menu: nothing can be taken or put, even when the click does nothing
 		e.setCancelled(true);
@@ -133,7 +132,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Manage the gui
 		 */
-		if (inv.contains(titlegui + " - Main")) {
+		if (type == HawnMenu.Type.WORLD_LIST) {
 			/*
 			 * First page
 			 */
@@ -208,7 +207,7 @@ public class GuiSystem implements Listener {
 					}
 					p.performCommand("paneladmin");
 				} else if (item.getType() == XMaterial.ARROW.parseMaterial()) {
-					int page = pageOf(inv);
+					int page = HawnMenu.pageOf(e.getView().getTopInventory());
 					if (e.getRawSlot() == 45) {
 						WorldsPage(p, page + 1);
 					} else if (e.getRawSlot() == 46 && page > 0) {
@@ -244,7 +243,7 @@ public class GuiSystem implements Listener {
 			}
 			
 			e.setCancelled(true);
-		} else if (inv.equals(titlegui + " - Create world")) {
+		} else if (type == HawnMenu.Type.WORLD_CREATE) {
 
 			/*
 			 * Creation page
@@ -423,6 +422,8 @@ public class GuiSystem implements Listener {
 					created = Bukkit.getServer().createWorld((new WorldCreator(worldname)).environment(env).type(wtype));
 				}
 
+				// The title "World in creation" goes away (a message without a title would leave it)
+				p.resetTitle();
 				if (created == null) {
 					ConfigWorldGeneral.getConfig().set("World-List." + worldname, null);
 					ConfigWorldGeneral.saveConfigFile();
@@ -440,7 +441,7 @@ public class GuiSystem implements Listener {
 			}
 
 			e.setCancelled(true);
-		} else if (inv.equals(titlegui + " - Delete - SURE ?!")) {
+		} else if (type == HawnMenu.Type.WORLD_DELETE) {
 			/*
 			 * Delete page
 			 */
@@ -499,7 +500,7 @@ public class GuiSystem implements Listener {
 			}
 			
 			e.setCancelled(true);
-		} else if (inv.contains(titlegui + " - Change World")) {
+		} else if (type == HawnMenu.Type.WORLD_SETTINGS) {
 
 			/*
 			 * Change main page
@@ -606,7 +607,7 @@ public class GuiSystem implements Listener {
 			}
 			
 			e.setCancelled(true);
-		} else if (inv.contains(titlegui + " - Ch. World - Time")) {
+		} else if (type == HawnMenu.Type.WORLD_TIME) {
 			
 			/*
 			 * Change time main page
@@ -698,7 +699,7 @@ public class GuiSystem implements Listener {
 			}
 
 			e.setCancelled(true);
-		} else if (inv.contains(titlegui + " - Ch. World - Weather")) {
+		} else if (type == HawnMenu.Type.WORLD_WEATHER) {
 			
 			/*
 			 * Change weather main page
@@ -767,7 +768,7 @@ public class GuiSystem implements Listener {
 			}
 
 			e.setCancelled(true);
-		} else if (inv.contains(titlegui + " - Ch. World - Dif.")) {
+		} else if (type == HawnMenu.Type.WORLD_DIFFICULTY) {
 			
 			/*
 			 * Change Difficulty main page
@@ -862,7 +863,7 @@ public class GuiSystem implements Listener {
 	 * A page of the world list (0 = the first one), 36 worlds per page.
 	 */
 	public static void WorldsPage(Player p, int page) {
-		Inventory inv = HawnMenu.create(54, pageTitle(page));
+		Inventory inv = HawnMenu.create(54, pageTitle(page), HawnMenu.Type.WORLD_LIST, page);
 		fillWorldsPage(p, inv, page);
 		p.openInventory(inv);
 	}
@@ -872,28 +873,13 @@ public class GuiSystem implements Listener {
 	}
 
 	/**
-	 * The page of the world list shown with this title, -1 for another menu.
-	 */
-	public static int pageOf(String title) {
-		if (title.equals("§cWorld Manager - Main")) return 0;
-		if (title.startsWith("§cWorld Manager - Main ")) {
-			try {
-				return Integer.parseInt(title.substring("§cWorld Manager - Main ".length()).trim()) - 1;
-			} catch (NumberFormatException e) {
-				return -1;
-			}
-		}
-		return -1;
-	}
-
-	/**
 	 * The players who look at the world list see it again, without reopening it (the sizes computed, a world deleted).
 	 */
 	public static void refreshWorldPages() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			int page = pageOf(player.getOpenInventory().getTitle());
-			if (page >= 0) {
-				fillWorldsPage(player, player.getOpenInventory().getTopInventory(), page);
+			Inventory top = player.getOpenInventory().getTopInventory();
+			if (HawnMenu.typeOf(top) == HawnMenu.Type.WORLD_LIST) {
+				fillWorldsPage(player, top, HawnMenu.pageOf(top));
 			}
 		}
 	}
@@ -956,7 +942,12 @@ public class GuiSystem implements Listener {
 			inv.setItem(48, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 		}
 
-		inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		// The setup: Previous step (a door: the arrows of 45 and 46 are the pages)
+		if (Setup.inWorldStep(p)) {
+			inv.setItem(49, createGuiItemWL(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("Setup.Previous")), Setup.NAVIGATION));
+		} else {
+			inv.setItem(49, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
+		}
 		inv.setItem(50, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
 
 		List<String> whitelistuse = AdminPanelCommandConfig.getConfig().getStringList("General-Options.List-Of-People-Can-Use-The-Panel");
@@ -1136,10 +1127,7 @@ public class GuiSystem implements Listener {
 	private static void invclose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
 		
-		String inv = p.getOpenInventory().getTitle();
-		String titlegui = "§cWorld Manager";
-		
-		if (inv.equals(titlegui + " - Delete - SURE ?!")) {
+		if (HawnMenu.typeOf(e.getView()) == HawnMenu.Type.WORLD_DELETE) {
 			worlddeletion.remove(p.getUniqueId());
 		}
 	}
@@ -1177,7 +1165,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Create world");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Create world", HawnMenu.Type.WORLD_CREATE);
 		
 		ArrayList<String> lore = new ArrayList<>();
 		
@@ -1231,7 +1219,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Delete - SURE ?!");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Delete - SURE ?!", HawnMenu.Type.WORLD_DELETE);
 		
 		inv.setItem(0, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Delete.Confirm").replace("&", "§"), XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()));
 		inv.setItem(1, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.Delete.Confirm").replace("&", "§"), XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial()));
@@ -1309,7 +1297,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Change World");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Change World", HawnMenu.Type.WORLD_SETTINGS);
 		
 		List<String> lore = new ArrayList<>();
 		
@@ -1385,7 +1373,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Time");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Time", HawnMenu.Type.WORLD_TIME);
 		
 		ArrayList<String> lore = new ArrayList<>();
 		
@@ -1442,7 +1430,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Weather");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Weather", HawnMenu.Type.WORLD_WEATHER);
 					
 		inv.setItem(11, createGuiItemWL(WorldManagerPanelConfig.getConfig().getString("Gui.Other.ChangeWorld.Weather.Sun").replace("&", "§"), XMaterial.ENDER_PEARL.parseMaterial()));
 			
@@ -1487,7 +1475,7 @@ public class GuiSystem implements Listener {
 		/*
 		 * Basics
 		 */
-		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Dif.");
+		Inventory inv = HawnMenu.create(54, "§cWorld Manager - Ch. World - Dif.", HawnMenu.Type.WORLD_DIFFICULTY);
 
 		inv.setItem(10, createGuiItemWL("§7" + WorldManagerPanelConfig.getConfig().getString("Gui.Other.Difficulty.Peaceful").replace("&", "§"), XMaterial.ENDER_PEARL.parseMaterial()));
 

@@ -80,6 +80,10 @@ public class DESetupLangFile {
 		Config.set("SetupSpawn.WARNING", Collections.singletonList("&cDu bist noch in der Einrichtung: setze einen Spawn, um sie abzuschließen"));
 		Config.set("SetupSpawn.Spawn-Changed", Collections.singletonList("%prefix% &7Standard-Spawn geändert zu %arg 1%"));
 
+		// Since 1.4.8: the Previous / Next buttons, the teleport before the spawn
+		Config.set("Setup.Previous", "&7« Vorheriger Schritt");
+		Config.set("Setup.Next", "&7Nächster Schritt »");
+		Config.set("SetupSpawn.Teleported", Collections.singletonList("%prefix% &7Du bist in &e%arg 1%&7, der Standardwelt: stell dich an die Stelle des Spawns und klicke dann auf den Goldblock"));
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Bitte starte den Server neu"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6Du bist noch in der Einrichtung &7(&e/hawn setup &7öffnet sie wieder)"));
 

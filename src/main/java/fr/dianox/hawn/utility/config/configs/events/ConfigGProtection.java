@@ -66,7 +66,7 @@ public class ConfigGProtection {
         Config.set("Protection.Construct.Anti-Place.WorldGuard.Method", "BLACKLIST");
         Config.set("Protection.Construct.Anti-Place.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.Construct.Anti-Place.World.All_World", false);
         Config.set("Protection.Construct.Anti-Place.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -86,7 +86,7 @@ public class ConfigGProtection {
         Config.set("Protection.Construct.Anti-Break.WorldGuard.Method", "WHITELIST");
         Config.set("Protection.Construct.Anti-Break.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.Construct.Anti-Break.World.All_World", false);
         Config.set("Protection.Construct.Anti-Break.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -100,7 +100,7 @@ public class ConfigGProtection {
         Config.set("Protection.HagingBreakByEntity.WorldGuard.Method", "WHITELIST");
         Config.set("Protection.HagingBreakByEntity.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.HagingBreakByEntity.World.All_World", false);
         Config.set("Protection.HagingBreakByEntity.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -120,7 +120,7 @@ public class ConfigGProtection {
         Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Method", "WHITELIST");
         Config.set("Protection.PlayerInteractEntity-ItemFrame.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.PlayerInteractEntity-ItemFrame.World.All_World", false);
         Config.set("Protection.PlayerInteractEntity-ItemFrame.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -200,7 +200,7 @@ public class ConfigGProtection {
         Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Method", "WHITELIST");
         Config.set("Protection.PlayerInteract-Items-Blocks.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.PlayerInteract-Items-Blocks.World.All_World", false);
         Config.set("Protection.PlayerInteract-Items-Blocks.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -214,7 +214,7 @@ public class ConfigGProtection {
         Config.set("Protection.Anti-Bucket-Use.WorldGuard.Method", "WHITELIST");
         Config.set("Protection.Anti-Bucket-Use.WorldGuard.Regions", java.util.Arrays.asList(new String[] {
                 "region1",
-                "whatyouwant"
+                "region2"
             }));
         Config.set("Protection.Anti-Bucket-Use.World.All_World", false);
         Config.set("Protection.Anti-Bucket-Use.World.Worlds", java.util.Arrays.asList(new String[] {
@@ -234,7 +234,7 @@ public class ConfigGProtection {
         }
         Config.set(path + "WorldGuard.Enable", false);
         Config.set(path + "WorldGuard.Method", "WHITELIST");
-        Config.set(path + "WorldGuard.Regions", java.util.Arrays.asList("region1", "whatyouwant"));
+        Config.set(path + "WorldGuard.Regions", java.util.Arrays.asList("region1", "region2"));
         Config.set(path + "World.All_World", false);
         Config.set(path + "World.Worlds", java.util.Arrays.asList("world", "world_nether"));
     }

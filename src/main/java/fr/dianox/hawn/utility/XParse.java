@@ -57,6 +57,10 @@ public final class XParse {
 	}
 
 	private static void warn(String what, String name, String additionalMessage) {
+		// Once per value, not at each use (a wrong sound of a jump pad warned at every jump); all of them in /hawn debug
+		if (!Debug.firstTime(what, name + " " + additionalMessage)) {
+			return;
+		}
 		Bukkit.getLogger().log(Level.WARNING, "Hawn | (Configuration error): The " + what + " " + name + " is not recognized, it has been replaced by another " + what);
 		Bukkit.getLogger().log(Level.WARNING, "Hawn | (Configuration error): Notes: " + additionalMessage);
 	}

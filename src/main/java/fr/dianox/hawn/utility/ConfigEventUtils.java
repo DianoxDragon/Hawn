@@ -36,128 +36,22 @@ public class ConfigEventUtils {
 	}
 	
 	public static void ExecuteEvent(Player p, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
-		String perm;
-        String world;
-        
-        if (event.startsWith("<world>") && event.contains("</world>")) {
-        	world = StringUtils.substringBetween(event, "<world>", "</world>");
-        	event = event.replace("<world>" + world + "</world> ", "");
-
-            if (!p.getWorld().getName().equalsIgnoreCase(world)) {
-                return;
-            }
-        }
-        
-        if (event.contains("<perm>") && event.contains("</perm>")) {
-            perm = StringUtils.substringBetween(event, "<perm>", "</perm>");
-            event = event.replace("<perm>" + perm + "</perm> ", "");
-
-            if (!p.hasPermission(perm)) {
-            	return;
-            }
-        }
-
-        // [delay[ticks]]: and [chance[percent]]: in front of the line
-        if (Actions.prefix(p, event, rest -> ExecuteEvent(p, rest, Informatif, AdditionalMessageError, Console))) {
-        	return;
-        }
-
-        if (Actions.run(p, event, AdditionalMessageError)) {
-        	return;
-        }
-        
-        if (event.startsWith("[command-player]: ")) {
-            event = event.replace("[command-player]: ", "");
-            event = event.replace("%player%", p.getName());
-
-            p.performCommand(event);
-        } else if (event.startsWith("[FWLU]: ")) {
-        	if (event.startsWith("[FWLU]: ")) {
-				
-        		event = event.replace("[FWLU]: ", "");
-				
-				OtherUtils.Fireworkmethod(p, event);
-			}
-        } else if (event.startsWith("[command-console]: ")) {
-            event = event.replace("[command-console]: ", "");
-            event = event.replace("%player%", p.getName());
-
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), event);
-        } else if (event.startsWith("[gamemode-survival]")) {
-            p.setGameMode(GameMode.SURVIVAL);
-        } else if (event.startsWith("[gamemode-creative]")) {
-            p.setGameMode(GameMode.CREATIVE);
-        } else if (event.startsWith("[gamemode-adventure]")) {
-            p.setGameMode(GameMode.ADVENTURE);
-        } else if (event.startsWith("[gamemode-spectator]")) {
-            p.setGameMode(GameMode.SPECTATOR);
-        } else if (event.startsWith("[customcommand-player]: ")) {
-        	event = event.replace("[customcommand-player]: ", "");
-        	event = event.replace("%player%", p.getName());
-            
-        	OnCommandEvent.executeCustomCommand(event, p);
-        } else if (event.startsWith("[ping]")) {
-            for (String event1: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
-                MessageUtils.ClassicMessages(event1, p);
-            }
-        } else if (event.startsWith("[spawn]: ")) {
-            event = event.replace("[spawn]: ", "");
-            SpawnUtils.teleportToSpawn(p, event);
-        } else if (event.startsWith("[warp]: ")) {
-            event = event.replace("[warp]: ", "");
-            WarpCommand.onTp(p, event);
-        } else if (event.startsWith("[bungee]: ")) {
-            event = event.replace("[bungee]: ", "");
-	        Main.getInstance().getBungApi().ConnectOthers(event, p);
-        } else if (event.startsWith("[effect[")) {
-            // [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
-            effect(p, event.substring("[effect[".length()), AdditionalMessageError);
-        } else if (event.startsWith("[effectclear]: ")) {
-            event = event.replace("[effectclear]: ", "");
-            
-            p.removePotionEffect(XParse.potion(event, AdditionalMessageError));
-        } else if (event.startsWith("[effectclearall]")) {
-            for (PotionEffect effect: p.getActivePotionEffects()) {
-                p.removePotionEffect(effect.getType());
-            }
-        } else if (event.startsWith("[send-title]: ")) {
-            // A title alone (no //n, or nothing after it) has a blank subtitle
-            title(p, fill(event.substring("[send-title]: ".length()), p), 150);
-        } else if (event.startsWith("[send-title[")) {
-            // [send-title[<ticks>]]: title//nsubtitle; a wrong number or a missing "]]: ": 150 ticks
-            Timed timed = timed(event.substring("[send-title[".length()), 150);
-            title(p, fill(timed.text, p), timed.number);
-        } else if (event.startsWith("[send-actionbar]: ")) {
-            ActionBar.sendActionBar(p, fill(event.substring("[send-actionbar]: ".length()), p));
-        } else if (event.startsWith("[send-actionbar[")) {
-            Timed timed = timed(event.substring("[send-actionbar[".length()), 60);
-            ActionBar.sendActionBar(Main.getInstance(), p, fill(timed.text, p), timed.number);
-        } else if (event.startsWith("[sounds]: ")) {
-            event = event.replace("[sounds]: ", "");
-            p.playSound(p.getLocation(), XParse.sound(event, AdditionalMessageError), 1, 1);
-        } else {
-        	if (Console) {
-        		if (AdditionalMessageError.contains("STRICTSCONSOLE")) {
-        			MessageUtils.ConsoleMessages(event);
-        		} else {
-        			MessageUtils.ClassicMessagesConsoleSupport(event, p);
-        		}
-        	} else {
-        		if (Informatif.equals("AUTOCENTER")) {
-		            event = "<--center--> " + event;
-		        }
-
-        		MessageUtils.ClassicMessages(event, p);
-        	}
-        }
+		execute(p, null, event, Informatif, AdditionalMessageError, Console);
 	}
 
+	/**
+	 * The same, with the placeholders of target (the player the message is about) in the texts.
+	 */
 	public static void ExecuteEventTargetPlaceHolder(Player p, Player target, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
-		String perm;
-		String world;
+		execute(p, target, event, Informatif, AdditionalMessageError, Console);
+	}
+
+	// 90: one method for both (they were copies of each other). target: null for the placeholders of p
+	private static void execute(Player p, Player target, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
+		Player who = target == null ? p : target;
 
 		if (event.startsWith("<world>") && event.contains("</world>")) {
-			world = StringUtils.substringBetween(event, "<world>", "</world>");
+			String world = StringUtils.substringBetween(event, "<world>", "</world>");
 			event = event.replace("<world>" + world + "</world> ", "");
 
 			if (!p.getWorld().getName().equalsIgnoreCase(world)) {
@@ -166,7 +60,7 @@ public class ConfigEventUtils {
 		}
 
 		if (event.contains("<perm>") && event.contains("</perm>")) {
-			perm = StringUtils.substringBetween(event, "<perm>", "</perm>");
+			String perm = StringUtils.substringBetween(event, "<perm>", "</perm>");
 			event = event.replace("<perm>" + perm + "</perm> ", "");
 
 			if (!p.hasPermission(perm)) {
@@ -174,31 +68,22 @@ public class ConfigEventUtils {
 			}
 		}
 
-		if (Actions.prefix(p, event, rest -> ExecuteEventTargetPlaceHolder(p, target, rest, Informatif, AdditionalMessageError, Console))) {
+		// [delay[ticks]]: and [chance[percent]]: in front of the line
+		if (Actions.prefix(p, event, rest -> execute(p, target, rest, Informatif, AdditionalMessageError, Console))) {
 			return;
 		}
 
+		// [broadcast]:, [sound]: and [sounds]:, [title]:
 		if (Actions.run(p, event, AdditionalMessageError)) {
 			return;
 		}
 
 		if (event.startsWith("[command-player]: ")) {
-			event = event.replace("[command-player]: ", "");
-			event = event.replace("%player%", p.getName());
-
-			p.performCommand(event);
+			p.performCommand(event.substring("[command-player]: ".length()).replace("%player%", p.getName()));
 		} else if (event.startsWith("[FWLU]: ")) {
-			if (event.startsWith("[FWLU]: ")) {
-
-				event = event.replace("[FWLU]: ", "");
-
-				OtherUtils.Fireworkmethod(p, event);
-			}
+			OtherUtils.Fireworkmethod(p, event.substring("[FWLU]: ".length()));
 		} else if (event.startsWith("[command-console]: ")) {
-			event = event.replace("[command-console]: ", "");
-			event = event.replace("%player%", p.getName());
-
-			Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), event);
+			Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), event.substring("[command-console]: ".length()).replace("%player%", p.getName()));
 		} else if (event.startsWith("[gamemode-survival]")) {
 			p.setGameMode(GameMode.SURVIVAL);
 		} else if (event.startsWith("[gamemode-creative]")) {
@@ -208,56 +93,47 @@ public class ConfigEventUtils {
 		} else if (event.startsWith("[gamemode-spectator]")) {
 			p.setGameMode(GameMode.SPECTATOR);
 		} else if (event.startsWith("[customcommand-player]: ")) {
-			event = event.replace("[customcommand-player]: ", "");
-			event = event.replace("%player%", p.getName());
-
-			OnCommandEvent.executeCustomCommand(event, p);
+			OnCommandEvent.executeCustomCommand(event.substring("[customcommand-player]: ".length()).replace("%player%", p.getName()), p);
 		} else if (event.startsWith("[ping]")) {
 			for (String event1: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
 				MessageUtils.ClassicMessages(event1, p);
 			}
 		} else if (event.startsWith("[spawn]: ")) {
-			event = event.replace("[spawn]: ", "");
-			SpawnUtils.teleportToSpawn(p, event);
+			SpawnUtils.teleportToSpawn(p, event.substring("[spawn]: ".length()));
 		} else if (event.startsWith("[warp]: ")) {
-			event = event.replace("[warp]: ", "");
-			WarpCommand.onTp(p, event);
+			WarpCommand.onTp(p, event.substring("[warp]: ".length()));
 		} else if (event.startsWith("[bungee]: ")) {
-			event = event.replace("[bungee]: ", "");
-			Main.getInstance().getBungApi().ConnectOthers(event, p);
+			Main.getInstance().getBungApi().ConnectOthers(event.substring("[bungee]: ".length()), p);
 		} else if (event.startsWith("[effect[")) {
 			// [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
 			effect(p, event.substring("[effect[".length()), AdditionalMessageError);
 		} else if (event.startsWith("[effectclear]: ")) {
-			event = event.replace("[effectclear]: ", "");
-
-			p.removePotionEffect(XParse.potion(event, AdditionalMessageError));
+			p.removePotionEffect(XParse.potion(event.substring("[effectclear]: ".length()), AdditionalMessageError));
 		} else if (event.startsWith("[effectclearall]")) {
 			for (PotionEffect effect: p.getActivePotionEffects()) {
 				p.removePotionEffect(effect.getType());
 			}
 		} else if (event.startsWith("[send-title]: ")) {
 			// A title alone (no //n, or nothing after it) has a blank subtitle
-			title(p, fill(event.substring("[send-title]: ".length()), target), 150);
+			title(p, fill(event.substring("[send-title]: ".length()), who), 150);
 		} else if (event.startsWith("[send-title[")) {
 			// [send-title[<ticks>]]: title//nsubtitle; a wrong number or a missing "]]: ": 150 ticks
 			Timed timed = timed(event.substring("[send-title[".length()), 150);
-			title(p, fill(timed.text, target), timed.number);
+			title(p, fill(timed.text, who), timed.number);
 		} else if (event.startsWith("[send-actionbar]: ")) {
-			ActionBar.sendActionBar(p, fill(event.substring("[send-actionbar]: ".length()), target));
+			ActionBar.sendActionBar(p, fill(event.substring("[send-actionbar]: ".length()), who));
 		} else if (event.startsWith("[send-actionbar[")) {
 			Timed timed = timed(event.substring("[send-actionbar[".length()), 60);
-			ActionBar.sendActionBar(Main.getInstance(), p, fill(timed.text, target), timed.number);
-		} else if (event.startsWith("[sounds]: ")) {
-			event = event.replace("[sounds]: ", "");
-			p.playSound(p.getLocation(), XParse.sound(event, AdditionalMessageError), 1, 1);
+			ActionBar.sendActionBar(Main.getInstance(), p, fill(timed.text, who), timed.number);
 		} else {
-			event = PlaceHolders.ReplaceMainplaceholderP(event, target);
-			if (HooksManager.papi()) {
-				event = PlaceholderAPI.setPlaceholders(target, event);
-			}
-			if (HooksManager.mvdw()) {
-				event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
+			if (target != null) {
+				event = PlaceHolders.ReplaceMainplaceholderP(event, target);
+				if (HooksManager.papi()) {
+					event = PlaceholderAPI.setPlaceholders(target, event);
+				}
+				if (HooksManager.mvdw()) {
+					event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
+				}
 			}
 
 			if (Console) {
@@ -267,10 +143,24 @@ public class ConfigEventUtils {
 					MessageUtils.ClassicMessagesConsoleSupport(event, p);
 				}
 			} else {
+				if (Informatif.equals("AUTOCENTER")) {
+					event = "<--center--> " + event;
+				}
+
 				MessageUtils.ClassicMessages(event, p);
 			}
 		}
 	}
+
+	/**
+	 * The actions a message line can start with (for /hawn debug): the line is an action when it starts with one of them.
+	 */
+	public static final String[] ACTIONS = {
+		"[command-player]: ", "[FWLU]: ", "[command-console]: ", "[gamemode-survival]", "[gamemode-creative]", "[gamemode-adventure]",
+		"[gamemode-spectator]", "[customcommand-player]: ", "[ping]", "[spawn]: ", "[warp]: ", "[bungee]: ", "[effect[", "[effectclear]: ",
+		"[effectclearall]", "[send-title]: ", "[send-title[", "[send-actionbar]: ", "[send-actionbar[", "[broadcast]: ", "[sound]: ",
+		"[sounds]: ", "[title]: ", "[title[", "[delay[", "[chance["
+	};
 
 	public static void ExecuteEventAllPlayers(String event, String Informatif, String AdditionalMessageError, Player target, Boolean targetbool) {
 		if (targetbool) {

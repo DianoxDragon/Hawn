@@ -22,7 +22,7 @@ Tablist:
     enabled: true
     message:
     - ''
-    - '&7Thank you to choose &b&lHawn'
+    - '&7Welcome on &6&lYour Server'
     - ''
     - '&7You are &e%player%'
     - '{anim_website}'
@@ -45,9 +45,9 @@ Animations:
   website:
     refresh-time-ticks: 60
     text:
-    - '&7Discord&8: &eLink 1'
-    - '&7Shop&8: &eLink 2'
-    - '&7Website&8: &eLink 3'
+    - '&7Discord&8: &ediscord.gg/yourserver'
+    - '&7Shop&8: &eshop.yourserver.net'
+    - '&7Website&8: &eyourserver.net'
 ```
 
 ## Header and footer

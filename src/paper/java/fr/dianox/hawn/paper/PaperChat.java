@@ -34,6 +34,8 @@ public class PaperChat implements Listener {
 	// The renderer Hawn gave (Chat-Format), to see if another plugin replaced it
 	private final Map<AsyncChatEvent, ChatRenderer> renderers = Collections.synchronizedMap(new WeakHashMap<>());
 	private final Map<ChatRenderer, String> minis = Collections.synchronizedMap(new WeakHashMap<>());
+	// The messages whose clicks and hover texts were kept (93)
+	private final java.util.Set<AsyncChatEvent> kept = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChatFirst(AsyncChatEvent e) {
@@ -71,7 +73,17 @@ public class PaperChat implements Listener {
 
 		// Unchanged: the message of the other plugins is kept as it is (their clicks, hover texts...)
 		if (!r.message.equals(text)) {
-			e.message(LEGACY.deserialize(r.message));
+			// 93: with clicks or hover texts of another plugin, only the words of Hawn are replaced in it
+			if (!r.rewritten && hasEvents(e.message())) {
+				Component message = e.message();
+				for (String[] replacement : r.replacements) {
+					message = replace(message, replacement[0], replacement[1]);
+				}
+				e.message(message);
+				kept.add(e);
+			} else {
+				e.message(LEGACY.deserialize(r.message));
+			}
 		}
 		e.viewers().removeIf(viewer -> viewer instanceof Player && !r.recipients.contains(viewer));
 
@@ -86,6 +98,7 @@ public class PaperChat implements Listener {
 	public void onChatSent(AsyncChatEvent e) {
 		ChatRenderer ours = renderers.remove(e);
 		ChatProcessor.Result r = pending.remove(e);
+		boolean keep = kept.remove(e);
 		if (e.isCancelled()) {
 			return;
 		}
@@ -111,7 +124,10 @@ public class PaperChat implements Listener {
 			Player viewer = entry.getKey();
 			if (e.viewers().remove(viewer)) {
 				ChatRenderer fresh = mini != null ? renderer(mini) : ChatRenderer.defaultRenderer();
-				viewer.sendMessage(fresh.render(e.getPlayer(), displayName, LEGACY.deserialize(entry.getValue()), viewer));
+				String[] tag = r.mentionTags.get(viewer);
+				// The message with its clicks: only the @name highlighted in it
+				Component message = keep && tag != null ? replace(e.message(), tag[0], tag[1]) : LEGACY.deserialize(entry.getValue());
+				viewer.sendMessage(fresh.render(e.getPlayer(), displayName, message, viewer));
 			}
 		}
 	}
@@ -133,6 +149,25 @@ public class PaperChat implements Listener {
 		e.renderer(ours);
 		renderers.put(e, ours);
 		minis.put(ours, mini);
+	}
+
+	// A click or a hover text anywhere in the message
+	private static boolean hasEvents(Component c) {
+		if (c.clickEvent() != null || c.hoverEvent() != null) {
+			return true;
+		}
+		for (Component child : c.children()) {
+			if (hasEvents(child)) return true;
+		}
+		return false;
+	}
+
+	// The text (case ignored) replaced by a § coloured text, inside the components (their style and events kept)
+	private static Component replace(Component message, String what, String by) {
+		Component replacement = LEGACY.deserialize(by);
+		return message.replaceText(net.kyori.adventure.text.TextReplacementConfig.builder()
+				.match(java.util.regex.Pattern.compile("(?i)" + java.util.regex.Pattern.quote(what)))
+				.replacement(replacement).build());
 	}
 
 	private static List<Player> players(AsyncChatEvent e) {

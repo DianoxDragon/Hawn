@@ -96,7 +96,7 @@ public class defaultscoreboardconfig {
             		" ",
             		"{SC_info}",
             		" ",
-            		"&7Thanks to use &e&lHawn"
+            		"&eplay.yourserver.net"
             }));
             
             Config.set("updater.title", 5);
@@ -121,7 +121,7 @@ public class defaultscoreboardconfig {
             }));
             Config.set("changeableText.infoloc2.interval", 120);
             
-            Config.set("scroller.info.text", String.valueOf("&7Welcome on this server! This server is running on &eHawn&r  -"));
+            Config.set("scroller.info.text", String.valueOf("&7Welcome on &6Your Server&7! Have fun  -"));
             Config.set("scroller.info.width", 27);
             Config.set("scroller.info.spaceBetween", 2);
             Config.set("scroller.info.update", 3);

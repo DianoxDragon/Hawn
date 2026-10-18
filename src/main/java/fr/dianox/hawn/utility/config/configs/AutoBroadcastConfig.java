@@ -83,11 +83,14 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.Messages.messages.firstmessage.message", Collections.singletonList("The best way to support me is to put 5 stars on spigot"));
-        Config.set("Config.Messages.messages.mymessage.message", Collections.singletonList("You are free to configure the messages as you want"));
+        // Since 1.4.8: a demo of a lobby (the files already there keep their messages)
+        Config.set("Config.Messages.messages.welcome.message", Collections.singletonList("&7Welcome on &6&lYour Server&7! Type &e/help &7to see what you can do"));
+        Config.set("Config.Messages.messages.discord.message", Collections.singletonList("&7Join our Discord: &ediscord.gg/yourserver"));
+        Config.set("Config.Messages.messages.vote.message", Collections.singletonList("&7You like the server? Vote for it: &eyourserver.net/vote"));
 
-        Config.set("Config.Messages.messages.specialworldmessahe.message", Collections.singletonList("You are in the nether"));
-        Config.set("Config.Messages.messages.specialworldmessahe.world_list", Collections.singletonList("world_nether"));
+        // Only in the nether (world_list)
+        Config.set("Config.Messages.messages.nether.message", Collections.singletonList("&7You are in the &cnether&7: watch your step!"));
+        Config.set("Config.Messages.messages.nether.world_list", Collections.singletonList("world_nether"));
         /*
          * Auto broadcast
          * Titles
@@ -105,18 +108,18 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.Titles.messages.default.Title.Message", "&e&lANNOUNCEMENT");
-        Config.set("Config.Titles.messages.default.SubTitle.Message", "&7This plugin is full of possibilities");
+        Config.set("Config.Titles.messages.default.Title.Message", "&6&lYour Server");
+        Config.set("Config.Titles.messages.default.SubTitle.Message", "&7Have fun, &e%player%&7!");
 
-        Config.set("Config.Titles.messages.custom.FadeIn", 20);
-        Config.set("Config.Titles.messages.custom.Stay", 150);
-        Config.set("Config.Titles.messages.custom.FadeOut", 20);
-        Config.set("Config.Titles.messages.custom.Title.Message", "&c&lANNOUNCEMENT");
-        Config.set("Config.Titles.messages.custom.SubTitle.Message", "&7You can manage options on your title %player%");
+        // Its own times
+        Config.set("Config.Titles.messages.event.FadeIn", 20);
+        Config.set("Config.Titles.messages.event.Stay", 150);
+        Config.set("Config.Titles.messages.event.FadeOut", 20);
+        Config.set("Config.Titles.messages.event.Title.Message", "&b&lEvent");
+        Config.set("Config.Titles.messages.event.SubTitle.Message", "&7A new event starts soon");
 
-        Config.set("Config.Titles.messages.No-title-omg.SubTitle.Message", "&7ANNOUNCEMENT - Subtitle");
-
-        Config.set("Config.Titles.messages.No-subtitle-omgx2.SubTitle.Message", "&e&lANNOUNCEMENT");
+        // A subtitle only
+        Config.set("Config.Titles.messages.spawn.SubTitle.Message", "&7Lost? Type &e/spawn");
 
         /*
          * Auto broadcast
@@ -133,10 +136,11 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.Action-Bar.messages.default.Message", "&eDefault Action-Bar &7(autobroadcast)");
+        Config.set("Config.Action-Bar.messages.online.Message", "&7Players online: &e%online%&7/&e%max_players%");
 
-        Config.set("Config.Action-Bar.messages.custom.Time-Stay", 60);
-        Config.set("Config.Action-Bar.messages.custom.Message", "&6custom Action-Bar &7(autobroadcast)");
+        // Its own time
+        Config.set("Config.Action-Bar.messages.help.Time-Stay", 60);
+        Config.set("Config.Action-Bar.messages.help.Message", "&7Need help? Ask the staff or type &e/help");
 
         /*
          * Auto broadcast
@@ -155,16 +159,18 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.BossBar.messages.default.Message", "&eDefault message bossbar without settings");
+        Config.set("Config.BossBar.messages.welcome.Message", "&7Welcome on &6&lYour Server&7, &e%player%");
 
-        Config.set("Config.BossBar.messages.totalcustom.Message", "&cBossbar - %player%");
-        Config.set("Config.BossBar.messages.totalcustom.Color", "BLUE");
-        Config.set("Config.BossBar.messages.totalcustom.Style", "SEGMENTED_20");
-        Config.set("Config.BossBar.messages.totalcustom.Progress", 1.0D);
+        // Every option of its own
+        Config.set("Config.BossBar.messages.event.Message", "&b&lEvent &7in progress: join it with &e/warp event");
+        Config.set("Config.BossBar.messages.event.Color", "BLUE");
+        Config.set("Config.BossBar.messages.event.Style", "SEGMENTED_20");
+        Config.set("Config.BossBar.messages.event.Progress", 1.0D);
 
-        Config.set("Config.BossBar.messages.slightchange.Message", "Yellow bossbar");
-        Config.set("Config.BossBar.messages.slightchange.Color", "YELLOW");
-        Config.set("Config.BossBar.messages.slightchange.Progress", 0.1D);
+        // Only some options
+        Config.set("Config.BossBar.messages.vote.Message", "&eVote for the server: &fyourserver.net/vote");
+        Config.set("Config.BossBar.messages.vote.Color", "YELLOW");
+        Config.set("Config.BossBar.messages.vote.Progress", 0.1D);
 
         Config = ConfigDefaults.apply(file, loaded, Config, "Config.Messages.messages", "Config.Titles.messages", "Config.Action-Bar.messages", "Config.BossBar.messages");
     }

@@ -45,7 +45,8 @@ public class ListGui implements Listener {
 		
 		String titlegui = "§cList Gui - Page ";
 		
-		if (inv.contains(titlegui)) {
+		// 88: the menu by its type; the title only gives the page
+		if (HawnMenu.typeOf(e.getView()) == HawnMenu.Type.PLAYER_LIST) {
 			ItemStack item = e.getCurrentItem();
 			
 			if (e.isLeftClick()) {
@@ -83,7 +84,9 @@ public class ListGui implements Listener {
 							} else {
 								EditPlayerGui.OpenGui(p, target);
 							}
-						} catch (Exception ignored) {}
+						} catch (Exception ignored) {
+							fr.dianox.hawn.utility.Debug.hidden("Player list menu: a click", ignored);
+						}
 					}
 				}
 			}
@@ -102,7 +105,7 @@ public class ListGui implements Listener {
 			pagenumber = 1;
 		}
 		
-		Inventory inv = HawnMenu.create(54, "§cList Gui - Page " + pagenumber);
+		Inventory inv = HawnMenu.create(54, "§cList Gui - Page " + pagenumber, HawnMenu.Type.PLAYER_LIST);
 		
 		if (pagenumber == 1) {
 			pagenumber--;
@@ -154,7 +157,9 @@ public class ListGui implements Listener {
     			
     				lore.clear();
     			}
-    		} catch (Exception ignored) {}
+    		} catch (Exception ignored) {
+    			fr.dianox.hawn.utility.Debug.hidden("Player list menu: a page", ignored);
+    		}
     			
     		number_place++;
     		numberitems++;

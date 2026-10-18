@@ -21,6 +21,8 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -67,6 +69,13 @@ public final class ChatProcessor {
 		public final Map<Player, String> perViewer = new HashMap<>();
 		// The format of the sender (Chat-Format), coloured, with %message%; null when Hawn doesn't format
 		public String format;
+		// 93: the words replaced (emojis, anti-swear), {what, by what}, case ignored. On Paper, they are replaced in the
+		// message of the other plugins, which keeps its clicks and hover texts
+		public final List<String[]> replacements = new ArrayList<>();
+		// The text changed in another way (capital letters, colours typed): only a new message can show it
+		public boolean rewritten = false;
+		// The players mentioned, with their highlighted @name ({@name, highlighted @name})
+		public final Map<Player, String[]> mentionTags = new HashMap<>();
 	}
 
 	/**
@@ -112,20 +121,23 @@ public final class ChatProcessor {
 		}
 
 		String original = caps(p, s, text);
+		if (!original.equals(text)) r.rewritten = true;
 		startDelay(p, s);
 		String typed = original;
 
 		if (s.bool("Anti-Swear.Enable") && (!s.bool("Anti-Swear.Bypass") || !p.hasPermission("hawn.bypass.antiswear"))) {
-			original = antiSwear(p, s, typed, original);
+			original = antiSwear(p, s, typed, original, r);
 		}
 
 		if (s.bool("Chat-Color-Player.Enable")) {
+			String before = original;
 			original = colours(p, s, original);
 
 			// Hex colours: &#RRGGBB or #<RRGGBB>
 			if (p.hasPermission("hawn.use.chatcolor.chat.hex")) {
 				original = MessageUtils.colourHex(original);
 			}
+			if (!original.equals(before)) r.rewritten = true;
 		}
 
 		if (s.bool("Chat-Emoji-Player.Enable") && p.hasPermission("hawn.chat.emoji")) {
@@ -138,6 +150,7 @@ public final class ChatProcessor {
 
 				if (typed.toLowerCase().contains(check.toLowerCase())) {
 					original = original.replaceAll("(?i)" + Pattern.quote(check), Matcher.quoteReplacement(emoji.getValue()));
+					r.replacements.add(new String[] {check, emoji.getValue()});
 				}
 			}
 		}
@@ -323,7 +336,7 @@ public final class ChatProcessor {
 
 	/* ------------------------------------------------------------------ anti swear */
 
-	private static String antiSwear(Player p, ChatSettings s, String typed, String original) {
+	private static String antiSwear(Player p, ChatSettings s, String typed, String original, Result r) {
 		for (String word : s.list("Anti-Swear.List")) {
 			if (!typed.toLowerCase().contains(word.toLowerCase())) {
 				continue;
@@ -343,6 +356,7 @@ public final class ChatProcessor {
 			if (s.bool("Anti-Swear.Replace-Message.Enable")) {
 				String replacement = s.string("Anti-Swear.Replace-Message.Message", "*****").replace("[", "").replace("]", "");
 				original = original.replaceAll("(?i)" + Pattern.quote(word), Matcher.quoteReplacement(replacement));
+				r.replacements.add(new String[] {word, replacement});
 			}
 		}
 
@@ -403,6 +417,7 @@ public final class ChatProcessor {
 
 			if (highlight) {
 				r.perViewer.put(target, whole.matcher(r.message).replaceAll(Matcher.quoteReplacement(highlighting + tag + "§r")));
+				r.mentionTags.put(target, new String[] {tag, highlighting + tag + "§r"});
 			}
 		}
 	}

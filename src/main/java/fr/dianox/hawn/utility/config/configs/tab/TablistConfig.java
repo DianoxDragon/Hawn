@@ -59,7 +59,7 @@ public class TablistConfig {
         Config.set("Tablist.header.enabled", true);
         Config.set("Tablist.header.message", java.util.Arrays.asList(new String[] {
         		"",
-        		"&7Thank you to choose &b&lHawn",
+        		"&7Welcome on &6&lYour Server",
         		"",
         		"&7You are &e%player%",
         		"{anim_website}",
@@ -126,9 +126,9 @@ public class TablistConfig {
 
         Config.set("Animations.website.refresh-time-ticks", 60);
         Config.set("Animations.website.text", java.util.Arrays.asList(new String[] {
-        		"&7Discord&8: &eLink 1",
-        		"&7Shop&8: &eLink 2",
-        		"&7Website&8: &eLink 3"
+        		"&7Discord&8: &ediscord.gg/yourserver",
+        		"&7Shop&8: &eshop.yourserver.net",
+        		"&7Website&8: &eyourserver.net"
         		}));
 
         Config.set("Animations.maininformations.refresh-time-ticks", 60);

@@ -20,7 +20,12 @@ public class EventManager {
 			if (s.equals("Entity")) continue;
 			try {
 				damageEventList.add(EntityDamageEvent.DamageCause.valueOf(s));
-			} catch (Exception ignored) {}
+			} catch (Exception e) {
+				// A configuration error, said like the wrong materials and sounds
+				if (fr.dianox.hawn.utility.Debug.firstTime("damage type", s)) {
+					org.bukkit.Bukkit.getLogger().warning("Hawn | (Configuration error): The damage type " + s + " is not recognized (AntiDamage-Custom.Entity.Options.Damage-Type-List), it is ignored");
+				}
+			}
 		}
 	}
 

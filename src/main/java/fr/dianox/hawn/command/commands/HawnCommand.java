@@ -31,8 +31,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class HawnCommand implements CommandExecutor {
 
@@ -270,6 +268,10 @@ public class HawnCommand implements CommandExecutor {
 				}
 				sender.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
 				sender.sendMessage("");
+			} else if (args[0].equalsIgnoreCase("debug")) {
+				fr.dianox.hawn.utility.Debug.show(sender);
+			} else if (args[0].equalsIgnoreCase("rank") || args[0].equalsIgnoreCase("ranks")) {
+				fr.dianox.hawn.modules.ranks.RankCommand.run(sender, args);
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
 					|| args[0].equalsIgnoreCase("nightvision") || args[0].equalsIgnoreCase("noclip")
 					|| args[0].equalsIgnoreCase("slotview") || args[0].equalsIgnoreCase("setup")) {
@@ -383,10 +385,17 @@ public class HawnCommand implements CommandExecutor {
 				return false;
 			}
 
-			p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1999999999, 1));
-
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision")) {
-				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+			// On, or off when it already is (before 1.4.8 it could only be turned on)
+			if (p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+				p.removePotionEffect(PotionEffectType.NIGHT_VISION);
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision-Off")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+			} else {
+				p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1999999999, 1));
+				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
 			}
 		// Give noclip
 		} else if (args[0].equalsIgnoreCase("noclip")) {
@@ -621,6 +630,22 @@ public class HawnCommand implements CommandExecutor {
 			}
 			p.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
 			p.sendMessage("");
+		// debug: the mistakes of the files and the hidden errors (since 1.4.8)
+		} else if (args[0].equalsIgnoreCase("debug")) {
+			if (!p.hasPermission("hawn.admin.command.debug") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.admin.command.debug");
+				return true;
+			}
+
+			fr.dianox.hawn.utility.Debug.show(p);
+		// rank: the ranks of Ranks.yml given by hand (since 1.4.8)
+		} else if (args[0].equalsIgnoreCase("rank") || args[0].equalsIgnoreCase("ranks")) {
+			if (!p.hasPermission("hawn.admin.command.rank") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.admin.command.rank");
+				return true;
+			}
+
+			fr.dianox.hawn.modules.ranks.RankCommand.run(p, args);
 		// info
 		} else if (args[0].equalsIgnoreCase("info")) {
 			if (!p.hasPermission("hawn.admin.command.info") && !permissionunlocked) {
@@ -867,6 +892,8 @@ public class HawnCommand implements CommandExecutor {
 			page.add("§8>> §7/hw <argument> <argument two> etc. - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hworld"));
 			page.add("");
 			page.add("§8>> §7/hawn setup - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Setup"));
+			page.add("§8>> §7/hawn debug - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Debug"));
+			page.add("§8>> §7/hawn rank <set/remove/info/list> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Rank"));
 		}
 
 		return page;

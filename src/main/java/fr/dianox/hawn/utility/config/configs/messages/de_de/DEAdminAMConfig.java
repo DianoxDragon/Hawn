@@ -87,6 +87,8 @@ public class DEAdminAMConfig {
 	        Config.set("Command.Help.Hawn-SlotView", "Die Slot-Nummer beim Anklicken anzeigen");
 	        Config.set("Command.Help.Hawn-EditPlayer", "Einen Spieler bearbeiten");
 	        Config.set("Command.Help.Hawn-Setup", "Hawn zum ersten Mal einrichten");
+	        Config.set("Command.Help.Hawn-Debug", "Die Fehler der Konfigurationsdateien und die versteckten Fehler");
+	        Config.set("Command.Help.Hawn-Rank", "Den Rang eines Spielers geben, entfernen oder ansehen (Ranks.yml)");
 	        Config.set("Command.Help.Broadcast", "Eine Nachricht an alle senden");
 	        Config.set("Command.Help.Warning", "Eine Warnung an alle senden");
 	        Config.set("Command.Help.Broadcast-Title", "Einen Titel an alle senden");
@@ -227,6 +229,31 @@ public class DEAdminAMConfig {
 
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn-Version (erstellt von Dianox)&8: &r%gethawnversion%"));
 
+        // Since 1.4.8: /hawn debug
+        Config.set("Debug.Header", java.util.Arrays.asList("&8&m-----&r &6Hawn debug &8&m-----"));
+        Config.set("Debug.No-Config-Error", java.util.Arrays.asList("&aKein Fehler in den Konfigurationsdateien."));
+        Config.set("Debug.Config-Errors", java.util.Arrays.asList("&e%arg 1% &7Fehler in den Konfigurationsdateien:"));
+        Config.set("Debug.Auto", java.util.Arrays.asList("&e%arg 1% &7Option(en) auf AUTO, einem anderen Plugin überlassen:"));
+        Config.set("Debug.No-Hidden-Error", java.util.Arrays.asList("&aKein versteckter Fehler seit dem Start."));
+        Config.set("Debug.Hidden-Errors", java.util.Arrays.asList("&e%arg 1% &7Fehler, die Hawn seit dem Start übergangen hat:"));
+        Config.set("Debug.Tip", java.util.Arrays.asList("&7Plugin.Debug: true in general.yml schreibt sie mit Details in die Konsole."));
+        // Since 1.4.8: /hawn rank
+        Config.set("Ranks.Usage", java.util.Arrays.asList("%prefix% &7/hawn rank set <Spieler> <Rang> &8| &7remove <Spieler> &8| &7info <Spieler> &8| &7list"));
+        Config.set("Ranks.Off", java.util.Arrays.asList("%prefix% &cDie Ränge sind ausgeschaltet (Ranks.yml, Ranks.Enable: false)"));
+        Config.set("Ranks.Unknown-Rank", java.util.Arrays.asList("%prefix% &cDer Rang &e%arg 1% &cexistiert nicht oder ist aus. Ränge: &7%arg 2%"));
+        Config.set("Ranks.LuckPerms-Source", java.util.Arrays.asList("%prefix% &7Die Ränge kommen von LuckPerms (Ranks.Source): ändere die Gruppe von &e%arg 1% &7in LuckPerms (&e/lp user %arg 1% parent set <Gruppe>&7)"));
+        Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7hat jetzt den Rang &e%arg 2%"));
+        Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7hat keinen von Hand gegebenen Rang mehr"));
+        Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &chat keinen von Hand gegebenen Rang (die Rechte oder LuckPerms geben ihn)"));
+        Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1%&7: Rang &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
+        Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7ist offline. Von Hand gegebener Rang: &e%arg 2%"));
+        Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7Rang/Ränge, der erste oben in der Tabliste:"));
+        Config.set("Ranks.List-Line", java.util.Arrays.asList("&8- &e%arg 1% &7(Priorität %arg 2%) &r%arg 3% &8| &7online: &f%arg 4%"));
+        Config.set("Ranks.Source.HAND", "von Hand gegeben");
+        Config.set("Ranks.Source.PERMISSION", "durch ein Recht");
+        Config.set("Ranks.Source.LUCKPERMS", "von LuckPerms");
+        Config.set("Ranks.Source.DEFAULT", "der Standardrang");
+        Config.set("Ranks.Source.NONE", "keiner");
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, tu etwas für die Stabilität deiner Lobby"));
         Config.set("TPS.Check.5", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, dein Server könnte abstürzen: benutze /stop, um Probleme zu vermeiden.", "&cACHTUNG: KRITISCHER ZUSTAND DES SERVERS"));
 
@@ -351,6 +378,7 @@ public class DEAdminAMConfig {
         Config.set("Command.No-Clip.Disable", java.util.Arrays.asList("%prefix% &7No-Clip ist &cdeaktiviert"));
 
         Config.set("Command.NightVision", java.util.Arrays.asList("%prefix% &7Du kannst jetzt im Dunkeln sehen"));
+        Config.set("Command.NightVision-Off", java.util.Arrays.asList("%prefix% &7Du siehst nicht mehr im Dunkeln"));
 
         /* -------------- *
 			 * SPAWN COMMANDS *

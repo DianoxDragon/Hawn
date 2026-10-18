@@ -71,7 +71,9 @@ public class ScoreManager {
 							alltasks.add(TaskScoreName.getTaskId());
 						}
 					}
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+					fr.dianox.hawn.utility.Debug.hidden("Scoreboard: an animation {CH_...}", ignored);
+				}
 
 				try {
 					if (getFile(filename).isSet("scroller")) {
@@ -102,7 +104,9 @@ public class ScoreManager {
 							}.runTaskTimer(plugin, 0L, getFile(filename).getInt("scroller." + string + ".update"));
 						}
 					}
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+					fr.dianox.hawn.utility.Debug.hidden("Scoreboard: a scroller {SC_...}", ignored);
+				}
 
 				BukkitTask TaskScoreName = new AnimationTask("TITLESCORENAME", filename, this).runTaskTimer(plugin, 0, getFile(filename).getInt("updater.title"));
 			} else {

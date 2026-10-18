@@ -62,9 +62,9 @@ In a new configuration, the chat messages are on and the titles, the action bar 
       Auto-Center: true                    # centre every line
     World: ...
     messages:
-      firstmessage:
+      welcome:
         message:
-        - The best way to support me is to put 5 stars on spigot
+        - '&7Welcome on &6&lYour Server&7! Type &e/help &7to see what you can do'
       vote:
         message:
         - '&eVote for the server!'
@@ -151,10 +151,10 @@ In a new configuration, the chat messages are on and the titles, the action bar 
       Progress: 0.7
     World: ...
     messages:
-      default:
-        Message: '&eDefault message bossbar without settings'
-      totalcustom:
-        Message: '&cBossbar - %player%'
+      welcome:
+        Message: '&7Welcome on &6&lYour Server&7, &e%player%'
+      event:
+        Message: '&b&lEvent &7in progress: join it with &e/warp event'
         Color: BLUE
         Style: SEGMENTED_20
         Progress: 1.0

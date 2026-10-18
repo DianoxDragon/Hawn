@@ -386,11 +386,15 @@ public final class StartupReport {
 			return;
 		}
 		if (!Ranks.tablist() && Ranks.tabPlugin() != null) {
-			warnings.add("Ranks: " + Ranks.tabPlugin() + " is installed, the tab list is left to it (Ranks.yml, Enable: true to show the ranks of Hawn there); %rank_prefix% still works");
+			warnings.add("Ranks: " + Ranks.tabPlugin() + " is installed, the tab list and the heads are left to it (Ranks.yml, Enable: true to show the ranks of Hawn there); %rank_prefix% still works");
 		}
 		List<String> wrong = Ranks.unknownByHand();
 		if (!wrong.isEmpty()) {
 			warnings.add("Ranks.Players: " + String.join(", ", wrong) + " (Ranks.yml): no such rank turned on, the permissions decide");
+		}
+		List<String> colours = Ranks.wrongColours();
+		if (!colours.isEmpty()) {
+			warnings.add("Ranks.List: " + String.join(", ", colours) + " (Ranks.yml): Name-Colour must be one of the 16 colours (RED, GOLD, YELLOW, GREEN, AQUA, BLUE, GRAY, WHITE...), no colour is used");
 		}
 		String def = fr.dianox.hawn.utility.config.configs.RanksConfig.getConfig().getString("Ranks.Default-Rank", "");
 		if (def != null && !def.isEmpty() && !fr.dianox.hawn.utility.config.configs.RanksConfig.getConfig().isSet("Ranks.List." + def)) {

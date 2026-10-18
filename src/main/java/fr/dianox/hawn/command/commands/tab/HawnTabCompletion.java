@@ -20,8 +20,14 @@ public class HawnTabCompletion implements TabCompleter {
 
 		if (args.length == 1) {
 			return Tab.of(args, "parse", "nightvision", "noclip", "spawnmanager", "urgent", "reload", "slotview", "editplayer",
-				"hooks", "setup", "info", "version", "about", "donors", "tps", "build", "maintenance", "help");
-		} else if (args.length == 2) {
+				"hooks", "debug", "rank", "setup", "info", "version", "about", "donors", "tps", "build", "maintenance", "help");
+		}
+
+		if (args.length >= 2 && (args[0].equalsIgnoreCase("rank") || args[0].equalsIgnoreCase("ranks"))) {
+			return fr.dianox.hawn.modules.ranks.RankCommand.tab(args);
+		}
+
+		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("editplayer")) {
 				return Tab.players(commandSender, args);
 			} else if (args[0].equalsIgnoreCase("pholders") || args[0].equalsIgnoreCase("pholder") || args[0].equalsIgnoreCase("parse")) {

@@ -417,6 +417,8 @@ public class WorldCommand extends BukkitCommand {
     	}
 
     	if (world == null) {
+    		// The title "Import started" / "World in creation" goes away (a message without a title would leave it)
+    		p.resetTitle();
     		for (String msg: WorldDeletion.message("Gui.Create.Failed", "%prefix% &cThe world &e%arg1% &ccould not be created, see the console")) {
     			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
     		}
@@ -433,6 +435,7 @@ public class WorldCommand extends BukkitCommand {
     	ConfigWorldGeneral.getConfig().set(path + ".Generator", generator);
     	ConfigWorldGeneral.saveConfigFile();
 
+    	p.resetTitle();
     	for (String msg: WorldManagerPanelConfig.getConfig().getStringList(importing ? "Gui.Import.World-Loaded" : "Gui.Create.World-Created")) {
     		ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
     	}

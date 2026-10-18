@@ -77,6 +77,10 @@ public class FRSetupLangFile {
 		Config.set("SetupSpawn.WARNING", Collections.singletonList("&cLa configuration n'est pas finie : créez un spawn pour la terminer"));
 		Config.set("SetupSpawn.Spawn-Changed", Collections.singletonList("%prefix% &7Le spawn par défaut est maintenant %arg 1%"));
 
+		// Since 1.4.8: the Previous / Next buttons, the teleport before the spawn
+		Config.set("Setup.Previous", "&7« Étape précédente");
+		Config.set("Setup.Next", "&7Étape suivante »");
+		Config.set("SetupSpawn.Teleported", Collections.singletonList("%prefix% &7Vous êtes dans &e%arg 1%&7, le monde par défaut : placez-vous à l'endroit du spawn, puis cliquez sur le bloc d'or"));
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Veuillez redémarrer le serveur"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6Vous êtes toujours dans le setup &7(&e/hawn setup &7pour le rouvrir)"));
 

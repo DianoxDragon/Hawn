@@ -78,6 +78,9 @@ public class ConfigGeneral {
         // true: the commands are hidden from the players who don't have their permission (restart needed)
         Config.set("Plugin.Commands.Hide-Without-Permission", true);
 
+        // Since 1.4.8: true writes in the console the errors Hawn goes on without (see /hawn debug)
+        Config.set("Plugin.Debug", false);
+
         // Hooks
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Enable", false);
 	        Config.set("Plugin.Use.Hook.PlaceholderAPI.Keep-The-Option", false);

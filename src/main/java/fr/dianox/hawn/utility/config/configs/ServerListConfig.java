@@ -67,15 +67,16 @@ public class ServerListConfig {
 
         Config.set("Motd.Classic.Enable", true);
         Config.set("Motd.Classic.Random", true);
-        Config.set("Motd.Classic.Main.Line-1", "&cThis is a test of motd of course &7- &e%gettime%");
-        Config.set("Motd.Classic.Main.Line-2", "&eThanks to choose &lhawn");
+        Config.set("Motd.Classic.Main.Line-1", "&6&lYour Server &8- &7Lobby");
+        Config.set("Motd.Classic.Main.Line-2", "&eplay.yourserver.net &8- &7%gettime%");
 
-        Config.set("Motd.Classic.Random-List.first.Line-1", "&aThis is a test of motd of course &7- &e%gettime%");
-        Config.set("Motd.Classic.Random-List.first.Line-2", "&eThanks to choose &lhawn");
-        Config.set("Motd.Classic.Random-List.second.Line-1", "&eThis is a test of motd of course &7- &e%gettime%");
-        Config.set("Motd.Classic.Random-List.second.Line-2", "&eThanks to choose &lhawn");
-        Config.set("Motd.Classic.Random-List.itsunlimited.Line-1", "&bThis is a test of motd of course &7- &e%gettime%");
-        Config.set("Motd.Classic.Random-List.itsunlimited.Line-2", "&eThanks to choose &lhawn");
+        // Random: true, one of them at each ping (as many as you want)
+        Config.set("Motd.Classic.Random-List.discord.Line-1", "&6&lYour Server &8- &7Lobby");
+        Config.set("Motd.Classic.Random-List.discord.Line-2", "&7Join our Discord: &ediscord.gg/yourserver");
+        Config.set("Motd.Classic.Random-List.event.Line-1", "&6&lYour Server &8- &bEvent this weekend");
+        Config.set("Motd.Classic.Random-List.event.Line-2", "&eplay.yourserver.net");
+        Config.set("Motd.Classic.Random-List.vote.Line-1", "&6&lYour Server &8- &7Lobby");
+        Config.set("Motd.Classic.Random-List.vote.Line-2", "&7Vote for us: &eyourserver.net/vote");
 
         Config.set("Motd.WhiteList.Enable", true);
         Config.set("Motd.WhiteList.Line-1", "&eThe server is on whitelist");

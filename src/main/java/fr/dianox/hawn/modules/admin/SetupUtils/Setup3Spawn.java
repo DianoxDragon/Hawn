@@ -33,9 +33,24 @@ public class Setup3Spawn implements Listener {
 
 	// Main
 	public static void OpenInventory(Player p) {
+		// The spawn is created where the admin stands: first in the default world chosen at the step 2
+		org.bukkit.World world = org.bukkit.Bukkit.getWorld(fr.dianox.hawn.modules.world.DefaultWorld.get());
+		if (world != null && !p.getWorld().equals(world)) {
+			fr.dianox.hawn.modules.world.WorldFolders.fixSpawn(world);
+			p.teleport(world.getSpawnLocation());
+			for (String msg : SetupLangFile.getConfig().getStringList("SetupSpawn.Teleported")) {
+				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", world.getName()), "", "", false);
+			}
+			// The menu once there (a teleport to another world closes it)
+			org.bukkit.Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+				if (Setup.doingSetup(p) && Setup.setupplace == 3) OpenInventory(p);
+			}, 10L);
+			return;
+		}
+
 		// General Options
 		int size = 54;
-		Inventory inv = HawnMenu.create(size, name);
+		Inventory inv = HawnMenu.create(size, name, HawnMenu.Type.SETUP_SPAWN);
 
 		// Inventory
 		for (int i = 0; i <= 53; i++) {
@@ -47,6 +62,7 @@ public class Setup3Spawn implements Listener {
 		inv.setItem(30, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupSpawn.Done")), XMaterial.EMERALD_BLOCK.parseMaterial()));
 
 		inv.setItem(23, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupSpawn.Close-Inventory")), XMaterial.BARRIER.parseMaterial()));
+		inv.setItem(45, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("Setup.Previous")), Setup.NAVIGATION));
 
 		p.openInventory(inv);
 	}
@@ -64,10 +80,10 @@ public class Setup3Spawn implements Listener {
 	public void onInventory(InventoryClickEvent e) throws IOException {
 		if (e.getSlotType() == InventoryType.SlotType.OUTSIDE) return;
 		if (e.getCurrentItem() == null) return;
-		String inv = e.getWhoClicked().getOpenInventory().getTitle();
 		Player p = (Player) e.getWhoClicked();
+		HawnMenu.Type type = HawnMenu.typeOf(e.getView());
 
-		if (inv.equals(name)) {
+		if (type == HawnMenu.Type.SETUP_SPAWN) {
 			if (e.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) return;
 
 			if (e.isLeftClick()) {
@@ -83,6 +99,9 @@ public class Setup3Spawn implements Listener {
 				} else if (e.getRawSlot() == 30) {
 					e.setCancelled(true);
 					Setup.finish(p);
+				} else if (e.getRawSlot() == 45 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
+					e.setCancelled(true);
+					Setup.goTo(p, 2);
 				} else {
 					e.setCancelled(true);
 				}

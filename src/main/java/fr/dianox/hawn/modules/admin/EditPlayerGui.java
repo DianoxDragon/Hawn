@@ -63,7 +63,8 @@ public class EditPlayerGui implements Listener {
 		
 		String titlegui = "§cEdit Player - ";
 		
-		if (inv.contains(titlegui)) {
+		// 88: the menu by its type; the title only gives the name of the player
+		if (HawnMenu.typeOf(e.getView()) == HawnMenu.Type.EDIT_PLAYER) {
 			ItemStack item = e.getCurrentItem();
 			
 			Player target = Bukkit.getServer().getPlayer(inv.replace("§cEdit Player - ", ""));
@@ -295,7 +296,7 @@ public class EditPlayerGui implements Listener {
 	 */
 	public static void OpenGui(Player viewer, Player p) {
 
-		Inventory inv = HawnMenu.create(54, "§cEdit Player - " + p.getName());
+		Inventory inv = HawnMenu.create(54, "§cEdit Player - " + p.getName(), HawnMenu.Type.EDIT_PLAYER);
     	    	
     	ArrayList<String> lore = new ArrayList<>();
 

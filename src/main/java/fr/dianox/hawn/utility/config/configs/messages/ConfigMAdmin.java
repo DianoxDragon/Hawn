@@ -85,6 +85,8 @@ public class ConfigMAdmin {
 	        Config.set("Command.Help.Hawn-SlotView", "See the slot number by clicking on it");
 	        Config.set("Command.Help.Hawn-EditPlayer", "Edit a player");
 	        Config.set("Command.Help.Hawn-Setup", "Setup your configuration of Hawn for the first time");
+	        Config.set("Command.Help.Hawn-Debug", "The mistakes of the configuration files and the hidden errors");
+	        Config.set("Command.Help.Hawn-Rank", "Give, remove or check the rank of a player (Ranks.yml)");
 	        Config.set("Command.Help.Broadcast", "Broadcast a message");
 	        Config.set("Command.Help.Warning", "Broadcast a warning");
 	        Config.set("Command.Help.Broadcast-Title", "Broadcast a title message");
@@ -225,6 +227,31 @@ public class ConfigMAdmin {
 
         Config.set("Command.Version", java.util.Arrays.asList("  &8→ &6&lHawn version (created by Dianox)&8: &r%gethawnversion%"));
 
+        // Since 1.4.8: /hawn debug
+        Config.set("Debug.Header", java.util.Arrays.asList("&8&m-----&r &6Hawn debug &8&m-----"));
+        Config.set("Debug.No-Config-Error", java.util.Arrays.asList("&aNo mistake found in the configuration files."));
+        Config.set("Debug.Config-Errors", java.util.Arrays.asList("&e%arg 1% &7mistake(s) in the configuration files:"));
+        Config.set("Debug.Auto", java.util.Arrays.asList("&e%arg 1% &7option(s) in AUTO left to another plugin:"));
+        Config.set("Debug.No-Hidden-Error", java.util.Arrays.asList("&aNo hidden error since the start."));
+        Config.set("Debug.Hidden-Errors", java.util.Arrays.asList("&e%arg 1% &7error(s) Hawn went on without since the start:"));
+        Config.set("Debug.Tip", java.util.Arrays.asList("&7Plugin.Debug: true in general.yml writes them in the console, with their details."));
+        // Since 1.4.8: /hawn rank
+        Config.set("Ranks.Usage", java.util.Arrays.asList("%prefix% &7/hawn rank set <player> <rank> &8| &7remove <player> &8| &7info <player> &8| &7list"));
+        Config.set("Ranks.Off", java.util.Arrays.asList("%prefix% &cThe ranks are off (Ranks.yml, Ranks.Enable: false)"));
+        Config.set("Ranks.Unknown-Rank", java.util.Arrays.asList("%prefix% &cThe rank &e%arg 1% &cdoesn't exist or is off. Ranks: &7%arg 2%"));
+        Config.set("Ranks.LuckPerms-Source", java.util.Arrays.asList("%prefix% &7The ranks come from LuckPerms (Ranks.Source): change the group of &e%arg 1% &7in LuckPerms (&e/lp user %arg 1% parent set <group>&7)"));
+        Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7has the rank &e%arg 2% &7now"));
+        Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7no longer has a rank given by hand"));
+        Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &chas no rank given by hand (the permissions or LuckPerms give it)"));
+        Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1%&7: rank &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
+        Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7is offline. Rank given by hand: &e%arg 2%"));
+        Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7rank(s), the first one at the top of the tab list:"));
+        Config.set("Ranks.List-Line", java.util.Arrays.asList("&8- &e%arg 1% &7(priority %arg 2%) &r%arg 3% &8| &7online: &f%arg 4%"));
+        Config.set("Ranks.Source.HAND", "given by hand");
+        Config.set("Ranks.Source.PERMISSION", "by permission");
+        Config.set("Ranks.Source.LUCKPERMS", "from LuckPerms");
+        Config.set("Ranks.Source.DEFAULT", "the default rank");
+        Config.set("Ranks.Source.NONE", "none");
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under %arg 1%, do something to improve the stability of your Lobby"));
         Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under %arg 1%, your server may shut down, do /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
 
@@ -349,6 +376,7 @@ public class ConfigMAdmin {
         Config.set("Command.No-Clip.Disable", java.util.Arrays.asList("%prefix% &7The No clip is &cdisabled"));
 
         Config.set("Command.NightVision", java.util.Arrays.asList("%prefix% &7You can see in the night"));
+        Config.set("Command.NightVision-Off", java.util.Arrays.asList("%prefix% &7You no longer see in the night"));
 
         /* -------------- *
 			 * SPAWN COMMANDS *

@@ -36,7 +36,11 @@ Don't move while the world list is open: moving closes and reopens the menu.
 
 Then click **Yes, let's continue** (the emerald block at the bottom of the world manager) to go to step 3.
 
+Since Hawn 1.4.8, the steps have a **Previous step** button (a door) and the step 2 a **Next step** button, to keep the world of now. In the world manager of the setup, Previous step is in the middle of the bottom row: the arrows keep changing the pages of the list.
+
 ## Step 3: default spawn
+
+If you chose another lobby world at the step 2, Hawn first takes you there (since Hawn 1.4.8): the spawn is created where you stand.
 
 Click **Yes, let's create a spawn**, the menu closes. Go where you want your spawn to be and type:
 

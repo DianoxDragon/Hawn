@@ -54,7 +54,9 @@ public class ScoreTask extends BukkitRunnable {
 			if (HooksManager.papi()) {
 				title = PlaceholderAPI.setPlaceholders(p, title);
 			}
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {
+			fr.dianox.hawn.utility.Debug.hidden("Scoreboard: the title", ignored);
+		}
 		board.updateTitle(title);
 
 		List<String> lines = new ArrayList<>();
@@ -68,7 +70,9 @@ public class ScoreTask extends BukkitRunnable {
 				if (scoreManager.getFile(scoreboardfilename).isSet("changeableText." + anim + ".text")) {
 					try {
 						s = scoreManager.getFile(scoreboardfilename).getStringList("changeableText." + anim + ".text").get(scoreManager.getAnimScore().get(scoreboardfilename + anim));
-					} catch (Exception ignored) {}
+					} catch (Exception ignored) {
+						fr.dianox.hawn.utility.Debug.hidden("Scoreboard: an animated line {CH_...}", ignored);
+					}
 				}
 			}
 

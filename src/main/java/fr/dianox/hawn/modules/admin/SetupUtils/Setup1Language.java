@@ -39,7 +39,7 @@ public class Setup1Language implements Listener {
 	public static void OpenInventory(Player p) {
 		// General Options
 		int size = 54;
-		Inventory inv = HawnMenu.create(size, name);
+		Inventory inv = HawnMenu.create(size, name, HawnMenu.Type.SETUP_LANGUAGE);
 
 		// Inventory
 		File file = new File(Main.getInstance().getDataFolder(), "/Messages");
@@ -141,10 +141,10 @@ public class Setup1Language implements Listener {
 	public void onInventory(InventoryClickEvent e) throws IOException {
 		if (e.getSlotType() == InventoryType.SlotType.OUTSIDE) return;
 		if (e.getCurrentItem() == null) return;
-		String inv = e.getWhoClicked().getOpenInventory().getTitle();
 		Player p = (Player) e.getWhoClicked();
+		HawnMenu.Type type = HawnMenu.typeOf(e.getView());
 
-		if (inv.equals(name)) {
+		if (type == HawnMenu.Type.SETUP_LANGUAGE) {
 			e.setCancelled(true);
 			if (e.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) return;
 			// Ignore the clicks in the player's own inventory

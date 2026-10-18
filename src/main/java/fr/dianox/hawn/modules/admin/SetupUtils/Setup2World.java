@@ -31,7 +31,7 @@ public class Setup2World implements Listener {
 	public static void OpenInventory(Player p) {
 		// General Options
 		int size = 54;
-		Inventory inv = HawnMenu.create(size, name);
+		Inventory inv = HawnMenu.create(size, name, HawnMenu.Type.SETUP_WORLD);
 
 		// Inventory
 		for (int i = 0; i <= 53; i++) {
@@ -41,6 +41,8 @@ public class Setup2World implements Listener {
 		inv.setItem(13, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Info")), XMaterial.OAK_SIGN.parseMaterial()));
 		inv.setItem(21, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Set-Up-World")), XMaterial.EMERALD_BLOCK.parseMaterial()));
 		inv.setItem(23, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("SetupWorld.Close-Inventory")), XMaterial.BARRIER.parseMaterial()));
+		inv.setItem(45, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("Setup.Previous")), Setup.NAVIGATION));
+		inv.setItem(53, item(MessageUtils.colourTheStuff(SetupLangFile.getConfig().getString("Setup.Next")), Setup.NAVIGATION));
 
 		p.openInventory(inv);
 	}
@@ -58,10 +60,10 @@ public class Setup2World implements Listener {
 	public void onInventory(InventoryClickEvent e) throws IOException {
 		if (e.getSlotType() == InventoryType.SlotType.OUTSIDE) return;
 		if (e.getCurrentItem() == null) return;
-		String inv = e.getWhoClicked().getOpenInventory().getTitle();
 		Player p = (Player) e.getWhoClicked();
+		HawnMenu.Type type = HawnMenu.typeOf(e.getView());
 
-		if (inv.equals(name)) {
+		if (type == HawnMenu.Type.SETUP_WORLD) {
 			if (e.getCurrentItem().getType() == XMaterial.AIR.parseMaterial()) return;
 
 			if (e.isLeftClick()) {
@@ -72,18 +74,28 @@ public class Setup2World implements Listener {
 					Setup.setupplace = 21;
 					e.setCancelled(true);
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> GuiSystem.FirstPage(p), 5);
+				} else if (e.getRawSlot() == 45 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
+					// Back to the language
+					e.setCancelled(true);
+					Setup.goTo(p, 1);
+				} else if (e.getRawSlot() == 53 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
+					// The default world stays the one of now
+					e.setCancelled(true);
+					Setup.goTo(p, 3);
 				} else {
 					e.setCancelled(true);
 				}
 			}
 
 			e.setCancelled(true);
-		} else if (inv.startsWith("§cWorld Manager - Main")) {
+		} else if (type == HawnMenu.Type.WORLD_LIST) {
 			// 97: only the admin doing the setup, on every page: another player who clicks there doesn't move the setup
 			if (Setup.inWorldStep(p)) {
 				if (e.getRawSlot() == 48) {
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Setup3Spawn.OpenInventory(p), 5);
-					Setup.setupplace = 3;
+					Setup.goTo(p, 3);
+				} else if (e.getRawSlot() == 49 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
+					// Back to the step of the world (the arrows of 45 and 46 keep changing the pages)
+					Setup.goTo(p, 2);
 				}
 			}
 		}

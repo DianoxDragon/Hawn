@@ -4,6 +4,27 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.8 BETA
+
+### New
+
+* Ranks above the heads: the prefix and the suffix of the rank above the head of the players, and the name in the `Name-Colour` of the rank (one of the 16 colours; without it, the last colour of the prefix, a hex colour giving the nearest one). `Ranks.Above-Head.Enable` and `Ranks.Name-Colour.Enable`, and `Above-Head` / `Name-Colour` per world. Like the order of the tab list, it is sent to the players in packets: nothing is created on the server, and the teams of the other plugins are not touched. See [Ranks](../features/ranks.md).
+* `Ranks.Source: LUCKPERMS`: the rank is the group of the player in LuckPerms, with its prefix, its suffix and its weight (the highest first in the tab list). A change in LuckPerms shows at once, without a rejoin.
+* `/hawn rank set <player> <rank>`, `remove <player>`, `info <player>` and `list`: the ranks given by hand, written in `Ranks.Players` and shown at once (`hawn.admin.command.rank`). With LuckPerms, `set` says to change the group in LuckPerms.
+* `/hawn debug` (`hawn.admin.command.debug`): the mistakes of the configuration files (unknown sounds, materials, effects, damage types, actions written wrong), the options in `AUTO` left to another plugin (with its version), and the errors Hawn went on without since the start. `Plugin.Debug: true` in `general.yml` writes these errors in the console. A wrong sound or material is now warned once, not at each use.
+* The welcome setup: Previous step and Next step buttons (doors, never arrows: the arrows of the world manager keep changing its pages). At the step of the spawn, the admin goes to the default world chosen at the step 2, since the spawn is created where the admin stands.
+* Cleaner examples on a new installation: the auto broadcast, the server list MOTD, the tab list, the scoreboard, the custom commands and the join commands show a coherent lobby (Your Server, discord.gg/yourserver...). The files already there don't change.
+
+### Fixes
+
+* The menus of Hawn were recognized by their title: a chest or the menu of another plugin with the same title ran the actions of Hawn. Each menu is recognized by its type now.
+* Paper: a message changed by Hawn (an emoji, a word of the anti-swear, a highlighted mention) lost the clicks and the hover texts added by another plugin. Hawn now only replaces its words inside the message.
+* `/hawn nightvision` could only turn the night vision on. It now turns it off when it is on.
+* `/hawn help` didn't list `/hawn debug` and `/hawn rank`.
+* The world manager: the title "Import started" (or "World in creation") stayed on screen when the message of the end had no title (the French one). It goes away as soon as the world is loaded or created, and the French messages have their title of the end too (new installations).
+* A wrong damage type in `AntiDamage-Custom.Entity.Options.Damage-Type-List` was ignored without a word. It is said in the console now.
+* Some errors were hidden without a trace (scoreboard animations, signs, the player list menu): they are counted in `/hawn debug`.
+
 ## 1.4.7 BETA
 
 ### New

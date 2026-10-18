@@ -78,6 +78,10 @@ public class SetupLangFile {
 		Config.set("SetupSpawn.WARNING", Collections.singletonList("&cYou are still in setup, don't forget to set a spawn, to finish it"));
 		Config.set("SetupSpawn.Spawn-Changed", Collections.singletonList("%prefix% &7Default spawn changed to %arg 1%"));
 
+		// Since 1.4.8: the Previous / Next buttons, the teleport before the spawn
+		Config.set("Setup.Previous", "&7« Previous step");
+		Config.set("Setup.Next", "&7Next step »");
+		Config.set("SetupSpawn.Teleported", Collections.singletonList("%prefix% &7You are in &e%arg 1%&7, the default world: stand where the spawn must be, then click the gold block"));
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Please restart the server"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6You are still in the setup &7(&e/hawn setup &7to open it again)"));
 

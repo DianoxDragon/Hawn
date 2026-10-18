@@ -182,6 +182,7 @@ public class Reload {
 
 		Main.getInstance().getBlockExceptions().load();
 
+		fr.dianox.hawn.utility.Debug.forgetWarnings();
 		fr.dianox.hawn.modules.ranks.Ranks.load();
 
 		// The same warnings as at startup

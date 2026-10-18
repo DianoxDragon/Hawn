@@ -107,6 +107,8 @@ public final class WorldLoading {
 
 		String path = "World-List." + worldname;
 		World world = load(worldname);
+		// The title "Import started" goes away (a message without a title would leave it)
+		p.resetTitle();
 
 		if (world == null) {
 			say(p, WorldDeletion.message("Gui.Import.Failed", "%prefix% &cThe world &e%arg1% &ccould not be loaded, see the console"), worldname);

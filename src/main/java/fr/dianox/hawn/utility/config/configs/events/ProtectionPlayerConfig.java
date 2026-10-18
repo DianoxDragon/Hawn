@@ -60,7 +60,7 @@ public class ProtectionPlayerConfig {
         Config.set("Anti-Damage.WorldGuard.Enable", false);
         Config.set("Anti-Damage.WorldGuard.Method", "WHITELIST");
         Config.set("Anti-Damage.WorldGuard.Regions", java.util.Arrays.asList("region1",
-                "whatyouwant"));
+                "region2"));
 
         Config.set("Anti-Damage.World.All_World", false);
         Config.set("Anti-Damage.World.Worlds", java.util.Arrays.asList("world",
