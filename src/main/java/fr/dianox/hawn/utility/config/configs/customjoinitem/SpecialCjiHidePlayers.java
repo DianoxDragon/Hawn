@@ -58,6 +58,9 @@ public class SpecialCjiHidePlayers {
         Config.set("PV.Option.OnJoin-Priority-For-Player-Option", true);
         Config.set("PV.Option.Item-Delay.Enable", true);
         Config.set("PV.Option.Item-Delay.Delay", 5);
+        // Since 1.4.9: everyone, only the staff and the VIP, nobody. On for the new files only, the others keep two states
+        Config.set("PV.Option.Three-States.Enable", !file.exists());
+        Config.set("PV.Option.Three-States.Staff-And-VIP-Ranks", java.util.Arrays.asList("owner", "admin", "vip"));
         Config.set("PV.Option.Inventory-Click.Interact-With-The-Object", true);
         Config.set("PV.Option.Inventory-Click.Show-Messages", true);
         Config.set("PV.Option.Inventory-Click.Sounds.Enable", true);
@@ -84,6 +87,14 @@ public class SpecialCjiHidePlayers {
         Config.set("PV.ON.Material.Material", "CLOCK");
         Config.set("PV.ON.Material.Amount", 1);
         Config.set("PV.ON.Material.Data-value", "0");
+        Config.set("PV.STAFF.Title", "&6Invisible player &8→ §eStaff and VIP");
+        Config.set("PV.STAFF.Lore", java.util.Arrays.asList(new String[] {
+                " ",
+                "&e&lRight click to hide everyone"
+            }));
+        Config.set("PV.STAFF.Material.Material", "CLOCK");
+        Config.set("PV.STAFF.Material.Amount", 1);
+        Config.set("PV.STAFF.Material.Data-value", "0");
 
         Config = ConfigDefaults.apply(file, loaded, Config);
     }

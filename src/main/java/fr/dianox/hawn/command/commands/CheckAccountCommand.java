@@ -131,11 +131,9 @@ public class CheckAccountCommand extends BukkitCommand {
     		
     		String gm_number = String.valueOf(PlayerOptionSQLClass.GetSQLPOGamemode(target));
     		
-    		if (PlayerVisibility.PVPlayer.contains(target)) {
-    			pv = "§a§l✔";
-    		} else {
-    			pv = "§c§l✗";
-    		}
+    		// ✔ hides everyone, Staff/VIP: sees only the staff and the VIP (1.4.9)
+    		PlayerVisibility.Mode mode = PlayerVisibility.mode(target);
+    		pv = mode == PlayerVisibility.Mode.NONE ? "§a§l✔" : mode == PlayerVisibility.Mode.STAFF ? "§e§lStaff/VIP" : "§c§l✗";
     		
     		String value0 = PlayerOptionSQLClass.GetSQLPOJumpBoost(target);
     		if (value0.equalsIgnoreCase("TRUE")) {

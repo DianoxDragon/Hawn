@@ -65,6 +65,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.antiswear.benotified`           | Warned when someone swears                                 |
 | `hawn.antiadvertising.benotified`     | Warned when a message is blocked by the [anti-advertising](../features/chat.md#anti-advertising) |
 | `hawn.staff.seevanished`              | Sees vanished players                                      |
+| `hawn.playervisibility.shown`         | Shown to the players who see only the staff and the VIP with the [player hider](../features/custom-join-items.md#player-visibility-special-hideplayers) (since 1.4.9, the operators have it) |
 | `hawn.staff`                          | Counted by `%staff_online%`                                |
 
 ## Commands

@@ -3,6 +3,7 @@ package fr.dianox.hawn.command.commands;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.command.commands.tasks.VanishTaskAB;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -84,6 +85,8 @@ public class VanishCommand extends BukkitCommand {
 					}
 					
 					player_list_vanish.remove(target);
+					// Hidden again from the players who hide them with the player hider (1.4.9)
+					PlayerVisibility.updateTarget(target);
 					
 					if (Main.TaskVanishAB.containsKey(target)) {
 						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
@@ -196,6 +199,8 @@ public class VanishCommand extends BukkitCommand {
 								}
 							}
 							player_list_vanish.remove(p);
+							// Hidden again from the players who hide them with the player hider (1.4.9)
+							PlayerVisibility.updateTarget(p);
 							
 							if (Main.TaskVanishAB.containsKey(p)) {
 								Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
@@ -282,6 +287,8 @@ public class VanishCommand extends BukkitCommand {
 									}
 								}
 								player_list_vanish.remove(target);
+								// Hidden again from the players who hide them with the player hider (1.4.9)
+								PlayerVisibility.updateTarget(target);
 								
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (all.hasPermission("hawn.staff.seevanished")) {

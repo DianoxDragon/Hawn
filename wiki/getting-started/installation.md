@@ -47,7 +47,6 @@ These plugins are not needed, but Hawn uses them when they are installed:
 | [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) | Every PlaceholderAPI placeholder in Hawn messages, scoreboards, tab... |
 | [WorldGuard](https://enginehub.org/worldguard) **7+**                     | Protections enabled or disabled per region.                           |
 | WorldEdit                                                                | Needed by the `/1`, `/2`, `/c`, `/p` shortcuts.                       |
-| MVdWPlaceholderAPI                                                       | MVdW placeholders.                                                    |
 
 Hawn detects them by itself at startup. You can check what was detected with `/hawn hooks`. More details: [Hooks](../integrations/hooks.md).
 

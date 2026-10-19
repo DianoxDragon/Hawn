@@ -15,7 +15,7 @@ GM:
   Enable: true
   CustomMode:
     Enable: true
-    GameMode: 1              # 0 survival, 1 creative, 2 adventure, 3 spectator
+    GameMode: 2              # 0 survival, 1 creative, 2 adventure, 3 spectator
     If-player-have:          # only change it if the player is currently in...
       Survival: true
       Creative: true
@@ -26,6 +26,8 @@ GM:
     Worlds:
     - world
 ```
+
+The gamemode is only changed in the listed worlds (or in every world with `All_World: true`); the other worlds don't touch it. Before 1.4.9 it was the opposite: the worlds **not** listed changed the gamemode, and `All_World` did nothing. The new installations use adventure (2), like the [join](join-and-quit.md); before 1.4.9 it was creative (1), and your file keeps its value.
 
 ## Fly
 
@@ -42,6 +44,8 @@ Fly:
     Worlds:
     - world
 ```
+
+With `All_World: true`, the fly is given in every world (before 1.4.9, nothing happened). The gamemode is changed first: a new gamemode would remove the fly.
 
 ## Player options
 

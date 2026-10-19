@@ -100,10 +100,6 @@ The YAML syntax of the file is broken. Common mistakes:
 
 Check the file on [yamllint.com](https://www.yamllint.com/).
 
-### The console is spammed by MVdWPlaceholderAPI
-
-MVdWPlaceholderAPI needs a premium plugin of Maximvdw (FeatherBoard...). Without one, remove MVdWPlaceholderAPI. See [Hooks](../integrations/hooks.md#mvdwplaceholderapi).
-
 ## Still stuck?
 
 Ask on the [Discord](https://discord.gg/yeUg5mbJuz), or open an issue on [GitHub](https://github.com/DianoxDragon/Hawn/issues). Give:

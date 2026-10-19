@@ -145,7 +145,7 @@ Then give it as a join item with `Special-Items: Special-Book:<book>`:
 
 ### Player visibility (`Special-HidePlayers`)
 
-A clock that hides or shows the other players. The state is saved as the player's "player visibility" [option](player-options.md).
+A clock that chooses who the player sees. Each right click goes to the next state: **everyone**, then **only the staff and the VIP**, then **nobody** (since 1.4.9, with `Three-States`), then everyone again. The state is saved as the player's "player visibility" [option](player-options.md), and the vanished players stay hidden in every state.
 
 `CustomJoinItem/Special-HidePlayers.yml`:
 
@@ -158,8 +158,11 @@ PV:
     Item-Delay:
       Enable: true
       Delay: 5                                # seconds between two uses
+    Three-States:                             # since 1.4.9
+      Enable: true                            # false: everyone and nobody only
+      Staff-And-VIP-Ranks: [owner, admin, vip]  # the ranks shown in the second state
     Inventory-Click:
-      Interact-With-The-Object: true          # clicking it in the inventory also toggles
+      Interact-With-The-Object: true          # clicking it in the inventory also changes the state
       Show-Messages: true
       Sounds: { Enable: true, Sound: NOTE_PIANO, Volume: 10, Pitch: 1 }
     Interact-With-Item:
@@ -168,11 +171,21 @@ PV:
     Title: '&6Invisible player &8→ &cDisabled'
     Lore: [' ', '&c&lRight click to hide players']
     Material: { Material: CLOCK, Amount: 1 }
+  STAFF:                                      # item when only the staff and the VIP are shown
+    Title: '&6Invisible player &8→ &eStaff and VIP'
+    Lore: [' ', '&e&lRight click to hide everyone']
+    Material: { Material: CLOCK, Amount: 1 }
   'ON':                                       # item when the players are hidden
     Title: '&6Invisible player &8→ &aEnabled'
     Lore: [' ', '&a&lRight click to show players']
     Material: { Material: CLOCK, Amount: 1 }
 ```
+
+**Who is "the staff and the VIP"**: the players whose [rank](ranks.md) is in `Staff-And-VIP-Ranks`, and the players with `hawn.playervisibility.shown` (the operators have it, and it works without the ranks). When a rank changes (`/hawn rank`, LuckPerms), the player appears or disappears at once.
+
+`Three-States` is on in the files created by 1.4.9 or later. A file of an older version gets `Enable: false`: the item keeps its two states until you turn it on.
+
+Since 1.4.9, the item is recognized by Hawn itself, not by its title and its material: a title with placeholders works, and the item is never placed or used, even during the delay.
 
 Like every join item, it needs `hawn.use.customjoinitem` (and `hawn.use.cji.item.<item key>` with `Use_Permission_Per_Item`, for example `hawn.use.cji.item.Player-Visibility`). The remaining delay is available with the `%timedelaypvcji%` placeholder.
 

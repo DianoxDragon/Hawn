@@ -519,15 +519,11 @@ public class PlayerOptionSQLClass {
         String uuid = p.getUniqueId().toString();
 
         if (!ConfigPlayerGet.getFile(uuid).isSet("player_option_pv.Activate")) {
-            ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", PlayerVisibility.PVPlayer.contains(p));
+            ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", PlayerVisibility.hides(p));
         }
 
         if (Main.getInstance().getSql().useyamllistplayer) {
-            if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
-                value = "TRUE";
-            } else {
-                value = "FALSE";
-            }
+            value = yamlValue(uuid);
         } else {
             if (!SQL.tableExists("player_option_pv")) {
                 SQL.createTable("player_option_pv", "player TEXT, player_UUID TEXT, Activate TEXT");
@@ -537,11 +533,7 @@ public class PlayerOptionSQLClass {
                 value = String.valueOf(SQL.getInfoString("player_option_pv", "Activate", "" + p.getUniqueId() + ""));
                 SQL.set("player_option_pv", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
-                if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate")) {
-                    value = "TRUE";
-                } else {
-                    value = "FALSE";
-                }
+                value = yamlValue(uuid);
 
                 SQL.insertData("player, player_UUID, Activate",
                     " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_pv");
@@ -551,10 +543,19 @@ public class PlayerOptionSQLClass {
         return value;
     }
 
+    // player_option_pv.Mode (1.4.9) is STAFF for the third state; Activate stays true or false for the older versions
+    private static String yamlValue(String uuid) {
+        if ("STAFF".equalsIgnoreCase(ConfigPlayerGet.getFile(uuid).getString("player_option_pv.Mode"))) {
+            return "STAFF";
+        }
+        return ConfigPlayerGet.getFile(uuid).getBoolean("player_option_pv.Activate") ? "TRUE" : "FALSE";
+    }
+
     public static void onMysqlYamlCJIChange(Player p, String boolea) {
         String uuid = p.getUniqueId().toString();
 
         ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", ! boolea.equalsIgnoreCase("FALSE"));
+        ConfigPlayerGet.writeString(uuid, "player_option_pv.Mode", PlayerVisibility.fromValue(boolea).name());
 
         if (!Main.getInstance().getSql().useyamllistplayer) {
             if (!SQL.tableExists("player_option_pv")) {

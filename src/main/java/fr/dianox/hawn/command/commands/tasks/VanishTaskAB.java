@@ -31,9 +31,6 @@ public class VanishTaskAB extends BukkitRunnable {
 		if (HooksManager.papi()) {
 			str = PlaceholderAPI.setPlaceholders(p, str);
 		}
-		if (HooksManager.mvdw()) {
-			str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
-		}
 		str = str.substring(1, str.length() - 1);
 		
 		ActionBar.sendActionBar(p, str);

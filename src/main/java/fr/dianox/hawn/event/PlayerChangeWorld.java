@@ -108,6 +108,8 @@ public class PlayerChangeWorld implements Listener {
     public void onCW(PlayerChangedWorldEvent e) {
         Player p = e.getPlayer();
 
+        gamemode(p);
+
         if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.Enable")) {
             if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.World.All_World")) {
                 if (ChangeWorldPW.getWPO().contains(p.getWorld().getName()) && PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave")) {
@@ -170,17 +172,9 @@ public class PlayerChangeWorld implements Listener {
                     		}
                     	}
                     	
-                    	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
-                    		PlayerVisibility.hidePlayer(p);
-							SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
-							SpecialItemPlayerVisibility.messageitemPVON(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-                    	} else {
-                    		PlayerVisibility.showPlayer(p);
-							SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-							SpecialItemPlayerVisibility.messageitemPVOFF(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-                    	}
+                    	// true: nobody is shown, false: everyone
+                    	SpecialItemPlayerVisibility.set(p, PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")
+                    	        ? PlayerVisibility.Mode.NONE : PlayerVisibility.Mode.ALL, SpecialItemPlayerVisibility.Source.WORLD);
                     	
                     	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
                     		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
@@ -250,17 +244,9 @@ public class PlayerChangeWorld implements Listener {
                     		}
                     	}
                     	
-                    	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
-                    		PlayerVisibility.hidePlayer(p);
-							SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
-							SpecialItemPlayerVisibility.messageitemPVON(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-                    	} else {
-                    		PlayerVisibility.showPlayer(p);
-							SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-							SpecialItemPlayerVisibility.messageitemPVOFF(p);
-							PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-                    	}
+                    	// true: nobody is shown, false: everyone
+                    	SpecialItemPlayerVisibility.set(p, PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")
+                    	        ? PlayerVisibility.Mode.NONE : PlayerVisibility.Mode.ALL, SpecialItemPlayerVisibility.Source.WORLD);
                     	
                     	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
                     		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
@@ -331,17 +317,9 @@ public class PlayerChangeWorld implements Listener {
                 		}
                 	}
                 	
-                	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")) {
-                		PlayerVisibility.hidePlayer(p);
-						SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
-						SpecialItemPlayerVisibility.messageitemPVON(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-                	} else {
-                		PlayerVisibility.showPlayer(p);
-						SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-						SpecialItemPlayerVisibility.messageitemPVOFF(p);
-						PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-                	}
+                	// true: nobody is shown, false: everyone
+                	SpecialItemPlayerVisibility.set(p, PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.PlayerVisibility")
+                	        ? PlayerVisibility.Mode.NONE : PlayerVisibility.Mode.ALL, SpecialItemPlayerVisibility.Source.WORLD);
                 	
                 	if (PlayerWorldChangeConfigE.getConfig().getBoolean("Player-Options.If-Not-Keeping.Options-Default.JumpBoost")) {
                 		PlayerOptionSQLClass.SaveSQLPOJumpBoost(p, "TRUE");
@@ -354,153 +332,62 @@ public class PlayerChangeWorld implements Listener {
             }
         }
 
-        if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.Enable")) {
-            if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.Player-Options-primary")) {
-                if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.World.All_World")) {
-                    if (ChangeWorldPW.getWFlyKeepOnChangeWorld().contains(p.getWorld().getName())) {
-                        if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.SetFlyOnChangeWorld")) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Cancel-Event-If-Player-Is-In.Gamemode-Creative-Spectator")) {
-                                if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
-                                    return;
-                                }
-                            }
+        fly(p);
+    }
 
-                            p.setAllowFlight(true);
-                            p.setFlying(true);
-                            FlyCommand.player_list_flyc.add(p);
-                        }
-                    } else {
-                        if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.DisableFlyIfAWorldIsNotListed")) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Cancel-Event-If-Player-Is-In.Gamemode-Creative-Spectator")) {
-                                if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
-                                    return;
-                                }
-                            }
+    private static final GameMode[] MODES = {GameMode.SURVIVAL, GameMode.CREATIVE, GameMode.ADVENTURE, GameMode.SPECTATOR};
 
-                            if (FlyCommand.player_list_flyc.contains(p)) {
-                                FlyCommand.player_list_flyc.remove(p);
-                            }
-                            
-                            p.setAllowFlight(false);
-                            p.setFlying(false);
+    private static boolean listed(String option, java.util.List<String> worlds, Player p) {
+        return PlayerWorldChangeConfigE.getConfig().getBoolean(option + ".World.All_World") || worlds.contains(p.getWorld().getName());
+    }
 
-                        }
-                    }
-                }
-            }
+    /**
+     * GM: the gamemode in the listed worlds (or in all of them with All_World). The other worlds are not touched: before 1.4.9
+     * they were the ones changed, and All_World did nothing. First, because a new gamemode removes the fly.
+     */
+    private static void gamemode(Player p) {
+        if (!PlayerWorldChangeConfigE.getConfig().getBoolean("GM.Enable") || !PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.Enable")) {
+            return;
         }
 
+        if (!listed("GM", ChangeWorldPW.getWGamemodeOnChangeWorld(), p)) {
+            return;
+        }
 
+        String now = p.getGameMode().name().charAt(0) + p.getGameMode().name().substring(1).toLowerCase(java.util.Locale.ROOT);
+        if (!PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have." + now)) {
+            return;
+        }
 
-        // Gamemode
-        if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.Enable")) {
-            if (!PlayerWorldChangeConfigE.getConfig().getBoolean("GM.Player-Options-primary")) {
-                if (!PlayerWorldChangeConfigE.getConfig().getBoolean("GM.World.All_World")) {
-                    if (ChangeWorldPW.getWGamemodeOnChangeWorld().contains(p.getWorld().getName())) {
-                        if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.Enable")) {
-                            if (p.getGameMode() == GameMode.SURVIVAL) {
-                                if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Survival")) {
-                                    if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                        p.setGameMode(GameMode.SURVIVAL);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                        p.setGameMode(GameMode.CREATIVE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                        p.setGameMode(GameMode.ADVENTURE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                        p.setGameMode(GameMode.SPECTATOR);
-                                    }
-                                }
-                            } else if (p.getGameMode() == GameMode.CREATIVE) {
-                                if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Creative")) {
-                                    if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                        p.setGameMode(GameMode.SURVIVAL);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                        p.setGameMode(GameMode.CREATIVE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                        p.setGameMode(GameMode.ADVENTURE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                        p.setGameMode(GameMode.SPECTATOR);
-                                    }
-                                }
-                            } else if (p.getGameMode() == GameMode.ADVENTURE) {
-                                if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Adventure")) {
-                                    if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                        p.setGameMode(GameMode.SURVIVAL);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                        p.setGameMode(GameMode.CREATIVE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                        p.setGameMode(GameMode.ADVENTURE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                        p.setGameMode(GameMode.SPECTATOR);
-                                    }
-                                }
-                            } else if (p.getGameMode() == GameMode.SPECTATOR) {
-                                if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Spectator")) {
-                                    if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                        p.setGameMode(GameMode.SURVIVAL);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                        p.setGameMode(GameMode.CREATIVE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                        p.setGameMode(GameMode.ADVENTURE);
-                                    } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                        p.setGameMode(GameMode.SPECTATOR);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if (p.getGameMode() == GameMode.SURVIVAL) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Survival")) {
-                                if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                    p.setGameMode(GameMode.SURVIVAL);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                    p.setGameMode(GameMode.CREATIVE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                    p.setGameMode(GameMode.ADVENTURE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                    p.setGameMode(GameMode.SPECTATOR);
-                                }
-                            }
-                        } else if (p.getGameMode() == GameMode.CREATIVE) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Creative")) {
-                                if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                    p.setGameMode(GameMode.SURVIVAL);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                    p.setGameMode(GameMode.CREATIVE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                    p.setGameMode(GameMode.ADVENTURE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                    p.setGameMode(GameMode.SPECTATOR);
-                                }
-                            }
-                        } else if (p.getGameMode() == GameMode.ADVENTURE) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Adventure")) {
-                                if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                    p.setGameMode(GameMode.SURVIVAL);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                    p.setGameMode(GameMode.CREATIVE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                    p.setGameMode(GameMode.ADVENTURE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                    p.setGameMode(GameMode.SPECTATOR);
-                                }
-                            }
-                        } else if (p.getGameMode() == GameMode.SPECTATOR) {
-                            if (PlayerWorldChangeConfigE.getConfig().getBoolean("GM.CustomMode.If-player-have.Spectator")) {
-                                if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 0) {
-                                    p.setGameMode(GameMode.SURVIVAL);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 1) {
-                                    p.setGameMode(GameMode.CREATIVE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 2) {
-                                    p.setGameMode(GameMode.ADVENTURE);
-                                } else if (PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode") == 3) {
-                                    p.setGameMode(GameMode.SPECTATOR);
-                                }
-                            }
-                        }
-                    }
-                }
+        int value = PlayerWorldChangeConfigE.getConfig().getInt("GM.CustomMode.GameMode");
+        if (value >= 0 && value < MODES.length) {
+            p.setGameMode(MODES[value]);
+        }
+    }
+
+    /**
+     * Fly: given in the listed worlds (or in all of them with All_World, which did nothing before 1.4.9), removed in the others.
+     */
+    private static void fly(Player p) {
+        if (!PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.Enable")) {
+            return;
+        }
+
+        if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Cancel-Event-If-Player-Is-In.Gamemode-Creative-Spectator")
+                && (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)) {
+            return;
+        }
+
+        if (listed("Fly", ChangeWorldPW.getWFlyKeepOnChangeWorld(), p)) {
+            if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.SetFlyOnChangeWorld")) {
+                p.setAllowFlight(true);
+                p.setFlying(true);
+                if (!FlyCommand.player_list_flyc.contains(p)) FlyCommand.player_list_flyc.add(p);
             }
+        } else if (PlayerWorldChangeConfigE.getConfig().getBoolean("Fly.Enable.DisableFlyIfAWorldIsNotListed")) {
+            FlyCommand.player_list_flyc.remove(p);
+            p.setAllowFlight(false);
+            p.setFlying(false);
         }
     }
 

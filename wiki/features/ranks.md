@@ -131,3 +131,5 @@ Above the heads, Minecraft shows the prefix and the suffix of the team of the pl
 The order of the tab list: on 1.21.2 and later, Minecraft has an order for it, and Hawn uses it. Before 1.21.2, the teams sort it too.
 
 A plugin that colours the names above the heads with its own teams can lose these colours for the players who have a rank: turn `Above-Head.Enable`, `Name-Colour.Enable` (and before 1.21.2 `Sorting.Enable`) off then, or use `Enable: AUTO` with TAB or NametagEdit.
+
+The [player hider](custom-join-items.md#player-visibility-special-hideplayers) uses the ranks too: its second state shows only the ranks of `Staff-And-VIP-Ranks` (owner, admin and vip by default).

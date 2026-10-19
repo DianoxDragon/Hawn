@@ -425,18 +425,8 @@ public class OjPlayerOption {
             }
         }
 
-        for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-            if (PlayerVisibility.PVPlayer.contains(all)) {
-                if (!all.getName().equalsIgnoreCase(p.getName())) {
-                    if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                        all.hidePlayer(Main.getInstance(), p);
-                    } else {
-                        all.hidePlayer(p);
-                    }
-
-                }
-            }
-        }
+        // Hidden from the players who hide someone (also when /v is turned off completely: it was skipped before 1.4.9)
+        PlayerVisibility.updateTarget(p);
     }
 
     @SuppressWarnings("deprecation")
@@ -540,19 +530,10 @@ public class OjPlayerOption {
 
             }
 
-            for (Player all: Bukkit.getServer().getOnlinePlayers()) {
-                if (PlayerVisibility.PVPlayer.contains(all)) {
-                    if (!all.getName().equalsIgnoreCase(p.getName())) {
-                        if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                            all.hidePlayer(Main.getInstance(), p);
-                        } else {
-                            all.hidePlayer(p);
-                        }
-
-                    }
-                }
-            }
         }
+
+        // Hidden from the players who hide someone (also when /v is turned off completely: it was skipped before 1.4.9)
+        PlayerVisibility.updateTarget(p);
     }
 
     private static void FlyDoubleJumpnull(Player p) {

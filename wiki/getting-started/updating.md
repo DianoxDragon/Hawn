@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3 and from 1.3 to 1.4.
+description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, and within 1.4 (1.4.1 to 1.4.9).
 ---
 
 # Updating from an older version
@@ -12,6 +12,28 @@ description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 
 4. Start the server.
 
 Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## Within 1.4 (1.4.1 to 1.4.9)
+
+Each 1.4.x keeps your files and adds the new options. Most changes are fixes or new features that are off or invisible until you use them. These ones change what an existing server does: check them once after the update.
+
+* **Gamemode on world change** (1.4.9): `GM` of `Events/PlayerWorldChange.yml` changed the gamemode in the worlds that were **not** listed, and did nothing with `All_World: true`. Now only the listed worlds change it. If your players got a gamemode in another world because of this, list that world in `GM.World.Worlds`. The value of your file is kept (creative before 1.4.9, adventure for the new installations). See [World change events](../features/world-change.md).
+* **MVdWPlaceholderAPI** (1.4.9) is no longer supported: its placeholders are not replaced anymore, and its section is removed from `general.yml`. Use PlaceholderAPI.
+* **Player hider** (1.4.9): your `Special-HidePlayers.yml` keeps two states (`PV.Option.Three-States.Enable: false`). Turn it on for everyone, then the staff and the VIP, then nobody.
+* **Ranks** (1.4.7, 1.4.8): `Ranks.yml` is created with three example ranks (owner, admin, vip) turned on. They are only given by the permission `hawn.rank.<rank>` (never to the operators by default) or by `Ranks.Players`, so nothing changes until you give one. But a permission plugin that gives **every permission** to a group (`*` in LuckPerms) gives `hawn.rank.owner` to it: these players show `[Owner]`. Remove the examples you don't want, or set `Ranks.Enable: false`. With TAB or NametagEdit installed, `Enable: AUTO` leaves the tab list and the heads to them. See [Ranks](../features/ranks.md).
+* **Names above the heads** (1.4.8): a player with a rank gets a team of Hawn (sent in packets): a plugin that coloured or hid the names with its own teams loses that for these players. Turn `Ranks.Above-Head.Enable` and `Ranks.Name-Colour.Enable` off if needed. Before 1.21.2, the order of the tab list (`Ranks.Sorting.Enable`) uses these teams for every player.
+* **Emergency save of the TPS warning** (1.4.7): under 5 TPS, the worlds and the players are no longer saved by default. `Plugin.Tps.Emergency-Save.Enable: true` in `general.yml` brings it back.
+* **`/hw unload`** (1.4.7): the players in the world are sent to the default world, instead of the command being refused.
+* **Auto broadcast** (1.4.6): `world_list` now compares the whole name of the world: `world` no longer matches `world_nether`. Write `world*` for the old behaviour.
+* **MySQL with several servers** (1.4.4): the first join and the join numbers are counted once for the whole network. `Plugin.Use.MYSQL.First-Join-On-The-Network: false` counts them server by server again. See [Several servers on one database](../features/database.md).
+* **Placeholders of the number of players** (1.4.3): `%online%` and the others don't count the vanished players.
+* **`hawn.staff.seevanished`** (1.4.3): the staff with it now really see the vanished players.
+* **Join and quit messages per world** (1.4.3): with `Only-Broadcast-Messages-In-The-World: true`, they are sent once, only to the players of the world (they were sent to everyone).
+* **New installations only** (1.4.8): the example messages (auto broadcast, MOTD, tab list, scoreboard, custom commands) were changed into a demo of a lobby. Your files keep their messages.
+
+After the update, type `/hawn debug` (1.4.8): it lists the mistakes of your files, and the startup console lists the options that contradict each other.
+
+See the [changelog](../help/changelog.md) for everything else.
 
 ## From 1.3 to 1.4
 

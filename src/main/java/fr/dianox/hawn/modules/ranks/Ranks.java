@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.ranks;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.config.configs.RanksConfig;
@@ -482,12 +483,13 @@ public final class Ranks implements Listener {
 		Found found = resolve(p);
 		Rank r = found.rank;
 		UUID id = p.getUniqueId();
-		if (r == null) {
-			current.remove(id);
-		} else {
-			current.put(id, r);
-		}
+		Rank previous = r == null ? current.remove(id) : current.put(id, r);
 		sources.put(id, found.source);
+
+		// The players who see only the staff and the VIP see this one again, or no longer (1.4.9)
+		if (!Objects.equals(previous, r)) {
+			PlayerVisibility.updateTarget(p);
+		}
 
 		if (!tablist) {
 			return;

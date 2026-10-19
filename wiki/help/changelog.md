@@ -4,6 +4,24 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.4.9 BETA
+
+### New
+
+* The player hider has three states: everyone, only the staff and the VIP, nobody. The staff and the VIP are the ranks of `PV.Option.Three-States.Staff-And-VIP-Ranks` (owner, admin, vip) and the players with `hawn.playervisibility.shown`; a rank given or removed shows at once. A third item, `PV.STAFF`, shows this state. On for the new installations; the files already there keep two states (`PV.Option.Three-States.Enable`). See [Custom join items](../features/custom-join-items.md#player-visibility-special-hideplayers).
+* `/option pv all`, `staff` or `none` chooses the state; `/option pv` alone goes to the next one.
+* MVdWPlaceholderAPI is no longer supported: it has not been updated since 2020, and the premium plugins of Maximvdw use PlaceholderAPI since 2021. Its section is removed from `general.yml`.
+
+### Fixes
+
+* `PlayerWorldChange.yml`, `GM`: the gamemode was changed in the worlds that were **not** listed (with the default file, a player going to the End became creative), and `All_World: true` did nothing. Only the listed worlds change it now. The new installations use adventure, like the join.
+* `PlayerWorldChange.yml`, `Fly`: `All_World: true` did nothing. The gamemode is now changed before the fly, so a new gamemode no longer removes it.
+* The player hider: with `/v` turned off completely (`DISABLE_THE_COMMAND_COMPLETELY`), a player who joined was seen by the players who hide everyone.
+* The player hider: a player back from the vanish was shown to everyone, even to the players who hide everyone.
+* The player hider item: during its delay, a click was not cancelled (a block could be placed with it). The item is recognized by Hawn itself now, not by its title: a title with placeholders works.
+* `PV.Option.Inventory-Click.Interact-With-The-Object` was never read. `false` now keeps the click in the inventory from changing the state.
+* `Fly.Enable.Player-Options-primary` and `GM.Player-Options-primary` were read but never created: removed.
+
 ## 1.4.8 BETA
 
 ### New

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.4.8-Beta"
+version = "1.4.9-Beta"
 
 repositories {
     mavenCentral()
@@ -14,9 +14,6 @@ repositories {
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.papermc.io/repository/maven-public/")
 }
-
-// Compile-time stubs for plugins without a public Maven repository (never shipped).
-val stubs: SourceSet = sourceSets.create("stubs")
 
 // Newest server API, only used by the "checkLatestApi" task
 val latestApi: Configuration = configurations.create("latestApi")
@@ -31,8 +28,6 @@ configurations.named(paper.compileClasspathConfigurationName) {
 dependencies {
     // Oldest supported API: the plugin runs from 1.16.5 up to the latest releases.
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    "stubsCompileOnly"("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    compileOnly(stubs.output)
 
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.4") { isTransitive = false }
@@ -66,7 +61,7 @@ tasks {
         group = "verification"
         description = "Compiles Hawn against the latest Paper API"
         source = sourceSets.main.get().java
-        classpath = files(latestApi, stubs.output) + configurations.compileClasspath.get().filter {
+        classpath = files(latestApi) + configurations.compileClasspath.get().filter {
             !it.name.startsWith("spigot-api") && !it.name.startsWith("bungeecord-chat")
         }
         destinationDirectory.set(layout.buildDirectory.dir("checkLatestApi"))

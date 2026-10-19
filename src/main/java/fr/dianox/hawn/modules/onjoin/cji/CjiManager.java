@@ -17,8 +17,6 @@ public class CjiManager {
 		// The titles of the special items, read again at each /hawn reload
 		SpecialIteFunGun.Check = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
 		SpecialIteLobbyBow.Check = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
-		SpecialItemPlayerVisibility.Check = SpecialCjiHidePlayers.getConfig().getString("PV.OFF.Title");
-		SpecialItemPlayerVisibility.CheckTwo = SpecialCjiHidePlayers.getConfig().getString("PV.ON.Title");
 
 		CustomJoinItem.itemcjiname.clear();
 		CustomJoinItem.itemcjislot.clear();

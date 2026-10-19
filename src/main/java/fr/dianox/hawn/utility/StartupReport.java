@@ -74,8 +74,7 @@ public final class StartupReport {
 				+ " - MiniMessage " + yes(PlatformEvents.isMiniMessage()));
 		say(LINE + ChatColor.YELLOW + "Hooks: " + hook("PlaceholderAPI", HooksManager.papi())
 				+ (HooksManager.expansionRegistered() ? ChatColor.GRAY + " (gives %hawn_...%)" : "") + ChatColor.GRAY + " - "
-				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard())
-				+ ChatColor.GRAY + " - " + hook("MVdWPlaceholderAPI", HooksManager.mvdw()));
+				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard()));
 		boolean mysql = ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable");
 		boolean yaml = hawn.getSql() == null || hawn.getSql().useyamllistplayer;
 		say(LINE + ChatColor.YELLOW + "Storage: " + ChatColor.WHITE + (yaml ? "YAML" : "MySQL")
@@ -205,7 +204,6 @@ public final class StartupReport {
 
 		// A hook kept on without its plugin
 		hookKept(warnings, "PlaceholderAPI");
-		hookKept(warnings, "MVdWPlaceholderAPI");
 	}
 
 	private static List<String> commonWorlds(String a, String b) {

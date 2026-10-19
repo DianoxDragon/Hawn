@@ -46,6 +46,8 @@ public class OptionCommand extends BukkitCommand {
             return Tab.of(args, "fly", "doublejump", "speed", "flyspeed", "jumpboost", "autobc", "pv");
         } else if (args.length == 2 && (args[0].equalsIgnoreCase("speed") || args[0].equalsIgnoreCase("flyspeed") || args[0].equalsIgnoreCase("fs"))) {
             return Tab.range(args, 0, 10);
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("pv")) {
+            return PlayerVisibility.threeStates() ? Tab.of(args, "all", "staff", "none") : Tab.of(args, "all", "none");
         }
 
         return Tab.none();
@@ -481,73 +483,19 @@ public class OptionCommand extends BukkitCommand {
                     return true;
                 }
 
-                if (PlayerVisibility.PVPlayer.contains(p)) {
-                    if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-                        if (PlayerVisibility.Cooling().contains(p)) {
-                            if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                                }
-                            }
-                        } else {
-                            PlayerVisibility.Cooling().add(p);
-                            PlayerVisibility.showPlayer(p);
-                            SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-
-                            SpecialItemPlayerVisibility.messageitemPVOFF(p);
-
-                            PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-
-                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    PlayerVisibility.Cooling().remove(p);
-                                }
-
-                            }, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") * 20);
-                            Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
-                        }
-                    } else {
-                        PlayerVisibility.showPlayer(p);
-                        SpecialItemPlayerVisibility.swithPVItemsOnJoinToOFF(p);
-                        SpecialItemPlayerVisibility.messageitemPVOFF(p);
-                        PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "FALSE");
-                    }
-                } else {
-                    if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
-                        if (PlayerVisibility.Cooling().contains(p)) {
-                            if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
-                                    ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-                                }
-                            }
-                        } else {
-                            PlayerVisibility.Cooling().add(p);
-                            PlayerVisibility.hidePlayer(p);
-                            SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
-
-                            SpecialItemPlayerVisibility.messageitemPVON(p);
-
-                            PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
-
-                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    PlayerVisibility.Cooling().remove(p);
-                                }
-
-                            }, SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay") * 20);
-                            Main.hiderCooldowns.put(p, Long.valueOf(System.currentTimeMillis()));
-                        }
-                    } else {
-                        PlayerVisibility.hidePlayer(p);
-                        SpecialItemPlayerVisibility.swithPVItemsOnJoinToON(p);
-                        SpecialItemPlayerVisibility.messageitemPVON(p);
-                        PlayerOptionSQLClass.onMysqlYamlCJIChange(p, "TRUE");
+                // /option pv: the next state; /option pv all|staff|none: this one (staff with PV.Option.Three-States)
+                PlayerVisibility.Mode mode = PlayerVisibility.next(PlayerVisibility.mode(p));
+                if (args.length >= 2) {
+                    String wanted = args[1].toLowerCase(java.util.Locale.ROOT);
+                    if (wanted.equals("all")) {
+                        mode = PlayerVisibility.Mode.ALL;
+                    } else if (wanted.equals("none")) {
+                        mode = PlayerVisibility.Mode.NONE;
+                    } else if (wanted.equals("staff") && PlayerVisibility.threeStates()) {
+                        mode = PlayerVisibility.Mode.STAFF;
                     }
                 }
+                SpecialItemPlayerVisibility.use(p, mode, SpecialItemPlayerVisibility.Source.COMMAND);
             }
         }
 

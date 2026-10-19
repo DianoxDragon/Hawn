@@ -116,9 +116,6 @@ public final class Actions {
 		if (HooksManager.papi()) {
 			text = PlaceholderAPI.setPlaceholders(p, text);
 		}
-		if (HooksManager.mvdw()) {
-			text = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, text);
-		}
 		return MessageUtils.colourTheStuff(text);
 	}
 

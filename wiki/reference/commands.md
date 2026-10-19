@@ -61,7 +61,7 @@ Options (sounds, fireworks, title durations, "also write it in the chat"): `Comm
 
 | Command                                    | Permission                               | Description                                      |
 | ------------------------------------------ | ---------------------------------------- | ------------------------------------------------ |
-| `/option [pv/fly/doublejump/speed/flyspeed/jumpboost/autobc]` | `hawn.command.optionplayer.main` + `hawn.command.optionplayer.<option>` | Toggles a [player option](../features/player-options.md). |
+| `/option [pv/fly/doublejump/speed/flyspeed/jumpboost/autobc]` | `hawn.command.optionplayer.main` + `hawn.command.optionplayer.<option>` | Toggles a [player option](../features/player-options.md). `/option pv all`, `staff` or `none` chooses the state of the player hider. |
 | `/speed [0-10]`                            | `hawn.command.optionplayer.speed`        | Toggles or sets your walk speed.                 |
 | `/flyspeed [0-10]` · `/fs`                 | `hawn.command.optionplayer.flyspeed`     | Toggles or sets your fly speed.                  |
 | `/scoreboard [set/keep/list] [scoreboard]` | `hawn.command.scoreboard.toggle` (see [Scoreboards](../features/scoreboards.md#scoreboard)) | Manages your scoreboard. |

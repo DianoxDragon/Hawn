@@ -26,18 +26,12 @@ public class MessageUtils {
             if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (HooksManager.mvdw()) {
-                str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
-            }
             BaseComponent[] bc = ComponentSerializer.parse(plain(str));
             p.spigot().sendMessage(bc);
         } else {
 
             if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
-            }
-            if (HooksManager.mvdw()) {
-                str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             str = colourTheStuff(str);
@@ -76,9 +70,6 @@ public class MessageUtils {
             if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
             }
-            if (HooksManager.mvdw()) {
-                str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
-            }
             BaseComponent[] bc = ComponentSerializer.parse(plain(str));
             p.spigot().sendMessage(bc);
 
@@ -91,9 +82,6 @@ public class MessageUtils {
         } else {
             if (HooksManager.papi()) {
                 str = PlaceholderAPI.setPlaceholders(p, str);
-            }
-            if (HooksManager.mvdw()) {
-                str = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(p, str);
             }
             str = PlaceHolders.ReplaceMainplaceholderP(str, p);
             str = colourTheStuff(str);

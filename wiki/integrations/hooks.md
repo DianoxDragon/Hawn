@@ -1,5 +1,5 @@
 ---
-description: How Hawn works with PlaceholderAPI, LuckPerms, WorldGuard and MVdWPlaceholderAPI.
+description: How Hawn works with PlaceholderAPI, LuckPerms and WorldGuard.
 ---
 
 # PlaceholderAPI, LuckPerms, WorldGuard and other hooks
@@ -15,9 +15,6 @@ Plugin:
   Use:
     Hook:
       PlaceholderAPI:
-        Enable: false
-        Keep-The-Option: false
-      MVdWPlaceholderAPI:
         Enable: false
         Keep-The-Option: false
       WorldGuard:
@@ -56,11 +53,7 @@ With an older WorldGuard, the console says `WorldGuard 7+ is required, the regio
 
 ## MVdWPlaceholderAPI
 
-Adds the MVdW placeholders (`{onlineplayers}`...) to Hawn messages.
-
-{% hint style="warning" %}
-MVdWPlaceholderAPI only works when at least one premium plugin of Maximvdw (FeatherBoard, AnimatedNames...) is installed. Without one, it spams the console. In that case, remove MVdWPlaceholderAPI.
-{% endhint %}
+Not supported since 1.4.9: MVdWPlaceholderAPI has not been updated since 2020, and the premium plugins of Maximvdw (FeatherBoard...) use PlaceholderAPI since 2021. Use [PlaceholderAPI](#placeholderapi). Hawn removes its section from `general.yml`.
 
 ## WorldEdit
 

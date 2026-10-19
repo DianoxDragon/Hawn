@@ -256,11 +256,6 @@ public class HawnCommand implements CommandExecutor {
 				} else {
 					sender.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
 				}
-				if (HooksManager.mvdw()) {
-					sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
-				} else {
-					sender.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
-				}
 				if (HooksManager.worldGuard()) {
 					sender.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");
 				} else {
@@ -617,11 +612,6 @@ public class HawnCommand implements CommandExecutor {
 				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §a§l✔" + (HooksManager.expansionRegistered() ? " §7(gives %hawn_...%)" : ""));
 			} else {
 				p.sendMessage("  §8→ §6§lPlaceholderAPI§8: §c§l✗");
-			}
-			if (HooksManager.mvdw()) {
-				p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §a§l✔");
-			} else {
-				p.sendMessage("  §8→ §6§lMVdWPlaceholderAPI§8: §c§l✗");
 			}
 			if (HooksManager.worldGuard()) {
 				p.sendMessage("  §8→ §6§lWorldGuard§8: §a§l✔");

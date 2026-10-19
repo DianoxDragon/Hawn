@@ -490,6 +490,9 @@ public class DEConfigMMsg {
         Config.set("PlayerOption.PlayerVisibility.ON.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Puff! Die Spieler sind verschwunden"}));
         Config.set("PlayerOption.PlayerVisibility.OFF.Enable", true);
         Config.set("PlayerOption.PlayerVisibility.OFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Die Spieler sind jetzt sichtbar"}));
+        // Since 1.4.9: the third state of the player hider
+        Config.set("PlayerOption.PlayerVisibility.STAFF.Enable", true);
+        Config.set("PlayerOption.PlayerVisibility.STAFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Nur das Team und die VIPs sind jetzt sichtbar"}));
 
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDer Doppelsprung ist in &6Cosmetics-Fun/DoubleJump.yml&c deaktiviert"}));

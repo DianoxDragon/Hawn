@@ -2,7 +2,6 @@ package fr.dianox.hawn.hook;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.hook.hooklist.HawnExpansion;
-import fr.dianox.hawn.hook.hooklist.MVdWPlaceholderAPI;
 import fr.dianox.hawn.hook.hooklist.PlaceHolderAPI;
 import fr.dianox.hawn.hook.hooklist.WorldGuard;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
@@ -12,25 +11,28 @@ public class HooksManager {
 
 	// Known once at startup and at /hawn reload, not read in general.yml at every message
 	private static boolean papi = false;
-	private static boolean mvdw = false;
 	private static boolean worldGuard = false;
 	private static WorldGuard wgHook;
 	// %hawn_...% for the other plugins: an Object, the class of PlaceholderAPI is only loaded when it is there
 	private static Object expansion;
 
 	private final PlaceHolderAPI papiHook;
-	private final MVdWPlaceholderAPI mdvpapi;
 	private final WorldGuard wg;
 
 	public HooksManager(Main plugin) {
 		papiHook = new PlaceHolderAPI(plugin);
-		mdvpapi = new MVdWPlaceholderAPI(plugin);
 		wg = new WorldGuard();
 		wgHook = wg;
 
 		// BattleLevels (abandoned) was removed in 1.4
 		if (ConfigGeneral.getConfig().contains("Plugin.Use.Hook.BattleLevels")) {
 			ConfigGeneral.getConfig().set("Plugin.Use.Hook.BattleLevels", null);
+			ConfigGeneral.saveConfigFile();
+		}
+
+		// MVdWPlaceholderAPI (abandoned since 2020, its premium plugins use PlaceholderAPI) was removed in 1.4.9
+		if (ConfigGeneral.getConfig().contains("Plugin.Use.Hook.MVdWPlaceholderAPI")) {
+			ConfigGeneral.getConfig().set("Plugin.Use.Hook.MVdWPlaceholderAPI", null);
 			ConfigGeneral.saveConfigFile();
 		}
 
@@ -44,8 +46,6 @@ public class HooksManager {
 	public static void refresh() {
 		papi = ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.PlaceholderAPI.Enable")
 				&& Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
-		mvdw = ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable")
-				&& Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI");
 		worldGuard = ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.WorldGuard.Enable")
 				&& wgHook != null && wgHook.isAvailable();
 		expansion();
@@ -84,20 +84,11 @@ public class HooksManager {
 			ConfigGeneral.saveConfigFile();
 		}
 
-		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable") && !Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			ConfigGeneral.getConfig().set("Plugin.Use.Hook.MVdWPlaceholderAPI.Enable", false);
-			ConfigGeneral.saveConfigFile();
-		}
-
 		refresh();
 	}
 
 	public static boolean papi() {
 		return papi;
-	}
-
-	public static boolean mvdw() {
-		return mvdw;
 	}
 
 	public static boolean worldGuard() {
@@ -111,10 +102,6 @@ public class HooksManager {
 
 	public PlaceHolderAPI getPapi() {
 		return papiHook;
-	}
-
-	public MVdWPlaceholderAPI getMdvpapi() {
-		return mdvpapi;
 	}
 
 	public WorldGuard getWg() {

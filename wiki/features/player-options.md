@@ -13,7 +13,7 @@ Player options are personal settings that each player can turn on and off. They 
 | Command                        | Permission                                                         | Description                                                    |
 | ------------------------------ | ------------------------------------------------------------------ | -------------------------------------------------------------- |
 | `/option`                      | `hawn.command.optionplayer.main`                                   | Shows the list of options. **Needed for every sub-command.**   |
-| `/option pv`                   | `hawn.command.optionplayer.pv`                                     | Hides / shows the other players.                               |
+| `/option pv [all/staff/none]`  | `hawn.command.optionplayer.pv`                                     | Chooses who you see: the next state, or everyone, only the staff and the VIP, nobody (like the [player visibility item](custom-join-items.md#player-visibility-special-hideplayers)). |
 | `/option fly`                  | `hawn.command.optionplayer.fly`                                    | Turns flying on / off.                                         |
 | `/option doublejump` (`dj`)    | `hawn.command.optionplayer.doublejump` or `hawn.fun.doublejump.double` | Turns the [double jump](lobby-fun.md#double-jump) on / off. |
 | `/option speed`                | `hawn.command.optionplayer.speed`                                  | Turns the speed boost on / off.                                |

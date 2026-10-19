@@ -45,7 +45,7 @@ public class OnQuit implements Listener {
 			gm = 3;
 		}
 		
-		PlayerVisibility.getPlayerVisibility().remove(p);
+		PlayerVisibility.forget(p);
 		
 		// Mysql
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {

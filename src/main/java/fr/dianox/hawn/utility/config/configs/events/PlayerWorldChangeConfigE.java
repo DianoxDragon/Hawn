@@ -55,7 +55,7 @@ public class PlayerWorldChangeConfigE {
 
         Config.set("GM.Enable", true);
         Config.set("GM.CustomMode.Enable", true);
-        Config.set("GM.CustomMode.GameMode", 1);
+        Config.set("GM.CustomMode.GameMode", 2);
         Config.set("GM.CustomMode.If-player-have.Survival", true);
         Config.set("GM.CustomMode.If-player-have.Creative", true);
         Config.set("GM.CustomMode.If-player-have.Adventure", true);
@@ -84,7 +84,7 @@ public class PlayerWorldChangeConfigE {
         Config.set("Player-Options.If-Not-Keeping.Reset-When-Enter-Or-Leave-A-World.False-Is-Leave", false);
 
         Config.set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Enable", true);
-        Config.set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Value", 1);
+        Config.set("Player-Options.If-Not-Keeping.Options-Default.GameMode.Value", 2);
 
         Config.set("Player-Options.If-Not-Keeping.Options-Default.Fly", true);
         Config.set("Player-Options.If-Not-Keeping.Options-Default.DoubleJump", false);

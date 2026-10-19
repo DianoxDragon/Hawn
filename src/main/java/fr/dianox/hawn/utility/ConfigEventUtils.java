@@ -131,9 +131,6 @@ public class ConfigEventUtils {
 				if (HooksManager.papi()) {
 					event = PlaceholderAPI.setPlaceholders(target, event);
 				}
-				if (HooksManager.mvdw()) {
-					event = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(target, event);
-				}
 			}
 
 			if (Console) {
@@ -186,9 +183,6 @@ public class ConfigEventUtils {
 		text = PlaceHolders.ReplaceMainplaceholderP(text, who);
 		if (HooksManager.papi()) {
 			text = PlaceholderAPI.setPlaceholders(who, text);
-		}
-		if (HooksManager.mvdw()) {
-			text = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(who, text);
 		}
 		return text;
 	}

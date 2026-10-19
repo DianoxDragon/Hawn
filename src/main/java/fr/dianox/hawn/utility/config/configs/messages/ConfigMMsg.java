@@ -488,6 +488,9 @@ public class ConfigMMsg {
         Config.set("PlayerOption.PlayerVisibility.ON.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Poof! The players are gone"}));
         Config.set("PlayerOption.PlayerVisibility.OFF.Enable", true);
         Config.set("PlayerOption.PlayerVisibility.OFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7The players are visible now"}));
+        // Since 1.4.9: the third state of the player hider
+        Config.set("PlayerOption.PlayerVisibility.STAFF.Enable", true);
+        Config.set("PlayerOption.PlayerVisibility.STAFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Only the staff and the VIP are visible now"}));
 
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is disabled in &6Cosmetics-Fun/DoubleJump.yml"}));
