@@ -66,6 +66,9 @@ public class ConfigCJIGeneral {
                 "world",
                 "world_nether"
             }));
+        // Since 1.5: the join items given and removed when the player changes world (with Worlds: per item).
+        // On for the new files only, the others keep the items of the join
+        Config.set("Custom-Join-Item.General-Option.Change-World.Enable", !file.exists());
 
         /*
          * For armor
@@ -117,7 +120,7 @@ public class ConfigCJIGeneral {
         Config.set("Custom-Join-Item.Items.Inventory.Items.CompassSelectyourServer.Slot", 0);
         Config.set("Custom-Join-Item.Items.Inventory.Items.CompassSelectyourServer.Title", "&cServers");
         Config.set("Custom-Join-Item.Items.Inventory.Items.CompassSelectyourServer.Command-List", java.util.Arrays.asList(new String[] {
-                "[command-player]: Serverlist",
+                "[menu]: servers",
                 "[sounds]: NOTE_PIANO"
             }));
 
@@ -127,9 +130,11 @@ public class ConfigCJIGeneral {
         Config.set("Custom-Join-Item.Items.Inventory.Items.Player-Material.Title", "&cProfil");
         Config.set("Custom-Join-Item.Items.Inventory.Items.Player-Material.Lore", java.util.Arrays.asList(new String[] {
                 " ",
-                "You can add the head of the player"
+                "&7Right click: your profile"
             }));
+        // Since 1.5: the profile menu (Menus/profile.yml)
         Config.set("Custom-Join-Item.Items.Inventory.Items.Player-Material.Command-List", java.util.Arrays.asList(new String[] {
+                "[menu]: profile",
                 "[sounds]: NOTE_PIANO"
             }));
 

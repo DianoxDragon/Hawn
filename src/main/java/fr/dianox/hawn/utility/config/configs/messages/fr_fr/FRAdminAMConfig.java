@@ -251,6 +251,13 @@ public class FRAdminAMConfig {
         Config.set("Ranks.Source.LUCKPERMS", "de LuckPerms");
         Config.set("Ranks.Source.DEFAULT", "le rang de base");
         Config.set("Ranks.Source.NONE", "aucun");
+        // Since 1.5: /hawn menu
+        Config.set("Command.Help.Hawn-Menu", "Ouvrir un menu du dossier Menus pour toi ou un joueur, ou les lister");
+        Config.set("Menus.Usage", java.util.Arrays.asList("%prefix% &7/hawn menu open <menu> [joueur] &8| &7list"));
+        Config.set("Menus.Opened", java.util.Arrays.asList("%prefix% &7Le menu &e%arg 1% &7est ouvert pour &e%arg 2%"));
+        Config.set("Menus.Not-Opened", java.util.Arrays.asList("%prefix% &cLe menu &e%arg 1% &cn'a pas été ouvert pour &e%arg 2% &c(permission ou monde)"));
+        Config.set("Menus.List", java.util.Arrays.asList("%prefix% &7Menus : &e%arg 1%"));
+        Config.set("Menus.None", java.util.Arrays.asList("%prefix% &7Aucun menu dans le dossier Menus"));
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cVos TPS sont à moins de %arg 1%, faites quelque chose pour améliorer la stabilité de votre Lobby"));
         Config.set("TPS.Check.5", java.util.Arrays.asList("&cVos TPS sont à moins de %arg 1%, votre serveur peut s'arrêter, faites /stop pour éviter tout problème.", "&cETAT CRITIQUE DU SERVEUR"));
 

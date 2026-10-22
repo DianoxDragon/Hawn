@@ -493,6 +493,9 @@ public class DEConfigMMsg {
         // Since 1.4.9: the third state of the player hider
         Config.set("PlayerOption.PlayerVisibility.STAFF.Enable", true);
         Config.set("PlayerOption.PlayerVisibility.STAFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Nur das Team und die VIPs sind jetzt sichtbar"}));
+        // Since 1.5: the menus
+        Config.set("Menus.Not-Found", java.util.Arrays.asList("%prefix% &cDas Menü &e%arg% &cexistiert nicht"));
+        Config.set("Menus.Not-In-This-World", java.util.Arrays.asList("%prefix% &cDieses Menü kann in dieser Welt nicht geöffnet werden"));
 
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDer Doppelsprung ist in &6Cosmetics-Fun/DoubleJump.yml&c deaktiviert"}));

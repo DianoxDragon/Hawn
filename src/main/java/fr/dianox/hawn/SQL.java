@@ -323,19 +323,21 @@ public class SQL {
      * The old table stays as <table>_before_1_3.
      */
     private static boolean addPrimaryKey(Connection c, String table) {
-        if (table.toLowerCase(Locale.ROOT).contains("_before_1_3")) {
+        // The name comes from the database: only a plain name (letters, digits, _) is written in a query
+        if (table.toLowerCase(Locale.ROOT).contains("_before_1_3") || !table.matches("[A-Za-z0-9_]{1,50}")) {
             return false;
         }
 
-        String backup = table + "_before_1_3";
-        String fresh = table + "_hawn_new";
+        String old = "`" + table + "`";
+        String backup = "`" + table + "_before_1_3`";
+        String fresh = "`" + table + "_hawn_new`";
 
         try (Statement s = c.createStatement()) {
             s.execute("DROP TABLE IF EXISTS " + fresh + ";");
-            s.execute("CREATE TABLE " + fresh + " LIKE " + table + ";");
+            s.execute("CREATE TABLE " + fresh + " LIKE " + old + ";");
             s.execute("ALTER TABLE " + fresh + " MODIFY player_UUID VARCHAR(36) NOT NULL, ADD PRIMARY KEY (player_UUID);");
-            int kept = s.executeUpdate("INSERT IGNORE INTO " + fresh + " SELECT * FROM " + table + " WHERE player_UUID IS NOT NULL;");
-            s.execute("RENAME TABLE " + table + " TO " + backup + ", " + fresh + " TO " + table + ";");
+            int kept = s.executeUpdate("INSERT IGNORE INTO " + fresh + " SELECT * FROM " + old + " WHERE player_UUID IS NOT NULL;");
+            s.execute("RENAME TABLE " + old + " TO " + backup + ", " + fresh + " TO " + old + ";");
 
             Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "| " + ChatColor.YELLOW + "MySQL: the table " + table + " now has one row per player ("
                     + kept + " kept). The old table is saved as " + backup + ".");
@@ -453,6 +455,13 @@ public class SQL {
             tables.add(key(table));
         }
         return exists;
+    }
+
+    /**
+     * A value for insertData: a quote inside is doubled (a player or a world with an apostrophe in its name).
+     */
+    public static String q(Object value) {
+        return String.valueOf(value).replace("'", "''");
     }
 
     /**

@@ -4,6 +4,32 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5 BETA
+
+### New
+
+* **Menus**: your own menus in the `Menus/` folder, one file per menu, in a format close to DeluxeMenus with the words and the actions of Hawn. A menu opens with its own commands (`Open.Commands`), a join item, or the `[menu]: <name>` action anywhere in Hawn. Rows or a hopper/dispenser, a permission and worlds to open it, actions on open and on close, a fill item, items on one or several slots (`Slots: [0-8, 18]`), the item shown by priority and conditions (`View-Requirements`), actions per click type (`Left-Actions`, `Shift-Right-Actions`...), conditions to click with a message when they are not met (`Click-Requirements`), and the items with `Update: true` built again every `Refresh` ticks while the menu is open. See [Menus](../features/menus.md).
+* The conditions: `permission:`, `!permission:`, `world:`, and a comparison after the placeholders (`%bungee_survival% < 100`, `%player_world% == lobby`).
+* The actions `[menu]: <name>`, `[close]`, `[refresh]` and `[back]`.
+* Animations in the menus: `{anim_<name>}` in the title (1.20+), the names, the lores, the materials and the fill of a menu, with their frames and their speed in `Animations`, like the tab list. Only the slots that change are sent again.
+* The heads: `head:%player%`, `head:<player>` and `head:<Base64>`. The skin of a player not connected is found in the background, never on the main thread: a menu opens at once.
+* The server selector: `Menus/servers.yml`, with the number of players of each server updated while it is open. The compass of a new installation opens it, and `/servers`.
+* The profile: `Menus/profile.yml`, opened by the head of the join items (new installations) and `/profile`, an example of what a menu can do: the placeholders of the player, the fly and the speed on, off or locked, the player hider with the left and the right click, live items.
+* `%player_option_<option>_state%`: `on` or `off` whatever the language, for the conditions of the menus.
+* `/hawn menu open <menu> [player]` and `/hawn menu list` (`hawn.admin.command.menu`).
+* The join items per world: `Worlds:` per item, and `General-Option.Change-World.Enable` to give and remove them when the player changes world. An object of the player is never removed or replaced.
+* `Item-Model` (1.21.4+), `Custom-Model-Data` and `Glow` for the items of the menus and the join items.
+* Nexo: `Material: nexo:<id>` gives an item of Nexo as a join item or in a menu. See [Hooks](../integrations/hooks.md#nexo).
+* `/hawn debug` also checks the menus: slots outside the menu, unknown materials, conditions written wrong, a `[menu]:` to a menu that doesn't exist, a `nexo:` item without Nexo.
+
+### Fixes
+
+* The compass of a new installation ran `/Serverlist`, a command that doesn't exist.
+* The console copy of the join and quit messages didn't replace the placeholders of the player: `(player #%player_join_number%)` stayed as it was.
+* The quit message per group replaced `%player_displayname` without its last `%`.
+* MySQL: a player or a world with an apostrophe in its name (possible on an offline server or behind a proxy) made the insert of its row fail. The values are escaped now.
+* The emergency mode only sends to a webhook of Discord (`https://discord.com/api/webhooks/...`, without following a redirection): the file of the option can be changed in game (`/ap`), and another address of the network could be reached.
+
 ## 1.4.9 BETA
 
 ### New

@@ -144,8 +144,15 @@ public class PlaceHolders {
 		if (str.contains("%player_option_")) {
 			for (String[] option : OPTIONS) {
 				String placeholder = "%player_option_" + option[0] + "%";
-				if (str.contains(placeholder)) {
-					str = str.replace(placeholder, yesNo(ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean(option[1], Boolean.parseBoolean(option[2]))));
+				// _state (since 1.5): on or off whatever the language, for the conditions of the menus
+				String state = "%player_option_" + option[0] + "_state%";
+				if (str.contains(placeholder) || str.contains(state)) {
+					boolean on = ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean(option[1], Boolean.parseBoolean(option[2]));
+					// The fly: what /option fly will do (it also looks at the real fly of the player)
+					boolean now = option[0].equals("fly")
+							? p.getAllowFlight() && (fr.dianox.hawn.command.commands.FlyCommand.player_list_flyc.contains(p) || on)
+							: on;
+					str = str.replace(placeholder, yesNo(on)).replace(state, now ? "on" : "off");
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package fr.dianox.hawn.event;
 
-import fr.dianox.hawn.utility.XParse;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.HawnCommand;
@@ -136,7 +135,7 @@ public class OnInventoryInteract implements Listener {
 								// The item given for this slot (a renamed copy has no tag)
 								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 									if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
-										if (p.getInventory().getItemInMainHand().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Material"), "Custom Join Item")) {
+										if (CustomJoinItem.sameMaterial(p.getInventory().getItemInMainHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 											for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
 												ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
 												p.updateInventory();
@@ -188,7 +187,7 @@ public class OnInventoryInteract implements Listener {
 							// The item given for this slot (a renamed copy has no tag)
 							if (JoinItemTag.is(p.getItemInHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 								if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
-									if (p.getItemInHand().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Material"), "Custom Join Item")) {
+									if (CustomJoinItem.sameMaterial(p.getItemInHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
 										for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
 											ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
 											p.updateInventory();
@@ -378,7 +377,7 @@ public class OnInventoryInteract implements Listener {
 										 // The item given for this slot (a renamed copy has no tag)
 										 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 											 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
-												 if (e.getCurrentItem().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Material"), "Custom Join Item")) {
+												 if (CustomJoinItem.sameMaterial(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 													 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
 														 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
 													 }
@@ -400,7 +399,7 @@ public class OnInventoryInteract implements Listener {
 									 // The item given for this slot (a renamed copy has no tag)
 									 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 										 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
-											 if (e.getCurrentItem().getType() == XParse.material(ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Material"), "Custom Join Item")) {
+											 if (CustomJoinItem.sameMaterial(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
 												 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
 													 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
 												 }

@@ -90,7 +90,7 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
+                                " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(date) + "', '" + SQL.q(date) + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     } else {
                         SQL.createTable("player_info", "player TEXT, player_UUID TEXT, join_date TEXT, first_join TEXT, player_ip TEXT");
@@ -100,7 +100,7 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + date + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
+                                " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(date) + "', '" + SQL.q(date) + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     }
                 } else {
@@ -111,7 +111,7 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
+                                " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(date) + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     } else {
                         SQL.createTable("player_info", "player TEXT, player_UUID TEXT, join_date TEXT, first_join TEXT, player_ip TEXT");
@@ -121,7 +121,7 @@ public class OnJoin implements Listener {
                             SQL.set("player_info", "player_ip", ip == null ? "" : ip, "player_UUID", "" + p.getUniqueId() + "");
                         } else {
                             SQL.insertData("player, player_UUID, join_date, first_join, player_ip",
-                                " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + date + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
+                                " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(date) + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_info.first_join") + "', '" + (ip == null ? "" : ip) + "' ", "player_info");
                         }
                     }
                 }

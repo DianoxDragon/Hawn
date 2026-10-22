@@ -25,6 +25,10 @@ CompassSurvival:
 
 It works in custom commands, join items, signs, join actions...
 
+## The server selector
+
+Since Hawn 1.5, `Menus/servers.yml` is a server selector: one item per server, with its number of players updated while the menu is open, and a click sends the player there. The compass of the [join items](../features/custom-join-items.md) opens it on the new installations (`[menu]: servers`), and `/servers` too. Write the names of your servers (the names of your proxy configuration) in its `[bungee]:` actions and its `%bungee_<server>%`. See [Menus](../features/menus.md).
+
 ## Player count
 
 | Placeholder           | Value                                   |

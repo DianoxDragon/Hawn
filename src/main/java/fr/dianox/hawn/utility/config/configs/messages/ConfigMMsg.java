@@ -491,6 +491,9 @@ public class ConfigMMsg {
         // Since 1.4.9: the third state of the player hider
         Config.set("PlayerOption.PlayerVisibility.STAFF.Enable", true);
         Config.set("PlayerOption.PlayerVisibility.STAFF.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Only the staff and the VIP are visible now"}));
+        // Since 1.5: the menus
+        Config.set("Menus.Not-Found", java.util.Arrays.asList("%prefix% &cThe menu &e%arg% &cdoes not exist"));
+        Config.set("Menus.Not-In-This-World", java.util.Arrays.asList("%prefix% &cThis menu can't be opened in this world"));
 
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is disabled in &6Cosmetics-Fun/DoubleJump.yml"}));

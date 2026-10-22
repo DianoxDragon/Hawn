@@ -19,6 +19,7 @@ description: >-
 | `/hawn hooks`                               | `hawn.admin.command.hooks`          | Shows which [hooks](../integrations/hooks.md) are detected.     |
 | `/hawn debug`                               | `hawn.admin.command.debug`          | The mistakes of the configuration files, the options in AUTO left to another plugin, and the errors Hawn went on without. See [Debug](#debug). |
 | `/hawn rank <set/remove/info/list>`         | `hawn.admin.command.rank`           | The [ranks](ranks.md#commands) given by hand.                    |
+| `/hawn menu open <menu> [player]`, `/hawn menu list` | `hawn.admin.command.menu`  | Opens a [menu](menus.md) for you or a player, or lists them (since 1.5). |
 | `/hawn parse <player\|me> <text>`           | `hawn.admin.command.parseholders`   | Tests placeholders, for example `/hawn parse me %player_world%`. The text can have spaces; it is only shown (an action like `[gamemode-creative]` is not run). |
 | `/hawn build`                               | `hawn.admin.command.bypassbuild`    | Toggles the [build mode](#build-mode).                          |
 | `/hawn noclip`                              | `hawn.admin.command.noclip`         | Toggles no-clip in creative: you go through walls (Hawn switches you to spectator while you are inside blocks). |
@@ -147,7 +148,7 @@ Urgent-mode:
   Backup:
     Enable: true
     Keep: 3                             # the newest backups kept (0 = all)
-  Discord-Webhook: ''                   # https://discord.com/api/webhooks/...
+  Discord-Webhook: ''                   # https://discord.com/api/webhooks/... (since 1.5, only a webhook of Discord)
   Plugin-desactivation:
     Disable-All-Plugins-When-Enabled: false
     Plugin-Ignored:

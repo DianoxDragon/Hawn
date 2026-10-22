@@ -24,7 +24,9 @@ public final class HawnMenu implements InventoryHolder {
 		ADMIN_PANEL, ADMIN_PANEL_EDIT, ADMIN_PANEL_FOLDER, ADMIN_PANEL_FILE,
 		EDIT_PLAYER, PLAYER_LIST,
 		SETUP_LANGUAGE, SETUP_WORLD, SETUP_SPAWN,
-		WORLD_LIST, WORLD_CREATE, WORLD_DELETE, WORLD_SETTINGS, WORLD_TIME, WORLD_WEATHER, WORLD_DIFFICULTY;
+		WORLD_LIST, WORLD_CREATE, WORLD_DELETE, WORLD_SETTINGS, WORLD_TIME, WORLD_WEATHER, WORLD_DIFFICULTY,
+		// The menus of the Menus/ folder (since 1.5)
+		MENU;
 
 		public boolean isWorldManager() {
 			return name().startsWith("WORLD_");
@@ -42,6 +44,8 @@ public final class HawnMenu implements InventoryHolder {
 	private Inventory inventory;
 	private Type type;
 	private int page;
+	// What the menu needs while it is open (the menus of Menus/: the menu and the items shown)
+	private Object data;
 
 	public static Inventory create(int size, String title, Type type) {
 		return create(size, title, type, 0);
@@ -58,20 +62,54 @@ public final class HawnMenu implements InventoryHolder {
 		return holder.inventory;
 	}
 
+	/**
+	 * A menu of the Menus/ folder: chest rows, or another type (hopper, dispenser...) when type is not null.
+	 */
+	public static Inventory create(int size, org.bukkit.event.inventory.InventoryType inventoryType, String title, Object data) {
+		HawnMenu holder = new HawnMenu();
+		holder.type = Type.MENU;
+		holder.data = data;
+		holder.inventory = inventoryType == null ? Bukkit.createInventory(holder, size, title) : Bukkit.createInventory(holder, inventoryType, title);
+		// Spigot doesn't keep the holder of a hopper or a dispenser: Hawn keeps it itself
+		if (holder.inventory.getHolder() != holder) {
+			synchronized (LOST) {
+				LOST.put(holder.inventory, holder);
+			}
+		}
+		return holder.inventory;
+	}
+
+	// The menus whose holder the server lost (Spigot, inventory types), until they are no longer used
+	private static final java.util.Map<Inventory, HawnMenu> LOST = new java.util.WeakHashMap<>();
+
+	private static HawnMenu holder(Inventory inventory) {
+		if (inventory == null) return null;
+		if (inventory.getHolder() instanceof HawnMenu) return (HawnMenu) inventory.getHolder();
+		synchronized (LOST) {
+			return LOST.isEmpty() ? null : LOST.get(inventory);
+		}
+	}
+
+	public static Object dataOf(Inventory inventory) {
+		HawnMenu holder = holder(inventory);
+		return holder == null ? null : holder.data;
+	}
+
 	@Override
 	public Inventory getInventory() {
 		return inventory;
 	}
 
 	public static boolean isMenu(Inventory inventory) {
-		return inventory != null && inventory.getHolder() instanceof HawnMenu;
+		return holder(inventory) != null;
 	}
 
 	/**
 	 * The type of a menu of Hawn, null for any other inventory.
 	 */
 	public static Type typeOf(Inventory inventory) {
-		return isMenu(inventory) ? ((HawnMenu) inventory.getHolder()).type : null;
+		HawnMenu holder = holder(inventory);
+		return holder == null ? null : holder.type;
 	}
 
 	public static Type typeOf(InventoryView view) {
@@ -79,7 +117,8 @@ public final class HawnMenu implements InventoryHolder {
 	}
 
 	public static int pageOf(Inventory inventory) {
-		return isMenu(inventory) ? ((HawnMenu) inventory.getHolder()).page : 0;
+		HawnMenu holder = holder(inventory);
+		return holder == null ? 0 : holder.page;
 	}
 
 	public static final class Protection implements Listener {

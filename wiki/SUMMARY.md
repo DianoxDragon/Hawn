@@ -22,6 +22,7 @@
 * [Warps](features/warps.md)
 * [Join and quit](features/join-and-quit.md)
 * [Custom join items](features/custom-join-items.md)
+* [Menus](features/menus.md)
 * [Player options](features/player-options.md)
 * [Scoreboards](features/scoreboards.md)
 * [Tab list](features/tablist.md)

@@ -1,5 +1,5 @@
 ---
-description: How Hawn works with PlaceholderAPI, LuckPerms and WorldGuard.
+description: How Hawn works with PlaceholderAPI, LuckPerms, WorldGuard and Nexo.
 ---
 
 # PlaceholderAPI, LuckPerms, WorldGuard and other hooks
@@ -54,6 +54,26 @@ With an older WorldGuard, the console says `WorldGuard 7+ is required, the regio
 ## MVdWPlaceholderAPI
 
 Not supported since 1.4.9: MVdWPlaceholderAPI has not been updated since 2020, and the premium plugins of Maximvdw (FeatherBoard...) use PlaceholderAPI since 2021. Use [PlaceholderAPI](#placeholderapi). Hawn removes its section from `general.yml`.
+
+## Nexo
+
+Since Hawn 1.5, the items of [Nexo](https://nexomc.com/products/nexo) (Paper 1.21.4+) can be the [join items](../features/custom-join-items.md) and the items of the [menus](../features/menus.md): write `Material: nexo:<the id of the item>`.
+
+```yaml
+# CustomJoinItem/General.yml
+CompassSelectyourServer:
+  Material: nexo:lobby_compass
+  Slot: 0
+  Command-List:
+  - '[menu]: servers'
+```
+
+* The item keeps its texture, its model and its components. Without `Title` and `Lore`, it keeps its name and its lore of Nexo.
+* Nexo loads its items in the background: the join items are given again as soon as it has loaded them, and Nexo doesn't change the join items of Hawn when it updates its items.
+* Without Nexo, or with an id that doesn't exist, the item is a barrier, and [`/hawn debug`](../features/admin-tools.md#debug) says why.
+* The glyphs of Nexo (`<glyph:...>`, `%nexo_...%`) already work in the texts of Hawn: Nexo changes them itself.
+
+`/hawn hooks` shows whether Nexo was found.
 
 ## WorldEdit
 

@@ -252,6 +252,13 @@ public class ConfigMAdmin {
         Config.set("Ranks.Source.LUCKPERMS", "from LuckPerms");
         Config.set("Ranks.Source.DEFAULT", "the default rank");
         Config.set("Ranks.Source.NONE", "none");
+        // Since 1.5: /hawn menu
+        Config.set("Command.Help.Hawn-Menu", "Open a menu of the Menus folder for you or a player, or list them");
+        Config.set("Menus.Usage", java.util.Arrays.asList("%prefix% &7/hawn menu open <menu> [player] &8| &7list"));
+        Config.set("Menus.Opened", java.util.Arrays.asList("%prefix% &7The menu &e%arg 1% &7is open for &e%arg 2%"));
+        Config.set("Menus.Not-Opened", java.util.Arrays.asList("%prefix% &cThe menu &e%arg 1% &cwas not opened for &e%arg 2% &c(permission or world)"));
+        Config.set("Menus.List", java.util.Arrays.asList("%prefix% &7Menus: &e%arg 1%"));
+        Config.set("Menus.None", java.util.Arrays.asList("%prefix% &7No menu in the Menus folder"));
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cYour TPS is under %arg 1%, do something to improve the stability of your Lobby"));
         Config.set("TPS.Check.5", java.util.Arrays.asList("&cYour TPS is under %arg 1%, your server may shut down, do /stop to avoid any problems.", "&cCRITICAL SERVER CRITICAL STATE ATTENTION"));
 

@@ -34,6 +34,7 @@ plugins/Hawn/
 ├── Cosmetics-Fun/              Join fireworks, jump pads, double jump
 │   └── Utility/                Lists: fireworks, books, emojis, signs
 ├── CustomJoinItem/             Items given on join and the special items
+├── Menus/                      One file per menu (since 1.5): servers.yml, the server selector
 ├── Scoreboard/                 One file per scoreboard
 ├── Tablist/                    The default tab list (Tablist.yml), then one file per other tab list
 ├── Messages/                   Every message, one folder per language
@@ -111,6 +112,10 @@ See [Join and quit](../features/join-and-quit.md), [Lobby fun](../features/lobby
 | `Special-FunGun.yml`      | The fun gun.                                              |
 
 See [Custom join items](../features/custom-join-items.md).
+
+## Menus/
+
+One file per menu, the name of the file is the name of the menu (since Hawn 1.5). `servers.yml`, the server selector, is written the first time. See [Menus](../features/menus.md).
 
 ## Scoreboard/ and Tablist/
 

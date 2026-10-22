@@ -254,6 +254,13 @@ public class DEAdminAMConfig {
         Config.set("Ranks.Source.LUCKPERMS", "von LuckPerms");
         Config.set("Ranks.Source.DEFAULT", "der Standardrang");
         Config.set("Ranks.Source.NONE", "keiner");
+        // Since 1.5: /hawn menu
+        Config.set("Command.Help.Hawn-Menu", "Ein Menü aus dem Ordner Menus für dich oder einen Spieler öffnen, oder sie auflisten");
+        Config.set("Menus.Usage", java.util.Arrays.asList("%prefix% &7/hawn menu open <Menü> [Spieler] &8| &7list"));
+        Config.set("Menus.Opened", java.util.Arrays.asList("%prefix% &7Das Menü &e%arg 1% &7ist für &e%arg 2% &7geöffnet"));
+        Config.set("Menus.Not-Opened", java.util.Arrays.asList("%prefix% &cDas Menü &e%arg 1% &cwurde für &e%arg 2% &cnicht geöffnet (Berechtigung oder Welt)"));
+        Config.set("Menus.List", java.util.Arrays.asList("%prefix% &7Menüs: &e%arg 1%"));
+        Config.set("Menus.None", java.util.Arrays.asList("%prefix% &7Kein Menü im Ordner Menus"));
         Config.set("TPS.Check.15", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, tu etwas für die Stabilität deiner Lobby"));
         Config.set("TPS.Check.5", java.util.Arrays.asList("&cDeine TPS liegen unter %arg 1%, dein Server könnte abstürzen: benutze /stop, um Probleme zu vermeiden.", "&cACHTUNG: KRITISCHER ZUSTAND DES SERVERS"));
 

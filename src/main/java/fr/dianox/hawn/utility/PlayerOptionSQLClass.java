@@ -30,7 +30,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_fly_speed", "Activate", "" + boolea + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, value, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + boolea + "' ", "player_fly_speed");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "', '" + SQL.q(boolea) + "' ", "player_fly_speed");
             }
         }
     }
@@ -78,7 +78,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_fly_speed");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(getva) + "', '" + SQL.q(getac) + "' ", "player_fly_speed");
 
                     value = String.valueOf(getva);
                 } else if (method.equalsIgnoreCase("ACTIVATE")) {
@@ -92,7 +92,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_fly_speed");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(getva) + "', '" + SQL.q(getac) + "' ", "player_fly_speed");
 
                     value = getac;
                 }
@@ -124,7 +124,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_speed", "Activate", "" + boolea + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, value, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + boolea + "' ", "player_speed");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "', '" + SQL.q(boolea) + "' ", "player_speed");
             }
         }
     }
@@ -172,7 +172,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_speed");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(getva) + "', '" + SQL.q(getac) + "' ", "player_speed");
 
                     value = String.valueOf(getva);
                 } else if (method.equalsIgnoreCase("ACTIVATE")) {
@@ -186,7 +186,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, value, Activate",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + getva + "', '" + getac + "' ", "player_speed");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(getva) + "', '" + SQL.q(getac) + "' ", "player_speed");
 
                     value = getac;
                 }
@@ -215,7 +215,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_jumpboost", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_jumpboost");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_option_jumpboost");
             }
         }
     }
@@ -259,7 +259,7 @@ public class PlayerOptionSQLClass {
                 }
 
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_jumpboost");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_jumpboost");
             }
         }
 
@@ -320,10 +320,10 @@ public class PlayerOptionSQLClass {
 
                     if (ConfigPlayerGet.getFile(uuid).getBoolean("player_option_keep_sb.Activate")) {
                         SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                            " '" + p.getName() + "', '" + p.getUniqueId() + "', 'TRUE', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
+                            " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', 'TRUE', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
                     } else {
                         SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                            " '" + p.getName() + "', '" + p.getUniqueId() + "', 'FALSE', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
+                            " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', 'FALSE', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
                     }
 
                     value = ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard");
@@ -340,7 +340,7 @@ public class PlayerOptionSQLClass {
                     }
 
                     SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "', '" + ConfigPlayerGet.getFile(uuid).getString("player_option_keep_sb.Scoreboard") + "' ", "player_option_keep_sb");
                 }
             }
         }
@@ -366,7 +366,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_keep_sb", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate, Scoreboard",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "', '" + sb + "' ", "player_option_keep_sb");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "', '" + SQL.q(sb) + "' ", "player_option_keep_sb");
             }
         }
     }
@@ -390,7 +390,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_fly", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_fly");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_option_fly");
             }
         }
     }
@@ -434,7 +434,7 @@ public class PlayerOptionSQLClass {
                 }
 
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_fly");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_fly");
             }
         }
 
@@ -460,7 +460,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_doublejump", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_doublejump");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_option_doublejump");
             }
         }
     }
@@ -504,7 +504,7 @@ public class PlayerOptionSQLClass {
                 }
 
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_doublejump");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_doublejump");
             }
         }
 
@@ -536,7 +536,7 @@ public class PlayerOptionSQLClass {
                 value = yamlValue(uuid);
 
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_pv");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_pv");
             }
         }
 
@@ -567,7 +567,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_pv", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_pv");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_option_pv");
             }
         }
 
@@ -592,7 +592,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_vanish", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, vanished",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_vanish");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_vanish");
             }
         }
     }
@@ -636,7 +636,7 @@ public class PlayerOptionSQLClass {
                 }
 
                 SQL.insertData("player, player_UUID, vanished",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_vanish");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_vanish");
             }
         }
 
@@ -662,7 +662,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_gamemode", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, gamemode_state",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + i + "' ", "player_gamemode");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(i) + "' ", "player_gamemode");
             }
         }
     }
@@ -693,7 +693,7 @@ public class PlayerOptionSQLClass {
 
                 value = String.valueOf(ConfigPlayerGet.getFile(uuid).getInt("player_gamemode.gamemode_state"));
                 SQL.insertData("player, player_UUID, gamemode_state",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_gamemode");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_gamemode");
             }
         }
 
@@ -719,7 +719,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_autobc", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + boolea + "' ", "player_option_autobc");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(boolea) + "' ", "player_option_autobc");
             }
         }
     }
@@ -763,7 +763,7 @@ public class PlayerOptionSQLClass {
                 }
 
                 SQL.insertData("player, player_UUID, Activate",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_autobc");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_autobc");
             }
         }
 
@@ -789,7 +789,7 @@ public class PlayerOptionSQLClass {
                 SQL.set("player_option_number_connections", "player", "" + p.getName() + "", "player_UUID", "" + p.getUniqueId() + "");
             } else {
                 SQL.insertData("player, player_UUID, number",
-                    " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + inte + "' ", "player_option_number_connections");
+                    " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(inte) + "' ", "player_option_number_connections");
             }
         }
     }
@@ -825,7 +825,7 @@ public class PlayerOptionSQLClass {
                 value = ConfigPlayerGet.getFile(uuid).getInt("player_option_number_connections.number");
                 
                 SQL.insertData("player, player_UUID, number",
-                        " '" + p.getName() + "', '" + p.getUniqueId() + "', '" + value + "' ", "player_option_number_connections");
+                        " '" + SQL.q(p.getName()) + "', '" + SQL.q(p.getUniqueId()) + "', '" + SQL.q(value) + "' ", "player_option_number_connections");
             }
         }
 

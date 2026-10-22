@@ -101,6 +101,11 @@ public final class Debug {
 				continue;
 			}
 
+			// The menus: slots, conditions (since 1.5)
+			if (name.startsWith("Menus/")) {
+				errors.addAll(fr.dianox.hawn.modules.menus.Menus.check(name, c));
+			}
+
 			for (String key : c.getKeys(true)) {
 				if (c.isConfigurationSection(key)) continue;
 				String last = key.substring(key.lastIndexOf('.') + 1);
@@ -108,7 +113,11 @@ public final class Debug {
 				if (c.isString(key)) {
 					String value = c.getString(key);
 					if (value == null || value.trim().isEmpty()) continue;
-					if (last.equals("Material") && !material(value)) {
+					if (last.equals("Material") && fr.dianox.hawn.hook.CustomItems.isCustom(value)) {
+						String problem = fr.dianox.hawn.hook.CustomItems.problem(value);
+						if (problem != null) errors.add(name + ": " + key + " = " + value + " (" + problem + ")");
+					} else if ((last.equals("Material") || last.equals("Fill")) && !value.toLowerCase(java.util.Locale.ROOT).startsWith("head:")
+							&& !value.contains("%") && !value.contains("{anim_") && !material(value)) {
 						errors.add(name + ": " + key + " = " + value + " (unknown material)");
 					} else if (last.equals("Sound") && !sound(value)) {
 						errors.add(name + ": " + key + " = " + value + " (unknown sound)");
@@ -213,6 +222,10 @@ public final class Debug {
 		if (l.startsWith("[sound]: ") || l.startsWith("[sounds]: ")) {
 			String sound = l.substring(l.indexOf("]: ") + 3).trim();
 			return sound(sound) ? null : "unknown sound " + sound;
+		}
+		if (l.startsWith("[menu]: ")) {
+			String menu = l.substring("[menu]: ".length()).trim();
+			return fr.dianox.hawn.modules.menus.Menus.exists(menu) ? null : "no menu " + menu + " in Menus/";
 		}
 		if (l.startsWith("[effectclear]: ")) {
 			String effect = l.substring("[effectclear]: ".length()).trim();

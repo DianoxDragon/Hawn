@@ -307,6 +307,12 @@ public class Main extends JavaPlugin implements Listener {
 	    fr.dianox.hawn.modules.ranks.Ranks.load();
 	    Bukkit.getScheduler().runTask(this, fr.dianox.hawn.modules.ranks.Ranks::recheckPlugins);
 
+	    // The menus of Menus/ (since 1.5), and the items of Nexo in the join items and the menus (one tick later: Nexo
+	    // may be enabled after Hawn)
+	    fr.dianox.hawn.modules.menus.Menus.load();
+	    fr.dianox.hawn.hook.CustomItems.load();
+	    Bukkit.getScheduler().runTask(this, fr.dianox.hawn.hook.CustomItems::load);
+
 	    /*
 	     * Custom join item
 	     */
@@ -326,6 +332,12 @@ public class Main extends JavaPlugin implements Listener {
 		super.onDisable();
 
 		fr.dianox.hawn.modules.onjoin.JoinNumbers.stop();
+		// The menus of Hawn are closed: no menu stays open without its plugin
+		for (org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
+			if (fr.dianox.hawn.utility.gui.HawnMenu.isMenu(p.getOpenInventory().getTopInventory())) {
+				p.closeInventory();
+			}
+		}
 		try {
 			fr.dianox.hawn.modules.ranks.Ranks.clearAll();
 		} catch (Exception ignored) {}

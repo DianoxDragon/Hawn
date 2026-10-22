@@ -1,5 +1,7 @@
 package fr.dianox.hawn.utility;
 
+import fr.dianox.hawn.modules.menus.Menus;
+
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import org.bukkit.Bukkit;
@@ -104,6 +106,15 @@ public class ConfigEventUtils {
 			WarpCommand.onTp(p, event.substring("[warp]: ".length()));
 		} else if (event.startsWith("[bungee]: ")) {
 			Main.getInstance().getBungApi().ConnectOthers(event.substring("[bungee]: ".length()), p);
+		// The menus of Menus/ (since 1.5)
+		} else if (event.startsWith("[menu]: ")) {
+			Menus.openLater(p, event.substring("[menu]: ".length()));
+		} else if (event.startsWith("[close]")) {
+			Menus.closeLater(p);
+		} else if (event.startsWith("[refresh]")) {
+			Menus.refresh(p);
+		} else if (event.startsWith("[back]")) {
+			Menus.back(p);
 		} else if (event.startsWith("[effect[")) {
 			// [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
 			effect(p, event.substring("[effect[".length()), AdditionalMessageError);
@@ -135,6 +146,14 @@ public class ConfigEventUtils {
 
 			if (Console) {
 				if (AdditionalMessageError.contains("STRICTSCONSOLE")) {
+					// The console copy of a message about a player (join, quit...): the placeholders of this player too
+					// (%player_join_number% stayed as it was in the console)
+					if (who != null && target == null) {
+						event = PlaceHolders.ReplaceMainplaceholderP(event, who);
+						if (HooksManager.papi()) {
+							event = PlaceholderAPI.setPlaceholders(who, event);
+						}
+					}
 					MessageUtils.ConsoleMessages(event);
 				} else {
 					MessageUtils.ClassicMessagesConsoleSupport(event, p);
@@ -156,7 +175,7 @@ public class ConfigEventUtils {
 		"[command-player]: ", "[FWLU]: ", "[command-console]: ", "[gamemode-survival]", "[gamemode-creative]", "[gamemode-adventure]",
 		"[gamemode-spectator]", "[customcommand-player]: ", "[ping]", "[spawn]: ", "[warp]: ", "[bungee]: ", "[effect[", "[effectclear]: ",
 		"[effectclearall]", "[send-title]: ", "[send-title[", "[send-actionbar]: ", "[send-actionbar[", "[broadcast]: ", "[sound]: ",
-		"[sounds]: ", "[title]: ", "[title[", "[delay[", "[chance["
+		"[sounds]: ", "[title]: ", "[title[", "[delay[", "[chance[", "[menu]: ", "[close]", "[refresh]", "[back]"
 	};
 
 	public static void ExecuteEventAllPlayers(String event, String Informatif, String AdditionalMessageError, Player target, Boolean targetbool) {

@@ -262,11 +262,14 @@ public class HawnCommand implements CommandExecutor {
 					sender.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 				}
 				sender.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
+				sender.sendMessage("  §8→ §6§lNexo§8: " + (fr.dianox.hawn.hook.CustomItems.nexo() ? "§a§l✔ §7(nexo:<id> items)" : "§c§l✗"));
 				sender.sendMessage("");
 			} else if (args[0].equalsIgnoreCase("debug")) {
 				fr.dianox.hawn.utility.Debug.show(sender);
 			} else if (args[0].equalsIgnoreCase("rank") || args[0].equalsIgnoreCase("ranks")) {
 				fr.dianox.hawn.modules.ranks.RankCommand.run(sender, args);
+			} else if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("menus")) {
+				fr.dianox.hawn.modules.menus.MenuCommand.run(sender, args);
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
 					|| args[0].equalsIgnoreCase("nightvision") || args[0].equalsIgnoreCase("noclip")
 					|| args[0].equalsIgnoreCase("slotview") || args[0].equalsIgnoreCase("setup")) {
@@ -619,6 +622,7 @@ public class HawnCommand implements CommandExecutor {
 				p.sendMessage("  §8→ §6§lWorldGuard§8: §c§l✗");
 			}
 			p.sendMessage("  §8→ §6§lLuckPerms§8: " + (HooksManager.luckPerms() ? "§a§l✔" : "§c§l✗"));
+			p.sendMessage("  §8→ §6§lNexo§8: " + (fr.dianox.hawn.hook.CustomItems.nexo() ? "§a§l✔ §7(nexo:<id> items)" : "§c§l✗"));
 			p.sendMessage("");
 		// debug: the mistakes of the files and the hidden errors (since 1.4.8)
 		} else if (args[0].equalsIgnoreCase("debug")) {
@@ -636,6 +640,14 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			fr.dianox.hawn.modules.ranks.RankCommand.run(p, args);
+		// menu: the menus of the Menus folder (since 1.5)
+		} else if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("menus")) {
+			if (!p.hasPermission("hawn.admin.command.menu") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.admin.command.menu");
+				return true;
+			}
+
+			fr.dianox.hawn.modules.menus.MenuCommand.run(p, args);
 		// info
 		} else if (args[0].equalsIgnoreCase("info")) {
 			if (!p.hasPermission("hawn.admin.command.info") && !permissionunlocked) {
@@ -884,6 +896,7 @@ public class HawnCommand implements CommandExecutor {
 			page.add("§8>> §7/hawn setup - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Setup"));
 			page.add("§8>> §7/hawn debug - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Debug"));
 			page.add("§8>> §7/hawn rank <set/remove/info/list> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Rank"));
+			page.add("§8>> §7/hawn menu <open/list> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Menu"));
 		}
 
 		return page;

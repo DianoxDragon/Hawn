@@ -73,7 +73,7 @@ public class OnQuit implements Listener {
 						SQL.set("player_last_position", "PITCH", pitch, "player_UUID", id);
 					} else {
 						SQL.insertData("player, player_UUID, World, X, Y, Z, YAW, PITCH",
-								" '" + name + "', '" + id + "', '" + world.replace("'", "''") + "', '" + x + "', '" + y + "', '" + z + "', '" + yaw + "', '" + pitch + "' ",
+								" '" + SQL.q(name) + "', '" + SQL.q(id) + "', '" + world.replace("'", "''") + "', '" + SQL.q(x) + "', '" + SQL.q(y) + "', '" + SQL.q(z) + "', '" + SQL.q(yaw) + "', '" + SQL.q(pitch) + "' ",
 								"player_last_position");
 					}
 				});

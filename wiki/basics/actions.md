@@ -55,6 +55,15 @@ Respect the syntax exactly: the tag, then **`: `** (colon + one space), then the
 | `[warp]: <warp>`           | Teleports the player to a Hawn [warp](../features/warps.md), immediately, without permission check. |
 | `[bungee]: <server>`       | Sends the player to another server of your BungeeCord/Velocity network. See [BungeeCord](../integrations/bungeecord.md). |
 
+### Menus
+
+| Action           | What it does |
+| ---------------- | ------------ |
+| `[menu]: <menu>` | Since Hawn 1.5. Opens a [menu](../features/menus.md) of the `Menus/` folder (with its permission and its worlds). |
+| `[close]`        | Since Hawn 1.5. Closes the menu of Hawn that is open. |
+| `[refresh]`      | Since Hawn 1.5. Builds the open menu again. |
+| `[back]`         | Since Hawn 1.5. Opens the menu that was open before this one (or closes it). |
+
 ### Titles and action bar
 
 | Action                               | What it does                                                                            |

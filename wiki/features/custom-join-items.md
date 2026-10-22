@@ -13,7 +13,7 @@ The items are locked: players can't drop them, move them or lose them. By defaul
 ## Requirements
 
 * `CustomJoinItem/General.yml` → `Custom-Join-Item.Enable: true`.
-* The player is in one of the worlds of `General-Option.World`.
+* The player is in one of the worlds of `General-Option.World` (or of the `Worlds` of the item, since 1.5).
 * **The player has `hawn.use.customjoinitem`.** Without it, they don't receive any item.
 
 ## General options
@@ -30,6 +30,8 @@ Custom-Join-Item:
       All_World: false
       Worlds:
       - world
+    Change-World:
+      Enable: true
 ```
 
 | Option                              | Description                                                                                         |
@@ -37,6 +39,7 @@ Custom-Join-Item:
 | `Use_Permission_Per_Item`           | Each item needs its own permission: `hawn.use.cji.item.<item key>` (see below).                     |
 | `Use_In_Creative_Mode_In_Any_Case`  | `false` = in creative mode, the items behave like normal items (they can be moved and dropped). `true` = they stay locked and usable in creative too. |
 | `Inventory-Click`                   | Clicking the item inside the inventory also runs its actions.                                       |
+| `Change-World.Enable`               | Since Hawn 1.5. When the player changes world, the items of the new world are given and the others removed (see `Worlds` below). An object of the player is never removed or replaced: an item is only given in an empty slot. On for the new installations; the files of 1.4 get `false` (the items of the join stay, as before). |
 | `Block-Drop`                        | In the worlds of the join items: `ALL` = no item can be dropped (the inventory of the lobby stays clean), `JOIN-ITEMS` = only the join items are locked, the other items can be dropped, `NONE` = nothing is blocked. Since Hawn 1.4.6 (before, always `ALL`). The drop protection (`Items.Drop.Disable` in `Events/PlayerEvents.yml`) also blocks the drops: since Hawn 1.4.7, the startup report says when the two options work against each other. |
 
 ## Inventory items
@@ -53,7 +56,7 @@ Custom-Join-Item:
           Lore:
           - '&7Right click to choose a server'
           Command-List:
-          - '[command-player]: serverselector'
+          - '[menu]: servers'
           - '[sounds]: BLOCK_NOTE_BLOCK_HAT'
         Player-Material:
           Material: PLAYER_HEAD
@@ -81,11 +84,17 @@ Custom-Join-Item:
 | `Data-value`   | no       | Legacy data value. Ignored on recent versions: use the full material name (`RED_WOOL`).                     |
 | `Command-List` | no       | [Actions](../basics/actions.md) run on right click.                                                          |
 | `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun` or `Special-Book:<book>`. |
+| `Worlds`       | no       | Since Hawn 1.5. The worlds of this item, instead of the worlds of `General-Option.World`. With `Change-World`, it is given and removed when the player changes world. |
+| `Item-Model`   | no       | Since Hawn 1.5, Minecraft 1.21.4+. The model of the item (`namespace:key`), from your resource pack. |
+| `Custom-Model-Data` | no  | Since Hawn 1.5. The custom model data of the item. |
+| `Glow`         | no       | Since Hawn 1.5. The item shines like an enchanted item. |
+
+`Material: nexo:<id>` gives an item of [Nexo](../integrations/hooks.md#nexo) (since Hawn 1.5): its texture, its model and its components. Without `Title` and `Lore`, it keeps the name and the lore of Nexo.
 
 Add as many items as you want, each with a different key.
 
 {% hint style="info" %}
-To open a menu of another plugin (DeluxeMenus, a server selector...), use `[command-player]: <the command that opens the menu>`. To send the player to another server directly, use `[bungee]: <server>`.
+Since Hawn 1.5, on a new installation, the compass opens the server selector of Hawn (`[menu]: servers`) and the head opens the profile (`[menu]: profile`), see [Menus](menus.md). To open a menu of another plugin (DeluxeMenus...), use `[command-player]: <the command that opens the menu>`. To send the player to another server directly, use `[bungee]: <server>`.
 {% endhint %}
 
 ## Armour

@@ -1,6 +1,8 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.hook.CustomItems;
 import fr.dianox.hawn.hook.HooksManager;
+import fr.dianox.hawn.modules.menus.MenuItems;
 import fr.dianox.hawn.utility.Skulls;
 import fr.dianox.hawn.utility.JoinItemTag;
 
@@ -37,106 +39,139 @@ public class CustomJoinItem {
 	public static HashMap<Integer, String> itemcjislotname = new HashMap<>();
 	
 	public static void onItemGive(Player p) {
-		
+		give(p, false);
+	}
+
+	private static final String[] ARMOR = {"Helmet", "Chestplate", "Leggings", "Boots"};
+
+	/**
+	 * The join items of the world of the player. With onlyFree (world change), a slot holding an object of the player is
+	 * never replaced: only an empty slot or an item of Hawn.
+	 */
+	private static void give(Player p, boolean onlyFree) {
 		// If CJi is not enabled
 		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 			return;
 		}
-		
-		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-				return;
-			}
-		}
-		
+
 		if (!p.hasPermission("hawn.use.customjoinitem")) {
 			return;
 		}
-		
+
+		boolean perItem = ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item");
+
 		// Give armor
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-				if (p.hasPermission("hawn.use.cji.item.helmet")) {
-					String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
-					
-					ItemsMethod(path_item, p, "Helmet");
-				}
-			} else {
-				String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
-				
-				ItemsMethod(path_item, p, "Helmet");
-			}
+		for (String piece : ARMOR) {
+			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor." + piece + ".Enable")) continue;
+			String path_item = "Custom-Join-Item.Items.Armor." + piece + ".Item.";
+			if (perItem && !p.hasPermission("hawn.use.cji.item." + piece.toLowerCase(java.util.Locale.ROOT))) continue;
+			if (!inWorld(path_item, p)) continue;
+
+			ItemsMethod(path_item, p, piece, onlyFree);
 		}
-		
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-				if (p.hasPermission("hawn.use.cji.item.chestplate")) {
-					String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
-					
-					ItemsMethod(path_item, p, "Chestplate");
-				}
-			} else {
-				String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
-				
-				ItemsMethod(path_item, p, "Chestplate");
-			}
-		}
-		
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-				if (p.hasPermission("hawn.use.cji.item.leggings")) {
-					String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
-					
-					ItemsMethod(path_item, p, "Leggings");
-				}
-			} else {
-				String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
-				
-				ItemsMethod(path_item, p, "Leggings");
-			}
-		}
-		
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
-			
-			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-				if (p.hasPermission("hawn.use.cji.item.boots")) {
-					String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
-					
-					ItemsMethod(path_item, p, "Boots");
-				}
-			} else {
-				String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
-				
-				ItemsMethod(path_item, p, "Boots");
-			}
-		}
-		
+
 		// Give items
-		
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Inventory.Enable")) {
+		org.bukkit.configuration.ConfigurationSection items = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items");
+		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Inventory.Enable") && items != null) {
+			for (String string : items.getKeys(false)) {
+				String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
+				if (perItem && !p.hasPermission("hawn.use.cji.item." + string)) continue;
+				if (!inWorld(path_item, p)) continue;
 
-			for (String string : ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items").getKeys(false)) {
-				if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-					if (p.hasPermission("hawn.use.cji.item." + string)) {
-						String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-
-						ItemsMethod(path_item, p, "no");
-					}
-				} else {
-					String path_item = "Custom-Join-Item.Items.Inventory.Items." + string + ".";
-
-					ItemsMethod(path_item, p, "no");
-				}
+				ItemsMethod(path_item, p, "no", onlyFree);
 			}
 		}
-		
 	}
-	
-	private static void ItemsMethod(String path_item, Player p, String specialvalue) {
+
+	/**
+	 * Worlds: of the item (since 1.5), else the worlds of all the join items (General-Option.World).
+	 */
+	public static boolean inWorld(String path_item, Player p) {
+		java.util.List<String> worlds = ConfigCJIGeneral.getConfig().getStringList(path_item + "Worlds");
+		if (!worlds.isEmpty()) {
+			for (String world : worlds) {
+				if (world.equalsIgnoreCase(p.getWorld().getName())) return true;
+			}
+			return false;
+		}
+		return ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")
+				|| CjiPW.getWItemPG().contains(p.getWorld().getName());
+	}
+
+	/**
+	 * General-Option.Change-World.Enable (since 1.5): the items of the new world are given, the ones that are not for it
+	 * are removed. The objects of the player are never touched.
+	 */
+	public static void onWorldChange(Player p) {
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")
+				|| !ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Change-World.Enable")
+				|| !p.hasPermission("hawn.use.customjoinitem")) {
+			return;
+		}
+
+		for (String piece : ARMOR) {
+			String path_item = "Custom-Join-Item.Items.Armor." + piece + ".Item.";
+			ItemStack worn = armor(p, piece);
+			if (JoinItemTag.is(worn, path_item) && !inWorld(path_item, p)) {
+				setArmor(p, piece, null);
+			}
+		}
+
+		for (java.util.Map.Entry<Integer, String> entry : itemcjislot.entrySet()) {
+			ItemStack current = p.getInventory().getItem(entry.getKey());
+			if (JoinItemTag.isAny(current) && !inWorld(entry.getValue(), p)) {
+				p.getInventory().setItem(entry.getKey(), null);
+			}
+		}
+
+		give(p, true);
+	}
+
+	/**
+	 * A join item uses an item of another plugin (nexo:...): it is given again when Nexo has loaded its items.
+	 */
+	public static boolean usesCustomItems() {
+		for (String path : itemcjislot.values()) {
+			if (CustomItems.isCustom(ConfigCJIGeneral.getConfig().getString(path + "Material"))) return true;
+		}
+		for (String piece : ARMOR) {
+			if (CustomItems.isCustom(ConfigCJIGeneral.getConfig().getString("Custom-Join-Item.Items.Armor." + piece + ".Item.Material"))) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * The item clicked is the item of this join item: its tag, and its material (an item of another plugin keeps its own).
+	 */
+	public static boolean sameMaterial(ItemStack item, String path_item) {
+		String material = ConfigCJIGeneral.getConfig().getString(path_item + "Material");
+		return item != null && (CustomItems.isCustom(material) || item.getType() == XParse.material(material, "Custom Join Item"));
+	}
+
+	private static ItemStack armor(Player p, String piece) {
+		switch (piece) {
+			case "Helmet": return p.getInventory().getHelmet();
+			case "Chestplate": return p.getInventory().getChestplate();
+			case "Leggings": return p.getInventory().getLeggings();
+			default: return p.getInventory().getBoots();
+		}
+	}
+
+	private static void setArmor(Player p, String piece, ItemStack item) {
+		switch (piece) {
+			case "Helmet": p.getInventory().setHelmet(item); break;
+			case "Chestplate": p.getInventory().setChestplate(item); break;
+			case "Leggings": p.getInventory().setLeggings(item); break;
+			default: p.getInventory().setBoots(item); break;
+		}
+	}
+
+	// A slot that can take a join item: empty, or an item of Hawn
+	private static boolean free(ItemStack current) {
+		return current == null || current.getType() == org.bukkit.Material.AIR || JoinItemTag.isAny(current);
+	}
+
+	private static void ItemsMethod(String path_item, Player p, String specialvalue, boolean onlyFree) {
 		
 		String material = "";
 		ItemStack item = null;
@@ -173,6 +208,10 @@ public class CustomJoinItem {
 				Bukkit.getConsoleSender().sendMessage("§cError in the configuration file, you didn't set a slot number for §e" + path_item);
 				return;
 			}
+		}
+
+		if (onlyFree && !free(specialvalue.contentEquals("no") ? p.getInventory().getItem(slot) : armor(p, specialvalue))) {
+			return;
 		}
 		
 		if (ConfigCJIGeneral.getConfig().isSet(path_item + "Amount")) {
@@ -304,6 +343,8 @@ public class CustomJoinItem {
 			p.getInventory().setItem(slot, item);
 			
 			return;
+		} else if (CustomItems.isCustom(material)) {
+			item = CustomItems.create(material, amount, path_item + "Material");
 		} else {
 			if (head) {
 				if (ConfigCJIGeneral.getConfig().isSet(path_item + "Skull-Name")) {
@@ -374,6 +415,15 @@ public class CustomJoinItem {
 				item.setItemMeta(itemmeta);
 			}
 		
+		ItemMeta looks = item.getItemMeta();
+		if (looks != null && (ConfigCJIGeneral.getConfig().isSet(path_item + "Item-Model") || ConfigCJIGeneral.getConfig().isInt(path_item + "Custom-Model-Data")
+				|| ConfigCJIGeneral.getConfig().getBoolean(path_item + "Glow"))) {
+			MenuItems.looks(looks, ConfigCJIGeneral.getConfig().getString(path_item + "Item-Model"),
+					ConfigCJIGeneral.getConfig().isInt(path_item + "Custom-Model-Data") ? ConfigCJIGeneral.getConfig().getInt(path_item + "Custom-Model-Data") : null,
+					ConfigCJIGeneral.getConfig().getBoolean(path_item + "Glow"), path_item);
+			item.setItemMeta(looks);
+		}
+
 		JoinItemTag.tag(item, path_item);
 
 		if (specialvalue.contentEquals("Helmet")) {

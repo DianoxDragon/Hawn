@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, and within 1.4 (1.4.1 to 1.4.9).
+description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, within 1.4 (1.4.1 to 1.4.9), and from 1.4 to 1.5.
 ---
 
 # Updating from an older version
@@ -12,6 +12,15 @@ description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 
 4. Start the server.
 
 Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## From 1.4 to 1.5
+
+1.5 adds the [menus](../features/menus.md). Your files are kept:
+
+* **The menus**: the `Menus/` folder is created with `servers.yml` (the server selector) and `profile.yml` (a profile). Nothing opens them on your server until you use them: `/servers`, `/profile`, or `[menu]: servers` in an item.
+* **The compass of the join items** keeps its actions. On the new installations it opens the selector: to do the same, write `[menu]: servers` in its `Command-List` (it ran `/Serverlist`, a command that doesn't exist in Hawn).
+* **The join items per world**: `Custom-Join-Item.General-Option.Change-World.Enable` is added with `false`: the join items don't change when the players change world, as before. Turn it on with `Worlds:` per item to give and remove them by world.
+* **The console** shows the placeholders of the player in its copy of the join and quit messages (`(player #%player_join_number%)` stayed as it was).
 
 ## Within 1.4 (1.4.1 to 1.4.9)
 

@@ -380,15 +380,33 @@ public class UrgentMode implements Listener {
 		webhook("Hawn: urgent mode **" + what + "** by " + who + " (" + date + ")");
 	}
 
+	static boolean discordWebhook(String url) {
+		if (url == null) return false;
+		try {
+			java.net.URI uri = new java.net.URI(url.trim());
+			String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase(Locale.ROOT);
+			boolean discord = host.equals("discord.com") || host.endsWith(".discord.com") || host.equals("discordapp.com") || host.endsWith(".discordapp.com");
+			return "https".equalsIgnoreCase(uri.getScheme()) && discord && uri.getPath() != null && uri.getPath().startsWith("/api/webhooks/");
+		} catch (java.net.URISyntaxException e) {
+			return false;
+		}
+	}
+
 	private static void webhook(String text) {
 		String url = cfg().getString(PATH + "Discord-Webhook", "");
-		if (url == null || !(url.startsWith("https://") || url.startsWith("http://"))) {
+		// Only a webhook of Discord (since 1.5): the file can be changed in game (/ap), so no other address of the network
+		if (!discordWebhook(url)) {
+			if (url != null && !url.trim().isEmpty()) {
+				Main.getInstance().getLogger().warning("Urgent mode: Discord-Webhook is not a webhook of Discord (https://discord.com/api/webhooks/...), nothing is sent");
+			}
 			return;
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+				HttpURLConnection c = (HttpURLConnection) new URL(url.trim()).openConnection();
+				// A redirection could lead elsewhere
+				c.setInstanceFollowRedirects(false);
 				c.setRequestMethod("POST");
 				c.setDoOutput(true);
 				c.setConnectTimeout(5000);

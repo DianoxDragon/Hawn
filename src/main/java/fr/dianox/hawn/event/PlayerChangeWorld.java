@@ -104,6 +104,14 @@ public class PlayerChangeWorld implements Listener {
 		}
 	}
 	
+    /**
+     * The join items of the new world (Custom-Join-Item.General-Option.Change-World, since 1.5).
+     */
+    @EventHandler
+    public void onJoinItems(PlayerChangedWorldEvent e) {
+        fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem.onWorldChange(e.getPlayer());
+    }
+
     @EventHandler
     public void onCW(PlayerChangedWorldEvent e) {
         Player p = e.getPlayer();

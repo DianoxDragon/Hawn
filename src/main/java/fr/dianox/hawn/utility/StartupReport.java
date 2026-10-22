@@ -74,7 +74,9 @@ public final class StartupReport {
 				+ " - MiniMessage " + yes(PlatformEvents.isMiniMessage()));
 		say(LINE + ChatColor.YELLOW + "Hooks: " + hook("PlaceholderAPI", HooksManager.papi())
 				+ (HooksManager.expansionRegistered() ? ChatColor.GRAY + " (gives %hawn_...%)" : "") + ChatColor.GRAY + " - "
-				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard()));
+				+ hook("LuckPerms", HooksManager.luckPerms()) + ChatColor.GRAY + " - " + hook("WorldGuard", HooksManager.worldGuard())
+				// Nexo: its items in the join items and the menus (since 1.5), only shown when it is installed
+				+ (Bukkit.getPluginManager().getPlugin("Nexo") != null ? ChatColor.GRAY + " - " + hook("Nexo", Bukkit.getPluginManager().isPluginEnabled("Nexo")) : ""));
 		boolean mysql = ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable");
 		boolean yaml = hawn.getSql() == null || hawn.getSql().useyamllistplayer;
 		say(LINE + ChatColor.YELLOW + "Storage: " + ChatColor.WHITE + (yaml ? "YAML" : "MySQL")
@@ -134,6 +136,7 @@ public final class StartupReport {
 		parts.add(count(keys(ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items")), "join item"));
 		parts.add(count(keys(CustomCommandConfig.getConfig().getConfigurationSection("commands")), "custom command"));
 		parts.add(count(ChatEmojisLoad.emojislist.size(), "emoji"));
+		parts.add(count(fr.dianox.hawn.modules.menus.Menus.all().size(), "menu"));
 		parts.add(!Ranks.enabled() ? "ranks off" : count(Ranks.count(), "rank") + (Ranks.tablist() ? "" : " (tab list: " + Ranks.tabPlugin() + ")"));
 		return parts;
 	}

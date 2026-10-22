@@ -126,12 +126,12 @@ public class OQMessages {
 
 					if (ConfigMGeneral.getConfig().getBoolean("General.On-Quit.Quit-Message.Broadcast-To-Console")) {
 						for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-Group.Groups." + string)) {
-							ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname", p.getDisplayName()), "", "OQMessagesSTRICTSCONSOLE", true);
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname", p.getDisplayName()), "", "OQMessages", p, true);
+							ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "", "OQMessagesSTRICTSCONSOLE", true);
+							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "", "OQMessages", p, true);
 						}
 					} else {
 						for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-Quit.Quit-Message.Per-Group.Groups." + string)) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname", p.getDisplayName()), "", "OQMessages", p, true);
+							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "", "OQMessages", p, true);
 						}
 					}
 

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.4.9-Beta"
+version = "1.5.0-Beta"
 
 repositories {
     mavenCentral()
@@ -13,6 +13,7 @@ repositories {
     maven("https://repo.extendedclip.com/releases/")
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.nexomc.com/releases")
 }
 
 // Newest server API, only used by the "checkLatestApi" task
@@ -39,6 +40,8 @@ dependencies {
 
     "paperCompileOnly"("io.papermc.paper:paper-api:26.3.build.141-beta")
     "paperCompileOnly"(sourceSets.main.get().output)
+    // Nexo (Paper 1.21.4+): its items in the join items and the menus, loaded only when Nexo is there
+    "paperCompileOnly"("com.nexomc:nexo:1.29.1") { isTransitive = false }
 
 
     // Permissions of a player who is not connected yet (new Paper connection event)

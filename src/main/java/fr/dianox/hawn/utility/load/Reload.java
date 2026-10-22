@@ -184,6 +184,8 @@ public class Reload {
 
 		fr.dianox.hawn.utility.Debug.forgetWarnings();
 		fr.dianox.hawn.modules.ranks.Ranks.load();
+		fr.dianox.hawn.modules.menus.Menus.load();
+		fr.dianox.hawn.hook.CustomItems.load();
 
 		// The same warnings as at startup
 		fr.dianox.hawn.utility.StartupReport.printWarnings();
