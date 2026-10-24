@@ -126,6 +126,8 @@ public class defaultscoreboardconfig {
             Config.set("scroller.info.spaceBetween", 2);
             Config.set("scroller.info.update", 3);
             
+            // Since 1.5.1: the worlds of this server, not "world"
+            fr.dianox.hawn.modules.world.DefaultWorld.adaptDefaults(file, Config);
             saveConfigFile();
 
         }

@@ -24,6 +24,8 @@ public final class HawnMenu implements InventoryHolder {
 		ADMIN_PANEL, ADMIN_PANEL_EDIT, ADMIN_PANEL_FOLDER, ADMIN_PANEL_FILE,
 		EDIT_PLAYER, PLAYER_LIST,
 		SETUP_LANGUAGE, SETUP_WORLD, SETUP_SPAWN,
+		// Since 1.5.1: the modules, and the question before running the setup again
+		SETUP_MODULES, SETUP_CONFIRM,
 		WORLD_LIST, WORLD_CREATE, WORLD_DELETE, WORLD_SETTINGS, WORLD_TIME, WORLD_WEATHER, WORLD_DIFFICULTY,
 		// The menus of the Menus/ folder (since 1.5)
 		MENU;

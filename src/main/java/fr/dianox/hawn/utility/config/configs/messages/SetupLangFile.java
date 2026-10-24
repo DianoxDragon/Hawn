@@ -85,6 +85,29 @@ public class SetupLangFile {
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Please restart the server"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6You are still in the setup &7(&e/hawn setup &7to open it again)"));
 
+		// Since 1.5.1: no restart at the end, a confirmation before running it again, the page of the modules
+		Config.set("Setup.Finished", Collections.singletonList("%prefix% &aSetup finished: the changes are applied, no restart needed"));
+		Config.set("Setup.Closed", Collections.singletonList("%prefix% &7Setup closed, nothing was changed"));
+		Config.set("SetupConfirm.Info", "&eRun the setup of Hawn again?");
+		Config.set("SetupConfirm.Info-Lore", java.util.Arrays.asList("&7The language, the modules, the default world", "&7and the default spawn can be changed again"));
+		Config.set("SetupConfirm.Yes", "&aYes, run the setup again");
+		Config.set("SetupConfirm.No", "&cNo, cancel");
+		Config.set("SetupModules.Info", "&eTurn the modules on or off");
+		Config.set("SetupModules.Info-Lore", java.util.Arrays.asList("&7Applied at the end of the setup, without restart", "&7Everything else is in the files of Hawn"));
+		Config.set("SetupModules.Close-Inventory", "&cWe can stop the setup here");
+		Config.set("SetupModules.On", "&aon");
+		Config.set("SetupModules.Off", "&coff");
+		Config.set("SetupModules.Click-To-Turn-Off", "&7Click to turn it off");
+		Config.set("SetupModules.Click-To-Turn-On", "&7Click to turn it on");
+		Config.set("SetupModules.Join-Items", "Join items");
+		Config.set("SetupModules.Tablist", "Tab list");
+		Config.set("SetupModules.Boss-Bar", "Boss bar on join");
+		Config.set("SetupModules.Join-Title", "Title on join");
+		Config.set("SetupModules.Double-Jump", "Double jump");
+		Config.set("SetupModules.Void-TP", "Void TP");
+		Config.set("SetupModules.Anti-Swear", "Anti-swear");
+		Config.set("SetupModules.Anti-Advertising", "Anti-advertising");
+
 		Config = ConfigDefaults.apply(file, loaded, Config);
 	}
 }

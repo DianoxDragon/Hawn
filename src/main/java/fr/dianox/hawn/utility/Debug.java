@@ -249,9 +249,9 @@ public final class Debug {
 	 * /hawn debug: the mistakes of the files (read outside the main thread) and the hidden errors.
 	 */
 	public static void show(org.bukkit.command.CommandSender sender) {
-		org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+		Tasks.async(() -> {
 			List<String> errors = scan();
-			org.bukkit.Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+			Tasks.next(() -> {
 				say(sender, "Debug.Header", "");
 				if (errors.isEmpty()) {
 					say(sender, "Debug.No-Config-Error", "");

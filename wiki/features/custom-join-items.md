@@ -84,7 +84,7 @@ Custom-Join-Item:
 | `Data-value`   | no       | Legacy data value. Ignored on recent versions: use the full material name (`RED_WOOL`).                     |
 | `Command-List` | no       | [Actions](../basics/actions.md) run on right click.                                                          |
 | `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun` or `Special-Book:<book>`. |
-| `Worlds`       | no       | Since Hawn 1.5. The worlds of this item, instead of the worlds of `General-Option.World`. With `Change-World`, it is given and removed when the player changes world. |
+| `Worlds`       | no       | Since Hawn 1.5. The worlds of this item, instead of the worlds of `General-Option.World` (they don't have to be in that list). With `Change-World`, it is given and removed when the player changes world. Two items of two different worlds can use the same `Slot` (since Hawn 1.5.1, each one runs its own actions). |
 | `Item-Model`   | no       | Since Hawn 1.5, Minecraft 1.21.4+. The model of the item (`namespace:key`), from your resource pack. |
 | `Custom-Model-Data` | no  | Since Hawn 1.5. The custom model data of the item. |
 | `Glow`         | no       | Since Hawn 1.5. The item shines like an enchanted item. |

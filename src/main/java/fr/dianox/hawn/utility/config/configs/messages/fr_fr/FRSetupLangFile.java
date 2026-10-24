@@ -84,6 +84,29 @@ public class FRSetupLangFile {
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Veuillez redémarrer le serveur"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6Vous êtes toujours dans le setup &7(&e/hawn setup &7pour le rouvrir)"));
 
+		// Since 1.5.1: no restart at the end, a confirmation before running it again, the page of the modules
+		Config.set("Setup.Finished", Collections.singletonList("%prefix% &aConfiguration terminée : les changements sont appliqués, pas besoin de redémarrer"));
+		Config.set("Setup.Closed", Collections.singletonList("%prefix% &7Configuration fermée, rien n'a changé"));
+		Config.set("SetupConfirm.Info", "&eRelancer la configuration de Hawn ?");
+		Config.set("SetupConfirm.Info-Lore", java.util.Arrays.asList("&7La langue, les modules, le monde par défaut", "&7et le spawn par défaut peuvent être changés de nouveau"));
+		Config.set("SetupConfirm.Yes", "&aOui, relancer la configuration");
+		Config.set("SetupConfirm.No", "&cNon, annuler");
+		Config.set("SetupModules.Info", "&eActivez ou désactivez les modules");
+		Config.set("SetupModules.Info-Lore", java.util.Arrays.asList("&7Appliqué à la fin de la configuration, sans redémarrage", "&7Tout le reste est dans les fichiers de Hawn"));
+		Config.set("SetupModules.Close-Inventory", "&cArrêter la configuration ici");
+		Config.set("SetupModules.On", "&aactivé");
+		Config.set("SetupModules.Off", "&cdésactivé");
+		Config.set("SetupModules.Click-To-Turn-Off", "&7Cliquez pour le désactiver");
+		Config.set("SetupModules.Click-To-Turn-On", "&7Cliquez pour l'activer");
+		Config.set("SetupModules.Join-Items", "Items de connexion");
+		Config.set("SetupModules.Tablist", "Tab list");
+		Config.set("SetupModules.Boss-Bar", "Boss bar à la connexion");
+		Config.set("SetupModules.Join-Title", "Titre à la connexion");
+		Config.set("SetupModules.Double-Jump", "Double saut");
+		Config.set("SetupModules.Void-TP", "Void TP");
+		Config.set("SetupModules.Anti-Swear", "Anti-insultes");
+		Config.set("SetupModules.Anti-Advertising", "Anti-pub");
+
 		YamlConfiguration defaults = Config;
 		Config = ConfigDefaults.apply(file, loaded, Config);
 		// The French corrected in 1.4, in the files that still have the old texts

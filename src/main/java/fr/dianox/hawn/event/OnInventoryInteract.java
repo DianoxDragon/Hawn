@@ -6,12 +6,9 @@ import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.JoinItemTag;
-import fr.dianox.hawn.utility.MessageUtils;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
-import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
-import fr.dianox.hawn.utility.world.CjiPW;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +20,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 public class OnInventoryInteract implements Listener {
 	
@@ -42,10 +40,9 @@ public class OnInventoryInteract implements Listener {
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 			
-			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-					return;
-				}
+			// 115: the worlds of General-Option.World, and the Worlds: of each item
+			if (!CustomJoinItem.anyHere(p)) {
+				return;
 			}
 			
 			if (!p.hasPermission("hawn.use.customjoinitem")) {
@@ -62,153 +59,69 @@ public class OnInventoryInteract implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onclick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		
+
 		if (Main.buildbypasscommand.contains(p)) {
 			return;
-        }
-		
+		}
+
 		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_In_Creative_Mode_In_Any_Case")) {
 			if (p.getGameMode() == GameMode.CREATIVE) {
-				 return;
+				return;
 			}
 		}
-		
-		EquipmentSlot es = null;
-		
-		if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
-			es = e.getHand();
+
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
+			return;
 		}
-		
-		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
-			
-			if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-				if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-					return;
-				}
-			}
-			
-			if (!p.hasPermission("hawn.use.customjoinitem")) {
-				 return;
+
+		// 115: the worlds of General-Option.World, and the Worlds: of each item
+		if (!CustomJoinItem.anyHere(p) || !p.hasPermission("hawn.use.customjoinitem")) {
+			return;
+		}
+
+		if (e.getHand() != EquipmentSlot.HAND || (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+			return;
+		}
+
+		ItemStack held = p.getInventory().getItemInMainHand();
+
+		try {
+			// The lobby bow shoots
+			if (JoinItemTag.is(held, JoinItemTag.LOBBYBOW) && held.getType() == XMaterial.BOW.parseMaterial()) {
+				e.setCancelled(false);
+				return;
 			}
 
-			try {
-				if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
-					if (es.equals(EquipmentSlot.HAND)) {
-						if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-							if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
-								
-								if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-									if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
-										return;
-									}
-								}
-								
-								// SPECIAL ITEMS + 1.9
-								if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
-									if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
-										String Check1 = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
-										
-										if (Check1.startsWith("&f")) {
-											Check1 = Check1.substring(2, Check1.length());
-										}
-										
-										Check1 = MessageUtils.colourTheStuff(Check1);
-																				
-										if (p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
-											if (p.getInventory().getItemInMainHand().getType() == XMaterial.BOW.parseMaterial()) {
-												e.setCancelled(false);
-												return;
-											}
-										}
-									} else if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").contains("Special-Book")) {
-										if (p.getInventory().getItemInMainHand().getType() == XMaterial.BOOK.parseMaterial()) {
-											e.setCancelled(false);
-											return;
-										}
-									}
-								}
-								
-								// The item given for this slot (a renamed copy has no tag)
-								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
-									if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
-										if (CustomJoinItem.sameMaterial(p.getInventory().getItemInMainHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
-											for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-												ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-												p.updateInventory();
-											}
-											
-											e.setCancelled(true);
-										}
-									} else {
-										for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-											ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-											p.updateInventory();
-										}
-										
-										e.setCancelled(true);
-									}
-								}
-							}
-						}
-					}
-				} else {
-					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-						if (CustomJoinItem.itemcjislot.containsKey(p.getInventory().getHeldItemSlot())) {
-							
-							// SPECIAL ITEMS 1.8
-							if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
-								if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-LobbyBow")) {
-									String Check1 = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
-									
-									if (Check1.startsWith("&f")) {
-										Check1 = Check1.substring(2, Check1.length());
-									}
-									
-									Check1 = MessageUtils.colourTheStuff(Check1);
-									
-									if (p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
-										if (p.getItemInHand().getType() == XMaterial.BOW.parseMaterial()) {
-											e.setCancelled(false);
-											return;
-										}
-									}
-								} else if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").contains("Special-Book")) {
-									if (p.getItemInHand().getType() == XMaterial.BOOK.parseMaterial()) {
-										e.setCancelled(false);
-										return;
-									}
-								}
-							}
+			// 116: the join item is found by its tag, not by its slot (two items of two worlds can share a slot)
+			String path = CustomJoinItem.pathOf(held);
+			if (path == null || !CustomJoinItem.inWorld(path, p)) {
+				return;
+			}
 
-							// The item given for this slot (a renamed copy has no tag)
-							if (JoinItemTag.is(p.getItemInHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
-								if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Skull-Name")) {
-									if (CustomJoinItem.sameMaterial(p.getItemInHand(), CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()))) {
-										for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-											ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-											p.updateInventory();
-										}
-										
-										e.setCancelled(true);
-									}
-								} else {
-									for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Command-List")) {
-										ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-										p.updateInventory();
-									}
-									
-									e.setCancelled(true);
-								}
-							}
-						}
-					}
+			if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")
+					&& !p.hasPermission("hawn.use.cji.item." + CustomJoinItem.keyOf(path))) {
+				return;
+			}
+
+			String special = ConfigCJIGeneral.getConfig().getString(path + "Special-Items");
+			if (special != null && special.contains("Special-Book") && held.getType() == XMaterial.BOOK.parseMaterial()) {
+				e.setCancelled(false);
+				return;
+			}
+
+			// A head keeps its skin, not its material: only the tag for it
+			if (ConfigCJIGeneral.getConfig().isSet(path + "Skull-Name") || CustomJoinItem.sameMaterial(held, path)) {
+				for (String s: ConfigCJIGeneral.getConfig().getStringList(path + "Command-List")) {
+					ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
+					p.updateInventory();
 				}
-			} catch (Exception e2) {}
-		}
+
+				e.setCancelled(true);
+			}
+		} catch (Exception ignored) {}
 	}
 	
 	@EventHandler
@@ -255,10 +168,9 @@ public class OnInventoryInteract implements Listener {
 				 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 					 
 					 // world
-					 if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-							if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-								return;
-							}
+					 // 115: the worlds of General-Option.World, and the Worlds: of each item
+					 if (!CustomJoinItem.anyHere(p)) {
+						 return;
 					 }
 					 
 					 if (!p.hasPermission("hawn.use.customjoinitem")) {
@@ -272,7 +184,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Helmet.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Helmet.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Helmet-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item) && CustomJoinItem.inWorld(path_item, p)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.helmet")) {
@@ -297,7 +209,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Chestplate.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Chestplate.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Chestplate-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item) && CustomJoinItem.inWorld(path_item, p)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.chestplate")) {
@@ -322,7 +234,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Leggings.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Leggings.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Leggings-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item) && CustomJoinItem.inWorld(path_item, p)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.leggings")) {
@@ -347,7 +259,7 @@ public class OnInventoryInteract implements Listener {
 						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor.Boots.Enable")) {
 							 String path_item = "Custom-Join-Item.Items.Armor.Boots.Item.";
 							 
-							 if (CustomJoinItem.itemcjiname.containsKey("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item)) {
+							 if (CustomJoinItem.itemcjiname.containsKey("Boots-" + ConfigCJIGeneral.getConfig().getString(path_item + "Material")) && JoinItemTag.is(e.getCurrentItem(), path_item) && CustomJoinItem.inWorld(path_item, p)) {
 								 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
 									 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 											if (p.hasPermission("hawn.use.cji.item.boots")) {
@@ -369,52 +281,18 @@ public class OnInventoryInteract implements Listener {
 						 }
 					 }
 					 
-					 if (CustomJoinItem.itemcjislot.containsKey(e.getSlot())) {
-						 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")) {
-							 if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-								 if (p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(e.getSlot()))) {
-									 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Special-Items")) {
-										 // The item given for this slot (a renamed copy has no tag)
-										 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
-											 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
-												 if (CustomJoinItem.sameMaterial(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
-													 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
-														 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-													 }
-													 
-													 e.setCancelled(true);
-												 }
-											 } else {
-												 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
-													 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-												 }
-												 
-												 e.setCancelled(true);
-											 }
-										 }
-									 }
+					 // 116: the join item is found by its tag, not by its slot
+					 String path = CustomJoinItem.pathOf(e.getCurrentItem());
+					 if (path != null && ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Inventory-Click")
+							 && CustomJoinItem.inWorld(path, p) && !ConfigCJIGeneral.getConfig().isSet(path + "Special-Items")) {
+						 if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")
+								 || p.hasPermission("hawn.use.cji.item." + CustomJoinItem.keyOf(path))) {
+							 if (ConfigCJIGeneral.getConfig().isSet(path + "Skull-Name") || CustomJoinItem.sameMaterial(e.getCurrentItem(), path)) {
+								 for (String s: ConfigCJIGeneral.getConfig().getStringList(path + "Command-List")) {
+									 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
 								 }
-							 } else {
-								 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Special-Items")) {
-									 // The item given for this slot (a renamed copy has no tag)
-									 if (JoinItemTag.is(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
-										 if (!ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Skull-Name")) {
-											 if (CustomJoinItem.sameMaterial(e.getCurrentItem(), CustomJoinItem.itemcjislot.get(e.getSlot()))) {
-												 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
-													 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-												 }
-												 
-												 e.setCancelled(true);
-											 }
-										 } else {
-											 for (String s: ConfigCJIGeneral.getConfig().getStringList(CustomJoinItem.itemcjislot.get(e.getSlot()) + "Command-List")) {
-												 ConfigEventUtils.ExecuteEvent(p, s, "none", "CustomJoinItem", false);
-											 }
-											 
-											 e.setCancelled(true);
-										 }
-									 }
-								 }
+
+								 e.setCancelled(true);
 							 }
 						 }
 					 }

@@ -4,6 +4,25 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.1 BETA
+
+### New
+
+* The setup has a page for the modules, after the language: the join items, the tab list, the boss bar and the title on join, the double jump, the void TP, the anti-swear and the anti-advertising, turned on or off with a click. See [Welcome setup](../getting-started/welcome-setup.md#step-2-modules).
+* The files written by Hawn (a new installation, a file deleted to get it back) name the worlds of your server in their `Worlds` lists, not `world`: the default world, and the nether and the end of the main world.
+
+### Improved
+
+* No restart at the end of the setup: Hawn reloads its files, every change is applied at once. When nothing was changed, the setup just closes.
+* `/hawn setup` asks first: **Run the setup of Hawn again?** A `/hawn setup` typed by mistake no longer leaves you in the setup. A setup opened again ends with Escape on its first steps.
+* The menus of the setup are numbered from 1 to 4.
+
+### Fixes
+
+* The join items with `Worlds:` in a world that is not in `General-Option.World`: they were given, but a click did nothing and they could be dropped, and the special items (player hider, fun gun, lobby bow) were not given at all.
+* Two join items on the same slot for two worlds: only one of them ran its actions, and `Use_Permission_Per_Item` checked the permission of the other one. Each item is now found by its own tag.
+* The language and world steps of the setup were opened again every quarter of a second while they were open (the menu blinked).
+
 ## 1.5 BETA
 
 ### New

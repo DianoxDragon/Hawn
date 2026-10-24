@@ -6,10 +6,10 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.*;
-import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -155,8 +155,8 @@ public class Setup1Language implements Listener {
 					e.setCancelled(true);
 					Setup.finish(p);
 				} else if (e.getRawSlot() == 45) {
-					Setup.setupplace = 2;
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Setup2World.OpenInventory(p), 5);
+					// Since 1.5.1: the modules, then the world
+					Setup.goTo(p, 11);
 				} else if (e.getCurrentItem().getType() == XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()) {
 					e.setCancelled(true);
 				} else if (getlang.containsKey(e.getRawSlot())) {
@@ -165,6 +165,7 @@ public class Setup1Language implements Listener {
 					ConfigGeneral.getConfig().set("Plugin.Language-Type", langtype);
 					ConfigGeneral.saveConfigFile();
 					Main.LanguageType = langtype;
+					Setup.changed();
 					AdminPanelConfig.reloadConfig();
 					ConfigMAdmin.reloadConfig();
 					ConfigMGeneral.reloadConfig();
@@ -176,7 +177,7 @@ public class Setup1Language implements Listener {
 					for (String msg : SetupLangFile.getConfig().getStringList("SetupLanguage.Language-Changed")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", langtype), "", "", false);
 					}
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> OpenInventory(p), 5);
+					Tasks.later(() -> OpenInventory(p), 5L);
 				}
 			}
 

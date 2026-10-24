@@ -83,6 +83,71 @@ public class CustomJoinItem {
 		}
 	}
 
+	public static final String INVENTORY = "Custom-Join-Item.Items.Inventory.Items.";
+
+	// The worlds written in Worlds: of the items (lower case), filled by CjiManager
+	static final java.util.Set<String> itemWorlds = new java.util.HashSet<>();
+
+	/**
+	 * 116: the path of a join item of the inventory, read from its tag (two items of two worlds can share a slot).
+	 * Null for another item and for the special items.
+	 */
+	public static String pathOf(ItemStack item) {
+		String id = JoinItemTag.id(item);
+		return id != null && id.startsWith(INVENTORY) && id.endsWith(".") ? id : null;
+	}
+
+	/**
+	 * The key of a join item (Items.&lt;key&gt;.), for hawn.use.cji.item.&lt;key&gt;.
+	 */
+	public static String keyOf(String path) {
+		return path.substring(INVENTORY.length(), path.length() - 1);
+	}
+
+	/**
+	 * 115: a join item can be in this world: the worlds of General-Option.World, or the Worlds: of an item.
+	 */
+	public static boolean anyHere(Player p) {
+		return ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")
+				|| CjiPW.getWItemPG().contains(p.getWorld().getName())
+				|| itemWorlds.contains(p.getWorld().getName().toLowerCase(java.util.Locale.ROOT));
+	}
+
+	/**
+	 * The key of the join item that gives this special item (Special-HidePlayers, Special-FunGun, Special-LobbyBow) in
+	 * the world of the player, null when none of them is for this world.
+	 */
+	public static String special(Player p, String special) {
+		org.bukkit.configuration.ConfigurationSection items = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items");
+		if (items == null) {
+			return null;
+		}
+		for (String key : items.getKeys(false)) {
+			String path = INVENTORY + key + ".";
+			String value = ConfigCJIGeneral.getConfig().getString(path + "Special-Items");
+			if (value != null && value.contains(special) && inWorld(path, p)) {
+				return key;
+			}
+		}
+		return null;
+	}
+
+	// A join item of this world gives this special item on this slot (the tag of a special item doesn't say which one gave it)
+	private static boolean specialAt(Player p, String special, int slot) {
+		org.bukkit.configuration.ConfigurationSection items = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items");
+		if (items == null) {
+			return false;
+		}
+		for (String key : items.getKeys(false)) {
+			String path = INVENTORY + key + ".";
+			String value = ConfigCJIGeneral.getConfig().getString(path + "Special-Items");
+			if (value != null && value.contains(special) && ConfigCJIGeneral.getConfig().getInt(path + "Slot", -1) == slot && inWorld(path, p)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Worlds: of the item (since 1.5), else the worlds of all the join items (General-Option.World).
 	 */
@@ -117,22 +182,36 @@ public class CustomJoinItem {
 			}
 		}
 
-		for (java.util.Map.Entry<Integer, String> entry : itemcjislot.entrySet()) {
-			ItemStack current = p.getInventory().getItem(entry.getKey());
-			if (JoinItemTag.isAny(current) && !inWorld(entry.getValue(), p)) {
-				p.getInventory().setItem(entry.getKey(), null);
+		// 116: each item by its own tag, wherever it is in the inventory (two items of two worlds can share a slot)
+		for (int slot = 0; slot <= 40; slot++) {
+			if (slot >= 36 && slot <= 39) continue;
+			ItemStack current = p.getInventory().getItem(slot);
+			String path = pathOf(current);
+			String special = specialOf(current);
+			if ((path != null && !inWorld(path, p)) || (special != null && !specialAt(p, special, slot))) {
+				p.getInventory().setItem(slot, null);
 			}
 		}
 
 		give(p, true);
 	}
 
+	// The option of a special item (its tag): Special-HidePlayers, Special-FunGun, Special-LobbyBow; null for another item
+	private static String specialOf(ItemStack item) {
+		String id = JoinItemTag.id(item);
+		if (JoinItemTag.HIDEPLAYERS.equals(id)) return "Special-HidePlayers";
+		if (JoinItemTag.FUNGUN.equals(id)) return "Special-FunGun";
+		if (JoinItemTag.LOBBYBOW.equals(id)) return "Special-LobbyBow";
+		return null;
+	}
+
 	/**
 	 * A join item uses an item of another plugin (nexo:...): it is given again when Nexo has loaded its items.
 	 */
 	public static boolean usesCustomItems() {
-		for (String path : itemcjislot.values()) {
-			if (CustomItems.isCustom(ConfigCJIGeneral.getConfig().getString(path + "Material"))) return true;
+		org.bukkit.configuration.ConfigurationSection items = ConfigCJIGeneral.getConfig().getConfigurationSection("Custom-Join-Item.Items.Inventory.Items");
+		for (String key : items == null ? java.util.Collections.<String>emptySet() : items.getKeys(false)) {
+			if (CustomItems.isCustom(ConfigCJIGeneral.getConfig().getString(INVENTORY + key + ".Material"))) return true;
 		}
 		for (String piece : ARMOR) {
 			if (CustomItems.isCustom(ConfigCJIGeneral.getConfig().getString("Custom-Join-Item.Items.Armor." + piece + ".Item.Material"))) return true;

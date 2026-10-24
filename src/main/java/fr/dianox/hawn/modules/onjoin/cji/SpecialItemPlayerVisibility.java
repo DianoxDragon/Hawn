@@ -43,13 +43,8 @@ public class SpecialItemPlayerVisibility implements Listener {
 	public enum Source { INVENTORY, INTERACT, COMMAND, WORLD }
 
 	// The join items are only for the worlds of the join items, with their permissions
-	private static boolean allowed(Player p, String joinItem) {
+	private static boolean allowed(Player p) {
 		if (!SpecialCjiHidePlayers.getConfig().getBoolean("PV.Enable")) {
-			return false;
-		}
-
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")
-				&& !CjiPW.getWItemPG().contains(p.getWorld().getName())) {
 			return false;
 		}
 
@@ -57,9 +52,14 @@ public class SpecialItemPlayerVisibility implements Listener {
 			return false;
 		}
 
-		// 53: only for a slot with a join item, and without the debug message sent at every click
+		// 115, 116: the join item of the hider in this world (its Worlds:, else General-Option.World), and its own permission
+		String joinItem = CustomJoinItem.special(p, "Special-HidePlayers");
+		if (joinItem == null) {
+			return false;
+		}
+
 		return !ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")
-				|| joinItem == null || p.hasPermission("hawn.use.cji.item." + joinItem);
+				|| p.hasPermission("hawn.use.cji.item." + joinItem);
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -71,7 +71,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (item == null || item.getType() == Material.AIR) return;
 		if (e.getSlot() >= 36 && e.getSlot() <= 39) return;
 		if (!JoinItemTag.is(item, JoinItemTag.HIDEPLAYERS)) return;
-		if (!allowed(p, CustomJoinItem.itemcjislotname.get(e.getSlot()))) return;
+		if (!allowed(p)) return;
 
 		e.setCancelled(true);
 		// false: the item does not move, only a right click with it changes the state
@@ -87,7 +87,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (e.getHand() != EquipmentSlot.HAND) return;
 		if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		if (!JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.HIDEPLAYERS)) return;
-		if (!allowed(p, CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) return;
+		if (!allowed(p)) return;
 
 		// Also during the delay: the item is never placed or used
 		e.setCancelled(true);
@@ -157,7 +157,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 	}
 
 	public static void PlayerGivePlayerVisibilityItemOnJoincji(Player p, Integer slot) {
-		if (!allowed(p, CustomJoinItem.itemcjislotname.get(slot))) {
+		if (!allowed(p)) {
 			return;
 		}
 
@@ -169,11 +169,10 @@ public class SpecialItemPlayerVisibility implements Listener {
 			return;
 		}
 
-		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-				return;
-			}
+		// Check Worlds (115: also the Worlds: of the join item of the hider)
+		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")
+				&& !CjiPW.getWItemPG().contains(p.getWorld().getName()) && CustomJoinItem.special(p, "Special-HidePlayers") == null) {
+			return;
 		}
 
 		Mode mode = joinMode(p);

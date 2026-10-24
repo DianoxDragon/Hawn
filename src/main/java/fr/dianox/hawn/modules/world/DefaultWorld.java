@@ -179,6 +179,33 @@ public class DefaultWorld {
 		}
 	}
 
+	/**
+	 * Since 1.5.1: the default values of a file written or completed by Hawn name the worlds of this server, not "world",
+	 * "world_nether" and "world_the_end" (a server whose main world is "lobby" got lists of worlds that don't exist).
+	 */
+	public static void adaptDefaults(File file, YamlConfiguration defaults) {
+		if (SKIPPED.contains(file.getName())) return;
+
+		String to;
+		String main;
+		try {
+			if (ConfigGeneral.getConfig() == null || Bukkit.getWorlds().isEmpty()) return;
+			to = get();
+			main = mainWorld();
+		} catch (RuntimeException e) {
+			return;
+		}
+
+		List<String> ignored = new ArrayList<>();
+		if (!main.equals("world")) {
+			replace(defaults, "world_nether", main + "_nether", file.getName(), ignored);
+			replace(defaults, "world_the_end", main + "_the_end", file.getName(), ignored);
+		}
+		if (!to.equals("world")) {
+			replace(defaults, "world", to, file.getName(), ignored);
+		}
+	}
+
 	private static int replace(YamlConfiguration c, String from, String to, String file, List<String> conflicts) {
 		int n = 0;
 

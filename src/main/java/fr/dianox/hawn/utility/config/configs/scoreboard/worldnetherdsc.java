@@ -73,6 +73,8 @@ public class worldnetherdsc {
                     "world_nether"
             }));
             
+            // Since 1.5.1: the worlds of this server, not "world"
+            fr.dianox.hawn.modules.world.DefaultWorld.adaptDefaults(file, Config);
             saveConfigFile();
 
         }

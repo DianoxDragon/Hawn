@@ -10,7 +10,6 @@ import fr.dianox.hawn.utility.*;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import fr.dianox.hawn.utility.world.CjiPW;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -56,11 +55,9 @@ public class SpecialIteFunGun implements Listener {
 			return;
 		}
 		
-		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-			if (!CjiPW.getWItemPG().contains(e.getWhoClicked().getWorld().getName())) {
-				return;
-			}
+		// Check Worlds (115: the Worlds: of its join item, else General-Option.World)
+		if (CustomJoinItem.special((Player) e.getWhoClicked(), "Special-FunGun") == null) {
+			return;
 		}
 		
 		Player p = (Player) e.getWhoClicked();
@@ -71,7 +68,7 @@ public class SpecialIteFunGun implements Listener {
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
 			// 53: only for a slot with a join item, and without the debug message sent at every click
-			String joinItem = CustomJoinItem.itemcjislotname.get(e.getSlot());
+			String joinItem = CustomJoinItem.special(p, "Special-FunGun");
 			if (joinItem != null && !p.hasPermission("hawn.use.cji.item." + joinItem)) {
 				return;
 			}
@@ -121,16 +118,14 @@ public class SpecialIteFunGun implements Listener {
 				}
 				
 				if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-					if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
+					if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.special(p, "Special-FunGun"))) {
 						return;
 					}
 				}
 				
-				// Check Worlds
-				if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-					if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-						return;
-					}
+				// Check Worlds (115: the Worlds: of its join item, else General-Option.World)
+				if (CustomJoinItem.special(p, "Special-FunGun") == null) {
+					return;
 				}
 				
 				for (Player all : p.getWorld().getPlayers()) {
@@ -154,11 +149,9 @@ public class SpecialIteFunGun implements Listener {
 			return;
 		}
 		
-		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-				return;
-			}
+		// Check Worlds (115: the Worlds: of its join item, else General-Option.World)
+		if (CustomJoinItem.special(p, "Special-FunGun") == null) {
+			return;
 		}
 		
 		if (!p.hasPermission("hawn.use.customjoinitem")) {
@@ -166,7 +159,7 @@ public class SpecialIteFunGun implements Listener {
 		}
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(p.getInventory().getHeldItemSlot()))) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.special(p, "Special-FunGun"))) {
 				return;
 			}
 		}
@@ -189,52 +182,14 @@ public class SpecialIteFunGun implements Listener {
 			if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 19) {
 				if (es.equals(EquipmentSlot.HAND)) {
 					if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-						if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
-							if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-FunGun")) {
-								if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.FUNGUN) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
-									if (p.getInventory().getItemInMainHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
-										if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
-											if (Cooling.contains(p)) {
-												if (ConfigMMsg.getConfig().getBoolean("Custom-Join-Item.Error.FunGun.Time.Enable")) {
-													for (String msg: ConfigMMsg.getConfig().getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
-											    		ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
-											    	}
-												}
-											} else {
-												Cooling.add(p);
-												
-												shoot(p);
-												
-												Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-													
-													@Override
-													public void run() {
-														Cooling.remove(p);
-													}
-														
-												}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
-												Main.fungunCooldowns.put(p, System.currentTimeMillis());
-											}
-										} else {
-											shoot(p);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			} else {
-				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-					if (ConfigCJIGeneral.getConfig().isSet(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items")) {
-						if (ConfigCJIGeneral.getConfig().getString(CustomJoinItem.itemcjislot.get(p.getInventory().getHeldItemSlot()) + "Special-Items").equals("Special-FunGun")) {
-							if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.FUNGUN) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
-								if (p.getItemInHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
+						if (CustomJoinItem.special(p, "Special-FunGun") != null) {
+							if (JoinItemTag.is(p.getInventory().getItemInMainHand(), JoinItemTag.FUNGUN) && p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Check1)) {
+								if (p.getInventory().getItemInMainHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
 									if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
 										if (Cooling.contains(p)) {
 											if (ConfigMMsg.getConfig().getBoolean("Custom-Join-Item.Error.FunGun.Time.Enable")) {
 												for (String msg: ConfigMMsg.getConfig().getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
-													ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
+										    		ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
 										    	}
 											}
 										} else {
@@ -260,6 +215,40 @@ public class SpecialIteFunGun implements Listener {
 						}
 					}
 				}
+			} else {
+				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+					if (CustomJoinItem.special(p, "Special-FunGun") != null) {
+						if (JoinItemTag.is(p.getItemInHand(), JoinItemTag.FUNGUN) && p.getItemInHand().getItemMeta().getDisplayName().contains(Check1)) {
+							if (p.getItemInHand().getType() == XMaterial.BLAZE_ROD.parseMaterial()) {
+								if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
+									if (Cooling.contains(p)) {
+										if (ConfigMMsg.getConfig().getBoolean("Custom-Join-Item.Error.FunGun.Time.Enable")) {
+											for (String msg: ConfigMMsg.getConfig().getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
+												ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
+									    	}
+										}
+									} else {
+										Cooling.add(p);
+										
+										shoot(p);
+										
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+											
+											@Override
+											public void run() {
+												Cooling.remove(p);
+											}
+												
+										}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
+										Main.fungunCooldowns.put(p, System.currentTimeMillis());
+									}
+								} else {
+									shoot(p);
+								}
+							}
+						}
+					}
+				}
 			}
 		} catch (Exception e2) {}
 	}
@@ -269,11 +258,9 @@ public class SpecialIteFunGun implements Listener {
 			return;
 		}
 		
-		// Check Worlds
-		if (!ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.World.All_World")) {
-			if (!CjiPW.getWItemPG().contains(p.getWorld().getName())) {
-				return;
-			}
+		// Check Worlds (115: the Worlds: of its join item, else General-Option.World)
+		if (CustomJoinItem.special(p, "Special-FunGun") == null) {
+			return;
 		}
 		
 		if (!p.hasPermission("hawn.use.customjoinitem")) {
@@ -281,7 +268,7 @@ public class SpecialIteFunGun implements Listener {
 		}
 		
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.General-Option.Use_Permission_Per_Item")) {
-			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.itemcjislotname.get(slot))) {
+			if (!p.hasPermission("hawn.use.cji.item." + CustomJoinItem.special(p, "Special-FunGun"))) {
 				return;
 			}
 		}

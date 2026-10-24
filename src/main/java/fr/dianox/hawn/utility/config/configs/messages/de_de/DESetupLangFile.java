@@ -87,6 +87,29 @@ public class DESetupLangFile {
 		Config.set("Setup.Restart-Server", Collections.singletonList("%prefix% &6Bitte starte den Server neu"));
 		Config.set("Setup.Still-In-Setup", Collections.singletonList("%prefix% &6Du bist noch in der Einrichtung &7(&e/hawn setup &7öffnet sie wieder)"));
 
+		// Since 1.5.1: no restart at the end, a confirmation before running it again, the page of the modules
+		Config.set("Setup.Finished", Collections.singletonList("%prefix% &aEinrichtung abgeschlossen: die Änderungen sind übernommen, kein Neustart nötig"));
+		Config.set("Setup.Closed", Collections.singletonList("%prefix% &7Einrichtung geschlossen, nichts wurde geändert"));
+		Config.set("SetupConfirm.Info", "&eDie Einrichtung von Hawn erneut starten?");
+		Config.set("SetupConfirm.Info-Lore", java.util.Arrays.asList("&7Die Sprache, die Module, die Standardwelt", "&7und der Standard-Spawn können erneut geändert werden"));
+		Config.set("SetupConfirm.Yes", "&aJa, die Einrichtung erneut starten");
+		Config.set("SetupConfirm.No", "&cNein, abbrechen");
+		Config.set("SetupModules.Info", "&eSchalte die Module ein oder aus");
+		Config.set("SetupModules.Info-Lore", java.util.Arrays.asList("&7Am Ende der Einrichtung übernommen, ohne Neustart", "&7Alles andere steht in den Dateien von Hawn"));
+		Config.set("SetupModules.Close-Inventory", "&cDie Einrichtung hier beenden");
+		Config.set("SetupModules.On", "&aan");
+		Config.set("SetupModules.Off", "&caus");
+		Config.set("SetupModules.Click-To-Turn-Off", "&7Klicke zum Ausschalten");
+		Config.set("SetupModules.Click-To-Turn-On", "&7Klicke zum Einschalten");
+		Config.set("SetupModules.Join-Items", "Beitritts-Items");
+		Config.set("SetupModules.Tablist", "Tabliste");
+		Config.set("SetupModules.Boss-Bar", "Bossbar beim Beitreten");
+		Config.set("SetupModules.Join-Title", "Titel beim Beitreten");
+		Config.set("SetupModules.Double-Jump", "Doppelsprung");
+		Config.set("SetupModules.Void-TP", "Void TP");
+		Config.set("SetupModules.Anti-Swear", "Anti-Beleidigung");
+		Config.set("SetupModules.Anti-Advertising", "Anti-Werbung");
+
 		Config = ConfigDefaults.apply(file, loaded, Config);
 	}
 }

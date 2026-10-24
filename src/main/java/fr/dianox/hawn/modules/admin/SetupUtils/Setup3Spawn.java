@@ -2,16 +2,14 @@ package fr.dianox.hawn.modules.admin.SetupUtils;
 
 import fr.dianox.hawn.utility.gui.HawnMenu;
 
-import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.SetupLangFile;
-import fr.dianox.hawn.utility.load.Reload;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +26,7 @@ import java.io.IOException;
 
 public class Setup3Spawn implements Listener {
 
-	public static final String name = "§cHawn Setup - 3";
+	public static final String name = "§cHawn Setup - 4";
 	private static final String spawnname = "";
 
 	// Main
@@ -42,7 +40,7 @@ public class Setup3Spawn implements Listener {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", world.getName()), "", "", false);
 			}
 			// The menu once there (a teleport to another world closes it)
-			org.bukkit.Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			Tasks.later(() -> {
 				if (Setup.doingSetup(p) && Setup.setupplace == 3) OpenInventory(p);
 			}, 10L);
 			return;
@@ -138,7 +136,7 @@ public class Setup3Spawn implements Listener {
 		String spawn = parts[1];
 
 		// The command is run after this event: check the spawn on the next tick
-		Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+		Tasks.later(() -> {
 			if (!Setup.needsetup || !ConfigSpawn.getConfig().isSet("Coordinated." + spawn)) {
 				return;
 			}
@@ -146,13 +144,14 @@ public class Setup3Spawn implements Listener {
 			OnJoinConfig.getConfig().set("Spawn.DefaultSpawn", spawn);
 			OnJoinConfig.saveConfigFile();
 
+			// Hawn reloads at the end of the setup
+			Setup.changed();
 			Setup.finish(p);
-			Reload.reloadconfig();
 
 			for (String msg1 : SetupLangFile.getConfig().getStringList("SetupSpawn.Spawn-Changed")) {
 				ConfigEventUtils.ExecuteEvent(p, msg1.replace("%arg 1%", spawn), "", "", false);
 			}
-		});
+		}, 1L);
 	}
 
 }

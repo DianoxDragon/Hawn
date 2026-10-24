@@ -23,6 +23,13 @@ public final class Tasks {
 		}
 	}
 
+	/**
+	 * On the main thread, at the next tick (also from the main thread: after what is running now).
+	 */
+	public static BukkitTask next(Runnable task) {
+		return Bukkit.getScheduler().runTask(Main.getInstance(), task);
+	}
+
 	public static BukkitTask later(Runnable task, long ticks) {
 		return Bukkit.getScheduler().runTaskLater(Main.getInstance(), task, ticks);
 	}

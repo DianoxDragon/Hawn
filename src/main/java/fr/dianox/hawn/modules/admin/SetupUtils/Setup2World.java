@@ -2,15 +2,14 @@ package fr.dianox.hawn.modules.admin.SetupUtils;
 
 import fr.dianox.hawn.utility.gui.HawnMenu;
 
-import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.world.DefaultWorld;
 import fr.dianox.hawn.modules.world.GuiSystem;
 import fr.dianox.hawn.utility.load.Reload;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.messages.SetupLangFile;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +24,7 @@ import java.io.IOException;
 
 public class Setup2World implements Listener {
 
-	public static final String name = "§cHawn Setup - 2";
+	public static final String name = "§cHawn Setup - 3";
 
 	// Main
 	public static void OpenInventory(Player p) {
@@ -73,11 +72,11 @@ public class Setup2World implements Listener {
 				} else if (e.getRawSlot() == 21) {
 					Setup.setupplace = 21;
 					e.setCancelled(true);
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> GuiSystem.FirstPage(p), 5);
+					Tasks.later(() -> GuiSystem.FirstPage(p), 5L);
 				} else if (e.getRawSlot() == 45 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
-					// Back to the language
+					// Back to the modules (since 1.5.1)
 					e.setCancelled(true);
-					Setup.goTo(p, 1);
+					Setup.goTo(p, 11);
 				} else if (e.getRawSlot() == 53 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
 					// The default world stays the one of now
 					e.setCancelled(true);
@@ -105,6 +104,7 @@ public class Setup2World implements Listener {
 		// The chosen world replaces the default world, and "world" (the name written in the files at the first start),
 		// in the world lists of every file: the other worlds of the lists (nether, end...) are kept
 		DefaultWorld.change(s, "world");
+		Setup.changed();
 		Reload.reloadconfig();
 		// 96: the list stays open, "Default world" moves to the chosen world at once
 		GuiSystem.refreshWorldPages();

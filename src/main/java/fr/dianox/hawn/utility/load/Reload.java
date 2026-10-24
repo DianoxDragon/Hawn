@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility.load;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.autobroadcast.AutoBroadcastManager;
@@ -132,7 +133,7 @@ public class Reload {
 		
 		ChatEmojisLoad.onLoad();
 		
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), Main::UpdateCheckReload);
+		Tasks.async(Main::UpdateCheckReload);
 		
 		HooksManager.reload();
 		fr.dianox.hawn.modules.chat.ChatFormat.reload();

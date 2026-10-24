@@ -48,6 +48,17 @@ public final class JoinItemTag {
 		return item != null && item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(key(), PersistentDataType.STRING);
 	}
 
+	/**
+	 * What the tag says: the path of the join item in its file, or the name of a special item. Null without a tag.
+	 */
+	public static String id(ItemStack item) {
+		if (item == null || !item.hasItemMeta()) {
+			return null;
+		}
+
+		return item.getItemMeta().getPersistentDataContainer().get(key(), PersistentDataType.STRING);
+	}
+
 	public static boolean is(ItemStack item, String id) {
 		if (item == null || id == null || !item.hasItemMeta()) {
 			return false;

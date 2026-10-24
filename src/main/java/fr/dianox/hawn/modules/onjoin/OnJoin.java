@@ -48,7 +48,7 @@ public class OnJoin implements Listener {
         
         String uuid = p.getUniqueId().toString();
 
-        // The admins doing the setup skip the join effects (the setup ends with a restart); the other admins get them
+        // The admins doing the setup skip the join effects (the setup reloads Hawn at the end); the other admins get them
         if (Setup.isInSetup(p)) {
         	return;
 		}

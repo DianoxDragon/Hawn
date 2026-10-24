@@ -22,6 +22,7 @@ public class CjiManager {
 		CustomJoinItem.itemcjislot.clear();
 		CustomJoinItem.itemcjislotname.clear();
 		CustomJoinItem.warned.clear();
+		CustomJoinItem.itemWorlds.clear();
 
 		if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Enable")) {
 
@@ -62,7 +63,21 @@ public class CjiManager {
 
 				CustomJoinItem.itemcjislot.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), path_item);
 				CustomJoinItem.itemcjislotname.put(ConfigCJIGeneral.getConfig().getInt(path_item + "Slot"), string);
+				addWorlds(path_item);
 			}
+
+			for (String piece : new String[] {"Helmet", "Chestplate", "Leggings", "Boots"}) {
+				if (ConfigCJIGeneral.getConfig().getBoolean("Custom-Join-Item.Items.Armor." + piece + ".Enable")) {
+					addWorlds("Custom-Join-Item.Items.Armor." + piece + ".Item.");
+				}
+			}
+		}
+	}
+
+	// 115: the worlds of Worlds: are worlds of the join items too (clicks, drops)
+	private static void addWorlds(String path_item) {
+		for (String world : ConfigCJIGeneral.getConfig().getStringList(path_item + "Worlds")) {
+			CustomJoinItem.itemWorlds.add(world.toLowerCase(java.util.Locale.ROOT));
 		}
 	}
 

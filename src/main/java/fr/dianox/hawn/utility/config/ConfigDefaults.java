@@ -89,6 +89,9 @@ public final class ConfigDefaults {
         String name = relativeName(file);
         files.add(name);
 
+        // Since 1.5.1: the worlds of this server in the lists of worlds, not "world"
+        fr.dianox.hawn.modules.world.DefaultWorld.adaptDefaults(file, defaults);
+
         if (!file.exists()) {
             defaults.options().header(header(name));
             ConfigComments.comment(name, defaults, defaults);

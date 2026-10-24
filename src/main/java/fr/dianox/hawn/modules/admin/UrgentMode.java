@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.admin;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.serverlist.ServerPingEvent;
 import fr.dianox.hawn.modules.world.WorldFolders;
@@ -229,7 +230,7 @@ public class UrgentMode implements Listener {
 		}
 		roots.put("plugins", pluginsDir);
 
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+		Tasks.async(() -> {
 			int[] skipped = {0};
 			boolean ok = true;
 
@@ -243,7 +244,7 @@ public class UrgentMode implements Listener {
 			}
 
 			boolean done = ok;
-			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+			Tasks.next(() -> {
 				for (Map.Entry<World, Boolean> w : autoSave.entrySet()) {
 					w.getKey().setAutoSave(w.getValue());
 				}
@@ -358,7 +359,7 @@ public class UrgentMode implements Listener {
 		}
 
 		List<String> lines = messages("Urgent-mode.Lockdown-Chat", "&8[&eHawn-Urgent&8] &cThe server is in urgent mode: the chat is disabled");
-		Bukkit.getScheduler().runTask(Main.getInstance(), () -> tell(p, lines, ""));
+		Tasks.next(() -> tell(p, lines, ""));
 		return true;
 	}
 
@@ -402,7 +403,7 @@ public class UrgentMode implements Listener {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+		Tasks.async(() -> {
 			try {
 				HttpURLConnection c = (HttpURLConnection) new URL(url.trim()).openConnection();
 				// A redirection could lead elsewhere
