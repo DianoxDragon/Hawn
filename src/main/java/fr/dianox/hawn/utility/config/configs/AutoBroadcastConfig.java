@@ -87,6 +87,8 @@ public class AutoBroadcastConfig {
         Config.set("Config.Messages.messages.welcome.message", Collections.singletonList("&7Welcome on &6&lYour Server&7! Type &e/help &7to see what you can do"));
         Config.set("Config.Messages.messages.discord.message", Collections.singletonList("&7Join our Discord: &ediscord.gg/yourserver"));
         Config.set("Config.Messages.messages.vote.message", Collections.singletonList("&7You like the server? Vote for it: &eyourserver.net/vote"));
+        // Since 1.5.2: a sound with the message (new installations)
+        Config.set("Config.Messages.messages.vote.Sound", "BLOCK_NOTE_BLOCK_PLING");
 
         // Only in the nether (world_list)
         Config.set("Config.Messages.messages.nether.message", Collections.singletonList("&7You are in the &cnether&7: watch your step!"));

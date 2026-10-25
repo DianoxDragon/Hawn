@@ -1,5 +1,6 @@
 package fr.dianox.hawn.event;
 
+import fr.dianox.hawn.utility.gui.ValueEditor;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.XParse;
 
@@ -321,7 +322,11 @@ public class OnGuiInteract implements Listener {
         	
         	YamlConfiguration cfg = YamlConfiguration.loadConfiguration(f);
             
-            if (e.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial()) {
+            if (ValueEditor.isEditorItem(e.getCurrentItem().getType())) {
+            	// Since 1.5.2: a number, a choice or a text; the page opens again where it was
+            	String page = inv.replace("\u00a7cAP - File " + Main.getInstance().getConfigManager().configfilereverse.get(Main.getInstance().getDataFolder() + "/" + cfinuse), "");
+            	ValueEditor.click(e, p, cfinuse, cfg, f, () -> p.performCommand("ap edit file " + cfinuse + " " + page));
+            } else if (e.getCurrentItem().getType() != XMaterial.BARRIER.parseMaterial()) {
 	            if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
                     if (e.getCurrentItem().getType() == XMaterial.GREEN_WOOL.parseMaterial()) {
                     	greenwoolaction(e, inv, p, cfinuse, cfg, f);

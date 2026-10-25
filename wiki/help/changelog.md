@@ -4,6 +4,18 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.2 BETA
+
+### New
+
+* The admin panel (`/ap`) edits more than `true` / `false`: the numbers (left click +1, right click -1, Shift for 10), the choices like `AUTO` / `true` / `false` or `ALL` / `JOIN-ITEMS` / `NONE` (a click for the next one), and the texts, typed in the chat (`cancel` keeps the value). See [Admin tools](../features/admin-tools.md#admin-panel).
+* `Sound` for the chat announcements of `AutoBroadcast.yml`, like the titles, the action bar and the boss bar. The vote message of a new installation has one.
+
+### Fixes
+
+* `[back]` in the menus went back one menu only, then back and forth between the last two: it now goes back step by step.
+* The conditions of the menus: a value with an operator in it (a LuckPerms prefix `&8>> `, a name) cut the condition at the wrong place. The condition is now cut as it is written, then the placeholders are replaced on each side.
+
 ## 1.5.1 BETA
 
 ### New

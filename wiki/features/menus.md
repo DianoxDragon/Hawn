@@ -112,7 +112,7 @@ The players can never take, put or move an item in a menu of Hawn. A chest, or t
 | `!permission: <permission>` | The player doesn't have it. |
 | `world: <world>` | The player is in this world (several worlds: `world: lobby, hub`). |
 | `!world: <world>` | The player is not in this world. |
-| `<text> <operator> <text>` | The comparison is true once the placeholders are replaced: `==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`, `!contains`. Two numbers are compared as numbers, texts without the case: `%bungee_survival% < 100`, `%player_world% == lobby`. |
+| `<text> <operator> <text>` | The comparison is true once the placeholders are replaced: `==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`, `!contains`. Two numbers are compared as numbers, texts without the case: `%bungee_survival% < 100`, `%player_world% == lobby`. Since Hawn 1.5.2, a value with an operator in it (a prefix `&8>> `) no longer cuts the condition. |
 
 ### Heads
 
@@ -173,7 +173,7 @@ The examples of Hawn use them: "Click to join" blinks in `servers.yml`, and the 
 | `[menu]: <name>` | Opens a menu (in a join item, a custom command, a sign, a message, another menu...). |
 | `[close]` | Closes the menu. |
 | `[refresh]` | Builds the open menu again (after a change). |
-| `[back]` | Opens the menu that was open before this one (or closes it). |
+| `[back]` | Opens the menu that was open before this one, or closes it when there is none. Since Hawn 1.5.2, it goes back step by step: A, then B, then C, `[back]` opens B, then A. |
 
 ## Commands and permissions
 

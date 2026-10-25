@@ -95,6 +95,13 @@ public class DEAdminPanelConfig {
         		" ",
         		"&eKlicke, um diese Zeile auf §atrue &ezu setzen"
         		}));
+        // Since 1.5.2: the numbers, the choices and the texts
+        Config.set("Edit.File.Number.Lore", java.util.Arrays.asList("&7Wert: &e%value%", " ", "&eLinksklick: &a+%step%&e, Rechtsklick: &c-%step%", "&eMit Shift: &a+%bigstep% &e/ &c-%bigstep%"));
+        Config.set("Edit.File.Choice.Lore", java.util.Arrays.asList("&7Wert: &e%value%", " ", "&eKlick: der nächste &7(%choices%)", "&eRechtsklick: der vorherige"));
+        Config.set("Edit.File.Text.Lore", java.util.Arrays.asList("&7Wert: &f%value%", " ", "&eKlicke und schreibe dann den neuen Wert in den Chat", "&7(&ecancel &7behält ihn)"));
+        Config.set("Edit.File.Text.Type", java.util.Collections.singletonList("%prefix% &7Schreibe den neuen Wert von &e%arg1% &7in den Chat &8(jetzt: &f%arg2%&8)&7, oder &ecancel"));
+        Config.set("Edit.File.Text.Changed", java.util.Collections.singletonList("%prefix% &e%arg1% &7ist jetzt &f%arg2%"));
+        Config.set("Edit.File.Text.Cancelled", java.util.Collections.singletonList("%prefix% &7%arg1%: nichts geändert"));
 
         Config.set("Edit.File.Special.CustomCommand.True", java.util.Arrays.asList(new String[] {
         		" ",

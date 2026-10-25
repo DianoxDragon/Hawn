@@ -91,6 +91,13 @@ public class FRAdminPanelConfig {
         		" ",
         		"&eCliquez pour mettre cette ligne sur §avrai"
         		}));
+        // Since 1.5.2: the numbers, the choices and the texts
+        Config.set("Edit.File.Number.Lore", java.util.Arrays.asList("&7Valeur : &e%value%", " ", "&eClic gauche : &a+%step%&e, clic droit : &c-%step%", "&eAvec Maj : &a+%bigstep% &e/ &c-%bigstep%"));
+        Config.set("Edit.File.Choice.Lore", java.util.Arrays.asList("&7Valeur : &e%value%", " ", "&eClic : la suivante &7(%choices%)", "&eClic droit : la précédente"));
+        Config.set("Edit.File.Text.Lore", java.util.Arrays.asList("&7Valeur : &f%value%", " ", "&eCliquez, puis tapez la nouvelle valeur dans le chat", "&7(&ecancel &7pour la garder)"));
+        Config.set("Edit.File.Text.Type", java.util.Collections.singletonList("%prefix% &7Tapez la nouvelle valeur de &e%arg1% &7dans le chat &8(actuelle : &f%arg2%&8)&7, ou &ecancel"));
+        Config.set("Edit.File.Text.Changed", java.util.Collections.singletonList("%prefix% &e%arg1% &7vaut maintenant &f%arg2%"));
+        Config.set("Edit.File.Text.Cancelled", java.util.Collections.singletonList("%prefix% &7%arg1% : rien n'a changé"));
 
         Config.set("Edit.File.Special.CustomCommand.True", java.util.Arrays.asList(new String[] {
         		" ",

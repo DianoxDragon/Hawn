@@ -63,6 +63,6 @@ public final class Titles {
 	public static void time(Player p, Integer ticks) {
 		Main.avoidtitles.add(p);
 
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.avoidtitles.remove(p), ticks);
+		Tasks.later(() -> Main.avoidtitles.remove(p), ticks);
 	}
 }

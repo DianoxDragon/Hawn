@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.chat;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.DelaychatCommand;
 import fr.dianox.hawn.hook.HooksManager;
@@ -86,7 +87,8 @@ public final class ChatProcessor {
 		if (UrgentMode.blockChat(p)) {
 			return true;
 		}
-		return GuiSystem.captureChat(p, text);
+		// The new text of an option of the admin panel (since 1.5.2)
+		return GuiSystem.captureChat(p, text) || fr.dianox.hawn.utility.gui.ValueEditor.captureChat(p, text);
 	}
 
 	/**
@@ -217,7 +219,7 @@ public final class ChatProcessor {
 		int seconds = s.inGroup("Chat-Delay.Seconds") ? s.integer("Chat-Delay.Seconds", DelaychatCommand.delay) : DelaychatCommand.delay;
 		String name = p.getName();
 		if (seconds > 0 && cooling.add(name)) {
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> cooling.remove(name), seconds * 20L);
+			Tasks.later(() -> cooling.remove(name), seconds * 20L);
 		}
 	}
 
@@ -423,7 +425,7 @@ public final class ChatProcessor {
 	}
 
 	private static void mentioned(Player p, Player sender, ChatSettings s) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+		Tasks.later(() -> {
 			if (s.bool("Chat-Mention.Mentionned.Send-Message.Enable")) {
 				for (String msg : s.list("Chat-Mention.Mentionned.Send-Message.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%sender%", sender.getName()).replace("%player%", p.getName()), "", "", false);
@@ -473,7 +475,7 @@ public final class ChatProcessor {
 		if (Bukkit.isPrimaryThread()) {
 			task.run();
 		} else {
-			Bukkit.getScheduler().runTask(Main.getInstance(), task);
+			Tasks.next(task);
 		}
 	}
 }

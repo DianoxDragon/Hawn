@@ -1,7 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -11,7 +10,8 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 /**
  * The end of /gmute <minutes>: the chat is opened again, even if the one who muted it has left.
  */
-public class MuteChatTask extends BukkitRunnable {
+// Planned through Tasks (since 1.5.2)
+public class MuteChatTask implements Runnable {
 
 	// Who muted the chat, for the placeholders of the messages: null for the console
 	private final Player by;

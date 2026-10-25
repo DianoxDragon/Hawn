@@ -40,8 +40,8 @@ public final class Menus implements Listener {
 
 	private static volatile Map<String, Menu> menus = Collections.emptyMap();
 	private static volatile Map<String, String> commands = Collections.emptyMap();
-	// The menu opened before the current one, for [back]
-	private static final Map<UUID, String> previous = new HashMap<>();
+	// The menus opened before the current one, the last one on top, for [back] (117: a stack, not only the last one)
+	private static final Map<UUID, java.util.Deque<String>> previous = new HashMap<>();
 
 	/**
 	 * What an open menu needs: the menu, its player, the item shown in each slot, the refresh task.
@@ -122,6 +122,13 @@ public final class Menus implements Listener {
 	 * Opens a menu for a player, with its permission and its worlds. False when it is not opened (a message says why).
 	 */
 	public static boolean open(Player p, String name) {
+		return open(p, name, false);
+	}
+
+	/**
+	 * @param back opened by [back]: the menu closed now is not put on the stack of the menus to go back to
+	 */
+	private static boolean open(Player p, String name, boolean back) {
 		Menu menu = name == null ? null : menus.get(name.trim().toLowerCase(Locale.ROOT));
 		if (menu == null) {
 			say(p, "Menus.Not-Found", name == null ? "" : name.trim());
@@ -147,7 +154,12 @@ public final class Menus implements Listener {
 		Session old = session(p.getOpenInventory().getTopInventory());
 		if (old != null) {
 			old.switching = true;
-			previous.put(p.getUniqueId(), old.menu.name);
+			if (!back) {
+				java.util.Deque<String> stack = previous.computeIfAbsent(p.getUniqueId(), id -> new java.util.ArrayDeque<>());
+				stack.push(old.menu.name);
+				// A loop of [menu] actions doesn't grow it for ever
+				while (stack.size() > 20) stack.removeLast();
+			}
 		} else {
 			previous.remove(p.getUniqueId());
 		}
@@ -309,10 +321,16 @@ public final class Menus implements Listener {
 		if (s != null) fill(s, false);
 	}
 
+	/**
+	 * [back]: the menu opened before this one (A, B, C: C goes back to B, then B to A), or closed when there is none.
+	 */
 	public static void back(Player p) {
-		String name = previous.get(p.getUniqueId());
+		java.util.Deque<String> stack = previous.get(p.getUniqueId());
+		String name = stack == null ? null : stack.poll();
 		if (name != null) {
-			openLater(p, name);
+			Tasks.later(() -> {
+				if (p.isOnline()) open(p, name, true);
+			}, 1L);
 		} else {
 			closeLater(p);
 		}

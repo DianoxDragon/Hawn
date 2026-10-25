@@ -70,6 +70,10 @@ In a new configuration, the chat messages are on and the titles, the action bar 
         - '&eVote for the server!'
         - 'json:{"text":"§6§l[CLICK HERE]","clickEvent":{"action":"open_url","value":"https://example.com/vote"}}'
         - '[sounds]: ENTITY_EXPERIENCE_ORB_PICKUP'
+      discord:
+        message:
+        - '&7Join our Discord: &ediscord.gg/yourserver'
+        Sound: BLOCK_NOTE_BLOCK_PLING        # optional, since Hawn 1.5.2
       nethermessage:
         message:
         - You are in the nether
@@ -80,6 +84,7 @@ In a new configuration, the chat messages are on and the titles, the action bar 
 * Each entry of `messages` is one announcement, with any key name.
 * The header and footer are added around every announcement.
 * Each line supports colours, placeholders, JSON, `<perm>`, `<world>` and [actions](../basics/actions.md) like `[sounds]:`.
+* `Sound` (since Hawn 1.5.2): a sound played with this announcement, like the titles, the action bar and the boss bar.
 * `world_list` sends this announcement only to players in one of the listed worlds. The whole name counts: `world` is not `world_nether`. A `*` stands for any text: `world*` is `world`, `world_nether` and `world_the_end`. (Before Hawn 1.4.6, a part of the name was enough: write `world*` to keep that.)
 
 ## Titles

@@ -3,6 +3,7 @@ package fr.dianox.hawn.command.commands;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.utility.gui.HawnMenu;
+import fr.dianox.hawn.utility.gui.ValueEditor;
 
 import fr.dianox.hawn.utility.XParse;
 
@@ -422,7 +423,12 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                     number_place++;
                                 } else {
-                                    if (cfg.isBoolean(string)) {
+                                    // Since 1.5.2: the numbers, the choices and the texts too
+                                    if (ValueEditor.kind(cfg, string) != null) {
+                                        inv.setItem(number_place, ValueEditor.item(cfg, string));
+                                        number_place++;
+                                        numberitems++;
+                                    } else if (cfg.isBoolean(string)) {
                                         if (cfg.getBoolean(string)) {
                                         	lore.clear();
                                         	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {
@@ -453,7 +459,7 @@ public class PanelAdminCommand extends BukkitCommand {
                             inv.setItem(45, createGuiItemWL(" ", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()));
                         } else {
                             if (numberitemstoeleimate < loopaeleminer) {
-                                if (cfg.isBoolean(string)) {
+                                if (cfg.isBoolean(string) || ValueEditor.kind(cfg, string) != null) {
                                     numberitemstoeleimate++;
                                 }
                             } else {
@@ -539,7 +545,12 @@ public class PanelAdminCommand extends BukkitCommand {
 
                                         number_place++;
                                     } else {
-                                        if (cfg.isBoolean(string)) {
+                                        // Since 1.5.2: the numbers, the choices and the texts too
+                                        if (ValueEditor.kind(cfg, string) != null) {
+                                            inv.setItem(number_place, ValueEditor.item(cfg, string));
+                                            number_place++;
+                                            numberitems++;
+                                        } else if (cfg.isBoolean(string)) {
                                             if (cfg.getBoolean(string)) {
                                             	lore.clear();
                                             	for (String msg: AdminPanelConfig.getConfig().getStringList("Edit.File.Boolean.True")) {

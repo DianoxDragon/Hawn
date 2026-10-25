@@ -46,6 +46,8 @@ public class OnQuit implements Listener {
 		}
 		
 		PlayerVisibility.forget(p);
+		// A text asked by the admin panel is no longer awaited (since 1.5.2)
+		fr.dianox.hawn.utility.gui.ValueEditor.forget(p);
 		
 		// Mysql
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable")) {

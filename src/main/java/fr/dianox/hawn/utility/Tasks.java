@@ -47,4 +47,11 @@ public final class Tasks {
 			task.cancel();
 		}
 	}
+
+	/**
+	 * A task kept by its number (the old code keeps the numbers in maps).
+	 */
+	public static void cancel(int id) {
+		Bukkit.getScheduler().cancelTask(id);
+	}
 }

@@ -5,7 +5,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Action bars through the Spigot API (no NMS, works on every supported version).
@@ -35,20 +34,18 @@ public final class ActionBar {
     public static void sendActionBar(JavaPlugin plugin, Player player, String message, long duration) {
         if (duration < 1) return;
 
-        new BukkitRunnable() {
-            long repeater = duration;
-
-            @Override
-            public void run() {
-                if (!player.isOnline()) {
-                    cancel();
-                    return;
-                }
-
-                sendActionBar(player, message);
-                repeater -= 40L;
-                if (repeater - 40L < -20L) cancel();
+        // Through Tasks (since 1.5.2): the task stops itself with its own handle
+        long[] repeater = {duration};
+        org.bukkit.scheduler.BukkitTask[] task = new org.bukkit.scheduler.BukkitTask[1];
+        task[0] = Tasks.timer(() -> {
+            if (!player.isOnline()) {
+                Tasks.cancel(task[0]);
+                return;
             }
-        }.runTaskTimer(plugin, 0L, 40L);
+
+            sendActionBar(player, message);
+            repeater[0] -= 40L;
+            if (repeater[0] - 40L < -20L) Tasks.cancel(task[0]);
+        }, 0L, 40L);
     }
 }

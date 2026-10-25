@@ -11,11 +11,11 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class AutoBroadcast_AB extends BukkitRunnable {
+// Planned through Tasks (since 1.5.2)
+public class AutoBroadcast_AB implements Runnable {
 	
 	@SuppressWarnings("unused")
 	private final JavaPlugin pl;

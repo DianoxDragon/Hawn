@@ -84,7 +84,12 @@ General-Options:
 
 The panel gives access to:
 
-* **Hawn configuration**: browse the configuration files and switch `true`/`false` options with a click. The change is saved and applied immediately. Lists and texts must still be edited in the files.
+* **Hawn configuration**: browse the configuration files and change their options with a click. The change is saved at once.
+  * `true` / `false` (green or red wool): a click switches it.
+  * A number (light blue wool, since Hawn 1.5.2): left click +1, right click -1, with Shift +10 / -10 (0.1 and 1 for a decimal number).
+  * A choice (yellow wool, since Hawn 1.5.2): `AUTO` / `true` / `false`, `ALL` / `JOIN-ITEMS` / `NONE`, `HAWN` / `LUCKPERMS`, the gamemodes...: a click goes to the next one, a right click to the one before.
+  * A text (white wool, since Hawn 1.5.2): click it, then type the new value in the chat (`cancel` keeps it). The page opens again.
+  * The lists must still be edited in the files.
 * **Reload Hawn**, **Reload the server**, **Shutdown the server**, **Save players**.
 * **Player list**: every online player, click one to open the [player editor](#player-editor).
 * **World System**: the [world manager](world-manager.md).

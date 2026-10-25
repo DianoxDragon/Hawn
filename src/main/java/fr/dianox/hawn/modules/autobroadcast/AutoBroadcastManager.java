@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.autobroadcast;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast;
 import fr.dianox.hawn.modules.autobroadcast.autobc.AutoBroadcast_AB;
@@ -51,7 +52,7 @@ public class AutoBroadcastManager {
 		for (String key : TASKS) {
 			Integer id = Main.tasklist.remove(key);
 			if (id != null) {
-				Bukkit.getScheduler().cancelTask(id);
+				Tasks.cancel(id);
 			}
 		}
 
@@ -90,7 +91,7 @@ public class AutoBroadcastManager {
 			ArrayList<String> list = new ArrayList<String>(Main.tasklist.keySet());
 			
 			for (String s2: list) {
-				Bukkit.getScheduler().cancelTask(Main.tasklist.get(s2));
+				Tasks.cancel(Main.tasklist.get(s2));
 				Main.tasklist.remove(s2);
 			}
 		}
@@ -115,7 +116,7 @@ public class AutoBroadcastManager {
 			
 		Main.autobroadcast_total--;
 
-		BukkitTask TaskName = (new AutoBroadcast(Main.getInstance())).runTaskTimer(Main.getInstance(), 0, interval);
+		BukkitTask TaskName = Tasks.timer(new AutoBroadcast(Main.getInstance()), 0, interval);
 		Main.tasklist.put("B_AB", TaskName.getTaskId());
 	}
 	
@@ -135,7 +136,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_ab--;
 	    
-		BukkitTask TaskName = (new AutoBroadcast_AB(Main.getInstance())).runTaskTimer(Main.getInstance(), 0, interval_ab);
+		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_AB(Main.getInstance()), 0, interval_ab);
 		Main.tasklist.put("AB_AB", TaskName.getTaskId());
 	}
 	
@@ -155,7 +156,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_titles--;
 	    
-		BukkitTask TaskName = (new AutoBroadcast_Title(Main.getInstance())).runTaskTimer(Main.getInstance(), 0, interval_titles);
+		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_Title(Main.getInstance()), 0, interval_titles);
 		Main.tasklist.put("T_AB", TaskName.getTaskId());
 	}
 	
@@ -175,7 +176,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_bb--;
 	    
-		BukkitTask TaskName = (new AutoBroadcast_BossBar(Main.getInstance())).runTaskTimer(Main.getInstance(), 0, interval_bb);
+		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_BossBar(Main.getInstance()), 0, interval_bb);
 		Main.tasklist.put("BB_AB", TaskName.getTaskId());
 	}
 

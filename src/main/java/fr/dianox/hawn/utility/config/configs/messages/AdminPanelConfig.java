@@ -93,6 +93,13 @@ public class AdminPanelConfig {
         		" ",
         		"&eClick to put this line to §atrue"
         		}));
+        // Since 1.5.2: the numbers, the choices and the texts
+        Config.set("Edit.File.Number.Lore", java.util.Arrays.asList("&7Value: &e%value%", " ", "&eLeft click: &a+%step%&e, right click: &c-%step%", "&eWith Shift: &a+%bigstep% &e/ &c-%bigstep%"));
+        Config.set("Edit.File.Choice.Lore", java.util.Arrays.asList("&7Value: &e%value%", " ", "&eClick: the next one &7(%choices%)", "&eRight click: the one before"));
+        Config.set("Edit.File.Text.Lore", java.util.Arrays.asList("&7Value: &f%value%", " ", "&eClick, then type the new value in the chat", "&7(&ecancel &7to keep it)"));
+        Config.set("Edit.File.Text.Type", java.util.Collections.singletonList("%prefix% &7Type the new value of &e%arg1% &7in the chat &8(now: &f%arg2%&8)&7, or &ecancel"));
+        Config.set("Edit.File.Text.Changed", java.util.Collections.singletonList("%prefix% &e%arg1% &7is now &f%arg2%"));
+        Config.set("Edit.File.Text.Cancelled", java.util.Collections.singletonList("%prefix% &7%arg1%: nothing changed"));
 
         Config.set("Edit.File.Special.CustomCommand.True", java.util.Arrays.asList(new String[] {
         		" ",

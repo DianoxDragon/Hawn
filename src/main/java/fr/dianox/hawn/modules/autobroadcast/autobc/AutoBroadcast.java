@@ -3,20 +3,21 @@ package fr.dianox.hawn.modules.autobroadcast.autobc;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
+import fr.dianox.hawn.utility.XParse;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-public class AutoBroadcast extends BukkitRunnable {
+// Planned through Tasks (since 1.5.2)
+public class AutoBroadcast implements Runnable {
 
     @SuppressWarnings("unused")
     private final JavaPlugin pl;
@@ -99,6 +100,11 @@ public class AutoBroadcast extends BukkitRunnable {
 	            } else {
 		            ConfigEventUtils.ExecuteEvent(p, s, "", "", false);
 	            }
+			}
+
+			// Since 1.5.2: a sound, like the titles, the action bar and the boss bar
+			if (AutoBroadcastConfig.getConfig().isSet("Config.Messages.messages." + msg + ".Sound")) {
+				p.playSound(p.getLocation(), XParse.sound(AutoBroadcastConfig.getConfig().getString("Config.Messages.messages." + msg + ".Sound"), "Config.Messages.messages." + msg + ".Sound"), 1, 1);
 			}
 		}
     	

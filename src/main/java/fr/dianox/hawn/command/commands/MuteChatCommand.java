@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -52,7 +53,7 @@ public class MuteChatCommand extends BukkitCommand {
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 					
 					if (taskrunning) {
-						Bukkit.getScheduler().cancelTask(tasknumber);
+						Tasks.cancel(tasknumber);
 						taskrunning = false;
 					}
 					
@@ -120,7 +121,7 @@ public class MuteChatCommand extends BukkitCommand {
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 				
 				if (taskrunning) {
-					Bukkit.getScheduler().cancelTask(tasknumber);
+					Tasks.cancel(tasknumber);
 					taskrunning = false;
 				}
 				
@@ -164,10 +165,10 @@ public class MuteChatCommand extends BukkitCommand {
 	// The chat is opened again after these minutes (it shut the server down before 1.4.1)
 	private static void unmuteIn(int minutes, Player by) {
 		if (taskrunning) {
-			Bukkit.getScheduler().cancelTask(tasknumber);
+			Tasks.cancel(tasknumber);
 		}
 
-		BukkitTask task = new MuteChatTask(by).runTaskLater(Main.getInstance(), minutes * 60L * 20L);
+		BukkitTask task = Tasks.later(new MuteChatTask(by), minutes * 60L * 20L);
 
 		taskrunning = true;
 		tasknumber = task.getTaskId();
