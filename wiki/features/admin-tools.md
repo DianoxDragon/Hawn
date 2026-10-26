@@ -98,13 +98,22 @@ With `Warn-when-people-make-change: true`, players with `hawn.spy.adminpanel` ar
 
 ## Player editor
 
-`/hawn editplayer <player>`, or a click in the player list of the admin panel. Permission `hawn.editplayer`, then:
+`/hawn editplayer <player>` (also `/editplayer` and `/ep` on the new installations, since Hawn 1.5.3), or a click in the player list of the admin panel. Permission `hawn.editplayer`, then:
 
-| Button          | Permission                  |
-| --------------- | --------------------------- |
-| Change gamemode | `hawn.editplayer.gamemode`  |
-| Clear inventory | `hawn.editplayer.clearinv`  |
-| Teleport to the player | `hawn.editplayer.tp` |
+| Button          | What it does | Permission                  |
+| --------------- | ------------ | --------------------------- |
+| The head        | The world, the gamemode and the rank of the player | |
+| Gamemode        | Left click: the next one, right click: the one before | `hawn.editplayer.gamemode`  |
+| Fly             | On or off, like `/fly <player>` | the ones of `/fly` (`hawn.command.fly.others`) |
+| Walking speed, flying speed | From 0 to 10: left click +1, right click -1, Shift + click: back to normal | `hawn.editplayer.speed` |
+| Vanish          | On or off, like `/v <player>` | the ones of `/v` (`hawn.command.vanish.others`) |
+| Heal and feed   | Left click: `/heal <player>`, right click: `/feed <player>` | the ones of `/heal` and `/feed` |
+| Clear inventory | The inventory and the armour | `hawn.editplayer.clearinv`  |
+| Teleport to the player, bring the player to you | | `hawn.editplayer.tp` |
+| Rank given by hand | The ranks of `Ranks.yml` in their order, then none; not with `Source: LUCKPERMS` | `hawn.admin.command.rank` |
+| Who the player sees | The player hider: everyone, the staff and the VIP, nobody | `hawn.editplayer.options` |
+
+Since Hawn 1.5.3, every button except the gamemode, the inventory and the teleport to the player is new, and the menu shows what changed at once.
 
 ## Maintenance mode
 

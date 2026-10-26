@@ -97,6 +97,17 @@ Aliases enabled by default:
 
 The other commands have aliasing disabled (`Enable: false`) with an empty list: fill the list and set `Enable: true` to add some.
 
+Since Hawn 1.5.3, short commands for sub-commands of `/hawn`, on for the new installations (off in the files of before, a name could be taken by another plugin):
+
+| Section            | Command              | Aliases                 |
+| ------------------ | -------------------- | ----------------------- |
+| `Hawn-EditPlayer`  | `/hawn editplayer`   | `/editplayer`, `/ep`    |
+| `Hawn-Rank`        | `/hawn rank`         | `/hrank`                |
+| `Hawn-Menu`        | `/hawn menu`         | `/hmenu`                |
+| `Hawn-Debug`       | `/hawn debug`        | `/hdebug`               |
+
+They keep the permissions, the messages and the completion of `/hawn`.
+
 ## Block commands
 
 `Events/OnCommands.yml` blocks commands of any plugin, typically to hide your plugin list:

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.onjoin.cji;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.hook.HooksManager;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.XParse;
@@ -113,7 +114,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 			}
 
 			PlayerVisibility.Cooling().add(p);
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
+			Tasks.later(() -> PlayerVisibility.Cooling().remove(p), SpecialCjiHidePlayers.getConfig().getInt("PV.Option.Item-Delay.Delay")*20);
 			Main.hiderCooldowns.put(p, System.currentTimeMillis());
 		}
 

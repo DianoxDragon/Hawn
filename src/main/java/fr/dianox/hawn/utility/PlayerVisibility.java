@@ -26,7 +26,8 @@ public class PlayerVisibility {
 	public enum Mode { ALL, STAFF, NONE }
 
 	private static final Map<UUID, Mode> modes = new ConcurrentHashMap<>();
-	private static final List<Player> Cooling = new ArrayList<>();
+	// Safe for several threads (since 1.5.3)
+	private static final List<Player> Cooling = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 	public static Mode mode(Player p) {
 		return modes.getOrDefault(p.getUniqueId(), Mode.ALL);

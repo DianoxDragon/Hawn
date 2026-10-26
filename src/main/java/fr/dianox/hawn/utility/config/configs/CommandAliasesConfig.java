@@ -294,6 +294,22 @@ public class CommandAliasesConfig {
         Config.set("Vanish.Cannot-Be-changed.Main-Command-Is", "vanish");
         Config.set("Vanish.Aliases", Collections.singletonList("v"));
 
+        // Since 1.5.3: short commands for /hawn editplayer, /hawn rank, /hawn menu and /hawn debug.
+        // On for the new installations; the files already there get them off (a name could be taken by another plugin)
+        boolean fresh = !file.exists();
+        Config.set("Hawn-EditPlayer.Enable", fresh);
+        Config.set("Hawn-EditPlayer.Cannot-Be-changed.Main-Command-Is", "hawn editplayer");
+        Config.set("Hawn-EditPlayer.Aliases", java.util.Arrays.asList("editplayer", "ep"));
+        Config.set("Hawn-Rank.Enable", fresh);
+        Config.set("Hawn-Rank.Cannot-Be-changed.Main-Command-Is", "hawn rank");
+        Config.set("Hawn-Rank.Aliases", Collections.singletonList("hrank"));
+        Config.set("Hawn-Menu.Enable", fresh);
+        Config.set("Hawn-Menu.Cannot-Be-changed.Main-Command-Is", "hawn menu");
+        Config.set("Hawn-Menu.Aliases", Collections.singletonList("hmenu"));
+        Config.set("Hawn-Debug.Enable", fresh);
+        Config.set("Hawn-Debug.Cannot-Be-changed.Main-Command-Is", "hawn debug");
+        Config.set("Hawn-Debug.Aliases", Collections.singletonList("hdebug"));
+
         Config = ConfigDefaults.apply(file, loaded, Config);
     }
 

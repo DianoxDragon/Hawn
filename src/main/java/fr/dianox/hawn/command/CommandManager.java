@@ -714,6 +714,16 @@ public class CommandManager {
 			}
 		}
 
+		// >> Short commands for sub-commands of /hawn (since 1.5.3)
+		String[][] shortcuts = {{"Hawn-EditPlayer", "editplayer"}, {"Hawn-Rank", "rank"}, {"Hawn-Menu", "menu"}, {"Hawn-Debug", "debug"}};
+		for (String[] shortcut : shortcuts) {
+			if (CommandAliasesConfig.getConfig().getBoolean(shortcut[0] + ".Enable")) {
+				for (String s : CommandAliasesConfig.getConfig().getStringList(shortcut[0] + ".Aliases")) {
+					cm.register(s, new fr.dianox.hawn.command.commands.HawnShortcutCommand(s, shortcut[1]));
+				}
+			}
+		}
+
 	}
 
 

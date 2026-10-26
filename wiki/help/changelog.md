@@ -4,6 +4,17 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.3 BETA
+
+### New
+
+* Edit Player (`/hawn editplayer <player>`) does much more: the fly, the walking and flying speeds, the vanish, heal and feed, bring the player to you, the rank given by hand, who the player sees (the player hider), and the world, gamemode and rank of the player on its head. The gamemode goes back with a right click. See [Admin tools](../features/admin-tools.md#player-editor).
+* Short commands for `/hawn`: `/editplayer` (`/ep`), `/hrank`, `/hmenu` and `/hdebug`, on for the new installations. See [Commands management](../basics/commands-management.md#aliases).
+
+### Improved
+
+* Edit Player shows what changed at once, and tells the admin.
+
 ## 1.5.2 BETA
 
 ### New

@@ -59,7 +59,7 @@ public class ConfigPlayerGet {
 			}
 		}, plugin);
 
-		Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+		Tasks.timer(() -> {
 			for (String file : new ArrayList<>(cache.keySet())) {
 				save(file);
 

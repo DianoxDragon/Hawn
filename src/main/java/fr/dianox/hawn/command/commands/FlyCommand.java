@@ -20,7 +20,8 @@ import java.util.List;
 
 public class FlyCommand extends BukkitCommand {
 	
-	public static List<Player> player_list_flyc = new ArrayList<Player>();
+	// Safe for several threads (since 1.5.3)
+	public static List<Player> player_list_flyc = new java.util.concurrent.CopyOnWriteArrayList<>();
 	
 	public static String GeneralPermission = "hawn.command.fly";
 	public static String perm_other_fly = "hawn.command.fly.others";

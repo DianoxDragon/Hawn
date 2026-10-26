@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.Main;
@@ -29,7 +30,8 @@ public class VanishCommand extends BukkitCommand {
 	}
 	
 	String GeneralPermission = "hawn.command.vanish";
-	public static List<Player> player_list_vanish = new ArrayList<Player>();
+	// Read from the chat thread too (placeholders, mentions): safe for several threads (since 1.5.3)
+	public static List<Player> player_list_vanish = new java.util.concurrent.CopyOnWriteArrayList<>();
 	
 	public VanishCommand(String name) {
 		super(name);
@@ -89,7 +91,7 @@ public class VanishCommand extends BukkitCommand {
 					PlayerVisibility.updateTarget(target);
 					
 					if (Main.TaskVanishAB.containsKey(target)) {
-						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+						Tasks.cancel(Main.TaskVanishAB.get(target));
 						Main.TaskVanishAB.remove(target);
 					}
 					
@@ -129,7 +131,7 @@ public class VanishCommand extends BukkitCommand {
 					player_list_vanish.add(target);
 					
 					if (Main.TaskVanishAB.containsKey(target)) {
-						Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+						Tasks.cancel(Main.TaskVanishAB.get(target));
 						Main.TaskVanishAB.remove(target);
 					}
 					
@@ -137,9 +139,9 @@ public class VanishCommand extends BukkitCommand {
 						if (target.hasPermission("hawn.command.vanish.actionbar")) {
 							BukkitTask task = null;
 							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-								task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+								task = VanishTaskAB.start(target, 100);
 							} else {
-								task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 20);
+								task = VanishTaskAB.start(target, 20);
 							}
 							Main.TaskVanishAB.put(target, task.getTaskId());
 						}
@@ -203,7 +205,7 @@ public class VanishCommand extends BukkitCommand {
 							PlayerVisibility.updateTarget(p);
 							
 							if (Main.TaskVanishAB.containsKey(p)) {
-								Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+								Tasks.cancel(Main.TaskVanishAB.get(p));
 								Main.TaskVanishAB.remove(p);
 							}
 							
@@ -247,7 +249,7 @@ public class VanishCommand extends BukkitCommand {
 							}
 							
 							if (Main.TaskVanishAB.containsKey(p)) {
-								Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+								Tasks.cancel(Main.TaskVanishAB.get(p));
 								Main.TaskVanishAB.remove(p);
 							}
 							
@@ -255,9 +257,9 @@ public class VanishCommand extends BukkitCommand {
 								if (p.hasPermission("hawn.command.vanish.actionbar")) {
 									BukkitTask task = null;
 									if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-										task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+										task = VanishTaskAB.start(p, 100);
 									} else {
-										task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 20);
+										task = VanishTaskAB.start(p, 20);
 									}
 									Main.TaskVanishAB.put(p, task.getTaskId());
 								}
@@ -299,7 +301,7 @@ public class VanishCommand extends BukkitCommand {
 								}
 								
 								if (Main.TaskVanishAB.containsKey(target)) {
-									Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+									Tasks.cancel(Main.TaskVanishAB.get(target));
 									Main.TaskVanishAB.remove(target);
 								}
 								
@@ -339,7 +341,7 @@ public class VanishCommand extends BukkitCommand {
 								}
 								
 								if (Main.TaskVanishAB.containsKey(target)) {
-									Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(target));
+									Tasks.cancel(Main.TaskVanishAB.get(target));
 									Main.TaskVanishAB.remove(target);
 								}
 								
@@ -347,9 +349,9 @@ public class VanishCommand extends BukkitCommand {
 									if (target.hasPermission("hawn.command.vanish.actionbar")) {
 										BukkitTask task = null;
 										if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-											task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 100);
+											task = VanishTaskAB.start(target, 100);
 										} else {
-											task = new VanishTaskAB(target).runTaskTimer(Main.getInstance(), 20, 20);
+											task = VanishTaskAB.start(target, 20);
 										}
 										Main.TaskVanishAB.put(target, task.getTaskId());
 									}

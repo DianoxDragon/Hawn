@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.onjoin;
 
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XPotion;
 
 import org.bukkit.Bukkit;
@@ -177,7 +178,7 @@ public class OjPlayerOption {
             if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
                 if (PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
                     if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+                        Tasks.later(new Runnable() {
                             public void run() {
                                 p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
                             }
@@ -186,7 +187,7 @@ public class OjPlayerOption {
                 }
             } else {
                 if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
-                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+                    Tasks.later(new Runnable() {
                         public void run() {
                             p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
                         }
@@ -459,19 +460,19 @@ public class OjPlayerOption {
                         VanishCommand.player_list_vanish.add(p);
 
                         if (Main.TaskVanishAB.containsKey(p)) {
-                            Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+                            Tasks.cancel(Main.TaskVanishAB.get(p));
                             Main.TaskVanishAB.remove(p);
                         }
 
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+                        Tasks.later(new Runnable() {
                             public void run() {
                                 if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
                                     if (p.hasPermission("hawn.command.vanish.actionbar")) {
                                         BukkitTask task = null;
                                         if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
-                                            task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 100);
+                                            task = VanishTaskAB.start(p, 100);
                                         } else {
-                                            task = new VanishTaskAB(p).runTaskTimer(Main.getInstance(), 20, 20);
+                                            task = VanishTaskAB.start(p, 20);
                                         }
                                         Main.TaskVanishAB.put(p, task.getTaskId());
                                     }
@@ -496,7 +497,7 @@ public class OjPlayerOption {
                         VanishCommand.player_list_vanish.remove(p);
 
                         if (Main.TaskVanishAB.containsKey(p)) {
-                            Bukkit.getScheduler().cancelTask(Main.TaskVanishAB.get(p));
+                            Tasks.cancel(Main.TaskVanishAB.get(p));
                             Main.TaskVanishAB.remove(p);
                         }
                     }

@@ -376,6 +376,31 @@ public class ConfigMAdmin {
 
         Config.set("Command.EditPlayer.Gui.BackToPlayerList.Item-Name", "&cBack to player list");
 
+        // Since 1.5.3: the new items of Edit Player
+        Config.set("Command.EditPlayer.Gui.Gamemode.Lore", java.util.Arrays.asList("", "&7Left click: the next gamemode", "&7Right click: the one before"));
+        Config.set("Command.EditPlayer.Gui.Head.Lore", java.util.Arrays.asList("&7World: &f%world%", "&7Gamemode: &f%gamemode%", "&7Rank: &f%rank%"));
+        Config.set("Command.EditPlayer.Gui.On", "&aon");
+        Config.set("Command.EditPlayer.Gui.Off", "&coff");
+        Config.set("Command.EditPlayer.Gui.Toggle.Lore", java.util.Arrays.asList("", "&7Click to switch it"));
+        Config.set("Command.EditPlayer.Gui.Fly.Item-Name", "&eFly: %value%");
+        Config.set("Command.EditPlayer.Gui.Vanish.Item-Name", "&eVanish: %value%");
+        Config.set("Command.EditPlayer.Gui.Walk-Speed.Item-Name", "&eWalking speed: &f%value%/10");
+        Config.set("Command.EditPlayer.Gui.Fly-Speed.Item-Name", "&eFlying speed: &f%value%/10");
+        Config.set("Command.EditPlayer.Gui.Speed.Lore", java.util.Arrays.asList("", "&7Left click: &a+1&7, right click: &c-1", "&7Shift + click: back to normal"));
+        Config.set("Command.EditPlayer.Gui.Heal.Item-Name", "&eHeal and feed");
+        Config.set("Command.EditPlayer.Gui.Heal.Lore", java.util.Arrays.asList("", "&7Left click: heal", "&7Right click: feed"));
+        Config.set("Command.EditPlayer.Gui.Teleport-Here.Item-Name", "&6Bring this player to you");
+        Config.set("Command.EditPlayer.Gui.Teleport-Here.LeftClick", "&eLeft-Click&7 to teleport the player to you");
+        Config.set("Command.EditPlayer.Gui.Rank.Item-Name", "&eRank given by hand: &f%value%");
+        Config.set("Command.EditPlayer.Gui.Rank.Lore", java.util.Arrays.asList("", "&7Left click: the next rank", "&7Right click: the one before", "&7(- : no rank by hand)"));
+        Config.set("Command.EditPlayer.Gui.Rank.LuckPerms", java.util.Arrays.asList("", "&7The ranks come from LuckPerms:", "&7change the group of the player there"));
+        Config.set("Command.EditPlayer.Gui.Hider.Item-Name", "&eWho the player sees: %value%");
+        Config.set("Command.EditPlayer.Gui.Hider.Everyone", "&aeveryone");
+        Config.set("Command.EditPlayer.Gui.Hider.Staff", "&estaff and VIP");
+        Config.set("Command.EditPlayer.Gui.Hider.Nobody", "&cnobody");
+        Config.set("Command.EditPlayer.Gui.Hider.Lore", java.util.Arrays.asList("", "&7Click: the next state"));
+        Config.set("Command.EditPlayer.Changed", java.util.Arrays.asList("%prefix% &e%arg2% &8» %arg1%"));
+
         //
 
         Config.set("Command.No-Clip.Enable", java.util.Arrays.asList("%prefix% &7The No clip is &aenabled"));
