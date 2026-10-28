@@ -83,7 +83,7 @@ Custom-Join-Item:
 | `Skull-Name`   | no       | With a player head material: the owner of the head. `%player%` = the player's own head.                     |
 | `Data-value`   | no       | Legacy data value. Ignored on recent versions: use the full material name (`RED_WOOL`).                     |
 | `Command-List` | no       | [Actions](../basics/actions.md) run on right click.                                                          |
-| `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun` or `Special-Book:<book>`. |
+| `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun`, `Special-Grappling` (since Hawn 1.5.5) or `Special-Book:<book>`. |
 | `Worlds`       | no       | Since Hawn 1.5. The worlds of this item, instead of the worlds of `General-Option.World` (they don't have to be in that list). With `Change-World`, it is given and removed when the player changes world. Two items of two different worlds can use the same `Slot` (since Hawn 1.5.1, each one runs its own actions). |
 | `Item-Model`   | no       | Since Hawn 1.5, Minecraft 1.21.4+. The model of the item (`namespace:key`), from your resource pack. |
 | `Custom-Model-Data` | no  | Since Hawn 1.5. The custom model data of the item. |
@@ -233,6 +233,42 @@ FunGun:
     Material:
       Amount: 1
 ```
+
+### Grappling hook (`Special-Grappling`)
+
+Since Hawn 1.5.5. A fishing rod: throw it on a block, reel it in, and the player is thrown to the hook. It never wears out, takes no fall damage just after the pull, and doesn't pull the other players or the mobs. Like every special item, it only works in the worlds of its join item. It is in `CustomJoinItem/Special-Grappling.yml`:
+
+```yaml
+Grappling:
+  Enable: true
+  Option:
+    Item-Delay:
+      Enable: true
+      Delay: 3          # seconds between two pulls, see %timedelaygrapplingcji%
+    Force: 1.0          # 2.0 throws twice as hard
+    Max-Distance: 30    # a hook further away doesn't pull (message Too-Far)
+    No-Fall-Damage: true
+  Sound:
+    Enable: true
+    Sound: ENTITY_BAT_TAKEOFF
+    Volume: 1
+    Pitch: 1
+  Item:
+    Title: '&6Grappling hook'
+    Lore: [' ', '&7Throw it on a block, then pull']
+    Material:
+      Amount: 1
+```
+
+Give it with a join item of `CustomJoinItem/General.yml`:
+
+```yaml
+        Player-Grappling:
+          Special-Items: Special-Grappling
+          Slot: 6
+```
+
+The messages are in `Messages/<language>/Messages.yml`: `Custom-Join-Item.Error.Grappling.Time` (the delay is not over) and `Custom-Join-Item.Error.Grappling.Too-Far`.
 
 ## After death
 

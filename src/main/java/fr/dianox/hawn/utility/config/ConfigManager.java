@@ -6,6 +6,7 @@ import fr.dianox.hawn.utility.config.configs.commands.*;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.*;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiGrappling;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.configs.events.*;
@@ -274,6 +275,9 @@ public class ConfigManager {
 		SpecialCjiFunGun.loadConfig(plugin);
 		configfile.put("CJI-Special-FunGun", "CustomJoinItem/Special-FunGun.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/Special-FunGun.yml", "CJI-Special-FunGun");
+		SpecialCjiGrappling.loadConfig(plugin);
+		configfile.put("CJI-Special-Grappling", "CustomJoinItem/Special-Grappling.yml");
+		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/Special-Grappling.yml", "CJI-Special-Grappling");
 		ConfigCJIGeneral.loadConfig(plugin);
 		configfile.put("CJI-General", "CustomJoinItem/General.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");

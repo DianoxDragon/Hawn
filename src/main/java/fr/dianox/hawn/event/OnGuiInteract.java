@@ -10,6 +10,7 @@ import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.utility.gui.HawnMenu;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.AdminPanelCommandConfig;
@@ -28,7 +29,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,21 +99,21 @@ public class OnGuiInteract implements Listener {
         			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
         		}
             		
-        		BukkitTask task = new TaskShutdownServer().runTaskLater(Main.getInstance(), 5);
+        		Tasks.later(new TaskShutdownServer(), 5);
             } else if (e.getRawSlot() == 13) {
             	for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Reload.Messages")) {
             		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
             	}
             		
-            	BukkitTask task = new TaskReloadServer(p).runTaskLater(Main.getInstance(), 5);
+            	Tasks.later(new TaskReloadServer(p), 5);
             } else if (e.getRawSlot() == 14) {
             	for (String msg : AdminPanelConfig.getConfig().getStringList("Special.Item.Save-Players.Messages")) {
             		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
             	}
             	
-            	BukkitTask task = new TaskSavePlayerServer(p).runTaskLater(Main.getInstance(), 5);
+            	Tasks.later(new TaskSavePlayerServer(p), 5);
             } else if (e.getRawSlot() == 16) {
-            	BukkitTask task = Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> p.performCommand("hawn reload"), 5);
+            	Tasks.later(() -> p.performCommand("hawn reload"), 5);
             } else if (e.getRawSlot() == 33) {
             	p.performCommand("hw");
             } else if (e.getRawSlot() == 29) {

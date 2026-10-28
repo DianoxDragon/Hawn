@@ -11,7 +11,6 @@ import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -38,7 +37,8 @@ public class SpecialIteFunGun implements Listener {
 		
 	// Read again by /hawn reload (CjiManager.load)
 	public static String Check = SpecialCjiFunGun.getConfig().getString("FunGun.Item.Title");
-	private static final List<Player> Cooling = new ArrayList<>();
+	// Safe for several threads (since 1.5.5)
+	private static final List<Player> Cooling = new java.util.concurrent.CopyOnWriteArrayList<>();
 	private static final NamespacedKey BALL = new NamespacedKey(Main.getInstance(), "fungun_ball");
 
 	// The five snowballs of the fun gun, marked for the hit
@@ -197,14 +197,7 @@ public class SpecialIteFunGun implements Listener {
 											
 											shoot(p);
 											
-											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-												
-												@Override
-												public void run() {
-													Cooling.remove(p);
-												}
-													
-											}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
+											Tasks.later(() -> Cooling.remove(p), SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
 											Main.fungunCooldowns.put(p, System.currentTimeMillis());
 										}
 									} else {
@@ -232,14 +225,7 @@ public class SpecialIteFunGun implements Listener {
 										
 										shoot(p);
 										
-										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-											
-											@Override
-											public void run() {
-												Cooling.remove(p);
-											}
-												
-										}, SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
+										Tasks.later(() -> Cooling.remove(p), SpecialCjiFunGun.getConfig().getInt("FunGun.Option.Item-Delay.Delay")*20);
 										Main.fungunCooldowns.put(p, System.currentTimeMillis());
 									}
 								} else {

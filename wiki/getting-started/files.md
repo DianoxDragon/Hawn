@@ -111,6 +111,7 @@ See [Join and quit](../features/join-and-quit.md), [Lobby fun](../features/lobby
 | `Special-HidePlayers.yml` | The "player visibility" item.                             |
 | `Special-LobbyBow.yml`    | The lobby bow.                                            |
 | `Special-FunGun.yml`      | The fun gun.                                              |
+| `Special-Grappling.yml`   | The grappling hook (since 1.5.5).                         |
 
 See [Custom join items](../features/custom-join-items.md).
 

@@ -84,6 +84,7 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%DELAY%`                | Current [chat delay](../features/chat.md#chat-delay)    |
 | `%timedelaypvcji%`       | Seconds before the player visibility item can be used again |
 | `%timedelayfunguncji%`   | Seconds before the fun gun can be used again            |
+| `%timedelaygrapplingcji%` | Seconds before the grappling hook can pull again (since 1.5.5) |
 
 {% hint style="info" %}
 The vanished players are not counted by `%online%`, `%online_<world>%`, `%player_world_online%` and `%staff_online%`: the number would give them away. A world that doesn't exist leaves `%online_<world>%` as it is written.

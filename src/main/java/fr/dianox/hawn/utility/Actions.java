@@ -1,6 +1,5 @@
 package fr.dianox.hawn.utility;
 
-import fr.dianox.hawn.Main;
 import fr.dianox.hawn.hook.HooksManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -27,7 +26,7 @@ public final class Actions {
 		String[] delay = split(line, "[delay[");
 		if (delay != null) {
 			long ticks = Math.max(0, (long) number(delay[0], 0));
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			Tasks.later(() -> {
 				if (p.isOnline()) {
 					run.accept(delay[1]);
 				}

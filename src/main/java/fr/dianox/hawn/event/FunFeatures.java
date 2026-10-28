@@ -2,11 +2,12 @@ package fr.dianox.hawn.event;
 
 import fr.dianox.hawn.utility.XParse;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import fr.dianox.hawn.command.commands.FlyCommand;
 import fr.dianox.hawn.modules.chat.emojis.ChatEmojisLoad;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
 import fr.dianox.hawn.utility.config.configs.commands.FlyCommandConfig;
@@ -43,9 +45,11 @@ import net.md_5.bungee.api.ChatColor;
 
 public class FunFeatures implements Listener {
 	
-	public static List<Player> incooldownjumppads = new ArrayList<Player>();;
-	public static HashMap<Player, ItemStack> boots = new HashMap<Player, ItemStack>();
-	public static List<Player> player_list_dbenable = new ArrayList<Player>();
+	// Safe for several threads (since 1.5.5)
+	public static List<Player> incooldownjumppads = new CopyOnWriteArrayList<>();
+	// The boots put aside while flying can be null (no boots)
+	public static Map<Player, ItemStack> boots = Collections.synchronizedMap(new HashMap<>());
+	public static List<Player> player_list_dbenable = new CopyOnWriteArrayList<>();
 	// Players allowed to fly only to make the double jump
 	public static java.util.Set<java.util.UUID> doubleJumpFlight = java.util.concurrent.ConcurrentHashMap.newKeySet();
 	
@@ -265,7 +269,7 @@ public class FunFeatures implements Listener {
 			p.setFallDistance(-999.0F);
 
 			Main.indj.add(p);
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.indj.remove(p), 20);
+			Tasks.later(() -> Main.indj.remove(p), 20);
 
 			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Sounds.Enable")) {
 				String sound = ConfigFDoubleJump.getConfig().getString("DoubleJump.Double.Sounds.Sound");
@@ -331,14 +335,7 @@ public class FunFeatures implements Listener {
 					if (incooldownjumppads.contains(p)) {
 						Main.injumpwithjumppad.add(p);
 						
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-							@Override
-							public void run() {
-								Main.injumpwithjumppad.remove(p);
-							}
-
-						}, 20);
+						Tasks.later(() -> Main.injumpwithjumppad.remove(p), 20);
 						
 						if (ConfigMMsg.getConfig().getBoolean("LaunchPad.Cant-Use-Cooldown.Enable")) {
 							for (String s: ConfigMMsg.getConfig().getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
@@ -381,26 +378,12 @@ public class FunFeatures implements Listener {
 					
 					Main.injumpwithjumppad.add(p);
 					
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-						@Override
-						public void run() {
-							Main.injumpwithjumppad.remove(p);
-						}
-
-					}, 20);
+					Tasks.later(() -> Main.injumpwithjumppad.remove(p), 20);
 					
 					if (ConfigGLP.getConfig().getBoolean("JumpPads.Cooldown.Enable")) {
 						incooldownjumppads.add(p);
 						
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-							@Override
-							public void run() {
-								incooldownjumppads.remove(p);
-							}
-
-						}, ConfigGLP.getConfig().getInt("JumpPads.Cooldown.Ticks"));
+						Tasks.later(() -> incooldownjumppads.remove(p), ConfigGLP.getConfig().getInt("JumpPads.Cooldown.Ticks"));
 					}
 				}
 			} catch (NoClassDefFoundError e) {

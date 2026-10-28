@@ -4,6 +4,17 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.5 BETA
+
+### New
+
+* A new special item, the grappling hook (`Special-Grappling`): a fishing rod thrown on a block pulls the player to it when reeled in. With a delay between two pulls (`%timedelaygrapplingcji%`), no fall damage after the pull, a maximum distance, and only in the worlds of its join item. It never wears out and doesn't pull the other players. Its options are in `CustomJoinItem/Special-Grappling.yml`. See [Custom join items](../features/custom-join-items.md#grappling-hook-special-grappling).
+* The anonymous stats of [bStats](https://bstats.org/plugin/bukkit/Hawn/4563) also count the modules that are on (join items, scoreboard, tab list, double jump...), to know what to improve first. See [FAQ](faq.md).
+
+### Fixes
+
+* While a player was in `/hawn noclip`, Hawn saved every player of the server 10 times per second.
+
 ## 1.5.4 BETA
 
 ### New

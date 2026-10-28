@@ -23,7 +23,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,7 +34,8 @@ import java.util.List;
 public class HawnCommand implements CommandExecutor {
 
 	public static List<Player> slotview = new ArrayList<>();
-	public static List<Player> noclip = new ArrayList<>();
+	// Read by TaskNoClipCommand: safe for several threads (since 1.5.5)
+	public static List<Player> noclip = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -411,8 +411,7 @@ public class HawnCommand implements CommandExecutor {
 
 				noclip.add(p);
 
-				@SuppressWarnings("unused")
-				BukkitTask task = new TaskNoClipCommand(p).runTaskTimer(Main.getInstance(), 5, 2);
+				TaskNoClipCommand.start(p);
 			}
 		// Spawn
 		} else if (args[0].equalsIgnoreCase("spawnmanager")) {

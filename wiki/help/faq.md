@@ -120,6 +120,6 @@ On the [Discord](https://discord.gg/yeUg5mbJuz) of Hawn (help, news and ideas), 
 
 <summary>Does Hawn send statistics?</summary>
 
-Hawn uses [bStats](https://bstats.org/plugin/bukkit/Hawn/4563) to count the servers using it (anonymous). You can turn it off for all your plugins in `plugins/bStats/config.yml`.
+Hawn uses [bStats](https://bstats.org/plugin/bukkit/Hawn/4563) to count the servers using it (anonymous). Since Hawn 1.5.5, it also sends which modules are on (join items, scoreboard, tab list, double jump...), never their content. You can turn it off for all your plugins in `plugins/bStats/config.yml`.
 
 </details>

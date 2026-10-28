@@ -1,7 +1,6 @@
 package fr.dianox.hawn.event;
 
 import fr.dianox.hawn.hook.HooksManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.entity.Entity;
@@ -20,6 +19,7 @@ import fr.dianox.hawn.modules.onjoin.cji.CustomJoinItem;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.SpawnGroups;
 import fr.dianox.hawn.utility.SpawnUtils;
+import fr.dianox.hawn.utility.Tasks;
 
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.events.PlayerEventsConfig;
@@ -554,96 +554,19 @@ public class PlayerEvents implements Listener {
 				if (p.hasPermission("hawn.event.respawn")) {
 					if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.World.All_World")) {
 						if (PlayerEventsPW.getWEventResapwn().contains(p.getWorld().getName())) {
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-								public void run() {
-									p.spigot().respawn();
-									if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
-										if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Custom-Spawn.Enable")) {
-											if (!ConfigSpawn.getConfig().isSet("Coordinated."+PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"))) {
-												MessageUtils.MessageNoSpawn(p);
-											} else {
-												SpawnUtils.teleportToSpawn(p, PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"));
-											}
-										} else {
-											if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
-												MessageUtils.MessageNoSpawn(p);
-											} else {
-												SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
-											}
-										}
-									}
-
-								}
-							}, PlayerEventsConfig.getConfig().getInt("Death.Respawn.Player.Respawn-After"));
+							respawnLater(p);
 						}
 					} else {
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-							public void run() {
-								p.spigot().respawn();
-								if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
-									if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Custom-Spawn.Enable")) {
-										if (!ConfigSpawn.getConfig().isSet("Coordinated."+PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"))) {
-											MessageUtils.MessageNoSpawn(p);
-										} else {
-											SpawnUtils.teleportToSpawn(p, PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"));
-										}
-									} else {
-										if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
-											MessageUtils.MessageNoSpawn(p);
-										} else {
-											SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
-										}
-									}
-								}
-							}
-						}, PlayerEventsConfig.getConfig().getInt("Death.Respawn.Player.Respawn-After"));
+						respawnLater(p);
 					}
 				}
 			} else {
 				if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.World.All_World")) {
 					if (PlayerEventsPW.getWEventResapwn().contains(p.getWorld().getName())) {
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-							public void run() {
-								p.spigot().respawn();
-								if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
-									if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Custom-Spawn.Enable")) {
-										if (!ConfigSpawn.getConfig().isSet("Coordinated."+PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"))) {
-											MessageUtils.MessageNoSpawn(p);
-										} else {
-											SpawnUtils.teleportToSpawn(p, PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"));
-										}
-									} else {
-										if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
-											MessageUtils.MessageNoSpawn(p);
-										} else {
-											SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
-										}
-									}
-								}
-							}
-						}, PlayerEventsConfig.getConfig().getInt("Death.Respawn.Player.Respawn-After"));
+						respawnLater(p);
 					}
 				} else {
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-						public void run() {
-							p.spigot().respawn();
-							if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
-								if (PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Custom-Spawn.Enable")) {
-									if (!ConfigSpawn.getConfig().isSet("Coordinated."+PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"))) {
-										MessageUtils.MessageNoSpawn(p);
-									} else {
-										SpawnUtils.teleportToSpawn(p, PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn"));
-									}
-								} else {
-									if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
-										MessageUtils.MessageNoSpawn(p);
-									} else {
-										SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
-									}
-								}
-							}
-						}
-					}, PlayerEventsConfig.getConfig().getInt("Death.Respawn.Player.Respawn-After"));
+					respawnLater(p);
 				}
 			}
         }
@@ -682,6 +605,24 @@ public class PlayerEvents implements Listener {
         	}
         }
     
+    }
+    
+    // Respawns the player after Respawn-After ticks, then the spawn when asked (through Tasks since 1.5.5)
+    private static void respawnLater(Player p) {
+        Tasks.later(() -> {
+            p.spigot().respawn();
+            if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
+                return;
+            }
+            String spawn = PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Custom-Spawn.Enable")
+                    ? PlayerEventsConfig.getConfig().getString("Death.Respawn.Player.Custom-Spawn.Spawn")
+                    : SpawnGroups.defaultSpawn(p);
+            if (!ConfigSpawn.getConfig().isSet("Coordinated." + spawn)) {
+                MessageUtils.MessageNoSpawn(p);
+            } else {
+                SpawnUtils.teleportToSpawn(p, spawn);
+            }
+        }, PlayerEventsConfig.getConfig().getInt("Death.Respawn.Player.Respawn-After"));
     }
     
     @EventHandler

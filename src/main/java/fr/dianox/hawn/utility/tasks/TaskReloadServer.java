@@ -2,9 +2,9 @@ package fr.dianox.hawn.utility.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class TaskReloadServer extends BukkitRunnable {
+// Planned through Tasks (since 1.5.5)
+public class TaskReloadServer implements Runnable {
 	
 	private final Player p;
 

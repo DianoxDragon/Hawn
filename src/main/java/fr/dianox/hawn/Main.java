@@ -95,7 +95,8 @@ public class Main extends JavaPlugin implements Listener {
     public static int curMsg_bb = 0;
     public static int curMsg_titles = 0;
 
-	public static List<Player> injumpwithjumppad = new ArrayList<>();
+	// The fun features and the special items: safe for several threads (since 1.5.5)
+	public static List<Player> injumpwithjumppad = new java.util.concurrent.CopyOnWriteArrayList<>();
 	
 	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<>();
 	public static List<Player> inwarpd = new ArrayList<>();
@@ -112,11 +113,12 @@ public class Main extends JavaPlugin implements Listener {
     public static List<Player> avoidtitles = new ArrayList<>();
 
     public static HashMap<Player, Long> hiderCooldowns = new HashMap<>();
-    public static HashMap<Player, Long> fungunCooldowns = new HashMap<>();
+    public static Map<Player, Long> fungunCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
+    public static Map<Player, Long> grapplingCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     
     public static HashMap<Player, Integer> TaskVanishAB = new HashMap<>();
 
-    public static List<Player> indj = new ArrayList<>();
+    public static List<Player> indj = new java.util.concurrent.CopyOnWriteArrayList<>();
     
     public static PluginChannelListener pcl;
     
@@ -149,7 +151,7 @@ public class Main extends JavaPlugin implements Listener {
 		gcs(ChatColor.BLUE+"| ");
 
 		try {
-			new org.bstats.bukkit.Metrics(this, 4563);
+			fr.dianox.hawn.utility.HawnMetrics.start(this);
 		} catch (Exception | LinkageError e) {
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"An error made it impossible for the metrics to be activated");
 			gcs(ChatColor.YELLOW+"| "+ChatColor.GOLD+"You can restart your server if you want, but it's optional, metrics are just stats");

@@ -1,9 +1,7 @@
 package fr.dianox.hawn.utility;
 
-import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.FireworkListCUtility;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.EntityType;
@@ -308,11 +306,7 @@ public class OtherUtils {
             }
             f.setFireworkMeta(fm);
             if (FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Instant-explode")) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                    public void run() {
-                        f.detonate();
-                    }
-                }, 5L);
+                Tasks.later(f::detonate, 5L);
             }
         }
     }

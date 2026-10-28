@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.particles.XParticle;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XSound;
 import fr.dianox.hawn.utility.config.configs.CustomCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.HelpCommandConfig;
@@ -19,14 +20,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 public class OnCommandEvent implements Listener {
 
-	public static List<String> cooldowncommands = new ArrayList<String>();
+	// <player><command> while its cooldown runs: safe for several threads (since 1.5.5)
+	public static List<String> cooldowncommands = new java.util.concurrent.CopyOnWriteArrayList<>();
 	
     // A command already cancelled (urgent mode, another plugin) is not intercepted: /help would run it again
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -113,14 +114,7 @@ public class OnCommandEvent implements Listener {
                     		} else {
                     			OnCommandEvent.cooldowncommands.add(p.getName() + string);
                     			
-                    			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-        							@Override
-        							public void run() {
-        								OnCommandEvent.cooldowncommands.remove(p.getName() + string);
-        							}
-
-        						}, CustomCommandConfig.getConfig().getInt("commands." + string + ".Cooldown.Ticks"));
+                    			Tasks.later(() -> OnCommandEvent.cooldowncommands.remove(p.getName() + string), CustomCommandConfig.getConfig().getInt("commands." + string + ".Cooldown.Ticks"));
                     		}
                     	}
                     }
@@ -168,14 +162,7 @@ public class OnCommandEvent implements Listener {
         		} else {
         			OnCommandEvent.cooldowncommands.add(p.getName() + string);
         			
-        			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-
-						@Override
-						public void run() {
-							OnCommandEvent.cooldowncommands.remove(p.getName() + string);
-						}
-
-					}, CustomCommandConfig.getConfig().getInt("commands." + string + ".Cooldown.Ticks"));
+        			Tasks.later(() -> OnCommandEvent.cooldowncommands.remove(p.getName() + string), CustomCommandConfig.getConfig().getInt("commands." + string + ".Cooldown.Ticks"));
         		}
         	}
         }

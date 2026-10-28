@@ -1,9 +1,9 @@
 package fr.dianox.hawn.utility.tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class TaskShutdownServer extends BukkitRunnable {
+// Planned through Tasks (since 1.5.5)
+public class TaskShutdownServer implements Runnable {
 	
 	@Override
 	public void run() {

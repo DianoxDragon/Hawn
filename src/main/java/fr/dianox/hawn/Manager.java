@@ -26,6 +26,7 @@ import fr.dianox.hawn.modules.SignSystem;
 import fr.dianox.hawn.modules.admin.EditPlayerGui;
 import fr.dianox.hawn.modules.admin.ListGui;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialIteFunGun;
+import fr.dianox.hawn.modules.onjoin.cji.SpecialIteGrappling;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialIteLobbyBow;
 import fr.dianox.hawn.modules.onjoin.cji.SpecialItemPlayerVisibility;
 import fr.dianox.hawn.modules.world.GuiSystem;
@@ -65,6 +66,7 @@ public class Manager {
 		pm.registerEvents(new OnInventoryInteract(), pl);
 		pm.registerEvents(new SpecialIteLobbyBow(), pl);
 		pm.registerEvents(new SpecialIteFunGun(), pl);
+		pm.registerEvents(new SpecialIteGrappling(), pl);
 		pm.registerEvents(new GuiSystem(), pl);
 		pm.registerEvents(new ListGui(), pl);
 		pm.registerEvents(new EditPlayerGui(), pl);

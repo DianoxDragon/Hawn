@@ -1,6 +1,5 @@
 package fr.dianox.hawn.modules;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,6 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.cosmeticsfun.SignListCUtility;
 import fr.dianox.hawn.utility.config.configs.events.OtherFeaturesConfig;
 import net.md_5.bungee.api.ChatColor;
@@ -63,7 +63,7 @@ public class SignSystem implements Listener {
 
 						// The mark after the event: the sign is written with its text then
 						Block block = e.getBlock();
-						Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+						Tasks.next(() -> {
 							if (isSign(block.getType())) mark(block, keepline);
 						});
 					}

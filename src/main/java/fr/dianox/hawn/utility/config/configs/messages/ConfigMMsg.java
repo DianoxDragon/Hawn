@@ -430,6 +430,11 @@ public class ConfigMMsg {
 
         Config.set("Custom-Join-Item.Error.FunGun.Time.Enable", true);
         Config.set("Custom-Join-Item.Error.FunGun.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelayfunguncji% &c&lsecond(s)&7!"}));
+        // The grappling hook (since 1.5.5)
+        Config.set("Custom-Join-Item.Error.Grappling.Time.Enable", true);
+        Config.set("Custom-Join-Item.Error.Grappling.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaygrapplingcji% &c&lsecond(s)&7!"}));
+        Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Enable", true);
+        Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe hook is too far away!"}));
 
         /*
          * 

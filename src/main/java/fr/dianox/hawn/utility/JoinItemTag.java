@@ -15,6 +15,7 @@ public final class JoinItemTag {
 	public static final String FUNGUN = "special-fungun";
 	public static final String LOBBYBOW = "special-lobbybow";
 	public static final String HIDEPLAYERS = "special-hideplayers";
+	public static final String GRAPPLING = "special-grappling";
 
 	private static NamespacedKey key;
 

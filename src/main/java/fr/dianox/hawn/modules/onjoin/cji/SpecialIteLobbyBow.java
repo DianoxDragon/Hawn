@@ -5,6 +5,7 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.JoinItemTag;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
@@ -29,12 +30,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class SpecialIteLobbyBow implements Listener {
 	
-	HashMap<Player, ItemStack> storedItem = new HashMap<>();
+	// Safe for several threads (since 1.5.5); the item put aside can be null (an empty slot)
+	Map<Player, ItemStack> storedItem = Collections.synchronizedMap(new HashMap<>());
 	
 	public static String Check = SpecialCjiLobbyBow.getConfig().getString("LobbyBow.Item.Title");
 
@@ -131,7 +135,7 @@ public class SpecialIteLobbyBow implements Listener {
 				Location destination = arrow.getLocation();
 				destination.setPitch(p.getLocation().getPitch());
 				destination.setYaw(p.getLocation().getYaw());
-				p.teleport(destination);
+				Tasks.teleport(p, destination);
 				e.getEntity().remove();
 			}
 		}

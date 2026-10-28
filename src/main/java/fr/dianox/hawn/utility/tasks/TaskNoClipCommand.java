@@ -1,28 +1,38 @@
 package fr.dianox.hawn.utility.tasks;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.utility.ConfigEventUtils;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 
-public class TaskNoClipCommand extends BukkitRunnable {
+// Planned through Tasks (since 1.5.5): it stops itself with its own handle
+public class TaskNoClipCommand implements Runnable {
 
 	private final Player p;
+	private BukkitTask task;
 
 	public TaskNoClipCommand(Player p) {
         this.p = p;
 	}
+
+	/**
+	 * The no clip of a player, every 2 ticks until it is turned off.
+	 */
+	public static BukkitTask start(Player p) {
+		TaskNoClipCommand runnable = new TaskNoClipCommand(p);
+		runnable.task = Tasks.timer(runnable, 5, 2);
+		return runnable.task;
+	}
 	
 	@Override
 	public void run() {
-		Bukkit.getServer().savePlayers();
-		
+		// The players are no longer saved here every 2 ticks (since 1.5.5)
 		if (HawnCommand.noclip.contains(p) && p.isOnline() && (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)) {
 			boolean Spectator = false;
 			
@@ -61,7 +71,7 @@ public class TaskNoClipCommand extends BukkitRunnable {
 				}
 			}
 			
-			Bukkit.getServer().getScheduler().cancelTask(getTaskId());
+			Tasks.cancel(task);
 		}
 	}
 
