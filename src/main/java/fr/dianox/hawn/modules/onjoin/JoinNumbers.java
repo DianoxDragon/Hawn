@@ -2,6 +2,7 @@ package fr.dianox.hawn.modules.onjoin;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.SQL;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -71,6 +72,12 @@ public final class JoinNumbers implements Listener {
 
 		Bukkit.getPluginManager().registerEvents(new JoinNumbers(), plugin);
 
+		// The players already online (/hawn reload), read here on the main thread
+		List<UUID> online = new ArrayList<>();
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			online.add(p.getUniqueId());
+		}
+
 		// Outside the main thread; the queries wait for the connection (the MySQL thread runs its tasks in order)
 		Runnable load = () -> {
 			try {
@@ -85,17 +92,16 @@ public final class JoinNumbers implements Listener {
 				ready.countDown();
 			}
 
-			// The players already online (/hawn reload)
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				assign(p.getUniqueId(), false);
+			for (UUID uuid : online) {
+				assign(uuid, false);
 			}
 		};
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, load);
+		Tasks.async(load);
 
 		if (network) {
 			// The other servers add players too
-			task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+			task = Tasks.asyncTimer(() -> {
 				if (Main.getInstance().getSql().useyamllistplayer) {
 					return;
 				}
@@ -113,7 +119,7 @@ public final class JoinNumbers implements Listener {
 
 	public static void stop() {
 		if (task != -1) {
-			Bukkit.getScheduler().cancelTask(task);
+			Tasks.cancel(task);
 			task = -1;
 		}
 	}

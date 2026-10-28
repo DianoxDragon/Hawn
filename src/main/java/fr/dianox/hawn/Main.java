@@ -27,6 +27,7 @@ import fr.dianox.hawn.modules.world.protection.Interactables;
 import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.BungeeApi;
 import fr.dianox.hawn.utility.OtherUtils;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.VersionUtils;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
@@ -257,19 +258,15 @@ public class Main extends JavaPlugin implements Listener {
 	    OtherUtils.getOperatingSystem();
 	    OtherUtils.javaver = String.valueOf(OtherUtils.getJavaVersion());
 
-	    new BukkitRunnable() {
-
-	    	@Override
-			public void run() {
-	    		OtherUtils.getMemoryUsageBar();
-	    		OtherUtils.getCPUUsageBar();
-	    		OtherUtils.getDiskUsageBar();
-	    		OtherUtils.maxMemory();
-	    		OtherUtils.freeMemory();
-	    		OtherUtils.freeDisk();
-	    	}
-
-	    }.runTaskTimer(this, 0, 60);
+	    // Outside the main thread (since 1.5.4): reading the disk space can hang for seconds on Windows, and the server with it
+	    Tasks.asyncTimer(() -> {
+	    	OtherUtils.getMemoryUsageBar();
+	    	OtherUtils.getCPUUsageBar();
+	    	OtherUtils.getDiskUsageBar();
+	    	OtherUtils.maxMemory();
+	    	OtherUtils.freeMemory();
+	    	OtherUtils.freeDisk();
+	    }, 0, 60);
 
 	    date = OtherUtils.getDate();
 	    

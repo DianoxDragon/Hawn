@@ -19,7 +19,7 @@ While an admin is in the setup, the usual join features (teleport to spawn, join
 
 ## Step 1: language
 
-Every folder found in `plugins/Hawn/Messages/` is shown as a banner (`en_US`, `fr_FR` and `de_DE` by default). Click one to switch every Hawn message to that language. The choice is saved in `general.yml` → `Plugin.Language-Type`.
+Every folder found in `plugins/Hawn/Messages/` is shown as a banner (`en_US`, `fr_FR`, `de_DE` and `nl_NL` by default). Click one to switch every Hawn message to that language. The choice is saved in `general.yml` → `Plugin.Language-Type`.
 
 * **Yes continue** (emerald block): go to step 2.
 * **I don't need a setup** (barrier): end the setup now.

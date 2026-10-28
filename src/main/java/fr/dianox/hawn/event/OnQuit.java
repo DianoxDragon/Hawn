@@ -19,6 +19,7 @@ import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.ConfigPlayerGet;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.PlayerVisibility;
+import fr.dianox.hawn.utility.Tasks;
 import com.cryptomorin.xseries.XMaterial;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import fr.dianox.hawn.utility.config.configs.PlayerOptionMainConfig;
@@ -208,7 +209,7 @@ public class OnQuit implements Listener {
 		BossBarApi.BBBlock.remove(p);
 		Integer bossBarTask = BossBarApi.ptaskbb.remove(p);
 		if (bossBarTask != null) {
-			Bukkit.getScheduler().cancelTask(bossBarTask);
+			Tasks.cancel(bossBarTask);
 		}
 
 		Main.avoidtitles.remove(p);
@@ -218,7 +219,7 @@ public class OnQuit implements Listener {
 		VanishCommand.player_list_vanish.remove(p);
 		Integer vanishTask = Main.TaskVanishAB.remove(p);
 		if (vanishTask != null) {
-			Bukkit.getScheduler().cancelTask(vanishTask);
+			Tasks.cancel(vanishTask);
 		}
 		Main.hiderCooldowns.remove(p);
 		Main.fungunCooldowns.remove(p);
@@ -233,7 +234,7 @@ public class OnQuit implements Listener {
 		// A /spawn or /warp waiting for its delay
 		Integer teleportTask = Main.player_spawnwarpdelay.remove(p.getUniqueId());
 		if (teleportTask != null) {
-			Bukkit.getScheduler().cancelTask(teleportTask);
+			Tasks.cancel(teleportTask);
 		}
 		Main.inspawnd.remove(p);
 		Main.inwarpd.remove(p);

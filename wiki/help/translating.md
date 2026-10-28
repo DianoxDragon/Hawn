@@ -4,7 +4,7 @@ description: Change the language of Hawn, edit the messages or create your own l
 
 # Translating Hawn
 
-Every message of Hawn is in `plugins/Hawn/Messages/<language>/`. Three languages are provided: **English** (`en_US`), **French** (`fr_FR`) and **German** (`de_DE`, since Hawn 1.4.6).
+Every message of Hawn is in `plugins/Hawn/Messages/<language>/`. Four languages are provided: **English** (`en_US`), **French** (`fr_FR`), **German** (`de_DE`, since Hawn 1.4.6) and **Dutch** (`nl_NL`, since Hawn 1.5.4).
 
 ## Change the language
 

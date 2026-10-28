@@ -4,6 +4,20 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.4 BETA
+
+### New
+
+* Dutch: Hawn now comes with `Messages/nl_NL`, next to English, French and German. Choose it in the welcome setup (the Dutch flag) or with `Plugin.Language-Type: nl_NL` in `general.yml`. The menus written the first time (`Menus/servers.yml` and `Menus/profile.yml`) are in Dutch too. See [Translating Hawn](translating.md).
+
+### Improved
+
+* The server selector is checked behind Velocity 4.3: the player counts (`%bungee_<server>%`, `%bungee_total%`) and the `[bungee]:` click work with the default `bungee-plugin-message-channel = true`. See [BungeeCord / Velocity](../integrations/bungeecord.md).
+
+### Fixes
+
+* The memory, CPU and disk values of `/hawn info` were read on the main thread every 3 seconds. On Windows, reading the disk space can hang for seconds, and the whole server with it (seen on Paper: "The server has not responded for 10 seconds"). They are read outside the main thread now.
+
 ## 1.5.3 BETA
 
 ### New

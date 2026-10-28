@@ -1,20 +1,27 @@
 package fr.dianox.hawn.utility.tasks;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.BossBarApi;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.world.OnJoinPW;
 
-public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
+// Planned through Tasks (since 1.5.4)
+public class SwitchClassicOnFirstJoinBB implements Runnable {
 	
 	private final Player p;
 
 	public SwitchClassicOnFirstJoinBB(Player p) {
         this.p = p;
+	}
+
+	/**
+	 * Switches the boss bar of the first join to the one of the join after ticks.
+	 */
+	public static BukkitTask start(Player p, long ticks) {
+		return Tasks.later(new SwitchClassicOnFirstJoinBB(p), ticks);
 	}
 	
 	private void updateClassicBB(Player p) {
@@ -51,7 +58,7 @@ public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
     						
                 			updateClassicBB(p);
                 			
-                			BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+                			BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
 
 			                BossBarApi.ptaskbb.remove(p);
 			                BossBarApi.ptaskbb.put(p, task.getTaskId());
@@ -73,7 +80,7 @@ public class SwitchClassicOnFirstJoinBB extends BukkitRunnable {
 						
             			updateClassicBB(p);
             			
-            			BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+            			BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
 
 			            BossBarApi.ptaskbb.remove(p);
 			            BossBarApi.ptaskbb.put(p, task.getTaskId());

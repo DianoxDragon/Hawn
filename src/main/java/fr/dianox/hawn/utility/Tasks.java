@@ -2,6 +2,8 @@ package fr.dianox.hawn.utility;
 
 import fr.dianox.hawn.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitTask;
 
 /**
@@ -40,6 +42,21 @@ public final class Tasks {
 
 	public static BukkitTask async(Runnable task) {
 		return Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), task);
+	}
+
+	/**
+	 * Outside the main thread, every period ticks (since 1.5.4).
+	 */
+	public static BukkitTask asyncTimer(Runnable task, long delay, long period) {
+		return Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), task, delay, period);
+	}
+
+	/**
+	 * Teleports at once, on the main thread (since 1.5.4). The code after it can read the new world of the player,
+	 * so it is not teleportAsync yet: on Folia (1.6), only this method will change.
+	 */
+	public static boolean teleport(Entity entity, Location to) {
+		return entity.teleport(to);
 	}
 
 	public static void cancel(BukkitTask task) {

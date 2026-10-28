@@ -21,7 +21,7 @@ final class DefaultMenus {
 			return;
 		}
 		String lang = String.valueOf(Main.LanguageType).toLowerCase(Locale.ROOT);
-		String[] t = lang.startsWith("fr") ? FR : lang.startsWith("de") ? DE : EN;
+		String[] t = lang.startsWith("fr") ? FR : lang.startsWith("de") ? DE : lang.startsWith("nl") ? NL : EN;
 
 		save(new File(folder, "servers.yml"), servers(t));
 		save(new File(folder, "profile.yml"), profile(t));
@@ -244,4 +244,8 @@ final class DefaultMenus {
 			"Klick: dein Profil", "Profil von %player%", "Rang", "Welt", "Spieler Nummer", "Verbindungen", "Level", "Fliegen", "Geschwindigkeit",
 			"Wen du siehst", "Linksklick: alle, Team und VIP, niemand", "Rechtsklick: wieder alle", "Du hast keine Berechtigung",
 			"Server", "Online", "Zurück", "Das Menü davor, oder schließen", "an", "aus", "Klicke zum Ausschalten", "Klicke zum Einschalten", "gesperrt"};
+	private static final String[] NL = {"Kies een server", "Survival", "spelers", "Klik om te joinen", "Minigames", "Netwerk", "Sluiten",
+			"Klik: je profiel", "Profiel van %player%", "Rang", "Wereld", "Speler nummer", "Verbindingen", "Level", "Vliegen", "Snelheid",
+			"Wie je ziet", "Linkerklik: iedereen, staff en VIP, niemand", "Rechterklik: weer iedereen", "Je hebt geen permissie",
+			"Servers", "Online", "Terug", "Het menu ervoor, of sluiten", "aan", "uit", "Klik om uit te zetten", "Klik om aan te zetten", "vergrendeld"};
 }

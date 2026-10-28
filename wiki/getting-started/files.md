@@ -40,7 +40,8 @@ plugins/Hawn/
 ├── Messages/                   Every message, one folder per language
 │   ├── en_US/
 │   ├── fr_FR/
-│   └── de_DE/
+│   ├── de_DE/
+│   └── nl_NL/
 └── StockageInfo/               Data written by Hawn, don't edit it
 ```
 

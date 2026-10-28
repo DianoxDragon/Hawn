@@ -8,18 +8,19 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BossBarApi {
 
 	// One boss bar per player (a single shared bar made every player see the last created one)
-	private static final Map<UUID, BossBar> bars = new HashMap<>();
-	public static HashMap<Player, Integer> ptaskbb = new HashMap<>();
-	public static List<Player> BBBlock = new ArrayList<>();
+	// Safe for several threads (since 1.5.4)
+	private static final Map<UUID, BossBar> bars = new ConcurrentHashMap<>();
+	public static Map<Player, Integer> ptaskbb = new ConcurrentHashMap<>();
+	public static List<Player> BBBlock = new CopyOnWriteArrayList<>();
 
 	public static void createnewbar(Player p, String color, String title, String style, Float progress) {
 		deletebar(p);

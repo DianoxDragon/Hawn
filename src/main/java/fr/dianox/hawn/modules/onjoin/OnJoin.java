@@ -32,13 +32,14 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 public class OnJoin implements Listener {
 
-    public static List < Player > player_list = new ArrayList <> ();
+    // The players who joined; read by the events of every player: safe for several threads (since 1.5.4)
+    public static Set<Player> player_list = ConcurrentHashMap.newKeySet();
 
 	@EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -157,7 +158,7 @@ public class OnJoin implements Listener {
                     if (w == null) {
                         TPSPAWNnormalevent(p);
                     } else {
-                        p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                        Tasks.teleport(p, new org.bukkit.Location(w, x, y, z, yaw, pitch));
                     }
                 } else {
                     TPSPAWNnormalevent(p);
@@ -175,7 +176,7 @@ public class OnJoin implements Listener {
                         if (w == null) {
                             TPSPAWNnormalevent(p);
                         } else {
-                            p.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+                            Tasks.teleport(p, new org.bukkit.Location(w, x, y, z, yaw, pitch));
                         }
                     } else {
                         TPSPAWNnormalevent(p);
@@ -480,7 +481,7 @@ public class OnJoin implements Listener {
             						createClassicBB(p);
             						BossBarApi.BBBlock.add(p);
             						
-            						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+            						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
             						
             						BossBarApi.ptaskbb.put(p, task.getTaskId());
             					}
@@ -494,7 +495,7 @@ public class OnJoin implements Listener {
         						createClassicBBFJ(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = new SwitchClassicOnFirstJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+        						BukkitTask task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -509,7 +510,7 @@ public class OnJoin implements Listener {
         						createClassicBB(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -528,7 +529,7 @@ public class OnJoin implements Listener {
         						createClassicBB(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -542,7 +543,7 @@ public class OnJoin implements Listener {
     						createClassicBBFJ(p);
     						BossBarApi.BBBlock.add(p);
     						
-    						BukkitTask task = new SwitchClassicOnFirstJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+    						BukkitTask task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
     						
     						BossBarApi.ptaskbb.put(p, task.getTaskId());
     					}
@@ -557,7 +558,7 @@ public class OnJoin implements Listener {
     						createClassicBB(p);
     						BossBarApi.BBBlock.add(p);
     						
-    						BukkitTask task = new SwitchClassicOnJoinBB(p).runTaskLater(Main.getInstance(), OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+    						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
     						
     						BossBarApi.ptaskbb.put(p, task.getTaskId());
     					}

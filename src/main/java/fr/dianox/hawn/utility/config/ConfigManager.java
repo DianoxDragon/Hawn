@@ -12,6 +12,7 @@ import fr.dianox.hawn.utility.config.configs.events.*;
 import fr.dianox.hawn.utility.config.configs.messages.*;
 import fr.dianox.hawn.utility.config.configs.messages.de_de.*;
 import fr.dianox.hawn.utility.config.configs.messages.fr_fr.*;
+import fr.dianox.hawn.utility.config.configs.messages.nl_nl.*;
 import fr.dianox.hawn.utility.config.configs.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.configs.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
@@ -312,6 +313,15 @@ public class ConfigManager {
 		DEWorldManagerPanelConfig.loadConfig(plugin);
 		DEAdminAMConfig.loadConfig(plugin);
 		DESetupLangFile.loadConfig(plugin);
+
+		// Dutch language (since 1.5.4)
+
+		NLAdminPanelConfig.loadConfig(plugin);
+		NLConfigMMsg.loadConfig(plugin);
+		NLConfigMGeneral.loadConfig(plugin);
+		NLWorldManagerPanelConfig.loadConfig(plugin);
+		NLAdminAMConfig.loadConfig(plugin);
+		NLSetupLangFile.loadConfig(plugin);
 
 		// Normal
 

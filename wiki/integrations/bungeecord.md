@@ -7,7 +7,7 @@ description: Send players to other servers and show the player count of your net
 Hawn talks to your proxy with the standard `BungeeCord` plugin channel. Nothing has to be installed on the proxy.
 
 * **BungeeCord / Waterfall**: works out of the box.
-* **Velocity**: keep `bungee-plugin-message-channel = true` in `velocity.toml` (the default).
+* **Velocity**: keep `bungee-plugin-message-channel = true` in `velocity.toml` (the default). Checked with Velocity 4.3 since Hawn 1.5.4.
 
 ## Send a player to another server
 
