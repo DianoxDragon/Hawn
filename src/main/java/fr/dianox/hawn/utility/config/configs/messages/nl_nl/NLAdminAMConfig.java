@@ -245,6 +245,8 @@ public class NLAdminAMConfig {
         Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7heeft nu de rang &e%arg 2%"));
         Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7heeft geen met de hand gegeven rang meer"));
         Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &cheeft geen met de hand gegeven rang (de permissies of LuckPerms geven hem)"));
+        // 123: a Bedrock name with a dot (since 1.5.6)
+        Config.set("Ranks.Name-With-Dot", java.util.Arrays.asList("%prefix% &e%arg 1% &cheeft een punt in de naam (Bedrock): de speler moet online zijn om een rang te krijgen, bewaard onder de UUID"));
         Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1%&7: rang &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
         Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7is offline. Met de hand gegeven rang: &e%arg 2%"));
         Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7rang(en), de eerste bovenaan in de tablijst:"));

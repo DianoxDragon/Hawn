@@ -1,5 +1,6 @@
 package fr.dianox.hawn;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.ConfigGeneral;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,7 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.*;
@@ -110,14 +110,11 @@ public class SQL {
             }, plugin);
 
             // Keeps the connection alive (MySQL closes it after wait_timeout, 8 h by default) and reopens it if lost
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (!useyamllistplayer && !isValid()) {
-                        reconnect();
-                    }
+            Tasks.asyncTimer(() -> {
+                if (!useyamllistplayer && !isValid()) {
+                    reconnect();
                 }
-            }.runTaskTimerAsynchronously(plugin, 6000L, 6000L);
+            }, 6000L, 6000L);
         } else {
             useyamllistplayer = true;
         }

@@ -1,13 +1,11 @@
 package fr.dianox.hawn.modules.tablist.tab;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.List;
 
 /**
- * One animation of the tab lists: its frames, shown one after the other.
+ * One animation of the tab lists: its frames, shown one after the other (planned through Tasks since 1.5.6).
  */
-public class AnimationTabTask extends BukkitRunnable {
+public class AnimationTabTask implements Runnable {
 
 	private final List<String> frames;
 	private volatile int frame = 0;

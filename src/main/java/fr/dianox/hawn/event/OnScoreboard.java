@@ -1,6 +1,7 @@
 package fr.dianox.hawn.event;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.ScoreTask;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
@@ -34,7 +35,7 @@ public class OnScoreboard implements Listener {
 		Player p = e.getPlayer();
 
 		if (Main.getInstance().getScoreManager().playerboard.containsKey(p)) {
-			Bukkit.getScheduler().cancelTask(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
+			Tasks.cancel(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
 
 			FastBoard board = Main.getInstance().getScoreManager().playerboard.get(p);
 			if (board != null) {
@@ -54,7 +55,7 @@ public class OnScoreboard implements Listener {
 		Player p = e.getPlayer();
 
 		if (Main.getInstance().getScoreManager().playerscore.containsKey(p)) {
-			Bukkit.getScheduler().cancelTask(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
+			Tasks.cancel(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
 
 			FastBoard board = Main.getInstance().getScoreManager().playerboard.get(p);
 			if (board != null) {
@@ -116,8 +117,7 @@ public class OnScoreboard implements Listener {
 			Main.getInstance().getScoreManager().writeInt(sb, "updater.text", null);
 		}
 
-		BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), board, p).runTaskTimer(Main.getInstance(), 0,
-				Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
+		BukkitTask TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), board, p, Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
 
 		Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
 	}

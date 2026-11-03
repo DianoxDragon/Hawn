@@ -437,6 +437,11 @@ public class NLConfigMMsg {
         Config.set("Custom-Join-Item.Error.Grappling.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Wacht &4&l%timedelaygrapplingcji% &c&lseconde(n)&7!"}));
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Enable", true);
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDe haak is te ver weg!"}));
+        // The pearl mount (since 1.5.6)
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Wacht &4&l%timedelaypearlmountcji% &c&lseconde(n)&7!"}));
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDe parelrit werkt alleen tussen de hoogtes &e%arg1% &cen &e%arg2%"}));
 
         /*
          *

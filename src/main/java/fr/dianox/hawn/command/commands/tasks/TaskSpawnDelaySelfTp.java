@@ -2,7 +2,6 @@ package fr.dianox.hawn.command.commands.tasks;
 
 import fr.dianox.hawn.utility.SpawnGroups;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -13,7 +12,8 @@ import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 
-public class TaskSpawnDelaySelfTp extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class TaskSpawnDelaySelfTp implements Runnable {
 	
 	private Player p;
 	
@@ -61,7 +61,7 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 				}
 				
 				// Teleport
-				SpawnUtils.teleportToSpawn(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
+				SpawnUtils.teleportToSpawnAsync(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				
 				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
@@ -89,7 +89,7 @@ public class TaskSpawnDelaySelfTp extends BukkitRunnable {
 				}
 				
 				// Teleport
-				SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
+				SpawnUtils.teleportToSpawnAsync(p, SpawnGroups.defaultSpawn(p));
 				
 				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {

@@ -14,6 +14,7 @@ import fr.dianox.hawn.utility.config.configs.commands.HawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.MuteChatCommandConfig;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiGrappling;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiPearlMount;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.server.Tps;
@@ -270,6 +271,10 @@ public class PlaceHolders {
 
         if (str.contains("%timedelaygrapplingcji%")) {
             str = str.replace("%timedelaygrapplingcji%", String.valueOf(secondsLeft(Main.grapplingCooldowns.get(p), SpecialCjiGrappling.getConfig().getInt("Grappling.Option.Item-Delay.Delay"))));
+        }
+
+        if (str.contains("%timedelaypearlmountcji%")) {
+            str = str.replace("%timedelaypearlmountcji%", String.valueOf(secondsLeft(Main.pearlMountCooldowns.get(p), SpecialCjiPearlMount.getConfig().getInt("PearlMount.Option.Item-Delay.Delay"))));
         }
 
         if (str.contains("%barmemory%")) {

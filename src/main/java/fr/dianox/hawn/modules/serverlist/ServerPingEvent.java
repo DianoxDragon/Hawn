@@ -230,5 +230,13 @@ public class ServerPingEvent implements Listener {
 				}
 			}
 		}
+
+		// 122: refused in the end, the player takes no join number
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void refused(PlayerLoginEvent e) {
+			if (e.getResult() != PlayerLoginEvent.Result.ALLOWED) {
+				fr.dianox.hawn.modules.onjoin.JoinNumbers.refused(e.getPlayer().getUniqueId());
+			}
+		}
 	}
 }

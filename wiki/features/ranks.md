@@ -96,6 +96,8 @@ Change the file, then `/hawn reload`.
 
 Permission: `hawn.admin.command.rank` (with `hawn.admin`). From the console too.
 
+A Bedrock name with a dot (`.Steve`, from Floodgate) can't be a key of `Ranks.Players`: since Hawn 1.5.6, such a player must be online for `/hawn rank set`, and their rank is written under their UUID.
+
 ## LuckPerms
 
 With `Source: LUCKPERMS`, the rank of a player is their primary group in LuckPerms:

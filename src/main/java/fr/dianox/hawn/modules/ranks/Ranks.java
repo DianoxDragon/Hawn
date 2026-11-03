@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.ranks;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.PlayerVisibility;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -99,9 +100,14 @@ public final class Ranks implements Listener {
 	// The rank of each online player, and what is shown of it
 	private static final Map<UUID, Rank> current = new ConcurrentHashMap<>();
 	private static final Map<UUID, Source> sources = new ConcurrentHashMap<>();
-	private static final Map<UUID, String> shownName = new HashMap<>();
-	private static final Map<UUID, String> orderOf = new HashMap<>();
-	private static final Map<UUID, String> teamOf = new HashMap<>();
+	// Safe for several threads (since 1.5.6)
+	private static final Map<UUID, String> shownName = new ConcurrentHashMap<>();
+	private static final Map<UUID, String> orderOf = new ConcurrentHashMap<>();
+	private static final Map<UUID, String> teamOf = new ConcurrentHashMap<>();
+	// 119: the number of each rank (or player, with LuckPerms) in the names of the teams, so that two names that begin
+	// the same way never share a team
+	private static final Map<String, String> teamIds = new HashMap<>();
+	private static final Set<String> usedTeamIds = new HashSet<>();
 	// The teams sent to the players: team -> the names in it, and what it shows
 	private static final Map<String, Set<String>> teams = new HashMap<>();
 	private static final Map<String, RankTeams.Look> looks = new HashMap<>();
@@ -217,6 +223,8 @@ public final class Ranks implements Listener {
 		ConfigurationSection players = cfg().getConfigurationSection("Ranks.Players");
 		if (players != null) {
 			for (String player : players.getKeys(false)) {
+				// 123: what an old ".Steve" left in the file
+				if (players.isConfigurationSection(player)) continue;
 				hand.put(player.toLowerCase(Locale.ROOT), String.valueOf(players.getString(player)).toLowerCase(Locale.ROOT));
 			}
 		}
@@ -257,7 +265,7 @@ public final class Ranks implements Listener {
 		}
 
 		long every = Math.max(1, cfg().getInt("Ranks.Refresh-Seconds", 5)) * 20L;
-		task = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), () -> {
+		task = Tasks.timer(() -> {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				refresh(p, false);
 			}
@@ -316,7 +324,7 @@ public final class Ranks implements Listener {
 	 */
 	public static void clearAll() {
 		if (task != null) {
-			task.cancel();
+			Tasks.cancel(task);
 			task = null;
 		}
 		if (HooksManager.luckPerms()) {
@@ -342,6 +350,8 @@ public final class Ranks implements Listener {
 		teamOf.clear();
 		teams.clear();
 		looks.clear();
+		teamIds.clear();
+		usedTeamIds.clear();
 	}
 
 	/* ------------------------------------------------------------------ the rank of a player */
@@ -375,6 +385,9 @@ public final class Ranks implements Listener {
 		}
 
 		String hand = byHand.get(p.getName().toLowerCase(Locale.ROOT));
+		if (hand == null) {
+			hand = byHand.get(p.getUniqueId().toString());
+		}
 		if (hand != null && ranks.containsKey(hand)) {
 			return new Found(ranks.get(hand), Source.HAND);
 		}
@@ -432,14 +445,32 @@ public final class Ranks implements Listener {
 	}
 
 	/**
-	 * Ranks.Players.&lt;player&gt;: &lt;rank&gt;, or removed with null. Saved, then shown at once.
+	 * The key of a player in Ranks.Players: their name, or their UUID when the name has a dot (123: a dot separates the
+	 * YAML paths, the ".Steve" of Bedrock broke Ranks.yml). Null when such a player is not online.
 	 */
-	public static void setByHand(String player, String rank) {
+	private static String handKey(String player) {
+		if (player.indexOf('.') < 0) {
+			return player;
+		}
+		Player online = Bukkit.getPlayerExact(player);
+		return online == null ? null : online.getUniqueId().toString();
+	}
+
+	/**
+	 * Ranks.Players.&lt;player&gt;: &lt;rank&gt;, or removed with null. Saved, then shown at once. False for a name with a
+	 * dot of a player who is not online: nothing is written.
+	 */
+	public static boolean setByHand(String player, String rank) {
+		String key = handKey(player);
+		if (key == null) {
+			return false;
+		}
+		String mapKey = key.toLowerCase(Locale.ROOT);
+
 		ConfigurationSection players = cfg().getConfigurationSection("Ranks.Players");
-		String key = player;
 		if (players != null) {
 			for (String existing : players.getKeys(false)) {
-				if (existing.equalsIgnoreCase(player)) key = existing;
+				if (existing.equalsIgnoreCase(key)) key = existing;
 			}
 		}
 		cfg().set("Ranks.Players." + key, rank == null ? null : rank.toLowerCase(Locale.ROOT));
@@ -450,9 +481,9 @@ public final class Ranks implements Listener {
 
 		Map<String, String> hand = new HashMap<>(byHand);
 		if (rank == null) {
-			hand.remove(player.toLowerCase(Locale.ROOT));
+			hand.remove(mapKey);
 		} else {
-			hand.put(player.toLowerCase(Locale.ROOT), rank.toLowerCase(Locale.ROOT));
+			hand.put(mapKey, rank.toLowerCase(Locale.ROOT));
 		}
 		byHand = hand;
 
@@ -460,10 +491,12 @@ public final class Ranks implements Listener {
 		if (online != null) {
 			refresh(online, false);
 		}
+		return true;
 	}
 
 	public static String byHandOf(String player) {
-		return byHand.get(player.toLowerCase(Locale.ROOT));
+		String key = handKey(player);
+		return key == null ? null : byHand.get(key.toLowerCase(Locale.ROOT));
 	}
 
 	/* ------------------------------------------------------------------ the tab list and the heads */
@@ -546,13 +579,32 @@ public final class Ranks implements Listener {
 		}
 	}
 
-	// hwn + the priority on 4 digits + the rank + what it shows: sorted by the client, 16 characters at most (1.16.5).
-	// LuckPerms: the prefix can be the one of the player, not of the group: a team for each player (the name in place of the rank)
+	// hwn + the priority on 4 digits + the start of the rank + its number + what it shows: sorted by the client, 16 characters
+	// at most (1.16.5). LuckPerms: the prefix can be the one of the player, not of the group: a team for each player (the name
+	// in place of the rank)
 	private static String teamName(Rank r, boolean sorted, boolean above, boolean colour, Player p) {
 		String rank = (luckPerms ? p.getName() : r.name).toLowerCase(Locale.ROOT);
 		String priority = sorted ? String.format("%04d", Math.min(9999, Math.max(0, r.priority))) : "9999";
 		char variant = above ? (colour ? 'a' : 'b') : (colour ? 'c' : 'd');
-		return "hwn" + priority + (rank.length() > 8 ? rank.substring(0, 8) : rank) + variant;
+		String id = teamId(luckPerms ? "p:" + p.getUniqueId() : "r:" + r.name);
+		return "hwn" + priority + (rank.length() > 5 ? rank.substring(0, 5) : rank) + id + variant;
+	}
+
+	// The smallest number not used yet, on 3 characters (0-9 a-z) so that the order of the names stays the same
+	private static String teamId(String key) {
+		String id = teamIds.get(key);
+		if (id != null) {
+			return id;
+		}
+
+		for (int i = 0; i < 46656; i++) {
+			String candidate = String.format("%3s", Integer.toString(i, 36)).replace(' ', '0');
+			if (usedTeamIds.add(candidate)) {
+				teamIds.put(key, candidate);
+				return candidate;
+			}
+		}
+		return "zzz";
 	}
 
 	// The player moved to their team, for every player online
@@ -697,5 +749,11 @@ public final class Ranks implements Listener {
 			setTeam(p, null, RankTeams.Look.NONE);
 		}
 		teamOf.remove(id);
+
+		// The number of a player's own team (LuckPerms) can go to someone else
+		String teamId = teamIds.remove("p:" + id);
+		if (teamId != null) {
+			usedTeamIds.remove(teamId);
+		}
 	}
 }

@@ -2,11 +2,11 @@ package fr.dianox.hawn.event.world;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.utility.config.configs.events.WorldEventConfig;
 
-public class AlwaysNightTask extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class AlwaysNightTask implements Runnable {
 
 	@Override
 	public void run() {

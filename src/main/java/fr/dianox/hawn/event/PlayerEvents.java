@@ -654,7 +654,7 @@ public class PlayerEvents implements Listener {
 
         Player p = (Player) entity;
 
-        if (Main.buildbypasscommand.contains(p)) {
+        if (Main.buildbypasscommand.contains(p) || fr.dianox.hawn.modules.onjoin.cji.SpecialItePearlMount.isMounting(p)) {
             return;
         }
 

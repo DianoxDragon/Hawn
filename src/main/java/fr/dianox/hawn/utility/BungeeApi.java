@@ -8,30 +8,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
 public class BungeeApi implements PluginMessageListener {
 
-	public HashMap<String, Integer> PlayerCountVar = new HashMap<>();
-	public List<String> servers = new ArrayList<>();
+	// Safe for several threads (since 1.5.6)
+	public Map<String, Integer> PlayerCountVar = new java.util.concurrent.ConcurrentHashMap<>();
+	public List<String> servers = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 	public BungeeApi(Plugin plugin) {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				try {
-					for (String s : servers) {
-						getCount(s);
-					}
-
-					getCount("ALL");
-				} catch (Exception ignored) {
-					System.out.println("error");
+		// Planned through Tasks (since 1.5.6)
+		Tasks.timer(() -> {
+			try {
+				for (String s : servers) {
+					getCount(s);
 				}
+
+				getCount("ALL");
+			} catch (Exception ignored) {
+				System.out.println("error");
 			}
-		}.runTaskTimer(plugin, 100, 100);
+		}, 100, 100);
 	}
 
 	@Override

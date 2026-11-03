@@ -3,6 +3,7 @@ package fr.dianox.hawn.modules.scoreboard;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.event.OnScoreboard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.AnimationTask;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.ScoreboardMainConfig;
 import fr.mrmicky.fastboard.FastBoard;
 import fr.dianox.hawn.modules.scoreboard.scoreboards.Scroller;
@@ -10,9 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ScoreManager {
 
@@ -31,16 +30,17 @@ public class ScoreManager {
 	public HashMap<String, String> scoreacess = new HashMap<>();
 	public HashMap<String, List<String>> worldscore = new HashMap<>();
 
-	public HashMap<Player, String> playerscore = new HashMap<>();
-	public HashMap<Player, FastBoard> playerboard = new HashMap<>();
-	public HashMap<Player, Integer> scoretaskplayer = new HashMap<>();
+	// The players and the animations: safe for several threads (since 1.5.6)
+	public Map<Player, String> playerscore = new ConcurrentHashMap<>();
+	public Map<Player, FastBoard> playerboard = new ConcurrentHashMap<>();
+	public Map<Player, Integer> scoretaskplayer = new ConcurrentHashMap<>();
 
-	public HashMap<String, Integer> animationtab = new HashMap<>();
+	public Map<String, Integer> animationtab = new ConcurrentHashMap<>();
 
-	public List<Player> noscore = new ArrayList<>();
-	private final HashMap<String, String> scrollerText = new HashMap<>();
+	public List<Player> noscore = new CopyOnWriteArrayList<>();
+	private final Map<String, String> scrollerText = new ConcurrentHashMap<>();
 
-	public List<Integer> alltasks = new ArrayList<>();
+	public List<Integer> alltasks = new CopyOnWriteArrayList<>();
 
 	public ScoreManager(Main plugin) {
 		if (!ScoreboardMainConfig.getConfig().getBoolean("Scoreboard.Enable")) return;
@@ -65,10 +65,8 @@ public class ScoreManager {
 				try {
 					if (getFile(filename).isSet("changeableText")) {
 						for (String string : getFile(filename).getConfigurationSection("changeableText").getKeys(false)) {
-							BukkitTask TaskScoreName = new AnimationTask(string, filename, this).runTaskTimer(plugin, 0, getFile(filename).getInt(
-									"changeableText." + string + ".interval"));
-
-							alltasks.add(TaskScoreName.getTaskId());
+							alltasks.add(Tasks.timer(new AnimationTask(string, filename, this), 0, getFile(filename).getInt(
+									"changeableText." + string + ".interval")).getTaskId());
 						}
 					}
 				} catch (Exception ignored) {
@@ -78,66 +76,43 @@ public class ScoreManager {
 				try {
 					if (getFile(filename).isSet("scroller")) {
 						for (String string : getFile(filename).getConfigurationSection("scroller").getKeys(false)) {
-							new BukkitRunnable() {
+							Scroller scroller = new Scroller(getFile(filename).getString("scroller." + string + ".text"),
+									getFile(filename).getInt("scroller." + string + ".width", 26),
+									getFile(filename).getInt("scroller." + string + ".spaceBetween", 6), '&');
 
-								final Scroller scroller = new Scroller(getFile(filename).getString("scroller." + string + ".text"),
-										getFile(filename).getInt("scroller." + string + ".width", 26),
-										getFile(filename).getInt("scroller." + string + ".spaceBetween", 6), '&');
-
-								boolean check = false;
-
-								@Override
-								public void run() {
-									if (scrollerText.containsKey(filename + string)) {
-										scrollerText.replace(filename + string, scroller.next());
-									} else {
-										scrollerText.put(filename + string, scroller.next());
-									}
-
-									if (!check) {
-										if (!alltasks.contains(getTaskId())) {
-											alltasks.add(getTaskId());
-											check = true;
-										}
-									}
-								}
-							}.runTaskTimer(plugin, 0L, getFile(filename).getInt("scroller." + string + ".update"));
+							alltasks.add(Tasks.timer(() -> scrollerText.put(filename + string, scroller.next()),
+									0L, getFile(filename).getInt("scroller." + string + ".update")).getTaskId());
 						}
 					}
 				} catch (Exception ignored) {
 					fr.dianox.hawn.utility.Debug.hidden("Scoreboard: a scroller {SC_...}", ignored);
 				}
 
-				BukkitTask TaskScoreName = new AnimationTask("TITLESCORENAME", filename, this).runTaskTimer(plugin, 0, getFile(filename).getInt("updater.title"));
+				alltasks.add(Tasks.timer(new AnimationTask("TITLESCORENAME", filename, this), 0, getFile(filename).getInt("updater.title")).getTaskId());
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW+"| "+ChatColor.GOLD+"The file : "+ f.getName() + "is not accepted. Accepted only '.yml' files (YAML)");
 			}
 		}
 
-		BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+		Tasks.later(() -> {
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				if (playerscore.containsKey(p)) {
+					try {
+						Tasks.cancel(scoretaskplayer.get(p));
 
-		scheduler.scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-			@Override
-			public void run() {
-				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					if (playerscore.containsKey(p)) {
-						try {
-							Bukkit.getScheduler().cancelTask(scoretaskplayer.get(p));
+						FastBoard board = playerboard.get(p);
+						if (board != null) {
+							board.delete();
+						}
+					} catch (Exception ignored) {}
 
-							FastBoard board = playerboard.get(p);
-							if (board != null) {
-								board.delete();
-							}
-						} catch (Exception ignored) {}
-
-						playerboard.remove(p);
-						playerscore.remove(p);
-						scoretaskplayer.remove(p);
-					}
-
-					String world = p.getWorld().getName();
-					OnScoreboard.createNewScore(p, world);
+					playerboard.remove(p);
+					playerscore.remove(p);
+					scoretaskplayer.remove(p);
 				}
+
+				String world = p.getWorld().getName();
+				OnScoreboard.createNewScore(p, world);
 			}
 		}, 60L);
 	}
@@ -171,7 +146,7 @@ public class ScoreManager {
 		}
 	}
 
-	public HashMap<String, Integer> getAnimScore() {
+	public Map<String, Integer> getAnimScore() {
 		return animationtab;
 	}
 
@@ -179,7 +154,7 @@ public class ScoreManager {
 		return noscore;
 	}
 
-	public HashMap<String, String> getScrollerText() {
+	public Map<String, String> getScrollerText() {
 		return scrollerText;
 	}
 }

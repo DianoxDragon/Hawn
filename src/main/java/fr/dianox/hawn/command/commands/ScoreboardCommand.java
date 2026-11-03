@@ -11,6 +11,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlayerOptionSQLClass;
@@ -106,7 +107,7 @@ public class ScoreboardCommand extends BukkitCommand {
 			}
 
 			if (Main.getInstance().getScoreManager().playerscore.containsKey(p)) {
-				Bukkit.getScheduler().cancelTask(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
+				Tasks.cancel(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
 
 				FastBoard board = Main.getInstance().getScoreManager().playerboard.get(p);
 				if (board != null) {
@@ -173,7 +174,7 @@ public class ScoreboardCommand extends BukkitCommand {
 
 					if (p.hasPermission("hawn.scoreboard." + perm)) {
 						if (Main.getInstance().getScoreManager().scoretaskplayer.containsKey(p)) {
-							Bukkit.getScheduler().cancelTask(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
+							Tasks.cancel(Main.getInstance().getScoreManager().scoretaskplayer.get(p));
 						}
 
 						if (Main.getInstance().getScoreManager().playerboard.containsKey(p)) {
@@ -198,8 +199,7 @@ public class ScoreboardCommand extends BukkitCommand {
 							Main.getInstance().getScoreManager().writeInt(perm, "updater.text", null);
 						}
 
-						BukkitTask TaskName = new ScoreTask(Main.getInstance().getScoreManager(), boardnew, p).runTaskTimer(Main.getInstance(), 0,
-								Main.getInstance().getScoreManager().getFile(perm).getInt("updater.scoreboard"));
+						BukkitTask TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), boardnew, p, Main.getInstance().getScoreManager().getFile(perm).getInt("updater.scoreboard"));
 
 						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
 					} else {

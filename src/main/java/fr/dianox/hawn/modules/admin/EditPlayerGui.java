@@ -152,11 +152,11 @@ public class EditPlayerGui implements Listener {
 				break;
 			case TP_TO:
 				if (!allowed(p, "hawn.editplayer.tp")) return;
-				p.teleport(target.getLocation());
+				Tasks.teleportAsync(p, target.getLocation());
 				break;
 			case TP_HERE:
 				if (!allowed(p, "hawn.editplayer.tp")) return;
-				target.teleport(p.getLocation());
+				Tasks.teleportAsync(target, p.getLocation());
 				changed(p, target, "Teleport-Here", "");
 				break;
 			case RANK:

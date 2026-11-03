@@ -83,7 +83,7 @@ Custom-Join-Item:
 | `Skull-Name`   | no       | With a player head material: the owner of the head. `%player%` = the player's own head.                     |
 | `Data-value`   | no       | Legacy data value. Ignored on recent versions: use the full material name (`RED_WOOL`).                     |
 | `Command-List` | no       | [Actions](../basics/actions.md) run on right click.                                                          |
-| `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun`, `Special-Grappling` (since Hawn 1.5.5) or `Special-Book:<book>`. |
+| `Special-Items`| \*       | Replaces `Material` to give a special item: `Special-HidePlayers`, `Special-LobbyBow`, `Special-FunGun`, `Special-Grappling` (since Hawn 1.5.5), `Special-PearlMount` (since Hawn 1.5.6) or `Special-Book:<book>`. |
 | `Worlds`       | no       | Since Hawn 1.5. The worlds of this item, instead of the worlds of `General-Option.World` (they don't have to be in that list). With `Change-World`, it is given and removed when the player changes world. Two items of two different worlds can use the same `Slot` (since Hawn 1.5.1, each one runs its own actions). |
 | `Item-Model`   | no       | Since Hawn 1.5, Minecraft 1.21.4+. The model of the item (`namespace:key`), from your resource pack. |
 | `Custom-Model-Data` | no  | Since Hawn 1.5. The custom model data of the item. |
@@ -236,7 +236,7 @@ FunGun:
 
 ### Grappling hook (`Special-Grappling`)
 
-Since Hawn 1.5.5. A fishing rod: throw it on a block, reel it in, and the player is thrown to the hook. It never wears out, takes no fall damage just after the pull, and doesn't pull the other players or the mobs. Like every special item, it only works in the worlds of its join item. It is in `CustomJoinItem/Special-Grappling.yml`:
+Since Hawn 1.5.5. A fishing rod: throw it on a block, reel it in, and the player is thrown to the hook. It never wears out, takes no fall damage just after the pull, and doesn't pull the other players or the mobs. While the delay is not over, the line is not thrown at all. Since Hawn 1.5.6, `Line-Speed` sets how fast the line goes, and `Hit` plays a sound and shows particles when the hook catches a block it can pull to. Like every special item, it only works in the worlds of its join item. It is in `CustomJoinItem/Special-Grappling.yml`:
 
 ```yaml
 Grappling:
@@ -246,13 +246,27 @@ Grappling:
       Enable: true
       Delay: 3          # seconds between two pulls, see %timedelaygrapplingcji%
     Force: 1.0          # 2.0 throws twice as hard
-    Max-Distance: 30    # a hook further away doesn't pull (message Too-Far)
+    Line-Speed: 2.0     # how fast the line is thrown: 1.0 is a normal fishing rod
+    Max-Distance: 45    # a hook further away doesn't pull (message Too-Far)
     No-Fall-Damage: true
-  Sound:
+  Sound:                # when the player is pulled
     Enable: true
     Sound: ENTITY_BAT_TAKEOFF
     Volume: 1
     Pitch: 1
+  Hit:                  # when the hook catches a block within Max-Distance
+    Sound:
+      Enable: true
+      Sound: BLOCK_CHAIN_PLACE
+      Volume: 1
+      Pitch: 1.2
+    Particles:
+      Enable: true
+      Particle: CRIT    # DUST uses Color
+      Amount: 12
+      Offset: 0.2       # how far around the hook they spread
+      Speed: 0.1
+      Color: 255,255,255
   Item:
     Title: '&6Grappling hook'
     Lore: [' ', '&7Throw it on a block, then pull']
@@ -269,6 +283,58 @@ Give it with a join item of `CustomJoinItem/General.yml`:
 ```
 
 The messages are in `Messages/<language>/Messages.yml`: `Custom-Join-Item.Error.Grappling.Time` (the delay is not over) and `Custom-Join-Item.Error.Grappling.Too-Far`.
+
+### Pearl mount (`Special-PearlMount`)
+
+Since Hawn 1.5.6. An ender pearl that is never used up. With `Ride: true` (the default), a right click throws it and the player rides it: the pearl turns towards where they look (`Steer`), and a right click again or sneaking gets them off. With `Ride: false`, the player is teleported where the pearl lands, without damage nor endermite. The pearl leaves a trail of particles (`Trail`). A flight stops after `Max-Seconds`, `Max-Distance` blocks from where it started, or out of the `Height` range; a thrown pearl then goes away without teleporting. With `Height` on, it can't be thrown below `Min-Y` or above `Max-Y` either (message `Height`). No fall damage just after the flight. Like every special item, it only works in the worlds of its join item. It is in `CustomJoinItem/Special-PearlMount.yml`:
+
+```yaml
+PearlMount:
+  Enable: true
+  Option:
+    Item-Delay:
+      Enable: true
+      Delay: 5          # seconds between two rides, see %timedelaypearlmountcji%
+    Ride: true          # false: the player is teleported where it lands
+    Speed: 1.5          # 3.0 throws twice as fast
+    Steer:
+      Enable: true      # the ridden pearl turns towards where the player looks
+      Strength: 0.2     # 0 to 1: 1 follows the look at once and never falls
+    Max-Distance: 60    # the flight stops this far from where it started
+    Max-Seconds: 8
+    No-Fall-Damage: true
+    Height:
+      Enable: false     # true: only between Min-Y and Max-Y
+      Min-Y: 0
+      Max-Y: 256
+  Sound:
+    Enable: true
+    Sound: ENTITY_ENDER_PEARL_THROW
+    Volume: 1
+    Pitch: 1
+  Trail:                # the particles behind the pearl, each tick
+    Enable: true
+    Particle: DUST      # PORTAL, FLAME... Color is only for DUST
+    Amount: 10
+    Offset: 0.15
+    Speed: 0.05
+    Color: 170,0,255
+  Item:
+    Title: '&5Pearl mount'
+    Lore: [' ', '&7Right click to ride the pearl']
+    Material:
+      Amount: 1
+```
+
+Give it with a join item of `CustomJoinItem/General.yml`:
+
+```yaml
+        Player-PearlMount:
+          Special-Items: Special-PearlMount
+          Slot: 5
+```
+
+The messages are in `Messages/<language>/Messages.yml`: `Custom-Join-Item.Error.PearlMount.Time` (the delay is not over) and `Custom-Join-Item.Error.PearlMount.Height` (out of the `Height` range, `%arg1%` and `%arg2%` are `Min-Y` and `Max-Y`).
 
 ## After death
 

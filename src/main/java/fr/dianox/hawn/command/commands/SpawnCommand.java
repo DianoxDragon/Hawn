@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tasks.TaskSpawnDelayOtherTp;
 import fr.dianox.hawn.command.commands.tasks.TaskSpawnDelayOtherTp2;
 import fr.dianox.hawn.command.commands.tasks.TaskSpawnDelaySelfTp;
@@ -92,7 +93,7 @@ public class SpawnCommand extends BukkitCommand {
 										}
 										return true;
 									}
-									SpawnUtils.teleportToSpawn(target, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
+									SpawnUtils.teleportToSpawnAsync(target, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
@@ -120,7 +121,7 @@ public class SpawnCommand extends BukkitCommand {
 										}
 										return true;
 									}
-									SpawnUtils.teleportToSpawn(target, SpawnGroups.defaultSpawn(target));
+									SpawnUtils.teleportToSpawnAsync(target, SpawnGroups.defaultSpawn(target));
 									for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
@@ -140,7 +141,7 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								return true;
 							}
-							SpawnUtils.teleportToSpawn(target, args[2]);
+							SpawnUtils.teleportToSpawnAsync(target, args[2]);
 							for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 								MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 							}
@@ -179,15 +180,14 @@ public class SpawnCommand extends BukkitCommand {
 									}
 									
 									if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-										Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+										Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 										Main.player_spawnwarpdelay.remove(p.getUniqueId());
 									}
 									
 									Main.inspawnd.remove(p);
 									Main.inwarpd.remove(p);
 									
-									BukkitTask task = new TaskSpawnDelaySelfTp(p).runTaskLater(Main.getInstance(), 
-											SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+									BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(p);
@@ -200,15 +200,14 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								
 								if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(p.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = new TaskSpawnDelaySelfTp(p).runTaskLater(Main.getInstance(), 
-										SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
@@ -233,15 +232,14 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								
 								if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(p.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = new TaskSpawnDelaySelfTp(p).runTaskLater(Main.getInstance(), 
-										SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
@@ -254,15 +252,14 @@ public class SpawnCommand extends BukkitCommand {
 							}
 							
 							if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-								Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+								Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 								Main.player_spawnwarpdelay.remove(p.getUniqueId());
 							}
 							
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = new TaskSpawnDelaySelfTp(p).runTaskLater(Main.getInstance(), 
-									SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+							BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inspawnd.add(p);
@@ -285,15 +282,14 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								
 								if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(p.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = new TaskSpawnDelaySelfTpSpawn(p, args[0]).runTaskLater(Main.getInstance(), 
-										SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
@@ -306,15 +302,14 @@ public class SpawnCommand extends BukkitCommand {
 							}
 							
 							if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-								Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+								Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 								Main.player_spawnwarpdelay.remove(p.getUniqueId());
 							}
 							
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = new TaskSpawnDelaySelfTpSpawn(p, args[0]).runTaskLater(Main.getInstance(), 
-									SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+							BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inspawnd.add(p);
@@ -345,15 +340,14 @@ public class SpawnCommand extends BukkitCommand {
 									}
 									
 									if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-										Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+										Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 										Main.player_spawnwarpdelay.remove(target.getUniqueId());
 									}
 									
 									Main.inspawnd.remove(target);
 									Main.inwarpd.remove(target);
 									
-									BukkitTask task = new TaskSpawnDelayOtherTp(p, args[0], target).runTaskLater(Main.getInstance(), 
-											SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+									BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(target);
@@ -366,15 +360,14 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								
 								if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(target.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = new TaskSpawnDelayOtherTp(p, args[0], target).runTaskLater(Main.getInstance(), 
-										SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(target);
@@ -395,15 +388,14 @@ public class SpawnCommand extends BukkitCommand {
 									}
 									
 									if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-										Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+										Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 										Main.player_spawnwarpdelay.remove(target.getUniqueId());
 									}
 									
 									Main.inspawnd.remove(target);
 									Main.inwarpd.remove(target);
 									
-									BukkitTask task = new TaskSpawnDelayOtherTp2(p, args[2], target).runTaskLater(Main.getInstance(), 
-											SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+									BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(target);
@@ -416,15 +408,14 @@ public class SpawnCommand extends BukkitCommand {
 								}
 								
 								if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(target.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = new TaskSpawnDelayOtherTp2(p, args[2], target).runTaskLater(Main.getInstance(), 
-										SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(target);
@@ -468,7 +459,7 @@ public class SpawnCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(p, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
+				SpawnUtils.teleportToSpawnAsync(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
@@ -494,7 +485,7 @@ public class SpawnCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(p, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
+				SpawnUtils.teleportToSpawnAsync(p, SpawnGroups.defaultSpawn(p));
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
@@ -516,7 +507,7 @@ public class SpawnCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(sender, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(sender, tp);
+				SpawnUtils.teleportToSpawnAsync(sender, tp);
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
@@ -536,7 +527,7 @@ public class SpawnCommand extends BukkitCommand {
 				MessageUtils.MessageNoPermission(sender, Permission);
 				return;
 			}
-			SpawnUtils.teleportToSpawn(sender, tp);
+			SpawnUtils.teleportToSpawnAsync(sender, tp);
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
@@ -555,7 +546,7 @@ public class SpawnCommand extends BukkitCommand {
 			MessageUtils.MessageNoPermission(sender, Permission);
 			return;
 		}
-		SpawnUtils.teleportToSpawn(other, tp);
+		SpawnUtils.teleportToSpawnAsync(other, tp);
 		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 			ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 		}
@@ -586,7 +577,7 @@ public class SpawnCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(sender, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(other, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
+				SpawnUtils.teleportToSpawnAsync(other, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}
@@ -618,7 +609,7 @@ public class SpawnCommand extends BukkitCommand {
 					MessageUtils.MessageNoPermission(sender, Permission);
 					return;
 				}
-				SpawnUtils.teleportToSpawn(other, spawn);
+				SpawnUtils.teleportToSpawnAsync(other, spawn);
 				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}

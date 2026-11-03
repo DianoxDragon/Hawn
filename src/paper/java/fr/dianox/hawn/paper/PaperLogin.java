@@ -62,6 +62,25 @@ public class PaperLogin implements Listener {
 		}
 	}
 
+	// 122: refused in the end (ban, whitelist, full, another plugin), the player takes no join number
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void refused(PlayerConnectionValidateLoginEvent e) {
+		if (e.isAllowed()) {
+			return;
+		}
+
+		PlayerProfile profile = null;
+		if (e.getConnection() instanceof PlayerLoginConnection) {
+			profile = ((PlayerLoginConnection) e.getConnection()).getAuthenticatedProfile();
+		} else if (e.getConnection() instanceof PlayerConfigurationConnection) {
+			profile = ((PlayerConfigurationConnection) e.getConnection()).getProfile();
+		}
+
+		if (profile != null && profile.getId() != null) {
+			fr.dianox.hawn.modules.onjoin.JoinNumbers.refused(profile.getId());
+		}
+	}
+
 	// Only the "server full" refusal of the server, never a ban or the whitelist
 	private static boolean isFull(Component kick) {
 		return kick instanceof TranslatableComponent

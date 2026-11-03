@@ -1,14 +1,15 @@
 package fr.dianox.hawn.command.commands.tasks;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.WarpListConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 
-public class TaskOnTpOthersWarp extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class TaskOnTpOthersWarp implements Runnable {
 	
 	private Player p, other;
 	private String tp;
@@ -43,7 +44,7 @@ public class TaskOnTpOthersWarp extends BukkitRunnable {
 			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
 			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
-			other.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+			Tasks.teleportAsync(other, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {

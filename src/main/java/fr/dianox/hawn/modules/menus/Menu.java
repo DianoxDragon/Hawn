@@ -122,11 +122,20 @@ public final class Menu {
 		return b == 0 ? a : gcd(b, a % b);
 	}
 
-	private static boolean animated(String s) {
-		return s != null && s.contains("{anim_");
+	// 120: only an animation that exists, an unknown {anim_<name>} stays as it is written and is never redrawn
+	private boolean animated(String s) {
+		if (s == null) return false;
+		int start = s.indexOf("{anim_");
+		while (start >= 0) {
+			int end = s.indexOf('}', start);
+			if (end < 0) return false;
+			if (animations.containsKey(s.substring(start + 6, end).toLowerCase(java.util.Locale.ROOT))) return true;
+			start = s.indexOf("{anim_", end);
+		}
+		return false;
 	}
 
-	private static boolean animated(MenuItem item) {
+	private boolean animated(MenuItem item) {
 		if (animated(item.name) || animated(item.material)) return true;
 		for (String line : item.lore) {
 			if (animated(line)) return true;

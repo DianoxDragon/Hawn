@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -45,7 +46,9 @@ import java.util.concurrent.TimeUnit;
  * The number shown is the rank of the player in the table, so a value skipped by MySQL leaves no hole. When the
  * database can't be reached, the number is not known ("?"): the local counts are never mixed with the network ones.
  * <p>
- * Everything is read before the player joins (AsyncPlayerPreLoginEvent), outside the main thread.
+ * Everything is read before the player joins (AsyncPlayerPreLoginEvent), outside the main thread. 122: a new player is
+ * only written when they really arrive: in the file when they join, and in MySQL (needed for the number of the first
+ * join) removed again when the server refuses them after (ban, whitelist, full).
  */
 public final class JoinNumbers implements Listener {
 
@@ -55,6 +58,8 @@ public final class JoinNumbers implements Listener {
 	private static final Map<UUID, Integer> numbers = new ConcurrentHashMap<>();
 	// MySQL: true when this server added the player to the table (new on the network), false when they were in it
 	private static final Map<UUID, Boolean> newOnNetwork = new ConcurrentHashMap<>();
+	// MySQL: the players added to the table before the login, not joined yet
+	private static final java.util.Set<UUID> pending = ConcurrentHashMap.newKeySet();
 
 	private static volatile int unique = -1;
 	private static volatile boolean network;
@@ -66,6 +71,7 @@ public final class JoinNumbers implements Listener {
 	public static void start(Plugin plugin) {
 		numbers.clear();
 		newOnNetwork.clear();
+		pending.clear();
 		unique = -1;
 		ready = new CountDownLatch(1);
 		network = ConfigGeneral.getConfig().getBoolean("Plugin.Use.MYSQL.Enable");
@@ -93,7 +99,7 @@ public final class JoinNumbers implements Listener {
 			}
 
 			for (UUID uuid : online) {
-				assign(uuid, false);
+				assign(uuid, false, true);
 			}
 		};
 
@@ -158,21 +164,58 @@ public final class JoinNumbers implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPreLogin(AsyncPlayerPreLoginEvent e) {
 		if (e.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED) {
-			assign(e.getUniqueId(), true);
+			assign(e.getUniqueId(), true, false);
 		}
+	}
+
+	// Before the join listeners of Hawn: the first join message shows the number
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onJoin(PlayerJoinEvent e) {
+		UUID uuid = e.getPlayer().getUniqueId();
+		pending.remove(uuid);
+		if (!network) {
+			assignLocal(uuid);
+		}
+	}
+
+	/**
+	 * The server refused a player after AsyncPlayerPreLoginEvent (ban, whitelist, full): a player added to MySQL for this
+	 * login is removed from it, so they never take a number (since 1.5.6).
+	 */
+	public static void refused(UUID uuid) {
+		if (!pending.remove(uuid)) {
+			return;
+		}
+
+		numbers.remove(uuid);
+		newOnNetwork.remove(uuid);
+		Tasks.async(() -> {
+			Integer count = SQL.query(c -> {
+				try (PreparedStatement s = c.prepareStatement("DELETE FROM " + TABLE + " WHERE uuid = ?;")) {
+					s.setString(1, uuid.toString());
+					s.executeUpdate();
+				}
+				return count(c);
+			}, null, 10);
+			if (count != null) {
+				unique = count;
+			}
+		});
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent e) {
 		UUID uuid = e.getPlayer().getUniqueId();
 		newOnNetwork.remove(uuid);
+		pending.remove(uuid);
 		if (network) {
 			numbers.remove(uuid);
 		}
 	}
 
-	// The number of a player who joins (or is online): read, or given when the player is new
-	private static void assign(UUID uuid, boolean joining) {
+	// The number of a player who joins (or is online): read, or given when the player is new (online: already joined,
+	// so written in the file at once)
+	private static void assign(UUID uuid, boolean joining, boolean online) {
 		try {
 			// The first load (a big old network) must be over: a returning player would be taken for a new one
 			if (!ready.await(10, TimeUnit.SECONDS)) {
@@ -185,7 +228,7 @@ public final class JoinNumbers implements Listener {
 
 		if (network) {
 			assignNetwork(uuid, joining);
-		} else {
+		} else if (online) {
 			assignLocal(uuid);
 		}
 	}
@@ -286,6 +329,9 @@ public final class JoinNumbers implements Listener {
 		numbers.put(uuid, result[0]);
 		if (joining) {
 			newOnNetwork.put(uuid, result[1] == 1);
+			if (result[1] == 1) {
+				pending.add(uuid);
+			}
 		}
 		if (result[2] > 0) {
 			unique = result[2];

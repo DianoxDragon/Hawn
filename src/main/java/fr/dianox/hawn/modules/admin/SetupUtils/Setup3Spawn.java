@@ -35,7 +35,7 @@ public class Setup3Spawn implements Listener {
 		org.bukkit.World world = org.bukkit.Bukkit.getWorld(fr.dianox.hawn.modules.world.DefaultWorld.get());
 		if (world != null && !p.getWorld().equals(world)) {
 			fr.dianox.hawn.modules.world.WorldFolders.fixSpawn(world);
-			p.teleport(world.getSpawnLocation());
+			Tasks.teleport(p, world.getSpawnLocation());
 			for (String msg : SetupLangFile.getConfig().getStringList("SetupSpawn.Teleported")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", world.getName()), "", "", false);
 			}

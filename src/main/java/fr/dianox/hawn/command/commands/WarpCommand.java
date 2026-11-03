@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tasks.TaskOnTPWarp;
 import fr.dianox.hawn.command.commands.tasks.TaskOnTpOthersWarp;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -75,7 +76,7 @@ public class WarpCommand extends BukkitCommand {
 					float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Yaw");
 					float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + args[0] + ".Pitch");
 
-					target.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+					Tasks.teleportAsync(target, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 					if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {
@@ -159,15 +160,14 @@ public class WarpCommand extends BukkitCommand {
 							}
 							
 							if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-								Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+								Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 								Main.player_spawnwarpdelay.remove(p.getUniqueId());
 							}
 							
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = new TaskOnTPWarp(p, args[0]).runTaskLater(Main.getInstance(), 
-									WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
+							BukkitTask task = Tasks.later(new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inwarpd.add(p);
@@ -191,15 +191,14 @@ public class WarpCommand extends BukkitCommand {
 						}
 						
 						if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-							Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+							Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 							Main.player_spawnwarpdelay.remove(p.getUniqueId());
 						}
 						
 						Main.inspawnd.remove(p);
 						Main.inwarpd.remove(p);
 						
-						BukkitTask task = new TaskOnTPWarp(p, args[0]).runTaskLater(Main.getInstance(), 
-								WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
+						BukkitTask task = Tasks.later(new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
 						
 						Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 						Main.inwarpd.add(p);
@@ -245,15 +244,14 @@ public class WarpCommand extends BukkitCommand {
 								}
 
 								if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-									Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+									Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 									Main.player_spawnwarpdelay.remove(target.getUniqueId());
 								}
 								
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = new TaskOnTpOthersWarp(p, target, args[0]).runTaskLater(Main.getInstance(), 
-										WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
+								BukkitTask task = Tasks.later(new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inwarpd.add(target);
@@ -276,15 +274,14 @@ public class WarpCommand extends BukkitCommand {
 							}
 
 							if (Main.player_spawnwarpdelay.containsKey(target.getUniqueId())) {
-								Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(target.getUniqueId()));
+								Tasks.cancel(Main.player_spawnwarpdelay.get(target.getUniqueId()));
 								Main.player_spawnwarpdelay.remove(target.getUniqueId());
 							}
 							
 							Main.inspawnd.remove(target);
 							Main.inwarpd.remove(target);
 							
-							BukkitTask task = new TaskOnTpOthersWarp(p, target, args[0]).runTaskLater(Main.getInstance(), 
-									WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
+							BukkitTask task = Tasks.later(new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 							Main.inwarpd.add(target);
@@ -317,7 +314,7 @@ public class WarpCommand extends BukkitCommand {
 			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
 			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
-			sender.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+			Tasks.teleportAsync(sender, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self.Messages")) {
@@ -343,7 +340,7 @@ public class WarpCommand extends BukkitCommand {
 			float yaw = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Yaw");
 			float pitch = (float) WarpListConfig.getConfig().getDouble("Coordinated." + tp + ".Pitch");
 
-			other.teleport(new org.bukkit.Location(w, x, y, z, yaw, pitch));
+			Tasks.teleportAsync(other, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
 				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {

@@ -25,9 +25,37 @@ public class SpawnUtils {
 	}
 
 	/**
-	 * tellAdmin false: for the callers with their own message (the void TP, many times per second).
+	 * tellAdmin false: for the callers with their own message.
 	 */
 	public static boolean teleportToSpawn(Player player, String str, boolean tellAdmin) {
+		Location to = spawnLocation(player, str, tellAdmin);
+		if (to == null) {
+			return false;
+		}
+
+		// At once: the join, the respawn and the actions read the new world of the player right after
+		return Tasks.teleport(player, to);
+	}
+
+	/**
+	 * Like teleportToSpawn, but the chunk of the spawn is loaded first on Paper (since 1.5.6): for /spawn and the void TP,
+	 * which only send messages after. False when the spawn doesn't exist.
+	 */
+	public static boolean teleportToSpawnAsync(Player player, String str) {
+		Location to = spawnLocation(player, str, true);
+		if (to == null) {
+			return false;
+		}
+
+		Tasks.teleportAsync(player, to);
+		return true;
+	}
+
+	/**
+	 * Where the spawn is (since 1.5.6), null when it doesn't exist or its world is not loaded: the console says it once
+	 * per spawn and the admins are told when tellAdmin.
+	 */
+	public static Location spawnLocation(Player player, String str, boolean tellAdmin) {
 		String worldName = ConfigSpawn.getConfig().getString("Coordinated." + str + ".World");
 		World w = worldName == null ? null : Bukkit.getWorld(worldName);
 
@@ -41,7 +69,7 @@ public class SpawnUtils {
 			if (tellAdmin && player.hasPermission("hawn.admin")) {
 				player.sendMessage("Spawn is not set");
 			}
-			return false;
+			return null;
 		}
 
 		double x = ConfigSpawn.getConfig().getDouble("Coordinated."+str+".X");
@@ -51,7 +79,7 @@ public class SpawnUtils {
 		float pitch = (float) ConfigSpawn.getConfig().getDouble("Coordinated."+str+".Pitch");
 
 		reported.remove(str);
-		return player.teleport(new Location(w, x, y, z, yaw, pitch));
+		return new Location(w, x, y, z, yaw, pitch);
 	}
 
 	/**

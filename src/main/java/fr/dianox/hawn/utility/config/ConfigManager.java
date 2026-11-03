@@ -7,6 +7,7 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.*;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiGrappling;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiPearlMount;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.configs.events.*;
@@ -14,6 +15,7 @@ import fr.dianox.hawn.utility.config.configs.messages.*;
 import fr.dianox.hawn.utility.config.configs.messages.de_de.*;
 import fr.dianox.hawn.utility.config.configs.messages.fr_fr.*;
 import fr.dianox.hawn.utility.config.configs.messages.nl_nl.*;
+import fr.dianox.hawn.utility.config.configs.messages.es_es.*;
 import fr.dianox.hawn.utility.config.configs.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.configs.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
@@ -278,6 +280,9 @@ public class ConfigManager {
 		SpecialCjiGrappling.loadConfig(plugin);
 		configfile.put("CJI-Special-Grappling", "CustomJoinItem/Special-Grappling.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/Special-Grappling.yml", "CJI-Special-Grappling");
+		SpecialCjiPearlMount.loadConfig(plugin);
+		configfile.put("CJI-Special-PearlMount", "CustomJoinItem/Special-PearlMount.yml");
+		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/Special-PearlMount.yml", "CJI-Special-PearlMount");
 		ConfigCJIGeneral.loadConfig(plugin);
 		configfile.put("CJI-General", "CustomJoinItem/General.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "CustomJoinItem/General.yml", "CJI-General");
@@ -326,6 +331,15 @@ public class ConfigManager {
 		NLWorldManagerPanelConfig.loadConfig(plugin);
 		NLAdminAMConfig.loadConfig(plugin);
 		NLSetupLangFile.loadConfig(plugin);
+
+		// Spanish language (since 1.5.6)
+
+		ESAdminPanelConfig.loadConfig(plugin);
+		ESConfigMMsg.loadConfig(plugin);
+		ESConfigMGeneral.loadConfig(plugin);
+		ESWorldManagerPanelConfig.loadConfig(plugin);
+		ESAdminAMConfig.loadConfig(plugin);
+		ESSetupLangFile.loadConfig(plugin);
 
 		// Normal
 

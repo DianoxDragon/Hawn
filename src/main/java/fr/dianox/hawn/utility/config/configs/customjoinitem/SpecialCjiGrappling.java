@@ -58,12 +58,24 @@ public class SpecialCjiGrappling {
         Config.set("Grappling.Option.Item-Delay.Enable", true);
         Config.set("Grappling.Option.Item-Delay.Delay", 3);
         Config.set("Grappling.Option.Force", 1.0);
-        Config.set("Grappling.Option.Max-Distance", 30);
+        Config.set("Grappling.Option.Line-Speed", 2.0);
+        Config.set("Grappling.Option.Max-Distance", 45);
         Config.set("Grappling.Option.No-Fall-Damage", true);
         Config.set("Grappling.Sound.Enable", true);
         Config.set("Grappling.Sound.Sound", "ENTITY_BAT_TAKEOFF");
         Config.set("Grappling.Sound.Volume", 1);
         Config.set("Grappling.Sound.Pitch", 1);
+        // The feedback when the hook catches a block (since 1.5.6)
+        Config.set("Grappling.Hit.Sound.Enable", true);
+        Config.set("Grappling.Hit.Sound.Sound", "BLOCK_CHAIN_PLACE");
+        Config.set("Grappling.Hit.Sound.Volume", 1);
+        Config.set("Grappling.Hit.Sound.Pitch", 1.2);
+        Config.set("Grappling.Hit.Particles.Enable", true);
+        Config.set("Grappling.Hit.Particles.Particle", "CRIT");
+        Config.set("Grappling.Hit.Particles.Amount", 12);
+        Config.set("Grappling.Hit.Particles.Offset", 0.2);
+        Config.set("Grappling.Hit.Particles.Speed", 0.1);
+        Config.set("Grappling.Hit.Particles.Color", "255,255,255");
 
         Config.set("Grappling.Item.Title", "&6Grappling hook");
         Config.set("Grappling.Item.Lore", java.util.Arrays.asList(new String[] {

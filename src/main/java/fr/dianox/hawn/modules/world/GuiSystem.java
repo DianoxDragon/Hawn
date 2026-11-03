@@ -3,6 +3,7 @@ package fr.dianox.hawn.modules.world;
 import fr.dianox.hawn.utility.gui.HawnMenu;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.modules.admin.Setup;
 import fr.dianox.hawn.modules.admin.SetupUtils.Setup2World;
 import fr.dianox.hawn.modules.world.generator.Generators;
@@ -174,7 +175,7 @@ public class GuiSystem implements Listener {
 						} else {
 							WorldFolders.fixSpawn(Bukkit.getWorld(worldname));
 							Location location = Bukkit.getWorld(worldname).getSpawnLocation();
-							p.teleport(location);
+							Tasks.teleportAsync(p, location);
 							for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", worldname), "Gui.Tp.Success", "GuiSystem", false);
 							}
@@ -1068,7 +1069,7 @@ public class GuiSystem implements Listener {
 		if (plistincreation.remove(p.getUniqueId())) {
 			String worldname = name.trim().replace(" ", "_");
 
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+			Tasks.later(() -> {
 				if (!p.isOnline()) return;
 
 				// Letters, numbers, _ and -: the player types another name
@@ -1091,7 +1092,7 @@ public class GuiSystem implements Listener {
 		if (worldname != null) {
 			String generator = name.trim();
 
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+			Tasks.later(() -> {
 				if (p.isOnline()) {
 					PageCreateWorld(p, worldname, generator.isEmpty() || generator.contains(" ") ? "NOGENERATOR" : generator);
 				}

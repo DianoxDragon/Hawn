@@ -435,6 +435,11 @@ public class ConfigMMsg {
         Config.set("Custom-Join-Item.Error.Grappling.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaygrapplingcji% &c&lsecond(s)&7!"}));
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Enable", true);
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe hook is too far away!"}));
+        // The pearl mount (since 1.5.6)
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Please wait &4&l%timedelaypearlmountcji% &c&lsecond(s)&7!"}));
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe pearl mount only works between the heights &e%arg1% &cand &e%arg2%"}));
 
         /*
          * 

@@ -430,6 +430,11 @@ public class FRConfigMMsg {
         Config.set("Custom-Join-Item.Error.Grappling.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%timedelaygrapplingcji% &c&lseconde(s) &7!"}));
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Enable", true);
         Config.set("Custom-Join-Item.Error.Grappling.Too-Far.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLe grappin est trop loin !"}));
+        // The pearl mount (since 1.5.6)
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Time.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Veuillez patienter &4&l%timedelaypearlmountcji% &c&lseconde(s) &7!"}));
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Enable", true);
+        Config.set("Custom-Join-Item.Error.PearlMount.Height.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cLa monture perle ne marche qu'entre les hauteurs &e%arg1% &cet &e%arg2%"}));
 
         /*
          * PO

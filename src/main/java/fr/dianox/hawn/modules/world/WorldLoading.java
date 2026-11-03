@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.world;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.modules.world.generator.Generators;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral;
@@ -152,7 +153,8 @@ public final class WorldLoading {
 			target = Bukkit.getWorlds().get(0);
 		}
 		for (Player player : world.getPlayers()) {
-			player.teleport(target.getSpawnLocation());
+			// At once: the world is unloaded right after
+			Tasks.teleport(player, target.getSpawnLocation());
 			for (String msg : WorldDeletion.message("Gui.Unload-Moved", "%prefix% &7The world &e%arg1% &7was unloaded: you are now in &e%arg2%")) {
 				ConfigEventUtils.ExecuteEvent(player, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)).replace("%arg2%", target.getName()), "", "", false);
 			}

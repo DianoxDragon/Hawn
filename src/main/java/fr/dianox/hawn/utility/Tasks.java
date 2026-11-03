@@ -6,13 +6,27 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.lang.reflect.Method;
+import java.util.concurrent.CompletableFuture;
+
 /**
- * The one place where Hawn plans its tasks (since 1.5). The new code goes through it; the old code moves here
- * module by module. On Folia (1.6), only this class will have to choose the right scheduler.
+ * The one place where Hawn plans its tasks and teleports (since 1.5). Since 1.5.6, no other class calls the scheduler
+ * of Bukkit: on Folia (1.6), only this class will have to choose the right scheduler.
  */
 public final class Tasks {
 
 	private Tasks() {}
+
+	// Entity.teleportAsync of Paper, null on Spigot (since 1.5.6)
+	private static final Method TELEPORT_ASYNC = findTeleportAsync();
+
+	private static Method findTeleportAsync() {
+		try {
+			return Entity.class.getMethod("teleportAsync", Location.class);
+		} catch (NoSuchMethodException | SecurityException e) {
+			return null;
+		}
+	}
 
 	/**
 	 * On the main thread, now if already there.
@@ -57,6 +71,28 @@ public final class Tasks {
 	 */
 	public static boolean teleport(Entity entity, Location to) {
 		return entity.teleport(to);
+	}
+
+	/**
+	 * Teleports once the chunk of the destination is loaded (since 1.5.6): teleportAsync on Paper, at once on Spigot.
+	 * For the callers that don't read the new place of the entity right after: what depends on it goes in thenAccept,
+	 * which runs on the main thread. A location without world is refused like teleport does.
+	 */
+	@SuppressWarnings("unchecked")
+	public static CompletableFuture<Boolean> teleportAsync(Entity entity, Location to) {
+		if (to == null || to.getWorld() == null) {
+			throw new IllegalArgumentException("The location has no world");
+		}
+
+		if (TELEPORT_ASYNC != null) {
+			try {
+				return (CompletableFuture<Boolean>) TELEPORT_ASYNC.invoke(entity, to);
+			} catch (ReflectiveOperationException | ClassCastException e) {
+				// Teleported at once below
+			}
+		}
+
+		return CompletableFuture.completedFuture(entity.teleport(to));
 	}
 
 	public static void cancel(BukkitTask task) {

@@ -114,7 +114,8 @@ public class CustomJoinItem {
 	}
 
 	/**
-	 * The key of the join item that gives this special item (Special-HidePlayers, Special-FunGun, Special-LobbyBow, Special-Grappling) in
+	 * The key of the join item that gives this special item (Special-HidePlayers, Special-FunGun, Special-LobbyBow, Special-Grappling,
+	 * Special-PearlMount) in
 	 * the world of the player, null when none of them is for this world.
 	 */
 	public static String special(Player p, String special) {
@@ -196,13 +197,15 @@ public class CustomJoinItem {
 		give(p, true);
 	}
 
-	// The option of a special item (its tag): Special-HidePlayers, Special-FunGun, Special-LobbyBow, Special-Grappling; null for another item
+	// The option of a special item (its tag): Special-HidePlayers, Special-FunGun, Special-LobbyBow, Special-Grappling,
+	// Special-PearlMount; null for another item
 	private static String specialOf(ItemStack item) {
 		String id = JoinItemTag.id(item);
 		if (JoinItemTag.HIDEPLAYERS.equals(id)) return "Special-HidePlayers";
 		if (JoinItemTag.FUNGUN.equals(id)) return "Special-FunGun";
 		if (JoinItemTag.LOBBYBOW.equals(id)) return "Special-LobbyBow";
 		if (JoinItemTag.GRAPPLING.equals(id)) return "Special-Grappling";
+		if (JoinItemTag.PEARLMOUNT.equals(id)) return "Special-PearlMount";
 		return null;
 	}
 
@@ -350,6 +353,9 @@ public class CustomJoinItem {
 			return;
 		} else if (material.contains("Special-Grappling")) {
 			SpecialIteGrappling.PlayerGiveGrappling(p, slot);
+			return;
+		} else if (material.contains("Special-PearlMount")) {
+			SpecialItePearlMount.PlayerGivePearlMount(p, slot);
 			return;
 		} else if (material.contains("Special-Book")) {
 			

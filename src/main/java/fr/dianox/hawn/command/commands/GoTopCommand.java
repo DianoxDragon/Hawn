@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -80,7 +81,7 @@ public class GoTopCommand extends BukkitCommand {
         	Block b = p.getWorld().getHighestBlockAt(l.getBlockX(), l.getBlockZ());
         	
         	Location l2 = new Location(b.getLocation().getWorld(), b.getLocation().getBlockX(), b.getLocation().getBlockY() + 1, b.getLocation().getBlockZ());
-        	p.teleport(l2);
+        	Tasks.teleportAsync(p, l2);
         	
             if (ConfigMMsg.getConfig().getBoolean("Gotop.Enable")) {
                 for (String msg: ConfigMMsg.getConfig().getStringList("Gotop.Messages")) {

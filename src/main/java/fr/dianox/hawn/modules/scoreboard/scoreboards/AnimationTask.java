@@ -1,9 +1,9 @@
 package fr.dianox.hawn.modules.scoreboard.scoreboards;
 
 import fr.dianox.hawn.modules.scoreboard.ScoreManager;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class AnimationTask extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class AnimationTask implements Runnable {
 
 	private final String anim;
 	private final String scorename;

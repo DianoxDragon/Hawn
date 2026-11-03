@@ -41,7 +41,8 @@ plugins/Hawn/
 │   ├── en_US/
 │   ├── fr_FR/
 │   ├── de_DE/
-│   └── nl_NL/
+│   ├── nl_NL/
+│   └── es_ES/
 └── StockageInfo/               Data written by Hawn, don't edit it
 ```
 
@@ -112,6 +113,7 @@ See [Join and quit](../features/join-and-quit.md), [Lobby fun](../features/lobby
 | `Special-LobbyBow.yml`    | The lobby bow.                                            |
 | `Special-FunGun.yml`      | The fun gun.                                              |
 | `Special-Grappling.yml`   | The grappling hook (since 1.5.5).                         |
+| `Special-PearlMount.yml`  | The pearl mount (since 1.5.6).                            |
 
 See [Custom join items](../features/custom-join-items.md).
 

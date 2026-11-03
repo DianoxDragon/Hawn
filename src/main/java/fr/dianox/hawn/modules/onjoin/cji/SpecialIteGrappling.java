@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -35,6 +36,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * The grappling hook (since 1.5.5): a fishing rod thrown on a block pulls the player to it when reeled in. With a
  * cooldown, no fall damage after the pull, and only in the worlds of its join item, within Max-Distance blocks.
+ * Since 1.5.6, Line-Speed sets how fast the line goes, Hit plays a sound and particles when the hook catches a block,
+ * and the line is not thrown while the delay is not over.
  */
 public class SpecialIteGrappling implements Listener {
 
@@ -42,6 +45,8 @@ public class SpecialIteGrappling implements Listener {
 	// Until when a pulled player takes no fall damage
 	private static final Map<UUID, Long> noFall = new ConcurrentHashMap<>();
 	private static final long NO_FALL_MILLIS = 10000;
+	// The hook each player has just thrown, until it catches a block (for the Hit feedback)
+	private static final Map<UUID, UUID> thrown = new ConcurrentHashMap<>();
 
 	@EventHandler
 	public void onCLickInventory(InventoryClickEvent e) {
@@ -91,6 +96,23 @@ public class SpecialIteGrappling implements Listener {
 
 		FishHook hook = e.getHook();
 		String state = e.getState().name();
+
+		// The line is thrown: Line-Speed 2.0 sends it twice as fast
+		if (state.equals("FISHING")) {
+			// No throw while the delay is not over
+			if (SpecialCjiGrappling.getConfig().getBoolean("Grappling.Option.Item-Delay.Enable") && Cooling.contains(p)) {
+				e.setCancelled(true);
+				messages(p, "Custom-Join-Item.Error.Grappling.Time");
+				return;
+			}
+
+			double lineSpeed = SpecialCjiGrappling.getConfig().getDouble("Grappling.Option.Line-Speed", 1.0);
+			if (lineSpeed > 0 && lineSpeed != 1) {
+				hook.setVelocity(hook.getVelocity().multiply(lineSpeed));
+			}
+			thrown.put(p.getUniqueId(), hook.getUniqueId());
+			return;
+		}
 
 		// The hook does not pull the other players (nor the mobs) to the player
 		if (state.equals("CAUGHT_ENTITY")) {
@@ -142,10 +164,41 @@ public class SpecialIteGrappling implements Listener {
 		}
 	}
 
+	// The hook catches a block it can pull to: a sound and particles, once per throw
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onHookHit(ProjectileHitEvent e) {
+		if (!(e.getEntity() instanceof FishHook) || e.getHitBlock() == null || !(e.getEntity().getShooter() instanceof Player)) {
+			return;
+		}
+
+		Player p = (Player) e.getEntity().getShooter();
+		if (!thrown.remove(p.getUniqueId(), e.getEntity().getUniqueId())) {
+			return;
+		}
+
+		Location at = e.getEntity().getLocation();
+		if (!at.getWorld().equals(p.getWorld())
+				|| at.distance(p.getLocation()) > SpecialCjiGrappling.getConfig().getDouble("Grappling.Option.Max-Distance")) {
+			return;
+		}
+
+		if (SpecialCjiGrappling.getConfig().getBoolean("Grappling.Hit.Sound.Enable")) {
+			String sound = SpecialCjiGrappling.getConfig().getString("Grappling.Hit.Sound.Sound");
+			float volume = (float) SpecialCjiGrappling.getConfig().getDouble("Grappling.Hit.Sound.Volume");
+			float pitch = (float) SpecialCjiGrappling.getConfig().getDouble("Grappling.Hit.Sound.Pitch");
+			p.playSound(p.getLocation(), XParse.sound(sound, "Grappling.Hit.Sound.Sound"), volume, pitch);
+		}
+
+		if (SpecialCjiGrappling.getConfig().getBoolean("Grappling.Hit.Particles.Enable")) {
+			ParticleUtils.spawn(at, SpecialCjiGrappling.getConfig().getConfigurationSection("Grappling.Hit.Particles"), "Grappling.Hit.Particles");
+		}
+	}
+
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 		Cooling.remove(e.getPlayer());
 		noFall.remove(e.getPlayer().getUniqueId());
+		thrown.remove(e.getPlayer().getUniqueId());
 	}
 
 	/**

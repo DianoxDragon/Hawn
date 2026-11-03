@@ -11,14 +11,20 @@ import fr.dianox.hawn.utility.config.configs.events.VoidTPConfig;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import fr.dianox.hawn.utility.world.BasicEventsPW;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class VoidTPEvent implements Listener {
+
+	// The players on their way to the spawn (since 1.5.6)
+	private static final Set<UUID> teleporting = ConcurrentHashMap.newKeySet();
 
 	// A player under the limit moves many times per second: an error is shown once every 6 seconds
 	private static void warnOnce(Player p, Runnable message) {
@@ -28,7 +34,7 @@ public class VoidTPEvent implements Listener {
 
 		message.run();
 		Main.getInstance().getVoidTPManager().getAntispam().add(p);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+		Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 	}
 
 	// VoidTP
@@ -96,7 +102,7 @@ public class VoidTPEvent implements Listener {
 
 								Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+								Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 							}
 						}
 
@@ -122,7 +128,7 @@ public class VoidTPEvent implements Listener {
 
 									Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-									Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+									Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 								}
 							}
 
@@ -147,7 +153,7 @@ public class VoidTPEvent implements Listener {
 
 									Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-									Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+									Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 								}
 							}
 
@@ -178,7 +184,7 @@ public class VoidTPEvent implements Listener {
 
 								Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+								Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 							}
 						}
 
@@ -203,7 +209,7 @@ public class VoidTPEvent implements Listener {
 
 								Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+								Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 							}
 						}
 
@@ -234,7 +240,7 @@ public class VoidTPEvent implements Listener {
 
 							Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+							Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 						}
 					}
 
@@ -259,7 +265,7 @@ public class VoidTPEvent implements Listener {
 
 							Main.getInstance().getVoidTPManager().getAntispam().add(p);
 
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
+							Tasks.later(() -> Main.getInstance().getVoidTPManager().getAntispam().remove(p), 120);
 						}
 					}
 
@@ -295,48 +301,60 @@ public class VoidTPEvent implements Listener {
 
 			// 59: the world of the spawn is deleted or unloaded, no message, sound or command for a teleport that didn't happen
 			// ("VoidTP: false" for this world already stopped above)
-			if (!SpawnUtils.teleportToSpawn(p, spawn, false)) {
+			Location to = SpawnUtils.spawnLocation(p, spawn, false);
+			if (to == null) {
 				warnOnce(p, () -> MessageUtils.MessageNoSpawn(p));
 				return;
 			}
 
-			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {
-				if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Teleport.VoidTP")) {
-						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-					}
-				}
-			} else {
-				if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
-						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
-					}
-				}
+			// Through Tasks since 1.5.6: on Paper the player falls on while the chunk of the spawn loads, one teleport at a time
+			if (!teleporting.add(p.getUniqueId())) {
+				return;
 			}
 
-			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Sounds.Enable")) {
-				String sound = VoidTPConfig.getConfig().getString("VoidTP.Options.Sounds.Sound");
-				float volume = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Volume");
-				float pitch = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Pitch");
-				p.playSound(p.getLocation(), XParse.sound(sound, "VoidTP.Options.Sounds.Sound"), volume, pitch);
-			}
+			boolean onWorldList = multiworld;
+			Tasks.teleportAsync(p, to).whenComplete((done, error) -> Tasks.sync(() -> {
+				teleporting.remove(p.getUniqueId());
+				if (Boolean.TRUE.equals(done) && p.isOnline()) {
+					afterTeleport(p, onWorldList, w);
+				}
+			}));
+		}
 
-			if (multiworld) {
-				if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable") && VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable")) {
-					for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Commands")) {
+	}
+
+	// The messages, the sound, the commands and the fireworks, once the player is on the spawn
+	private static void afterTeleport(Player p, boolean multiworld, String w) {
+		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {
+			if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
+				for (String msg: ConfigMMsg.getConfig().getStringList("Teleport.VoidTP")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+			}
+		} else {
+			if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
+				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+				}
+			}
+		}
+
+		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Sounds.Enable")) {
+			String sound = VoidTPConfig.getConfig().getString("VoidTP.Options.Sounds.Sound");
+			float volume = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Volume");
+			float pitch = (float) VoidTPConfig.getConfig().getDouble("VoidTP.Options.Sounds.Pitch");
+			p.playSound(p.getLocation(), XParse.sound(sound, "VoidTP.Options.Sounds.Sound"), volume, pitch);
+		}
+
+		if (multiworld) {
+			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable") && VoidTPConfig.getConfig().isSet("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Enable")) {
+				for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Commands")) {
+					ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
+				}
+
+				if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Override-Default-Commands")) {
+					for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
 						ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
-					}
-
-					if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.VoidTP-Per-World.World-List." + w + ".Execute-Commands.Override-Default-Commands")) {
-						for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
-							ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
-						}
-					}
-				} else {
-					if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
-						for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
-							ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
-						}
 					}
 				}
 			} else {
@@ -346,19 +364,24 @@ public class VoidTPEvent implements Listener {
 					}
 				}
 			}
-
-			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Enable")) {
-				for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Firework-List")) {
-					if (s.startsWith("[FWLU]: ")) {
-
-						s = s.replace("[FWLU]: ", "");
-
-						OtherUtils.Fireworkmethod(p, s);
-					}
+		} else {
+			if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Execute-Commands.Enable")) {
+				for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Execute-Commands.Commands")) {
+					ConfigEventUtils.ExecuteEvent(p, s, "none", "voidtp", false);
 				}
 			}
 		}
 
+		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Fireworks.Enable")) {
+			for (String s: VoidTPConfig.getConfig().getStringList("VoidTP.Options.Fireworks.Firework-List")) {
+				if (s.startsWith("[FWLU]: ")) {
+
+					s = s.replace("[FWLU]: ", "");
+
+					OtherUtils.Fireworkmethod(p, s);
+				}
+			}
+		}
 	}
 
 }

@@ -10,7 +10,8 @@ import java.util.Objects;
 public class VoidTPManager {
 
 	public List<String> world_voidtp = new ArrayList<>();
-	public List<Player> antispam = new ArrayList<>();
+	// Safe for several threads (since 1.5.6)
+	public List<Player> antispam = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 	public VoidTPManager() {
 		load();

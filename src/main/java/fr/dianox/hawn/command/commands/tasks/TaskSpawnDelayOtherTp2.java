@@ -1,7 +1,6 @@
 package fr.dianox.hawn.command.commands.tasks;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -10,7 +9,8 @@ import fr.dianox.hawn.utility.SpawnUtils;
 import fr.dianox.hawn.utility.config.configs.ConfigSpawn;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMGeneral;
 
-public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class TaskSpawnDelayOtherTp2 implements Runnable {
 	
 	private Player p,
 			other;
@@ -58,7 +58,7 @@ public class TaskSpawnDelayOtherTp2 extends BukkitRunnable {
 		}
 		
 		// Teleport
-		SpawnUtils.teleportToSpawn(other, tp);
+		SpawnUtils.teleportToSpawnAsync(other, tp);
 		
 		// Messages
 		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {

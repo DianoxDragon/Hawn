@@ -242,6 +242,8 @@ public class FRAdminAMConfig {
         Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7a maintenant le rang &e%arg 2%"));
         Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7n'a plus de rang donné à la main"));
         Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &cn'a pas de rang donné à la main (ce sont les permissions ou LuckPerms)"));
+        // 123: a Bedrock name with a dot (since 1.5.6)
+        Config.set("Ranks.Name-With-Dot", java.util.Arrays.asList("%prefix% &e%arg 1% &ca un point dans son pseudo (Bedrock) : il doit être en ligne pour recevoir un rang, rangé sous son UUID"));
         Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1% &7: rang &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
         Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7est hors ligne. Rang donné à la main : &e%arg 2%"));
         Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7rang(s), le premier en haut de la tab list :"));

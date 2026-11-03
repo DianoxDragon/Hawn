@@ -41,7 +41,10 @@ public final class RankCommand {
 					say(sender, "Ranks.Unknown-Rank", args[3], String.join(", ", Ranks.all().keySet()));
 					return;
 				}
-				Ranks.setByHand(args[2], rank.name);
+				if (!Ranks.setByHand(args[2], rank.name)) {
+					say(sender, "Ranks.Name-With-Dot", args[2]);
+					return;
+				}
 				say(sender, "Ranks.Set", args[2], rank.name);
 				return;
 			case "remove":

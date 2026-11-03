@@ -70,14 +70,14 @@ final class RanksLuckPerms {
 			net.luckperms.api.event.EventBus bus = LuckPermsProvider.get().getEventBus();
 			subscription = bus.subscribe(net.luckperms.api.event.user.UserDataRecalculateEvent.class, e -> {
 				java.util.UUID id = e.getUser().getUniqueId();
-				org.bukkit.Bukkit.getScheduler().runTask(fr.dianox.hawn.Main.getInstance(), () -> {
+				fr.dianox.hawn.utility.Tasks.next(() -> {
 					Player p = org.bukkit.Bukkit.getPlayer(id);
 					if (p != null) Ranks.refresh(p, false);
 				});
 			});
 			// A group changed: every player online (a group can be inherited)
 			groupSubscription = bus.subscribe(net.luckperms.api.event.group.GroupDataRecalculateEvent.class, e ->
-				org.bukkit.Bukkit.getScheduler().runTask(fr.dianox.hawn.Main.getInstance(), () -> {
+				fr.dianox.hawn.utility.Tasks.next(() -> {
 					for (Player p : org.bukkit.Bukkit.getOnlinePlayers()) {
 						Ranks.refresh(p, false);
 					}

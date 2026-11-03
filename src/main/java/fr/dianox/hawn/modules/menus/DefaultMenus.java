@@ -21,7 +21,7 @@ final class DefaultMenus {
 			return;
 		}
 		String lang = String.valueOf(Main.LanguageType).toLowerCase(Locale.ROOT);
-		String[] t = lang.startsWith("fr") ? FR : lang.startsWith("de") ? DE : lang.startsWith("nl") ? NL : EN;
+		String[] t = lang.startsWith("fr") ? FR : lang.startsWith("de") ? DE : lang.startsWith("nl") ? NL : lang.startsWith("es") ? ES : EN;
 
 		save(new File(folder, "servers.yml"), servers(t));
 		save(new File(folder, "profile.yml"), profile(t));
@@ -248,4 +248,8 @@ final class DefaultMenus {
 			"Klik: je profiel", "Profiel van %player%", "Rang", "Wereld", "Speler nummer", "Verbindingen", "Level", "Vliegen", "Snelheid",
 			"Wie je ziet", "Linkerklik: iedereen, staff en VIP, niemand", "Rechterklik: weer iedereen", "Je hebt geen permissie",
 			"Servers", "Online", "Terug", "Het menu ervoor, of sluiten", "aan", "uit", "Klik om uit te zetten", "Klik om aan te zetten", "vergrendeld"};
+	private static final String[] ES = {"Elige un servidor", "Supervivencia", "jugadores", "Haz clic para entrar", "Minijuegos", "Red", "Cerrar",
+			"Clic: tu perfil", "Perfil de %player%", "Rango", "Mundo", "Jugador número", "Conexiones", "Nivel", "Vuelo", "Velocidad",
+			"A quién ves", "Clic izquierdo: todos, staff y VIP, nadie", "Clic derecho: todos otra vez", "No tienes permiso",
+			"Servidores", "Conectados", "Volver", "El menú anterior, o cerrar", "activado", "desactivado", "Haz clic para desactivarlo", "Haz clic para activarlo", "bloqueado"};
 }

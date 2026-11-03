@@ -1,6 +1,5 @@
 package fr.dianox.hawn.event;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +7,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.ConfigEventUtils;
 import fr.dianox.hawn.utility.config.configs.commands.SpawnCommandConfig;
 import fr.dianox.hawn.utility.config.configs.commands.WarpSetWarpCommandConfig;
@@ -41,7 +41,7 @@ public class CancelTPWarpSpawn implements Listener {
 	private void cancelTPWarpSpawn(Player p, String cause) {
 		if (Main.inwarpd.contains(p) && WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.Delay.Cancel-Tp-On." + cause)) {
 			if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-				Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+				Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 				Main.player_spawnwarpdelay.remove(p.getUniqueId());
 			}
 
@@ -55,7 +55,7 @@ public class CancelTPWarpSpawn implements Listener {
 			Main.inwarpd.remove(p);
 		} else if (Main.inspawnd.contains(p) && SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.Delay.Cancel-Tp-On." + cause)) {
 			if (Main.player_spawnwarpdelay.containsKey(p.getUniqueId())) {
-				Bukkit.getScheduler().cancelTask(Main.player_spawnwarpdelay.get(p.getUniqueId()));
+				Tasks.cancel(Main.player_spawnwarpdelay.get(p.getUniqueId()));
 				Main.player_spawnwarpdelay.remove(p.getUniqueId());
 			}
 

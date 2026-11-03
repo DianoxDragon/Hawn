@@ -40,6 +40,9 @@ public final class MenuItems {
 	// The heads with a skin, prepared once: a texture (Base64, URL), or a player not connected, found in the background
 	private static final Map<String, ItemStack> heads = new ConcurrentHashMap<>();
 	private static final Set<String> loading = ConcurrentHashMap.newKeySet();
+	// 121: a player Mojang doesn't give is not asked again at each refresh, only after a few minutes
+	private static final Map<String, Long> failed = new ConcurrentHashMap<>();
+	private static final long RETRY_MILLIS = 5 * 60 * 1000L;
 
 	private static Method itemModel;
 	private static Method glint;
@@ -131,7 +134,12 @@ public final class MenuItems {
 
 		boolean name = NAME.matcher(value).matches();
 		if (name || ID.matcher(value).matches()) {
+			Long until = failed.get(value);
+			if (until != null && until > System.currentTimeMillis()) {
+				return base;
+			}
 			if (loading.add(value)) {
+				failed.remove(value);
 				lookup(value, name);
 			}
 			return base;
@@ -164,19 +172,23 @@ public final class MenuItems {
 				future = XSkull.createItem().profile(profile).lenient().applyAsync();
 			}
 		} catch (Throwable t) {
+			failed.put(value, System.currentTimeMillis() + RETRY_MILLIS);
 			loading.remove(value);
 			Debug.hidden("Menus head " + value, t);
 			return;
 		}
 
 		future.whenComplete((item, error) -> {
-			loading.remove(value);
 			if (item != null) {
 				heads.put(value, item);
 				Tasks.sync(Menus::refreshOpen);
-			} else if (error != null) {
-				Debug.hidden("Menus head " + value, error);
+			} else {
+				failed.put(value, System.currentTimeMillis() + RETRY_MILLIS);
+				if (error != null) {
+					Debug.hidden("Menus head " + value, error);
+				}
 			}
+			loading.remove(value);
 		});
 	}
 

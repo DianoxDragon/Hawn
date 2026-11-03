@@ -15,6 +15,7 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.*;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiGrappling;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiPearlMount;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.configs.events.*;
@@ -121,6 +122,7 @@ public class Reload {
 		SpeedCommandConfig.reloadConfig();
 		SpecialCjiFunGun.reloadConfig();
 		SpecialCjiGrappling.reloadConfig();
+		SpecialCjiPearlMount.reloadConfig();
 		WorldCommandConfig.reloadConfig();
 		ConfigWorldGeneral.reloadConfig();
 		WorldManagerPanelConfig.reloadConfig();

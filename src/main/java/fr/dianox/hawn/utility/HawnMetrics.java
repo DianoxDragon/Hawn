@@ -10,6 +10,7 @@ import fr.dianox.hawn.utility.config.configs.cosmeticsfun.ConfigGLP;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.ConfigCJIGeneral;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiFunGun;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiGrappling;
+import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiPearlMount;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiHidePlayers;
 import fr.dianox.hawn.utility.config.configs.customjoinitem.SpecialCjiLobbyBow;
 import fr.dianox.hawn.utility.config.configs.events.OnChatConfig;
@@ -50,6 +51,7 @@ public final class HawnMetrics {
 		add(modules, "Lobby bow", joinItems && special("Special-LobbyBow") && on(SpecialCjiLobbyBow.getConfig(), "LobbyBow.Enable"));
 		add(modules, "Fun gun", joinItems && special("Special-FunGun") && on(SpecialCjiFunGun.getConfig(), "FunGun.Enable"));
 		add(modules, "Grappling hook", joinItems && special("Special-Grappling") && on(SpecialCjiGrappling.getConfig(), "Grappling.Enable"));
+		add(modules, "Pearl mount", joinItems && special("Special-PearlMount") && on(SpecialCjiPearlMount.getConfig(), "PearlMount.Enable"));
 
 		add(modules, "Scoreboard", on(ScoreboardMainConfig.getConfig(), "Scoreboard.Enable"));
 		add(modules, "Tab list", on(TablistConfig.getConfig(), "Tablist.enable"));

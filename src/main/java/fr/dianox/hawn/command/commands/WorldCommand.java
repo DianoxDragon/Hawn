@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.modules.world.DefaultWorld;
 import fr.dianox.hawn.modules.world.WorldLoading;
 import fr.dianox.hawn.command.commands.tab.Tab;
@@ -174,7 +175,7 @@ public class WorldCommand extends BukkitCommand {
 		                World world = Bukkit.getWorld(worldname);
 		                WorldFolders.fixSpawn(world);
 		                Location location = world.getSpawnLocation();
-		                p.teleport(location);
+		                Tasks.teleportAsync(p, location);
 
 		                for (String msg : WorldManagerPanelConfig.getConfig().getStringList("Gui.Tp.Success")) {
 			                ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);

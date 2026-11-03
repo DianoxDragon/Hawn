@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.world;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.StringUtils;
 import org.bukkit.Bukkit;
 
@@ -54,7 +55,7 @@ public final class WorldSizes {
 		}
 		if (todo.isEmpty()) return;
 
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+		Tasks.async(() -> {
 			try {
 				for (File folder : todo) {
 					long size = 0;
@@ -70,7 +71,7 @@ public final class WorldSizes {
 			}
 
 			if (Main.getInstance().isEnabled()) {
-				Bukkit.getScheduler().runTask(Main.getInstance(), done);
+				Tasks.next(done);
 			}
 		});
 	}

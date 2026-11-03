@@ -224,6 +224,7 @@ public class OnQuit implements Listener {
 		Main.hiderCooldowns.remove(p);
 		Main.fungunCooldowns.remove(p);
 		Main.grapplingCooldowns.remove(p);
+		Main.pearlMountCooldowns.remove(p);
 		Main.buildbypasscommand.remove(p);
 		HawnCommand.noclip.remove(p);
 		HawnCommand.slotview.remove(p);

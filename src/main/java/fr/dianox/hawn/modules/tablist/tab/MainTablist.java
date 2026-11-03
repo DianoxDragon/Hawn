@@ -7,13 +7,13 @@ import fr.dianox.hawn.utility.PlaceHolders;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainTablist extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6)
+public class MainTablist implements Runnable {
 
 	@Override
 	public void run() {

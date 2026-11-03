@@ -245,6 +245,8 @@ public class DEAdminAMConfig {
         Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7hat jetzt den Rang &e%arg 2%"));
         Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7hat keinen von Hand gegebenen Rang mehr"));
         Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &chat keinen von Hand gegebenen Rang (die Rechte oder LuckPerms geben ihn)"));
+        // 123: a Bedrock name with a dot (since 1.5.6)
+        Config.set("Ranks.Name-With-Dot", java.util.Arrays.asList("%prefix% &e%arg 1% &chat einen Punkt im Namen (Bedrock): der Spieler muss online sein, um einen Rang zu bekommen, gespeichert unter seiner UUID"));
         Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1%&7: Rang &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
         Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7ist offline. Von Hand gegebener Rang: &e%arg 2%"));
         Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7Rang/Ränge, der erste oben in der Tabliste:"));

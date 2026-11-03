@@ -4,6 +4,28 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.6 BETA
+
+### New
+
+* A new special item, the pearl mount (`Special-PearlMount`): a right click throws an ender pearl that is never used up. The player rides it and steers it with their look (`Steer`), and gets off with a right click again or by sneaking; or, with `Ride: false`, they are teleported where it lands, without damage nor endermite. A trail of particles follows the pearl (`Trail`, a purple `DUST` by default). The flight stops after `Max-Seconds`, `Max-Distance` blocks or out of the `Height` range (off by default), with a delay between two flights (`%timedelaypearlmountcji%`), no fall damage after it, and only in the worlds of its join item. Its options are in `CustomJoinItem/Special-PearlMount.yml`. See [Custom join items](../features/custom-join-items.md#pearl-mount-special-pearlmount).
+* The grappling hook throws its line faster (`Line-Speed`, 2.0 by default), and a sound and particles tell when the hook catches a block it can pull to (`Hit` in `CustomJoinItem/Special-Grappling.yml`).
+* Spanish: Hawn now comes with `Messages/es_ES`, next to English, French, German and Dutch. Choose it in the welcome setup (the Spanish flag) or with `Plugin.Language-Type: es_ES` in `general.yml`. The menus written the first time (`Menus/servers.yml` and `Menus/profile.yml`) are in Spanish too. See [Translating Hawn](translating.md).
+
+### Improved
+
+* `/spawn`, `/warp`, the void TP, `/gotop`, the world manager and Edit Player load the chunk of the destination before the teleport on Paper, instead of freezing the server while it loads.
+* The grappling hook doesn't throw its line any more while its delay is not over. Its default `Max-Distance` is 45 blocks (a file that already has 30 keeps it).
+* The scoreboards, the tab lists, the ranks, the world manager, MySQL, the server selector and the TPS warnings plan their tasks like the rest of Hawn: nothing calls the scheduler of Bukkit directly any more, to prepare Folia in Hawn 1.6.
+
+### Fixes
+
+* Two ranks (or two players with LuckPerms) whose names begin the same way shared a team: the wrong prefix above the head.
+* A menu with a `{anim_<name>}` whose animation doesn't exist was drawn again at every tick.
+* A head of a player Mojang doesn't know was asked again at each refresh of the menu: it is asked again after 5 minutes now.
+* A player refused by the server at the last moment (ban, whitelist, full server) still took a join number (`%player_join_number%`).
+* `/hawn rank set` with a Bedrock name like `.Steve` broke `Ranks.yml`: such a player must be online, their rank is kept under their UUID.
+
 ## 1.5.5 BETA
 
 ### New

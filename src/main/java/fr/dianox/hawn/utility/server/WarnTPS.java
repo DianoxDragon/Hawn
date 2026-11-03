@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility.server;
 
+import fr.dianox.hawn.utility.Tasks;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -7,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -38,33 +39,29 @@ public class WarnTPS {
 
 		public static void runWarnSystemTask(Main plugin) {
 
-			new BukkitRunnable() {
+			Tasks.timer(() -> {
+				double ticks = Tps.getTPS();
+				long now = System.currentTimeMillis();
 
-				public void run() {
-					double ticks = Tps.getTPS();
-					long now = System.currentTimeMillis();
-
-					// At most one warning (and one emergency save) per minute, not every 3 seconds
-					if (ticks <= criticalAt()) {
-						if (now - lastCritical >= 60000L) {
-							lastCritical = now;
-							onCritique();
-							// 71: off by default, saving everything while the server lags makes it worse
-							if (cfg().getBoolean("Plugin.Tps.Emergency-Save.Enable")) {
-								emergencySave(plugin);
-							}
-						}
-					} else if (ticks <= warningAt()) {
-						if (now - lastWarning >= 60000L) {
-							lastWarning = now;
-							onPrevient();
+				// At most one warning (and one emergency save) per minute, not every 3 seconds
+				if (ticks <= criticalAt()) {
+					if (now - lastCritical >= 60000L) {
+						lastCritical = now;
+						onCritique();
+						// 71: off by default, saving everything while the server lags makes it worse
+						if (cfg().getBoolean("Plugin.Tps.Emergency-Save.Enable")) {
+							emergencySave(plugin);
 						}
 					}
-
+				} else if (ticks <= warningAt()) {
+					if (now - lastWarning >= 60000L) {
+						lastWarning = now;
+						onPrevient();
+					}
 				}
 
 			// On the main thread: the saves and the actions of the messages need it
-			}.runTaskTimer(plugin, 40L, 60L);
+			}, 40L, 60L);
 
 		}
 
@@ -94,30 +91,29 @@ public class WarnTPS {
 			Deque<Player> playerQueue = new ArrayDeque<>(players ? Bukkit.getOnlinePlayers() : java.util.Collections.<Player>emptyList());
 			saving = true;
 
-			new BukkitRunnable() {
-				public void run() {
-					if (!worldQueue.isEmpty()) {
-						World world = worldQueue.poll();
-						// Unloaded since
-						if (Bukkit.getWorld(world.getUID()) != null) {
-							world.save();
-						}
-						return;
+			BukkitTask[] task = new BukkitTask[1];
+			task[0] = Tasks.timer(() -> {
+				if (!worldQueue.isEmpty()) {
+					World world = worldQueue.poll();
+					// Unloaded since
+					if (Bukkit.getWorld(world.getUID()) != null) {
+						world.save();
 					}
+					return;
+				}
 
-					for (int i = 0; i < PLAYERS_PER_TICK && !playerQueue.isEmpty(); i++) {
-						Player p = playerQueue.poll();
-						if (p.isOnline()) {
-							p.saveData();
-						}
-					}
-
-					if (playerQueue.isEmpty()) {
-						saving = false;
-						cancel();
+				for (int i = 0; i < PLAYERS_PER_TICK && !playerQueue.isEmpty(); i++) {
+					Player p = playerQueue.poll();
+					if (p.isOnline()) {
+						p.saveData();
 					}
 				}
-			}.runTaskTimer(plugin, 1L, 1L);
+
+				if (playerQueue.isEmpty()) {
+					saving = false;
+					Tasks.cancel(task[0]);
+				}
+			}, 1L, 1L);
 		}
 
 		private static String shown(double threshold) {

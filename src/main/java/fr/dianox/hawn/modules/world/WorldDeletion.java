@@ -1,6 +1,7 @@
 package fr.dianox.hawn.modules.world;
 
 import fr.dianox.hawn.Main;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.messages.WorldManagerPanelConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -37,7 +38,8 @@ public class WorldDeletion {
 	public static boolean delete(World world) {
 		World main = Bukkit.getWorlds().get(0);
 		for (Player player : world.getPlayers()) {
-			player.teleport(main.getSpawnLocation());
+			// At once: the world is unloaded right after
+			Tasks.teleport(player, main.getSpawnLocation());
 		}
 
 		// Recent Paper versions: getWorldFolder() is a dimension folder, see WorldFolders
@@ -64,12 +66,12 @@ public class WorldDeletion {
 		String path = path(folder);
 		deleting.add(path);
 
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+		Tasks.async(() -> {
 			if (!deleteDirectory(folder)) {
 				Main.getInstance().getLogger().warning("Could not delete the whole folder " + folder.getPath());
 			}
 
-			Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+			Tasks.next(() -> {
 				deleting.remove(path);
 				refreshMenus();
 			});

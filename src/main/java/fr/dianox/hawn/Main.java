@@ -49,7 +49,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -98,9 +97,10 @@ public class Main extends JavaPlugin implements Listener {
 	// The fun features and the special items: safe for several threads (since 1.5.5)
 	public static List<Player> injumpwithjumppad = new java.util.concurrent.CopyOnWriteArrayList<>();
 	
-	public static HashMap<UUID, Integer> player_spawnwarpdelay = new HashMap<>();
-	public static List<Player> inwarpd = new ArrayList<>();
-	public static List<Player> inspawnd = new ArrayList<>();
+	// The /spawn and /warp delays: safe for several threads (since 1.5.6)
+	public static Map<UUID, Integer> player_spawnwarpdelay = new java.util.concurrent.ConcurrentHashMap<>();
+	public static List<Player> inwarpd = new java.util.concurrent.CopyOnWriteArrayList<>();
+	public static List<Player> inspawnd = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 	// A /spawn or /warp delay is over (teleported, cancelled or failed): moving no longer says "teleport cancelled"
 	public static void endTeleportDelay(Player p) {
@@ -115,6 +115,7 @@ public class Main extends JavaPlugin implements Listener {
     public static HashMap<Player, Long> hiderCooldowns = new HashMap<>();
     public static Map<Player, Long> fungunCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     public static Map<Player, Long> grapplingCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
+    public static Map<Player, Long> pearlMountCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     
     public static HashMap<Player, Integer> TaskVanishAB = new HashMap<>();
 
@@ -203,7 +204,7 @@ public class Main extends JavaPlugin implements Listener {
 		ChatEmojisLoad.onLoad();
 		
 		// Version
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
+		Tasks.timer(new Tps(), 100L, 1L);
 
 		if (ConfigGeneral.getConfig().getBoolean("Plugin.Tps.Warn-system")) {
 			WarnTPS.runWarnSystemTask(this);
@@ -241,12 +242,7 @@ public class Main extends JavaPlugin implements Listener {
 		new AutoBroadcastManager();
 	    
 	    // Every 5 hours, off the main thread
-	    new BukkitRunnable() {
-	    	@Override
-	    	public void run() {
-	    		UpdateCheckReload();
-	    	}
-	    }.runTaskTimerAsynchronously(this, 360000, 360000);
+	    Tasks.asyncTimer(Main::UpdateCheckReload, 360000, 360000);
 	    
 	    indj.clear();
 	    OnCommandEvent.cooldowncommands.clear();
@@ -272,25 +268,18 @@ public class Main extends JavaPlugin implements Listener {
 
 	    date = OtherUtils.getDate();
 	    
-	    new BukkitRunnable() {
-
-	    	@Override
-			public void run() {
-	    		date = OtherUtils.getDate();	    		
-	    	}
-
-	    }.runTaskTimer(this, 0, 600);
+	    Tasks.timer(() -> date = OtherUtils.getDate(), 0, 600);
 	    
 	    HawnCommand.slotview.clear();
 	    injumpwithjumppad.clear();
 	    avoidtitles.clear();
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Day.Enable")) {
-	    	new AlwaysDayTask().runTaskTimer(this, 20, 10000L);
+	    	Tasks.timer(new AlwaysDayTask(), 20, 10000L);
 	    }
 	    
 	    if (WorldEventConfig.getConfig().getBoolean("World.Time.Always-Night.Enable")) {
-	    	new AlwaysNightTask().runTaskTimer(this, 20, 7000L);
+	    	Tasks.timer(new AlwaysNightTask(), 20, 7000L);
 	    }
 	    
 	    /*
@@ -304,13 +293,13 @@ public class Main extends JavaPlugin implements Listener {
 
 	    // Ranks.yml; one tick later, again if TAB or NametagEdit was enabled after Hawn (Enable: AUTO)
 	    fr.dianox.hawn.modules.ranks.Ranks.load();
-	    Bukkit.getScheduler().runTask(this, fr.dianox.hawn.modules.ranks.Ranks::recheckPlugins);
+	    Tasks.next(fr.dianox.hawn.modules.ranks.Ranks::recheckPlugins);
 
 	    // The menus of Menus/ (since 1.5), and the items of Nexo in the join items and the menus (one tick later: Nexo
 	    // may be enabled after Hawn)
 	    fr.dianox.hawn.modules.menus.Menus.load();
 	    fr.dianox.hawn.hook.CustomItems.load();
-	    Bukkit.getScheduler().runTask(this, fr.dianox.hawn.hook.CustomItems::load);
+	    Tasks.next(fr.dianox.hawn.hook.CustomItems::load);
 
 	    /*
 	     * Custom join item
@@ -331,6 +320,8 @@ public class Main extends JavaPlugin implements Listener {
 		super.onDisable();
 
 		fr.dianox.hawn.modules.onjoin.JoinNumbers.stop();
+		// The riders of a pearl mount get off: the pearl would teleport them later
+		fr.dianox.hawn.modules.onjoin.cji.SpecialItePearlMount.stopAll();
 		// The menus of Hawn are closed: no menu stays open without its plugin
 		for (org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
 			if (fr.dianox.hawn.utility.gui.HawnMenu.isMenu(p.getOpenInventory().getTopInventory())) {
@@ -401,7 +392,7 @@ public class Main extends JavaPlugin implements Listener {
 		}
 
 		// Again every 6 hours: a server that runs for days still learns that a new version is out
-		Bukkit.getScheduler().runTaskTimerAsynchronously(getInstance(), () -> {
+		Tasks.asyncTimer(() -> {
 			boolean before = updateAvailable();
 			UpdateCheckReload();
 			if (!before && updateAvailable()) {
@@ -413,7 +404,7 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskAsynchronously(getInstance(), () -> {
+		Tasks.async(() -> {
 			UpdateChecker updater = new UpdateChecker(Main.getInstance(), 66907);
 			try {
 				if (updater.checkForUpdates()) {
@@ -461,7 +452,7 @@ public class Main extends JavaPlugin implements Listener {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskLater(getInstance(), () -> {
+		Tasks.later(() -> {
 			if (!p.isOnline()) {
 				return;
 			}

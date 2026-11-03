@@ -4,8 +4,8 @@ import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.tablist.tab.AnimationTabTask;
 import fr.dianox.hawn.modules.tablist.tab.MainTablist;
 import fr.dianox.hawn.modules.tablist.tab.TablistLayout;
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -47,7 +47,7 @@ public class TabManager {
 		}
 		loadLayouts(plugin);
 
-		BukkitTask tablistmain = new MainTablist().runTaskTimer(plugin, 20L, Math.max(1L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks")));
+		BukkitTask tablistmain = Tasks.timer(new MainTablist(), 20L, Math.max(1L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks")));
 		tablistnumber = tablistmain.getTaskId();
 	}
 
@@ -58,7 +58,7 @@ public class TabManager {
 			if (!section.isConfigurationSection(anim)) continue; // Enable
 
 			AnimationTabTask task = new AnimationTabTask(section.getStringList(anim + ".text"));
-			tasks.add(task.runTaskTimer(plugin, 20, Math.max(1, section.getInt(anim + ".refresh-time-ticks", 20))));
+			tasks.add(Tasks.timer(task, 20, Math.max(1, section.getInt(anim + ".refresh-time-ticks", 20))));
 			animations.put(prefix + anim, task);
 		}
 	}
@@ -119,10 +119,10 @@ public class TabManager {
 	}
 
 	public void stop() {
-		Bukkit.getScheduler().cancelTask(tablistnumber);
+		Tasks.cancel(tablistnumber);
 
 		for (BukkitTask task : tasks) {
-			task.cancel();
+			Tasks.cancel(task);
 		}
 
 		tasks.clear();

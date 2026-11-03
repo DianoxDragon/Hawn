@@ -243,6 +243,8 @@ public class ConfigMAdmin {
         Config.set("Ranks.Set", java.util.Arrays.asList("%prefix% &e%arg 1% &7has the rank &e%arg 2% &7now"));
         Config.set("Ranks.Removed", java.util.Arrays.asList("%prefix% &e%arg 1% &7no longer has a rank given by hand"));
         Config.set("Ranks.No-Rank-By-Hand", java.util.Arrays.asList("%prefix% &e%arg 1% &chas no rank given by hand (the permissions or LuckPerms give it)"));
+        // 123: a Bedrock name with a dot (since 1.5.6)
+        Config.set("Ranks.Name-With-Dot", java.util.Arrays.asList("%prefix% &e%arg 1% &chas a dot in their name (Bedrock): they must be online to get a rank, kept under their UUID"));
         Config.set("Ranks.Info", java.util.Arrays.asList("%prefix% &e%arg 1%&7: rank &e%arg 2% &7(%arg 3%) &8| &r%arg 4%"));
         Config.set("Ranks.Info-Offline", java.util.Arrays.asList("%prefix% &e%arg 1% &7is offline. Rank given by hand: &e%arg 2%"));
         Config.set("Ranks.List-Header", java.util.Arrays.asList("%prefix% &e%arg 1% &7rank(s), the first one at the top of the tab list:"));

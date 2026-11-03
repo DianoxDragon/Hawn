@@ -8,17 +8,20 @@ import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.utility.PlaceHolders;
 import me.clip.placeholderapi.PlaceholderAPI;
 import fr.dianox.hawn.utility.StringUtils;
+import fr.dianox.hawn.utility.Tasks;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreTask extends BukkitRunnable {
+// Planned through Tasks (since 1.5.6): it stops itself with its own handle
+public class ScoreTask implements Runnable {
 
 	private final ScoreManager scoreManager;
 	private final FastBoard board;
 	private final Player p;
+	private BukkitTask task;
 
 	public ScoreTask(ScoreManager scoreManager, FastBoard board, Player p) {
 		this.scoreManager = scoreManager;
@@ -26,10 +29,19 @@ public class ScoreTask extends BukkitRunnable {
 		this.p = p;
 	}
 
+	/**
+	 * The scoreboard of a player, every period ticks.
+	 */
+	public static BukkitTask start(ScoreManager scoreManager, FastBoard board, Player p, long period) {
+		ScoreTask runnable = new ScoreTask(scoreManager, board, p);
+		runnable.task = Tasks.timer(runnable, 0, period);
+		return runnable.task;
+	}
+
 	@Override
 	public void run() {
 		if (board.isDeleted() || !p.isOnline()) {
-			cancel();
+			Tasks.cancel(task);
 			return;
 		}
 
