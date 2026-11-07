@@ -7,7 +7,56 @@ import fr.dianox.hawn.SQL;
 import fr.dianox.hawn.utility.config.configs.events.OnJoinConfig;
 
 public class PlayerOptionSQLClass {
-	
+
+    /**
+     * With MySQL (since 1.5.7): the options of the player, maybe changed on another server of the network, are copied
+     * into their file when they join, before anything reads them. Every change already writes both.
+     */
+    public static void syncFromMySQL(Player p) {
+        String uuid = p.getUniqueId().toString();
+
+        syncBoolean(uuid, "player_speed", "Activate", true);
+        syncInt(uuid, "player_speed", "value");
+        syncBoolean(uuid, "player_fly_speed", "Activate", true);
+        syncInt(uuid, "player_fly_speed", "value");
+        syncBoolean(uuid, "player_option_fly", "Activate", false);
+        syncBoolean(uuid, "player_option_doublejump", "Activate", false);
+        syncBoolean(uuid, "player_option_jumpboost", "Activate", false);
+        syncBoolean(uuid, "player_option_autobc", "Activate", false);
+        syncBoolean(uuid, "player_option_keep_sb", "Activate", false);
+        String scoreboard = SQL.cachedValue("player_option_keep_sb", "Scoreboard", uuid);
+        if (scoreboard != null) {
+            ConfigPlayerGet.writeString(uuid, "player_option_keep_sb.Scoreboard", scoreboard);
+        }
+        syncBoolean(uuid, "player_vanish", "vanished", false);
+        syncInt(uuid, "player_gamemode", "gamemode_state");
+        syncInt(uuid, "player_option_number_connections", "number");
+
+        // TRUE, FALSE or STAFF (the third state of the player visibility)
+        String pv = SQL.cachedValue("player_option_pv", "Activate", uuid);
+        if (pv != null) {
+            ConfigPlayerGet.writeBoolean(uuid, "player_option_pv.Activate", !pv.equalsIgnoreCase("FALSE"));
+            ConfigPlayerGet.writeString(uuid, "player_option_pv.Mode", PlayerVisibility.fromValue(pv).name());
+        }
+    }
+
+    // onlyTrue: TRUE is on (the speeds), else anything but FALSE is on (as their Save methods write it)
+    private static void syncBoolean(String uuid, String table, String column, boolean onlyTrue) {
+        String value = SQL.cachedValue(table, column, uuid);
+        if (value != null) {
+            ConfigPlayerGet.writeBoolean(uuid, table + "." + column, onlyTrue ? value.equalsIgnoreCase("TRUE") : !value.equalsIgnoreCase("FALSE"));
+        }
+    }
+
+    private static void syncInt(String uuid, String table, String column) {
+        String value = SQL.cachedValue(table, column, uuid);
+        if (value != null) {
+            try {
+                ConfigPlayerGet.writeInt(uuid, table + "." + column, (int) Double.parseDouble(value.trim()));
+            } catch (NumberFormatException ignored) {}
+        }
+    }
+
     /*
      * Player Option fly Speed
      */

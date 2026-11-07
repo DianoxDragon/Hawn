@@ -143,17 +143,19 @@ public class EmojiesCommand extends BukkitCommand {
                     		stringcheck.add(string);
                     	}
                     	
-                    	Displayname = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Title");
+                    	// An emoji added by hand without its Gui part (since 1.5.7): its name, and paper
+                    	String guiMaterial = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material", "PAPER");
+                    	Displayname = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Title", "&e" + string);
                     	Displayname = MessageUtils.colourTheStuff(Displayname);
 
                     	if (HooksManager.papi()) {
                             Displayname = PlaceholderAPI.setPlaceholders(p, Displayname);
                         }
                     	
-                    	if (EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("SKULL") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("LEGACY_SKULL") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("SKULL_ITEM") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
+                    	if (guiMaterial.equalsIgnoreCase("SKULL") ||
+                                guiMaterial.equalsIgnoreCase("LEGACY_SKULL") ||
+                                guiMaterial.equalsIgnoreCase("SKULL_ITEM") ||
+                                guiMaterial.equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
 
                                 if (EmojisListCUtility.getConfig().isSet("Emojis-list." + string + ".Gui.Skull-Name")) {
                                     String skullname = EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Skull-Name");
@@ -169,17 +171,17 @@ public class EmojiesCommand extends BukkitCommand {
                             } else {
 
                             	if (EmojisListCUtility.getConfig().isSet("Emojis-list." + string + ".Gui.Data-value")) {
-                        			ref1 = new ItemStack(XParse.material(EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material"), "Emojis-list." + string + ".Gui.Material"), 1, (short) EmojisListCUtility.getConfig().getInt("Emojis-list." + string + ".Gui.Data-value"));
+                        			ref1 = new ItemStack(XParse.material(guiMaterial, "Emojis-list." + string + ".Gui.Material"), 1, (short) EmojisListCUtility.getConfig().getInt("Emojis-list." + string + ".Gui.Data-value"));
                         		} else {
-                        			ref1 = new ItemStack(XParse.material(EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material"), "Emojis-list." + string + ".Gui.Material"));
+                        			ref1 = new ItemStack(XParse.material(guiMaterial, "Emojis-list." + string + ".Gui.Material"));
                         		}
                                 metaref1 = ref1.getItemMeta();
                             }
 
-                            if (EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("SKULL") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("LEGACY_SKULL") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("SKULL_ITEM") ||
-                                EmojisListCUtility.getConfig().getString("Emojis-list." + string + ".Gui.Material").equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
+                            if (guiMaterial.equalsIgnoreCase("SKULL") ||
+                                guiMaterial.equalsIgnoreCase("LEGACY_SKULL") ||
+                                guiMaterial.equalsIgnoreCase("SKULL_ITEM") ||
+                                guiMaterial.equalsIgnoreCase("LEGACY_SKULL_ITEM")) {
 
                                 if (EmojisListCUtility.getConfig().isSet("Emojis-list." + string + ".Gui.Skull-Name")) {
                                     if (EmojisListCUtility.getConfig().isSet("Emojis-list." + string + ".Gui.Lore")) {

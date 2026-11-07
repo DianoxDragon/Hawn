@@ -112,7 +112,8 @@ public class Main extends JavaPlugin implements Listener {
     public static List<Player> buildbypasscommand = new ArrayList<>();
     public static List<Player> avoidtitles = new ArrayList<>();
 
-    public static HashMap<Player, Long> hiderCooldowns = new HashMap<>();
+    // Read by %timedelaypvcji%, which can be asked outside the main thread (the chat, PlaceholderAPI)
+    public static Map<Player, Long> hiderCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     public static Map<Player, Long> fungunCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     public static Map<Player, Long> grapplingCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
     public static Map<Player, Long> pearlMountCooldowns = new java.util.concurrent.ConcurrentHashMap<>();
@@ -240,9 +241,8 @@ public class Main extends JavaPlugin implements Listener {
 	    
 	    // broadcast
 		new AutoBroadcastManager();
-	    
-	    // Every 5 hours, off the main thread
-	    Tasks.asyncTimer(Main::UpdateCheckReload, 360000, 360000);
+
+	    // The update check runs again every 6 hours (UpdateCheck), not twice (since 1.5.7)
 	    
 	    indj.clear();
 	    OnCommandEvent.cooldowncommands.clear();

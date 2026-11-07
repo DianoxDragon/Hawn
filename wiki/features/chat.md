@@ -133,7 +133,8 @@ Emojis-list:
 * The player needs **`hawn.chat.emoji`** to use emojis at all.
 * With `Use_Permission: true`, each emoji also needs **`hawn.emoji.<emoji key>`** (`hawn.emoji.Heart` above).
 * Add as many emojis as you want. The replacement ignores upper and lower case.
-* `Gui.Material` accepts a player head with `Skull-Name` (`%player%` for the player's own head).
+* `Gui.Material` accepts a player head with `Skull-Name` (`%player%` for the player's own head). Without a `Gui` part, `/emoji` shows the emoji on paper with its name.
+* An emoji without `Shape`, or an empty word in `Replace_With`, is skipped with a warning in the console.
 
 `/emoji` opens a menu with every emoji the player can use. Emojis also work on signs, see [Lobby fun](lobby-fun.md#coloured-signs-and-emoji-signs).
 

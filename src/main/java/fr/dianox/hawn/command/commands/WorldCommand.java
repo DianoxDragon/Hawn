@@ -204,17 +204,21 @@ public class WorldCommand extends BukkitCommand {
         			return true;
         		}
 
-        		if (Bukkit.getWorld(worldname) != null) {
-        			World world = Bukkit.getServer().getWorld(worldname);
+        		World world = Bukkit.getWorld(worldname);
+        		// Since 1.5.7: an unloaded world too, as in the world manager (only its folder is deleted)
+        		java.io.File unloaded = world == null ? WorldFolders.unloaded(worldname) : null;
 
-        			if (WorldDeletion.isProtected(world.getName())) {
+        		if (world != null || unloaded != null) {
+        			String name = world != null ? world.getName() : worldname;
+
+        			if (WorldDeletion.isProtected(name)) {
         				for (String msg: WorldDeletion.message("Error.Protected-World", "%prefix% &cThe world &e%arg1% &ccan't be deleted: the server needs it")) {
         					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
         				}
         				return true;
         			}
 
-        			if (DefaultWorld.is(world.getName())) {
+        			if (DefaultWorld.is(name)) {
         				for (String msg: WorldManagerPanelConfig.getConfig().getStringList("Error.Default-World")) {
         					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
         				}
@@ -229,7 +233,9 @@ public class WorldCommand extends BukkitCommand {
         				return true;
         			}
 
-        			if (!WorldDeletion.delete(world)) {
+        			if (world == null) {
+        				WorldDeletion.deleteFolder(unloaded);
+        			} else if (!WorldDeletion.delete(world)) {
         				for (String msg: WorldDeletion.message("Error.Unload-Failed", "%prefix% &cThe world &e%arg1% &ccould not be unloaded: nothing was deleted")) {
         					ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(worldname)), "", "", false);
         				}

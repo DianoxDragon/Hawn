@@ -512,8 +512,9 @@ public class ESConfigMMsg {
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cEl doble salto no está activado en este mundo"}));
 
-        Config.set("PlayerOption.Error.Option-Disabled.Enable", true);
-        Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cHas desactivado esta opción, así que no puedes gestionar todas las opciones"}));
+        // Since 1.5.7: /speed <n> and /flyspeed <n> while the option is off, with the command that turns it on
+        Config.set("PlayerOption.Error.Turn-On-First.Enable", true);
+        Config.set("PlayerOption.Error.Turn-On-First.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cEsta opción está desactivada: actívala primero con &e%arg1%"}));
         //Config.set("PlayerOption.Error.Option-Already-Set.Enable", Boolean.valueOf(true));
         //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cEsta opción ya está puesta o es la misma"}));
         Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", true);

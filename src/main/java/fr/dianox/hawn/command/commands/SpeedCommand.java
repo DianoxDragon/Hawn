@@ -74,9 +74,9 @@ public class SpeedCommand extends BukkitCommand {
 		 // >>> Commande
 		 if (args.length == 1) {
              if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_speed.Activate")) {
-                 if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Option-Disabled.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Option-Disabled.Messages")) {
-                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
+                 if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Turn-On-First.Enable")) {
+                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
+                         ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", "/speed"), "", "", false);
                      }
                  }
 

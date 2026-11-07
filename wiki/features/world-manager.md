@@ -33,7 +33,7 @@ Each click gives an answer: a sound when you choose something, a message (and an
 | `/hw create <name> [environment] [type]`        | `hawn.command.world.create`   | Creates a world.                               |
 | `/hw import <name> [environment] [type]`        | `hawn.command.world.import`   | Loads a world folder copied on the server.     |
 | `/hw unload <world>`                            | `hawn.command.world.unload`   | Unloads a world. Not the main world, its nether, its end nor the default world. The players in it go to the default world first (since Hawn 1.4.7). |
-| `/hw delete <world> confirm`                    | `hawn.command.world.delete`   | Deletes a world **and its folder**. Without `confirm`, Hawn only says what will be deleted. |
+| `/hw delete <world> confirm`                    | `hawn.command.world.delete`   | Deletes a world **and its folder**, loaded or not (an unloaded world since 1.5.7, as in the menu). Without `confirm`, Hawn only says what will be deleted. |
 | `/hw default [world]`                           | `hawn.command.world.setdefault` | Shows the [default world](#the-default-world), or makes a loaded world the default one. Works from the console too. |
 
 `hawn.command.world.*` gives every sub-command.

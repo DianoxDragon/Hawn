@@ -512,8 +512,9 @@ public class NLConfigMMsg {
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDe dubbele sprong mag niet in deze wereld"}));
 
-        Config.set("PlayerOption.Error.Option-Disabled.Enable", true);
-        Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDeze optie staat uit, je kunt haar niet wijzigen"}));
+        // Since 1.5.7: /speed <n> and /flyspeed <n> while the option is off, with the command that turns it on
+        Config.set("PlayerOption.Error.Turn-On-First.Enable", true);
+        Config.set("PlayerOption.Error.Turn-On-First.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDeze optie staat uit: zet haar eerst aan met &e%arg1%"}));
         //Config.set("PlayerOption.Error.Option-Already-Set.Enable", Boolean.valueOf(true));
         //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cDeze optie staat al zo"}));
         Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", true);

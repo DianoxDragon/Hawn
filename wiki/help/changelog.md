@@ -4,6 +4,24 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.5.7 BETA
+
+The final check before 1.6: a code audit and a full regression with bots on Spigot and Paper, behind Velocity, with MySQL.
+
+### Improved
+
+* `/speed <n>` and `/flyspeed <n>` while the option is off now say to turn it on first, with the command that does it (`/speed`, `/flyspeed`, `/option speed`, `/option flyspeed`), instead of "You disabled this option" to a player who never did. The message is `PlayerOption.Error.Turn-On-First`.
+* `/hw delete` also deletes a world that is not loaded, as the world manager does (its folder only; on Paper 26.x, its folder in `world/dimensions`). The main world and its dimensions are still protected.
+* An emoji without `Shape`, or with an empty word in `Replace_With`, is skipped with a warning in the console, and `/emoji` shows an emoji without its `Gui` part on paper with its name.
+
+### Fixes
+
+* With MySQL, the options of a player changed on another server of the network were not seen by `/speed <n>`, `/flyspeed <n>`, `/option`, `/fly` and the double jump, which read the file of the player on this server: `/speed 5` said the option was off, and `/speed` then turned it off. The options of MySQL are now copied into the file of the player when they join, including those of a table another server created since the start.
+* An emoji without `Shape` made every message with its word fail in the console, and one without `Gui.Material` made `/emoji` fail.
+* A message sent while `/hawn reload` loaded the emojis again could lose its emojis or fail.
+* `%timedelaypvcji%` asked outside the main thread (the chat, PlaceholderAPI) could read the delays of the visibility item while they changed.
+* The update check ran twice: every 5 hours and every 6 hours.
+
 ## 1.5.6 BETA
 
 ### New

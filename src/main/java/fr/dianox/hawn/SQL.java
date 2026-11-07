@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.sql.*;
@@ -73,13 +74,17 @@ public class SQL {
             });
 
             useyamllistplayer = true;
+            // Players already online (/reload), read here on the main thread (since 1.5.7)
+            List<String> online = new ArrayList<>();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                online.add(p.getUniqueId().toString());
+            }
             async.execute(() -> {
                 openConnection();
                 if (!useyamllistplayer) {
                     loadPlayerTables();
-                    // Players already online (/reload)
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        loadPlayer(p.getUniqueId().toString());
+                    for (String uuid : online) {
+                        loadPlayer(uuid);
                     }
                 }
             });
@@ -91,11 +96,23 @@ public class SQL {
                         return;
                     }
 
-                    // On the MySQL thread, after the writes of a previous session of this player
+                    // On the MySQL thread, after the writes of a previous session of this player. The tables first: another
+                    // server of the network may have created one since the start (since 1.5.7)
                     String uuid = e.getUniqueId().toString();
                     try {
-                        async.submit(() -> loadPlayer(uuid)).get(10, TimeUnit.SECONDS);
+                        async.submit(() -> {
+                            loadPlayerTables();
+                            loadPlayer(uuid);
+                        }).get(10, TimeUnit.SECONDS);
                     } catch (Exception ignored) {}
+                }
+
+                // Before every other join listener: the options changed on another server of the network (since 1.5.7)
+                @EventHandler(priority = EventPriority.LOWEST)
+                public void onJoin(PlayerJoinEvent e) {
+                    if (!useyamllistplayer) {
+                        fr.dianox.hawn.utility.PlayerOptionSQLClass.syncFromMySQL(e.getPlayer());
+                    }
                 }
 
                 // After every other quit listener: the rows leave the memory once their writes are done
@@ -394,6 +411,16 @@ public class SQL {
             return null;
         }
         return Optional.ofNullable(rows.get(key(table)));
+    }
+
+    /**
+     * A value of the row of a player read at login, without asking the database: null when there is none (since 1.5.7).
+     */
+    public static String cachedValue(String table, String column, String uuid) {
+        Map<String, Map<String, Object>> rows = players.get(uuid);
+        Map<String, Object> row = rows == null ? null : rows.get(key(table));
+        Object value = row == null ? null : row.get(key(column));
+        return value == null || value == NULL ? null : String.valueOf(value);
     }
 
     // ------------------------------------------------------------------ queries

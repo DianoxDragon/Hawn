@@ -510,8 +510,9 @@ public class ConfigMMsg {
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Enable", true);
         Config.set("PlayerOption.Error.DoubleJump-Not-Good-World.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThe double jump is not enabled in this world"}));
 
-        Config.set("PlayerOption.Error.Option-Disabled.Enable", true);
-        Config.set("PlayerOption.Error.Option-Disabled.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou disabled this option, so, you can't manage all the option"}));
+        // Since 1.5.7: /speed <n> and /flyspeed <n> while the option is off, with the command that turns it on
+        Config.set("PlayerOption.Error.Turn-On-First.Enable", true);
+        Config.set("PlayerOption.Error.Turn-On-First.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cThis option is off: turn it on first with &e%arg1%"}));
         //Config.set("PlayerOption.Error.Option-Already-Set.Enable", Boolean.valueOf(true));
         //Config.set("PlayerOption.Error.Option-Already-Set.Messages", java.util.Arrays.asList(new String[] {"&cThis option is already set or is the same"}));
         Config.set("PlayerOption.Error.Player-Visibility.Time.Enable", true);

@@ -64,6 +64,22 @@ public final class WorldFolders {
 	}
 
 	/**
+	 * The folder of a world that is not loaded, as the world manager lists it (since 1.5.7): a world folder of the world
+	 * container, or (Paper 26.x) the dimension of a world of Worlds.yml, never one of the main world. Null when there is none.
+	 */
+	public static File unloaded(String name) {
+		if (!validImportName(name) || Bukkit.getWorld(name) != null) return null;
+
+		File own = new File(Bukkit.getWorldContainer(), name);
+		if (GuiSystem.checkIfIsWorld(own)) return own;
+
+		String lower = name.toLowerCase(java.util.Locale.ROOT);
+		if (lower.equals("overworld") || lower.equals("the_nether") || lower.equals("the_end")) return null;
+		if (!fr.dianox.hawn.utility.config.configs.ConfigWorldGeneral.getConfig().isSet("World-List." + name)) return null;
+		return dimension(name);
+	}
+
+	/**
 	 * Paper 26.x keeps the created worlds in the folder of the main world: world/dimensions/minecraft/<name>. Null when there is none.
 	 */
 	public static File dimension(String name) {

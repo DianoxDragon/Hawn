@@ -28,9 +28,9 @@ Fly and double jump are mutually exclusive: turning one on turns the other off.
 | Command             | Permission                            | Description                                                                 |
 | ------------------- | ------------------------------------- | --------------------------------------------------------------------------- |
 | `/speed`            | `hawn.command.optionplayer.speed`     | Toggles the speed boost (same as `/option speed`).                          |
-| `/speed <0-10>`     | `hawn.command.optionplayer.speed`     | Sets your walk speed (2 is the vanilla speed). The boost must be on.        |
+| `/speed <0-10>`     | `hawn.command.optionplayer.speed`     | Sets your walk speed (2 is the vanilla speed). The boost must be on: if it is off, Hawn says to turn it on with `/speed` first. |
 | `/flyspeed`         | `hawn.command.optionplayer.flyspeed`  | Toggles the fly speed boost.                                                |
-| `/flyspeed <0-10>`  | `hawn.command.optionplayer.flyspeed`  | Sets your fly speed (1 is the vanilla speed). The boost must be on.         |
+| `/flyspeed <0-10>`  | `hawn.command.optionplayer.flyspeed`  | Sets your fly speed (1 is the vanilla speed). The boost must be on: if it is off, Hawn says to turn it on with `/flyspeed` first. |
 
 When the boost is turned on, the speed is the value of `Events/OnJoin.yml` → `Speed.Value` (or `FlySpeed.Value`). With `Priority-For-Player-Option: true` in that file and `hawn.command.optionplayer.speed.priorityoptionplayer` (or `.flyspeed.priorityoptionplayer`), the player gets back the last value they chose instead.
 
