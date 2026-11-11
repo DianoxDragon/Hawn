@@ -33,16 +33,13 @@ public class MuteChatTask implements Runnable {
 
 		MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 
+		boolean online = by != null && by.isOnline();
 		for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
-			if (by != null && by.isOnline()) {
-				MessageUtils.ConsoleMessages(msg);
-				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", by, true);
-			} else {
-				msg = msg.replace("%player%", name);
-				MessageUtils.ConsoleMessages(msg);
-				ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
-			}
+			MessageUtils.ConsoleMessages(online ? msg : msg.replace("%player%", name));
 		}
+		// Each player in their language (since 1.6)
+		ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.Off"),
+				msg -> online ? msg : msg.replace("%player%", name), online ? by : null, "", "");
 	}
 
 }

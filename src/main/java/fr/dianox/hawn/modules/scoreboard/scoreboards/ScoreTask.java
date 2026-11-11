@@ -10,7 +10,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import fr.dianox.hawn.utility.StringUtils;
 import fr.dianox.hawn.utility.Tasks;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ScoreTask implements Runnable {
 	private final ScoreManager scoreManager;
 	private final FastBoard board;
 	private final Player p;
-	private BukkitTask task;
+	private Task task;
 
 	public ScoreTask(ScoreManager scoreManager, FastBoard board, Player p) {
 		this.scoreManager = scoreManager;
@@ -32,9 +32,9 @@ public class ScoreTask implements Runnable {
 	/**
 	 * The scoreboard of a player, every period ticks.
 	 */
-	public static BukkitTask start(ScoreManager scoreManager, FastBoard board, Player p, long period) {
+	public static Task start(ScoreManager scoreManager, FastBoard board, Player p, long period) {
 		ScoreTask runnable = new ScoreTask(scoreManager, board, p);
-		runnable.task = Tasks.timer(runnable, 0, period);
+		runnable.task = Tasks.timer(p, runnable, 0, period);
 		return runnable.task;
 	}
 

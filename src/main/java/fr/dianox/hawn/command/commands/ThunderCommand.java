@@ -51,7 +51,7 @@ public class ThunderCommand extends BukkitCommand {
 		if (!WeatherTimeCommandConfig.getConfig().getBoolean(universal_link+"Enable")) {
 			if (WeatherTimeCommandConfig.getConfig().getBoolean(universal_link+"Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -70,7 +70,7 @@ public class ThunderCommand extends BukkitCommand {
 			p.getWorld().setThundering(true);
 			p.getWorld().setStorm(true);
 			if (ConfigMMsg.getConfig().getBoolean(universal_link+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(universal_link+"Message")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList(universal_link+"Message")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

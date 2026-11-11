@@ -7,7 +7,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.Tasks;
@@ -85,7 +85,7 @@ public class WarpCommand extends BukkitCommand {
 					}
 
 					if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList("Warp.Tp.Other.Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -110,7 +110,7 @@ public class WarpCommand extends BukkitCommand {
 		if (!WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.Enable")) {
 			if (WarpSetWarpCommandConfig.getConfig().getBoolean("Warp.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -131,7 +131,7 @@ public class WarpCommand extends BukkitCommand {
 				p.performCommand("warplist");
 			} else {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -145,7 +145,7 @@ public class WarpCommand extends BukkitCommand {
 						} else {
 							if (!WarpListConfig.getConfig().isSet("Coordinated." + args[0] + ".World")) {
 								if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -154,7 +154,7 @@ public class WarpCommand extends BukkitCommand {
 							}
 
 							if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self-Delay.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self-Delay.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Self-Delay.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
 								}
 							}
@@ -167,7 +167,7 @@ public class WarpCommand extends BukkitCommand {
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = Tasks.later(new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
+							Task task = Tasks.later(p, new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inwarpd.add(p);
@@ -176,7 +176,7 @@ public class WarpCommand extends BukkitCommand {
 					} else {
 						if (!WarpListConfig.getConfig().isSet("Coordinated." + args[0] + ".World")) {
 							if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -185,7 +185,7 @@ public class WarpCommand extends BukkitCommand {
 						}
 
 						if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self-Delay.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self-Delay.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Self-Delay.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds"))), "", "", false);
 							}
 						}
@@ -198,7 +198,7 @@ public class WarpCommand extends BukkitCommand {
 						Main.inspawnd.remove(p);
 						Main.inwarpd.remove(p);
 						
-						BukkitTask task = Tasks.later(new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
+						Task task = Tasks.later(p, new TaskOnTPWarp(p, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Self.Delay-Seconds") * 20);
 						
 						Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 						Main.inwarpd.add(p);
@@ -229,7 +229,7 @@ public class WarpCommand extends BukkitCommand {
 							} else {
 								if (!WarpListConfig.getConfig().isSet("Coordinated." + args[0] + ".World")) {
 									if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-										for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+										for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 											ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 										}
 									}
@@ -238,7 +238,7 @@ public class WarpCommand extends BukkitCommand {
 								}
 
 								if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -251,7 +251,7 @@ public class WarpCommand extends BukkitCommand {
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = Tasks.later(new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
+								Task task = Tasks.later(target, new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inwarpd.add(target);
@@ -259,7 +259,7 @@ public class WarpCommand extends BukkitCommand {
 						} else {
 							if (!WarpListConfig.getConfig().isSet("Coordinated." + args[0] + ".World")) {
 								if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -268,7 +268,7 @@ public class WarpCommand extends BukkitCommand {
 							}
 
 							if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender-Delay.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Other-Sender-Delay.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])).replace("%target%", target.getName()).replace("%second%", String.valueOf(WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds"))), "", "", false);
 								}
 							}
@@ -281,7 +281,7 @@ public class WarpCommand extends BukkitCommand {
 							Main.inspawnd.remove(target);
 							Main.inwarpd.remove(target);
 							
-							BukkitTask task = Tasks.later(new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
+							Task task = Tasks.later(target, new TaskOnTpOthersWarp(p, target, args[0]), WarpSetWarpCommandConfig.getConfig().getInt("Warp.Delay.Other.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 							Main.inwarpd.add(target);
@@ -317,14 +317,14 @@ public class WarpCommand extends BukkitCommand {
 			Tasks.teleportAsync(sender, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(sender).getStringList("Warp.Tp.Self.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%warp%", tp), "", "", false);
 				}
 			}
 
 		} catch(Exception e) {
 			if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(sender).getStringList("Warp.No-Warp.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%warp%", tp), "", "", false);
 				}
 			}
@@ -343,20 +343,20 @@ public class WarpCommand extends BukkitCommand {
 			Tasks.teleportAsync(other, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(sender).getStringList("Warp.Tp.Other-Sender.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%warp%", tp).replace("%target%", other.getName()), "", "", false);
 				}
 			}
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(other).getStringList("Warp.Tp.Other.Messages")) {
 					ConfigEventUtils.ExecuteEvent(other, msg.replace("%warp%", tp).replace("%target%", other.getName()), "", "", false);
 				}
 			}
 
 		} catch(Exception e) {
 			if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(sender).getStringList("Warp.No-Warp.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
 				}
 			}

@@ -59,10 +59,12 @@ public class WarningCommand extends BukkitCommand {
 
 			msgbc = args[0] + " " + msgbc;
 			
-			for (String msg: ConfigMMsg.getConfig().getStringList("Warning")) {
+			for (String msg : ConfigMMsg.getConfig().getStringList("Warning")) {
 				MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
-				ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "");
 			}
+			// Each player in their language (since 1.6)
+			String bcText = ConfigEventUtils.noAction(msgbc);
+			ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Warning"), msg -> msg.replace("%broadcast%", bcText), null, "", "");
 			
 			if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
 	            for (Player player: Bukkit.getServer().getOnlinePlayers()) {
@@ -82,7 +84,7 @@ public class WarningCommand extends BukkitCommand {
 		if (!WarningCommandConfig.getConfig().getBoolean("Warning.Enable")) {
 			if (WarningCommandConfig.getConfig().getBoolean("Warning.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -99,7 +101,7 @@ public class WarningCommand extends BukkitCommand {
 		// The command
 		if (args.length == 0) {
 			if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -119,10 +121,12 @@ public class WarningCommand extends BukkitCommand {
 
 		msgbc = args[0] + " " + msgbc;
 		
-		for (String msg: ConfigMMsg.getConfig().getStringList("Warning")) {
+		for (String msg : ConfigMMsg.getConfig().getStringList("Warning")) {
 			MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
-			ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "", p, true);
 		}
+		// Each player in their language (since 1.6)
+		String bcText = ConfigEventUtils.noAction(msgbc);
+		ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Warning"), msg -> msg.replace("%broadcast%", bcText), p, "", "");
 		
 		if (WarningCommandConfig.getConfig().getBoolean("Warning.Sounds.Enabled")) {
             for (Player player: Bukkit.getServer().getOnlinePlayers()) {

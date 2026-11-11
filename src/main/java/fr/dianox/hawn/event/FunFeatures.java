@@ -338,7 +338,7 @@ public class FunFeatures implements Listener {
 						Tasks.later(() -> Main.injumpwithjumppad.remove(p), 20);
 						
 						if (ConfigMMsg.getConfig().getBoolean("LaunchPad.Cant-Use-Cooldown.Enable")) {
-							for (String s: ConfigMMsg.getConfig().getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
+							for (String s: ConfigMMsg.getConfig(p).getStringList("LaunchPad.Cant-Use-Cooldown.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, s, "", "", false);
 							}
 						}

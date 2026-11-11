@@ -36,8 +36,8 @@ public final class ActionBar {
 
         // Through Tasks (since 1.5.2): the task stops itself with its own handle
         long[] repeater = {duration};
-        org.bukkit.scheduler.BukkitTask[] task = new org.bukkit.scheduler.BukkitTask[1];
-        task[0] = Tasks.timer(() -> {
+        Task[] task = new Task[1];
+        task[0] = Tasks.timer(player, () -> {
             if (!player.isOnline()) {
                 Tasks.cancel(task[0]);
                 return;

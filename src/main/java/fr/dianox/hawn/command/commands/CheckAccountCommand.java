@@ -83,7 +83,7 @@ public class CheckAccountCommand extends BukkitCommand {
         if (!CheckAccountCommandConfig.getConfig().getBoolean("CheckAccount.Enable")) {
             if (CheckAccountCommandConfig.getConfig().getBoolean("CheckAccount.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -101,7 +101,7 @@ public class CheckAccountCommand extends BukkitCommand {
 
         if (args.length == 0) {
             if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -187,7 +187,7 @@ public class CheckAccountCommand extends BukkitCommand {
     		ps_number = java.util.Objects.toString(ps_number, "");
     		ksbname = java.util.Objects.toString(ksbname, "");
 
-    		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.CheckAccount")) {
+    		for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.CheckAccount")) {
     			ConfigEventUtils.ExecuteEvent(p, msg
     					.replace("%target%", target.getName())
     					.replace("%player_ip%", ip)

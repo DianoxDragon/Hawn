@@ -26,7 +26,7 @@ public final class Actions {
 		String[] delay = split(line, "[delay[");
 		if (delay != null) {
 			long ticks = Math.max(0, (long) number(delay[0], 0));
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (p.isOnline()) {
 					run.accept(delay[1]);
 				}

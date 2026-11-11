@@ -50,6 +50,13 @@ public class ConfigEventUtils {
 
 	// 90: one method for both (they were copies of each other). target: null for the placeholders of p
 	private static void execute(Player p, Player target, String event, String Informatif, String AdditionalMessageError, Boolean Console) {
+		// Since 1.6: on the thread of the player (Folia), and back on the main thread from the chat or an async task
+		if (p != null && !Tasks.owns(p)) {
+			final String e = event;
+			Tasks.next(p, () -> execute(p, target, e, Informatif, AdditionalMessageError, Console));
+			return;
+		}
+
 		Player who = target == null ? p : target;
 
 		if (event.startsWith("<world>") && event.contains("</world>")) {
@@ -85,7 +92,7 @@ public class ConfigEventUtils {
 		} else if (event.startsWith("[FWLU]: ")) {
 			OtherUtils.Fireworkmethod(p, event.substring("[FWLU]: ".length()));
 		} else if (event.startsWith("[command-console]: ")) {
-			Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), event.substring("[command-console]: ".length()).replace("%player%", p.getName()));
+			Tasks.console(event.substring("[command-console]: ".length()).replace("%player%", p.getName()));
 		} else if (event.startsWith("[gamemode-survival]")) {
 			p.setGameMode(GameMode.SURVIVAL);
 		} else if (event.startsWith("[gamemode-creative]")) {
@@ -97,7 +104,7 @@ public class ConfigEventUtils {
 		} else if (event.startsWith("[customcommand-player]: ")) {
 			OnCommandEvent.executeCustomCommand(event.substring("[customcommand-player]: ".length()).replace("%player%", p.getName()), p);
 		} else if (event.startsWith("[ping]")) {
-			for (String event1: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
+			for (String event1: ConfigMMsg.getConfig(p).getStringList("Ping.Self")) {
 				MessageUtils.ClassicMessages(event1, p);
 			}
 		} else if (event.startsWith("[spawn]: ")) {
@@ -115,6 +122,19 @@ public class ConfigEventUtils {
 			Menus.refresh(p);
 		} else if (event.startsWith("[back]")) {
 			Menus.back(p);
+		} else if (event.startsWith("[language]: ")) {
+			// Since 1.6: a language of Hawn, or client for the language of the game of the player
+			String code = event.substring("[language]: ".length()).trim();
+			boolean client = code.equalsIgnoreCase("client");
+			if (client || Lang.normalize(code) != null) {
+				Lang.choose(p, client ? "" : code);
+				String key = client ? "Language.Client" : "Language.Changed";
+				if (ConfigMMsg.getConfig().getBoolean(key + ".Enable", true)) {
+					for (String msg : ConfigMMsg.getConfig(p).getStringList(key + ".Messages")) {
+						ExecuteEvent(p, msg.replace("%arg1%", Lang.of(p)), "", "", false);
+					}
+				}
+			}
 		} else if (event.startsWith("[effect[")) {
 			// [effect[<amplifier>]]: <effect>; a wrong amplifier or a missing "]]: " no longer stops the line
 			effect(p, event.substring("[effect[".length()), AdditionalMessageError);
@@ -175,7 +195,7 @@ public class ConfigEventUtils {
 		"[command-player]: ", "[FWLU]: ", "[command-console]: ", "[gamemode-survival]", "[gamemode-creative]", "[gamemode-adventure]",
 		"[gamemode-spectator]", "[customcommand-player]: ", "[ping]", "[spawn]: ", "[warp]: ", "[bungee]: ", "[effect[", "[effectclear]: ",
 		"[effectclearall]", "[send-title]: ", "[send-title[", "[send-actionbar]: ", "[send-actionbar[", "[broadcast]: ", "[sound]: ",
-		"[sounds]: ", "[title]: ", "[title[", "[delay[", "[chance[", "[menu]: ", "[close]", "[refresh]", "[back]"
+		"[sounds]: ", "[title]: ", "[title[", "[delay[", "[chance[", "[menu]: ", "[close]", "[refresh]", "[back]", "[language]: "
 	};
 
 	public static void ExecuteEventAllPlayers(String event, String Informatif, String AdditionalMessageError, Player target, Boolean targetbool) {
@@ -186,6 +206,24 @@ public class ConfigEventUtils {
 		} else {
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				ExecuteEvent(p, event, Informatif, AdditionalMessageError, false);
+			}
+		}
+	}
+
+	/**
+	 * Since 1.6: lines of a file of messages sent to every online player, each in their own language. edit fills the
+	 * placeholders of a line; target: the player the message is about (null: the placeholders of each player).
+	 */
+	public static void broadcast(java.util.function.Function<org.bukkit.command.CommandSender, java.util.List<String>> lines,
+			java.util.function.UnaryOperator<String> edit, Player target, String Informatif, String AdditionalMessageError) {
+		for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+			for (String line : lines.apply(all)) {
+				String event = edit.apply(line);
+				if (target != null) {
+					ExecuteEventTargetPlaceHolder(all, target, event, Informatif, AdditionalMessageError, false);
+				} else {
+					ExecuteEvent(all, event, Informatif, AdditionalMessageError, false);
+				}
 			}
 		}
 	}

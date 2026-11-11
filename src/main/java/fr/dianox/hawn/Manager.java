@@ -45,6 +45,10 @@ public class Manager {
 		pm.registerEvents(new HawnMenu.Protection(), pl);
 		pm.registerEvents(new OnJoin(), pl);
 		pm.registerEvents(new OnQuit(), pl);
+		// The language of each player (since 1.6)
+		pm.registerEvents(new fr.dianox.hawn.utility.Lang.Events(), pl);
+		// The holograms are sent again after a respawn or a change of world (since 1.6)
+		pm.registerEvents(new fr.dianox.hawn.modules.holograms.Holograms.Events(), pl);
 		pm.registerEvents(new BasicFeatures(), pl);
 		pm.registerEvents(new ProtectionsEventWorld(), pl);
 		pm.registerEvents(new fr.dianox.hawn.event.ProtectionsExtra(), pl);

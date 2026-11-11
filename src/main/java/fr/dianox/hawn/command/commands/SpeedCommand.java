@@ -57,7 +57,7 @@ public class SpeedCommand extends BukkitCommand {
 		 if (!SpeedCommandConfig.getConfig().getBoolean("Speed.Enable")) {
 			 if (SpeedCommandConfig.getConfig().getBoolean("Speed.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -75,7 +75,7 @@ public class SpeedCommand extends BukkitCommand {
 		 if (args.length == 1) {
              if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_speed.Activate")) {
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Turn-On-First.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
+                     for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
                          ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", "/speed"), "", "", false);
                      }
                  }
@@ -99,7 +99,7 @@ public class SpeedCommand extends BukkitCommand {
                  PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.parseInt(args[0]));
 
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
+                     for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Set.Messages")) {
                          ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[0])), "", "", false);
                      }
                  }
@@ -115,7 +115,7 @@ public class SpeedCommand extends BukkitCommand {
                  PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvalue);
                  p.setWalkSpeed(0.2F);
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Disable.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Disable.Messages")) {
+                     for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Disable.Messages")) {
                          ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                      }
                  }
@@ -131,7 +131,7 @@ public class SpeedCommand extends BukkitCommand {
                  	}
 
                  	if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Enable.Enable")) {
-                 		for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Enable.Messages")) {
+                 		for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Enable.Messages")) {
                  			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                  		}
                  	}
@@ -148,7 +148,7 @@ public class SpeedCommand extends BukkitCommand {
                      }
 
                      if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Enable.Enable")) {
-                         for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Enable.Messages")) {
+                         for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Enable.Messages")) {
                              ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                          }
                      }

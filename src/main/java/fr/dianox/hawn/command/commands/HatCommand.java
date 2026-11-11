@@ -62,7 +62,7 @@ public class HatCommand extends BukkitCommand {
         if (!HatCommandConfig.getConfig().getBoolean("Hat.Enable")) {
             if (HatCommandConfig.getConfig().getBoolean("Hat.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -102,20 +102,20 @@ public class HatCommand extends BukkitCommand {
                 		}
         				
         				if (ConfigMMsg.getConfig().getBoolean("Hat.Self.Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Self.Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Self.Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
         			} else {
         				if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
         			}
         		} else {
         			if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -132,7 +132,7 @@ public class HatCommand extends BukkitCommand {
     	        inv.setHelmet(air);
     	        
     	        if (ConfigMMsg.getConfig().getBoolean("Hat.Self.Removed.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Self.Removed.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Self.Removed.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -144,7 +144,7 @@ public class HatCommand extends BukkitCommand {
         	if (args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("rem") || args[0].equalsIgnoreCase("0")) {
         		if (head == null || head.getType() == XMaterial.AIR.parseMaterial()) {
         			if (ConfigMMsg.getConfig().getBoolean("Hat.Error.Need-Have-NoEmpty-Helmet.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.Need-Have-NoEmpty-Helmet.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.Need-Have-NoEmpty-Helmet.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -160,7 +160,7 @@ public class HatCommand extends BukkitCommand {
         	        inv.setHelmet(air);
         	        
         	        if (ConfigMMsg.getConfig().getBoolean("Hat.Self.Removed.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Self.Removed.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Self.Removed.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -186,20 +186,20 @@ public class HatCommand extends BukkitCommand {
                 		}
         				
         				if (ConfigMMsg.getConfig().getBoolean("Hat.Self.Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Self.Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Self.Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
         			} else {
         				if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
         			}
         		} else {
         			if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -220,7 +220,7 @@ public class HatCommand extends BukkitCommand {
             	if (args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("rem") || args[0].equalsIgnoreCase("0")) {
             		if (head == null || head.getType() == XMaterial.AIR.parseMaterial()) {
             			if (ConfigMMsg.getConfig().getBoolean("Hat.Error.Need-Have-NoEmpty-Helmet.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.Need-Have-NoEmpty-Helmet.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.Need-Have-NoEmpty-Helmet.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -236,13 +236,13 @@ public class HatCommand extends BukkitCommand {
             	        inv.setHelmet(air);
             	        
             	        if (ConfigMMsg.getConfig().getBoolean("Hat.Other-Sender.Removed.Enable")) {
-                			for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Other-Sender.Removed.Messages")) {
+                			for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Other-Sender.Removed.Messages")) {
                 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
                 			}
                 		}
         				
                 		if (ConfigMMsg.getConfig().getBoolean("Hat.Other-Target.Removed.Enable")) {
-                			for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Other-Target.Removed.Messages")) {
+                			for (String msg: ConfigMMsg.getConfig(target).getStringList("Hat.Other-Target.Removed.Messages")) {
                 				ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
                 			}
                 		}
@@ -268,26 +268,26 @@ public class HatCommand extends BukkitCommand {
                     		}
             				
             				if (ConfigMMsg.getConfig().getBoolean("Hat.Other-Sender.Set.Enable")) {
-                    			for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Other-Sender.Set.Messages")) {
+                    			for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Other-Sender.Set.Messages")) {
                     				ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
                     			}
                     		}
             				
                     		if (ConfigMMsg.getConfig().getBoolean("Hat.Other-Target.Set.Enable")) {
-                    			for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Other-Target.Set.Messages")) {
+                    			for (String msg: ConfigMMsg.getConfig(target).getStringList("Hat.Other-Target.Set.Messages")) {
                     				ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
                     			}
                     		}
             			} else {
             				if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
             			}
             		} else {
             			if (ConfigMMsg.getConfig().getBoolean("Hat.Error.No-Hat-Can-Be-Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Hat.Error.No-Hat-Can-Be-Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }

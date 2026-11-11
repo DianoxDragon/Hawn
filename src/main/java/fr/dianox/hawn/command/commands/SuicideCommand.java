@@ -51,7 +51,7 @@ public class SuicideCommand extends BukkitCommand {
 		 if (!SuicideCommandConfig.getConfig().getBoolean("Suicide.Enable")) {
 			 if (SuicideCommandConfig.getConfig().getBoolean("Suicide.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -73,16 +73,17 @@ public class SuicideCommand extends BukkitCommand {
 		 }
 		 
 		 if (ConfigMMsg.getConfig().getBoolean("Suicide.Self.Enable")) {
-			 for (String msg: ConfigMMsg.getConfig().getStringList("Suicide.Self.Messages")) {
+			 for (String msg: ConfigMMsg.getConfig(p).getStringList("Suicide.Self.Messages")) {
 				 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			 }
 		 }
 			 
 		 if (ConfigMMsg.getConfig().getBoolean("Suicide.Broadcast.Enable")) {
-			 for (String msg: ConfigMMsg.getConfig().getStringList("Suicide.Broadcast.Messages")) {
+			 for (String msg : ConfigMMsg.getConfig().getStringList("Suicide.Broadcast.Messages")) {
 				 MessageUtils.ConsoleMessages(msg.replace("%player%", p.getName()));
-				 ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()), "", "", p, true);
 			 }
+			 // Each player in their language (since 1.6)
+			 ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Suicide.Broadcast.Messages"), msg -> msg.replace("%player%", p.getName()), p, "", "");
 		 }
 			 
 		 

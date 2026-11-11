@@ -26,7 +26,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class SpecialItePearlMount implements Listener {
 		private final Location start;
 		private final long until;
 		private final double speed;
-		private BukkitTask task;
+		private Task task;
 
 		private Flight(Player p, EnderPearl pearl, boolean riding, Location start, long until, double speed) {
 			this.p = p;
@@ -248,7 +248,7 @@ public class SpecialItePearlMount implements Listener {
 			}
 		}
 
-		flight.task = Tasks.timer(flight, 1, 1);
+		flight.task = Tasks.timer(p, flight, 1, 1);
 
 		if (SpecialCjiPearlMount.getConfig().getBoolean("PearlMount.Sound.Enable")) {
 			String sound = SpecialCjiPearlMount.getConfig().getString("PearlMount.Sound.Sound");
@@ -308,7 +308,7 @@ public class SpecialItePearlMount implements Listener {
 
 	private static void messages(Player p, String path) {
 		if (ConfigMMsg.getConfig().getBoolean(path + ".Enable")) {
-			for (String msg : ConfigMMsg.getConfig().getStringList(path + ".Messages")) {
+			for (String msg : ConfigMMsg.getConfig(p).getStringList(path + ".Messages")) {
 				msg = msg.replace("%arg1%", SpecialCjiPearlMount.getConfig().getString("PearlMount.Option.Height.Min-Y"))
 						.replace("%arg2%", SpecialCjiPearlMount.getConfig().getString("PearlMount.Option.Height.Max-Y"));
 				ConfigEventUtils.ExecuteEvent(p, msg, path + ".Messages", "SpecialItePearlMount", false);

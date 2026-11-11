@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,15 +72,15 @@ public class VanishCommand extends BukkitCommand {
 				if (player_list_vanish.contains(target)) {
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-							all.showPlayer(Main.getInstance(), target);
+							Tasks.sync(all, () -> all.showPlayer(Main.getInstance(), target));
 						} else {
-							all.showPlayer(target);
+							Tasks.sync(all, () -> all.showPlayer(target));
 						}
 					}
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {
-							for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
+							for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-Off-Others")) {
 								ConfigEventUtils.ExecuteEvent(all, s.replace("%target%", target.getName()).replace("%player%", "console"), "", "", false);
 							}
 						}
@@ -103,7 +103,7 @@ public class VanishCommand extends BukkitCommand {
 					}
 					
 					if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Target-Disabled.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Target-Disabled.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList("Vanish.Other-Target-Disabled.Messages")) {
 		            		ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 		            	}
 					}
@@ -114,15 +114,15 @@ public class VanishCommand extends BukkitCommand {
 							continue;
 						}
 						if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-							all.hidePlayer(Main.getInstance(), target);
+							Tasks.sync(all, () -> all.hidePlayer(Main.getInstance(), target));
 						} else {
-							all.hidePlayer(target);
+							Tasks.sync(all, () -> all.hidePlayer(target));
 						}
 					}
 					
 					for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 						if (all.hasPermission("hawn.staff.seevanished")) {			
-							for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
+							for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-On.Messages")) {
 								ConfigEventUtils.ExecuteEvent(all, s.replace("%target%", target.getName()).replace("%player%", "console"), "", "", false);
 							}
 						}
@@ -137,7 +137,7 @@ public class VanishCommand extends BukkitCommand {
 					
 					if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 						if (target.hasPermission("hawn.command.vanish.actionbar")) {
-							BukkitTask task = null;
+							Task task = null;
 							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
 								task = VanishTaskAB.start(target, 100);
 							} else {
@@ -155,7 +155,7 @@ public class VanishCommand extends BukkitCommand {
 					}
 					
 					if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Target.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Target.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList("Vanish.Other-Target.Messages")) {
 		            		ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 		            	}
 					}
@@ -175,7 +175,7 @@ public class VanishCommand extends BukkitCommand {
 		if (!VanishCommandConfig.getConfig().getBoolean("Vanish.Enable")) {
 			if (VanishCommandConfig.getConfig().getBoolean("Vanish.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -195,9 +195,9 @@ public class VanishCommand extends BukkitCommand {
 						if (player_list_vanish.contains(p)) {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 								if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-									all.showPlayer(Main.getInstance(), p);
+									Tasks.sync(all, () -> all.showPlayer(Main.getInstance(), p));
 								} else {
-									all.showPlayer(p);
+									Tasks.sync(all, () -> all.showPlayer(p));
 								}
 							}
 							player_list_vanish.remove(p);
@@ -212,7 +212,7 @@ public class VanishCommand extends BukkitCommand {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 								if (all.hasPermission("hawn.staff.seevanished")) {
 									if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-Off.Enable")) {
-										for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-Off.Messages")) {
+										for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-Off.Messages")) {
 											ConfigEventUtils.ExecuteEvent(all, s.replace("%player%", p.getName()), "", "", false);
 										}
 		                        	}
@@ -220,7 +220,7 @@ public class VanishCommand extends BukkitCommand {
 							}
 							
 							if (ConfigMMsg.getConfig().getBoolean("Vanish.Self-Disabled.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Self-Disabled.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Vanish.Self-Disabled.Messages")) {
 				            		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				            	}
 							}
@@ -231,9 +231,9 @@ public class VanishCommand extends BukkitCommand {
 									continue;
 								}
 								if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-									all.hidePlayer(Main.getInstance(), p);
+									Tasks.sync(all, () -> all.hidePlayer(Main.getInstance(), p));
 								} else {
-									all.hidePlayer(p);
+									Tasks.sync(all, () -> all.hidePlayer(p));
 								}
 							}
 							player_list_vanish.add(p);
@@ -241,7 +241,7 @@ public class VanishCommand extends BukkitCommand {
 							for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 								if (all.hasPermission("hawn.staff.seevanished")) {
 									if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-										for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
+										for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-On.Messages")) {
 											ConfigEventUtils.ExecuteEvent(all, s.replace("%player%", p.getName()), "", "", false);
 										}
 									}
@@ -255,7 +255,7 @@ public class VanishCommand extends BukkitCommand {
 							
 							if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 								if (p.hasPermission("hawn.command.vanish.actionbar")) {
-									BukkitTask task = null;
+									Task task = null;
 									if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
 										task = VanishTaskAB.start(p, 100);
 									} else {
@@ -266,7 +266,7 @@ public class VanishCommand extends BukkitCommand {
 							}
 							
 							if (ConfigMMsg.getConfig().getBoolean("Vanish.Self.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Self.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Vanish.Self.Messages")) {
 				            		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				            	}
 							}
@@ -283,9 +283,9 @@ public class VanishCommand extends BukkitCommand {
 							if (player_list_vanish.contains(target)) {
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-										all.showPlayer(Main.getInstance(), target);
+										Tasks.sync(all, () -> all.showPlayer(Main.getInstance(), target));
 									} else {
-										all.showPlayer(target);
+										Tasks.sync(all, () -> all.showPlayer(target));
 									}
 								}
 								player_list_vanish.remove(target);
@@ -294,7 +294,7 @@ public class VanishCommand extends BukkitCommand {
 								
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (all.hasPermission("hawn.staff.seevanished")) {
-										for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-Off-Others")) {
+										for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-Off-Others")) {
 											ConfigEventUtils.ExecuteEvent(all, s.replace("%target%", target.getName()).replace("%player%", p.getName()), "", "", false);
 										}
 									}
@@ -306,14 +306,14 @@ public class VanishCommand extends BukkitCommand {
 								}
 								
 								if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Sender-Disabled.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Sender-Disabled.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Vanish.Other-Sender-Disabled.Messages")) {
 										msg = msg.replace("%player%", p.getName()).replace("%target%", target.getName());
 					            		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					            	}
 								}
 								
 								if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Target-Disabled.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Target-Disabled.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(target).getStringList("Vanish.Other-Target-Disabled.Messages")) {
 										msg = msg.replace("%player%", p.getName());
 					            		ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 					            	}
@@ -325,16 +325,16 @@ public class VanishCommand extends BukkitCommand {
 										continue;
 									}
 									if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-										all.hidePlayer(Main.getInstance(), target);
+										Tasks.sync(all, () -> all.hidePlayer(Main.getInstance(), target));
 									} else {
-										all.hidePlayer(target);
+										Tasks.sync(all, () -> all.hidePlayer(target));
 									}
 								}
 								player_list_vanish.add(target);
 								
 								for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 									if (all.hasPermission("hawn.staff.seevanished")) {
-										for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On-Others")) {
+										for (String s: ConfigMAdmin.getConfig(all).getStringList("Vanish.Vanish-On-Others")) {
 											ConfigEventUtils.ExecuteEvent(all, s.replace("%target%", target.getName()).replace("%player%", p.getName()), "", "", false);
 										}
 									}
@@ -347,7 +347,7 @@ public class VanishCommand extends BukkitCommand {
 								
 								if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
 									if (target.hasPermission("hawn.command.vanish.actionbar")) {
-										BukkitTask task = null;
+										Task task = null;
 										if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
 											task = VanishTaskAB.start(target, 100);
 										} else {
@@ -358,14 +358,14 @@ public class VanishCommand extends BukkitCommand {
 								}
 								
 								if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Sender.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Sender.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Vanish.Other-Sender.Messages")) {
 										msg = msg.replace("%player%", p.getName()).replace("%target%", target.getName());
 					            		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					            	}
 								}
 								
 								if (ConfigMMsg.getConfig().getBoolean("Vanish.Other-Target.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Other-Target.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(target).getStringList("Vanish.Other-Target.Messages")) {
 										msg = msg.replace("%player%", p.getName());
 					            		ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 					            	}

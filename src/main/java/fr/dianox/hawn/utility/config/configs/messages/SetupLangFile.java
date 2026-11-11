@@ -1,8 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
 import fr.dianox.hawn.utility.config.ConfigDefaults;
+import fr.dianox.hawn.utility.config.LangFiles;
+import fr.dianox.hawn.utility.Lang;
 
 import fr.dianox.hawn.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -15,11 +18,20 @@ public class SetupLangFile {
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
+	// Every language (since 1.6), see LangFiles
+	private static java.util.Map<String, YamlConfiguration> byLanguage;
 
 	public SetupLangFile() {}
 
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
+
+		// The English file too, when the server has another language: every language is loaded (since 1.6)
+		if (!"en_US".equals(Lang.server())) {
+			file = new File(pl.getDataFolder(), "Messages/en_US/SetupLang.yml");
+			Config = YamlConfiguration.loadConfiguration(file);
+			create();
+		}
 
 		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/SetupLang.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
@@ -29,6 +41,7 @@ public class SetupLangFile {
 		}
 
 		create();
+		byLanguage = LangFiles.load(pl, "SetupLang.yml", Config);
 	}
 
 	public static File getFile() {
@@ -37,6 +50,13 @@ public class SetupLangFile {
 
 	public static YamlConfiguration getConfig() {
 		return Config;
+	}
+
+	/**
+	 * The texts in the language of who receives them (since 1.6): the server one for the console.
+	 */
+	public static YamlConfiguration getConfig(CommandSender to) {
+		return LangFiles.of(byLanguage, Config, to);
 	}
 
 	public static void reloadConfig() {

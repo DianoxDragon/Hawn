@@ -8,13 +8,13 @@ import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 // Planned through Tasks (since 1.5.3): it stops itself with its own handle
 public class VanishTaskAB implements Runnable {
 
 	private Player p;
-	private BukkitTask task;
+	private Task task;
 
 	public VanishTaskAB(Player p) {
         this.p = p;
@@ -23,9 +23,9 @@ public class VanishTaskAB implements Runnable {
 	/**
 	 * The action bar of a vanished player, every period ticks from the next second.
 	 */
-	public static BukkitTask start(Player p, long period) {
+	public static Task start(Player p, long period) {
 		VanishTaskAB runnable = new VanishTaskAB(p);
-		runnable.task = Tasks.timer(runnable, 20, period);
+		runnable.task = Tasks.timer(p, runnable, 20, period);
 		return runnable.task;
 	}
 
@@ -37,7 +37,7 @@ public class VanishTaskAB implements Runnable {
             return;
         }
 
-		String str = ConfigMMsg.getConfig().getString("Vanish.Action-Bar");
+		String str = ConfigMMsg.getConfig(p).getString("Vanish.Action-Bar");
 		str = MessageUtils.colourTheStuff(str);
 		str = PlaceHolders.ReplaceMainplaceholderP(str, p);
 		if (HooksManager.papi()) {

@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class Setup implements Listener {
 	// The Escape message: a check waiting, and the time of the last message
 	private static final Set<UUID> escapeCheck = new HashSet<>();
 	private static final java.util.Map<UUID, Long> lastWarning = new java.util.HashMap<>();
-	private static BukkitTask detectionTask;
+	private static Task detectionTask;
 
 	// Something was changed (language, modules, world, spawn): Hawn reloads at the end, no restart (since 1.5.1)
 	private static boolean changed = false;
@@ -77,7 +77,7 @@ public class Setup implements Listener {
 			detectionTask = Tasks.timer(() -> {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (p.hasPermission("hawn.setup") && !inSetup.contains(p.getUniqueId())) {
-						start(p);
+						Tasks.sync(p, () -> start(p));
 					}
 				}
 			}, 40L, 40L);
@@ -172,7 +172,7 @@ public class Setup implements Listener {
 		Player p = (Player) e.getWhoClicked();
 		if (e.getRawSlot() == 11) {
 			p.closeInventory();
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (p.isOnline()) restart(p);
 			}, 5L);
 		} else if (e.getRawSlot() == 15) {
@@ -223,7 +223,7 @@ public class Setup implements Listener {
 		}
 
 		setupplace = step;
-		Tasks.later(() -> openCurrentStep(p), 5L);
+		Tasks.later(p, () -> openCurrentStep(p), 5L);
 	}
 
 	// The item of the Previous / Next buttons: a door, never an arrow (the arrows of the World Manager change its pages)
@@ -327,7 +327,7 @@ public class Setup implements Listener {
 		boolean setupMenu = type != null && (type.isSetup() || (setupplace == 21 && type.isWorldManager()));
 		// One check at a time, and one message per second: a menu can be closed several times in a row (reopened by a move...)
 		if (needsetup && setupMenu && inSetup.contains(p.getUniqueId()) && !clicking.contains(p.getUniqueId()) && escapeCheck.add(p.getUniqueId())) {
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				escapeCheck.remove(p.getUniqueId());
 				Long last = lastWarning.get(p.getUniqueId());
 				if (last != null && System.currentTimeMillis() - last < 1000) return;
@@ -353,7 +353,7 @@ public class Setup implements Listener {
 		// Only the admins doing the setup: the others can be op too (bug 61)
 		if (needsetup && inSetup.contains(p.getUniqueId()) && (setupplace == 1 || setupplace == 11 || setupplace == 2)) {
 			// The inventory is also closed when the player leaves or when the setup ends
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				// Only when no menu of Hawn is open: opening the step closes the menu open now, which would open it again
 				// every 5 ticks (the menu blinked)
 				if (needsetup && p.isOnline() && (setupplace == 1 || setupplace == 11 || setupplace == 2)

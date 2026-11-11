@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.List;
 
@@ -117,7 +117,7 @@ public class OnScoreboard implements Listener {
 			Main.getInstance().getScoreManager().writeInt(sb, "updater.text", null);
 		}
 
-		BukkitTask TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), board, p, Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
+		Task TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), board, p, Main.getInstance().getScoreManager().getFile(sb).getInt("updater.scoreboard"));
 
 		Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
 	}

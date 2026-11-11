@@ -71,6 +71,8 @@ public class DEWorldManagerPanelConfig {
         // Since 1.4.7
         Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7Die Welt &e%arg1% &7wurde entladen: du bist jetzt in &e%arg2%"));
         Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cDie Welt &e%arg1% &ckonnte nicht geladen werden, siehe Konsole"));
+        // Since 1.6
+        Config.set("Folia-Disabled", java.util.Arrays.asList("%prefix% &cDer World Manager ist auf Folia aus: Folia kann keine Welt erstellen oder entladen, während der Server läuft"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cDie Teleportation ist fehlgeschlagen",

@@ -54,7 +54,7 @@ public class FlySpeedCommand extends BukkitCommand {
 		 if (!FlySpeedCommandConfig.getConfig().getBoolean("FlySpeed.Enable")) {
 			 if (FlySpeedCommandConfig.getConfig().getBoolean("FlySpeed.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -72,7 +72,7 @@ public class FlySpeedCommand extends BukkitCommand {
 		 if (args.length == 1) {
 				if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_fly_speed.Activate")) {
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Turn-On-First.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
+                     for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
                          ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", "/flyspeed"), "", "", false);
                      }
                  }
@@ -96,7 +96,7 @@ public class FlySpeedCommand extends BukkitCommand {
 					PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.parseInt(args[0]));
 					
 					if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Set.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Set.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Set.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", String.valueOf(args[0])), "", "", false);
 						}
 					}
@@ -111,7 +111,7 @@ public class FlySpeedCommand extends BukkitCommand {
 					PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "FALSE", speedvalue);
                  p.setFlySpeed(0.1F);
                  if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Disable.Enable")) {
-                     for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Disable.Messages")) {
+                     for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Disable.Messages")) {
                          ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                      }
                  }
@@ -127,7 +127,7 @@ public class FlySpeedCommand extends BukkitCommand {
 						}
 
 						if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Enable.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						}
@@ -144,7 +144,7 @@ public class FlySpeedCommand extends BukkitCommand {
                      }
 
                      if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Enable.Enable")) {
-                         for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
+                         for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
                              ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                          }
                      }

@@ -68,6 +68,8 @@ public class ConfigGeneral {
         Config.set("Plugin.Tps.Emergency-Save.Spread", true);
 
         Config.set("Plugin.Language-Type", "en_US");
+        // Since 1.6: the language of the client of each player, or the one chosen in the language menu
+        Config.set("Plugin.Language-Per-Player", true);
 
         // The world written in the "Worlds" lists of the files: the world manager replaces it there when another world becomes the default one
         Config.set(DefaultWorld.PATH, loaded.isSet(DefaultWorld.PATH) ? loaded.getString(DefaultWorld.PATH) : DefaultWorld.guess(pl.getDataFolder()));

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -72,10 +73,10 @@ public class gmsCommand extends BukkitCommand {
 					return true;
 				}
 				
-				target.setGameMode(GameMode.SURVIVAL);
+				Tasks.sync(target, () -> target.setGameMode(GameMode.SURVIVAL));
 					
 				if (ConfigMMsg.getConfig().getBoolean(msg_other+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 					}
 				}
@@ -98,7 +99,7 @@ public class gmsCommand extends BukkitCommand {
 		if (!GamemodeCommandConfig.getConfig().getBoolean(Command_section+"Enable")) {
 			if (GamemodeCommandConfig.getConfig().getBoolean(Command_section+"Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -117,7 +118,7 @@ public class gmsCommand extends BukkitCommand {
 			// Self gamemode
 			if (p.getGameMode() == GameMode.SURVIVAL) {
 				if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -126,7 +127,7 @@ public class gmsCommand extends BukkitCommand {
 			
 			p.setGameMode(GameMode.SURVIVAL);
 			if (ConfigMMsg.getConfig().getBoolean(msg_self+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(msg_self+"Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self+"Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -146,24 +147,24 @@ public class gmsCommand extends BukkitCommand {
 
 			if (target.getGameMode() == GameMode.SURVIVAL) {
 				if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 					}
 				}
 				return true;
 			}
 			
-			target.setGameMode(GameMode.SURVIVAL);
+			Tasks.sync(target, () -> target.setGameMode(GameMode.SURVIVAL));
 				
 			if (ConfigMMsg.getConfig().getBoolean(msg_other+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(msg_other+"Messages")) {
+				for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other+"Messages")) {
 					ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 				}
 			}
 				
 			if (ConfigMMsg.getConfig().getBoolean(msg_other_sender+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_sender+"Messages")) {
-					ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
+				for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_other_sender+"Messages")) {
+					ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%player%", target.getName()), "", "", false);
 				}
 			}
 

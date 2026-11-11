@@ -70,18 +70,12 @@ final class RanksLuckPerms {
 			net.luckperms.api.event.EventBus bus = LuckPermsProvider.get().getEventBus();
 			subscription = bus.subscribe(net.luckperms.api.event.user.UserDataRecalculateEvent.class, e -> {
 				java.util.UUID id = e.getUser().getUniqueId();
-				fr.dianox.hawn.utility.Tasks.next(() -> {
-					Player p = org.bukkit.Bukkit.getPlayer(id);
-					if (p != null) Ranks.refresh(p, false);
-				});
+				Player p = org.bukkit.Bukkit.getPlayer(id);
+				if (p != null) fr.dianox.hawn.utility.Tasks.next(p, () -> Ranks.refresh(p, false));
 			});
 			// A group changed: every player online (a group can be inherited)
 			groupSubscription = bus.subscribe(net.luckperms.api.event.group.GroupDataRecalculateEvent.class, e ->
-				fr.dianox.hawn.utility.Tasks.next(() -> {
-					for (Player p : org.bukkit.Bukkit.getOnlinePlayers()) {
-						Ranks.refresh(p, false);
-					}
-				}));
+				fr.dianox.hawn.utility.Tasks.next(() -> fr.dianox.hawn.utility.Tasks.forEachPlayer(p -> Ranks.refresh(p, false))));
 		} catch (IllegalStateException ignored) {
 			// LuckPerms not ready: the refresh every Refresh-Seconds still shows the changes
 		}

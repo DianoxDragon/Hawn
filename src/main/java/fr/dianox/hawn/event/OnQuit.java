@@ -157,11 +157,11 @@ public class OnQuit implements Listener {
                             commands = commands.replace("[command-console]: ", "");
                             commands = commands.replace("%player%", p.getName());
 
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                            Tasks.console(commands);
                         } else {
                         	commands = commands.replace("%player%", p.getName());
 
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                            Tasks.console(commands);
                         }
 					}
         		}
@@ -192,11 +192,11 @@ public class OnQuit implements Listener {
                         commands = commands.replace("[command-console]: ", "");
                         commands = commands.replace("%player%", p.getName());
 
-                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                        Tasks.console(commands);
                     } else {
                     	commands = commands.replace("%player%", p.getName());
 
-                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), commands);
+                        Tasks.console(commands);
                     }
     			}
         	}

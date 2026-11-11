@@ -1,5 +1,6 @@
 package fr.dianox.hawn.utility.tasks;
 
+import fr.dianox.hawn.utility.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,7 +15,7 @@ public class TaskSavePlayerServer implements Runnable {
 	
 	@Override
 	public void run() {
-		Bukkit.getServer().savePlayers();
+		Tasks.forEachPlayer(Player::saveData);
 		
 		p.sendMessage("§eDone");
 	}

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -67,8 +68,8 @@ public class FlyCommand extends BukkitCommand {
 			}
 			
 			if (target.getAllowFlight() && (player_list_flyc.contains(target) || ConfigPlayerGet.getFile(target.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
-				target.setAllowFlight(false);
-				target.setFlying(false);
+				Tasks.sync(target, () -> target.setAllowFlight(false));
+				Tasks.sync(target, () -> target.setFlying(false));
 				player_list_flyc.remove(target);
 				PlayerOptionSQLClass.SaveSQLPOFly(target, "FALSE");
 				if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
@@ -76,33 +77,33 @@ public class FlyCommand extends BukkitCommand {
 		        		if (PlayerEventsPW.getWFDoubleJump().contains(target.getWorld().getName())) {
 		        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 		        				if (target.hasPermission("hawn.fun.doublejump.double")) {
-		        					target.setAllowFlight(true);
+		        					Tasks.sync(target, () -> target.setAllowFlight(true));
 		        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 		        				} else {
 		        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 		        				}
 		        			} else {
-		        				target.setAllowFlight(true);
+		        				Tasks.sync(target, () -> target.setAllowFlight(true));
 		        				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 		        			}
 		        		}
 		        	} else {
 		        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 		    				if (target.hasPermission("hawn.fun.doublejump.double")) {
-		    					target.setAllowFlight(true);
+		    					Tasks.sync(target, () -> target.setAllowFlight(true));
 		    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 		    				} else {
 		    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 		    				}
 		    			} else {
-		    				target.setAllowFlight(true);
+		    				Tasks.sync(target, () -> target.setAllowFlight(true));
 		    				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 		    			}
 		        	} 	
 		        }
 				
 				if (ConfigMMsg.getConfig().getBoolean("Fly.Disable-Other.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable-Other.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList("Fly.Disable-Other.Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 					}
 				}
@@ -112,13 +113,13 @@ public class FlyCommand extends BukkitCommand {
 					}
 				}
 			} else {
-				target.setAllowFlight(true);
-				target.setFlying(true);
+				Tasks.sync(target, () -> target.setAllowFlight(true));
+				Tasks.sync(target, () -> target.setFlying(true));
 				player_list_flyc.add(target);
 				PlayerOptionSQLClass.SaveSQLPOFly(target, "TRUE");
 				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 				if (ConfigMMsg.getConfig().getBoolean("Fly.Enable-Other.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable-Other.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList("Fly.Enable-Other.Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 					}
 				}
@@ -139,7 +140,7 @@ public class FlyCommand extends BukkitCommand {
 		if (!FlyCommandConfig.getConfig().getBoolean("Fly.Enable")) {
 			if (FlyCommandConfig.getConfig().getBoolean("Fly.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -192,7 +193,7 @@ public class FlyCommand extends BukkitCommand {
 					        }
 							
 							if (ConfigMMsg.getConfig().getBoolean("Fly.Disable.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Disable.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -203,7 +204,7 @@ public class FlyCommand extends BukkitCommand {
 							PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
 							PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
 							if (ConfigMMsg.getConfig().getBoolean("Fly.Enable.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Enable.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -218,8 +219,8 @@ public class FlyCommand extends BukkitCommand {
 							}
 							
 							if (target.getAllowFlight() && (player_list_flyc.contains(target) || ConfigPlayerGet.getFile(target.getUniqueId().toString()).getBoolean("player_option_fly.Activate"))) {
-								target.setAllowFlight(false);
-								target.setFlying(false);
+								Tasks.sync(target, () -> target.setAllowFlight(false));
+								Tasks.sync(target, () -> target.setFlying(false));
 								player_list_flyc.remove(target);
 								PlayerOptionSQLClass.SaveSQLPOFly(target, "FALSE");
 								if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Enable")) {
@@ -227,54 +228,54 @@ public class FlyCommand extends BukkitCommand {
 						        		if (PlayerEventsPW.getWFDoubleJump().contains(target.getWorld().getName())) {
 						        			if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 						        				if (target.hasPermission("hawn.fun.doublejump.double")) {
-						        					target.setAllowFlight(true);
+						        					Tasks.sync(target, () -> target.setAllowFlight(true));
 						        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						        				} else {
 						        					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 						        				}
 						        			} else {
-						        				target.setAllowFlight(true);
+						        				Tasks.sync(target, () -> target.setAllowFlight(true));
 						        				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						        			}
 						        		}
 						        	} else {
 						        		if (ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.Use_Permission")) {
 						    				if (target.hasPermission("hawn.fun.doublejump.double")) {
-						    					target.setAllowFlight(true);
+						    					Tasks.sync(target, () -> target.setAllowFlight(true));
 						    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						    				} else {
 						    					PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 						    				}
 						    			} else {
-						    				target.setAllowFlight(true);
+						    				Tasks.sync(target, () -> target.setAllowFlight(true));
 						    				PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "TRUE");
 						    			}
 						        	} 	
 						        }
 								
 								if (ConfigMMsg.getConfig().getBoolean("Fly.Disable-Other.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable-Other.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(target).getStringList("Fly.Disable-Other.Messages")) {
 										ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 									}
 								}
 								if (ConfigMMsg.getConfig().getBoolean("Fly.Disable-Other-Executor.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable-Other-Executor.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Disable-Other-Executor.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 									}
 								}
 							} else {
-								target.setAllowFlight(true);
-								target.setFlying(true);
+								Tasks.sync(target, () -> target.setAllowFlight(true));
+								Tasks.sync(target, () -> target.setFlying(true));
 								player_list_flyc.add(target);
 								PlayerOptionSQLClass.SaveSQLPOFly(target, "TRUE");
 								PlayerOptionSQLClass.SaveSQLPODoubleJump(target, "FALSE");
 								if (ConfigMMsg.getConfig().getBoolean("Fly.Enable-Other.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable-Other.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(target).getStringList("Fly.Enable-Other.Messages")) {
 										ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 									}
 								}
 								if (ConfigMMsg.getConfig().getBoolean("Fly.Enable-Other-Executor.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable-Other-Executor.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Enable-Other-Executor.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 									}
 								}

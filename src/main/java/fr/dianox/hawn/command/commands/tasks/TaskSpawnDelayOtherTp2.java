@@ -61,11 +61,11 @@ public class TaskSpawnDelayOtherTp2 implements Runnable {
 		SpawnUtils.teleportToSpawnAsync(other, tp);
 		
 		// Messages
-		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+		for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport-By-Player.Sender")) {
 			ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", other.getName()), "", "", false);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+			for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 				ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 			}
 		}

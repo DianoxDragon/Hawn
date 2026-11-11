@@ -297,7 +297,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	    // The menus of Menus/ (since 1.5), and the items of Nexo in the join items and the menus (one tick later: Nexo
 	    // may be enabled after Hawn)
+	    // The texts of {lang_<key>} (since 1.6), before the menus that use them
+	    fr.dianox.hawn.utility.Translations.load();
 	    fr.dianox.hawn.modules.menus.Menus.load();
+	    // The holograms of Holograms/ (since 1.6), with PacketEvents
+	    fr.dianox.hawn.modules.holograms.Holograms.load();
 	    fr.dianox.hawn.hook.CustomItems.load();
 	    Tasks.next(fr.dianox.hawn.hook.CustomItems::load);
 
@@ -311,6 +315,9 @@ public class Main extends JavaPlugin implements Listener {
 		WorldList.setworldlist();
 		Reload.configlist();
 
+		// The options added to the files of every language, on one line per file
+		fr.dianox.hawn.utility.config.ConfigDefaults.logGrouped();
+
 		// Server, hooks, storage, what is loaded, what is on, the options that contradict each other
 		fr.dianox.hawn.utility.StartupReport.print(start);
 	}
@@ -319,13 +326,23 @@ public class Main extends JavaPlugin implements Listener {
 	public void onDisable() {
 		super.onDisable();
 
+		// The holograms leave the screens of the players (since 1.6)
+		try {
+			fr.dianox.hawn.modules.holograms.Holograms.stop();
+		} catch (Throwable ignored) {}
+		// The tasks planned by Hawn: Folia does not cancel them all by itself (since 1.6)
+		Tasks.cancelAll();
+
 		fr.dianox.hawn.modules.onjoin.JoinNumbers.stop();
-		// The riders of a pearl mount get off: the pearl would teleport them later
-		fr.dianox.hawn.modules.onjoin.cji.SpecialItePearlMount.stopAll();
-		// The menus of Hawn are closed: no menu stays open without its plugin
-		for (org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
-			if (fr.dianox.hawn.utility.gui.HawnMenu.isMenu(p.getOpenInventory().getTopInventory())) {
-				p.closeInventory();
+		// Folia stops the whole server with the plugin, and the players can only be touched from their own thread
+		if (!Tasks.isFolia()) {
+			// The riders of a pearl mount get off: the pearl would teleport them later
+			fr.dianox.hawn.modules.onjoin.cji.SpecialItePearlMount.stopAll();
+			// The menus of Hawn are closed: no menu stays open without its plugin
+			for (org.bukkit.entity.Player p : Bukkit.getOnlinePlayers()) {
+				if (fr.dianox.hawn.utility.gui.HawnMenu.isMenu(p.getOpenInventory().getTopInventory())) {
+					p.closeInventory();
+				}
 			}
 		}
 		try {
@@ -456,7 +473,7 @@ public class Main extends JavaPlugin implements Listener {
 			if (!p.isOnline()) {
 				return;
 			}
-			for (String msg : ConfigMGeneral.getConfig().getStringList("Update.Notify-Admins.Messages")) {
+			for (String msg : ConfigMGeneral.getConfig(p).getStringList("Update.Notify-Admins.Messages")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%new_version%", UpdateChecker.new_number_version).replace("%current_version%", versions), "", "", false);
 			}
 		}, 60L);

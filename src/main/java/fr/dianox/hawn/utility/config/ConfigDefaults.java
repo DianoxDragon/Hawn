@@ -65,7 +65,13 @@ public final class ConfigDefaults {
     private static int commented = 0;
     private static final List<String> yamlErrors = new ArrayList<>();
 
+    // At startup, the same options added to the files of every language of Messages/ are written on one line
+    private static boolean grouping = false;
+    private static final Map<String, List<String>> grouped = new LinkedHashMap<>();
+
     public static void reset() {
+        grouping = true;
+        grouped.clear();
         files.clear();
         optionsAdded = 0;
         commented = 0;
@@ -139,10 +145,34 @@ public final class ConfigDefaults {
         }
 
         if (!added.isEmpty()) {
-            Bukkit.getLogger().info("[Hawn] " + name + ": " + added.size() + " missing option(s) added: "
-                + String.join(", ", added.size() > 10 ? added.subList(0, 10) : added) + (added.size() > 10 ? "..." : ""));
+            String list = added.size() + " missing option(s) added: "
+                + String.join(", ", added.size() > 10 ? added.subList(0, 10) : added) + (added.size() > 10 ? "..." : "");
+            String[] parts = name.split("/");
+            if (grouping && parts.length == 3 && parts[0].equals("Messages")) {
+                // Messages/<language>/<file>: grouped by file and options, written by logGrouped()
+                grouped.computeIfAbsent(parts[2] + "|" + list, k -> new ArrayList<>()).add(parts[1]);
+            } else {
+                Bukkit.getLogger().info("[Hawn] " + name + ": " + list);
+            }
         }
         return loaded;
+    }
+
+    /**
+     * End of the startup: "Messages/fr_FR/Admin.yml: ..." seven times becomes one line for the seven languages.
+     */
+    public static void logGrouped() {
+        grouping = false;
+        for (Map.Entry<String, List<String>> e : grouped.entrySet()) {
+            // A file name has no "|": the first one ends it
+            String[] key = e.getKey().split("\\|", 2);
+            List<String> languages = e.getValue();
+            String where = languages.size() == 1
+                ? "Messages/" + languages.get(0) + "/" + key[0]
+                : "Messages/*/" + key[0] + " (" + String.join(", ", languages) + ")";
+            Bukkit.getLogger().info("[Hawn] " + where + ": " + key[1]);
+        }
+        grouped.clear();
     }
 
     /**

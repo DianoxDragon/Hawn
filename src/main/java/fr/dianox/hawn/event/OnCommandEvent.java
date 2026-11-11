@@ -47,7 +47,7 @@ public class OnCommandEvent implements Listener {
             if (CommandEventConfig.getConfig().getBoolean("Block-Commands.Options.Notify-Staff")) {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (all.hasPermission("hawn.notify.staff.commandblocker")) {
-                        for (String str: ConfigMAdmin.getConfig().getStringList("Command-Blocker.Notify-Staff")) {
+                        for (String str: ConfigMAdmin.getConfig(all).getStringList("Command-Blocker.Notify-Staff")) {
                             ConfigEventUtils.ExecuteEvent(all, str.replace("%player%", p.getName()).replace("%arg1%", ConfigEventUtils.noAction(e.getMessage())), "", "", false);
                         }
                     }

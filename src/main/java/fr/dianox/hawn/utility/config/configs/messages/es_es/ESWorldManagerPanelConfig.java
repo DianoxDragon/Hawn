@@ -71,6 +71,8 @@ public class ESWorldManagerPanelConfig {
         // Since 1.4.7
         Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7El mundo &e%arg1% &7se ha descargado: ahora estás en &e%arg2%"));
         Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cNo se ha podido cargar el mundo &e%arg1%&c, mira la consola"));
+        // Since 1.6
+        Config.set("Folia-Disabled", java.util.Arrays.asList("%prefix% &cEl World Manager está desactivado en Folia: Folia no puede crear ni descargar un mundo mientras el servidor funciona"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cEl teletransporte ha fallado",

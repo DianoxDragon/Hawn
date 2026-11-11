@@ -81,7 +81,7 @@ public class SpawnListCommand extends BukkitCommand{
 		if (!SpawnCommandConfig.getConfig().getBoolean("SpawnList.Enable")) {
 			if (SpawnCommandConfig.getConfig().getBoolean("SpawnList.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -118,14 +118,14 @@ public class SpawnListCommand extends BukkitCommand{
 				}
 								
 				if (ConfigMMsg.getConfig().getBoolean(msg_listspawn_list+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_listspawn_list+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_listspawn_list+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnlist%", spawnlist), "", "", false);
 					}
 				}
 			}
 		} catch (NullPointerException e) {
 			if (ConfigMMsg.getConfig().getBoolean(msg_nospawn+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(msg_nospawn+"Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_nospawn+"Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

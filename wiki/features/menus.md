@@ -174,6 +174,11 @@ The examples of Hawn use them: "Click to join" blinks in `servers.yml`, and the 
 | `[close]` | Closes the menu. |
 | `[refresh]` | Builds the open menu again (after a change). |
 | `[back]` | Opens the menu that was open before this one, or closes it when there is none. Since Hawn 1.5.2, it goes back step by step: A, then B, then C, `[back]` opens B, then A. |
+| `[language]: <code>` | Since Hawn 1.6: the player gets the messages in this language (`en_US`, `fr_FR`, `de_DE`, `nl_NL`, `es_ES`, `it_IT`, `pt_BR`). `[language]: client` gives back the language of their game. See [Translating Hawn](../help/translating.md#the-language-of-each-player). |
+
+## The language menu
+
+`Menus/language.yml` (since Hawn 1.6) is opened by `/language` and by the book of the profile. Each language has two items on its slot: the one shown when it is chosen (`View-Requirements: '%player_language_choice% == fr_FR'`), and the one to click. Its texts are keys of `Translations/` (`{lang_menu.<key>}`), shown in the language of each player, like those of `servers.yml` and `profile.yml` on the new installations.
 
 ## Commands and permissions
 

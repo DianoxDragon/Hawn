@@ -87,11 +87,11 @@ public class UrgentMode implements Listener {
 		HawnCommandConfig.saveConfigFile();
 
 		record("ON", by);
-		tell(by, ConfigMAdmin.getConfig().getStringList("Urgent-mode.On"), "");
+		tell(by, ConfigMAdmin.getConfig(by).getStringList("Urgent-mode.On"), "");
 
 		for (Player ps : new ArrayList<>(Bukkit.getServer().getOnlinePlayers())) {
 			if (!ServerPingEvent.canJoin(ps, "Urgent-mode")) {
-				ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Urgent-mode"));
+				Tasks.sync(ps, () -> ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Urgent-mode")));
 			}
 		}
 
@@ -107,7 +107,7 @@ public class UrgentMode implements Listener {
 			disablePlugins(by);
 		}
 
-		broadcast(by, ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.On"));
+		broadcast(by, "Urgent-mode.Broadcast.On");
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class UrgentMode implements Listener {
 		state.set("Disabled-Plugins", null);
 		saveState(state);
 
-		tell(by, ConfigMAdmin.getConfig().getStringList("Urgent-mode.Off"), "");
-		broadcast(by, ConfigMAdmin.getConfig().getStringList("Urgent-mode.Broadcast.Off"));
+		tell(by, ConfigMAdmin.getConfig(by).getStringList("Urgent-mode.Off"), "");
+		broadcast(by, "Urgent-mode.Broadcast.Off");
 	}
 
 	/* ------------------------------------------------------------------ operators */
@@ -201,7 +201,7 @@ public class UrgentMode implements Listener {
 			}
 		}
 
-		tell(by, ConfigMAdmin.getConfig().getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins"), "");
+		tell(by, ConfigMAdmin.getConfig(by).getStringList("Urgent-mode.Back-To-Normal-For-All-Plugins"), "");
 	}
 
 	/* ------------------------------------------------------------------ backup */
@@ -218,7 +218,8 @@ public class UrgentMode implements Listener {
 		Map<World, Boolean> autoSave = new LinkedHashMap<>();
 		Map<String, File> roots = new LinkedHashMap<>();
 		for (World w : Bukkit.getWorlds()) {
-			w.save();
+			// Folia saves the worlds by region itself (since 1.6)
+			if (!Tasks.isFolia()) w.save();
 			autoSave.put(w, w.isAutoSave());
 			w.setAutoSave(false);
 
@@ -499,13 +500,11 @@ public class UrgentMode implements Listener {
 		}
 	}
 
-	private static void broadcast(CommandSender by, List<String> lines) {
-		for (String msg : lines) {
-			if (by instanceof Player) {
-				ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", (Player) by, true);
-			} else {
-				ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
-			}
+	// Each player in their language (since 1.6), the console in the language of the server
+	private static void broadcast(CommandSender by, String key) {
+		ConfigEventUtils.broadcast(to -> ConfigMAdmin.getConfig(to).getStringList(key), msg -> msg,
+				by instanceof Player ? (Player) by : null, "", "");
+		for (String msg : ConfigMAdmin.getConfig().getStringList(key)) {
 			MessageUtils.ConsoleMessages(msg);
 		}
 	}

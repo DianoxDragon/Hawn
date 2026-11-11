@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -59,7 +60,7 @@ public class FeedCommand extends BukkitCommand {
 	                    		return true;
 	                    	}
 	
-	                    	target.setFoodLevel(20);
+	                    	Tasks.sync(target, () -> target.setFoodLevel(20));
 	
 	                    	if (ConfigMMsg.getConfig().getBoolean("Feed.Other-Sender.Enable")) {
 	                    		for (String msg: ConfigMMsg.getConfig().getStringList("Feed.Other-Sender.Messages")) {
@@ -67,7 +68,7 @@ public class FeedCommand extends BukkitCommand {
 	                    		}
 	                    	}
 	                    	if (ConfigMMsg.getConfig().getBoolean("Feed.Other.Enable")) {
-	                    		for (String msg: ConfigMMsg.getConfig().getStringList("Feed.Other.Messages")) {
+	                    		for (String msg: ConfigMMsg.getConfig(target).getStringList("Feed.Other.Messages")) {
 	                    			ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 	                    		}
 	                    	}
@@ -94,7 +95,7 @@ public class FeedCommand extends BukkitCommand {
         if (!FeedCommandConfig.getConfig().getBoolean("Feed.Enable")) {
             if (FeedCommandConfig.getConfig().getBoolean("Feed.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -114,7 +115,7 @@ public class FeedCommand extends BukkitCommand {
             p.setFoodLevel(20);
 
             if (ConfigMMsg.getConfig().getBoolean("Feed.Self.Enable")) {
-                for (String msg: ConfigMMsg.getConfig().getStringList("Feed.Self.Messages")) {
+                for (String msg: ConfigMMsg.getConfig(p).getStringList("Feed.Self.Messages")) {
                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 }
             }
@@ -129,15 +130,15 @@ public class FeedCommand extends BukkitCommand {
                         return true;
                     }
 
-                    target.setFoodLevel(20);
+                    Tasks.sync(target, () -> target.setFoodLevel(20));
 
                     if (ConfigMMsg.getConfig().getBoolean("Feed.Other-Sender.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Feed.Other-Sender.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Feed.Other-Sender.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
                         }
                     }
                     if (ConfigMMsg.getConfig().getBoolean("Feed.Other.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Feed.Other.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(target).getStringList("Feed.Other.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
                         }
                     }

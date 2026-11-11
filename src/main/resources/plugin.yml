@@ -4,7 +4,9 @@ author: Dianox
 main: fr.dianox.hawn.Main
 api-version: '1.16'
 load: POSTWORLD
-softdepend: [PlaceholderAPI, LuckPerms, WorldGuard, WorldEdit, Nexo]
+softdepend: [PlaceholderAPI, LuckPerms, WorldGuard, WorldEdit, Nexo, packetevents]
+# Since 1.6: the tasks run on the schedulers of Folia there
+folia-supported: true
 commands:
   hawn:
     description: Main menu for admins.

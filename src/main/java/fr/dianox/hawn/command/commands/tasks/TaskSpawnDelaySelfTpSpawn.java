@@ -63,7 +63,7 @@ public class TaskSpawnDelaySelfTpSpawn implements Runnable {
 				
 				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -90,7 +90,7 @@ public class TaskSpawnDelaySelfTpSpawn implements Runnable {
 			
 			// Messages
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+				for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

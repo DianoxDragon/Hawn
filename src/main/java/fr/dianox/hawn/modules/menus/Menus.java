@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,8 +53,8 @@ public final class Menus implements Listener {
 		// The slots of the Fill item, and what each animated slot shows (to send only what changed)
 		final java.util.Set<Integer> filled = new java.util.HashSet<>();
 		final Map<Integer, String> looks = new HashMap<>();
-		BukkitTask task;
-		BukkitTask animation;
+		Task task;
+		Task animation;
 		Inventory inventory;
 		String title;
 		boolean switching;
@@ -80,6 +80,9 @@ public final class Menus implements Listener {
 		File folder = folder();
 		if (!folder.exists()) {
 			DefaultMenus.write(folder);
+		} else {
+			// The servers that had the menus before 1.6 get the language menu once
+			DefaultMenus.writeLanguage(folder);
 		}
 
 		Map<String, Menu> loaded = new LinkedHashMap<>();
@@ -173,7 +176,7 @@ public final class Menus implements Listener {
 		run(p, menu.openActions);
 
 		if (menu.refresh > 0 && menu.hasUpdates()) {
-			session.task = Tasks.timer(() -> {
+			session.task = Tasks.timer(p, () -> {
 				if (!p.isOnline() || session(p.getOpenInventory().getTopInventory()) != session) {
 					Tasks.cancel(session.task);
 					return;
@@ -184,7 +187,7 @@ public final class Menus implements Listener {
 
 		// The animations: only what changed is sent again
 		if (menu.animationTicks > 0) {
-			session.animation = Tasks.timer(() -> animate(session), menu.animationTicks, menu.animationTicks);
+			session.animation = Tasks.timer(p, () -> animate(session), menu.animationTicks, menu.animationTicks);
 		}
 		return true;
 	}
@@ -285,18 +288,18 @@ public final class Menus implements Listener {
 	 * A head was found in the background: the open menus show it.
 	 */
 	static void refreshOpen() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
+		Tasks.forEachPlayer(p -> {
 			Session s = session(p.getOpenInventory().getTopInventory());
 			if (s != null) fill(s, false);
-		}
+		});
 	}
 
 	private static void closeAll() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
+		Tasks.forEachPlayer(p -> {
 			if (session(p.getOpenInventory().getTopInventory()) != null) {
 				p.closeInventory();
 			}
-		}
+		});
 	}
 
 	/* ------------------------------------------------------------------ the actions [menu], [close], [refresh], [back] */
@@ -305,13 +308,13 @@ public final class Menus implements Listener {
 	 * [menu]: &lt;name&gt;. One tick later: a menu is never opened inside the click of another one.
 	 */
 	public static void openLater(Player p, String name) {
-		Tasks.later(() -> {
+		Tasks.later(p, () -> {
 			if (p.isOnline()) open(p, name);
 		}, 1L);
 	}
 
 	public static void closeLater(Player p) {
-		Tasks.later(() -> {
+		Tasks.later(p, () -> {
 			if (p.isOnline() && session(p.getOpenInventory().getTopInventory()) != null) p.closeInventory();
 		}, 1L);
 	}
@@ -328,7 +331,7 @@ public final class Menus implements Listener {
 		java.util.Deque<String> stack = previous.get(p.getUniqueId());
 		String name = stack == null ? null : stack.poll();
 		if (name != null) {
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (p.isOnline()) open(p, name, true);
 			}, 1L);
 		} else {
@@ -401,7 +404,7 @@ public final class Menus implements Listener {
 	/* ------------------------------------------------------------------ messages */
 
 	static void say(Player p, String key, String arg) {
-		for (String msg : ConfigMMsg.getConfig().getStringList(key)) {
+		for (String msg : ConfigMMsg.getConfig(p).getStringList(key)) {
 			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg%", ConfigEventUtils.noAction(arg)), "", "", false);
 		}
 	}

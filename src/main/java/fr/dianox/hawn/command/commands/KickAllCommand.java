@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -40,7 +41,7 @@ public class KickAllCommand extends BukkitCommand {
         	if (args.length == 0) {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
              	   if (!all.hasPermission("hawn.command.bypass.kickall")) {
-             		   all.kickPlayer("Kicked");
+             		   Tasks.sync(all, () -> all.kickPlayer("Kicked"));
              	   }
                 }
                 
@@ -60,7 +61,7 @@ public class KickAllCommand extends BukkitCommand {
         if (!KickAllCommandConfig.getConfig().getBoolean("KickAll.Enable")) {
             if (KickAllCommandConfig.getConfig().getBoolean("KickAll.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -83,11 +84,11 @@ public class KickAllCommand extends BukkitCommand {
         	   }
         	   
         	   if (!all.hasPermission("hawn.command.bypass.kickall")) {
-        		   all.kickPlayer("Kicked");
+        		   Tasks.sync(all, () -> all.kickPlayer("Kicked"));
         	   }
            }
            
-           for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Kickall")) {
+           for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Kickall")) {
         	   ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
            }
         } else {

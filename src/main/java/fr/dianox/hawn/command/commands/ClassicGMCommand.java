@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -92,7 +93,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (!Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.add(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -100,7 +101,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.remove(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -108,10 +109,10 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					
-					target.setGameMode(GameMode.SURVIVAL);
+					Tasks.sync(target, () -> target.setGameMode(GameMode.SURVIVAL));
 					
 					if (ConfigMMsg.getConfig().getBoolean(msg_other_survival+"Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_survival+"Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_survival+"Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -139,7 +140,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (!Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.add(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -147,7 +148,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.remove(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -155,10 +156,10 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					
-					target.setGameMode(GameMode.CREATIVE);
+					Tasks.sync(target, () -> target.setGameMode(GameMode.CREATIVE));
 					
 					if (ConfigMMsg.getConfig().getBoolean(msg_other_creative+"Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_creative+"Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_creative+"Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -185,7 +186,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (!Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.add(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -193,7 +194,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.remove(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -201,10 +202,10 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					
-					target.setGameMode(GameMode.ADVENTURE);
+					Tasks.sync(target, () -> target.setGameMode(GameMode.ADVENTURE));
 					
 					if (ConfigMMsg.getConfig().getBoolean(msg_other_adventure+"Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_adventure+"Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_adventure+"Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -231,7 +232,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (!Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.add(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -239,7 +240,7 @@ public class ClassicGMCommand extends BukkitCommand {
 								if (Main.buildbypasscommand.contains(target)) {
 									Main.buildbypasscommand.remove(target);
 									
-									for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+									for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 										ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 									}
 								}
@@ -247,10 +248,10 @@ public class ClassicGMCommand extends BukkitCommand {
 						}
 					}
 					
-					target.setGameMode(GameMode.SPECTATOR);
+					Tasks.sync(target, () -> target.setGameMode(GameMode.SPECTATOR));
 					
 					if (ConfigMMsg.getConfig().getBoolean(msg_other_spectator+"Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_spectator+"Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_spectator+"Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -274,7 +275,7 @@ public class ClassicGMCommand extends BukkitCommand {
 		if (!GamemodeCommandConfig.getConfig().getBoolean(Command_section+"Enable")) {
 			if (GamemodeCommandConfig.getConfig().getBoolean(Command_section+"Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -311,7 +312,7 @@ public class ClassicGMCommand extends BukkitCommand {
 						if (mode2 == 0) {
 							if (p.getGameMode() == GameMode.SURVIVAL) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -324,7 +325,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -332,7 +333,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -342,14 +343,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SURVIVAL);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_survival+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_survival+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_survival+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode2 == 1) {
 							if (p.getGameMode() == GameMode.CREATIVE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -362,7 +363,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -370,7 +371,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -380,14 +381,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.CREATIVE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_creative+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_creative+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_creative+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode2 == 2) {
 							if (p.getGameMode() == GameMode.ADVENTURE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -400,7 +401,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -408,7 +409,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -418,14 +419,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.ADVENTURE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_adventure+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_adventure+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_adventure+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode2 == 3) {
 							if (p.getGameMode() == GameMode.SPECTATOR) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -438,7 +439,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -446,7 +447,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -456,7 +457,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SPECTATOR);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_spectator+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_spectator+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_spectator+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -465,7 +466,7 @@ public class ClassicGMCommand extends BukkitCommand {
 						if (mode1 == 0) {
 							if (p.getGameMode() == GameMode.SURVIVAL) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -478,7 +479,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -486,7 +487,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -496,14 +497,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SURVIVAL);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_survival+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_survival+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_survival+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode1 == 1) {
 							if (p.getGameMode() == GameMode.CREATIVE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -516,7 +517,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -524,7 +525,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -534,14 +535,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.CREATIVE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_creative+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_creative+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_creative+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode1 == 2) {
 							if (p.getGameMode() == GameMode.ADVENTURE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -554,7 +555,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -562,7 +563,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -572,14 +573,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.ADVENTURE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_adventure+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_adventure+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_adventure+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (mode1 == 3) {
 							if (p.getGameMode() == GameMode.SPECTATOR) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -592,7 +593,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -600,7 +601,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -610,7 +611,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SPECTATOR);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_spectator+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_spectator+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_spectator+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -619,7 +620,7 @@ public class ClassicGMCommand extends BukkitCommand {
 						if (modepriority == 0) {
 							if (p.getGameMode() == GameMode.SURVIVAL) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -632,7 +633,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -640,7 +641,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -650,14 +651,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SURVIVAL);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_survival+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_survival+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_survival+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (modepriority == 1) {
 							if (p.getGameMode() == GameMode.CREATIVE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -670,7 +671,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -678,7 +679,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -688,14 +689,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.CREATIVE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_creative+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_creative+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_creative+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (modepriority == 2) {
 							if (p.getGameMode() == GameMode.ADVENTURE) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -708,7 +709,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -716,7 +717,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -726,14 +727,14 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.ADVENTURE);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_adventure+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_adventure+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_adventure+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 						} else if (modepriority == 3) {
 							if (p.getGameMode() == GameMode.SPECTATOR) {
 								if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 									}
 								}
@@ -746,7 +747,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (!Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.add(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -754,7 +755,7 @@ public class ClassicGMCommand extends BukkitCommand {
 										if (Main.buildbypasscommand.contains(p)) {
 											Main.buildbypasscommand.remove(p);
 											
-											for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+											for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 											}
 										}
@@ -764,7 +765,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							
 							p.setGameMode(GameMode.SPECTATOR);
 							if (ConfigMMsg.getConfig().getBoolean(msg_self_spectator+"Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_spectator+"Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_spectator+"Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -775,7 +776,7 @@ public class ClassicGMCommand extends BukkitCommand {
 					return true;
 				}
 			} else if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -785,7 +786,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				if (p.getGameMode() == GameMode.SURVIVAL) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
@@ -798,7 +799,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.add(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -806,7 +807,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.remove(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -816,14 +817,14 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				p.setGameMode(GameMode.SURVIVAL);
 				if (ConfigMMsg.getConfig().getBoolean(msg_self_survival+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_survival+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_survival+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("cretatif") || args[0].equalsIgnoreCase("1")) {
 				if (p.getGameMode() == GameMode.CREATIVE) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
@@ -836,7 +837,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.add(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -844,7 +845,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.remove(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -854,14 +855,14 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				p.setGameMode(GameMode.CREATIVE);
 				if (ConfigMMsg.getConfig().getBoolean(msg_self_creative+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_creative+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_creative+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("aventure") || args[0].equalsIgnoreCase("2")) {
 				if (p.getGameMode() == GameMode.ADVENTURE) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
@@ -874,7 +875,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.add(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -882,7 +883,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.remove(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -892,14 +893,14 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				p.setGameMode(GameMode.ADVENTURE);
 				if (ConfigMMsg.getConfig().getBoolean(msg_self_adventure+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_adventure+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_adventure+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("spectateur") || args[0].equalsIgnoreCase("3")) {
 				if (p.getGameMode() == GameMode.SPECTATOR) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 						}
 					}
@@ -912,7 +913,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.add(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -920,7 +921,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(p)) {
 								Main.buildbypasscommand.remove(p);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -930,7 +931,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				p.setGameMode(GameMode.SPECTATOR);
 				if (ConfigMMsg.getConfig().getBoolean(msg_self_spectator+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_self_spectator+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_self_spectator+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -953,7 +954,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				if (target.getGameMode() == GameMode.SURVIVAL) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 						}
 					}
@@ -966,7 +967,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.add(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -974,7 +975,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.remove(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -982,16 +983,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 				
-				target.setGameMode(GameMode.SURVIVAL);
+				Tasks.sync(target, () -> target.setGameMode(GameMode.SURVIVAL));
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_survival+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_survival+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_survival+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 					}
 				}
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_survival_sender+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_survival_sender+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_other_survival_sender+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", target.getName()), "", "", false);
 					}
 				}
@@ -1000,7 +1001,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				if (target.getGameMode() == GameMode.CREATIVE) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 						}
 					}
@@ -1013,7 +1014,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.add(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1021,7 +1022,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.remove(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1029,16 +1030,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 				
-				target.setGameMode(GameMode.CREATIVE);
+				Tasks.sync(target, () -> target.setGameMode(GameMode.CREATIVE));
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_creative+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_creative+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_creative+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 					}
 				}
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_creative_sender+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_creative_sender+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_other_creative_sender+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", target.getName()), "", "", false);
 					}
 				}
@@ -1046,7 +1047,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				if (target.getGameMode() == GameMode.ADVENTURE) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 						}
 					}
@@ -1059,7 +1060,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.add(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1067,7 +1068,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.remove(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1075,16 +1076,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 				
-				target.setGameMode(GameMode.ADVENTURE);
+				Tasks.sync(target, () -> target.setGameMode(GameMode.ADVENTURE));
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_adventure+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_adventure+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_adventure+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 					}
 				}
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_adventure_sender+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_adventure_sender+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_other_adventure_sender+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", target.getName()), "", "", false);
 					}
 				}
@@ -1092,7 +1093,7 @@ public class ClassicGMCommand extends BukkitCommand {
 				
 				if (target.getGameMode() == GameMode.SPECTATOR) {
 					if (ConfigMMsg.getConfig().getBoolean("Gamemode.Error.Alread-In-The-Good-GM-Others.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Gamemode.Error.Alread-In-The-Good-GM-Others.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 						}
 					}
@@ -1105,7 +1106,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (!Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.add(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.On")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1113,7 +1114,7 @@ public class ClassicGMCommand extends BukkitCommand {
 							if (Main.buildbypasscommand.contains(target)) {
 								Main.buildbypasscommand.remove(target);
 								
-								for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+								for (String msg: ConfigMAdmin.getConfig(target).getStringList("Command.Build-Bypass.Off")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -1121,16 +1122,16 @@ public class ClassicGMCommand extends BukkitCommand {
 					}
 				}
 				
-				target.setGameMode(GameMode.SPECTATOR);
+				Tasks.sync(target, () -> target.setGameMode(GameMode.SPECTATOR));
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_spectator+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_spectator+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(target).getStringList(msg_other_spectator+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 					}
 				}
 				
 				if (ConfigMMsg.getConfig().getBoolean(msg_other_spectator_sender+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_other_spectator_sender+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_other_spectator_sender+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", target.getName()), "", "", false);
 					}
 				}

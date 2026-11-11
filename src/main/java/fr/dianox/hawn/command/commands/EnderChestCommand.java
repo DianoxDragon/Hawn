@@ -55,7 +55,7 @@ public class EnderChestCommand extends BukkitCommand {
 		 if (!EnderChestCommandConfig.getConfig().getBoolean("EnderChest.Enable")) {
 			 if (EnderChestCommandConfig.getConfig().getBoolean("EnderChest.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -76,7 +76,7 @@ public class EnderChestCommand extends BukkitCommand {
 			 p.openInventory(p.getEnderChest());
 	            
 			 if (ConfigMMsg.getConfig().getBoolean("EnderChest.Self.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("EnderChest.Self.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("EnderChest.Self.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				 }
 			 }
@@ -94,7 +94,7 @@ public class EnderChestCommand extends BukkitCommand {
 	             p.openInventory(target.getEnderChest());
 				 
 	             if (ConfigMMsg.getConfig().getBoolean("EnderChest.Other-Sender.Enable")) {
-	            	 for (String msg: ConfigMMsg.getConfig().getStringList("EnderChest.Other-Sender.Messages")) {
+	            	 for (String msg: ConfigMMsg.getConfig(p).getStringList("EnderChest.Other-Sender.Messages")) {
 	            		 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 	            	 }
 	             }

@@ -40,7 +40,7 @@ public class Setup3Spawn implements Listener {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", world.getName()), "", "", false);
 			}
 			// The menu once there (a teleport to another world closes it)
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (Setup.doingSetup(p) && Setup.setupplace == 3) OpenInventory(p);
 			}, 10L);
 			return;
@@ -136,7 +136,7 @@ public class Setup3Spawn implements Listener {
 		String spawn = parts[1];
 
 		// The command is run after this event: check the spawn on the next tick
-		Tasks.later(() -> {
+		Tasks.later(p, () -> {
 			if (!Setup.needsetup || !ConfigSpawn.getConfig().isSet("Coordinated." + spawn)) {
 				return;
 			}

@@ -87,12 +87,16 @@ public class OJMessages {
 	 * The lines of a world (join or quit): to everyone, or only to the players of the world, and to the console if asked.
 	 */
 	public static void sendWorldLines(Player p, String path, boolean onlyWorld, boolean console, String tag) {
-		for (String line : ConfigMGeneral.getConfig().getStringList(path)) {
-			String msg = line.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName());
-			if (console) {
+		if (console) {
+			for (String line : ConfigMGeneral.getConfig().getStringList(path)) {
+				String msg = line.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName());
 				ConfigEventUtils.ExecuteEvent(p, msg, path, tag + "STRICTSCONSOLE", true);
 			}
-			for (Player all : onlyWorld ? p.getWorld().getPlayers() : new java.util.ArrayList<Player>(Bukkit.getOnlinePlayers())) {
+		}
+		// Each player in their language (since 1.6)
+		for (Player all : onlyWorld ? p.getWorld().getPlayers() : new java.util.ArrayList<Player>(Bukkit.getOnlinePlayers())) {
+			for (String line : ConfigMGeneral.getConfig(all).getStringList(path)) {
+				String msg = line.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName());
 				ConfigEventUtils.ExecuteEventTargetPlaceHolder(all, p, msg, path, tag, false);
 			}
 		}
@@ -141,14 +145,14 @@ public class OJMessages {
 			e.setJoinMessage("");
 		} else {
 			if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
-	            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
+	            for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
 	            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Broadcast-To-Console", "OJMessagesSTRICTSCONSOLE", true);
-                    ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages", p, true);
 	            }
+	            // Each player in their language (since 1.6)
+	            ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("General.On-join.Join-Message.Messages"), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages");
 	        } else {
-	            for (String msg: ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Messages")) {
-	            	ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Messages", "OJMessages", p, true);
-	            }
+	            // Each player in their language (since 1.6)
+	            ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("General.On-join.Join-Message.Messages"), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "General.On-join.Join-Message.Messages", "OJMessages");
 	        }
 		}
 	}
@@ -169,12 +173,12 @@ public class OJMessages {
 					if (ConfigMGeneral.getConfig().getBoolean("General.On-join.Join-Message.Broadcast-To-Console")) {
 						for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-Group.Groups.", "OJMessagesSTRICTSCONSOLE", true);
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages", p, true);
 						}
+						// Each player in their language (since 1.6)
+						ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("General.On-join.Join-Message.Per-Group.Groups." + string), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages");
 					} else {
-						for (String msg : ConfigMGeneral.getConfig().getStringList("General.On-join.Join-Message.Per-Group.Groups." + string)) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages", p, true);
-						}
+						// Each player in their language (since 1.6)
+						ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("General.On-join.Join-Message.Per-Group.Groups." + string), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "General.On-join.Join-Message.Per-Group.Groups.", "OJMessages");
 					}
 
 					break;
@@ -203,12 +207,12 @@ public class OJMessages {
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.Enable")) {
             if (!ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.World.All_World")) {
                 if (OnJoinPW.getWD().contains(p.getWorld().getName())) {
-                	for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.Messages")) {
+                	for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.On-join.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "Spawn.On-join.Messages", "OJMessages", false);
                     }
                 }
             } else {
-                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.Messages")) {
+                for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.On-join.Messages")) {
                 	ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "Spawn.On-join.Messages", "OJMessages", false);
                 }
             }
@@ -217,7 +221,7 @@ public class OJMessages {
 	
 	public static void onMethodMOTDFJ(Player p) {
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Motd.Enable")) {
-            for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Motd.Messages")) {
+            for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.On-join.First-Join.Motd.Messages")) {
                 ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "Spawn.On-join.First-Join.Motd.Messages", "OJMessages", false);
             }
             if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Motd.Both-Motd")) {
@@ -240,7 +244,7 @@ public class OJMessages {
 		for (String string : ConfigMGeneral.getConfig().getConfigurationSection("Spawn.On-join.Per-World.Worlds").getKeys(false)) {
 			if (p.getLocation().getWorld().getName().equalsIgnoreCase(string)) {
 				if (p.hasPermission("hawn.on-join.custom-motd-per-world." + string)) {
-					for (String msg : ConfigMGeneral.getConfig().getStringList("Spawn.On-join.Per-World.Worlds." + string)) {
+					for (String msg : ConfigMGeneral.getConfig(p).getStringList("Spawn.On-join.Per-World.Worlds." + string)) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "Spawn.On-join.Per-World.Worlds.", "OJMessages", false);
 					}
 
@@ -260,14 +264,14 @@ public class OJMessages {
 		if (JoinNumbers.isFirstJoin(p)) {
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Enable")) {
 	            if (ConfigMGeneral.getConfig().getBoolean("Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console")) {
-	                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {
+	                for (String msg : ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {
 	                	ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), "Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", "OJMessagesSTRICTSCONSOLE", true);
-                        ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()),"Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", "OJMessages", p, true);
 	                }
+	                // Each player in their language (since 1.6)
+	                ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("Spawn.On-join.First-Join.Broadcast.Messages"), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", "OJMessages");
 	            } else {
-	                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.On-join.First-Join.Broadcast.Messages")) {
-	                	ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()),"Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", "OJMessages", p, true);
-	                }
+	                // Each player in their language (since 1.6)
+	                ConfigEventUtils.broadcast(to -> ConfigMGeneral.getConfig(to).getStringList("Spawn.On-join.First-Join.Broadcast.Messages"), msg -> msg.replace("%player%", p.getName()).replace("%player_displayname%", p.getDisplayName()), p, "Spawn.On-join.First-Join.Broadcast.Broadcast-To-The-Console", "OJMessages");
 	            }
 	        }
 		}

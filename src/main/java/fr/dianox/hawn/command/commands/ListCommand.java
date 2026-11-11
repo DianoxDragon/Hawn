@@ -124,7 +124,7 @@ public class ListCommand extends BukkitCommand {
         if (!ListCommandConfig.getConfig().getBoolean("List.Enable")) {
             if (ListCommandConfig.getConfig().getBoolean("List.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -155,7 +155,7 @@ public class ListCommand extends BukkitCommand {
         		return true;
         	}
         	
-        	for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-One")) {
+        	for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.List.Part-One")) {
     			ConfigEventUtils.ExecuteEvent(p, msg.replace("%number%", "1"), "", "", false);
     		}
         	
@@ -168,7 +168,7 @@ public class ListCommand extends BukkitCommand {
         		playerl++;
         	}
         	
-        	for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-Two")) {
+        	for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.List.Part-Two")) {
     			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
     		}
         } else if (args.length == 1) {
@@ -183,7 +183,7 @@ public class ListCommand extends BukkitCommand {
         	if (args[0].equals("0") || args[0].equals("1")) {
         		p.performCommand("list");
         	} else {
-        		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-One")) {
+        		for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.List.Part-One")) {
         			ConfigEventUtils.ExecuteEvent(p, msg.replace("%number%", ConfigEventUtils.noAction(args[0])), "", "", false);
         		}
         		
@@ -201,7 +201,7 @@ public class ListCommand extends BukkitCommand {
         			}
             	}
         		
-        		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.List.Part-Two")) {
+        		for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.List.Part-Two")) {
         			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
         		}
         	}

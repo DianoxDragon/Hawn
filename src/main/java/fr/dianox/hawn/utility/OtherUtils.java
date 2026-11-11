@@ -306,7 +306,7 @@ public class OtherUtils {
             }
             f.setFireworkMeta(fm);
             if (FireworkListCUtility.getConfig().getBoolean("Firework-List." + firework +".Options.Instant-explode")) {
-                Tasks.later(f::detonate, 5L);
+                Tasks.later(f, f::detonate, 5L);
             }
         }
     }

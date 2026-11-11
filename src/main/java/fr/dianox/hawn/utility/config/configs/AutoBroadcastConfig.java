@@ -69,7 +69,7 @@ public class AutoBroadcastConfig {
         Config.set("Config.Messages.Custom-Header-Footer.Header.Enable", true);
         Config.set("Config.Messages.Custom-Header-Footer.Header.messages", java.util.Arrays.asList(
                 "",
-                "°·..·°¯°·._.·  &e&lANNOUNCEMENT&r ·._.·°¯°·..·°",
+                "°·..·°¯°·._.·  &e&l{lang_text.announcement}&r ·._.·°¯°·..·°",
                 ""));
         Config.set("Config.Messages.Custom-Header-Footer.Footer.Enable", true);
         Config.set("Config.Messages.Custom-Header-Footer.Footer.messages", Collections.singletonList(""));
@@ -84,14 +84,14 @@ public class AutoBroadcastConfig {
         // Messages
 
         // Since 1.4.8: a demo of a lobby (the files already there keep their messages)
-        Config.set("Config.Messages.messages.welcome.message", Collections.singletonList("&7Welcome on &6&lYour Server&7! Type &e/help &7to see what you can do"));
-        Config.set("Config.Messages.messages.discord.message", Collections.singletonList("&7Join our Discord: &ediscord.gg/yourserver"));
-        Config.set("Config.Messages.messages.vote.message", Collections.singletonList("&7You like the server? Vote for it: &eyourserver.net/vote"));
+        Config.set("Config.Messages.messages.welcome.message", Collections.singletonList("{lang_text.welcome-server}"));
+        Config.set("Config.Messages.messages.discord.message", Collections.singletonList("{lang_text.discord}"));
+        Config.set("Config.Messages.messages.vote.message", Collections.singletonList("{lang_text.vote}"));
         // Since 1.5.2: a sound with the message (new installations)
         Config.set("Config.Messages.messages.vote.Sound", "BLOCK_NOTE_BLOCK_PLING");
 
         // Only in the nether (world_list)
-        Config.set("Config.Messages.messages.nether.message", Collections.singletonList("&7You are in the &cnether&7: watch your step!"));
+        Config.set("Config.Messages.messages.nether.message", Collections.singletonList("{lang_text.nether}"));
         Config.set("Config.Messages.messages.nether.world_list", Collections.singletonList("world_nether"));
         /*
          * Auto broadcast
@@ -111,17 +111,17 @@ public class AutoBroadcastConfig {
         // Messages
 
         Config.set("Config.Titles.messages.default.Title.Message", "&6&lYour Server");
-        Config.set("Config.Titles.messages.default.SubTitle.Message", "&7Have fun, &e%player%&7!");
+        Config.set("Config.Titles.messages.default.SubTitle.Message", "{lang_text.have-fun}");
 
         // Its own times
         Config.set("Config.Titles.messages.event.FadeIn", 20);
         Config.set("Config.Titles.messages.event.Stay", 150);
         Config.set("Config.Titles.messages.event.FadeOut", 20);
-        Config.set("Config.Titles.messages.event.Title.Message", "&b&lEvent");
-        Config.set("Config.Titles.messages.event.SubTitle.Message", "&7A new event starts soon");
+        Config.set("Config.Titles.messages.event.Title.Message", "{lang_text.event}");
+        Config.set("Config.Titles.messages.event.SubTitle.Message", "{lang_text.event-soon}");
 
         // A subtitle only
-        Config.set("Config.Titles.messages.spawn.SubTitle.Message", "&7Lost? Type &e/spawn");
+        Config.set("Config.Titles.messages.spawn.SubTitle.Message", "{lang_text.lost}");
 
         /*
          * Auto broadcast
@@ -138,11 +138,11 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.Action-Bar.messages.online.Message", "&7Players online: &e%online%&7/&e%max_players%");
+        Config.set("Config.Action-Bar.messages.online.Message", "{lang_text.players-online}");
 
         // Its own time
         Config.set("Config.Action-Bar.messages.help.Time-Stay", 60);
-        Config.set("Config.Action-Bar.messages.help.Message", "&7Need help? Ask the staff or type &e/help");
+        Config.set("Config.Action-Bar.messages.help.Message", "{lang_text.need-help}");
 
         /*
          * Auto broadcast
@@ -161,16 +161,16 @@ public class AutoBroadcastConfig {
 
         // Messages
 
-        Config.set("Config.BossBar.messages.welcome.Message", "&7Welcome on &6&lYour Server&7, &e%player%");
+        Config.set("Config.BossBar.messages.welcome.Message", "{lang_text.bossbar-welcome}");
 
         // Every option of its own
-        Config.set("Config.BossBar.messages.event.Message", "&b&lEvent &7in progress: join it with &e/warp event");
+        Config.set("Config.BossBar.messages.event.Message", "{lang_text.bossbar-event}");
         Config.set("Config.BossBar.messages.event.Color", "BLUE");
         Config.set("Config.BossBar.messages.event.Style", "SEGMENTED_20");
         Config.set("Config.BossBar.messages.event.Progress", 1.0D);
 
         // Only some options
-        Config.set("Config.BossBar.messages.vote.Message", "&eVote for the server: &fyourserver.net/vote");
+        Config.set("Config.BossBar.messages.vote.Message", "{lang_text.bossbar-vote}");
         Config.set("Config.BossBar.messages.vote.Color", "YELLOW");
         Config.set("Config.BossBar.messages.vote.Progress", 0.1D);
 

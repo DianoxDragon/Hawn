@@ -46,7 +46,7 @@ public class CancelTPWarpSpawn implements Listener {
 			}
 
 			if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Warp.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Warp.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Cancel-Tp.Warp.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -60,7 +60,7 @@ public class CancelTPWarpSpawn implements Listener {
 			}
 
 			if (ConfigMMsg.getConfig().getBoolean("Cancel-Tp.Spawn.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Cancel-Tp.Spawn.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Cancel-Tp.Spawn.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

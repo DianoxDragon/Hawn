@@ -88,7 +88,7 @@ public class GetPosCommand extends BukkitCommand {
         if (!GetPosCommandConfig.getConfig().getBoolean("GetPos.Enable")) {
             if (GetPosCommandConfig.getConfig().getBoolean("GetPos.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -106,7 +106,7 @@ public class GetPosCommand extends BukkitCommand {
 
         if (args.length == 0) {
             if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -124,7 +124,7 @@ public class GetPosCommand extends BukkitCommand {
     		String World = target.getLocation().getWorld().getName();
     		
     		if (ConfigMMsg.getConfig().getBoolean("GetPos.Enable")) {
-    			for (String msg: ConfigMMsg.getConfig().getStringList("GetPos.Messages")) {
+    			for (String msg: ConfigMMsg.getConfig(p).getStringList("GetPos.Messages")) {
     				ConfigEventUtils.ExecuteEvent(p, msg
     						.replace("%target%", target.getName())
     						.replace("%X%", String.valueOf(X))

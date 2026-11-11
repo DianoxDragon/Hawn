@@ -76,7 +76,7 @@ public class PingCommand extends BukkitCommand {
             if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Use_Permission")) {
                 if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
                     if (p.hasPermission("hawn.command.ping.self")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Ping.Self")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     } else {
@@ -86,7 +86,7 @@ public class PingCommand extends BukkitCommand {
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) {
                         if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -94,13 +94,13 @@ public class PingCommand extends BukkitCommand {
                 }
             } else {
                 if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Self")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Ping.Self")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Self.Disable-Message")) {
                         if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -117,7 +117,7 @@ public class PingCommand extends BukkitCommand {
                             MessageUtils.PlayerDoesntExist(p);
                             return true;
                         }
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Other")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Ping.Other")) {
                             ConfigEventUtils.ExecuteEvent(p, msg.replace("%ping%", String.valueOf(PingCommand.getPing(other))), "", "", false);
                         }
                     } else {
@@ -127,7 +127,7 @@ public class PingCommand extends BukkitCommand {
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Other.Disable-Message")) {
                         if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -139,13 +139,13 @@ public class PingCommand extends BukkitCommand {
                         MessageUtils.PlayerDoesntExist(p);
                         return true;
                     }
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Ping.Other")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Ping.Other")) {
                         ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", other.getName()).replace("%ping%", String.valueOf(PingCommand.getPing(other))), "", "", false);
                     }
                 } else {
                     if (PingCommandConfig.getConfig().getBoolean("Ping.Other.Disable-Message")) {
                         if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }

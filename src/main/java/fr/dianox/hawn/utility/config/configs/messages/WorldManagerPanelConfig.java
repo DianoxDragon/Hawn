@@ -1,8 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
 import fr.dianox.hawn.utility.config.ConfigDefaults;
+import fr.dianox.hawn.utility.config.LangFiles;
+import fr.dianox.hawn.utility.Lang;
 
 import fr.dianox.hawn.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -14,11 +17,20 @@ public class WorldManagerPanelConfig {
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
+	// Every language (since 1.6), see LangFiles
+	private static java.util.Map<String, YamlConfiguration> byLanguage;
 	
 	public WorldManagerPanelConfig() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
+
+		// The English file too, when the server has another language: every language is loaded (since 1.6)
+		if (!"en_US".equals(Lang.server())) {
+			file = new File(pl.getDataFolder(), "Messages/en_US/WorldManager.yml");
+			Config = YamlConfiguration.loadConfiguration(file);
+			create();
+		}
 		
 		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/WorldManager.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
@@ -28,6 +40,7 @@ public class WorldManagerPanelConfig {
 		}
 		
 		create();
+		byLanguage = LangFiles.load(pl, "WorldManager.yml", Config);
 	}
 	
     public static File getFile() {
@@ -36,6 +49,13 @@ public class WorldManagerPanelConfig {
     
     public static YamlConfiguration getConfig() {
         return Config;
+    }
+
+    /**
+     * The texts in the language of who receives them (since 1.6): the server one for the console.
+     */
+    public static YamlConfiguration getConfig(CommandSender to) {
+        return LangFiles.of(byLanguage, Config, to);
     }
     
     public static void reloadConfig() {
@@ -69,6 +89,8 @@ public class WorldManagerPanelConfig {
         // Since 1.4.7
         Config.set("Gui.Unload-Moved", java.util.Arrays.asList("%prefix% &7The world &e%arg1% &7was unloaded: you are now in &e%arg2%"));
         Config.set("Gui.Import.Failed", java.util.Arrays.asList("%prefix% &cThe world &e%arg1% &ccould not be loaded, see the console"));
+        // Since 1.6
+        Config.set("Folia-Disabled", java.util.Arrays.asList("%prefix% &cThe World Manager is off on Folia: Folia can neither create nor unload a world while the server runs"));
 
         // tp
         Config.set("Gui.Tp.Error-Tp", java.util.Arrays.asList("%prefix% &cThe teleportation failed",

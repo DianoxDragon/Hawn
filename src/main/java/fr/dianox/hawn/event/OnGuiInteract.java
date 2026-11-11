@@ -113,7 +113,7 @@ public class OnGuiInteract implements Listener {
             	
             	Tasks.later(new TaskSavePlayerServer(p), 5);
             } else if (e.getRawSlot() == 16) {
-            	Tasks.later(() -> p.performCommand("hawn reload"), 5);
+            	Tasks.later(p, () -> p.performCommand("hawn reload"), 5);
             } else if (e.getRawSlot() == 33) {
             	p.performCommand("hw");
             } else if (e.getRawSlot() == 29) {
@@ -409,7 +409,7 @@ public class OnGuiInteract implements Listener {
 	    if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 		    for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 			    if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
-				    for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+				    for (String msg: ConfigMAdmin.getConfig(all).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 					    ConfigEventUtils.ExecuteEvent(all, msg.replace("%player%", p.getName())
 							    .replace("%arg1%", nameitem)
 							    .replace("%arg2%", cfinuse), "", "", false);
@@ -417,7 +417,7 @@ public class OnGuiInteract implements Listener {
 			    }
 		    }
 
-		    for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+		    for (String msg: ConfigMAdmin.getConfig(p).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 			    ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName())
 					    .replace("%arg1%", nameitem)
 					    .replace("%arg2%", cfinuse), "", "STRICTSCONSOLE", true);
@@ -464,7 +464,7 @@ public class OnGuiInteract implements Listener {
 		if (HawnCommandConfig.getConfig().getBoolean("Urgent-mode.Enable")) {
 			for (Player all: Bukkit.getServer().getOnlinePlayers()) {
 				if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+					for (String msg: ConfigMAdmin.getConfig(all).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 						ConfigEventUtils.ExecuteEvent(all, msg.replace("%player%", p.getName())
 								.replace("%arg1%", nameitem)
 								.replace("%arg2%", cfinuse), "", "", false);
@@ -472,7 +472,7 @@ public class OnGuiInteract implements Listener {
 				}
 			}
 
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName())
 						.replace("%arg1%", nameitem)
 						.replace("%arg2%", cfinuse), "", "STRICTSCONSOLE", true);

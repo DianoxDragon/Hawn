@@ -8,7 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.command.commands.FlyCommand;
@@ -178,7 +178,7 @@ public class OjPlayerOption {
             if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
                 if (PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
                     if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
-                        Tasks.later(new Runnable() {
+                        Tasks.later(p, new Runnable() {
                             public void run() {
                                 p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
                             }
@@ -187,7 +187,7 @@ public class OjPlayerOption {
                 }
             } else {
                 if (PlayerOptionSQLClass.GetSQLPOJumpBoost(p).equalsIgnoreCase("TRUE")) {
-                    Tasks.later(new Runnable() {
+                    Tasks.later(p, new Runnable() {
                         public void run() {
                             p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
                         }
@@ -417,9 +417,9 @@ public class OjPlayerOption {
             for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                 if (VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                     if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                        p.hidePlayer(Main.getInstance(), all);
+                        Tasks.sync(p, () -> p.hidePlayer(Main.getInstance(), all));
                     } else {
-                        p.hidePlayer(all);
+                        Tasks.sync(p, () -> p.hidePlayer(all));
                     }
 
                 }
@@ -441,16 +441,16 @@ public class OjPlayerOption {
                                 continue;
                             }
                             if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                                all.hidePlayer(Main.getInstance(), p);
+                                Tasks.sync(all, () -> all.hidePlayer(Main.getInstance(), p));
                             } else {
-                                all.hidePlayer(p);
+                                Tasks.sync(all, () -> all.hidePlayer(p));
                             }
                         }
 
                         for (Player p1: Bukkit.getServer().getOnlinePlayers()) {
                             if (p1.hasPermission("hawn.staff.seevanished")) {
                             	if (ConfigMAdmin.getConfig().getBoolean("Vanish.Vanish-On.Enable")) {
-    	                            for (String s: ConfigMAdmin.getConfig().getStringList("Vanish.Vanish-On.Messages")) {
+    	                            for (String s: ConfigMAdmin.getConfig(p1).getStringList("Vanish.Vanish-On.Messages")) {
     	                            	ConfigEventUtils.ExecuteEvent(p1, s.replace("%player%", p.getName()), "Vanish.Vanish-On.Enable", "OjPlayerOption", false);
     	                            }
                             	}
@@ -464,11 +464,11 @@ public class OjPlayerOption {
                             Main.TaskVanishAB.remove(p);
                         }
 
-                        Tasks.later(new Runnable() {
+                        Tasks.later(p, new Runnable() {
                             public void run() {
                                 if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar-If-Vanished")) {
                                     if (p.hasPermission("hawn.command.vanish.actionbar")) {
-                                        BukkitTask task = null;
+                                        Task task = null;
                                         if (VanishCommandConfig.getConfig().getBoolean("Vanish.Action-Bar.Message-blinking")) {
                                             task = VanishTaskAB.start(p, 100);
                                         } else {
@@ -482,16 +482,16 @@ public class OjPlayerOption {
 
 
                         if (ConfigMMsg.getConfig().getBoolean("Vanish.Self.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Vanish.Self.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Vanish.Self.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "Vanish.Self.Messages", "OjPlayerOption", false);
                             }
                         }
                     } else {
                         for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                             if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                                all.showPlayer(Main.getInstance(), p);
+                                Tasks.sync(all, () -> all.showPlayer(Main.getInstance(), p));
                             } else {
-                                all.showPlayer(p);
+                                Tasks.sync(all, () -> all.showPlayer(p));
                             }
                         }
                         VanishCommand.player_list_vanish.remove(p);
@@ -507,9 +507,9 @@ public class OjPlayerOption {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (all != p && VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                         if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                            p.hidePlayer(Main.getInstance(), all);
+                            Tasks.sync(p, () -> p.hidePlayer(Main.getInstance(), all));
                         } else {
-                            p.hidePlayer(all);
+                            Tasks.sync(p, () -> p.hidePlayer(all));
                         }
                     }
                 }
@@ -521,9 +521,9 @@ public class OjPlayerOption {
                 for (Player all: Bukkit.getServer().getOnlinePlayers()) {
                     if (VanishCommand.player_list_vanish.contains(all) && !VanishCommand.seesVanished(p)) {
                         if (Main.getInstance().getVersionUtils().getSpigot_Version() >= 113) {
-                            p.hidePlayer(Main.getInstance(), all);
+                            Tasks.sync(p, () -> p.hidePlayer(Main.getInstance(), all));
                         } else {
-                            p.hidePlayer(all);
+                            Tasks.sync(p, () -> p.hidePlayer(all));
                         }
 
                     }
@@ -601,7 +601,7 @@ public class OjPlayerOption {
                 PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
                 PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                 if (ConfigMMsg.getConfig().getBoolean("Fly.Enable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Enable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "Fly.Enable.Messages", "OjPlayerOption", false);
                     }
                 }
@@ -621,13 +621,13 @@ public class OjPlayerOption {
                         PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.DoubleJump.Enable.Messages", "OjPlayerOption", false);
                             }
                         }
                     } else {
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Not-Good-World.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.DoubleJump-Not-Good-World.Messages", "OjPlayerOption", false);
                             }
                         }
@@ -638,7 +638,7 @@ public class OjPlayerOption {
                     PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.DoubleJump.Enable.Messages", "OjPlayerOption", false);
                         }
                     }

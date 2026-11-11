@@ -177,7 +177,7 @@ public class EditPlayerGui implements Listener {
 		}
 
 		// The items again, once the commands are done
-		Tasks.later(() -> {
+		Tasks.later(p, () -> {
 			if (p.isOnline() && target.isOnline() && HawnMenu.typeOf(p.getOpenInventory()) == HawnMenu.Type.EDIT_PLAYER
 					&& p.getOpenInventory().getTitle().equals(TITLE + target.getName())) {
 				fill(p.getOpenInventory().getTopInventory(), target);
@@ -192,7 +192,7 @@ public class EditPlayerGui implements Listener {
 	}
 
 	private static void gamemode(Player p, Player target, GameMode mode) {
-		target.setGameMode(mode);
+		Tasks.sync(target, () -> target.setGameMode(mode));
 		String name = name(mode);
 		send(target, "Gamemode.Other." + name + ".", p.getName());
 		send(p, "Gamemode.Other-Sender." + name + ".", target.getName());
@@ -200,7 +200,7 @@ public class EditPlayerGui implements Listener {
 
 	private static void send(Player to, String path, String player) {
 		if (ConfigMMsg.getConfig().getBoolean(path + "Enable")) {
-			for (String msg : ConfigMMsg.getConfig().getStringList(path + "Messages")) {
+			for (String msg : ConfigMMsg.getConfig(to).getStringList(path + "Messages")) {
 				ConfigEventUtils.ExecuteEvent(to, msg.replace("%player%", player), path + "Messages", "EditPlayerGui", false);
 			}
 		}
@@ -211,24 +211,24 @@ public class EditPlayerGui implements Listener {
 		int now = level(fly ? target.getFlySpeed() : target.getWalkSpeed());
 		int level = change == 0 ? (fly ? 1 : 2) : Math.max(0, Math.min(10, now + change));
 		if (fly) {
-			target.setFlySpeed(level / 10f);
+			Tasks.sync(target, () -> target.setFlySpeed(level / 10f));
 		} else {
-			target.setWalkSpeed(level / 10f);
+			Tasks.sync(target, () -> target.setWalkSpeed(level / 10f));
 		}
 		changed(p, target, fly ? "Fly-Speed" : "Walk-Speed", String.valueOf(level));
 	}
 
 	private static void clear(Player p, Player target) {
-		target.getInventory().clear();
-		target.getInventory().setArmorContents(new ItemStack[4]);
+		Tasks.sync(target, () -> target.getInventory().clear());
+		Tasks.sync(target, () -> target.getInventory().setArmorContents(new ItemStack[4]));
 
 		if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Sender.Enable")) {
-			for (String msg : ConfigMMsg.getConfig().getStringList("ClearInv.Other-Sender.Messages")) {
+			for (String msg : ConfigMMsg.getConfig(p).getStringList("ClearInv.Other-Sender.Messages")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%target%", target.getName()), "ClearInv.Other-Sender.Messages", "EditPlayerGui", false);
 			}
 		}
 		if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Target.Enable")) {
-			for (String msg : ConfigMMsg.getConfig().getStringList("ClearInv.Other-Target.Messages")) {
+			for (String msg : ConfigMMsg.getConfig(target).getStringList("ClearInv.Other-Target.Messages")) {
 				ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "ClearInv.Other-Target.Messages", "EditPlayerGui", false);
 			}
 		}
@@ -254,7 +254,7 @@ public class EditPlayerGui implements Listener {
 	// What changed, said to the admin with the name of its item in the menu (its language): "Walking speed: 3/10"
 	private static void changed(Player p, Player target, String item, String value) {
 		String what = text("Command.EditPlayer.Gui." + item + ".Item-Name").replace("%value%", value);
-		for (String msg : ConfigMAdmin.getConfig().getStringList("Command.EditPlayer.Changed")) {
+		for (String msg : ConfigMAdmin.getConfig(p).getStringList("Command.EditPlayer.Changed")) {
 			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(what)).replace("%arg2%", target.getName()), "", "", false);
 		}
 	}

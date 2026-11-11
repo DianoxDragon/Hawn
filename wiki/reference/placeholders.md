@@ -39,6 +39,8 @@ Test a placeholder in game with `/hawn parse me <placeholder>`, for example `/ha
 | `%player_join_number%`            | The order of arrival of the player: `1` for the first player of the server (since Hawn 1.4.4) |
 | `%player_connections%`            | How many times the player joined             |
 | `%player_gamemode%`               | Gamemode: `survival`, `creative`, `adventure` or `spectator` |
+| `%player_language%`               | The language of the messages of the player: `fr_FR`, `pt_BR`... (since Hawn 1.6) |
+| `%player_language_choice%`        | The language chosen in the language menu, or `client` for the one of their game (since Hawn 1.6) |
 | `%player_vanished%`               | Vanished ([yes or no](#yes-no-and-unknown-values)) |
 | `%player_flying%`                 | Flying right now (yes or no)                 |
 | `%player_option_<option>%`        | A choice of [`/option`](../features/player-options.md) (yes or no): `fly`, `doublejump`, `speed`, `flyspeed`, `jumpboost`, `autobc`, `pv` |
@@ -148,3 +150,7 @@ Plugin:
 ```
 
 `%player_ip%` is hidden by default: a plugin that shows placeholders to other players could show it.
+
+## Texts in several languages
+
+`{lang_<key>}` is replaced by the text of the key in `Translations/<language>.yml`, in the language of the player (since Hawn 1.6). It works everywhere the placeholders of Hawn work. See [Translating Hawn](../help/translating.md#your-texts-in-several-languages-lang_key).

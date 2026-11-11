@@ -1,8 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
 import fr.dianox.hawn.utility.config.ConfigDefaults;
+import fr.dianox.hawn.utility.config.LangFiles;
+import fr.dianox.hawn.utility.Lang;
 
 import fr.dianox.hawn.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -14,11 +17,20 @@ public class ConfigMAdmin {
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
+	// Every language (since 1.6), see LangFiles
+	private static java.util.Map<String, YamlConfiguration> byLanguage;
 	
 	public ConfigMAdmin() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
+
+		// The English file too, when the server has another language: every language is loaded (since 1.6)
+		if (!"en_US".equals(Lang.server())) {
+			file = new File(pl.getDataFolder(), "Messages/en_US/Admin.yml");
+			Config = YamlConfiguration.loadConfiguration(file);
+			create();
+		}
 		
 		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Admin.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
@@ -28,6 +40,7 @@ public class ConfigMAdmin {
 		}
 		
 		create();
+		byLanguage = LangFiles.load(pl, "Admin.yml", Config);
 	}
 	
     public static File getFile() {
@@ -36,6 +49,13 @@ public class ConfigMAdmin {
 
     public static YamlConfiguration getConfig() {
         return Config;
+    }
+
+    /**
+     * The texts in the language of who receives them (since 1.6): the server one for the console.
+     */
+    public static YamlConfiguration getConfig(CommandSender to) {
+        return LangFiles.of(byLanguage, Config, to);
     }
 
     public static void reloadConfig() {
@@ -256,6 +276,23 @@ public class ConfigMAdmin {
         Config.set("Ranks.Source.NONE", "none");
         // Since 1.5: /hawn menu
         Config.set("Command.Help.Hawn-Menu", "Open a menu of the Menus folder for you or a player, or list them");
+        // The holograms (since 1.6)
+        Config.set("Holograms.Usage", java.util.Arrays.asList("%prefix% &7/hawn hologram create <name> [text] &8| &7delete <name> &8| &7movehere <name> &8| &7addline <name> <text> &8| &7setline <name> <line> <text> &8| &7removeline <name> <line> &8| &7list &8| &7enable <name> &8| &7disable <name>"));
+        Config.set("Holograms.Created", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7is created where you are"));
+        Config.set("Holograms.Exists", java.util.Arrays.asList("%prefix% &cThe hologram &e%arg 1% &calready exists"));
+        Config.set("Holograms.Not-Found", java.util.Arrays.asList("%prefix% &cThe hologram &e%arg 1% &cdoesn't exist"));
+        Config.set("Holograms.Deleted", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7is deleted"));
+        Config.set("Holograms.Moved", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7is now where you are"));
+        Config.set("Holograms.Changed", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7now has &e%arg 2% &7line(s)"));
+        Config.set("Holograms.Bad-Line", java.util.Arrays.asList("%prefix% &cThe hologram &e%arg 1% &chas no line &e%arg 2%"));
+        Config.set("Holograms.List", java.util.Arrays.asList("%prefix% &7Holograms: &e%arg 1%"));
+        Config.set("Holograms.None", java.util.Arrays.asList("%prefix% &7No hologram in the Holograms folder"));
+        Config.set("Holograms.Enabled", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7is on: it is shown"));
+        Config.set("Holograms.Disabled", java.util.Arrays.asList("%prefix% &7The hologram &e%arg 1% &7is off: it is hidden"));
+        Config.set("Holograms.Off-Tag", java.util.Arrays.asList("&8(off)"));
+        Config.set("Holograms.No-PacketEvents", java.util.Arrays.asList("%prefix% &cThe holograms need the plugin &ePacketEvents&c: modrinth.com/plugin/packetevents"));
+        Config.set("Holograms.Bad-Name", java.util.Arrays.asList("%prefix% &cThe name of a hologram: letters, numbers, _ and -"));
+        Config.set("Command.Help.Hawn-Hologram", "Show text at a place, in the language of each player");
         Config.set("Menus.Usage", java.util.Arrays.asList("%prefix% &7/hawn menu open <menu> [player] &8| &7list"));
         Config.set("Menus.Opened", java.util.Arrays.asList("%prefix% &7The menu &e%arg 1% &7is open for &e%arg 2%"));
         Config.set("Menus.Not-Opened", java.util.Arrays.asList("%prefix% &cThe menu &e%arg 1% &cwas not opened for &e%arg 2% &c(permission or world)"));

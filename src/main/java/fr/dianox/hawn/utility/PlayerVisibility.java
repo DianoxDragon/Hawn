@@ -104,15 +104,15 @@ public class PlayerVisibility {
 		boolean modern = Main.getInstance().getVersionUtils().getSpigot_Version() >= 113;
 		if (shown(viewer, target)) {
 			if (modern) {
-				viewer.showPlayer(Main.getInstance(), target);
+				Tasks.sync(viewer, () -> viewer.showPlayer(Main.getInstance(), target));
 			} else {
-				viewer.showPlayer(target);
+				Tasks.sync(viewer, () -> viewer.showPlayer(target));
 			}
 		} else {
 			if (modern) {
-				viewer.hidePlayer(Main.getInstance(), target);
+				Tasks.sync(viewer, () -> viewer.hidePlayer(Main.getInstance(), target));
 			} else {
-				viewer.hidePlayer(target);
+				Tasks.sync(viewer, () -> viewer.hidePlayer(target));
 			}
 		}
 	}

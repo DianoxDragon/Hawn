@@ -345,7 +345,7 @@ public class BasicFeatures implements Listener {
                             if (! e.getDamager().hasPermission("hawn.event.construct.bypass.break")) {
                                 e.setCancelled(true);
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg : ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    for (String msg : ConfigMMsg.getConfig(e.getDamager()).getStringList("Protection.Anti-Break")) {
                                         ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                     }
                                 }
@@ -353,7 +353,7 @@ public class BasicFeatures implements Listener {
                         } else {
                             e.setCancelled(true);
                             if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                for (String msg : ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                for (String msg : ConfigMMsg.getConfig(e.getDamager()).getStringList("Protection.Anti-Break")) {
                                     ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                 }
                             }
@@ -364,7 +364,7 @@ public class BasicFeatures implements Listener {
                                 if (! e.getDamager().hasPermission("hawn.event.construct.bypass.break")) {
                                     e.setCancelled(true);
                                     if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                        for (String msg : ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                        for (String msg : ConfigMMsg.getConfig(e.getDamager()).getStringList("Protection.Anti-Break")) {
                                             ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                         }
                                     }
@@ -372,7 +372,7 @@ public class BasicFeatures implements Listener {
                             } else {
                                 e.setCancelled(true);
                                 if (ConfigGProtection.getConfig().getBoolean("Protection.Construct.Anti-Break.Message")) {
-                                    for (String msg : ConfigMMsg.getConfig().getStringList("Protection.Anti-Break")) {
+                                    for (String msg : ConfigMMsg.getConfig(e.getDamager()).getStringList("Protection.Anti-Break")) {
                                         ConfigEventUtils.ExecuteEvent((Player) e.getDamager(), msg, "", "", false);
                                     }
                                 }

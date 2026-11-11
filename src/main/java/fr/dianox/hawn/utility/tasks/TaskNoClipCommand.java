@@ -3,7 +3,7 @@ package fr.dianox.hawn.utility.tasks;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.command.commands.HawnCommand;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -15,7 +15,7 @@ import fr.dianox.hawn.utility.config.configs.messages.ConfigMAdmin;
 public class TaskNoClipCommand implements Runnable {
 
 	private final Player p;
-	private BukkitTask task;
+	private Task task;
 
 	public TaskNoClipCommand(Player p) {
         this.p = p;
@@ -24,9 +24,9 @@ public class TaskNoClipCommand implements Runnable {
 	/**
 	 * The no clip of a player, every 2 ticks until it is turned off.
 	 */
-	public static BukkitTask start(Player p) {
+	public static Task start(Player p) {
 		TaskNoClipCommand runnable = new TaskNoClipCommand(p);
-		runnable.task = Tasks.timer(runnable, 5, 2);
+		runnable.task = Tasks.timer(p, runnable, 5, 2);
 		return runnable.task;
 	}
 	
@@ -58,7 +58,7 @@ public class TaskNoClipCommand implements Runnable {
 			HawnCommand.noclip.remove(p);
 			
 			if (p.isOnline()) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.No-Clip.Disable")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.No-Clip.Disable")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "Command.No-Clip.Disable", "TaskNoClipCommand", false);
 				}
 				

@@ -60,9 +60,9 @@ public class worldnetherdsc {
             
             Config.set("text", java.util.Arrays.asList(new String[] {
             		" ",
-            		"&cMinimalist scoreboard",
+            		"{lang_text.sb-minimalist}",
             		" ",
-            		"&cThanks to use &4&lHawn"
+            		"{lang_text.sb-thanks}"
             }));
             
             Config.set("updater.title", 50);

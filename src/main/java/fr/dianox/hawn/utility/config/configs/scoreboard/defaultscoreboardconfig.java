@@ -84,15 +84,15 @@ public class defaultscoreboardconfig {
             
             Config.set("text", java.util.Arrays.asList(new String[] {
             		" ",
-            		"&7Welcome &e%player%",
+            		"{lang_text.sb-welcome}",
             		" ",
             		"{CH_infoloc}",
             		"{CH_infoloc2}",
             		" ",
-            		"&7Your latency",
+            		"{lang_text.sb-latency}",
             		"&e%ping% ms",
             		" ",
-            		"&7Online: &e%online%&7/&e%max_players%",
+            		"{lang_text.sb-online}",
             		" ",
             		"{SC_info}",
             		" ",
@@ -109,15 +109,15 @@ public class defaultscoreboardconfig {
             
             Config.set("changeableText.infoloc.text", java.util.Arrays.asList(new String[] {
             		"&e%player_x% %player_y% %player_z%",
-            		"&7Exp: &e%player_level% &7(&e%player_exp%&7/&6%player_exp_to_level%&7)",
-            		"&7Time: &e%gettime%"
+            		"{lang_text.sb-exp}",
+            		"{lang_text.sb-time}"
             }));
             Config.set("changeableText.infoloc.interval", 120);
             
             Config.set("changeableText.infoloc2.text", java.util.Arrays.asList(new String[] {
-            		"&7Health: &e%player_health% &6&lHP",
-            		"&7Food: &e%player_food_level%",
-            		"&7World: &e%player_world%"
+            		"{lang_text.sb-health}",
+            		"{lang_text.sb-food}",
+            		"{lang_text.sb-world}"
             }));
             Config.set("changeableText.infoloc2.interval", 120);
             

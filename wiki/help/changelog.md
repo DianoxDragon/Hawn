@@ -4,6 +4,33 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.6.0 BETA
+
+Hawn runs on Folia and Purpur, speaks to each player in their own language, comes in Italian and Portuguese, and shows holograms.
+
+### New
+
+* **Folia**: every task of Hawn runs on the thread of the region, the entity or the player it touches (the global region for the others), and `plugin.yml` declares `folia-supported`. A command on another player (`/fly`, `/gmc`, `/heal`, `/clearinv`, `/burn`, `/spawn <player>`...) runs on the thread of that player, the actions of Hawn (messages, commands, sounds, titles) on the thread of their player, and the commands of the console on the global region. The [world manager](../features/world-manager.md) is off on Folia, with a message: Folia can neither create nor unload a world while the server runs. Tested with bots on Folia 26.3, with two players in two regions.
+* **Purpur**: tested like Spigot and Paper (it runs as Paper).
+* **The language of each player**: each player gets the messages in the language of their game (a French Minecraft gets the French messages, a Brazilian one the Portuguese ones, on the same server), else in the language of the server. The messages sent to everyone (join and quit, `/broadcast`, `/warning`, the maintenance, the urgent mode, the mute of the chat...) reach each player in their language. `Plugin.Language-Per-Player: false` in `general.yml` gives everyone the language of the server, as before. Before 1.20.2, the game sends its language just after the join: the first messages of the join use the language of the server. The console, the admin panel, the world manager and the welcome setup keep the language of the server. See [Translating Hawn](translating.md).
+* **Italian** (`it_IT`) and **Portuguese of Brazil** (`pt_BR`): Hawn now comes with seven languages. The welcome setup shows the flag of Brazil.
+* **The language menu**: `Menus/language.yml`, opened by `/language` and by the book of the profile, lets a player choose their language, or go back to the language of their game. Their choice is kept, in their file and in MySQL. The action `[language]: <code>` (or `client`) and the placeholders `%player_language%` and `%player_language_choice%` are new. The menu is written once, also on the servers that had their menus before 1.6 (their profile has no book: add `[menu]: language`, or use `/language`).
+* **Your texts in several languages**: `{lang_<key>}` in a menu, a scoreboard, the tab list, an announcement, a hologram... is replaced by the text of the key in `Translations/<language>.yml`, in the language of each player. The files written the first time (the menus, the scoreboards, the tab list, the auto broadcast, the join commands) now use keys, in the seven languages. Your files keep their texts.
+* **Holograms**: lines of text at a place, sent in packets to each player near it (no entity on the server), with their placeholders, their language and `{anim_<name>}` animations. A text display on 1.19.4+ (billboard, background, shadow, scale), invisible armor stands before. `/hawn hologram create/delete/movehere/addline/setline/removeline/list/enable/disable`, one file per hologram in `Holograms/`. They need the plugin [PacketEvents](https://modrinth.com/plugin/packetevents). See [Holograms](../features/holograms.md).
+
+### Improved
+
+* The messages "You have to change the spawn on ... on Events/OnJoin.yml" (a spawn of the files that doesn't exist yet) were in English in the code: they are `Error.Change-Me` of `Messages.yml` now, in the language of the player.
+* The `%prefix%` and the yes / no of the placeholders (`%player_vanished%`...) are in the language of the player.
+
+### Fixes
+
+* `/gmc`, `/gms`, `/gma` and `/gmsp` on another player told the admin that their own gamemode was changed, and `/heal <player>` told the admin that they were healed: these messages name the player now.
+
+### Tested
+
+The update from 1.5.7 was tested on Spigot, Paper, Purpur and Folia 26.3, with MySQL shared by two servers: the files keep every value (only options are added), the spawns, warps, ranks and options of the players are kept, and the language chosen on one server is found on the other. A new installation was tested on Paper 1.20.1, 1.18.2 and 1.16.5 (Java 8): the files with `{lang_<key>}`, the language menu, the holograms as text displays (1.20.1) and armor stands (1.18.2, 1.16.5), and 4 players for several minutes with an animated hologram and `/hawn reload`.
+
 ## 1.5.7 BETA
 
 The final check before 1.6: a code audit and a full regression with bots on Spigot and Paper, behind Velocity, with MySQL.

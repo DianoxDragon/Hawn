@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.dianox"
-version = "1.5.7-Beta"
+version = "1.6.0-Beta"
 
 repositories {
     mavenCentral()
@@ -14,6 +14,7 @@ repositories {
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.nexomc.com/releases")
+    maven("https://repo.codemc.io/repository/maven-releases/")
 }
 
 // Newest server API, only used by the "checkLatestApi" task
@@ -43,6 +44,9 @@ dependencies {
     // Nexo (Paper 1.21.4+): its items in the join items and the menus, loaded only when Nexo is there
     "paperCompileOnly"("com.nexomc:nexo:1.29.1") { isTransitive = false }
 
+
+    // The holograms (since 1.6): packets of entities that don't exist on the server, with the PacketEvents plugin
+    compileOnly("com.github.retrooper:packetevents-spigot:2.14.0")
 
     // Permissions of a player who is not connected yet (new Paper connection event)
     compileOnly("net.luckperms:api:5.4")

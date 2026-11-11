@@ -72,7 +72,7 @@ public class OptionCommand extends BukkitCommand {
         if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Enable")) {
             if (OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -91,7 +91,7 @@ public class OptionCommand extends BukkitCommand {
         if (!OptionPlayerConfigCommand.getConfig().getBoolean("PlayerOption.World.All_World")) {
             if (!PlayerEventsPW.getWJoinPlayerOption().contains(p.getWorld().getName())) {
                 if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Not-Enable-In-A-World.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Not-Enable-In-A-World.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Not-Enable-In-A-World.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -102,14 +102,14 @@ public class OptionCommand extends BukkitCommand {
         // The command
         if (args.length == 0) {
             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Help.Enable")) {
-                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Help.Messages")) {
+                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Help.Messages")) {
                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 }
             }
         } else {
             if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
                 if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Help.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Help.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Help.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -124,7 +124,7 @@ public class OptionCommand extends BukkitCommand {
                     if (!ConfigFDoubleJump.getConfig().getBoolean("DoubleJump.Double.World.All_World")) {
                         if (!PlayerEventsPW.getWFDoubleJump().contains(p.getWorld().getName())) {
                             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Not-Good-World.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.DoubleJump-Not-Good-World.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
@@ -140,7 +140,7 @@ public class OptionCommand extends BukkitCommand {
                         FlyCommand.player_list_flyc.remove(p);
 
                         if (ConfigMMsg.getConfig().getBoolean("Fly.Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -149,7 +149,7 @@ public class OptionCommand extends BukkitCommand {
                         PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -160,7 +160,7 @@ public class OptionCommand extends BukkitCommand {
                             p.setFlying(false);
 
                             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.DoubleJump.Disable.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.DoubleJump.Disable.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.DoubleJump.Disable.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
@@ -169,7 +169,7 @@ public class OptionCommand extends BukkitCommand {
                             PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "TRUE");
 
                             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.DoubleJump.Enable.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.DoubleJump.Enable.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
@@ -177,7 +177,7 @@ public class OptionCommand extends BukkitCommand {
                     }
                 } else {
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.DoubleJump-Disabled.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.DoubleJump-Disabled.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.DoubleJump-Disabled.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -226,7 +226,7 @@ public class OptionCommand extends BukkitCommand {
                     }
 
                     if (ConfigMMsg.getConfig().getBoolean("Fly.Disable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Disable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Disable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -237,7 +237,7 @@ public class OptionCommand extends BukkitCommand {
                     PlayerOptionSQLClass.SaveSQLPOFly(p, "TRUE");
                     PlayerOptionSQLClass.SaveSQLPODoubleJump(p, "FALSE");
                     if (ConfigMMsg.getConfig().getBoolean("Fly.Enable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Fly.Enable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Fly.Enable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -256,7 +256,7 @@ public class OptionCommand extends BukkitCommand {
                     p.removePotionEffect(XPotion.JUMP_BOOST.get());
 
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.JumpBoost.Disable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.JumpBoost.Disable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.JumpBoost.Disable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -265,7 +265,7 @@ public class OptionCommand extends BukkitCommand {
                     p.addPotionEffect(new PotionEffect(XPotion.JUMP_BOOST.get(), 1999999999, OptionPlayerConfigCommand.getConfig().getInt("PlayerOption.Option.Jumpboost.Value")));
 
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.JumpBoost.Enable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.JumpBoost.Enable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.JumpBoost.Enable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -284,7 +284,7 @@ public class OptionCommand extends BukkitCommand {
                     PlayerOptionSQLClass.SaveSQLPOautobc(p, "FALSE");
 
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.AutoBroadcast.Disable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.AutoBroadcast.Disable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.AutoBroadcast.Disable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -292,7 +292,7 @@ public class OptionCommand extends BukkitCommand {
                     PlayerOptionSQLClass.SaveSQLPOautobc(p, "TRUE");
 
                     if (ConfigMMsg.getConfig().getBoolean("PlayerOption.AutoBroadcast.Enable.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.AutoBroadcast.Enable.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.AutoBroadcast.Enable.Messages")) {
                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         }
                     }
@@ -307,7 +307,7 @@ public class OptionCommand extends BukkitCommand {
 				if (args.length == 2) {
 					if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_fly_speed.Activate")) {
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Turn-On-First.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", "/option flyspeed"), "", "", false);
                             }
                         }
@@ -331,7 +331,7 @@ public class OptionCommand extends BukkitCommand {
 						PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "TRUE", Integer.parseInt(args[1]));
 						
 						if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Set.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Set.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Set.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", String.valueOf(args[1])), "", "", false);
 							}
 						}
@@ -346,7 +346,7 @@ public class OptionCommand extends BukkitCommand {
 						PlayerOptionSQLClass.SaveSQLPOFlySpeed(p, "FALSE", speedvalue);
                         p.setFlySpeed(0.1F);
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -362,7 +362,7 @@ public class OptionCommand extends BukkitCommand {
 							}
 
 							if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Enable.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
@@ -379,7 +379,7 @@ public class OptionCommand extends BukkitCommand {
                             }
 
                             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.FlySpeed.Enable.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.FlySpeed.Enable.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
@@ -396,7 +396,7 @@ public class OptionCommand extends BukkitCommand {
                 if (args.length == 2) {
                     if (!ConfigPlayerGet.getFile(p.getUniqueId().toString()).getBoolean("player_speed.Activate")) {
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Turn-On-First.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Turn-On-First.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", "/option speed"), "", "", false);
                             }
                         }
@@ -420,7 +420,7 @@ public class OptionCommand extends BukkitCommand {
                         PlayerOptionSQLClass.SaveSQLPOSpeed(p, "TRUE", Integer.parseInt(args[1]));
 
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Set.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Set.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Set.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
                             }
                         }
@@ -436,7 +436,7 @@ public class OptionCommand extends BukkitCommand {
                         PlayerOptionSQLClass.SaveSQLPOSpeed(p, "FALSE", speedvalue);
                         p.setWalkSpeed(0.2F);
                         if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Disable.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Disable.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Disable.Messages")) {
                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                             }
                         }
@@ -452,7 +452,7 @@ public class OptionCommand extends BukkitCommand {
                         	}
 
                         	if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Enable.Enable")) {
-                        		for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Enable.Messages")) {
+                        		for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Enable.Messages")) {
                         			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                         		}
                         	}
@@ -469,7 +469,7 @@ public class OptionCommand extends BukkitCommand {
                             }
 
                             if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Speed.Enable.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Speed.Enable.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Speed.Enable.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }

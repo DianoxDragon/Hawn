@@ -65,7 +65,7 @@ public class ClearGroundItemsCommand extends BukkitCommand {
 		 if (!ClearGroundItemsCommandConfig.getConfig().getBoolean("ClearGroundItems.Enable")) {
 			 if (ClearGroundItemsCommandConfig.getConfig().getBoolean("ClearGroundItems.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -93,7 +93,7 @@ public class ClearGroundItemsCommand extends BukkitCommand {
 			 }
 		 }
 		 
-		 for (String msg: ConfigMAdmin.getConfig().getStringList("Command.ClearGroundItems")) {
+		 for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.ClearGroundItems")) {
  			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 		 }
 		 

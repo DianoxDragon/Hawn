@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, within 1.4 (1.4.1 to 1.4.9), and from 1.4 to 1.5.
+description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, within 1.4 (1.4.1 to 1.4.9), from 1.4 to 1.5, within 1.5 (1.5.1 to 1.5.7), and from 1.5 to 1.6.
 ---
 
 # Updating from an older version
@@ -12,6 +12,39 @@ description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 
 4. Start the server.
 
 Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## From 1.5 to 1.6
+
+1.6 adds [Folia](installation.md), the language of each player, Italian and Portuguese, and the [holograms](../features/holograms.md). Your files are kept: the update adds about 90 options (the console lists them) and changes none of your values. Check these points:
+
+* **The language of each player** is on (`Plugin.Language-Per-Player: true` in `general.yml`): a player whose game is in English, French, German, Dutch, Spanish, Italian or Portuguese of Brazil gets the messages of this language, no longer those of the server. **If you changed the messages of your language only**, these players see the messages of their language as Hawn wrote them. Copy your changes into the other folders of `Messages/`, or set `Plugin.Language-Per-Player: false` to give everyone the language of the server, as before. The `Enable` of the messages is still read in the file of the server. Before 1.20.2, the first messages of the join use the language of the server (the game sends its language just after). See [Translating Hawn](../help/translating.md).
+* **New files**: `Messages/it_IT/` and `Messages/pt_BR/`, `Translations/` (the texts of the `{lang_<key>}`), `Menus/language.yml` (the language menu, opened by `/language`), and `Holograms/example.yml` (turned off). Nothing else changes in your folders.
+* **Your menus, scoreboards, tab list and announcements keep their texts**: only the new installations get the `{lang_<key>}` keys. Your `Menus/profile.yml` has no book for the language menu: add an item with `[menu]: language`, or let the players type `/language`.
+* **The holograms** need the plugin [PacketEvents](https://modrinth.com/plugin/packetevents). Without it, the rest of Hawn works as before.
+* **Folia**: Hawn 1.5 refused to start on Folia, 1.6 runs on it. The world manager is off there (`/hw` says so) and the worlds of `World-List.yml` are not loaded by Hawn.
+* **MySQL**: the table `player_language` is created at the first start; it keeps the language chosen in the menu for the whole network.
+* **The messages to an admin** of `/gmc`, `/gms`, `/gma`, `/gmsp` and `/heal` on another player named the admin instead of the player: they name the player now, with the same files.
+
+After the update, type `/hawn debug`: it lists the mistakes of your files.
+
+## Within 1.5 (1.5.1 to 1.5.7)
+
+Each 1.5.x keeps your files and adds the new options. Most changes are fixes or new features that stay off until you use them. These ones change what an existing server does: check them once after the update.
+
+* **`/hw delete`** (1.5.7) also deletes a world that is not loaded (its folder), as the world manager does. The main world and its dimensions are still protected.
+* **MySQL** (1.5.7): the options of a player saved in MySQL (fly, speed, player hider...) are copied into the file of the player when they join. With several servers on one database, an option changed on one server is now seen by the others.
+* **`/speed <n>` and `/flyspeed <n>`** (1.5.7) while the option is off say to turn it on first (`PlayerOption.Error.Turn-On-First`), instead of "You disabled this option".
+* **Teleports on Paper** (1.5.6): `/spawn`, `/warp`, the void TP, `/gotop`, the world manager and Edit Player load the chunk of the destination first, then teleport. The player arrives a few ticks later instead of freezing the server.
+* **Join numbers** (1.5.6): a player refused at the last moment (ban, whitelist, full server) no longer takes a number of `%player_join_number%`.
+* **Names above the heads** (1.5.6): two ranks whose names begin the same way no longer share a team. Check the prefixes above the heads if you had worked around it.
+* **bStats** (1.5.5) also counts the modules that are on (anonymous). See the [FAQ](../help/faq.md).
+* **Short commands** (1.5.3): `/editplayer` (`/ep`), `/hrank`, `/hmenu` and `/hdebug` are on for the new installations only. Turn them on in `command-aliases.yml` if you want them. See [Commands management](../basics/commands-management.md#aliases).
+* **`[back]` in the menus** (1.5.2) goes back step by step (A, B, C, `[back]` opens B, then A) instead of going back and forth between the last two menus.
+* **The conditions of the menus** (1.5.2) are cut where they are written, then the placeholders are replaced on each side: a value with an operator in it (a prefix `&8>> `) no longer breaks a condition. A condition that only worked because of the old cut may behave differently: test your menus.
+* **The welcome setup** (1.5.1) no longer restarts the server at its end, and `/hawn setup` asks first.
+* **New files only** (1.5.1): the files written by Hawn name the worlds of your server in their `Worlds` lists instead of `world`. Your files keep their lists.
+
+See the [changelog](../help/changelog.md) for everything else.
 
 ## From 1.4 to 1.5
 

@@ -1,7 +1,7 @@
 package fr.dianox.hawn.utility.tasks;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.Tasks;
@@ -20,8 +20,8 @@ public class SwitchClassicOnJoinBB implements Runnable {
 	/**
 	 * Removes the boss bar of the join after ticks.
 	 */
-	public static BukkitTask start(Player p, long ticks) {
-		return Tasks.later(new SwitchClassicOnJoinBB(p), ticks);
+	public static Task start(Player p, long ticks) {
+		return Tasks.later(p, new SwitchClassicOnJoinBB(p), ticks);
 	}
 
 	@Override

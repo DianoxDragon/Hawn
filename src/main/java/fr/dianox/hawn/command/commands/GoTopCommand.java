@@ -58,7 +58,7 @@ public class GoTopCommand extends BukkitCommand {
         if (!GoTopCommandConfig.getConfig().getBoolean("Gotop.Enable")) {
             if (GoTopCommandConfig.getConfig().getBoolean("Gotop.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -84,7 +84,7 @@ public class GoTopCommand extends BukkitCommand {
         	Tasks.teleportAsync(p, l2);
         	
             if (ConfigMMsg.getConfig().getBoolean("Gotop.Enable")) {
-                for (String msg: ConfigMMsg.getConfig().getStringList("Gotop.Messages")) {
+                for (String msg: ConfigMMsg.getConfig(p).getStringList("Gotop.Messages")) {
                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 }
             }

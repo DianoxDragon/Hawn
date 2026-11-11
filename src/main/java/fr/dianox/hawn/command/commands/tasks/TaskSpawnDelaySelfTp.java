@@ -45,7 +45,7 @@ public class TaskSpawnDelaySelfTp implements Runnable {
 		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.CustomSpawn.Enable")) {
 			// If the value of the config is CHANGE ME by default
 			if (SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-				p.sendMessage("You have to change the spawn on Commands.CustomSpawn.Spawn on Events/OnJoin.yml");
+				MessageUtils.changeMe(p, "Commands.CustomSpawn.Spawn", "Events/OnJoin.yml");
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
@@ -65,7 +65,7 @@ public class TaskSpawnDelaySelfTp implements Runnable {
 				
 				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -73,7 +73,7 @@ public class TaskSpawnDelaySelfTp implements Runnable {
 		} else {
 			if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
 				// If the value of the config is CHANGE ME by default
-				p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+				MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnGroups.defaultSpawn(p))) {
@@ -93,7 +93,7 @@ public class TaskSpawnDelaySelfTp implements Runnable {
 				
 				// Messages
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}

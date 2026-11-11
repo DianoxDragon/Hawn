@@ -556,6 +556,11 @@ public class NLConfigMMsg {
         Config.set("Error.Not-A-Player.Enable", true);
         Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cJe bent geen speler"}));
         Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cJe kunt hier geen blokken plaatsen!"}));
+        // The language menu (since 1.6)
+        Config.set("Language.Changed.Enable", true);
+        Config.set("Language.Changed.Messages", java.util.Arrays.asList("%prefix% &7Je taal is nu &e%arg1%"));
+        Config.set("Language.Client.Enable", true);
+        Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Je krijgt de berichten nu in de taal van je spel &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cJe kunt hier geen blokken breken!"}));
 
         Config = ConfigDefaults.apply(file, loaded, Config);

@@ -69,18 +69,22 @@ public class BroadCastCommand extends BukkitCommand {
 				if (partsenabled) {
 					int check = 0;
 					while (check < partlenght) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-							ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(parts[check])), "", "");
+						for (String msg : ConfigMMsg.getConfig().getStringList("Broadcast")) {
 							MessageUtils.ConsoleMessages(msg.replace("%broadcast%", parts[check]));
 						}
+						// Each player in their language (since 1.6)
+						String bcPart = parts[check];
+						ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Broadcast"), msg -> msg.replace("%broadcast%", ConfigEventUtils.noAction(bcPart)), null, "", "");
 						
 						check++;
 					}
 				} else {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "");
+					for (String msg : ConfigMMsg.getConfig().getStringList("Broadcast")) {
 						MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
 					}
+					// Each player in their language (since 1.6)
+					String bcText = msgbc;
+					ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Broadcast"), msg -> msg.replace("%broadcast%", ConfigEventUtils.noAction(bcText)), null, "", "");
 				}
 				
 				if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {
@@ -102,7 +106,7 @@ public class BroadCastCommand extends BukkitCommand {
 		if (!BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Enable")) {
 			if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -120,7 +124,7 @@ public class BroadCastCommand extends BukkitCommand {
 		
 					if (args.length == 0) {
 						if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						}
@@ -149,18 +153,22 @@ public class BroadCastCommand extends BukkitCommand {
 					if (partsenabled) {
 						int check = 0;
 						while (check < partlenght) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-								ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(parts[check])), "", "", p, true);
+							for (String msg : ConfigMMsg.getConfig().getStringList("Broadcast")) {
 								MessageUtils.ConsoleMessages(msg.replace("%broadcast%", parts[check]));
 							}
+							// Each player in their language (since 1.6)
+							String bcPart = parts[check];
+							ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Broadcast"), msg -> msg.replace("%broadcast%", ConfigEventUtils.noAction(bcPart)), p, "", "");
 							
 							check++;
 						}
 					} else {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Broadcast")) {
-							ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%broadcast%", ConfigEventUtils.noAction(msgbc)), "", "", p, true);
+						for (String msg : ConfigMMsg.getConfig().getStringList("Broadcast")) {
 							MessageUtils.ConsoleMessages(msg.replace("%broadcast%", msgbc));
 						}
+						// Each player in their language (since 1.6)
+						String bcText = msgbc;
+						ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("Broadcast"), msg -> msg.replace("%broadcast%", ConfigEventUtils.noAction(bcText)), p, "", "");
 					}
 					
 					if (BroadCastCommandConfig.getConfig().getBoolean("Broadcast.Sounds.Enabled")) {

@@ -80,7 +80,7 @@ public final class MenuCommand {
 	}
 
 	private static void say(CommandSender sender, String key, String... args) {
-		for (String msg : ConfigMAdmin.getConfig().getStringList(key)) {
+		for (String msg : ConfigMAdmin.getConfig(sender).getStringList(key)) {
 			for (int i = 0; i < args.length; i++) {
 				msg = msg.replace("%arg " + (i + 1) + "%", ConfigEventUtils.noAction(args[i]));
 			}

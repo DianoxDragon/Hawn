@@ -262,7 +262,7 @@ public class SpecialIteGrappling implements Listener {
 
 	private static void messages(Player p, String path) {
 		if (ConfigMMsg.getConfig().getBoolean(path + ".Enable")) {
-			for (String msg : ConfigMMsg.getConfig().getStringList(path + ".Messages")) {
+			for (String msg : ConfigMMsg.getConfig(p).getStringList(path + ".Messages")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, path + ".Messages", "SpecialIteGrappling", false);
 			}
 		}

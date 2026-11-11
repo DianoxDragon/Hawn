@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -56,7 +57,7 @@ public class BurnCommand extends BukkitCommand {
 				 Integer seconds = MessageUtils.number(sender, args[1], 0);
 				 if (seconds == null) return true;
 
-				 target.setFireTicks(Math.min(seconds, 1000000) * 20);
+				 Tasks.sync(target, () -> target.setFireTicks(Math.min(seconds, 1000000) * 20));
 					 
 				 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
 					 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
@@ -65,7 +66,7 @@ public class BurnCommand extends BukkitCommand {
 				 }
 				 
 				 if (ConfigMMsg.getConfig().getBoolean("Burn.Target.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Target.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(target).getStringList("Burn.Target.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 					 }
 				 }
@@ -81,7 +82,7 @@ public class BurnCommand extends BukkitCommand {
 		 if (!BurnCommandConfig.getConfig().getBoolean("Burn.Enable")) {
 			 if (BurnCommandConfig.getConfig().getBoolean("Burn.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -108,16 +109,16 @@ public class BurnCommand extends BukkitCommand {
 			 Integer seconds = MessageUtils.number(sender, args[1], 0);
 			 if (seconds == null) return true;
 
-			 target.setFireTicks(Math.min(seconds, 1000000) * 20);
+			 Tasks.sync(target, () -> target.setFireTicks(Math.min(seconds, 1000000) * 20));
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Sender.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Sender.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Burn.Sender.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 				 }
 			 }
 			 
 			 if (ConfigMMsg.getConfig().getBoolean("Burn.Target.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Burn.Target.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(target).getStringList("Burn.Target.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%duration%", ConfigEventUtils.noAction(args[1])), "", "", false);
 				 }
 			 }

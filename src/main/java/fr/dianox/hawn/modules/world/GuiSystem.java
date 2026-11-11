@@ -857,6 +857,9 @@ public class GuiSystem implements Listener {
 	private static final int PER_PAGE = 36;
 
 	public static void FirstPage(Player p) {
+		if (WorldManager.offOnFolia(p)) {
+			return;
+		}
 		WorldsPage(p, 0);
 	}
 
@@ -1069,7 +1072,7 @@ public class GuiSystem implements Listener {
 		if (plistincreation.remove(p.getUniqueId())) {
 			String worldname = name.trim().replace(" ", "_");
 
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (!p.isOnline()) return;
 
 				// Letters, numbers, _ and -: the player types another name
@@ -1092,7 +1095,7 @@ public class GuiSystem implements Listener {
 		if (worldname != null) {
 			String generator = name.trim();
 
-			Tasks.later(() -> {
+			Tasks.later(p, () -> {
 				if (p.isOnline()) {
 					PageCreateWorld(p, worldname, generator.isEmpty() || generator.contains(" ") ? "NOGENERATOR" : generator);
 				}

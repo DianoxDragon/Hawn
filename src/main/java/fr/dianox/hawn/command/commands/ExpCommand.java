@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -65,8 +66,8 @@ public class ExpCommand extends BukkitCommand {
                 			return true;
                 		}
 
-                	    target.setExp(0);
-                	    target.setLevel(0);
+                	    Tasks.sync(target, () -> target.setExp(0));
+                	    Tasks.sync(target, () -> target.setLevel(0));
                 	    
                 	    if (ConfigMMsg.getConfig().getBoolean("Exp.Clear.Sender.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Clear.Sender.Messages")) {
@@ -75,7 +76,7 @@ public class ExpCommand extends BukkitCommand {
                         }
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Clear.Target.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Clear.Target.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Clear.Target.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
                             }
                         }
@@ -110,15 +111,15 @@ public class ExpCommand extends BukkitCommand {
                             
                             int old_level = target.getLevel();
                             if (level == old_level) {
-                            	target.setTotalExperience(newxp);
+                            	Tasks.sync(target, () -> target.setTotalExperience(newxp));
                             } else {
-                            	target.setLevel(level);
+                            	Tasks.sync(target, () -> target.setLevel(level));
                             	if (level > old_level) {
-                            		target.setTotalExperience(newxp);
+                            		Tasks.sync(target, () -> target.setTotalExperience(newxp));
                             	}
                             }
                             
-                            target.setExp(exp);
+                            Tasks.sync(target, () -> target.setExp(exp));
                             
                             if (ConfigMMsg.getConfig().getBoolean("Exp.Take.Sender.Enable")) {
                                 for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Take.Sender.Messages")) {
@@ -127,7 +128,7 @@ public class ExpCommand extends BukkitCommand {
                             }
                     	    
                             if (ConfigMMsg.getConfig().getBoolean("Exp.Take.Target.Enable")) {
-                                for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Take.Target.Messages")) {
+                                for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Take.Target.Messages")) {
                                 	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", String.valueOf(value)), "", "", false);
                                 }
                             }
@@ -157,15 +158,15 @@ public class ExpCommand extends BukkitCommand {
                         
                         int old_level = target.getLevel();
                         if (level == old_level) {
-                        	target.setTotalExperience(newxp);
+                        	Tasks.sync(target, () -> target.setTotalExperience(newxp));
                         } else {
-                        	target.setLevel(level);
+                        	Tasks.sync(target, () -> target.setLevel(level));
                         	if (level > old_level) {
-                        		target.setTotalExperience(newxp);
+                        		Tasks.sync(target, () -> target.setTotalExperience(newxp));
                         	}
                         }
                         
-                        target.setExp(exp);
+                        Tasks.sync(target, () -> target.setExp(exp));
                         
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Sender.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Sender.Messages")) {
@@ -174,7 +175,7 @@ public class ExpCommand extends BukkitCommand {
                         }
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Target.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Target.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Add.Target.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                             }
                         }
@@ -196,15 +197,15 @@ public class ExpCommand extends BukkitCommand {
                          
                 		int old_level = target.getLevel();
                 		if (level == old_level) {
-                			target.setTotalExperience(newxp);
+                			Tasks.sync(target, () -> target.setTotalExperience(newxp));
                 		} else {
-                			target.setLevel(level);
+                			Tasks.sync(target, () -> target.setLevel(level));
                 			if (level > old_level) {
-                				target.setTotalExperience(newxp);
+                				Tasks.sync(target, () -> target.setTotalExperience(newxp));
                 			}
                 		}
                 		
-                		target.setExp(exp);
+                		Tasks.sync(target, () -> target.setExp(exp));
                 		
                 		if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Sender.Enable")) {
                             for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Sender.Messages")) {
@@ -213,7 +214,7 @@ public class ExpCommand extends BukkitCommand {
                         }
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Target.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Target.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Set.Target.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console").replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                             }
                         }
@@ -233,7 +234,7 @@ public class ExpCommand extends BukkitCommand {
         if (!ExpCommandConfig.getConfig().getBoolean("Exp.Enable")) {
             if (ExpCommandConfig.getConfig().getBoolean("Exp.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -250,7 +251,7 @@ public class ExpCommand extends BukkitCommand {
         // The command
         if (args.length == 0) {
             if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -266,17 +267,17 @@ public class ExpCommand extends BukkitCommand {
             			return true;
             		}
 
-            	    target.setExp(0);
-            	    target.setLevel(0);
+            	    Tasks.sync(target, () -> target.setExp(0));
+            	    Tasks.sync(target, () -> target.setLevel(0));
             	    
             	    if (ConfigMMsg.getConfig().getBoolean("Exp.Clear.Sender.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Clear.Sender.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Clear.Sender.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
                         }
                     }
             	    
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Clear.Target.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Clear.Target.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Clear.Target.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
                         }
                     }
@@ -297,7 +298,7 @@ public class ExpCommand extends BukkitCommand {
             		            		
             		if (value > totalexp) {
             			if (ConfigMMsg.getConfig().getBoolean("Exp.Take.Sender-Error.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Take.Sender-Error.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Take.Sender-Error.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%target_exp_points%", String.valueOf(totalexp)), "", "", false);
                             }
                         }
@@ -307,24 +308,24 @@ public class ExpCommand extends BukkitCommand {
                         
                         int old_level = target.getLevel();
                         if (level == old_level) {
-                        	target.setTotalExperience(newxp);
+                        	Tasks.sync(target, () -> target.setTotalExperience(newxp));
                         } else {
-                        	target.setLevel(level);
+                        	Tasks.sync(target, () -> target.setLevel(level));
                         	if (level > old_level) {
-                        		target.setTotalExperience(newxp);
+                        		Tasks.sync(target, () -> target.setTotalExperience(newxp));
                         	}
                         }
                         
-                        target.setExp(exp);
+                        Tasks.sync(target, () -> target.setExp(exp));
                         
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Take.Sender.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Take.Sender.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Take.Sender.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", String.valueOf(value)), "", "", false);
                             }
                         }
                 	    
                         if (ConfigMMsg.getConfig().getBoolean("Exp.Take.Target.Enable")) {
-                            for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Take.Target.Messages")) {
+                            for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Take.Target.Messages")) {
                             	ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%number_exp%", String.valueOf(value)), "", "", false);
                             }
                         }
@@ -350,24 +351,24 @@ public class ExpCommand extends BukkitCommand {
                     
                     int old_level = target.getLevel();
                     if (level == old_level) {
-                    	target.setTotalExperience(newxp);
+                    	Tasks.sync(target, () -> target.setTotalExperience(newxp));
                     } else {
-                    	target.setLevel(level);
+                    	Tasks.sync(target, () -> target.setLevel(level));
                     	if (level > old_level) {
-                    		target.setTotalExperience(newxp);
+                    		Tasks.sync(target, () -> target.setTotalExperience(newxp));
                     	}
                     }
                     
-                    target.setExp(exp);
+                    Tasks.sync(target, () -> target.setExp(exp));
                     
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Sender.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Sender.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Add.Sender.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
             	    
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Add.Target.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Add.Target.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Add.Target.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
@@ -389,24 +390,24 @@ public class ExpCommand extends BukkitCommand {
                      
             		int old_level = target.getLevel();
             		if (level == old_level) {
-            			target.setTotalExperience(newxp);
+            			Tasks.sync(target, () -> target.setTotalExperience(newxp));
             		} else {
-            			target.setLevel(level);
+            			Tasks.sync(target, () -> target.setLevel(level));
             			if (level > old_level) {
-            				target.setTotalExperience(newxp);
+            				Tasks.sync(target, () -> target.setTotalExperience(newxp));
             			}
             		}
             		
-            		target.setExp(exp);
+            		Tasks.sync(target, () -> target.setExp(exp));
             		
             		if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Sender.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Sender.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Exp.Set.Sender.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }
             	    
                     if (ConfigMMsg.getConfig().getBoolean("Exp.Set.Target.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Exp.Set.Target.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(target).getStringList("Exp.Set.Target.Messages")) {
                         	ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()).replace("%number_exp%", ConfigEventUtils.noAction(args[2])), "", "", false);
                         }
                     }

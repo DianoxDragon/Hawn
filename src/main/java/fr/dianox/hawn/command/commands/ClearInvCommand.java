@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -53,8 +54,8 @@ public class ClearInvCommand extends BukkitCommand {
 	            		return true;
 					}
 						
-					target.getInventory().clear();
-					target.getInventory().setArmorContents(new ItemStack[4]);
+					Tasks.sync(target, () -> target.getInventory().clear());
+					Tasks.sync(target, () -> target.getInventory().setArmorContents(new ItemStack[4]));
 					
 					if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Sender.Enable")) {
 						for (String msg: ConfigMMsg.getConfig().getStringList("ClearInv.Other-Sender.Messages")) {
@@ -64,7 +65,7 @@ public class ClearInvCommand extends BukkitCommand {
 					}
 						
 					if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Target.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("ClearInv.Other-Target.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(target).getStringList("ClearInv.Other-Target.Messages")) {
 							ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
 						}
 					}
@@ -81,7 +82,7 @@ public class ClearInvCommand extends BukkitCommand {
 		if (!ClearInvCommandConfig.getConfig().getBoolean("ClearInv.Enable")) {
 			if (ClearInvCommandConfig.getConfig().getBoolean("ClearInv.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -102,7 +103,7 @@ public class ClearInvCommand extends BukkitCommand {
 						p.getInventory().setArmorContents(new ItemStack[4]);
 						
 						if (ConfigMMsg.getConfig().getBoolean("ClearInv.Self.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("ClearInv.Self.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("ClearInv.Self.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						}
@@ -115,18 +116,18 @@ public class ClearInvCommand extends BukkitCommand {
 			            		return true;
 							}
 								
-							target.getInventory().clear();
-							target.getInventory().setArmorContents(new ItemStack[4]);
+							Tasks.sync(target, () -> target.getInventory().clear());
+							Tasks.sync(target, () -> target.getInventory().setArmorContents(new ItemStack[4]));
 							
 							if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Sender.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("ClearInv.Other-Sender.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("ClearInv.Other-Sender.Messages")) {
 									msg = msg.replace("%player%", p.getName()).replace("%target%", target.getName());
 									ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 								}
 							}
 								
 							if (ConfigMMsg.getConfig().getBoolean("ClearInv.Other-Target.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("ClearInv.Other-Target.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(target).getStringList("ClearInv.Other-Target.Messages")) {
 									msg = msg.replace("%player%", p.getName());
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}

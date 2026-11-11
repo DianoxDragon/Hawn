@@ -6,9 +6,13 @@ description: Install Hawn on your server and check that it runs correctly.
 
 ## Requirements
 
-* A **Spigot** or **Paper** server (or a fork of them) between **1.16.5** and the latest version (1.21.x, 26.x).
+* A **Spigot**, **Paper**, **Purpur** or **Folia** server (or another fork of them) between **1.16.5** and the latest version (1.21.x, 26.x).
 * The Java version your server already needs. Hawn itself runs on Java 8 and newer.
-* No other plugin is required. Hawn is a "core" lobby plugin and works on its own.
+* No other plugin is required. Hawn is a "core" lobby plugin and works on its own. The [holograms](../features/holograms.md) need [PacketEvents](https://modrinth.com/plugin/packetevents).
+
+{% hint style="info" %}
+On **Folia** (since Hawn 1.6), every task of Hawn runs on the thread of the region, the entity or the player it touches. The [world manager](../features/world-manager.md) is off there: Folia can neither create nor unload a world while the server runs.
+{% endhint %}
 
 {% hint style="warning" %}
 Versions older than 1.16.5 (1.8 → 1.16.4) are not supported anymore since Hawn 1.2. If you really need them, stay on Hawn 1.1.x.

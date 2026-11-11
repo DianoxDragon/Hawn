@@ -63,9 +63,9 @@ public class SignSystem implements Listener {
 
 						// The mark after the event: the sign is written with its text then
 						Block block = e.getBlock();
-						Tasks.next(() -> {
+						Tasks.later(block.getLocation(), () -> {
 							if (isSign(block.getType())) mark(block, keepline);
-						});
+						}, 0);
 					}
 				}
 			}

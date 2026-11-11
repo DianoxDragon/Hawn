@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -55,7 +56,7 @@ public class WorkBenchCommand extends BukkitCommand {
 		 if (!WorkBenchCommandConfig.getConfig().getBoolean("WorkBench.Enable")) {
 			 if (WorkBenchCommandConfig.getConfig().getBoolean("WorkBench.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -75,7 +76,7 @@ public class WorkBenchCommand extends BukkitCommand {
 			 p.openWorkbench(null, true);
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("WorkBench.Self.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("WorkBench.Self.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("WorkBench.Self.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				 }
 			 }
@@ -88,17 +89,17 @@ public class WorkBenchCommand extends BukkitCommand {
 				 return true;
 			 }
 
-			 target.closeInventory();
-			 target.openWorkbench(null, true);
+			 Tasks.sync(target, () -> target.closeInventory());
+			 Tasks.sync(target, () -> target.openWorkbench(null, true));
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("WorkBench.Sender.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("WorkBench.Sender.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("WorkBench.Sender.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 				 }
 			 }
 			 
 			 if (ConfigMMsg.getConfig().getBoolean("WorkBench.Target.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("WorkBench.Target.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("WorkBench.Target.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()), "", "", false);
 				 }
 			 }

@@ -59,7 +59,7 @@ public class EditWarpCommand extends BukkitCommand {
 		if (!WarpSetWarpCommandConfig.getConfig().getBoolean("EditWarp.Enable")) {
 			if (WarpSetWarpCommandConfig.getConfig().getBoolean("EditWarp.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -77,7 +77,7 @@ public class EditWarpCommand extends BukkitCommand {
 		if (args.length == 0) {
 			// If no argument has been put in the command
 			if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -88,7 +88,7 @@ public class EditWarpCommand extends BukkitCommand {
 			// If the warp does not exist
 			if (!WarpListConfig.getConfig().isSet("Coordinated."+args[0]+".World")) {
 				if (ConfigMMsg.getConfig().getBoolean(msg_warp_dosent_exist+"Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList(msg_warp_dosent_exist+"Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_warp_dosent_exist+"Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -111,7 +111,7 @@ public class EditWarpCommand extends BukkitCommand {
 			WarpListConfig.saveConfigFile();
 
 			if (ConfigMMsg.getConfig().getBoolean(msg_warp_edited+"Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList(msg_warp_edited+"Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList(msg_warp_edited+"Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(args[0])), "", "", false);
 				}
 			}

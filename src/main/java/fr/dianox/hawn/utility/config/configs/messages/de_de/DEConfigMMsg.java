@@ -556,6 +556,11 @@ public class DEConfigMMsg {
         Config.set("Error.Not-A-Player.Enable", true);
         Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDu bist kein Spieler"}));
         Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cDu kannst hier keine Blöcke platzieren!"}));
+        // The language menu (since 1.6)
+        Config.set("Language.Changed.Enable", true);
+        Config.set("Language.Changed.Messages", java.util.Arrays.asList("%prefix% &7Deine Sprache ist jetzt &e%arg1%"));
+        Config.set("Language.Client.Enable", true);
+        Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Du bekommst die Nachrichten jetzt in der Sprache deines Spiels &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDu kannst hier keine Blöcke abbauen!"}));
 
         Config = ConfigDefaults.apply(file, loaded, Config);

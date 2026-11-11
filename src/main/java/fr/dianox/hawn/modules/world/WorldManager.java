@@ -12,7 +12,30 @@ public class WorldManager {
 		load();
 	}
 
+	/**
+	 * Folia can neither create nor unload a world while the server runs (since 1.6): the World Manager is off there.
+	 * True, with the message, when the sender can't use it.
+	 */
+	public static boolean offOnFolia(org.bukkit.command.CommandSender sender) {
+		if (!fr.dianox.hawn.utility.Tasks.isFolia()) {
+			return false;
+		}
+		if (sender instanceof org.bukkit.entity.Player) {
+			for (String msg : WorldDeletion.message("Folia-Disabled", "%prefix% &cThe World Manager is off on Folia: Folia can neither create nor unload a world while the server runs")) {
+				fr.dianox.hawn.utility.ConfigEventUtils.ExecuteEvent((org.bukkit.entity.Player) sender, msg, "", "", false);
+			}
+		} else if (sender != null) {
+			sender.sendMessage("[Hawn] The World Manager is off on Folia: Folia can neither create nor unload a world while the server runs");
+		}
+		return true;
+	}
+
 	public void load() {
+		if (fr.dianox.hawn.utility.Tasks.isFolia()) {
+			// The worlds of Worlds.yml are not loaded: see offOnFolia
+			return;
+		}
+
 		java.util.Set<String> names = new java.util.LinkedHashSet<>();
 
 		// The world folders of the world container (--world-container)

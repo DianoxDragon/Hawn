@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.ConfigEventUtils;
@@ -45,11 +45,12 @@ public class MuteChatCommand extends BukkitCommand {
 		if (!(sender instanceof Player)) {
 			if (args.length == 0) {
 				if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
+					for (String msg : ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "console")));
 						MessageUtils.ConsoleMessages(msg.replace("%player%", "console"));
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console"), "", "");
 					}
+					// Each player in their language (since 1.6)
+					ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.Off"), msg -> msg.replace("%player%", "console"), null, "", "");
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 					
 					if (taskrunning) {
@@ -58,11 +59,12 @@ public class MuteChatCommand extends BukkitCommand {
 					}
 					
 				} else {
-					for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
+					for (String msg : ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
 						Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "console")));
 						MessageUtils.ConsoleMessages(msg.replace("%player%", "console"));
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console"), "", "");
 					}
+					// Each player in their language (since 1.6)
+					ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.On"), msg -> msg.replace("%player%", "console"), null, "", "");
 					MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 				}
 			} else {
@@ -79,9 +81,11 @@ public class MuteChatCommand extends BukkitCommand {
 				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "console").replace("%minutes%", args[0])));
 					MessageUtils.ConsoleMessages(msg.replace("%player%", "console").replace("%minutes%", args[0]));
-					ConfigEventUtils.ExecuteEventAllPlayersConsole(msg.replace("%player%", "console").replace("%minutes%", ConfigEventUtils.noAction(args[0])),
-							"", "");
 				}
+				// Each player in their language (since 1.6)
+				String minutesText = ConfigEventUtils.noAction(args[0]);
+				ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.On-Time"),
+						msg -> msg.replace("%player%", "console").replace("%minutes%", minutesText), null, "", "");
 
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 
@@ -97,7 +101,7 @@ public class MuteChatCommand extends BukkitCommand {
 		if (!MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Enable")) {
 			if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -114,10 +118,11 @@ public class MuteChatCommand extends BukkitCommand {
 		// >> The command
 		if (args.length == 0) {
 			if (MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
+				for (String msg : ConfigMMsg.getConfig().getStringList("MuteChat.Admin.Off")) {
 					MessageUtils.ConsoleMessages(msg);
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 				}
+				// Each player in their language (since 1.6)
+				ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.Off"), msg -> msg, p, "", "");
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", false);
 				
 				if (taskrunning) {
@@ -126,10 +131,11 @@ public class MuteChatCommand extends BukkitCommand {
 				}
 				
 			} else {
-				for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
+				for (String msg : ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On")) {
 					MessageUtils.ConsoleMessages(msg);
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
 				}
+				// Each player in their language (since 1.6)
+				ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.On"), msg -> msg, p, "", "");
 				MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 			}
 		} else {
@@ -139,10 +145,11 @@ public class MuteChatCommand extends BukkitCommand {
 				return true;
 			}
 
-			for (String msg: ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
+			for (String msg : ConfigMMsg.getConfig().getStringList("MuteChat.Admin.On-Time")) {
 				MessageUtils.ConsoleMessages(msg.replace("%minutes%", args[0]));
-				ConfigEventUtils.ExecuteEventAllPlayers(msg.replace("%minutes%", ConfigEventUtils.noAction(args[0])), "", "", p, true);
 			}
+			// Each player in their language (since 1.6)
+			ConfigEventUtils.broadcast(to -> ConfigMMsg.getConfig(to).getStringList("MuteChat.Admin.On-Time"), msg -> msg.replace("%minutes%", ConfigEventUtils.noAction(args[0])), p, "", "");
 
 			MuteChatCommandConfig.getConfig().set("MuteChat.Mute.Enable", true);
 
@@ -168,7 +175,7 @@ public class MuteChatCommand extends BukkitCommand {
 			Tasks.cancel(tasknumber);
 		}
 
-		BukkitTask task = Tasks.later(new MuteChatTask(by), minutes * 60L * 20L);
+		Task task = Tasks.later(new MuteChatTask(by), minutes * 60L * 20L);
 
 		taskrunning = true;
 		tasknumber = task.getTaskId();

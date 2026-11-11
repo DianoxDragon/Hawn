@@ -16,6 +16,8 @@ import fr.dianox.hawn.utility.config.configs.messages.de_de.*;
 import fr.dianox.hawn.utility.config.configs.messages.fr_fr.*;
 import fr.dianox.hawn.utility.config.configs.messages.nl_nl.*;
 import fr.dianox.hawn.utility.config.configs.messages.es_es.*;
+import fr.dianox.hawn.utility.config.configs.messages.it_it.*;
+import fr.dianox.hawn.utility.config.configs.messages.pt_br.*;
 import fr.dianox.hawn.utility.config.configs.scoreboard.defaultscoreboardconfig;
 import fr.dianox.hawn.utility.config.configs.scoreboard.worldnetherdsc;
 import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
@@ -340,6 +342,22 @@ public class ConfigManager {
 		ESWorldManagerPanelConfig.loadConfig(plugin);
 		ESAdminAMConfig.loadConfig(plugin);
 		ESSetupLangFile.loadConfig(plugin);
+
+		// Italian and Portuguese of Brazil (since 1.6)
+
+		ITAdminPanelConfig.loadConfig(plugin);
+		ITConfigMMsg.loadConfig(plugin);
+		ITConfigMGeneral.loadConfig(plugin);
+		ITWorldManagerPanelConfig.loadConfig(plugin);
+		ITAdminAMConfig.loadConfig(plugin);
+		ITSetupLangFile.loadConfig(plugin);
+
+		PTAdminPanelConfig.loadConfig(plugin);
+		PTConfigMMsg.loadConfig(plugin);
+		PTConfigMGeneral.loadConfig(plugin);
+		PTWorldManagerPanelConfig.loadConfig(plugin);
+		PTAdminAMConfig.loadConfig(plugin);
+		PTSetupLangFile.loadConfig(plugin);
 
 		// Normal
 

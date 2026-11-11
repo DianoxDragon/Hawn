@@ -9,7 +9,7 @@ import fr.dianox.hawn.utility.config.configs.tab.TablistConfig;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class TabManager {
 
-	private final List<BukkitTask> tasks = new ArrayList<>();
+	private final List<Task> tasks = new ArrayList<>();
 	// "name" for the animations of Tablist.yml, "file/name" for those of a tab list file
 	private final Map<String, AnimationTabTask> animations = new HashMap<>();
 	public Integer tablistnumber = 0;
@@ -47,7 +47,7 @@ public class TabManager {
 		}
 		loadLayouts(plugin);
 
-		BukkitTask tablistmain = Tasks.timer(new MainTablist(), 20L, Math.max(1L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks")));
+		Task tablistmain = Tasks.timer(new MainTablist(), 20L, Math.max(1L, TablistConfig.getConfig().getLong("Tablist.refresh-time-ticks")));
 		tablistnumber = tablistmain.getTaskId();
 	}
 
@@ -121,7 +121,7 @@ public class TabManager {
 	public void stop() {
 		Tasks.cancel(tablistnumber);
 
-		for (BukkitTask task : tasks) {
+		for (Task task : tasks) {
 			Tasks.cancel(task);
 		}
 

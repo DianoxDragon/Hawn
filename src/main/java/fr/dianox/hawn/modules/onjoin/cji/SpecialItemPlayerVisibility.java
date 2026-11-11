@@ -106,7 +106,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 		if (SpecialCjiHidePlayers.getConfig().getBoolean("PV.Option.Item-Delay.Enable")) {
 			if (PlayerVisibility.Cooling().contains(p)) {
 				if (ConfigMMsg.getConfig().getBoolean("PlayerOption.Error.Player-Visibility.Time.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("PlayerOption.Error.Player-Visibility.Time.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "PlayerOption.Error.Player-Visibility.Time.Messages", "SpecialItemPlayerVisibility", false);
 					}
 				}
@@ -205,7 +205,7 @@ public class SpecialItemPlayerVisibility implements Listener {
 	public static void message(Player p, Mode mode) {
 		String path = "PlayerOption.PlayerVisibility." + (mode == Mode.ALL ? "OFF" : mode == Mode.STAFF ? "STAFF" : "ON");
 		if (ConfigMMsg.getConfig().getBoolean(path + ".Enable")) {
-			for (String msg: ConfigMMsg.getConfig().getStringList(path + ".Messages")) {
+			for (String msg: ConfigMMsg.getConfig(p).getStringList(path + ".Messages")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, path + ".Messages", "SpecialItemPlayerVisibility", false);
 			}
 		}

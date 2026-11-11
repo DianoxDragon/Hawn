@@ -178,7 +178,7 @@ public final class ChatProcessor {
 			return false;
 		}
 
-		tell(p, ConfigMMsg.getConfig().getStringList("MuteChat.Can-t-Speak"), "");
+		tell(p, ConfigMMsg.getConfig(p).getStringList("MuteChat.Can-t-Speak"), "");
 		return true;
 	}
 
@@ -199,7 +199,7 @@ public final class ChatProcessor {
 		if (cooling.contains(p.getName())) {
 			// %DELAY% is the delay of /delaychat, the group can have its own
 			java.util.List<String> lines = new java.util.ArrayList<>();
-			for (String line : ConfigMMsg.getConfig().getStringList("ChatDelay.Delay")) {
+			for (String line : ConfigMMsg.getConfig(p).getStringList("ChatDelay.Delay")) {
 				lines.add(line.replace("%DELAY%", String.valueOf(seconds)));
 			}
 			tell(p, lines, "");
@@ -237,14 +237,14 @@ public final class ChatProcessor {
 			return false;
 		}
 
-		tell(p, ConfigMMsg.getConfig().getStringList("Anti-Advertising.Blocked"), "");
+		tell(p, ConfigMMsg.getConfig(p).getStringList("Anti-Advertising.Blocked"), "");
 
 		if (s.bool("Anti-Advertising.Notify-Staff")) {
 			for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
 				if (staff.hasPermission("hawn.antiadvertising.benotified")) {
-					for (String msg : ConfigMMsg.getConfig().getStringList("Anti-Advertising.Notify-Staff")) {
+					for (String msg : ConfigMMsg.getConfig(staff).getStringList("Anti-Advertising.Notify-Staff")) {
 						String message = msg.replace("%player%", p.getName()).replace("%message%", ConfigEventUtils.noAction(text));
-						runSync(() -> ConfigEventUtils.ExecuteEvent(staff, message, "", "", false));
+						ConfigEventUtils.ExecuteEvent(staff, message, "", "", false);
 					}
 				}
 			}
@@ -268,7 +268,7 @@ public final class ChatProcessor {
 			String previous = lastMessage.get(p);
 			Long when = lastTime.get(p);
 			if (!normal.isEmpty() && normal.equals(previous) && when != null && now - when < window) {
-				tell(p, ConfigMMsg.getConfig().getStringList("Anti-Spam.Repeat"), "");
+				tell(p, ConfigMMsg.getConfig(p).getStringList("Anti-Spam.Repeat"), "");
 				return true;
 			}
 			lastMessage.put(p, normal);
@@ -297,7 +297,7 @@ public final class ChatProcessor {
 		}
 
 		if (s.bool("Anti-Spam.Caps.Block")) {
-			tell(p, ConfigMMsg.getConfig().getStringList("Anti-Spam.Caps"), "");
+			tell(p, ConfigMMsg.getConfig(p).getStringList("Anti-Spam.Caps"), "");
 			throw new Blocked();
 		}
 
@@ -347,9 +347,9 @@ public final class ChatProcessor {
 			if (s.bool("Anti-Swear.Notify-Staff")) {
 				for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
 					if (staff.hasPermission("hawn.antiswear.benotified")) {
-						for (String msg : ConfigMMsg.getConfig().getStringList("Anti-Swear.Notify-Staff")) {
+						for (String msg : ConfigMMsg.getConfig(staff).getStringList("Anti-Swear.Notify-Staff")) {
 							String message = msg.replace("%player%", p.getName()).replace("%message%", ConfigEventUtils.noAction(typed));
-							runSync(() -> ConfigEventUtils.ExecuteEvent(staff, message, "", "", false));
+							ConfigEventUtils.ExecuteEvent(staff, message, "", "", false);
 						}
 					}
 				}
@@ -415,7 +415,7 @@ public final class ChatProcessor {
 				continue;
 			}
 
-			runSync(() -> mentioned(target, p, s));
+			Tasks.sync(target, () -> mentioned(target, p, s));
 
 			if (highlight) {
 				r.perViewer.put(target, whole.matcher(r.message).replaceAll(Matcher.quoteReplacement(highlighting + tag + "§r")));
@@ -425,7 +425,7 @@ public final class ChatProcessor {
 	}
 
 	private static void mentioned(Player p, Player sender, ChatSettings s) {
-		Tasks.later(() -> {
+		Tasks.later(p, () -> {
 			if (s.bool("Chat-Mention.Mentionned.Send-Message.Enable")) {
 				for (String msg : s.list("Chat-Mention.Mentionned.Send-Message.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%sender%", sender.getName()).replace("%player%", p.getName()), "", "", false);
@@ -466,7 +466,7 @@ public final class ChatProcessor {
 
 	private static void tell(Player p, Iterable<String> lines, String arg) {
 		for (String msg : lines) {
-			runSync(() -> ConfigEventUtils.ExecuteEvent(p, msg, arg, "", false));
+			ConfigEventUtils.ExecuteEvent(p, msg, arg, "", false);
 		}
 	}
 

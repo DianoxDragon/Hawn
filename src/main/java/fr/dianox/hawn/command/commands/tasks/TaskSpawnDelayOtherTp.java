@@ -50,7 +50,7 @@ public class TaskSpawnDelayOtherTp implements Runnable {
 		if (SpawnCommandConfig.getConfig().getBoolean("Commands.Spawn.CustomSpawn.Enable")) {
 			// If the value of the config is CHANGE ME by default
 			if (SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-				p.sendMessage("You have to change the spawn on Commands.CustomSpawn.Spawn on Events/OnJoin.yml");
+				MessageUtils.changeMe(p, "Commands.CustomSpawn.Spawn", "Events/OnJoin.yml");
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"))) {
@@ -69,11 +69,11 @@ public class TaskSpawnDelayOtherTp implements Runnable {
 				SpawnUtils.teleportToSpawnAsync(other, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				
 				// Messages
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+				for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 						ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 					}
 				}
@@ -84,7 +84,7 @@ public class TaskSpawnDelayOtherTp implements Runnable {
 
 			// If the value of the config is CHANGE ME by default
 			if (spawn.contentEquals("CHANGE ME")) {
-				p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+				MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
 			} else {
 				// If the spawn is not set
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+spawn)) {
@@ -102,11 +102,11 @@ public class TaskSpawnDelayOtherTp implements Runnable {
 				SpawnUtils.teleportToSpawnAsync(other, spawn);
 				
 				// Messages
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+				for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 						ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 					}
 				}

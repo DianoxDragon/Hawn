@@ -170,7 +170,7 @@ public class MessageUtils {
     // >> No permissions
     public static void MessageNoPermission(Player player, String p) {
         if (ConfigMMsg.getConfig().getBoolean("Error.No-Permissions.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Permissions.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.No-Permissions.Messages")) {
 
                 msg = msg.replace("%noperm%", p);
 
@@ -182,7 +182,7 @@ public class MessageUtils {
     // > No Spawn
     public static void MessageNoSpawn(Player player) {
         if (ConfigMMsg.getConfig().getBoolean("Error.No-Spawn.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Spawn.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.No-Spawn.Messages")) {
                 ConfigEventUtils.ExecuteEvent(player, msg, "nospawn", "MessageUtils", false);
             }
         }
@@ -191,7 +191,7 @@ public class MessageUtils {
     // > No Player
     public static void PlayerDoesntExist(Player player) {
         if (ConfigMMsg.getConfig().getBoolean("Error.No-Players.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Players.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.No-Players.Messages")) {
                 ConfigEventUtils.ExecuteEvent(player, msg, "noplayer", "MessageUtils", false);
             }
         }
@@ -200,7 +200,7 @@ public class MessageUtils {
     // > No Page found
     public static void NoPageFound(Player player) {
         if (ConfigMMsg.getConfig().getBoolean("Error.No-Page-Found.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Page-Found.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.No-Page-Found.Messages")) {
                 ConfigEventUtils.ExecuteEvent(player, msg, "nopagefound", "MessageUtils", false);
             }
         }
@@ -209,7 +209,7 @@ public class MessageUtils {
     // > No category
     public static void NoCategory(Player player) {
         if (ConfigMMsg.getConfig().getBoolean("Error.No-Category.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.No-Category.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.No-Category.Messages")) {
                 ConfigEventUtils.ExecuteEvent(player, msg, "nocategory", "MessageUtils", false);
             }
         }
@@ -218,7 +218,7 @@ public class MessageUtils {
     // > Use number
     public static void UseNumber(Player player) {
         if (ConfigMMsg.getConfig().getBoolean("Error.Use-Number.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Use-Number.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(player).getStringList("Error.Use-Number.Messages")) {
                 ConfigEventUtils.ExecuteEvent(player, msg, "usenumber", "MessageUtils", false);
             }
         }
@@ -227,7 +227,7 @@ public class MessageUtils {
     // > An argument is missing, for a player or the console
     public static void ArgumentMissing(CommandSender sender) {
         if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-            for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+            for (String msg: ConfigMMsg.getConfig(sender).getStringList("Error.Argument-Missing.Messages")) {
                 if (sender instanceof Player) {
                     ConfigEventUtils.ExecuteEvent((Player) sender, msg, "argumentmissing", "MessageUtils", false);
                 } else {
@@ -300,4 +300,17 @@ public class MessageUtils {
         return sb.toString();
     }
 
+
+	/**
+	 * Error.Change-Me of Messages.yml in the language of the player (since 1.6): an option of a file still has its
+	 * example value (a spawn that doesn't exist...). Was a text in English written in the code.
+	 */
+	public static void changeMe(Player p, String option, String file) {
+		if (!ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable", true)) {
+			return;
+		}
+		for (String msg : ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
+			ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", option).replace("%arg2%", file), "", "", false);
+		}
+	}
 }

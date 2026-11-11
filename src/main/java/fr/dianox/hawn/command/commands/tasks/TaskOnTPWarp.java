@@ -45,14 +45,14 @@ public class TaskOnTPWarp implements Runnable {
 			Tasks.teleportAsync(p, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Self.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Self.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Self.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(tp)), "", "", false);
 				}
 			}
 
 		} catch(Exception e) {
 			if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

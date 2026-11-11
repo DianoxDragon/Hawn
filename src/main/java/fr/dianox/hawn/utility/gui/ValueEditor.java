@@ -187,7 +187,7 @@ public final class ValueEditor {
 			return false;
 		}
 
-		Tasks.next(() -> {
+		Tasks.next(p, () -> {
 			if (!p.isOnline()) return;
 
 			if (text.trim().equalsIgnoreCase("cancel")) {
@@ -230,12 +230,12 @@ public final class ValueEditor {
 		}
 		for (Player all : Bukkit.getServer().getOnlinePlayers()) {
 			if (all.hasPermission("hawn.urgent.spy.adminpanel")) {
-				for (String msg : ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+				for (String msg : ConfigMAdmin.getConfig(all).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 					ConfigEventUtils.ExecuteEvent(all, msg.replace("%player%", p.getName()).replace("%arg1%", key).replace("%arg2%", file), "", "", false);
 				}
 			}
 		}
-		for (String msg : ConfigMAdmin.getConfig().getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
+		for (String msg : ConfigMAdmin.getConfig(p).getStringList("Urgent-mode.Hawn-Watch-Panel-Admin")) {
 			ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", p.getName()).replace("%arg1%", key).replace("%arg2%", file), "", "STRICTSCONSOLE", true);
 		}
 	}

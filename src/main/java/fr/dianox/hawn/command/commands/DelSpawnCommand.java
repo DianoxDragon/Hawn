@@ -86,7 +86,7 @@ public class DelSpawnCommand extends BukkitCommand {
 		if (!SpawnCommandConfig.getConfig().getBoolean("DelSpawn.Enable")) {
 			if (SpawnCommandConfig.getConfig().getBoolean("DelSpawn.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -104,14 +104,14 @@ public class DelSpawnCommand extends BukkitCommand {
 		if (args.length == 0) {
 			// If no argument has been put in the command
 			if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
 		} else if (args.length == 1) {
 			// If the spawn does not exist
 			if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[0]+".World")) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.No-Spawn")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.No-Spawn")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 				
@@ -130,11 +130,11 @@ public class DelSpawnCommand extends BukkitCommand {
             
 			ConfigSpawn.saveConfigFile();
 			
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Del.Spawn-Delete")) {
 				ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", ConfigEventUtils.noAction(args[0])), "", "", false);
 			}
 		} else {
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Delspawn")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Command.Delspawn")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}
 		}

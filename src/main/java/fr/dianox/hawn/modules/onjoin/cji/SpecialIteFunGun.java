@@ -188,7 +188,7 @@ public class SpecialIteFunGun implements Listener {
 									if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
 										if (Cooling.contains(p)) {
 											if (ConfigMMsg.getConfig().getBoolean("Custom-Join-Item.Error.FunGun.Time.Enable")) {
-												for (String msg: ConfigMMsg.getConfig().getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
+												for (String msg: ConfigMMsg.getConfig(p).getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
 										    		ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
 										    	}
 											}
@@ -216,7 +216,7 @@ public class SpecialIteFunGun implements Listener {
 								if (SpecialCjiFunGun.getConfig().getBoolean("FunGun.Option.Item-Delay.Enable")) {
 									if (Cooling.contains(p)) {
 										if (ConfigMMsg.getConfig().getBoolean("Custom-Join-Item.Error.FunGun.Time.Enable")) {
-											for (String msg: ConfigMMsg.getConfig().getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
+											for (String msg: ConfigMMsg.getConfig(p).getStringList("Custom-Join-Item.Error.FunGun.Time.Messages")) {
 												ConfigEventUtils.ExecuteEvent(p, msg, "Custom-Join-Item.Error.FunGun.Time.Messages", "SpecialIteFunGun", false);
 									    	}
 										}

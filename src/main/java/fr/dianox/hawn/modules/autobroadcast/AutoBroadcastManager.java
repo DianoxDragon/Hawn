@@ -10,7 +10,7 @@ import fr.dianox.hawn.utility.BossBarApi;
 import fr.dianox.hawn.utility.config.configs.AutoBroadcastConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -116,7 +116,7 @@ public class AutoBroadcastManager {
 			
 		Main.autobroadcast_total--;
 
-		BukkitTask TaskName = Tasks.timer(new AutoBroadcast(Main.getInstance()), 0, interval);
+		Task TaskName = Tasks.timer(new AutoBroadcast(Main.getInstance()), 0, interval);
 		Main.tasklist.put("B_AB", TaskName.getTaskId());
 	}
 	
@@ -136,7 +136,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_ab--;
 	    
-		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_AB(Main.getInstance()), 0, interval_ab);
+		Task TaskName = Tasks.timer(new AutoBroadcast_AB(Main.getInstance()), 0, interval_ab);
 		Main.tasklist.put("AB_AB", TaskName.getTaskId());
 	}
 	
@@ -156,7 +156,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_titles--;
 	    
-		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_Title(Main.getInstance()), 0, interval_titles);
+		Task TaskName = Tasks.timer(new AutoBroadcast_Title(Main.getInstance()), 0, interval_titles);
 		Main.tasklist.put("T_AB", TaskName.getTaskId());
 	}
 	
@@ -176,7 +176,7 @@ public class AutoBroadcastManager {
 
 	    Main.autobroadcast_total_bb--;
 	    
-		BukkitTask TaskName = Tasks.timer(new AutoBroadcast_BossBar(Main.getInstance()), 0, interval_bb);
+		Task TaskName = Tasks.timer(new AutoBroadcast_BossBar(Main.getInstance()), 0, interval_bb);
 		Main.tasklist.put("BB_AB", TaskName.getTaskId());
 	}
 

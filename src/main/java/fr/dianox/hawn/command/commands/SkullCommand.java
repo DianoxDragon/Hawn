@@ -62,7 +62,7 @@ public class SkullCommand extends BukkitCommand {
 		 if (!SkullCommandConfig.getConfig().getBoolean("Skull.Enable")) {
 			 if (SkullCommandConfig.getConfig().getBoolean("Skull.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -81,7 +81,7 @@ public class SkullCommand extends BukkitCommand {
 			 p.getInventory().addItem(getSkull(p.getName()));
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Skull.Self.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Skull.Self.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Skull.Self.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				 }
 			 }
@@ -97,13 +97,13 @@ public class SkullCommand extends BukkitCommand {
 			 p.getInventory().addItem(getSkull(target.getName()));
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("Skull.Sender.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Skull.Sender.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Skull.Sender.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 				 }
 			 }
 			 
 			 if (ConfigMMsg.getConfig().getBoolean("Skull.Target.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Skull.Target.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(target).getStringList("Skull.Target.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
 				 }
 			 }

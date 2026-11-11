@@ -80,7 +80,7 @@ public class IpCommand extends BukkitCommand {
         if (!IpCommandConfig.getConfig().getBoolean("Ip.Enable")) {
             if (IpCommandConfig.getConfig().getBoolean("Ip.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -98,7 +98,7 @@ public class IpCommand extends BukkitCommand {
 
         if (args.length == 0) {
             if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -112,7 +112,7 @@ public class IpCommand extends BukkitCommand {
     		
     		String ip = target.getAddress().getHostString();
     		
-    		for (String msg: ConfigMAdmin.getConfig().getStringList("Command.IP")) {
+    		for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.IP")) {
     			ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%getplayerip%", ip), "", "", false);
     		}
         } else {

@@ -53,7 +53,7 @@ public class RepairCommand extends BukkitCommand {
 		 if (!RepairCommandConfig.getConfig().getBoolean("Repair.Enable")) {
 			 if (RepairCommandConfig.getConfig().getBoolean("Repair.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -82,7 +82,7 @@ public class RepairCommand extends BukkitCommand {
 		 
 		 if (item.getDurability() == 0 || ! Canberepair(item.getType())) {
 			 if (ConfigMMsg.getConfig().getBoolean("Repair.Can-t-Repair.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Repair.Can-t-Repair.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Repair.Can-t-Repair.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%item%", in), "", "", false);
 				 }
 			 }
@@ -92,7 +92,7 @@ public class RepairCommand extends BukkitCommand {
 			 item.setDurability((short) 0);
 			 
 			 if (ConfigMMsg.getConfig().getBoolean("Repair.Repaired.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Repair.Repaired.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Repair.Repaired.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%item%", in), "", "", false);
 				 }
 			 }

@@ -9,8 +9,9 @@ import java.nio.file.Files;
 import java.util.Locale;
 
 /**
- * The menus written the first time (no Menus/ folder), in the language of the server: the server selector of the compass,
- * and the profile of the head of the join items, which shows what a menu can do.
+ * The menus written the first time (no Menus/ folder): the server selector of the compass, and the profile of the head
+ * of the join items, which shows what a menu can do. Since 1.6, their texts are keys of Translations/ ({lang_menu.<key>}),
+ * shown in the language of each player, and the language menu is written too.
  */
 final class DefaultMenus {
 
@@ -20,11 +21,123 @@ final class DefaultMenus {
 		if (!folder.mkdirs() && !folder.exists()) {
 			return;
 		}
-		String lang = String.valueOf(Main.LanguageType).toLowerCase(Locale.ROOT);
-		String[] t = lang.startsWith("fr") ? FR : lang.startsWith("de") ? DE : lang.startsWith("nl") ? NL : lang.startsWith("es") ? ES : EN;
+		// Since 1.6: {lang_menu.<key>}, the text of the key in the language of each player (Translations/)
+		String[] t = fr.dianox.hawn.utility.DefaultTranslations.placeholders();
 
 		save(new File(folder, "servers.yml"), servers(t));
 		save(new File(folder, "profile.yml"), profile(t));
+		writeLanguage(folder);
+	}
+
+	/**
+	 * The language menu (since 1.6), also written once in the Menus folder of the servers that had it before 1.6
+	 * (StockageInfo/LanguageMenu.lock: not again if the admin deletes it).
+	 */
+	static void writeLanguage(File folder) {
+		File lock = new File(Main.getInstance().getDataFolder(), "StockageInfo/LanguageMenu.lock");
+		if (lock.exists()) {
+			return;
+		}
+		File file = new File(folder, "language.yml");
+		if (!file.exists()) {
+			save(file, language(fr.dianox.hawn.utility.DefaultTranslations.placeholders()));
+		}
+		try {
+			lock.getParentFile().mkdirs();
+			lock.createNewFile();
+		} catch (IOException e) {
+			Main.getInstance().getLogger().warning("StockageInfo/LanguageMenu.lock could not be written: " + e);
+		}
+	}
+
+	// code, name in the language itself, banner
+	private static final String[][] LANGUAGES = {
+		{"en_US", "English", "RED_BANNER"}, {"fr_FR", "Français", "BLUE_BANNER"}, {"de_DE", "Deutsch", "BLACK_BANNER"},
+		{"nl_NL", "Nederlands", "ORANGE_BANNER"}, {"es_ES", "Español", "YELLOW_BANNER"}, {"it_IT", "Italiano", "GREEN_BANNER"},
+		{"pt_BR", "Português (Brasil)", "LIME_BANNER"}
+	};
+
+	/**
+	 * Each language twice on its slot: shown as chosen (the first one whose View-Requirements are met), or to click.
+	 */
+	private static String language(String[] t) {
+		StringBuilder s = new StringBuilder();
+		s.append("# The language menu (since 1.6), opened by the book of the profile ([menu]: language) and by /language.\n")
+				.append("# [language]: <code> gives this language to the player, [language]: client the one of their game.\n")
+				.append("# The texts {lang_menu.<key>} are in Translations/<language>.yml.\n")
+				.append("# Documentation: https://hawn.gitbook.io/hawn/help/translating\n")
+				.append("Title: ").append(q("&8" + t[31])).append("\n")
+				.append("Rows: 3\n")
+				.append("Open:\n")
+				.append("  Commands: [language]\n")
+				.append("  Actions:\n")
+				.append("  - '[sounds]: BLOCK_CHEST_OPEN'\n")
+				.append("Fill: GRAY_STAINED_GLASS_PANE\n")
+				.append("Items:\n");
+
+		int slot = 10;
+		for (String[] l : LANGUAGES) {
+			String id = l[0].toLowerCase(Locale.ROOT);
+			s.append("  ").append(id).append("-chosen:\n")
+					.append("    Slot: ").append(slot).append("\n")
+					.append("    Material: ").append(l[2]).append("\n")
+					.append("    Name: ").append(q("&a» " + l[1] + " «")).append("\n")
+					.append("    Lore:\n")
+					.append("    - ").append(q("&7" + t[34])).append("\n")
+					.append("    Glow: true\n")
+					.append("    Priority: 1\n")
+					.append("    View-Requirements:\n")
+					.append("    - '%player_language_choice% == ").append(l[0]).append("'\n")
+					.append("  ").append(id).append(":\n")
+					.append("    Slot: ").append(slot).append("\n")
+					.append("    Material: ").append(l[2]).append("\n")
+					.append("    Name: ").append(q("&e" + l[1])).append("\n")
+					.append("    Lore:\n")
+					.append("    - ").append(q("&7" + t[35])).append("\n")
+					.append("    Priority: 2\n")
+					.append("    Actions:\n")
+					.append("    - '[language]: ").append(l[0]).append("'\n")
+					.append("    - '[refresh]'\n");
+			slot++;
+		}
+
+		s.append("  # The language of the game of the player (the default one)\n")
+				.append("  client-chosen:\n")
+				.append("    Slot: 22\n")
+				.append("    Material: head:%player%\n")
+				.append("    Name: ").append(q("&a» " + t[32] + " «")).append("\n")
+				.append("    Lore:\n")
+				.append("    - ").append(q("&7" + t[33] + ": &f%player_language%")).append("\n")
+				.append("    Glow: true\n")
+				.append("    Priority: 1\n")
+				.append("    View-Requirements:\n")
+				.append("    - '%player_language_choice% == client'\n")
+				.append("  client:\n")
+				.append("    Slot: 22\n")
+				.append("    Material: head:%player%\n")
+				.append("    Name: ").append(q("&e" + t[32])).append("\n")
+				.append("    Lore:\n")
+				.append("    - ").append(q("&7" + t[33])).append("\n")
+				.append("    - ").append(q("&7" + t[35])).append("\n")
+				.append("    Priority: 2\n")
+				.append("    Actions:\n")
+				.append("    - '[language]: client'\n")
+				.append("    - '[refresh]'\n")
+				.append("  back:\n")
+				.append("    Slot: 18\n")
+				.append("    Material: ARROW\n")
+				.append("    Name: ").append(q("&c" + t[22])).append("\n")
+				.append("    Lore:\n")
+				.append("    - ").append(q("&7" + t[23])).append("\n")
+				.append("    Actions:\n")
+				.append("    - '[back]'\n")
+				.append("  close:\n")
+				.append("    Slot: 26\n")
+				.append("    Material: BARRIER\n")
+				.append("    Name: ").append(q("&c" + t[6])).append("\n")
+				.append("    Actions:\n")
+				.append("    - '[close]'\n");
+		return s.toString();
 	}
 
 	private static void save(File file, String content) {
@@ -179,6 +292,16 @@ final class DefaultMenus {
 				.append("    Material: CLOCK\n")
 				.append("    Name: ").append(q("&a" + t[21] + ": &f%online%/%max_players%")).append("\n")
 				.append("    Update: true\n")
+				.append("  # The language of the messages (since 1.6)\n")
+				.append("  language:\n")
+				.append("    Slot: 31\n")
+				.append("    Material: WRITABLE_BOOK\n")
+				.append("    Name: ").append(q("&d" + t[29])).append("\n")
+				.append("    Lore:\n")
+				.append("    - ").append(q("&7" + t[30])).append("\n")
+				.append("    - ").append(q("&7" + t[29] + ": &f%player_language%")).append("\n")
+				.append("    Actions:\n")
+				.append("    - '[menu]: language'\n")
 				.append("  back:\n")
 				.append("    Slot: 42\n")
 				.append("    Material: ARROW\n")
@@ -228,28 +351,4 @@ final class DefaultMenus {
 				.append("    Priority: 3\n");
 	}
 
-	// 0 title of the selector, 1 survival, 2 players, 3 click to join, 4 mini-games, 5 network, 6 close, 7 your profile,
-	// 8 title of the profile, 9 rank, 10 world, 11 player number, 12 connections, 13 level, 14 fly, 15 speed,
-	// 16 who you see, 17 left click, 18 right click, 19 permission needed, 20 servers, 21 online, 22 back, 23 back lore,
-	// 24 on, 25 off, 26 click to turn off, 27 click to turn on, 28 locked
-	private static final String[] EN = {"Choose a server", "Survival", "players", "Click to join", "Mini-games", "Network", "Close",
-			"Click: your profile", "Profile of %player%", "Rank", "World", "Player number", "Connections", "Level", "Fly", "Speed",
-			"Who you see", "Left click: everyone, staff and VIP, nobody", "Right click: everyone again", "You don't have the permission",
-			"Servers", "Online", "Back", "The menu opened before, or close", "on", "off", "Click to turn it off", "Click to turn it on", "locked"};
-	private static final String[] FR = {"Choisis un serveur", "Survie", "joueurs", "Clique pour rejoindre", "Mini-jeux", "Réseau", "Fermer",
-			"Clique : ton profil", "Profil de %player%", "Rang", "Monde", "Joueur numéro", "Connexions", "Niveau", "Vol", "Vitesse",
-			"Qui tu vois", "Clic gauche : tout le monde, staff et VIP, personne", "Clic droit : de nouveau tout le monde", "Tu n'as pas la permission",
-			"Serveurs", "En ligne", "Retour", "Le menu ouvert avant, ou fermer", "activé", "désactivé", "Clique pour le désactiver", "Clique pour l'activer", "verrouillé"};
-	private static final String[] DE = {"Wähle einen Server", "Survival", "Spieler", "Klicke zum Beitreten", "Minispiele", "Netzwerk", "Schließen",
-			"Klick: dein Profil", "Profil von %player%", "Rang", "Welt", "Spieler Nummer", "Verbindungen", "Level", "Fliegen", "Geschwindigkeit",
-			"Wen du siehst", "Linksklick: alle, Team und VIP, niemand", "Rechtsklick: wieder alle", "Du hast keine Berechtigung",
-			"Server", "Online", "Zurück", "Das Menü davor, oder schließen", "an", "aus", "Klicke zum Ausschalten", "Klicke zum Einschalten", "gesperrt"};
-	private static final String[] NL = {"Kies een server", "Survival", "spelers", "Klik om te joinen", "Minigames", "Netwerk", "Sluiten",
-			"Klik: je profiel", "Profiel van %player%", "Rang", "Wereld", "Speler nummer", "Verbindingen", "Level", "Vliegen", "Snelheid",
-			"Wie je ziet", "Linkerklik: iedereen, staff en VIP, niemand", "Rechterklik: weer iedereen", "Je hebt geen permissie",
-			"Servers", "Online", "Terug", "Het menu ervoor, of sluiten", "aan", "uit", "Klik om uit te zetten", "Klik om aan te zetten", "vergrendeld"};
-	private static final String[] ES = {"Elige un servidor", "Supervivencia", "jugadores", "Haz clic para entrar", "Minijuegos", "Red", "Cerrar",
-			"Clic: tu perfil", "Perfil de %player%", "Rango", "Mundo", "Jugador número", "Conexiones", "Nivel", "Vuelo", "Velocidad",
-			"A quién ves", "Clic izquierdo: todos, staff y VIP, nadie", "Clic derecho: todos otra vez", "No tienes permiso",
-			"Servidores", "Conectados", "Volver", "El menú anterior, o cerrar", "activado", "desactivado", "Haz clic para desactivarlo", "Haz clic para activarlo", "bloqueado"};
 }

@@ -53,7 +53,7 @@ public class HelpCommand extends BukkitCommand {
 							}
 							
 							if (HelpCommandConfig.getConfig().getString("Help-Command.Categories.default").contentEquals("CHANGE ME")) {
-								p.sendMessage("You have to change the default help on Help-Command.Categories.default on Commands/Help.yml");
+								MessageUtils.changeMe(p, "Help-Command.Categories.default", "Commands/Help.yml");
 							} else {
 								String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 								
@@ -70,7 +70,7 @@ public class HelpCommand extends BukkitCommand {
 							
 						} else {
 							if (HelpCommandConfig.getConfig().getString("Help-Command.Categories.default").contentEquals("CHANGE ME")) {
-								p.sendMessage("You have to change the default help on Help-Command.Categories.default on Commands/Help.yml");
+								MessageUtils.changeMe(p, "Help-Command.Categories.default", "Commands/Help.yml");
 							} else {
 								String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 								
@@ -155,7 +155,7 @@ public class HelpCommand extends BukkitCommand {
 									}
 									
 									if (HelpCommandConfig.getConfig().getString("Help-Command.Categories.default").contentEquals("CHANGE ME")) {
-										p.sendMessage("You have to change the default help on Help-Command.Categories.default on Commands/Help.yml");
+										MessageUtils.changeMe(p, "Help-Command.Categories.default", "Commands/Help.yml");
 									} else {
 										String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 										
@@ -176,7 +176,7 @@ public class HelpCommand extends BukkitCommand {
 									
 								} else {
 									if (HelpCommandConfig.getConfig().getString("Help-Command.Categories.default").contentEquals("CHANGE ME")) {
-										p.sendMessage("You have to change the default help on Help-Command.Categories.default on Commands/Help.yml");
+										MessageUtils.changeMe(p, "Help-Command.Categories.default", "Commands/Help.yml");
 									} else {
 										String defaultCHelp = HelpCommandConfig.getConfig().getString("Help-Command.Categories.default");
 										

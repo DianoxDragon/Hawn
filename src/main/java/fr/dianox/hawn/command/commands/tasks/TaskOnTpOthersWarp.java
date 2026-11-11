@@ -47,20 +47,20 @@ public class TaskOnTpOthersWarp implements Runnable {
 			Tasks.teleportAsync(other, new org.bukkit.Location(w, x, y, z, yaw, pitch));
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other-Sender.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other-Sender.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.Tp.Other-Sender.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%warp%", ConfigEventUtils.noAction(tp)).replace("%target%", other.getName()), "", "", false);
 				}
 			}
 
 			if (ConfigMMsg.getConfig().getBoolean("Warp.Tp.Other.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.Tp.Other.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(other).getStringList("Warp.Tp.Other.Messages")) {
 					ConfigEventUtils.ExecuteEvent(other, msg.replace("%warp%", ConfigEventUtils.noAction(tp)).replace("%player%", p.getName()), "", "", false);
 				}
 			}
 
 		} catch(Exception e) {
 			if (ConfigMMsg.getConfig().getBoolean("Warp.No-Warp.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Warp.No-Warp.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Warp.No-Warp.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

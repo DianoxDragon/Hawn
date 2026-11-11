@@ -64,7 +64,7 @@ public class ClearMobsCommand extends BukkitCommand {
 		 if (!ClearMobsCommandConfig.getConfig().getBoolean("ClearMobs.Enable")) {
 			 if (ClearMobsCommandConfig.getConfig().getBoolean("ClearMobs.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -91,7 +91,7 @@ public class ClearMobsCommand extends BukkitCommand {
 			 }
 		 }
 		 
-		 for (String msg: ConfigMAdmin.getConfig().getStringList("Command.ClearMobs")) {
+		 for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.ClearMobs")) {
  			ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 		 }
 		 

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.tablist.tab;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.MessageUtils;
@@ -24,7 +25,7 @@ public class MainTablist implements Runnable {
 			String[] text = built.computeIfAbsent(Main.getInstance().getTabManager().getLayout(p),
 					layout -> new String[] {build(layout, layout.getHeader()), build(layout, layout.getFooter())});
 
-			p.setPlayerListHeaderFooter(applyPlaceholders(text[0], p), applyPlaceholders(text[1], p));
+			Tasks.sync(p, () -> p.setPlayerListHeaderFooter(applyPlaceholders(text[0], p), applyPlaceholders(text[1], p)));
 		}
 	}
 

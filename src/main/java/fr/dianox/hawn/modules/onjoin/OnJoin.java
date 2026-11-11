@@ -1,5 +1,6 @@
 package fr.dianox.hawn.modules.onjoin;
 
+import fr.dianox.hawn.utility.MessageUtils;
 import fr.dianox.hawn.hook.HooksManager;
 import com.cryptomorin.xseries.XPotion;
 import fr.dianox.hawn.utility.XParse;
@@ -30,7 +31,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -481,7 +482,7 @@ public class OnJoin implements Listener {
             						createClassicBB(p);
             						BossBarApi.BBBlock.add(p);
             						
-            						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+            						Task task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
             						
             						BossBarApi.ptaskbb.put(p, task.getTaskId());
             					}
@@ -495,7 +496,7 @@ public class OnJoin implements Listener {
         						createClassicBBFJ(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+        						Task task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -510,7 +511,7 @@ public class OnJoin implements Listener {
         						createClassicBB(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						Task task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -529,7 +530,7 @@ public class OnJoin implements Listener {
         						createClassicBB(p);
         						BossBarApi.BBBlock.add(p);
         						
-        						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+        						Task task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
         						
         						BossBarApi.ptaskbb.put(p, task.getTaskId());
         					}
@@ -543,7 +544,7 @@ public class OnJoin implements Listener {
     						createClassicBBFJ(p);
     						BossBarApi.BBBlock.add(p);
     						
-    						BukkitTask task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
+    						Task task = SwitchClassicOnFirstJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.First-Join.Time.If-not.Time-Stay"));
     						
     						BossBarApi.ptaskbb.put(p, task.getTaskId());
     					}
@@ -558,7 +559,7 @@ public class OnJoin implements Listener {
     						createClassicBB(p);
     						BossBarApi.BBBlock.add(p);
     						
-    						BukkitTask task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
+    						Task task = SwitchClassicOnJoinBB.start(p, OnJoinConfig.getConfig().getInt("Boss-Bar.Join.Time.If-not.Time-Stay"));
     						
     						BossBarApi.ptaskbb.put(p, task.getTaskId());
     					}
@@ -864,7 +865,7 @@ public class OnJoin implements Listener {
             if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Custom-Group-Join.VIP.Enable")) {
                 if (p.hasPermission("hawn.event.spawn.join.vip")) {
                     if (OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn").contentEquals("CHANGE ME")) {
-                        p.sendMessage("You have to change the spawn on Event.OnJoin.Custom-Group-Join.VIP.Spawn on Events/OnJoin.yml");
+                        MessageUtils.changeMe(p, "Event.OnJoin.Custom-Group-Join.VIP.Spawn", "Events/OnJoin.yml");
                     } else {
                         if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn"))) {
                             MessageUtils.MessageNoSpawn(p);
@@ -872,7 +873,7 @@ public class OnJoin implements Listener {
                             SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn"));
                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                    for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                     }
                                 }
@@ -884,7 +885,7 @@ public class OnJoin implements Listener {
                 } else {
                     if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.CustomSpawn.Enable")) {
                         if (OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-                            p.sendMessage("You have to change the spawn on Event.OnJoin.CustomSpawn.Spawn on Events/OnJoin.yml");
+                            MessageUtils.changeMe(p, "Event.OnJoin.CustomSpawn.Spawn", "Events/OnJoin.yml");
                         } else {
                             if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                 MessageUtils.MessageNoSpawn(p);
@@ -893,7 +894,7 @@ public class OnJoin implements Listener {
                                     SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                            for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
@@ -905,7 +906,7 @@ public class OnJoin implements Listener {
                         }
                     } else {
                         if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
-                            p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+                            MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
                         } else {
                             if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                 MessageUtils.MessageNoSpawn(p);
@@ -914,7 +915,7 @@ public class OnJoin implements Listener {
                                     SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                            for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
@@ -929,7 +930,7 @@ public class OnJoin implements Listener {
             } else {
                 if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.CustomSpawn.Enable")) {
                     if (OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-                        p.sendMessage("You have to change the spawn on Event.OnJoin.CustomSpawn.Spawn on Events/OnJoin.yml");
+                        MessageUtils.changeMe(p, "Event.OnJoin.CustomSpawn.Spawn", "Events/OnJoin.yml");
                     } else {
                         if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                             MessageUtils.MessageNoSpawn(p);
@@ -938,7 +939,7 @@ public class OnJoin implements Listener {
                                 SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                        for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
@@ -950,7 +951,7 @@ public class OnJoin implements Listener {
                     }
                 } else {
                     if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
-                        p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+                        MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
                     } else {
                         if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                             MessageUtils.MessageNoSpawn(p);
@@ -959,7 +960,7 @@ public class OnJoin implements Listener {
                                 SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                        for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                        for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                             ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                         }
                                     }
@@ -975,7 +976,7 @@ public class OnJoin implements Listener {
         } else {
             if (OnJoinConfig.getConfig().getBoolean("Spawn.FirstJoin-Spawn.Enable")) {
                 if (OnJoinConfig.getConfig().getString("Spawn.FirstJoin-Spawn.Spawn").contentEquals("CHANGE ME")) {
-                    p.sendMessage("You have to change the spawn on Spawn.FirstJoin-Spawn.Spawn on Events/OnJoin.yml");
+                    MessageUtils.changeMe(p, "Spawn.FirstJoin-Spawn.Spawn", "Events/OnJoin.yml");
                 } else {
                     if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Spawn.FirstJoin-Spawn.Spawn"))) {
                         MessageUtils.MessageNoSpawn(p);
@@ -983,7 +984,7 @@ public class OnJoin implements Listener {
                         SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Spawn.FirstJoin-Spawn.Spawn"));
                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                 }
                             }
@@ -997,7 +998,7 @@ public class OnJoin implements Listener {
                     if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.Custom-Group-Join.VIP.Enable")) {
                         if (p.hasPermission("hawn.event.spawn.join.vip")) {
                             if (OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn").contentEquals("CHANGE ME")) {
-                                p.sendMessage("You have to change the spawn on Event.OnJoin.Custom-Group-Join.VIP.Spawn on Events/OnJoin.yml");
+                                MessageUtils.changeMe(p, "Event.OnJoin.Custom-Group-Join.VIP.Spawn", "Events/OnJoin.yml");
                             } else {
                                 if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn"))) {
                                     MessageUtils.MessageNoSpawn(p);
@@ -1005,7 +1006,7 @@ public class OnJoin implements Listener {
                                     SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.Custom-Group-Join.VIP.Spawn"));
                                     if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                            for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                            for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                             }
                                         }
@@ -1017,7 +1018,7 @@ public class OnJoin implements Listener {
                         } else {
                             if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.CustomSpawn.Enable")) {
                                 if (OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-                                    p.sendMessage("You have to change the spawn on Event.OnJoin.CustomSpawn.Spawn on Events/OnJoin.yml");
+                                    MessageUtils.changeMe(p, "Event.OnJoin.CustomSpawn.Spawn", "Events/OnJoin.yml");
                                 } else {
                                     if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                         MessageUtils.MessageNoSpawn(p);
@@ -1026,7 +1027,7 @@ public class OnJoin implements Listener {
                                             SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                                    for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
@@ -1038,7 +1039,7 @@ public class OnJoin implements Listener {
                                 }
                             } else {
                                 if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
-                                    p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+                                    MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
                                 } else {
                                     if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                         MessageUtils.MessageNoSpawn(p);
@@ -1047,7 +1048,7 @@ public class OnJoin implements Listener {
                                             SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                                 if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                                    for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                                    for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                     }
                                                 }
@@ -1062,7 +1063,7 @@ public class OnJoin implements Listener {
                     } else {
                         if (OnJoinConfig.getConfig().getBoolean("Event.OnJoin.CustomSpawn.Enable")) {
                             if (OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn").contentEquals("CHANGE ME")) {
-                                p.sendMessage("You have to change the spawn on Event.OnJoin.CustomSpawn.Spawn on Events/OnJoin.yml");
+                                MessageUtils.changeMe(p, "Event.OnJoin.CustomSpawn.Spawn", "Events/OnJoin.yml");
                             } else {
                                 if (!ConfigSpawn.getConfig().isSet("Coordinated." + OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"))) {
                                     MessageUtils.MessageNoSpawn(p);
@@ -1071,7 +1072,7 @@ public class OnJoin implements Listener {
                                         SpawnUtils.teleportToSpawn(p, OnJoinConfig.getConfig().getString("Event.OnJoin.CustomSpawn.Spawn"));
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                                for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }
@@ -1083,7 +1084,7 @@ public class OnJoin implements Listener {
                             }
                         } else {
                             if (SpawnGroups.defaultSpawn(p).contentEquals("CHANGE ME")) {
-                                p.sendMessage("You have to change the spawn on Spawn.DefaultSpawn on Events/OnJoin.yml");
+                                MessageUtils.changeMe(p, "Spawn.DefaultSpawn", "Events/OnJoin.yml");
                             } else {
                                 if (!ConfigSpawn.getConfig().isSet("Coordinated." + SpawnGroups.defaultSpawn(p))) {
                                     MessageUtils.MessageNoSpawn(p);
@@ -1092,7 +1093,7 @@ public class OnJoin implements Listener {
                                         SpawnUtils.teleportToSpawn(p, SpawnGroups.defaultSpawn(p));
                                         if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable-For-On-Join")) {
                                             if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-                                                for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+                                                for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
                                                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                                                 }
                                             }

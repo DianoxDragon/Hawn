@@ -31,6 +31,8 @@ public class PlayerOptionSQLClass {
         syncBoolean(uuid, "player_vanish", "vanished", false);
         syncInt(uuid, "player_gamemode", "gamemode_state");
         syncInt(uuid, "player_option_number_connections", "number");
+        // The language chosen in the language menu (since 1.6)
+        Lang.syncFromMySQL(uuid);
 
         // TRUE, FALSE or STAFF (the third state of the player visibility)
         String pv = SQL.cachedValue("player_option_pv", "Activate", uuid);

@@ -72,7 +72,7 @@ public final class SafeCommands {
 		}
 
 		List<String> messages = ConfigMMsg.getConfig().isSet(path + ".Messages")
-				? ConfigMMsg.getConfig().getStringList(path + ".Messages")
+				? ConfigMMsg.getConfig(sender).getStringList(path + ".Messages")
 				: java.util.Collections.singletonList(byDefault);
 
 		String shown = usage == null || usage.isEmpty() ? "/" + label : usage.replace("<command>", label);

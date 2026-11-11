@@ -70,6 +70,9 @@ public class WorldCommand extends BukkitCommand {
 
 	@Override
     public boolean execute(CommandSender sender, String label, String[] args) {
+        if (fr.dianox.hawn.modules.world.WorldManager.offOnFolia(sender)) {
+            return true;
+        }
 
         // >>> Executed by the console
         if (!(sender instanceof Player)) {
@@ -85,7 +88,7 @@ public class WorldCommand extends BukkitCommand {
         if (!WorldCommandConfig.getConfig().getBoolean("World.Enable")) {
             if (WorldCommandConfig.getConfig().getBoolean("World.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }

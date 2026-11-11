@@ -72,7 +72,7 @@ public class Setup2World implements Listener {
 				} else if (e.getRawSlot() == 21) {
 					Setup.setupplace = 21;
 					e.setCancelled(true);
-					Tasks.later(() -> GuiSystem.FirstPage(p), 5L);
+					Tasks.later(p, () -> GuiSystem.FirstPage(p), 5L);
 				} else if (e.getRawSlot() == 45 && e.getCurrentItem().getType() == Setup.NAVIGATION) {
 					// Back to the modules (since 1.5.1)
 					e.setCancelled(true);

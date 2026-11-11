@@ -547,6 +547,11 @@ public class FRConfigMMsg {
          */
 
         Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas placer de bloc ici !"}));
+        // The language menu (since 1.6)
+        Config.set("Language.Changed.Enable", true);
+        Config.set("Language.Changed.Messages", java.util.Arrays.asList("%prefix% &7Votre langue est maintenant &e%arg1%"));
+        Config.set("Language.Client.Enable", true);
+        Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Vous recevez maintenant les messages dans la langue de votre jeu &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas casser de bloc ici !"}));
 
         YamlConfiguration defaults = Config;

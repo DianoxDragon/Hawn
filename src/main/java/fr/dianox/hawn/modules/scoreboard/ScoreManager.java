@@ -94,8 +94,7 @@ public class ScoreManager {
 			}
 		}
 
-		Tasks.later(() -> {
-			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+		Tasks.later(() -> Tasks.forEachPlayer(p -> {
 				if (playerscore.containsKey(p)) {
 					try {
 						Tasks.cancel(scoretaskplayer.get(p));
@@ -113,8 +112,7 @@ public class ScoreManager {
 
 				String world = p.getWorld().getName();
 				OnScoreboard.createNewScore(p, world);
-			}
-		}, 60L);
+		}), 60L);
 	}
 
 	/*

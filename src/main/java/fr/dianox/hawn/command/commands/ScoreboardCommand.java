@@ -18,7 +18,7 @@ import fr.dianox.hawn.utility.PlayerOptionSQLClass;
 import fr.dianox.hawn.utility.config.configs.commands.ScoreboardCommandConfig;
 
 import fr.dianox.hawn.utility.config.configs.messages.ConfigMMsg;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class ScoreboardCommand extends BukkitCommand {
 		if (!ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Enable")) {
 			if (ScoreboardCommandConfig.getConfig().getBoolean("Scoreboard.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -99,7 +99,7 @@ public class ScoreboardCommand extends BukkitCommand {
 
 			if (!value) {
 				if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Error-No-Perm-For-Any-Score.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Error-No-Perm-For-Any-Score.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Error-No-Perm-For-Any-Score.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -123,7 +123,7 @@ public class ScoreboardCommand extends BukkitCommand {
 				}
 
 				if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Toggle.Off.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Toggle.Off.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Toggle.Off.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -134,7 +134,7 @@ public class ScoreboardCommand extends BukkitCommand {
 				OnScoreboard.createNewScore(p, world);
 
 				if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Toggle.On.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Toggle.On.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Toggle.On.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -145,7 +145,7 @@ public class ScoreboardCommand extends BukkitCommand {
 
 					if (args.length == 1) {
 
-						for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 		            	}
 
@@ -159,7 +159,7 @@ public class ScoreboardCommand extends BukkitCommand {
 					String perm = args[1];
 					if (!Main.getInstance().getScoreManager().scoreacess.containsKey(perm)) {
 						if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Error-Changes.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Error-Changes.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Error-Changes.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
 							}
 						}
@@ -199,7 +199,7 @@ public class ScoreboardCommand extends BukkitCommand {
 							Main.getInstance().getScoreManager().writeInt(perm, "updater.text", null);
 						}
 
-						BukkitTask TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), boardnew, p, Main.getInstance().getScoreManager().getFile(perm).getInt("updater.scoreboard"));
+						Task TaskName = ScoreTask.start(Main.getInstance().getScoreManager(), boardnew, p, Main.getInstance().getScoreManager().getFile(perm).getInt("updater.scoreboard"));
 
 						Main.getInstance().getScoreManager().scoretaskplayer.put(p, TaskName.getTaskId());
 					} else {
@@ -208,7 +208,7 @@ public class ScoreboardCommand extends BukkitCommand {
 					}
 
 					if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Changes.Enable")) {
-						for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Changes.Messages")) {
+						for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Changes.Messages")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", ConfigEventUtils.noAction(args[1])), "", "", false);
 						}
 					}
@@ -227,7 +227,7 @@ public class ScoreboardCommand extends BukkitCommand {
 						PlayerOptionSQLClass.saveSBmysqlyaml(p, sb, "FALSE");
 
 						if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Keep-Off.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Keep-Off.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Keep-Off.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						}
@@ -237,7 +237,7 @@ public class ScoreboardCommand extends BukkitCommand {
 						PlayerOptionSQLClass.saveSBmysqlyaml(p, sb, "TRUE");
 
 						if (ConfigMMsg.getConfig().getBoolean("Scoreboard.Keep-On.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Scoreboard.Keep-On.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Scoreboard.Keep-On.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 							}
 						}

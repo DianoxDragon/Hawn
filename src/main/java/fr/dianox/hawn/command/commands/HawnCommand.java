@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.hook.HooksManager;
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.modules.serverlist.ServerPingEvent;
@@ -44,7 +45,7 @@ public class HawnCommand implements CommandExecutor {
 			// If not a player
 			if ((args.length == 0) || (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?")))) {
 				if (args.length != 2) {
-					Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
+					Tasks.console("hawn help 1");
 				} else if (args[0].equalsIgnoreCase("help") || (args[0].equalsIgnoreCase("?"))) {
 					try {
 						int i = Integer.parseInt(args[1]);
@@ -54,7 +55,7 @@ public class HawnCommand implements CommandExecutor {
 						sender.sendMessage("     §l>> §e§o§lGlobal Help (Page " + i + ")");
 						sender.sendMessage("");
 
-						for (String msg: helpPage(i)) {
+						for (String msg: helpPage(sender, i)) {
 							MessageUtils.ConsoleMessages(msg);
 						}
 
@@ -85,7 +86,7 @@ public class HawnCommand implements CommandExecutor {
 						}
 					}
 				} else {
-					Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
+					Tasks.console("hawn help 1");
 				}
 			} else if (args[0].equalsIgnoreCase("urgent")) {
 				// The console turns it on, and is the only one that can turn it off
@@ -185,10 +186,11 @@ public class HawnCommand implements CommandExecutor {
 						MessageUtils.ConsoleMessages(msg);
 					}
 
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
+					for (String msg : ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
 						MessageUtils.ConsoleMessages(msg);
 					}
+					// Each player in their language (since 1.6)
+					ConfigEventUtils.broadcast(to -> ConfigMAdmin.getConfig(to).getStringList("Maintenance.Broadcast.Off"), msg -> msg, null, "", "");
 				} else {
 					HawnCommandConfig.getConfig().set("Maintenance.Enable", true);
 
@@ -200,14 +202,15 @@ public class HawnCommand implements CommandExecutor {
 
 					for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 						if (!ServerPingEvent.canJoin(ps, "Maintenance")) {
-							ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance"));
+							Tasks.sync(ps, () -> ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance")));
 						}
 					}
 
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
-						ConfigEventUtils.ExecuteEventAllPlayersConsole(msg, "", "");
+					for (String msg : ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
 						MessageUtils.ConsoleMessages(msg);
 					}
+					// Each player in their language (since 1.6)
+					ConfigEventUtils.broadcast(to -> ConfigMAdmin.getConfig(to).getStringList("Maintenance.Broadcast.On"), msg -> msg, null, "", "");
 				}
 			} else if (args[0].equalsIgnoreCase("info")) {
 				if (args.length == 2) {
@@ -270,6 +273,8 @@ public class HawnCommand implements CommandExecutor {
 				fr.dianox.hawn.modules.ranks.RankCommand.run(sender, args);
 			} else if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("menus")) {
 				fr.dianox.hawn.modules.menus.MenuCommand.run(sender, args);
+			} else if (args[0].equalsIgnoreCase("hologram") || args[0].equalsIgnoreCase("holo")) {
+				fr.dianox.hawn.modules.holograms.HologramCommand.run(sender, args);
 			} else if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("editplayer")
 					|| args[0].equalsIgnoreCase("nightvision") || args[0].equalsIgnoreCase("noclip")
 					|| args[0].equalsIgnoreCase("slotview") || args[0].equalsIgnoreCase("setup")) {
@@ -279,9 +284,9 @@ public class HawnCommand implements CommandExecutor {
 			} else {
 				try {
 					int i = Integer.parseInt(args[0]);
-					Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help " + i);
+					Tasks.console("hawn help " + i);
 				} catch (NumberFormatException e) {
-					Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "hawn help 1");
+					Tasks.console("hawn help 1");
 				}
 			}
 			return true;
@@ -317,7 +322,7 @@ public class HawnCommand implements CommandExecutor {
 					p.sendMessage("     §l>> §e§o§lGlobal Help (Page " + i + ")");
 					p.sendMessage("");
 
-					for (String msg: helpPage(i)) {
+					for (String msg: helpPage(p, i)) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 
@@ -354,7 +359,7 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			if (args.length == 1 || args.length == 2) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Argument-Missing")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
@@ -386,12 +391,12 @@ public class HawnCommand implements CommandExecutor {
 			// On, or off when it already is (before 1.4.8 it could only be turned on)
 			if (p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
 				p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision-Off")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.NightVision-Off")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
 				p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1999999999, 1));
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.NightVision")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.NightVision")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -405,7 +410,7 @@ public class HawnCommand implements CommandExecutor {
 			if (noclip.contains(p)) {
 				noclip.remove(p);
 			} else {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.No-Clip.Enable")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.No-Clip.Enable")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
@@ -421,7 +426,7 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			if (args.length < 2) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Argument-Missing")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
@@ -430,7 +435,7 @@ public class HawnCommand implements CommandExecutor {
 
 			if (args[1].equalsIgnoreCase("remove")) {
 				if (args.length == 2) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Argument-Missing")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 
@@ -439,7 +444,7 @@ public class HawnCommand implements CommandExecutor {
 
 				// If the spawn does not exist
 				if (!ConfigSpawn.getConfig().isSet("Coordinated."+args[2]+".World")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.No-Spawn")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.No-Spawn")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 
@@ -458,7 +463,7 @@ public class HawnCommand implements CommandExecutor {
 
 				ConfigSpawn.saveConfigFile();
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Del.Spawn-Delete")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Del.Spawn-Delete")) {
 					ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawn%", ConfigEventUtils.noAction(args[2])), "", "", false);
 				}
 			} else if (args[1].equalsIgnoreCase("setspawn")) {
@@ -528,14 +533,14 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			if (!UrgentMode.canUse(p)) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-cant-use-the-command")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Urgent-mode.Error-cant-use-the-command")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 				return true;
 			}
 
 			if (UrgentMode.isOn()) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Urgent-mode.Error-Disable")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Urgent-mode.Error-Disable")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
@@ -550,7 +555,7 @@ public class HawnCommand implements CommandExecutor {
 
 			Reload.reloadconfig();
 
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Reload")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Reload")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}
 		// Slot view
@@ -562,12 +567,12 @@ public class HawnCommand implements CommandExecutor {
 
 			if (slotview.contains(p)) {
 				slotview.remove(p);
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.SlotView.Off")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.SlotView.Off")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
 				slotview.add(p);
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.SlotView.On")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.SlotView.On")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -579,7 +584,7 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			if (args.length < 2) {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Argument-Missing")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Argument-Missing")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
@@ -647,6 +652,14 @@ public class HawnCommand implements CommandExecutor {
 			}
 
 			fr.dianox.hawn.modules.menus.MenuCommand.run(p, args);
+		// hologram: the holograms of the Holograms folder (since 1.6)
+		} else if (args[0].equalsIgnoreCase("hologram") || args[0].equalsIgnoreCase("holo")) {
+			if (!p.hasPermission("hawn.admin.command.hologram") && !permissionunlocked) {
+				MessageUtils.MessageNoPermission(p, "hawn.admin.command.hologram");
+				return true;
+			}
+
+			fr.dianox.hawn.modules.holograms.HologramCommand.run(p, args);
 		// info
 		} else if (args[0].equalsIgnoreCase("info")) {
 			if (!p.hasPermission("hawn.admin.command.info") && !permissionunlocked) {
@@ -656,36 +669,36 @@ public class HawnCommand implements CommandExecutor {
 
 			if (args.length == 2) {
 				if (args[1].equalsIgnoreCase("complete") || args[1].equalsIgnoreCase("all")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.General")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("memory")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Memory")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.Memory")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("cpu") || args[1].equalsIgnoreCase("processor")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.CPU")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.CPU")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("disk") || args[1].equalsIgnoreCase("HDD") || args[1].equalsIgnoreCase("SDD")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Disk")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.Disk")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("tps")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.Tps")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("server")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Server")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.Server")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				} else if (args[1].equalsIgnoreCase("version") || args[1].equalsIgnoreCase("v") || args[1].equalsIgnoreCase("ver")) {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Version")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
 			} else {
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.General")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.General")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -696,7 +709,7 @@ public class HawnCommand implements CommandExecutor {
 				return true;
 			}
 
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Version")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Version")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}
 		// about
@@ -721,7 +734,7 @@ public class HawnCommand implements CommandExecutor {
 				return true;
 			}
 
-			for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Server-Info.Tps")) {
+			for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Server-Info.Tps")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}
 		// build
@@ -734,13 +747,13 @@ public class HawnCommand implements CommandExecutor {
 			if (Main.buildbypasscommand.contains(p)) {
 				Main.buildbypasscommand.remove(p);
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.Off")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.Off")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
 				Main.buildbypasscommand.add(p);
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Build-Bypass.On")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Build-Bypass.On")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
@@ -756,33 +769,35 @@ public class HawnCommand implements CommandExecutor {
 
 				HawnCommandConfig.saveConfigFile();
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Off")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Maintenance.Off")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
+				for (String msg : ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.Off")) {
 					MessageUtils.ConsoleMessages(msg);
 				}
+				// Each player in their language (since 1.6)
+				ConfigEventUtils.broadcast(to -> ConfigMAdmin.getConfig(to).getStringList("Maintenance.Broadcast.Off"), msg -> msg, p, "", "");
 			} else {
 				HawnCommandConfig.getConfig().set("Maintenance.Enable", true);
 
 				HawnCommandConfig.saveConfigFile();
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.On")) {
+				for (String msg: ConfigMAdmin.getConfig(p).getStringList("Maintenance.On")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 
 				for (Player ps: Bukkit.getServer().getOnlinePlayers()) {
 					if (!ServerPingEvent.canJoin(ps, "Maintenance")) {
-						ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance"));
+						Tasks.sync(ps, () -> ps.kickPlayer(ServerPingEvent.kickMessage(ps, "Maintenance")));
 					}
 				}
 
-				for (String msg: ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
-					ConfigEventUtils.ExecuteEventAllPlayers(msg, "", "", p, true);
+				for (String msg : ConfigMAdmin.getConfig().getStringList("Maintenance.Broadcast.On")) {
 					MessageUtils.ConsoleMessages(msg);
 				}
+				// Each player in their language (since 1.6)
+				ConfigEventUtils.broadcast(to -> ConfigMAdmin.getConfig(to).getStringList("Maintenance.Broadcast.On"), msg -> msg, p, "", "");
 			}
 		} else {
 			try {
@@ -796,106 +811,107 @@ public class HawnCommand implements CommandExecutor {
 		return true;
 	}
 
-	private List<String> helpPage(int i) {
+	private List<String> helpPage(org.bukkit.command.CommandSender to, int i) {
 		List<String> page = new ArrayList<>();
 		if (i == 1) {
-			page.add("§8>> §7/hawn spawnmanager <remove/setspawn> <name> etc. - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-SpawnManager"));
-			page.add("§8>> §7/hawn reload §eor §7rl - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Reload"));
-			page.add("§8>> §7/hawn version §eor §7v  - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Version"));
-			page.add("§8>> §7/hawn tps - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Tps"));
-			page.add("§8>> §7/hawn info [all/memory/tps/disk/cpu/server/version] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Info"));
-			page.add("§8>> §7/hawn build - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Build"));
-			page.add("§8>> §7/hawn hooks - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Hooks"));
-			page.add("§8>> §7/hawn urgent - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Urgent"));
-			page.add("§8>> §7/hawn [maintenance/m] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Maintenance"));
-			page.add("§8>> §7/hawn donors - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Donors"));
+			page.add("§8>> §7/hawn spawnmanager <remove/setspawn> <name> etc. - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-SpawnManager"));
+			page.add("§8>> §7/hawn reload §eor §7rl - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Reload"));
+			page.add("§8>> §7/hawn version §eor §7v  - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Version"));
+			page.add("§8>> §7/hawn tps - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Tps"));
+			page.add("§8>> §7/hawn info [all/memory/tps/disk/cpu/server/version] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Info"));
+			page.add("§8>> §7/hawn build - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Build"));
+			page.add("§8>> §7/hawn hooks - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Hooks"));
+			page.add("§8>> §7/hawn urgent - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Urgent"));
+			page.add("§8>> §7/hawn [maintenance/m] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Maintenance"));
+			page.add("§8>> §7/hawn donors - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Donors"));
 		} else if (i == 2) {
-			page.add("§8>> §7/hawn about - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-About"));
-			page.add("§8>> §7/hawn parse <player> <placeholder> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Parse"));
-			page.add("§8>> §7/hawn nightvision §eor §7nv - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-NightVision"));
-			page.add("§8>> §7/hawn noclip - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-NoClip"));
-			page.add("§8>> §7/hawn slotview - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-SlotView"));
-			page.add("§8>> §7/hawn editplayer <player> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-EditPlayer"));
+			page.add("§8>> §7/hawn about - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-About"));
+			page.add("§8>> §7/hawn parse <player> <placeholder> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Parse"));
+			page.add("§8>> §7/hawn nightvision §eor §7nv - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-NightVision"));
+			page.add("§8>> §7/hawn noclip - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-NoClip"));
+			page.add("§8>> §7/hawn slotview - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-SlotView"));
+			page.add("§8>> §7/hawn editplayer <player> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-EditPlayer"));
 			page.add("");
-			page.add("§8>> §7/broadcast <message>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Broadcast"));
-			page.add("§8>> §7/warning <message>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Warning"));
-			page.add("§8>> §7/btcast §eor §7/ta <message>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Broadcast-Title"));
+			page.add("§8>> §7/broadcast <message>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Broadcast"));
+			page.add("§8>> §7/warning <message>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Warning"));
+			page.add("§8>> §7/btcast §eor §7/ta <message>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Broadcast-Title"));
 		} else if (i == 3) {
-			page.add("§8>> §7/bacast §eor §7/aba <message>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Broadcast-ActionBar"));
+			page.add("§8>> §7/bacast §eor §7/aba <message>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Broadcast-ActionBar"));
 			page.add("");
-			page.add("§8>> §7/ap - §e" + ConfigMAdmin.getConfig().getString("Command.Help.AdminPanel"));
-			page.add("§8>> §7/checkaccount - §e" + ConfigMAdmin.getConfig().getString("Command.Help.CheckAccount"));
-			page.add("§8>> §7/clearinv [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.ClearInv"));
-			page.add("§8>> §7/invsee <player> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.InvSee"));
-			page.add("§8>> §7/ip <player> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Ip"));
-			page.add("§8>> §7/list [page number] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.List"));
+			page.add("§8>> §7/ap - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.AdminPanel"));
+			page.add("§8>> §7/checkaccount - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.CheckAccount"));
+			page.add("§8>> §7/clearinv [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.ClearInv"));
+			page.add("§8>> §7/invsee <player> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.InvSee"));
+			page.add("§8>> §7/ip <player> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Ip"));
+			page.add("§8>> §7/list [page number] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.List"));
 			page.add("");
-			page.add("§8>> §7/spawn [SpawnName] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Spawn"));
+			page.add("§8>> §7/spawn [SpawnName] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Spawn"));
 		} else if (i == 4) {
-			page.add("§8>> §7/spawn tp <player> [SpawnName] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Spawn-Tp"));
-			page.add("§8>> §7/delspawn <name> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.DelSpawn"));
-			page.add("§8>> §7/spawnlist - §e" + ConfigMAdmin.getConfig().getString("Command.Help.SpawnList"));
-			page.add("§8>> §7/setspawn [spawn] [d:true] [w:world1,world2 etc.] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.SetSpawn"));
+			page.add("§8>> §7/spawn tp <player> [SpawnName] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Spawn-Tp"));
+			page.add("§8>> §7/delspawn <name> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.DelSpawn"));
+			page.add("§8>> §7/spawnlist - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.SpawnList"));
+			page.add("§8>> §7/setspawn [spawn] [d:true] [w:world1,world2 etc.] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.SetSpawn"));
 			page.add("");
-			page.add("§8>> §7/warp <WarpName> [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Warp"));
-			page.add("§8>> §7/warplist - §e" + ConfigMAdmin.getConfig().getString("Command.Help.WarpList"));
-			page.add("§8>> §7/setwarp <warpname> [w:world1,world2 etc.] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.SetWarp"));
-			page.add("§8>> §7/delwarp <name> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.DelWarp"));
-			page.add("§8>> §7/editwarp <name> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.EditWarp"));
+			page.add("§8>> §7/warp <WarpName> [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Warp"));
+			page.add("§8>> §7/warplist - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.WarpList"));
+			page.add("§8>> §7/setwarp <warpname> [w:world1,world2 etc.] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.SetWarp"));
+			page.add("§8>> §7/delwarp <name> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.DelWarp"));
+			page.add("§8>> §7/editwarp <name> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.EditWarp"));
 		} else if (i == 5) {
 			page.add("");
-			page.add("§8>> §7/sun or /clearw - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Sun"));
-			page.add("§8>> §7/rain - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Rain"));
-			page.add("§8>> §7/thunder - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Thunder"));
-			page.add("§8>> §7/day - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Day"));
-			page.add("§8>> §7/night - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Night"));
+			page.add("§8>> §7/sun or /clearw - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Sun"));
+			page.add("§8>> §7/rain - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Rain"));
+			page.add("§8>> §7/thunder - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Thunder"));
+			page.add("§8>> §7/day - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Day"));
+			page.add("§8>> §7/night - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Night"));
 			page.add("");
-			page.add("§8>> §7/fly [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Fly"));
-			page.add("§8>> §7/flyspeed [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.FlySpeed"));
-			page.add("§8>> §7/speed [number] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Speed"));
+			page.add("§8>> §7/fly [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Fly"));
+			page.add("§8>> §7/flyspeed [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.FlySpeed"));
+			page.add("§8>> §7/speed [number] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Speed"));
 		} else if (i == 6) {
-			page.add("§8>> §7/heal [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Heal"));
-			page.add("§8>> §7/feed [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Feed"));
-			page.add("§8>> §7/ping [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Ping"));
-			page.add("§8>> §7/v [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Vanish"));
-			page.add("§8>> §7/gamemode or gm... or gma etc. - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Gamemode"));
-			page.add("§8>> §7/burn [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Burn"));
-			page.add("§8>> §7/cleargrounditems - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Cleargrounditems"));
-			page.add("§8>> §7/clearmobs - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Clearmobs"));
-			page.add("§8>> §7/ec [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.EnderChest"));
-			page.add("§8>> §7/exp <playerName> <add/set/take/clear> <amount> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Exp"));
+			page.add("§8>> §7/heal [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Heal"));
+			page.add("§8>> §7/feed [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Feed"));
+			page.add("§8>> §7/ping [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Ping"));
+			page.add("§8>> §7/v [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Vanish"));
+			page.add("§8>> §7/gamemode or gm... or gma etc. - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Gamemode"));
+			page.add("§8>> §7/burn [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Burn"));
+			page.add("§8>> §7/cleargrounditems - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Cleargrounditems"));
+			page.add("§8>> §7/clearmobs - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Clearmobs"));
+			page.add("§8>> §7/ec [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.EnderChest"));
+			page.add("§8>> §7/exp <playerName> <add/set/take/clear> <amount> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Exp"));
 		} else if (i == 7) {
-			page.add("§8>> §7/getpos <playerName> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Getpos"));
-			page.add("§8>> §7/hat [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hat"));
-			page.add("§8>> §7/kickall - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Kickall"));
-			page.add("§8>> §7/repair - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Repair"));
-			page.add("§8>> §7/skull [player] - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Skull"));
-			page.add("§8>> §7/suicide - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Suicide"));
-			page.add("§8>> §7/workbench <player> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Workbench"));
+			page.add("§8>> §7/getpos <playerName> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Getpos"));
+			page.add("§8>> §7/hat [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hat"));
+			page.add("§8>> §7/kickall - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Kickall"));
+			page.add("§8>> §7/repair - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Repair"));
+			page.add("§8>> §7/skull [player] - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Skull"));
+			page.add("§8>> §7/suicide - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Suicide"));
+			page.add("§8>> §7/workbench <player> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Workbench"));
 			page.add("");
-			page.add("§8>> §7/cc - §e" + ConfigMAdmin.getConfig().getString("Command.Help.ClearChat"));
-			page.add("§8>> §7/delaychat <number> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.DelayChat"));
+			page.add("§8>> §7/cc - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.ClearChat"));
+			page.add("§8>> §7/delaychat <number> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.DelayChat"));
 		} else if (i == 8) {
-			page.add("§8>> §7/gmute - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Gmute"));
+			page.add("§8>> §7/gmute - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Gmute"));
 			page.add("");
-			page.add("§8>> §7/help <.../...>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Help"));
-			page.add("§8>> §7/gotop§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Gotop"));
+			page.add("§8>> §7/help <.../...>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Help"));
+			page.add("§8>> §7/gotop§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Gotop"));
 			page.add("");
-			page.add("§8>> §7/emoji§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Emoji"));
+			page.add("§8>> §7/emoji§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Emoji"));
 			page.add("");
-			page.add("§8>> §7/scoreboard§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Scoreboard"));
-			page.add("§8>> §7/scoreboard set <scoreboard's file name>§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Scoreboard-Set"));
-			page.add("§8>> §7/scoreboard keep§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Scoreboard-Keep"));
+			page.add("§8>> §7/scoreboard§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Scoreboard"));
+			page.add("§8>> §7/scoreboard set <scoreboard's file name>§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Scoreboard-Set"));
+			page.add("§8>> §7/scoreboard keep§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Scoreboard-Keep"));
 		} else if (i == 9) {
-			page.add("§8>> §7/scoreboard list§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Scoreboard-List"));
-			page.add("§8>> §7/option§7 - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Option"));
+			page.add("§8>> §7/scoreboard list§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Scoreboard-List"));
+			page.add("§8>> §7/option§7 - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Option"));
 			page.add("");
-			page.add("§8>> §7/hw <argument> <argument two> etc. - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hworld"));
+			page.add("§8>> §7/hw <argument> <argument two> etc. - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hworld"));
 			page.add("");
-			page.add("§8>> §7/hawn setup - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Setup"));
-			page.add("§8>> §7/hawn debug - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Debug"));
-			page.add("§8>> §7/hawn rank <set/remove/info/list> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Rank"));
-			page.add("§8>> §7/hawn menu <open/list> - §e" + ConfigMAdmin.getConfig().getString("Command.Help.Hawn-Menu"));
+			page.add("§8>> §7/hawn setup - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Setup"));
+			page.add("§8>> §7/hawn debug - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Debug"));
+			page.add("§8>> §7/hawn rank <set/remove/info/list> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Rank"));
+			page.add("§8>> §7/hawn menu <open/list> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Menu"));
+			page.add("§8>> §7/hawn hologram <create/delete/movehere/addline/setline/removeline/list> - §e" + ConfigMAdmin.getConfig(to).getString("Command.Help.Hawn-Hologram"));
 		}
 
 		return page;

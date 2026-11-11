@@ -91,7 +91,7 @@ public class ABAnnouncerCommand extends BukkitCommand {
         if (!ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Enable")) {
             if (ActionbarAnnouncerConfig.getConfig().getBoolean("ActionBar-Announcer.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }

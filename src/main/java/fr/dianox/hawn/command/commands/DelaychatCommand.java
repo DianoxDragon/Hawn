@@ -44,7 +44,7 @@ public class DelaychatCommand extends BukkitCommand {
 					Integer typed = MessageUtils.number(sender, args[0], 0);
 					if (typed == null) return true;
 					delay = typed;
-					for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Admin.Set")) {
+					for (String msg: ConfigMMsg.getConfig(sender).getStringList("ChatDelay.Admin.Set")) {
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.replace("%player%", "CONSOLE").replace("%DELAY%", String.valueOf(DelaychatCommand.delay))));
 					}
 				} else {
@@ -73,7 +73,7 @@ public class DelaychatCommand extends BukkitCommand {
 		if (!DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Enable")) {
 			if (DelayChatCommandConfig.getConfig().getBoolean("DelayChat.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -93,7 +93,7 @@ public class DelaychatCommand extends BukkitCommand {
 			Integer typed = MessageUtils.number(sender, args[0], 0);
 			if (typed == null) return true;
 			delay = typed;
-			for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Admin.Set")) {
+			for (String msg: ConfigMMsg.getConfig(p).getStringList("ChatDelay.Admin.Set")) {
 				ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 			}
 		} else {
@@ -101,12 +101,12 @@ public class DelaychatCommand extends BukkitCommand {
 				DelayChatCommandConfig.getConfig().set("DelayChat.Delay.Enable", false);
 				DelayChatCommandConfig.saveConfigFile();
 				
-				for (String msg: ConfigMMsg.getConfig().getStringList("ChatDelay.Admin.Removed")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("ChatDelay.Admin.Removed")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			} else {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}

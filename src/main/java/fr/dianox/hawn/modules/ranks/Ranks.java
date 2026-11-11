@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ public final class Ranks implements Listener {
 	private static final Map<String, RankTeams.Look> looks = new HashMap<>();
 
 	private static final Set<String> permissions = new HashSet<>();
-	private static BukkitTask task;
+	private static Task task;
 
 	// Player#setPlayerListOrder (1.21.2+), null before
 	private static final Method LIST_ORDER = listOrder();
@@ -265,11 +265,7 @@ public final class Ranks implements Listener {
 		}
 
 		long every = Math.max(1, cfg().getInt("Ranks.Refresh-Seconds", 5)) * 20L;
-		task = Tasks.timer(() -> {
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				refresh(p, false);
-			}
-		}, every, every);
+		task = Tasks.timer(() -> Tasks.forEachPlayer(p -> refresh(p, false)), every, every);
 	}
 
 	/**

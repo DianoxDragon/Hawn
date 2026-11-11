@@ -50,7 +50,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		if (!SpawnCommandConfig.getConfig().getBoolean("SetSpawn.Enable")) {
 			if (SpawnCommandConfig.getConfig().getBoolean("SetSpawn.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -150,7 +150,7 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 							ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 						}
 			            
@@ -177,7 +177,7 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 						}
 			            
@@ -202,7 +202,7 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 						}
 			            
@@ -227,7 +227,7 @@ public class SetSpawnCommand extends BukkitCommand {
 			            
 			            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 			            
-			            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+			            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 			            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 						}
 			            
@@ -255,7 +255,7 @@ public class SetSpawnCommand extends BukkitCommand {
 	                
 	                p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 	                
-	                for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Other")) {
+	                for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Other")) {
 	                	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 					}
 	                
@@ -264,7 +264,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		            	OnJoinConfig.saveConfigFile();
 	                }
 				} else {
-					for (String msg: ConfigMAdmin.getConfig().getStringList("Error.Command.Name-already-exist")) {
+					for (String msg: ConfigMAdmin.getConfig(p).getStringList("Error.Command.Name-already-exist")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -279,7 +279,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		            
 		            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 		            
-		            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+		            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 		            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 					}
 		            
@@ -304,7 +304,7 @@ public class SetSpawnCommand extends BukkitCommand {
 		            
 		            p.getWorld().setSpawnLocation((int) l.getX(), (int) l.getY(), (int) l.getZ());
 		            
-		            for (String msg: ConfigMAdmin.getConfig().getStringList("Command.Spawn.Spawn-Set.Default")) {
+		            for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.Spawn.Spawn-Set.Default")) {
 		            	ConfigEventUtils.ExecuteEvent(p, msg.replace("%spawnName%", ConfigEventUtils.noAction(spawnName)), "", "", false);
 					}
 		            

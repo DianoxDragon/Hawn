@@ -6,6 +6,10 @@ description: >-
 
 # World manager
 
+{% hint style="warning" %}
+Since Hawn 1.6, the world manager is off on **Folia**: Folia can neither create nor unload a world while the server runs. `/hw` and the menu say so, and the worlds of `World-List.yml` are not loaded by Hawn.
+{% endhint %}
+
 Hawn has a small world manager, enough for a lobby server: create an empty world for your lobby, import a downloaded map, change the time or the difficulty of a world. It can be used with commands or with a menu.
 
 ## The menu

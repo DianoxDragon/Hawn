@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import fr.dianox.hawn.utility.Task;
 
 import fr.dianox.hawn.Main;
 import fr.dianox.hawn.utility.Tasks;
@@ -98,7 +98,7 @@ public class SpawnCommand extends BukkitCommand {
 										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+										for (String msg: ConfigMGeneral.getConfig(target).getStringList("Spawn.Teleport-By-Player.Messages")) {
 											ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 										}
 									}
@@ -126,7 +126,7 @@ public class SpawnCommand extends BukkitCommand {
 										MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 									}
 									if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-										for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+										for (String msg: ConfigMGeneral.getConfig(target).getStringList("Spawn.Teleport-By-Player.Messages")) {
 											ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 										}
 									}
@@ -146,7 +146,7 @@ public class SpawnCommand extends BukkitCommand {
 								MessageUtils.ConsoleMessages(msg.replace("%target%", target.getName()));
 							}
 							if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-								for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+								for (String msg: ConfigMGeneral.getConfig(target).getStringList("Spawn.Teleport-By-Player.Messages")) {
 									ConfigEventUtils.ExecuteEvent(target, msg, "", "", false);
 								}
 							}
@@ -174,7 +174,7 @@ public class SpawnCommand extends BukkitCommand {
 								} else {
 									
 									if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-										for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+										for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 										}
 									}
@@ -187,14 +187,14 @@ public class SpawnCommand extends BukkitCommand {
 									Main.inspawnd.remove(p);
 									Main.inwarpd.remove(p);
 									
-									BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+									Task task = Tasks.later(p, new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(p);
 								}
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -207,7 +207,7 @@ public class SpawnCommand extends BukkitCommand {
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								Task task = Tasks.later(p, new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
@@ -226,7 +226,7 @@ public class SpawnCommand extends BukkitCommand {
 								tpsapwnselfonlytpself(p);
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -239,14 +239,14 @@ public class SpawnCommand extends BukkitCommand {
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								Task task = Tasks.later(p, new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
 							}
 						} else {
 							if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 								}
 							}
@@ -259,7 +259,7 @@ public class SpawnCommand extends BukkitCommand {
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+							Task task = Tasks.later(p, new TaskSpawnDelaySelfTp(p), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inspawnd.add(p);
@@ -276,7 +276,7 @@ public class SpawnCommand extends BukkitCommand {
 								tpsapwnselfonlytp(p, args[0]);
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -289,14 +289,14 @@ public class SpawnCommand extends BukkitCommand {
 								Main.inspawnd.remove(p);
 								Main.inwarpd.remove(p);
 								
-								BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+								Task task = Tasks.later(p, new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(p);
 							}
 						} else {
 							if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Self-Delay.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Self-Delay.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Self-Delay.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds"))), "", "", false);
 								}
 							}
@@ -309,7 +309,7 @@ public class SpawnCommand extends BukkitCommand {
 							Main.inspawnd.remove(p);
 							Main.inwarpd.remove(p);
 							
-							BukkitTask task = Tasks.later(new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
+							Task task = Tasks.later(p, new TaskSpawnDelaySelfTpSpawn(p, args[0]), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Self.Delay-Seconds") * 20);
 							
 							Main.player_spawnwarpdelay.put(p.getUniqueId(), task.getTaskId());
 							Main.inspawnd.add(p);
@@ -334,7 +334,7 @@ public class SpawnCommand extends BukkitCommand {
 									tpother(target, p);
 								} else {
 									if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
-										for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
+										for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
 											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 										}
 									}
@@ -347,14 +347,14 @@ public class SpawnCommand extends BukkitCommand {
 									Main.inspawnd.remove(target);
 									Main.inwarpd.remove(target);
 									
-									BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+									Task task = Tasks.later(target, new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(target);
 								}
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -367,7 +367,7 @@ public class SpawnCommand extends BukkitCommand {
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+								Task task = Tasks.later(target, new TaskSpawnDelayOtherTp(p, args[0], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(target);
@@ -382,7 +382,7 @@ public class SpawnCommand extends BukkitCommand {
 									tpother2(target, p, args[2]);
 								} else {
 									if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
-										for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
+										for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
 											ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 										}
 									}
@@ -395,14 +395,14 @@ public class SpawnCommand extends BukkitCommand {
 									Main.inspawnd.remove(target);
 									Main.inwarpd.remove(target);
 									
-									BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+									Task task = Tasks.later(target, new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 									
 									Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 									Main.inspawnd.add(target);
 								}
 							} else {
 								if (ConfigMMsg.getConfig().getBoolean("Spawn.Tp.Other-Sender-Delay.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Spawn.Tp.Other-Sender-Delay.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%second%", String.valueOf(SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds"))), "", "", false);
 									}
 								}
@@ -415,7 +415,7 @@ public class SpawnCommand extends BukkitCommand {
 								Main.inspawnd.remove(target);
 								Main.inwarpd.remove(target);
 								
-								BukkitTask task = Tasks.later(new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
+								Task task = Tasks.later(target, new TaskSpawnDelayOtherTp2(p, args[2], target), SpawnCommandConfig.getConfig().getInt("Commands.Spawn.Delay.Other.Delay-Seconds") * 20);
 								
 								Main.player_spawnwarpdelay.put(target.getUniqueId(), task.getTaskId());
 								Main.inspawnd.add(target);
@@ -444,7 +444,7 @@ public class SpawnCommand extends BukkitCommand {
 				String Lineerror = "Commands.CustomSpawn.Spawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 					}
 				}
@@ -461,7 +461,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 				SpawnUtils.teleportToSpawnAsync(p, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -471,7 +471,7 @@ public class SpawnCommand extends BukkitCommand {
 				String Lineerror = "Spawn.DefaultSpawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 					}
 				}
@@ -487,7 +487,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 				SpawnUtils.teleportToSpawnAsync(p, SpawnGroups.defaultSpawn(p));
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					}
 				}
@@ -509,7 +509,7 @@ public class SpawnCommand extends BukkitCommand {
 				}
 				SpawnUtils.teleportToSpawnAsync(sender, tp);
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(sender).getStringList("Spawn.Teleport.Messages")) {
 						ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
 					}
 				}
@@ -529,7 +529,7 @@ public class SpawnCommand extends BukkitCommand {
 			}
 			SpawnUtils.teleportToSpawnAsync(sender, tp);
 			if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+				for (String msg: ConfigMGeneral.getConfig(sender).getStringList("Spawn.Teleport.Messages")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg, "", "", false);
 				}
 			}
@@ -547,11 +547,11 @@ public class SpawnCommand extends BukkitCommand {
 			return;
 		}
 		SpawnUtils.teleportToSpawnAsync(other, tp);
-		for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+		for (String msg: ConfigMGeneral.getConfig(sender).getStringList("Spawn.Teleport-By-Player.Sender")) {
 			ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 		}
 		if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-			for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+			for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 				ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 			}
 		}
@@ -563,7 +563,7 @@ public class SpawnCommand extends BukkitCommand {
 				String Lineerror = "Commands.Spawn.CustomSpawn.Spawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(sender).getStringList("Error.Change-Me.Messages")) {
 						ConfigEventUtils.ExecuteEvent(sender, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 					}
 				}
@@ -578,11 +578,11 @@ public class SpawnCommand extends BukkitCommand {
 					return;
 				}
 				SpawnUtils.teleportToSpawnAsync(other, SpawnCommandConfig.getConfig().getString("Commands.Spawn.CustomSpawn.Spawn"));
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+				for (String msg: ConfigMGeneral.getConfig(sender).getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 						ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 					}
 				}
@@ -595,7 +595,7 @@ public class SpawnCommand extends BukkitCommand {
 				String Lineerror = "Spawn.DefaultSpawn";
 				String Fileerror = "Events/OnJoin.yml";
 				if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-					for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+					for (String msg: ConfigMMsg.getConfig(sender).getStringList("Error.Change-Me.Messages")) {
 						ConfigEventUtils.ExecuteEvent(sender, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 					}
 				}
@@ -610,11 +610,11 @@ public class SpawnCommand extends BukkitCommand {
 					return;
 				}
 				SpawnUtils.teleportToSpawnAsync(other, spawn);
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Sender")) {
+				for (String msg: ConfigMGeneral.getConfig(sender).getStringList("Spawn.Teleport-By-Player.Sender")) {
 					ConfigEventUtils.ExecuteEvent(sender, msg.replace("%target%", other.getName()), "", "", false);
 				}
 				if (ConfigMGeneral.getConfig().getBoolean("Spawn.Teleport.Enable")) {
-					for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport-By-Player.Messages")) {
+					for (String msg: ConfigMGeneral.getConfig(other).getStringList("Spawn.Teleport-By-Player.Messages")) {
 						ConfigEventUtils.ExecuteEvent(other, msg, "", "", false);
 					}
 				}

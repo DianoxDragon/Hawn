@@ -1,8 +1,11 @@
 package fr.dianox.hawn.utility.config.configs.messages;
 
 import fr.dianox.hawn.utility.config.ConfigDefaults;
+import fr.dianox.hawn.utility.config.LangFiles;
+import fr.dianox.hawn.utility.Lang;
 
 import fr.dianox.hawn.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -14,11 +17,20 @@ public class ConfigMMsg {
 	private static Plugin pl;
 	private static File file;
 	private static YamlConfiguration Config;
+	// Every language (since 1.6), see LangFiles
+	private static java.util.Map<String, YamlConfiguration> byLanguage;
 	
 	public ConfigMMsg() {}
 	
 	public static void loadConfig(Plugin plugin) {
 		pl = plugin;
+
+		// The English file too, when the server has another language: every language is loaded (since 1.6)
+		if (!"en_US".equals(Lang.server())) {
+			file = new File(pl.getDataFolder(), "Messages/en_US/Messages.yml");
+			Config = YamlConfiguration.loadConfiguration(file);
+			create();
+		}
 		
 		file = new File(pl.getDataFolder(), "Messages/" + Main.LanguageType + "/Messages.yml");
 		Config = YamlConfiguration.loadConfiguration(file);
@@ -28,6 +40,7 @@ public class ConfigMMsg {
 		}
 		
 		create();
+		byLanguage = LangFiles.load(pl, "Messages.yml", Config);
 	}
 	
     public static File getFile() {
@@ -36,6 +49,13 @@ public class ConfigMMsg {
 
     public static YamlConfiguration getConfig() {
         return Config;
+    }
+
+    /**
+     * The texts in the language of who receives them (since 1.6): the server one for the console.
+     */
+    public static YamlConfiguration getConfig(CommandSender to) {
+        return LangFiles.of(byLanguage, Config, to);
     }
 
     public static void reloadConfig() {
@@ -554,6 +574,11 @@ public class ConfigMMsg {
         Config.set("Error.Not-A-Player.Enable", true);
         Config.set("Error.Not-A-Player.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cYou are not a player"}));
         Config.set("Protection.Anti-Place", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't place block here!"}));
+        // The language menu (since 1.6)
+        Config.set("Language.Changed.Enable", true);
+        Config.set("Language.Changed.Messages", java.util.Arrays.asList("%prefix% &7Your language is now &e%arg1%"));
+        Config.set("Language.Client.Enable", true);
+        Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7You now get the messages in the language of your game &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cSorry, you can't break block here!"}));
 
         Config = ConfigDefaults.apply(file, loaded, Config);

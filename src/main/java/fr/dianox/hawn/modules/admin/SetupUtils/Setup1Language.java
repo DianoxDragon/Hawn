@@ -117,6 +117,11 @@ public class Setup1Language implements Listener {
 				patterns.add(new Pattern(DyeColor.GREEN, pattern("HALF_VERTICAL")));
 				patterns.add(new Pattern(DyeColor.RED, pattern("HALF_VERTICAL_RIGHT", "HALF_VERTICAL_MIRROR")));
 				patterns.add(new Pattern(DyeColor.WHITE, pattern("STRIPE_CENTER")));
+			} else if (lang.startsWith("pt")) {
+				// Brazil (since 1.6)
+				patterns.add(new Pattern(DyeColor.GREEN, pattern("BASE")));
+				patterns.add(new Pattern(DyeColor.YELLOW, pattern("RHOMBUS", "RHOMBUS_MIDDLE")));
+				patterns.add(new Pattern(DyeColor.BLUE, pattern("CIRCLE", "CIRCLE_MIDDLE")));
 			} else if (lang.startsWith("ja")) {
 				patterns.add(new Pattern(DyeColor.RED, pattern("CIRCLE", "CIRCLE_MIDDLE")));
 			} else if (lang.startsWith("nl") || lang.startsWith("ne")) {
@@ -177,7 +182,7 @@ public class Setup1Language implements Listener {
 					for (String msg : SetupLangFile.getConfig().getStringList("SetupLanguage.Language-Changed")) {
 						ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg 1%", langtype), "", "", false);
 					}
-					Tasks.later(() -> OpenInventory(p), 5L);
+					Tasks.later(p, () -> OpenInventory(p), 5L);
 				}
 			}
 

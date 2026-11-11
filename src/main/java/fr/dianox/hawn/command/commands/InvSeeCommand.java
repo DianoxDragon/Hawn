@@ -55,7 +55,7 @@ public class InvSeeCommand extends BukkitCommand {
 		 if (!InvSeeCommandConfig.getConfig().getBoolean("InvSee.Enable")) {
 			 if (InvSeeCommandConfig.getConfig().getBoolean("InvSee.Disable-Message")) {
 				 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-					 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+					 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 						 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 					 }
 				 }
@@ -73,7 +73,7 @@ public class InvSeeCommand extends BukkitCommand {
 		 if (args.length == 0) {
 
 			 if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("Error.Argument-Missing.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				 }
 			 }
@@ -90,7 +90,7 @@ public class InvSeeCommand extends BukkitCommand {
 			 p.openInventory(target.getInventory());
 				 
 			 if (ConfigMMsg.getConfig().getBoolean("InvSee.Other-Sender.Enable")) {
-				 for (String msg: ConfigMMsg.getConfig().getStringList("InvSee.Other-Sender.Messages")) {
+				 for (String msg: ConfigMMsg.getConfig(p).getStringList("InvSee.Other-Sender.Messages")) {
 					 ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()), "", "", false);
 				 }
 			 }

@@ -258,6 +258,23 @@ public class NLAdminAMConfig {
         Config.set("Ranks.Source.NONE", "geen");
         // Since 1.5: /hawn menu
         Config.set("Command.Help.Hawn-Menu", "Een menu uit de map Menus openen voor jezelf of een speler, of ze opsommen");
+        // The holograms (since 1.6)
+        Config.set("Holograms.Usage", java.util.Arrays.asList("%prefix% &7/hawn hologram create <naam> [tekst] &8| &7delete <naam> &8| &7movehere <naam> &8| &7addline <naam> <tekst> &8| &7setline <naam> <regel> <tekst> &8| &7removeline <naam> <regel> &8| &7list &8| &7enable <naam> &8| &7disable <naam>"));
+        Config.set("Holograms.Created", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7is gemaakt op jouw plek"));
+        Config.set("Holograms.Exists", java.util.Arrays.asList("%prefix% &cHet hologram &e%arg 1% &cbestaat al"));
+        Config.set("Holograms.Not-Found", java.util.Arrays.asList("%prefix% &cHet hologram &e%arg 1% &cbestaat niet"));
+        Config.set("Holograms.Deleted", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7is verwijderd"));
+        Config.set("Holograms.Moved", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7staat nu op jouw plek"));
+        Config.set("Holograms.Changed", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7heeft nu &e%arg 2% &7regel(s)"));
+        Config.set("Holograms.Bad-Line", java.util.Arrays.asList("%prefix% &cHet hologram &e%arg 1% &cheeft geen regel &e%arg 2%"));
+        Config.set("Holograms.List", java.util.Arrays.asList("%prefix% &7Holograms: &e%arg 1%"));
+        Config.set("Holograms.None", java.util.Arrays.asList("%prefix% &7Geen hologram in de map Holograms"));
+        Config.set("Holograms.Enabled", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7staat aan: het wordt getoond"));
+        Config.set("Holograms.Disabled", java.util.Arrays.asList("%prefix% &7Het hologram &e%arg 1% &7staat uit: het wordt verborgen"));
+        Config.set("Holograms.Off-Tag", java.util.Arrays.asList("&8(uit)"));
+        Config.set("Holograms.No-PacketEvents", java.util.Arrays.asList("%prefix% &cDe holograms hebben de plugin &ePacketEvents &cnodig: modrinth.com/plugin/packetevents"));
+        Config.set("Holograms.Bad-Name", java.util.Arrays.asList("%prefix% &cDe naam van een hologram: letters, cijfers, _ en -"));
+        Config.set("Command.Help.Hawn-Hologram", "Een tekst tonen op een plek, in de taal van elke speler");
         Config.set("Menus.Usage", java.util.Arrays.asList("%prefix% &7/hawn menu open <menu> [speler] &8| &7list"));
         Config.set("Menus.Opened", java.util.Arrays.asList("%prefix% &7Het menu &e%arg 1% &7is geopend voor &e%arg 2%"));
         Config.set("Menus.Not-Opened", java.util.Arrays.asList("%prefix% &cHet menu &e%arg 1% &cis niet geopend voor &e%arg 2% &c(permissie of wereld)"));

@@ -1,5 +1,6 @@
 package fr.dianox.hawn.command.commands;
 
+import fr.dianox.hawn.utility.Tasks;
 import fr.dianox.hawn.command.commands.tab.Tab;
 
 import org.bukkit.Bukkit;
@@ -56,11 +57,11 @@ public class HealCommand extends BukkitCommand {
                 }
 
                 Double health = Double.valueOf(target.getMaxHealth());
-                target.setHealth(health);
-                target.setFireTicks(0);
+                Tasks.sync(target, () -> target.setHealth(health));
+                Tasks.sync(target, () -> target.setFireTicks(0));
                 
                 if (HealCommandConfig.getConfig().getBoolean("Heal.Option.Feed")) {
-                	target.setFoodLevel(20);
+                	Tasks.sync(target, () -> target.setFoodLevel(20));
                 }
                 
                 if (ConfigMMsg.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
@@ -69,7 +70,7 @@ public class HealCommand extends BukkitCommand {
                     }
                 }
                 if (ConfigMMsg.getConfig().getBoolean("Heal.Other.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Heal.Other.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(target).getStringList("Heal.Other.Messages")) {
                         ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", "console"), "", "", false);
                     }
                 }
@@ -86,7 +87,7 @@ public class HealCommand extends BukkitCommand {
         if (!HealCommandConfig.getConfig().getBoolean("Heal.Enable")) {
             if (HealCommandConfig.getConfig().getBoolean("Heal.Disable-Message")) {
                 if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-                    for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+                    for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                         ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                     }
                 }
@@ -112,7 +113,7 @@ public class HealCommand extends BukkitCommand {
             }
             
             if (ConfigMMsg.getConfig().getBoolean("Heal.Self.Enable")) {
-                for (String msg: ConfigMMsg.getConfig().getStringList("Heal.Self.Messages")) {
+                for (String msg: ConfigMMsg.getConfig(p).getStringList("Heal.Self.Messages")) {
                     ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 }
             }
@@ -128,20 +129,20 @@ public class HealCommand extends BukkitCommand {
                     }
 
                     Double health = Double.valueOf(target.getMaxHealth());
-                    target.setHealth(health);
-                    target.setFireTicks(0);
+                    Tasks.sync(target, () -> target.setHealth(health));
+                    Tasks.sync(target, () -> target.setFireTicks(0));
                     
                     if (HealCommandConfig.getConfig().getBoolean("Heal.Option.Feed")) {
-                    	target.setFoodLevel(20);
+                    	Tasks.sync(target, () -> target.setFoodLevel(20));
                     }
                     
                     if (ConfigMMsg.getConfig().getBoolean("Heal.Other-Sender.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Heal.Other-Sender.Messages")) {
-                            ConfigEventUtils.ExecuteEvent(p, msg.replace("%player%", target.getName()), "", "", false);
+                        for (String msg: ConfigMMsg.getConfig(p).getStringList("Heal.Other-Sender.Messages")) {
+                            ConfigEventUtils.ExecuteEvent(p, msg.replace("%target%", target.getName()).replace("%player%", target.getName()), "", "", false);
                         }
                     }
                     if (ConfigMMsg.getConfig().getBoolean("Heal.Other.Enable")) {
-                        for (String msg: ConfigMMsg.getConfig().getStringList("Heal.Other.Messages")) {
+                        for (String msg: ConfigMMsg.getConfig(target).getStringList("Heal.Other.Messages")) {
                             ConfigEventUtils.ExecuteEvent(target, msg.replace("%player%", p.getName()), "", "", false);
                         }
                     }

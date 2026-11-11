@@ -59,9 +59,9 @@ public class TablistConfig {
         Config.set("Tablist.header.enabled", true);
         Config.set("Tablist.header.message", java.util.Arrays.asList(new String[] {
         		"",
-        		"&7Welcome on &6&lYour Server",
+        		"{lang_text.tab-welcome}",
         		"",
-        		"&7You are &e%player%",
+        		"{lang_text.tab-you-are}",
         		"{anim_website}",
         		"",
         		"{anim_maininformations}",
@@ -127,14 +127,14 @@ public class TablistConfig {
         Config.set("Animations.website.refresh-time-ticks", 60);
         Config.set("Animations.website.text", java.util.Arrays.asList(new String[] {
         		"&7Discord&8: &ediscord.gg/yourserver",
-        		"&7Shop&8: &eshop.yourserver.net",
-        		"&7Website&8: &eyourserver.net"
+        		"{lang_text.tab-shop}",
+        		"{lang_text.tab-website}"
         		}));
 
         Config.set("Animations.maininformations.refresh-time-ticks", 60);
         Config.set("Animations.maininformations.text", java.util.Arrays.asList(new String[] {
-        		"&7Online&8: &e%online%&7/&e%max_players%",
-        		"&7Time&8: &e%gettime%",
+        		"{lang_text.tab-online}",
+        		"{lang_text.tab-time}",
         		"&e%player_x% %player_y% %player_z%"
         		}));
 
@@ -147,7 +147,7 @@ public class TablistConfig {
             example("staff", 10, true, null, java.util.Arrays.asList("", "&c&lSTAFF &8- &e%player%", "", "{anim_maininformations}", "", "{anim_separator}"),
                     java.util.Arrays.asList("{anim_separator}", "", "&7Ping&8: &e%ping% ms", ""));
             example("nether", 0, false, java.util.Arrays.asList("world_nether", "world_the_end"),
-                    java.util.Arrays.asList("", "&7You are in &c%player_world%", "", "{anim_flames}"), null);
+                    java.util.Arrays.asList("", "{lang_text.tab-world}", "", "{anim_flames}"), null);
 
             Config.set("Examples-Generated", true);
             saveConfigFile();

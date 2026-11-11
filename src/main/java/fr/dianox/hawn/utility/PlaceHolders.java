@@ -106,12 +106,12 @@ public class PlaceHolders {
 		return str;
 	}
 
-	private static String yesNo(boolean value) {
-		return ConfigMGeneral.getConfig().getString(value ? "Placeholders.Yes" : "Placeholders.No", value ? "&ayes" : "&cno");
+	private static String yesNo(Player p, boolean value) {
+		return ConfigMGeneral.getConfig(p).getString(value ? "Placeholders.Yes" : "Placeholders.No", value ? "&ayes" : "&cno");
 	}
 
-	private static String unknown() {
-		return ConfigMGeneral.getConfig().getString("Placeholders.Unknown", "?");
+	private static String unknown(Player p) {
+		return ConfigMGeneral.getConfig(p).getString("Placeholders.Unknown", "?");
 	}
 
 	// The /option choices of the player, as Hawn uses them (the player file)
@@ -131,16 +131,22 @@ public class PlaceHolders {
 			return str;
 		}
 
+		// Since 1.6: the language of the messages of the player, and their choice in the language menu (client: none)
+		if (str.contains("%player_language")) {
+			String choice = Lang.choice(p);
+			str = str.replace("%player_language_choice%", choice.isEmpty() ? "client" : choice).replace("%player_language%", Lang.of(p));
+		}
+
 		if (str.contains("%player_gamemode%")) {
 			str = str.replace("%player_gamemode%", p.getGameMode().name().toLowerCase(java.util.Locale.ROOT));
 		}
 
 		if (str.contains("%player_vanished%")) {
-			str = str.replace("%player_vanished%", yesNo(VanishCommand.player_list_vanish.contains(p)));
+			str = str.replace("%player_vanished%", yesNo(p, VanishCommand.player_list_vanish.contains(p)));
 		}
 
 		if (str.contains("%player_flying%")) {
-			str = str.replace("%player_flying%", yesNo(p.isFlying()));
+			str = str.replace("%player_flying%", yesNo(p, p.isFlying()));
 		}
 
 		if (str.contains("%player_option_")) {
@@ -154,14 +160,14 @@ public class PlaceHolders {
 					boolean now = option[0].equals("fly")
 							? p.getAllowFlight() && (fr.dianox.hawn.command.commands.FlyCommand.player_list_flyc.contains(p) || on)
 							: on;
-					str = str.replace(placeholder, yesNo(on)).replace(state, now ? "on" : "off");
+					str = str.replace(placeholder, yesNo(p, on)).replace(state, now ? "on" : "off");
 				}
 			}
 		}
 
 		if (str.contains("%player_join_number%")) {
 			Integer number = JoinNumbers.number(p);
-			str = str.replace("%player_join_number%", number == null ? unknown() : String.valueOf(number));
+			str = str.replace("%player_join_number%", number == null ? unknown(p) : String.valueOf(number));
 		}
 
 		if (str.contains("%player_connections%")) {
@@ -175,7 +181,7 @@ public class PlaceHolders {
 	private static String replaceServerState(String str) {
 		if (str.contains("%unique_players%")) {
 			int unique = JoinNumbers.unique();
-			str = str.replace("%unique_players%", unique < 0 ? unknown() : String.valueOf(unique));
+			str = str.replace("%unique_players%", unique < 0 ? unknown(null) : String.valueOf(unique));
 		}
 
 		if (str.contains("%server_uptime%")) {
@@ -183,11 +189,11 @@ public class PlaceHolders {
 		}
 
 		if (str.contains("%chat_muted%")) {
-			str = str.replace("%chat_muted%", yesNo(MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")));
+			str = str.replace("%chat_muted%", yesNo(null, MuteChatCommandConfig.getConfig().getBoolean("MuteChat.Mute.Enable")));
 		}
 
 		if (str.contains("%maintenance%")) {
-			str = str.replace("%maintenance%", yesNo(HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")));
+			str = str.replace("%maintenance%", yesNo(null, HawnCommandConfig.getConfig().getBoolean("Maintenance.Enable")));
 		}
 
 		return str;
@@ -218,6 +224,8 @@ public class PlaceHolders {
 
 	@SuppressWarnings("deprecation")
 	public static String ReplaceMainplaceholderP(String str, Player p) {
+		// Since 1.6: {lang_<key>} in the language of the player (Translations/), first: the text of a key can have placeholders
+		str = Translations.apply(str, p);
 
 	    if (str.contains("%bungee_total%")) {
 	        if (Main.getInstance().getBungApi().PlayerCountVar.containsKey("ALL")) {
@@ -238,7 +246,7 @@ public class PlaceHolders {
         }
 
         if (str.contains("%prefix%")) {
-            str = str.replace("%prefix%", ConfigMGeneral.getConfig().getString("General.Prefix"));
+            str = str.replace("%prefix%", ConfigMGeneral.getConfig(p).getString("General.Prefix"));
         }
 
         if (str.contains("%player%")) {
@@ -451,6 +459,8 @@ public class PlaceHolders {
     }
 
     public static String ReplaceMainplaceholderC(String str) {
+        // Since 1.6: {lang_<key>} in the language of the server
+        str = Translations.apply(str, null);
 
         if (str.contains("%bungee_total%")) {
             if (Main.getInstance().getBungApi().PlayerCountVar.containsKey("ALL")) {

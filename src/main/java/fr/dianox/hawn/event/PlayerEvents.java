@@ -609,7 +609,7 @@ public class PlayerEvents implements Listener {
     
     // Respawns the player after Respawn-After ticks, then the spawn when asked (through Tasks since 1.5.5)
     private static void respawnLater(Player p) {
-        Tasks.later(() -> {
+        Tasks.later(p, () -> {
             p.spigot().respawn();
             if (!PlayerEventsConfig.getConfig().getBoolean("Death.Respawn.Player.Teleport-Spawn")) {
                 return;

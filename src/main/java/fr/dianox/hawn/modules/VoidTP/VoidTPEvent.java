@@ -96,7 +96,7 @@ public class VoidTPEvent implements Listener {
 						String Fileerror = "Events/VoidTP.yml";
 						if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 							if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 								}
 
@@ -122,7 +122,7 @@ public class VoidTPEvent implements Listener {
 							String Fileerror = "Events/VoidTP.yml";
 							if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 								if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 									}
 
@@ -147,7 +147,7 @@ public class VoidTPEvent implements Listener {
 							String Fileerror = "Events/OnJoin.yml";
 							if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 								if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-									for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+									for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 										ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 									}
 
@@ -178,7 +178,7 @@ public class VoidTPEvent implements Listener {
 						String Fileerror = "Events/VoidTP.yml";
 						if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 							if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 								}
 
@@ -203,7 +203,7 @@ public class VoidTPEvent implements Listener {
 						String Fileerror = "Events/OnJoin.yml";
 						if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 							if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-								for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+								for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 									ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 								}
 
@@ -234,7 +234,7 @@ public class VoidTPEvent implements Listener {
 					String Fileerror = "Events/VoidTP.yml";
 					if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 						if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 							}
 
@@ -259,7 +259,7 @@ public class VoidTPEvent implements Listener {
 					String Fileerror = "Events/OnJoin.yml";
 					if (!Main.getInstance().getVoidTPManager().getAntispam().contains(p)) {
 						if (ConfigMMsg.getConfig().getBoolean("Error.Change-Me.Enable")) {
-							for (String msg: ConfigMMsg.getConfig().getStringList("Error.Change-Me.Messages")) {
+							for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Change-Me.Messages")) {
 								ConfigEventUtils.ExecuteEvent(p, msg.replace("%arg1%", Lineerror).replace("%arg2%", Fileerror), "", "", false);
 							}
 
@@ -313,7 +313,7 @@ public class VoidTPEvent implements Listener {
 			}
 
 			boolean onWorldList = multiworld;
-			Tasks.teleportAsync(p, to).whenComplete((done, error) -> Tasks.sync(() -> {
+			Tasks.teleportAsync(p, to).whenComplete((done, error) -> Tasks.sync(p, () -> {
 				teleporting.remove(p.getUniqueId());
 				if (Boolean.TRUE.equals(done) && p.isOnline()) {
 					afterTeleport(p, onWorldList, w);
@@ -327,13 +327,13 @@ public class VoidTPEvent implements Listener {
 	private static void afterTeleport(Player p, boolean multiworld, String w) {
 		if (VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Custom")) {
 			if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Teleport.VoidTP")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Teleport.VoidTP")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
 		} else {
 			if (!VoidTPConfig.getConfig().getBoolean("VoidTP.Options.Message.Disable")) {
-				for (String msg: ConfigMGeneral.getConfig().getStringList("Spawn.Teleport.Messages")) {
+				for (String msg: ConfigMGeneral.getConfig(p).getStringList("Spawn.Teleport.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}

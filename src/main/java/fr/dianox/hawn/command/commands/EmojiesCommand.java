@@ -87,7 +87,7 @@ public class EmojiesCommand extends BukkitCommand {
 		if (!EmojiCommandConfig.getConfig().getBoolean("Emoji.Enable")) {
 			if (EmojiCommandConfig.getConfig().getBoolean("Emoji.Disable-Message")) {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-        			for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+        			for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
                 		ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
                 	}
     			}
@@ -99,7 +99,7 @@ public class EmojiesCommand extends BukkitCommand {
 		// 67: the emoji menu turned off (Events/Chat.yml)
 		if (!OnChatConfig.getConfig().getBoolean("Chat-Emoji-Player.Emojis-list.Option.Gui.Enable")) {
 			if (ConfigMMsg.getConfig().getBoolean("Error.Command-Disable.Enable")) {
-				for (String msg: ConfigMMsg.getConfig().getStringList("Error.Command-Disable.Messages")) {
+				for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Command-Disable.Messages")) {
 					ConfigEventUtils.ExecuteEvent(p, msg, "", "", false);
 				}
 			}
