@@ -4,6 +4,32 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.6.1 BETA
+
+A code audit, and the commands that another plugin also has are left to it.
+
+### New
+
+* **Commands that another plugin also has**: a command of Hawn that another plugin declares too (`/spawn` of EssentialsSpawn, `/fly`, `/heal`, `/warp` of EssentialsX...) is left to that plugin, whatever the order in which the plugins start. Before, the plugin that started first got it. The startup report lists them and `/hawn debug` explains each one. A command left to a plugin that fails to start comes back to Hawn once the server has started. `Plugin.Commands.Conflicts.Keep-Hawn-Commands` in `general.yml` keeps the commands you choose to Hawn, and `Give-Way-To-Other-Plugins: false` turns it off. See [Enabling, disabling and aliasing commands](../basics/commands-management.md#commands-that-another-plugin-also-has).
+* **`/hawn:<command>`**: every command of Hawn answers to its `hawn:` prefix (`/hawn:spawn`), even when another plugin has the same command. Before, the prefix was the name of the command itself (`/spawn:spawn`). The startup hint "create one with /setspawn" names `/hawn:setspawn` when `/setspawn` is left to another plugin.
+
+### Improved
+
+* **Join items**: they no longer fall on the ground when their player dies (another player could pick them up), and they can't be put in a chest, an ender chest or any other inventory, by a shift click, a number key, the F key or a drag. This matters on the servers where the items can be moved (`Items.Move.Disable: false` in `Events/PlayerEvents.yml`). The build mode is not concerned.
+* **Anti-advertising**: the dots of other alphabets (`server。net`), the fullwidth letters (`ｐｌａｙ．ｓｅｒｖｅｒ．ｎｅｔ`) and an IP address with spaces after its dots (`192. 168. 1. 1`) are caught. A sentence such as `Fine. 2. 5 apples` still goes through.
+* **Anti-swear**: a word hidden behind colour codes (`f&cxxx`) or written in fullwidth letters is caught. The message then loses its colours to replace the word.
+
+### Fixes
+
+* `/workbench <player>` opened the crafting table of another player with the permission of `/workbench` only: it needs `hawn.command.workbench.other` now, like `/enderchest`.
+* An item dragged over the slots of a menu of `Menus/` was put in it, and lost when the menu closed.
+* An empty line in `Anti-Swear.List` matched every message.
+* The commands of Hawn that open another one (`/warplist` after `/warp`, `/delwarp`, `/editwarp`, and `/list 1`) opened the command of another plugin when it had the same name.
+
+### Tested
+
+With bots on Paper and Spigot 26.3 next to EssentialsX and EssentialsSpawn 2.22: 42 commands left to them, `/spawn` answered by EssentialsSpawn and `/hawn:spawn` by Hawn, `Keep-Hawn-Commands: [spawn]` giving `/spawn` back to Hawn, the join items in an ender chest (a lobby bow stays out, a block of dirt goes in), the death of a player, `/hawn:workbench <player>` with and without `.other`, and the chat filters. On Paper 1.16.5 (Java 8), where EssentialsX fails to start: the 42 commands come back to Hawn, the death of a player and the chat filters.
+
 ## 1.6.0 BETA
 
 Hawn runs on Folia and Purpur, speaks to each player in their own language, comes in Italian and Portuguese, and shows holograms.

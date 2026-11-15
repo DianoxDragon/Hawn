@@ -34,6 +34,29 @@ Some files contain several commands, each with its own options: `Spawn.yml` (`/s
 
 The message sent for a disabled command is `Error.Command-Disable` in `Messages/<language>/Messages.yml`.
 
+## Commands that another plugin also has
+
+Since Hawn 1.6.1, a command of Hawn that another plugin also declares (`/spawn` of EssentialsSpawn, `/fly` or `/heal` of EssentialsX...) is **left to that plugin**, whatever the order in which the plugins start. The command of Hawn is still there, with the `hawn:` prefix: `/hawn:spawn`, `/hawn:fly`... Every command of Hawn answers to `/hawn:<command>`, conflict or not.
+
+The startup report lists the commands left to other plugins, and `/hawn debug` explains each one. A command left to a plugin that fails to start (or is disabled) comes back to Hawn once the server has started.
+
+To keep the command of Hawn instead, `general.yml`:
+
+```yaml
+Plugin:
+  Commands:
+    Conflicts:
+      Give-Way-To-Other-Plugins: true
+      Keep-Hawn-Commands:
+      - spawn
+      - setspawn
+```
+
+* `Keep-Hawn-Commands`: the commands Hawn keeps. The command of the other plugin stays at `/<plugin>:<command>` (`/essentialsspawn:spawn`).
+* `Give-Way-To-Other-Plugins: false`: no command is left to another plugin. The plugin that starts first gets the command, as before 1.6.1.
+
+A **restart** is needed after a change. Only the commands written in the `plugin.yml` of the other plugins are seen: a plugin that registers its commands in its own code (CMI...) is not, so use `DISABLE_THE_COMMAND_COMPLETELY` for those.
+
 ## Hide the commands a player can't use
 
 `general.yml`:

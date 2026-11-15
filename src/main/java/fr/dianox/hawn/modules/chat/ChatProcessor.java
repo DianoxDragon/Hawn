@@ -338,9 +338,18 @@ public final class ChatProcessor {
 
 	/* ------------------------------------------------------------------ anti swear */
 
+	// Since 1.6.1: the colour codes typed in a word ("f&cxx") and the fullwidth letters no longer hide it from the anti-swear
+	private static final Pattern COLOUR_CODES = Pattern.compile("(?i)[&§](?:#[0-9a-f]{6}|[0-9a-fk-orx])");
+
+	private static String plain(String text) {
+		return java.text.Normalizer.normalize(COLOUR_CODES.matcher(text).replaceAll(""), java.text.Normalizer.Form.NFKC).toLowerCase(java.util.Locale.ROOT);
+	}
+
 	private static String antiSwear(Player p, ChatSettings s, String typed, String original, Result r) {
+		String plainTyped = plain(typed);
 		for (String word : s.list("Anti-Swear.List")) {
-			if (!typed.toLowerCase().contains(word.toLowerCase())) {
+			String lower = word.toLowerCase(java.util.Locale.ROOT);
+			if (lower.isEmpty() || !plainTyped.contains(plain(word))) {
 				continue;
 			}
 
@@ -357,6 +366,11 @@ public final class ChatProcessor {
 
 			if (s.bool("Anti-Swear.Replace-Message.Enable")) {
 				String replacement = s.string("Anti-Swear.Replace-Message.Message", "*****").replace("[", "").replace("]", "");
+				if (!original.toLowerCase(java.util.Locale.ROOT).contains(lower)) {
+					// Hidden behind colour codes or fullwidth letters: the message loses them to replace the word
+					original = java.text.Normalizer.normalize(COLOUR_CODES.matcher(original).replaceAll(""), java.text.Normalizer.Form.NFKC);
+					r.rewritten = true;
+				}
 				original = original.replaceAll("(?i)" + Pattern.quote(word), Matcher.quoteReplacement(replacement));
 				r.replacements.add(new String[] {word, replacement});
 			}

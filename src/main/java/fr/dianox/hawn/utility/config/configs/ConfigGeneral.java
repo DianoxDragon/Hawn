@@ -80,6 +80,10 @@ public class ConfigGeneral {
         // true: the commands are hidden from the players who don't have their permission (restart needed)
         Config.set("Plugin.Commands.Hide-Without-Permission", true);
 
+        // Since 1.6.1: a command that another plugin also has is left to it, the one of Hawn stays at /hawn:<command>
+        Config.set("Plugin.Commands.Conflicts.Give-Way-To-Other-Plugins", true);
+        Config.set("Plugin.Commands.Conflicts.Keep-Hawn-Commands", new java.util.ArrayList<String>());
+
         // Since 1.4.8: true writes in the console the errors Hawn goes on without (see /hawn debug)
         Config.set("Plugin.Debug", false);
 

@@ -131,7 +131,7 @@ hawn.warp.<warp>                       # each warp
 | `hawn.command.clearinv` / `hawn.command.clearinv.others` | `/clearinventory`                    |
 | `hawn.command.invsee`                        | `/invsee`                                        |
 | `hawn.command.enderchest` / `hawn.command.enderchest.other` | `/enderchest`                     |
-| `hawn.command.workbench`                     | `/workbench`                                     |
+| `hawn.command.workbench` / `hawn.command.workbench.other` | `/workbench` (`.other`: for another player, since 1.6.1) |
 | `hawn.command.exp`                           | `/exp`                                           |
 | `hawn.command.hat` / `hawn.command.hat.other` | `/hat`                                          |
 | `hawn.command.skull`                         | `/skull`                                         |

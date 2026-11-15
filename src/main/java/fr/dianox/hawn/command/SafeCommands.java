@@ -26,16 +26,25 @@ public final class SafeCommands {
 	private SafeCommands() {}
 
 	/**
-	 * The command map of the server: every command registered through it is guarded.
+	 * The command map of the server: every command registered through it is guarded, with the prefix hawn: (/hawn:spawn
+	 * always reaches the command of Hawn, since 1.6.1), and gives way to the same command of another plugin
+	 * ({@link CommandConflicts}).
 	 */
 	public static CommandMap guard(CommandMap map) {
 		return (CommandMap) Proxy.newProxyInstance(CommandMap.class.getClassLoader(), new Class<?>[] {CommandMap.class}, (proxy, method, args) -> {
+			Command guarded = null;
 			if (method.getName().equals("register") && args != null && args.length == 2 && args[0] instanceof String && args[1] instanceof Command) {
-				args[1] = new Guarded((Command) args[1]);
+				guarded = new Guarded((Command) args[1]);
+				args[0] = "hawn";
+				args[1] = guarded;
 			}
 
 			try {
-				return method.invoke(map, args);
+				Object result = method.invoke(map, args);
+				if (guarded != null) {
+					CommandConflicts.registered(map, guarded);
+				}
+				return result;
 			} catch (InvocationTargetException e) {
 				throw e.getCause();
 			}

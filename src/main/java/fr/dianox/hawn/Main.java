@@ -172,6 +172,8 @@ public class Main extends JavaPlugin implements Listener {
 	    } catch (NoSuchFieldException | IllegalAccessException e) {
 		    e.printStackTrace();
 	    }
+	    // Since 1.6.1: once every plugin has started, the commands left to a plugin that did not start come back
+	    fr.dianox.hawn.utility.Tasks.next(fr.dianox.hawn.command.CommandConflicts::afterStartup);
 
 	    new Manager(this).registerEvents();
 		

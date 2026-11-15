@@ -18,7 +18,14 @@ public final class AntiAdvertising {
 	// the end of a sentence ("Fine. de rien" is not an address)
 	private static final Pattern DOT = Pattern.compile("\\s+\\.\\s*|\\s*[(\\[{]\\s*(?:dot|point|\\.)\\s*[)\\]}]\\s*");
 
-	private static final Pattern IP = Pattern.compile("(?<![\\d.])(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})(?:\\s*:\\s*\\d{1,5})?(?!\\d)");
+	// Since 1.6.1: the dots of other alphabets ("server。net"); the fullwidth letters and dots ("ｓｅｒｖｅｒ．ｎｅｔ") are made
+	// plain by the NFKC normalization
+	private static final Pattern OTHER_DOTS = Pattern.compile("[\\u3002\\uFF61\\u2024]");
+
+	// Since 1.6.1: "192. 168. 1. 1", a dot then spaces between two numbers
+	private static final Pattern SPACED_NUMBERS = Pattern.compile("(\\d)\\s*\\.\\s+(?=\\d)");
+
+	private static final Pattern IP =Pattern.compile("(?<![\\d.])(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})(?:\\s*:\\s*\\d{1,5})?(?!\\d)");
 
 	// The endings used by the servers and the invitation links. Common words that are also endings (so, it, me, to...)
 	// are left out, so that a sentence written without spaces doesn't trigger it
@@ -38,7 +45,10 @@ public final class AntiAdvertising {
 	 * The first address of the message that the whitelist doesn't allow, null when there is none.
 	 */
 	public static String find(String message, boolean ips, boolean domains, List<String> whitelist) {
-		String text = DOT.matcher(message.toLowerCase(Locale.ROOT)).replaceAll(".");
+		String text = java.text.Normalizer.normalize(message, java.text.Normalizer.Form.NFKC).toLowerCase(Locale.ROOT);
+		text = OTHER_DOTS.matcher(text).replaceAll(".");
+		text = DOT.matcher(text).replaceAll(".");
+		text = SPACED_NUMBERS.matcher(text).replaceAll("$1.");
 
 		if (ips) {
 			Matcher m = IP.matcher(text);

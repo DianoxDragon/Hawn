@@ -181,7 +181,7 @@ public class ListCommand extends BukkitCommand {
         	}
         	        	
         	if (args[0].equals("0") || args[0].equals("1")) {
-        		p.performCommand("list");
+        		p.performCommand("hawn:list");
         	} else {
         		for (String msg: ConfigMAdmin.getConfig(p).getStringList("Command.List.Part-One")) {
         			ConfigEventUtils.ExecuteEvent(p, msg.replace("%number%", ConfigEventUtils.noAction(args[0])), "", "", false);

@@ -82,7 +82,7 @@ public class EditWarpCommand extends BukkitCommand {
 				}
 			}
 			if (p.hasPermission(WarpListCommand.GeneralPermission)) {
-				p.performCommand("warplist");
+				p.performCommand("hawn:warplist");
 			}
 		} else if (args.length == 1) {
 			// If the warp does not exist

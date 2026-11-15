@@ -69,6 +69,7 @@ public class Manager {
 		pm.registerEvents(new CancelTPWarpSpawn(), pl);
 		pm.registerEvents(new SpecialItemPlayerVisibility(), pl);
 		pm.registerEvents(new OnInventoryInteract(), pl);
+		pm.registerEvents(new fr.dianox.hawn.modules.onjoin.cji.JoinItemGuard(), pl);
 		pm.registerEvents(new SpecialIteLobbyBow(), pl);
 		pm.registerEvents(new SpecialIteFunGun(), pl);
 		pm.registerEvents(new SpecialIteGrappling(), pl);

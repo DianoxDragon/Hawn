@@ -128,7 +128,7 @@ public class WarpCommand extends BukkitCommand {
 		if (args.length == 0) {
 			// If no argument has been put in the command
 			if (p.hasPermission(WarpListCommand.GeneralPermission)) {
-				p.performCommand("warplist");
+				p.performCommand("hawn:warplist");
 			} else {
 				if (ConfigMMsg.getConfig().getBoolean("Error.Argument-Missing.Enable")) {
 					for (String msg: ConfigMMsg.getConfig(p).getStringList("Error.Argument-Missing.Messages")) {

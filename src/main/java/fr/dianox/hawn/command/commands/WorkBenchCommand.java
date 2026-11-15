@@ -82,8 +82,14 @@ public class WorkBenchCommand extends BukkitCommand {
 			 }
 
 		 } else if (args.length == 1) {
+			 // Since 1.6.1: opening the crafting table of another player needs its own permission, like /enderchest
+			 if (!p.hasPermission(GeneralPermission + ".other")) {
+				 MessageUtils.MessageNoPermission(p, GeneralPermission + ".other");
+				 return true;
+			 }
+
 			 Player target = Bukkit.getServer().getPlayer(args[0]);
-				 
+
 			 if (target == null) {
 				 MessageUtils.PlayerDoesntExist(p);
 				 return true;

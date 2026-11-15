@@ -93,6 +93,14 @@ public final class StartupReport {
 		if (!ConfigDefaults.yamlErrors().isEmpty()) files.append(ChatColor.GRAY).append(" - ").append(ChatColor.RED).append(ConfigDefaults.yamlErrors().size())
 				.append(" with a YAML error, left as they are: ").append(String.join(", ", ConfigDefaults.yamlErrors()));
 		say(LINE + ChatColor.YELLOW + "Files: " + files);
+		// Since 1.6.1: the commands that another plugin also has
+		java.util.Map<String, String> yielded = fr.dianox.hawn.command.CommandConflicts.yielded();
+		if (!yielded.isEmpty()) {
+			List<String> commands = new ArrayList<>();
+			for (java.util.Map.Entry<String, String> e : yielded.entrySet()) commands.add("/" + e.getKey() + " (" + e.getValue() + ")");
+			say(LINE + ChatColor.YELLOW + "Commands left to other plugins: " + ChatColor.WHITE + String.join(", ", commands)
+					+ ChatColor.GRAY + " - Hawn's at /hawn:<command>, details in /hawn debug");
+		}
 		say(LINE);
 
 		// What is on, then what contradicts
@@ -242,8 +250,8 @@ public final class StartupReport {
 
 		if (join.getBoolean("Event.OnJoin.Tp-To-Spawn") && !group && !spawnExists(main)) {
 			warnings.add(notSet(main)
-					? "No default spawn yet: the players are not teleported on join. Create one with /setspawn <name>, then set Spawn.DefaultSpawn (Events/OnJoin.yml)"
-					: "The players are teleported to the spawn on join, but the default spawn '" + main + "' doesn't exist (Events/OnJoin.yml, Spawn.DefaultSpawn): create it with /setspawn " + main);
+					? "No default spawn yet: the players are not teleported on join. Create one with /" + fr.dianox.hawn.command.CommandConflicts.label("setspawn") + " <name>, then set Spawn.DefaultSpawn (Events/OnJoin.yml)"
+					: "The players are teleported to the spawn on join, but the default spawn '" + main + "' doesn't exist (Events/OnJoin.yml, Spawn.DefaultSpawn): create it with /" + fr.dianox.hawn.command.CommandConflicts.label("setspawn") + " " + main);
 		}
 
 		if (group) {

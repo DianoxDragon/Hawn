@@ -112,7 +112,7 @@ File: `Commands/Weather-Time.yml`.
 | `/clearinventory [player]` · `/clearinv`        | `hawn.command.clearinv`, `hawn.command.clearinv.others`        | Clears an inventory.                            |
 | `/invsee <player>`                              | `hawn.command.invsee`                                          | Opens the inventory of a player.                |
 | `/enderchest [player]` · `/ec`                  | `hawn.command.enderchest`, `hawn.command.enderchest.other`     | Opens an ender chest.                           |
-| `/workbench [player]`                           | `hawn.command.workbench`                                       | Opens a crafting table.                         |
+| `/workbench [player]`                           | `hawn.command.workbench`, `hawn.command.workbench.other`       | Opens a crafting table.                         |
 | `/exp <player> <add/set/take/clear> <amount>`   | `hawn.command.exp`                                             | Manages experience.                             |
 | `/hat [player]`                                 | `hawn.command.hat`, `hawn.command.hat.other`                   | Puts the item in hand on the head.              |
 | `/skull [player]`                               | `hawn.command.skull`                                           | Gives a player head.                            |

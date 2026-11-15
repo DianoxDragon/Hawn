@@ -268,6 +268,8 @@ public final class Debug {
 				if (fr.dianox.hawn.modules.chat.ChatFormat.mode() == fr.dianox.hawn.modules.chat.ChatFormat.Mode.AUTO && fr.dianox.hawn.modules.chat.ChatFormat.chatPlugin() != null) {
 					auto.add("Chat-Format (Events/Chat.yml, AUTO): the format of the chat is left to " + withVersion(fr.dianox.hawn.modules.chat.ChatFormat.chatPlugin()));
 				}
+				// Since 1.6.1: the commands left to another plugin, or kept by Hawn
+				auto.addAll(fr.dianox.hawn.command.CommandConflicts.lines());
 				if (!auto.isEmpty()) {
 					say(sender, "Debug.Auto", String.valueOf(auto.size()));
 					list(sender, auto);

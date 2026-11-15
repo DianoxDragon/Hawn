@@ -369,6 +369,19 @@ public final class Menus implements Listener {
 		run(p, item.actionsFor(e.getClick()));
 	}
 
+	// Since 1.6.1: an item dragged over the slots of the menu was put in it, and lost when the menu closed
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onDrag(org.bukkit.event.inventory.InventoryDragEvent e) {
+		Session s = session(e.getView().getTopInventory());
+		if (s == null) return;
+		for (int slot : e.getRawSlots()) {
+			if (slot < s.inventory.getSize()) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+	}
+
 	@EventHandler
 	public void onClose(InventoryCloseEvent e) {
 		Session s = session(e.getInventory());
