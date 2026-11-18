@@ -26,16 +26,21 @@ final class DefaultMenus {
 
 		save(new File(folder, "servers.yml"), servers(t));
 		save(new File(folder, "profile.yml"), profile(t));
-		writeLanguage(folder);
+		// Since 1.6.2: a Menus folder written again (deleted by the admin) gets its language menu too, whatever the lock
+		writeLanguage(folder, true);
 	}
 
 	/**
 	 * The language menu (since 1.6), also written once in the Menus folder of the servers that had it before 1.6
-	 * (StockageInfo/LanguageMenu.lock: not again if the admin deletes it).
+	 * (StockageInfo/LanguageMenu.lock: not again if the admin deletes this file alone).
 	 */
 	static void writeLanguage(File folder) {
+		writeLanguage(folder, false);
+	}
+
+	private static void writeLanguage(File folder, boolean newFolder) {
 		File lock = new File(Main.getInstance().getDataFolder(), "StockageInfo/LanguageMenu.lock");
-		if (lock.exists()) {
+		if (lock.exists() && !newFolder) {
 			return;
 		}
 		File file = new File(folder, "language.yml");

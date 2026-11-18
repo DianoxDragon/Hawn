@@ -336,6 +336,15 @@ Give it with a join item of `CustomJoinItem/General.yml`:
 
 The messages are in `Messages/<language>/Messages.yml`: `Custom-Join-Item.Error.PearlMount.Time` (the delay is not over) and `Custom-Join-Item.Error.PearlMount.Height` (out of the `Height` range, `%arg1%` and `%arg2%` are `Min-Y` and `Max-Y`).
 
+## They stay with their player
+
+Since Hawn 1.6.1, the join items can't leave their player, even on a server where the items can be moved (`Items.Move.Disable: false` in `Events/PlayerEvents.yml`):
+
+* they don't fall on the ground when the player dies, so another player can't pick them up;
+* they can't be put in a chest, an ender chest, a furnace or any other inventory: a shift click, a number key, the F key or a drag over the other inventory does nothing.
+
+The players in [build mode](admin-tools.md#build-mode) are not concerned. A join item is known by its tag, so renaming a copy changes nothing.
+
 ## After death
 
 The items can be given back when the player respawns: `Events/PlayerEvents.yml` → `Death.Respawn.Player.Regive-Hawn-Custom-Join-Items`. See [Protections](protections.md#death-and-respawn).

@@ -19,10 +19,11 @@ import java.util.UUID;
 
 public class ServerPingEvent implements Listener {
 
-	Integer MaxPlayers = Bukkit.getMaxPlayers();
-	
 	@EventHandler
 	public void ping(ServerListPingEvent e) {
+		// Since 1.6.2: read at each ping, /maxplayers changes it
+		int MaxPlayers = Bukkit.getMaxPlayers();
+
 		if (ServerListConfig.getConfig().getBoolean("Slots.One-Slot-Free")) {
 			if (e.getNumPlayers() < MaxPlayers) {
 				e.setMaxPlayers(e.getNumPlayers() + 1);
@@ -38,7 +39,7 @@ public class ServerPingEvent implements Listener {
 		}
 		
 		if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Enable")) {
-			if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Random")) {
+			if (ServerListConfig.getConfig().getBoolean("Motd.Classic.Random") && Main.getInstance().getServerListManager().getMotd_total_sl() >= 0) {
 				String msg = "";
 				
 				Random rand = new Random();

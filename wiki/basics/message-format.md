@@ -41,6 +41,8 @@ Put `&` followed by a code just before the text to colour. `§` works too.
 - 'This word is &4red&r and this one is &a&lbold green'
 ```
 
+In the game, `/colors` shows every code written in its colour, and the hex colours (since Hawn 1.6.2, `hawn.command.colors`).
+
 ### Hex colours
 
 Any RGB colour, in two formats:

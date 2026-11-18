@@ -202,6 +202,8 @@ Anti-Swear:
 
 Every word of `List` found in a message (upper or lower case) is replaced by `Message`. The warning sent to the staff is `Anti-Swear.Notify-Staff` in `Messages/<language>/Messages.yml` (`%player%`, `%message%`).
 
+Since Hawn 1.6.1, a word is also found when it is hidden behind colour codes (`b&cadword`, for a player who may use colours) or written in fullwidth letters (`ｂａｄｗｏｒｄ`). To replace it, the message then loses its colours. An empty line in `List` is ignored (before 1.6.1, it matched every message).
+
 ## Anti-spam
 
 Since Hawn 1.4:
@@ -224,7 +226,7 @@ The same message means the same letters and numbers: the colours, the upper case
 
 ## Anti-advertising
 
-Since Hawn 1.4.5, off by default. It blocks the messages with the address of another server: an IP address (`192.168.1.20:25565`) or a domain name (`play.otherserver.net`, `discord.gg/abc`), also when it is hidden with spaces or brackets (`otherserver . net`, `otherserver(dot)com`, `192 . 168 . 1 . 20`).
+Since Hawn 1.4.5, off by default. It blocks the messages with the address of another server: an IP address (`192.168.1.20:25565`) or a domain name (`play.otherserver.net`, `discord.gg/abc`), also when it is hidden with spaces or brackets (`otherserver . net`, `otherserver(dot)com`, `192 . 168 . 1 . 20`). Since Hawn 1.6.1, also with the dots of other alphabets (`otherserver。net`), fullwidth letters (`ｏｔｈｅｒｓｅｒｖｅｒ．ｎｅｔ`) and spaces after the dots of an IP address (`192. 168. 1. 20`).
 
 ```yaml
 # Events/Chat.yml

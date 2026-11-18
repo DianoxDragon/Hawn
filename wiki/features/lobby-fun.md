@@ -92,6 +92,8 @@ SignSystem:
 
 Emoji signs use the emojis of `Cosmetics-Fun/Utility/Emojis-List.yml` (and their permission, see [Chat](chat.md#emojis)).
 
+To change a sign already placed, look at it and type `/editsign <1-4> [text]` (since Hawn 1.6.2, `hawn.command.editsign`): the line takes the text with its colours, and no text clears it. `/colors` shows the colour codes.
+
 ## Sign system
 
 Clickable signs that run [actions](../basics/actions.md): a "Click to play" sign, a warp sign, a rules sign...

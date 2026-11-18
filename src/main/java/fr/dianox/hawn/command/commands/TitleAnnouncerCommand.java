@@ -38,7 +38,7 @@ public class TitleAnnouncerCommand extends BukkitCommand {
         if (!(sender instanceof Player)) {
         	if (args.length == 0) {
 
-                Bukkit.getConsoleSender().sendMessage("§cError");
+                fr.dianox.hawn.command.SafeCommands.usage(sender, "/titleannouncer <title> [//n subtitle]");
 
                 return true;
             }
@@ -146,7 +146,7 @@ public class TitleAnnouncerCommand extends BukkitCommand {
 
         if (args.length == 0) {
 
-            Titles.sendTitle(p, 20, 75, 20, " ", "§cError");
+            fr.dianox.hawn.command.SafeCommands.usage(p, "/titleannouncer <title> [//n subtitle]");
 
             return true;
         }

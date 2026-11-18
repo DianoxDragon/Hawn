@@ -60,6 +60,10 @@ Coordinated:
 | `/hawn spawnmanager remove <spawn>`  | `hawn.admin.command.spawnmanager`                 | Deletes a spawn (works from the console).           |
 | `/hawn spawnmanager setspawn [...]`  | `hawn.admin.command.spawnmanager`                 | Same arguments as `/setspawn`.                      |
 
+{% hint style="info" %}
+With EssentialsSpawn (or another plugin that has `/spawn` and `/setspawn`), these two commands are left to it since Hawn 1.6.1: the ones of Hawn are `/hawn:spawn` and `/hawn:setspawn`, and the aliases `/hub` and `/lobby` stay to Hawn. `Plugin.Commands.Conflicts.Keep-Hawn-Commands` in `general.yml` gives them back to Hawn. See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has).
+{% endhint %}
+
 ## Permissions
 
 {% hint style="warning" %}

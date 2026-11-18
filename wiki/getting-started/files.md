@@ -26,6 +26,7 @@ plugins/Hawn/
 ├── CustomCommand.yml           Your own commands (/rules, /discord...)
 ├── AutoBroadcast.yml           Automatic messages, titles, action bars, boss bars
 ├── ServerList.yml              MOTD, slots, full server
+├── ServerLinks.yml             Links of the pause menu (1.21+, since 1.6.2)
 ├── Player-Option-General.yml   What is kept between sessions / lobbies
 ├── Scoreboard-General.yml      Internal scoreboard settings
 ├── Ranks.yml                   The ranks: prefix, suffix and order of the tab list
@@ -58,6 +59,7 @@ plugins/Hawn/
 | `CustomCommand.yml`         | Your own information commands.                                                                                  | [Custom commands](../features/custom-commands.md)      |
 | `AutoBroadcast.yml`         | The four auto broadcasts.                                                                                       | [Auto broadcast](../features/autobroadcast.md)         |
 | `ServerList.yml`            | MOTD, fake slots, joining a full server, anti world downloader kick message.                                    | [Server list](../features/server-list.md)              |
+| `ServerLinks.yml`           | The links of the pause menu of the clients 1.21+ (since 1.6.2).                                                   | [Server list](../features/server-list.md#links-of-the-pause-menu) |
 | `Player-Option-General.yml` | Options kept when a player reconnects (gamemode, vanish, speed, fly...), last position, flying boots.            | [Player options](../features/player-options.md)        |
 | `Scoreboard-General.yml`    | `Scoreboard.Enable: false` turns off every scoreboard (restart needed). Also remembers that the default scoreboards were generated. | [Scoreboards](../features/scoreboards.md)              |
 
@@ -72,7 +74,7 @@ One file per command. Every file has at least:
 DISABLE_THE_COMMAND_COMPLETELY: false   # true = the command doesn't exist at all (restart needed)
 ```
 
-Some files have more options: `Spawn.yml` (teleport delay, custom spawn), `Warp-SetWarp.yml` (delay), `Help.yml` (the whole `/help`), `Hawn.yml` (maintenance and emergency mode), `Gamemode.yml` (quick gamemode, build mode), `ClearChat.yml`, `TitleAnnouncer.yml`... They are described on the page of each feature and in [Commands](../reference/commands.md).
+Some files have more options: `Spawn.yml` (teleport delay, custom spawn), `Warp-SetWarp.yml` (delay), `Help.yml` (the whole `/help`), `Hawn.yml` (maintenance and emergency mode), `Gamemode.yml` (quick gamemode, build mode), `ClearChat.yml`, `TitleAnnouncer.yml`... They are described on the page of each feature and in [Commands](../reference/commands.md). `Server-Tools.yml` (since 1.6.2) holds six commands, each with its own `Enable`, `Disable-Message` and `DISABLE_THE_COMMAND_COMPLETELY`: `/lag`, `/maxplayers`, `/setmotd`, `/colors`, `/itemframe`, `/editsign`.
 
 ## Events/
 

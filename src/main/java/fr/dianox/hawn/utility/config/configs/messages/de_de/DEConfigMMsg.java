@@ -563,6 +563,38 @@ public class DEConfigMMsg {
         Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Du bekommst die Nachrichten jetzt in der Sprache deines Spiels &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDu kannst hier keine Blöcke abbauen!"}));
 
+        // Since 1.6.2: /lag, /maxplayers, /setmotd, /colors, /itemframe, /editsign
+        Config.set("Lag.Show.Enable", true);
+        Config.set("Lag.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7TPS (1, 5, 15 Min.): %tps_1m%&7, %tps_5m%&7, %tps_15m%", "%prefix% &7Speicher: &e%ram_used% &7/ &e%ram_max% &7MB"}));
+        Config.set("MaxPlayers.Show.Enable", true);
+        Config.set("MaxPlayers.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Server hat &e%number% &7Plätze"}));
+        Config.set("MaxPlayers.Set.Enable", true);
+        Config.set("MaxPlayers.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Server hat jetzt &e%number% &7Plätze, gespeichert in ServerList.yml"}));
+        Config.set("MaxPlayers.Not-Supported.Enable", true);
+        Config.set("MaxPlayers.Not-Supported.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cDieser Server kann seine Plätze nicht im laufenden Betrieb ändern (1.17+): setze max-players in server.properties"}));
+        Config.set("SetMotd.Set.Enable", true);
+        Config.set("SetMotd.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Zeile %line% des MOTD: &r%motd%"}));
+        Config.set("SetMotd.Random-Off.Enable", true);
+        Config.set("SetMotd.Random-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Die zufälligen MOTDs sind aus, damit dieses angezeigt wird"}));
+        Config.set("Colors.Header.Enable", true);
+        Config.set("Colors.Header.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Die Farben und Formate mit ihrem Code:"}));
+        Config.set("ItemFrame.Invisible.Enable", true);
+        Config.set("ItemFrame.Invisible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Rahmen ist unsichtbar: nur sein Gegenstand ist zu sehen"}));
+        Config.set("ItemFrame.Visible.Enable", true);
+        Config.set("ItemFrame.Visible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Rahmen ist wieder sichtbar"}));
+        Config.set("ItemFrame.Fixed.Enable", true);
+        Config.set("ItemFrame.Fixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Rahmen ist fixiert: sein Gegenstand kann weder genommen noch gedreht werden"}));
+        Config.set("ItemFrame.Unfixed.Enable", true);
+        Config.set("ItemFrame.Unfixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Der Rahmen ist nicht mehr fixiert"}));
+        Config.set("ItemFrame.No-Frame.Enable", true);
+        Config.set("ItemFrame.No-Frame.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSchau auf einen Rahmen (höchstens 5 Blöcke)"}));
+        Config.set("EditSign.Done.Enable", true);
+        Config.set("EditSign.Done.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Zeile %line% des Schildes: &r%text%"}));
+        Config.set("EditSign.No-Sign.Enable", true);
+        Config.set("EditSign.No-Sign.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cSchau auf ein Schild (höchstens 5 Blöcke)"}));
+        Config.set("EditSign.Wrong-Line.Enable", true);
+        Config.set("EditSign.Wrong-Line.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cEin Schild hat 4 Zeilen: 1, 2, 3 oder 4"}));
+
         Config = ConfigDefaults.apply(file, loaded, Config);
     }
 

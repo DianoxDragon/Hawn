@@ -40,6 +40,7 @@ From the console, `/hawn` accepts `help`, `urgent`, `parse <placeholder>`, `spaw
 
 * the mistakes: an unknown sound, material, effect or damage type, an action written wrong (`[comand-console]:` is shown as a text), a file with a YAML error;
 * the options in `AUTO` left to another plugin, with its version (the ranks with TAB, the chat format with a chat plugin);
+* the commands of Hawn left to another plugin that has the same command (since 1.6.1), or taken first by the server (since 1.6.2), with the `/hawn:<command>` that still reaches Hawn. See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has);
 * the errors Hawn went on without since the start (a broken animation of a scoreboard...), with how many times.
 
 With `Plugin.Debug: true` in `general.yml`, these errors are also written in the console with their details. A wrong sound or material is warned once in the console, not at each use; after `/hawn reload`, a value broken again is warned again.
@@ -250,3 +251,11 @@ The message is `Update.Notify-Admins.Messages` in `Messages/<language>/General.y
 ## Other staff commands
 
 `/checkaccount`, `/invsee`, `/ec`, `/ip`, `/getpos`, `/kickall`, `/clearinv`, `/cleargrounditems`, `/clearmobs`, `/broadcast`, `/warning`... see the full list in [Commands](../reference/commands.md).
+
+Since 1.6.2, `Commands/Server-Tools.yml` adds:
+
+* `/lag`: the TPS of the last 1, 5 and 15 minutes (Paper; the last seconds on Spigot) and the memory used. `/tps` is the command of Spigot and Paper.
+* `/maxplayers [number]` and `/setmotd <1/2> [text]`: see [Server list](server-list.md).
+* `/colors`: the colour and format codes, each written in its colour, and the hex colours.
+* `/itemframe <invisible/visible/fixed/unfixed>`: the item frame you look at (5 blocks) shows only its item, or is fixed (its item can't be taken or turned, it can't be broken).
+* `/editsign <1-4> [text]`: a line of the sign you look at, with colours (the front on 1.20+). No text clears the line.

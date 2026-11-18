@@ -724,6 +724,26 @@ public class CommandManager {
 			}
 		}
 
+		// >> The server tools of Commands/Server-Tools.yml (since 1.6.2)
+		registerTool(cm, "Lag", "lag", fr.dianox.hawn.command.commands.tools.LagCommand::new);
+		registerTool(cm, "MaxPlayers", "maxplayers", fr.dianox.hawn.command.commands.tools.MaxPlayersCommand::new);
+		registerTool(cm, "SetMotd", "setmotd", fr.dianox.hawn.command.commands.tools.SetMotdCommand::new);
+		registerTool(cm, "Colors", "colors", fr.dianox.hawn.command.commands.tools.ColorsCommand::new);
+		registerTool(cm, "ItemFrame", "itemframe", fr.dianox.hawn.command.commands.tools.ItemFrameCommand::new);
+		registerTool(cm, "EditSign", "editsign", fr.dianox.hawn.command.commands.tools.EditSignCommand::new);
+	}
+
+	// A command of Server-Tools.yml and its aliases of command-aliases.yml (the section has the same name in both)
+	private static void registerTool(CommandMap cm, String section, String name, java.util.function.Function<String, org.bukkit.command.Command> command) {
+		if (fr.dianox.hawn.utility.config.configs.commands.ServerToolsCommandConfig.getConfig().getBoolean(section + ".DISABLE_THE_COMMAND_COMPLETELY")) {
+			return;
+		}
+		cm.register(name, command.apply(name));
+		if (CommandAliasesConfig.getConfig().getBoolean(section + ".Enable")) {
+			for (String s : CommandAliasesConfig.getConfig().getStringList(section + ".Aliases")) {
+				cm.register(s, command.apply(s));
+			}
+		}
 	}
 
 

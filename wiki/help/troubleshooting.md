@@ -67,9 +67,19 @@ That's the lobby protection. Type `/hawn build` to toggle a build bypass for you
 
 `Events/WorldEvent.yml` → `World.Disable.Spawning-Monster-Animals` blocks every creature spawn, including the entities of other plugins. Remove your world from its list.
 
-### A Hawn command replaces the command of another plugin
+### A command answers with the plugin I didn't expect
 
-Set `DISABLE_THE_COMMAND_COMPLETELY: true` in the file of the command (`Commands/<command>.yml`) and restart. See [Commands management](../basics/commands-management.md).
+Since 1.6.1, a command of Hawn that another plugin also declares (`/spawn` of EssentialsSpawn, `/fly` of EssentialsX...) is left to that plugin. The startup report lists these commands (`Commands left to other plugins`), and `/hawn debug` explains each one.
+
+* **You want the command of Hawn**: type `/hawn:<command>` (`/hawn:spawn`), or list the command in `Plugin.Commands.Conflicts.Keep-Hawn-Commands` of `general.yml` and restart. The command of the other plugin stays at `/<plugin>:<command>`.
+* **You want the command of the other plugin** and Hawn still answers: that plugin registers its commands in its own code (CMI...), so Hawn can't see them. Set `DISABLE_THE_COMMAND_COMPLETELY: true` in the file of the command (`Commands/<command>.yml`) and restart.
+* **A join item or a menu now runs the command of the other plugin**: write `[command-player]: hawn:spawn`, or use the action `[spawn]: <spawn>`.
+
+See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has).
+
+### /tps shows the TPS of Spigot or Paper
+
+`/tps` is a command of the server. The command of Hawn is `/lag` (since 1.6.2): the TPS of the last 1, 5 and 15 minutes and the memory used.
 
 ### Double jump and fly don't work well together
 

@@ -36,6 +36,8 @@ public final class CommandConflicts {
 	// The commands left to another plugin -> that plugin, and the ones kept by Hawn
 	private static final Map<String, String> yielded = new TreeMap<>();
 	private static final Map<String, String> kept = new TreeMap<>();
+	// Since 1.6.2: the commands that a command of the server (or one registered in the code of a plugin) had first
+	private static final Map<String, String> taken = new TreeMap<>();
 
 	private CommandConflicts() {}
 
@@ -45,11 +47,18 @@ public final class CommandConflicts {
 	static synchronized void registered(CommandMap map, Command command) {
 		String label = command.getName().toLowerCase(Locale.ROOT);
 		String other = owner(label);
+		Map<String, Command> known = known(map);
 		if (other == null) {
+			// Since 1.6.2: a command of the server (/tps of Spigot and Paper) or of a plugin that registers its commands
+			// in its code had it first: the one of Hawn is only at /hawn:<command>
+			Command holder = known == null ? null : known.get(label);
+			if (holder != null && holder != command) {
+				taken.put(label, holder instanceof org.bukkit.command.PluginIdentifiableCommand
+						? ((org.bukkit.command.PluginIdentifiableCommand) holder).getPlugin().getName() : "the server");
+			}
 			return;
 		}
 
-		Map<String, Command> known = known(map);
 		if (keep().contains(label)) {
 			kept.put(label, other);
 			// The plugin enabled before Hawn had it: Hawn takes it back. One enabled after keeps its own prefix
@@ -170,14 +179,17 @@ public final class CommandConflicts {
 	 * The label that reaches the command of Hawn: "setspawn", or "hawn:setspawn" when it is left to another plugin.
 	 */
 	public static synchronized String label(String command) {
-		return yielded.containsKey(command.toLowerCase(Locale.ROOT)) ? "hawn:" + command : command;
+		String lower = command.toLowerCase(Locale.ROOT);
+		return yielded.containsKey(lower) || taken.containsKey(lower) ? "hawn:" + command : command;
 	}
 
 	/**
-	 * The commands left to another plugin: "spawn" -> "Essentials".
+	 * The commands left to another plugin or to the server: "spawn" -> "Essentials", "tps" -> "the server".
 	 */
 	public static synchronized Map<String, String> yielded() {
-		return Collections.unmodifiableMap(new TreeMap<>(yielded));
+		Map<String, String> all = new TreeMap<>(yielded);
+		all.putAll(taken);
+		return Collections.unmodifiableMap(all);
 	}
 
 	/**
@@ -188,6 +200,10 @@ public final class CommandConflicts {
 		for (Map.Entry<String, String> e : yielded.entrySet()) {
 			lines.add("/" + e.getKey() + " is left to " + e.getValue() + ": the command of Hawn is /hawn:" + e.getKey()
 					+ " (general.yml, Plugin.Commands.Conflicts.Keep-Hawn-Commands to keep it)");
+		}
+		for (Map.Entry<String, String> e : taken.entrySet()) {
+			lines.add("/" + e.getKey() + " was taken first by " + e.getValue() + ": the command of Hawn is /hawn:" + e.getKey()
+					+ " (or remove it with DISABLE_THE_COMMAND_COMPLETELY)");
 		}
 		for (Map.Entry<String, String> e : kept.entrySet()) {
 			lines.add("/" + e.getKey() + " is kept by Hawn (Keep-Hawn-Commands): the command of " + e.getValue() + " is /"

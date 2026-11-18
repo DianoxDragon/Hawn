@@ -58,6 +58,8 @@ Items:
 | `Refresh`       | Ticks between two updates of the items with `Update: true` (20 to 40 is good). Only these slots are built again. |
 | `Fill`          | The item of the empty slots: a material, or a section like an item. |
 
+The items of a menu can't be taken, and nothing can be put in it: every click is cancelled, and since Hawn 1.6.1 a drag over its slots too (before, the dragged item was lost).
+
 ## The items
 
 ```yaml
@@ -179,6 +181,8 @@ The examples of Hawn use them: "Click to join" blinks in `servers.yml`, and the 
 ## The language menu
 
 `Menus/language.yml` (since Hawn 1.6) is opened by `/language` and by the book of the profile. Each language has two items on its slot: the one shown when it is chosen (`View-Requirements: '%player_language_choice% == fr_FR'`), and the one to click. Its texts are keys of `Translations/` (`{lang_menu.<key>}`), shown in the language of each player, like those of `servers.yml` and `profile.yml` on the new installations.
+
+To get the three example menus back, delete the whole `Menus/` folder and type `/hawn reload`: `servers.yml`, `profile.yml` and `language.yml` are written again (since 1.6.2 for `language.yml`). A `language.yml` deleted alone is not written again, so that a server without a language menu stays without one.
 
 ## Commands and permissions
 

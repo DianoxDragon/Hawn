@@ -145,6 +145,12 @@ hawn.warp.<warp>                       # each warp
 | `hawn.command.suicide`                       | `/suicide`                                       |
 | `hawn.command.checkaccount`                  | `/checkaccount`                                  |
 | `hawn.command.kickall`                       | `/kickall`                                       |
+| `hawn.command.lag`                           | `/lag` (since 1.6.2)                             |
+| `hawn.command.maxplayers`                    | `/maxplayers` (since 1.6.2)                      |
+| `hawn.command.setmotd`                       | `/setmotd` (since 1.6.2)                         |
+| `hawn.command.colors`                        | `/colors` (since 1.6.2)                          |
+| `hawn.command.itemframe`                     | `/itemframe` (since 1.6.2)                       |
+| `hawn.command.editsign`                      | `/editsign` (since 1.6.2)                        |
 | `hawn.command.bypass.kickall`                | Not kicked by `/kickall`                         |
 | `hawn.command.cleargrounditems`              | `/cleargrounditems`                              |
 | `hawn.command.clearmobs`                     | `/clearmobs`                                     |

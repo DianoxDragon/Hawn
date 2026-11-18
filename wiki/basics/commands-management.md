@@ -38,7 +38,7 @@ The message sent for a disabled command is `Error.Command-Disable` in `Messages/
 
 Since Hawn 1.6.1, a command of Hawn that another plugin also declares (`/spawn` of EssentialsSpawn, `/fly` or `/heal` of EssentialsX...) is **left to that plugin**, whatever the order in which the plugins start. The command of Hawn is still there, with the `hawn:` prefix: `/hawn:spawn`, `/hawn:fly`... Every command of Hawn answers to `/hawn:<command>`, conflict or not.
 
-The startup report lists the commands left to other plugins, and `/hawn debug` explains each one. A command left to a plugin that fails to start (or is disabled) comes back to Hawn once the server has started.
+The startup report lists the commands left to other plugins, and `/hawn debug` explains each one. Since 1.6.2, they also list a command that the server had first (`/tps` of Spigot and Paper, as an alias for instance) or that a plugin registered in its code. A command left to a plugin that fails to start (or is disabled) comes back to Hawn once the server has started.
 
 To keep the command of Hawn instead, `general.yml`:
 

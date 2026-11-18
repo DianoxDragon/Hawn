@@ -20,6 +20,14 @@ Every command can be disabled or aliased, see [Commands management](../basics/co
 | `/hawn hologram <create/delete/movehere/addline/setline/removeline/list/enable/disable>` · `/hawn holo` | `hawn.admin.command.hologram` | The [holograms](../features/holograms.md) (since 1.6). |
 | `/checkaccount <player>` · `/checka`       | `hawn.command.checkaccount`                       | Shows the stored information of a player.          |
 | `/kickall`                                 | `hawn.command.kickall`                            | Kicks every player (except `hawn.command.bypass.kickall`). |
+| `/lag`                                     | `hawn.command.lag`                                | The TPS (1, 5 and 15 minutes on Paper, the last seconds on Spigot) and the memory used (since 1.6.2). |
+| `/maxplayers [number]`                     | `hawn.command.maxplayers`                         | Shows or changes the slots of the server without a restart, kept in `ServerList.yml` (since 1.6.2, 1.17+ on Spigot). See [Slots](../features/server-list.md#slots). |
+| `/setmotd <1/2> [text]`                    | `hawn.command.setmotd`                            | Changes a line of the MOTD of the server list (since 1.6.2). See [MOTD](../features/server-list.md#motd). |
+| `/colors`                                  | `hawn.command.colors`                             | Shows the colour and format codes, each in its colour, and the hex colours (since 1.6.2). |
+| `/itemframe <invisible/visible/fixed/unfixed>` | `hawn.command.itemframe`                      | The item frame you look at becomes invisible (only its item shows) or fixed (its item can't be taken or turned) (since 1.6.2). |
+| `/editsign <1-4> [text]`                   | `hawn.command.editsign`                           | Changes a line of the sign you look at, with colours; no text clears it (since 1.6.2). |
+
+The six commands of 1.6.2 are in `Commands/Server-Tools.yml` (`Enable`, `Disable-Message`, `DISABLE_THE_COMMAND_COMPLETELY` for each), and their aliases in `command-aliases.yml`.
 
 ## Spawns and warps
 

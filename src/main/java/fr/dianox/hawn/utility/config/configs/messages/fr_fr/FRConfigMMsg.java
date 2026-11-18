@@ -555,6 +555,38 @@ public class FRConfigMMsg {
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDésolé, vous ne pouvez pas casser de bloc ici !"}));
 
         YamlConfiguration defaults = Config;
+        // Since 1.6.2: /lag, /maxplayers, /setmotd, /colors, /itemframe, /editsign
+        Config.set("Lag.Show.Enable", true);
+        Config.set("Lag.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7TPS (1, 5, 15 min) : %tps_1m%&7, %tps_5m%&7, %tps_15m%", "%prefix% &7Mémoire : &e%ram_used% &7/ &e%ram_max% &7Mo"}));
+        Config.set("MaxPlayers.Show.Enable", true);
+        Config.set("MaxPlayers.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le serveur a &e%number% &7places"}));
+        Config.set("MaxPlayers.Set.Enable", true);
+        Config.set("MaxPlayers.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le serveur a maintenant &e%number% &7places, gardées dans ServerList.yml"}));
+        Config.set("MaxPlayers.Not-Supported.Enable", true);
+        Config.set("MaxPlayers.Not-Supported.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cCe serveur ne peut pas changer ses places pendant qu'il tourne (1.17+) : changez max-players dans server.properties"}));
+        Config.set("SetMotd.Set.Enable", true);
+        Config.set("SetMotd.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Ligne %line% du MOTD : &r%motd%"}));
+        Config.set("SetMotd.Random-Off.Enable", true);
+        Config.set("SetMotd.Random-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Les MOTD aléatoires sont coupés, pour que celui-ci s'affiche"}));
+        Config.set("Colors.Header.Enable", true);
+        Config.set("Colors.Header.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Les couleurs et les formats, avec leur code :"}));
+        Config.set("ItemFrame.Invisible.Enable", true);
+        Config.set("ItemFrame.Invisible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le cadre est invisible : seul son objet se voit"}));
+        Config.set("ItemFrame.Visible.Enable", true);
+        Config.set("ItemFrame.Visible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le cadre est de nouveau visible"}));
+        Config.set("ItemFrame.Fixed.Enable", true);
+        Config.set("ItemFrame.Fixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le cadre est fixé : son objet ne peut être ni pris ni tourné"}));
+        Config.set("ItemFrame.Unfixed.Enable", true);
+        Config.set("ItemFrame.Unfixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Le cadre n'est plus fixé"}));
+        Config.set("ItemFrame.No-Frame.Enable", true);
+        Config.set("ItemFrame.No-Frame.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cRegardez un cadre (5 blocs au plus)"}));
+        Config.set("EditSign.Done.Enable", true);
+        Config.set("EditSign.Done.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Ligne %line% du panneau : &r%text%"}));
+        Config.set("EditSign.No-Sign.Enable", true);
+        Config.set("EditSign.No-Sign.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cRegardez un panneau (5 blocs au plus)"}));
+        Config.set("EditSign.Wrong-Line.Enable", true);
+        Config.set("EditSign.Wrong-Line.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cUn panneau a 4 lignes : 1, 2, 3 ou 4"}));
+
         Config = ConfigDefaults.apply(file, loaded, Config);
         // The French corrected in 1.4, in the files that still have the old texts
         ConfigDefaults.replaceOldDefaults(file, Config, defaults, FrenchFixes.CONFIGMMSG);

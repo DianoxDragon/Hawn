@@ -43,6 +43,7 @@ public class ConfigManager {
 		configfile.put("G-World-List", "World-List.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "World-List.yml", "G-World-List");
 		ServerListConfig.loadConfig(plugin);
+		fr.dianox.hawn.utility.config.configs.ServerLinksConfig.loadConfig(plugin);
 		configfile.put("G-ServerList", "ServerList.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "ServerList.yml", "G-ServerList");
 		AutoBroadcastConfig.loadConfig(plugin);
@@ -167,6 +168,7 @@ public class ConfigManager {
 		configfile.put("C-AdminPanel", "Commands/AdminPanel.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "Commands/AdminPanel.yml", "C-AdminPanel");
 		SuicideCommandConfig.loadConfig(plugin);
+		fr.dianox.hawn.utility.config.configs.commands.ServerToolsCommandConfig.loadConfig(plugin);
 		configfile.put("C-Suicide", "Commands/Suicide.yml");
 		configfilereverse.put(plugin.getDataFolder() + "/" + "Commands/Suicide.yml", "C-Suicide");
 		EnderChestCommandConfig.loadConfig(plugin);

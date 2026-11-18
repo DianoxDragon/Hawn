@@ -66,12 +66,29 @@ public final class SafeCommands {
 	}
 
 	private static void failed(CommandSender sender, String label, String[] args, String usage, Throwable error) {
-		Main.getInstance().getLogger().log(Level.SEVERE, "The command /" + label + (args.length == 0 ? "" : " " + String.join(" ", args))
-				+ " of " + sender.getName() + " failed. Please report it on GitHub with this error:", error);
-
 		// A missing argument or a word where a number is expected: the player typed the command wrongly, the usage helps
-		// more than "this command failed" (the console still has the error, to fix the command)
+		// more than "this command failed". Since 1.6.2, not written in the console as a bug: /hawn debug counts it
+		// (and Plugin.Debug: true shows it)
 		boolean arguments = wrongArguments(error);
+		String typed = "/" + label + (args.length == 0 ? "" : " " + String.join(" ", args));
+		if (arguments) {
+			// One line per command in /hawn debug, whatever was typed
+			fr.dianox.hawn.utility.Debug.hidden("Command /" + label.toLowerCase(java.util.Locale.ROOT) + " typed wrongly", error);
+		} else {
+			Main.getInstance().getLogger().log(Level.SEVERE, "The command " + typed + " of " + sender.getName()
+					+ " failed. Please report it on GitHub with this error:", error);
+		}
+		tell(sender, arguments, usage == null || usage.isEmpty() ? "/" + label : usage.replace("<command>", label));
+	}
+
+	/**
+	 * Since 1.6.2: Error.Command-Wrong-Arguments with the usage, for a command that checks its arguments itself.
+	 */
+	public static void usage(CommandSender sender, String usage) {
+		tell(sender, true, usage);
+	}
+
+	private static void tell(CommandSender sender, boolean arguments, String shown) {
 		String path = arguments ? "Error.Command-Wrong-Arguments" : "Error.Command-Failed";
 		String byDefault = arguments ? "%prefix% &cWrong arguments. Usage: &e%usage%"
 				: "%prefix% &cThis command failed: the error is written in the console, tell an admin";
@@ -84,7 +101,6 @@ public final class SafeCommands {
 				? ConfigMMsg.getConfig(sender).getStringList(path + ".Messages")
 				: java.util.Collections.singletonList(byDefault);
 
-		String shown = usage == null || usage.isEmpty() ? "/" + label : usage.replace("<command>", label);
 		for (String msg : messages) {
 			msg = msg.replace("%usage%", ConfigEventUtils.noAction(shown));
 			if (sender instanceof Player) {

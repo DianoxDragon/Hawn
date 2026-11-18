@@ -98,7 +98,7 @@ public final class StartupReport {
 		if (!yielded.isEmpty()) {
 			List<String> commands = new ArrayList<>();
 			for (java.util.Map.Entry<String, String> e : yielded.entrySet()) commands.add("/" + e.getKey() + " (" + e.getValue() + ")");
-			say(LINE + ChatColor.YELLOW + "Commands left to other plugins: " + ChatColor.WHITE + String.join(", ", commands)
+			say(LINE + ChatColor.YELLOW + "Commands left to other plugins or to the server: " + ChatColor.WHITE + String.join(", ", commands)
 					+ ChatColor.GRAY + " - Hawn's at /hawn:<command>, details in /hawn debug");
 		}
 		say(LINE);

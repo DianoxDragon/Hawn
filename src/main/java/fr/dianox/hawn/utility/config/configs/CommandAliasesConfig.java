@@ -310,6 +310,14 @@ public class CommandAliasesConfig {
         Config.set("Hawn-Debug.Cannot-Be-changed.Main-Command-Is", "hawn debug");
         Config.set("Hawn-Debug.Aliases", Collections.singletonList("hdebug"));
 
+        // Since 1.6.2: the commands of Commands/Server-Tools.yml
+        String[][] tools = {{"Lag", "lag"}, {"MaxPlayers", "maxplayers"}, {"SetMotd", "setmotd"}, {"Colors", "colors"}, {"ItemFrame", "itemframe"}, {"EditSign", "editsign"}};
+        for (String[] tool : tools) {
+            Config.set(tool[0] + ".Enable", false);
+            Config.set(tool[0] + ".Cannot-Be-changed.Main-Command-Is", tool[1]);
+            Config.set(tool[0] + ".Aliases", Collections.emptyList());
+        }
+
         Config = ConfigDefaults.apply(file, loaded, Config);
     }
 

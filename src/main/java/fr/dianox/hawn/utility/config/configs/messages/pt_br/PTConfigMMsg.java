@@ -564,6 +564,38 @@ public class PTConfigMMsg {
         Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Agora você recebe as mensagens no idioma do seu jogo &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cDesculpe, você não pode quebrar blocos aqui!"}));
 
+        // Since 1.6.2: /lag, /maxplayers, /setmotd, /colors, /itemframe, /editsign
+        Config.set("Lag.Show.Enable", true);
+        Config.set("Lag.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7TPS (1, 5, 15 min): %tps_1m%&7, %tps_5m%&7, %tps_15m%", "%prefix% &7Memória: &e%ram_used% &7/ &e%ram_max% &7MB"}));
+        Config.set("MaxPlayers.Show.Enable", true);
+        Config.set("MaxPlayers.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7O servidor tem &e%number% &7vagas"}));
+        Config.set("MaxPlayers.Set.Enable", true);
+        Config.set("MaxPlayers.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7O servidor agora tem &e%number% &7vagas, salvas em ServerList.yml"}));
+        Config.set("MaxPlayers.Not-Supported.Enable", true);
+        Config.set("MaxPlayers.Not-Supported.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cEste servidor não pode mudar suas vagas enquanto está ligado (1.17+): defina max-players no server.properties"}));
+        Config.set("SetMotd.Set.Enable", true);
+        Config.set("SetMotd.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Linha %line% do MOTD: &r%motd%"}));
+        Config.set("SetMotd.Random-Off.Enable", true);
+        Config.set("SetMotd.Random-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Os MOTDs aleatórios foram desligados, para que este apareça"}));
+        Config.set("Colors.Header.Enable", true);
+        Config.set("Colors.Header.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7As cores e os formatos, com seu código:"}));
+        Config.set("ItemFrame.Invisible.Enable", true);
+        Config.set("ItemFrame.Invisible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7A moldura está invisível: só o item aparece"}));
+        Config.set("ItemFrame.Visible.Enable", true);
+        Config.set("ItemFrame.Visible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7A moldura está visível de novo"}));
+        Config.set("ItemFrame.Fixed.Enable", true);
+        Config.set("ItemFrame.Fixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7A moldura está fixa: o item não pode ser pego nem girado"}));
+        Config.set("ItemFrame.Unfixed.Enable", true);
+        Config.set("ItemFrame.Unfixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7A moldura não está mais fixa"}));
+        Config.set("ItemFrame.No-Frame.Enable", true);
+        Config.set("ItemFrame.No-Frame.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cOlhe para uma moldura (no máximo 5 blocos)"}));
+        Config.set("EditSign.Done.Enable", true);
+        Config.set("EditSign.Done.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Linha %line% da placa: &r%text%"}));
+        Config.set("EditSign.No-Sign.Enable", true);
+        Config.set("EditSign.No-Sign.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cOlhe para uma placa (no máximo 5 blocos)"}));
+        Config.set("EditSign.Wrong-Line.Enable", true);
+        Config.set("EditSign.Wrong-Line.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cUma placa tem 4 linhas: 1, 2, 3 ou 4"}));
+
         Config = ConfigDefaults.apply(file, loaded, Config);
     }
 

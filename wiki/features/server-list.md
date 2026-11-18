@@ -31,7 +31,9 @@ Motd:
 ```
 
 * `Random: false`: the `Main` MOTD is always shown.
-* `Random: true`: a MOTD of `Random-List` is picked at every ping. Add as many as you want, with any key.
+* `Random: true`: a MOTD of `Random-List` is picked at every ping. Add as many as you want, with any key. An empty `Random-List` shows the `Main` MOTD (since 1.6.2).
+
+`/setmotd <1/2> <text>` changes a line of `Main` from the game or the console, with colours (since 1.6.2). It also sets `Random: false`, so that this MOTD is the one shown. `/setmotd 2` with no text empties the line.
 
 Colours, hex colours and the **server** placeholders work (`%gettime%`, `%getdate%`, `%tps%`, `%bungee_total%`...). Player placeholders don't: the server doesn't know who is pinging it.
 
@@ -70,6 +72,30 @@ Slots:
 * `Fake-Max-Player`: shows `Number` as the maximum. Only used when `One-Slot-Free` is `false`.
 
 These options only change what is displayed: the real limit is still `max-players` in `server.properties`.
+
+Since Hawn 1.6.2, `/maxplayers <number>` changes the real limit without a restart (Spigot 1.17+, Paper), and keeps it in `Slots.Max-Players`: Hawn sets it again at each start. `0` (the default) leaves `max-players` of `server.properties`, from the next restart. `/maxplayers` alone shows the current limit.
+
+## Links of the pause menu
+
+Since Hawn 1.6.2, `ServerLinks.yml` puts your links in the pause menu of the players (Esc, then **Server Links**), on a 1.21+ server with 1.21+ clients:
+
+```yaml
+Server-Links:
+  Enable: true
+  Links:
+    website:
+      Type: WEBSITE
+      Url: https://yourserver.net
+    discord:
+      Name: '&9Discord'
+      Url: https://discord.gg/yourserver
+```
+
+* `Type`: a link the game names itself, in the language of each player: `WEBSITE`, `SUPPORT`, `COMMUNITY_GUIDELINES`, `COMMUNITY`, `FORUMS`, `NEWS`, `ANNOUNCEMENTS`, `STATUS`, `FEEDBACK`, `REPORT_BUG`.
+* `Name`: your own text, with colours, when no `Type` is given.
+* `Url`: the address, with `https://`.
+
+The file is off by default (the examples point nowhere). After `/hawn reload`, the players see the new links when they join again.
 
 ## Joining a full server
 

@@ -1,5 +1,5 @@
 ---
-description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, within 1.4 (1.4.1 to 1.4.9), from 1.4 to 1.5, within 1.5 (1.5.1 to 1.5.7), and from 1.5 to 1.6.
+description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 1.3, from 1.3 to 1.4, within 1.4 (1.4.1 to 1.4.9), from 1.4 to 1.5, within 1.5 (1.5.1 to 1.5.7), from 1.5 to 1.6, and within 1.6 (1.6.1, 1.6.2).
 ---
 
 # Updating from an older version
@@ -12,6 +12,21 @@ description: What to check when you update Hawn, from 1.1.x to 1.2, from 1.2 to 
 4. Start the server.
 
 Your configuration files are kept: Hawn creates the files that don't exist yet and, since 1.3, adds the options missing from your files (the console lists them). Your values are never changed.
+
+## Within 1.6 (1.6.1, 1.6.2)
+
+Each 1.6.x keeps your files and adds the new options. These changes can change what an existing server does: check them once after the update.
+
+* **Commands that another plugin also has** (1.6.1): a command of Hawn that another plugin declares too (`/spawn` of EssentialsSpawn, `/fly`, `/heal`, `/warp`, `/help` of EssentialsX...) is now left to that plugin, whatever the order in which the plugins start. Before, the plugin that started first got it: on a server where Hawn started before EssentialsX, these commands change hands. The startup report lists them (`Commands left to other plugins`) and `/hawn debug` explains each one. The command of Hawn is still at `/hawn:<command>` (`/hawn:spawn`). To keep the command of Hawn, list it in `Plugin.Commands.Conflicts.Keep-Hawn-Commands` of `general.yml`, then restart. See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has).
+* **Actions that run a command** (1.6.1): a join item, a menu or a sign with `[command-player]: spawn` runs the `/spawn` that answers to that name, so the one of the other plugin when it is left to it. Write `[command-player]: hawn:spawn` to always run the one of Hawn, or use the actions `[spawn]:` and `[warp]:`, which don't go through a command (see [Actions](../basics/actions.md)).
+* **`/workbench <player>`** (1.6.1) needs `hawn.command.workbench.other`.
+* **Join items** (1.6.1) no longer fall on the ground when their player dies, and can't be put in a chest or another inventory.
+* **Anti-swear and anti-advertising** (1.6.1) catch more: words hidden behind colour codes or fullwidth letters, addresses written with the dots of other alphabets, IP addresses with spaces. A message caught behind colour codes loses its colours.
+* **New files** (1.6.2): `ServerLinks.yml`, the links of the pause menu, off until you set `Server-Links.Enable: true`; `Commands/Server-Tools.yml` for the six new commands (`/lag`, `/maxplayers`, `/setmotd`, `/colors`, `/itemframe`, `/editsign`). They need their permission `hawn.command.<command>`, and the ones another plugin has are left to it as above.
+* **`/setmotd`** (1.6.2) sets `Motd.Classic.Random: false` in `ServerList.yml`, so that the MOTD you write is the one shown. Set it back to `true` for the random MOTDs.
+* **`Slots.Max-Players`** (1.6.2, `ServerList.yml`): `0` by default, `max-players` of `server.properties` stays the limit. A number set by `/maxplayers` is set again at each start.
+
+After the update, type `/hawn debug`: it lists the mistakes of your files and the commands left to other plugins.
 
 ## From 1.5 to 1.6
 

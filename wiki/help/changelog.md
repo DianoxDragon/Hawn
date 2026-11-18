@@ -4,6 +4,38 @@ description: What changed in the recent versions of Hawn.
 
 # Changelog
 
+## 1.6.2 BETA
+
+Tools for the admins: the links of the pause menu, six new commands, and the server list fixed.
+
+### New
+
+* **Links of the pause menu**: `ServerLinks.yml` puts your links (website, Discord, rules, store...) in the pause menu of the players, under **Server Links**, on a 1.21+ server. A `Type` (`WEBSITE`, `SUPPORT`, `COMMUNITY_GUIDELINES`...) is named by the game in the language of each player; a `Name` is your own text, with colours. Off by default. See [Server list](../features/server-list.md#links-of-the-pause-menu).
+* **`/lag`**: the TPS of the last 1, 5 and 15 minutes (Paper; the last seconds on Spigot) and the memory used.
+* **`/maxplayers [number]`**: shows or changes the slots of the server without a restart (Paper, Spigot 1.17+), kept in `Slots.Max-Players` of `ServerList.yml` and set again at each start.
+* **`/setmotd <1/2> [text]`**: changes a line of the MOTD of the server list, with colours. It turns the random MOTDs off, so that this one is shown.
+* **`/colors`**: the colour and format codes, each written in its colour, and the hex colours (MiniMessage on Paper).
+* **`/itemframe <invisible/visible/fixed/unfixed>`**: the item frame you look at shows only its item, or is fixed (its item can't be taken or turned).
+* **`/editsign <1-4> [text]`**: changes a line of the sign you look at, with colours. No text clears the line.
+
+The six commands are in `Commands/Server-Tools.yml`, with their permissions `hawn.command.<command>`, their messages in the seven languages and their aliases in `command-aliases.yml`.
+
+### Improved
+
+* The startup report and `/hawn debug` also list a command of Hawn that the server had first (`/tps` of Spigot and Paper, as an alias for instance) or that a plugin registered in its code: the command of Hawn is at `/hawn:<command>`.
+* A command of Hawn typed wrongly (an argument missing, a word in place of a number) no longer writes an error "Please report it on GitHub" in the console: the player gets the usage, and `/hawn debug` counts it (`Plugin.Debug: true` shows it in the console).
+
+### Fixes
+
+* With the `Menus/` folder deleted, `/hawn reload` and the restart wrote `servers.yml` and `profile.yml` again, but not `language.yml`. A `language.yml` deleted alone still stays deleted.
+* `/titleannouncer` and `/actionbarannouncer` without a message only showed "Error", and `/gamemode` with a mode that doesn't exist (`/gamemode 9`) answered nothing: they give their usage now.
+* The server list kept the slots of the start: it follows a change of `max-players` now.
+* An empty or missing `Motd.Classic.Random-List` broke the server list with `Random: true`: the `Main` MOTD is shown instead.
+
+### Tested
+
+With bots on Paper 26.3 and Paper 1.16.5 (Java 8): the links received by a 26.1 client (two types and two names), `/lag`, `/maxplayers 50` (the server and its list), `/setmotd` read by a ping of the server list, `/colors`, `/itemframe invisible` and `fixed` on an item frame, `/editsign` on a wall sign (front text on 26.3, `Text2` on 1.16.5), and a `tps` alias of `/lag` listed as taken by the server. Then 60 wrong uses of the commands, by a player and by the console (no argument, a word or a negative or huge number, an unknown mode, too many arguments): each gets its usage or a message, none writes an error. And the `Menus/`, `Holograms/` and `Translations/` folders deleted, then written again by `/hawn reload`.
+
 ## 1.6.1 BETA
 
 A code audit, and the commands that another plugin also has are left to it.

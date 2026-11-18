@@ -95,6 +95,7 @@ public class Reload {
 		ConfigCJIGeneral.reloadConfig();
 		AdminPanelCommandConfig.reloadConfig();
 		SuicideCommandConfig.reloadConfig();
+		fr.dianox.hawn.utility.config.configs.commands.ServerToolsCommandConfig.reloadConfig();
 		EnderChestCommandConfig.reloadConfig();
 		InvSeeCommandConfig.reloadConfig();
 		RepairCommandConfig.reloadConfig();
@@ -167,6 +168,8 @@ public class Reload {
 		Main.getInstance().getInteractables().load();
 
 		Main.getInstance().getServerListManager().load();
+		fr.dianox.hawn.utility.config.configs.ServerLinksConfig.reloadConfig();
+		fr.dianox.hawn.modules.ServerLinks.load();
 
 		FunFeatures.incooldownjumppads.clear();
 		Main.avoidtitles.clear();

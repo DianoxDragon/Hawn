@@ -564,6 +564,38 @@ public class ITConfigMMsg {
         Config.set("Language.Client.Messages", java.util.Arrays.asList("%prefix% &7Ora ricevi i messaggi nella lingua del tuo gioco &8(&e%arg1%&8)"));
         Config.set("Protection.Anti-Break", java.util.Arrays.asList(new String[] {"%prefix% &cMi dispiace, non puoi rompere blocchi qui!"}));
 
+        // Since 1.6.2: /lag, /maxplayers, /setmotd, /colors, /itemframe, /editsign
+        Config.set("Lag.Show.Enable", true);
+        Config.set("Lag.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7TPS (1, 5, 15 min): %tps_1m%&7, %tps_5m%&7, %tps_15m%", "%prefix% &7Memoria: &e%ram_used% &7/ &e%ram_max% &7MB"}));
+        Config.set("MaxPlayers.Show.Enable", true);
+        Config.set("MaxPlayers.Show.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Il server ha &e%number% &7posti"}));
+        Config.set("MaxPlayers.Set.Enable", true);
+        Config.set("MaxPlayers.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Il server ora ha &e%number% &7posti, salvati in ServerList.yml"}));
+        Config.set("MaxPlayers.Not-Supported.Enable", true);
+        Config.set("MaxPlayers.Not-Supported.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cQuesto server non può cambiare i suoi posti mentre è acceso (1.17+): imposta max-players in server.properties"}));
+        Config.set("SetMotd.Set.Enable", true);
+        Config.set("SetMotd.Set.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Riga %line% del MOTD: &r%motd%"}));
+        Config.set("SetMotd.Random-Off.Enable", true);
+        Config.set("SetMotd.Random-Off.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7I MOTD casuali sono disattivati, così viene mostrato questo"}));
+        Config.set("Colors.Header.Enable", true);
+        Config.set("Colors.Header.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7I colori e i formati, con il loro codice:"}));
+        Config.set("ItemFrame.Invisible.Enable", true);
+        Config.set("ItemFrame.Invisible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La cornice è invisibile: si vede solo il suo oggetto"}));
+        Config.set("ItemFrame.Visible.Enable", true);
+        Config.set("ItemFrame.Visible.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La cornice è di nuovo visibile"}));
+        Config.set("ItemFrame.Fixed.Enable", true);
+        Config.set("ItemFrame.Fixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La cornice è bloccata: il suo oggetto non può essere preso né girato"}));
+        Config.set("ItemFrame.Unfixed.Enable", true);
+        Config.set("ItemFrame.Unfixed.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7La cornice non è più bloccata"}));
+        Config.set("ItemFrame.No-Frame.Enable", true);
+        Config.set("ItemFrame.No-Frame.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cGuarda una cornice (5 blocchi al massimo)"}));
+        Config.set("EditSign.Done.Enable", true);
+        Config.set("EditSign.Done.Messages", java.util.Arrays.asList(new String[] {"%prefix% &7Riga %line% del cartello: &r%text%"}));
+        Config.set("EditSign.No-Sign.Enable", true);
+        Config.set("EditSign.No-Sign.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cGuarda un cartello (5 blocchi al massimo)"}));
+        Config.set("EditSign.Wrong-Line.Enable", true);
+        Config.set("EditSign.Wrong-Line.Messages", java.util.Arrays.asList(new String[] {"%prefix% &cUn cartello ha 4 righe: 1, 2, 3 o 4"}));
+
         Config = ConfigDefaults.apply(file, loaded, Config);
     }
 

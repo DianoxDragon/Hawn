@@ -81,6 +81,8 @@ Items:
     World: ...
 ```
 
+Whatever these options, the [join items](custom-join-items.md#they-stay-with-their-player) never fall on the ground at death and can't be put in another inventory (since Hawn 1.6.1).
+
 ### Death and respawn
 
 ```yaml
@@ -199,6 +201,8 @@ Anti-break also protects armour stands from being hit.
     WorldGuard: ...
     World: ...
 ```
+
+To decorate with item frames, `/itemframe invisible` makes the frame you look at invisible (only its item shows) and `/itemframe fixed` locks it, even for the players allowed to interact (since Hawn 1.6.2). `/editsign <1-4> [text]` changes a line of the sign you look at, with colours.
 
 In `PlayerInteract-Items-Blocks.Options`, set a block to `false` to allow it (for example the buttons of your parkour). The list contains chests, doors, gates, trapdoors, furnaces, anvils, beds, buttons, levers, hoppers, droppers, dispensers, note blocks, comparators, beacons, brewing stands, enchanting tables, minecarts, boats and sweet berry bushes.
 

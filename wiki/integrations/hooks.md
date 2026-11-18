@@ -27,6 +27,10 @@ Plugin:
 
 You don't need to edit these lines yourself. To stop using a hook, remove the plugin and **restart** the server. The hooks are checked at startup and on `/hawn reload`, not at every message.
 
+{% hint style="info" %}
+**EssentialsX, CMI and the other plugins with the same commands**: since Hawn 1.6.1, a command of Hawn that another plugin also declares (`/spawn`, `/fly`, `/warp`...) is left to that plugin, and the one of Hawn stays at `/hawn:<command>`. See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has).
+{% endhint %}
+
 ## PlaceholderAPI
 
 [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) adds thousands of placeholders (`%luckperms_prefix%`, `%vault_eco_balance%`, `%server_online%`...). With PlaceholderAPI installed, you can use them everywhere in Hawn: messages, scoreboards, tab list, join items, titles...

@@ -288,7 +288,14 @@ public class ClassicGMCommand extends BukkitCommand {
 			MessageUtils.MessageNoPermission(p, GeneralPermission);
 			return true;
 		}
-		
+
+		// Since 1.6.2: a mode that doesn't exist (/gamemode 9) gets the usage instead of nothing
+		if (args.length >= 1 && !java.util.Arrays.asList("0", "1", "2", "3", "survival", "creative", "cretatif", "adventure", "aventure",
+				"spectator", "spectateur").contains(args[0].toLowerCase(java.util.Locale.ROOT))) {
+			fr.dianox.hawn.command.SafeCommands.usage(p, "/gamemode <0|1|2|3|survival|creative|adventure|spectator> [player]");
+			return true;
+		}
+
 		// The command
 		if (args.length == 0) {
 			// If no argument has been put in the command

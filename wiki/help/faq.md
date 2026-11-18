@@ -8,7 +8,7 @@ description: Quick answers to frequent questions.
 
 <summary>Which server versions are supported?</summary>
 
-Spigot and Paper from **1.16.5** to the latest version (1.21.x, 26.x), with the same jar. Forks of Spigot/Paper (Purpur, Pufferfish...) work too. Versions older than 1.16.5 are only supported by Hawn 1.1.x.
+Spigot, Paper, Purpur and Folia from **1.16.5** to the latest version (1.21.x, 26.x), with the same jar. Other forks of Spigot/Paper (Pufferfish...) work too. Versions older than 1.16.5 are only supported by Hawn 1.1.x. Hawn 2.0 will need 1.17 or newer.
 
 </details>
 
@@ -16,7 +16,7 @@ Spigot and Paper from **1.16.5** to the latest version (1.21.x, 26.x), with the 
 
 <summary>Does Hawn work on Folia?</summary>
 
-No, Hawn is made for Spigot and Paper.
+Yes, since Hawn 1.6: every task runs on the thread of the region, the entity or the player it touches. The world manager is off there, because Folia can neither create nor unload a world while the server runs. See [Installation](../getting-started/installation.md).
 
 </details>
 
@@ -24,7 +24,15 @@ No, Hawn is made for Spigot and Paper.
 
 <summary>Do I need other plugins?</summary>
 
-No. PlaceholderAPI, LuckPerms, WorldGuard and WorldEdit are optional. See [Hooks](../integrations/hooks.md).
+No. PlaceholderAPI, LuckPerms, WorldGuard, WorldEdit and Nexo are optional. The [holograms](../features/holograms.md) need [PacketEvents](https://modrinth.com/plugin/packetevents). See [Hooks](../integrations/hooks.md).
+
+</details>
+
+<details>
+
+<summary>Does Hawn work with EssentialsX or CMI?</summary>
+
+Yes. Since Hawn 1.6.1, the commands that EssentialsX (or another plugin) also declares, such as `/spawn`, `/fly` or `/warp`, are left to it. The ones of Hawn stay at `/hawn:<command>`, and `Plugin.Commands.Conflicts.Keep-Hawn-Commands` (`general.yml`) gives them back to Hawn. CMI registers its commands in its own code, so Hawn can't see them: remove the commands of Hawn you don't want with `DISABLE_THE_COMMAND_COMPLETELY`. See [Commands that another plugin also has](../basics/commands-management.md#commands-that-another-plugin-also-has).
 
 </details>
 
@@ -56,7 +64,7 @@ They come from the [auto broadcast](../features/autobroadcast.md), in `AutoBroad
 
 <summary>Why can my players not use /spawn?</summary>
 
-They need `hawn.command.spawn.<spawn name>`. See [Spawns](../features/spawns.md#permissions).
+They need `hawn.command.spawn.<spawn name>`. See [Spawns](../features/spawns.md#permissions). If another plugin also has `/spawn` (EssentialsSpawn...), `/spawn` is its command since Hawn 1.6.1: the one of Hawn is `/hawn:spawn` (see the question about EssentialsX above).
 
 </details>
 

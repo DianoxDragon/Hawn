@@ -12,13 +12,15 @@ If you wish to download the plugin, please go to the [spigot page](https://www.s
 
 | Server             | Versions                                   |
 |--------------------|--------------------------------------------|
-| Spigot / Paper     | **1.16.5 → 26.x**                          |
+| Spigot / Paper / Purpur / Folia | **1.16.5 → 26.x**                |
 | Java               | 8+ (whatever your server version requires) |
 
 The plugin does not use any NMS code anymore: everything goes through the Bukkit/Spigot API,
 so the same jar works on every supported version.
 
-Optional hooks: PlaceholderAPI, WorldGuard 7+, WorldEdit, MVdWPlaceholderAPI, LuckPerms.
+Optional hooks: PlaceholderAPI, WorldGuard 7+, WorldEdit, MVdWPlaceholderAPI, LuckPerms, Nexo,
+PacketEvents (for the holograms). A command that another plugin also has (EssentialsX...) is left to it,
+and the one of Hawn stays at `/hawn:<command>`.
 
 ## Building
 

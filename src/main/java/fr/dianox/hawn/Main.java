@@ -240,6 +240,8 @@ public class Main extends JavaPlugin implements Listener {
 	     * MOTD
 	     */
 		serverListManager = new ServerListManager();
+		// Since 1.6.2: the links of the pause menu
+		fr.dianox.hawn.modules.ServerLinks.load();
 	    
 	    // broadcast
 		new AutoBroadcastManager();

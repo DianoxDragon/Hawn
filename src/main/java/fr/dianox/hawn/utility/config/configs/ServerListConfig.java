@@ -57,6 +57,8 @@ public class ServerListConfig {
         Config.set("Slots.One-Slot-Free", true);
         Config.set("Slots.Fake-Max-Player.Enable", false);
         Config.set("Slots.Fake-Max-Player.Number", 2000);
+        // Since 1.6.2: the real slots of the server, set by /maxplayers (0: the ones of server.properties)
+        Config.set("Slots.Max-Players", 0);
 
         Config.set("On-Join.Player-With-Permission-Join-Full-Server", true);
         Config.set("On-Join.Message", java.util.Arrays.asList("&cThe multi line",

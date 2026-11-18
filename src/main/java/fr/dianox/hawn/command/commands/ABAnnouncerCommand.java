@@ -39,7 +39,7 @@ public class ABAnnouncerCommand extends BukkitCommand {
         if (!(sender instanceof Player)) {
         	if (args.length == 0) {
 
-        		Bukkit.getConsoleSender().sendMessage("§cError");
+        		fr.dianox.hawn.command.SafeCommands.usage(sender, "/actionbarannouncer <message>");
 
                 return true;
             }
@@ -109,7 +109,7 @@ public class ABAnnouncerCommand extends BukkitCommand {
 
         if (args.length == 0) {
 
-            Titles.sendTitle(p, 20, 75, 20, " ", "§cError");
+            fr.dianox.hawn.command.SafeCommands.usage(p, "/actionbarannouncer <message>");
 
             return true;
         }
